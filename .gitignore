@@ -1,23 +1,20 @@
-# Compiled class file
-*.class
 
-# Log file
-*.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+target/m2e-wtp/web-resources/META-INF/maven/com.icia/web/pom.properties
+target/m2e-wtp/web-resources/META-INF/maven/com.icia/web/pom.properties
+target/classes/com/icia/web/mapper/BoardDao.xml
+target/m2e-wtp/web-resources/META-INF/maven/com.icia/web/pom.properties
+target/m2e-wtp/web-resources/META-INF/maven/com.icia/web/pom.properties
+target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
+target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
+.settings/org.eclipse.wst.jsdt.ui.superType.container
+.settings/org.eclipse.wst.jsdt.ui.superType.name
+.settings/org.eclipse.core.resources.prefs
+target/m2e-wtp/web-resources/META-INF/maven/com.icia/web/pom.properties
+target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
+target/m2e-wtp/web-resources/META-INF/maven/com.icia/web/pom.properties
+*.properties
+target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
+target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
+*.MF
+*.MF
+*.properties

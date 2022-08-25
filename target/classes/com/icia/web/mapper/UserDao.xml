@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icia.web.dao.UserDao">
+  <resultMap type="com.icia.web.model.User" id="userResultMap"> <!--ResultMap = 결과를 처리하기위한 용도 -->
+     <id column="USER_UID" property="userUId" /> <!--컬럼은 쿼리에, 프로퍼티는 User객체에 있는 것 -->
+     <result column="USER_ID" property="userId" />
+     <result column="USER_PWD" property="userPwd" />
+	 <result column="USER_PHONE" property="userPhone" />
+     <result column="USER_NAME" property="userName" />
+     <result column="USER_NICK" property="userNick" />
+     <result column="USER_EMAIL" property="userEmail" />
+     <result column="ADMIN_STATUS" property="adminStatus" />
+     <result column="STATUS" property="status" />
+     <result column="REG_DATE" property="regDate" />
+     <result column="BIZ_NUM" property="bizNum" />
+     <result column="BIZ_NAME" property="bizName" />
+     <result column="BIZ_DATE" property="bizDate" />
+  </resultMap>
+  
+  <select id="userSelect" parameterType="String" resultMap="userResultMap">
+	SELECT USER_UID,
+	       USER_ID,
+	       NVL(USER_PWD,'') USER_PWD,
+	       NVL(USER_PHONE, '') USER_PHONE,
+	       NVL(USER_NAME, '') USER_NAME,
+	       NVL(USER_NICK, '') USER_NICK,
+	       NVL(USER_EMAIL, '') USER_EMAIL,
+	       NVL(ADMIN_STATUS, 'N') ADMIN_STATUS,
+	       NVL(STATUS, 'N') STATUS,
+	       NVL(TO_CHAR(REG_DATE, 'YYYY.MM.DD HH24:MI:SS') , ''),
+	       NVL(BIZ_NUM, '') BIZ_NUM,
+	       NVL(BIZ_NAME, '') BIZ_NAME,
+   		   NVL(TO_CHAR(BIZ_DATE, 'YYYY.MM.DD HH24:MI:SS') , '')
+	  FROM T_USER
+     WHERE USER_ID = #{value}
+ </select>
+
+ <insert id="userInsert" parameterType="com.icia.web.model.User">
+ INSERT INTO T_USER
+         (USER_UID,
+          USER_ID,
+          USER_PWD,
+          USER_PHONE,
+          USER_NAME,
+          USER_NICK,
+          USER_EMAIL,
+          ADMIN_STATUS,
+          STATUS,
+          REG_DATE,
+          BIZ_NUM,
+          BIZ_NAME,
+          BIZ_DATE) 
+ VALUES (#{userUId},
+    	 #{userId},
+   	 	 #{userPwd},
+    	 #{userPhone},
+    	 #{userName},
+    	 #{userNick},
+    	 #{userEmail},
+    	 #{adminStatus},
+    	 #{status},
+    	 SYSDATE,
+    	 #{bizNum},
+    	 #{bizName},
+    	 #{bizDate})   
+ </insert>
+</mapper>

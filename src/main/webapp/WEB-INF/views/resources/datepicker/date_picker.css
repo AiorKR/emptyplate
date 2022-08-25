@@ -1,0 +1,162 @@
+.reservation input:focus, .view input:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid #cda45e;
+    outline-width: 0;
+}
+
+.reservation ::placeholder, .view ::placeholder {
+    text-align: center;
+    color: #cda45e;
+    opacity: 1;
+}
+
+.reservation :-ms-input-placeholder, .view :-ms-input-placeholder{
+    color: #fff;
+}
+
+.reservation button:focus, .view button:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    outline-width: 0;
+}
+
+.view .datepicker:hover {
+  border:1px solid #cda45e;
+  cursor: pointer;
+}
+
+.reservation .datepicker, .view .datepicker {
+  background-color: rgb(255, 255, 255) !important;
+  color: #cda45e !important;
+  border: none;
+  padding: 10px !important;
+  height: 38px;
+  width: 176.8px;
+  border-radius: 0%;
+}
+
+.reservation .datepicker-dropdown:after, .view .datepicker-dropdown:after  {
+  border-bottom: 6px solid #000;
+}
+
+.reservation thead tr:nth-child(3) th, .view thead tr:nth-child(3) th {
+  color: black !important;
+  font-weight: bold;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+.reservation .dow, .reservation .old-day, .reservation .day, .reservation .new-day, .view.dow, .view .old-day, .view .day, .view .new-day {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 0px !important;
+}
+
+.reservation .old-day:hover, .reservation .day:hover, .reservation .new-day:hover, .reservation .month:hover, .reservation .year:hover, .reservation .decade:hover, .reservation .century:hover 
+.view .old-day:hover, .view .day:hover, .view .new-day:hover, .view .month:hover, .view .year:hover, .view .decade:hover, .view .century:hover {
+  border-radius: 6px !important;
+  background-color: #eee;
+  color: #000;
+}
+
+.prev, .next, .datepicker-switch {
+  border-radius: 0 !important;
+  padding: 20px 10px !important;
+  text-transform: uppercase;
+  font-size: 20px;
+  color: black !important;
+  opacity: 0.8;
+}
+
+.prev:hover, .next:hover, .datepicker-switch:hover {
+  background-color: inherit !important;
+  opacity: 1;
+}
+
+.reservation .dptime, .view .dptime {
+  border: 1px solid #BDBDBD;  
+  cursor: pointer;
+  border: none;
+}
+
+.reservation .dptime:hover, .view .dptime:hover {     
+  border: 1px solid #cda45e;
+  color:#cda45e;
+  cursor: pointer;
+  font-size: large;
+}
+
+.reservation .dptime.select, .view .dptime.select {
+  background-color: rgb(255, 255, 255);
+  color: #cda45e
+}
+.reservation #datepicker-ul, .view #datepicker-ul{
+  background-color: rgb(255, 255, 255);
+  width: 174.8px;
+  color: black;
+  display: none;
+  overflow:hidden;
+  position: relative;
+  z-index: 1;
+}
+.reservation #datepicker-ul {
+  position: relative;
+  z-index: 1;
+}
+.view #datepicker-ul {
+  position: relative;
+  bottom:4px;
+  z-index: 1;
+}
+.reservation .card {
+  width: 176.8px;
+  height: 38px;
+  border-radius: 0%;
+}
+.view .datecard {
+  width: 499px;
+  height: 250px;
+  position: relative;
+  right: 17px;
+  margin: 0%;
+  padding: 0;
+  z-index: 1;
+}
+
+.reservation #datepicker-li, .view #datepicker-li {
+  background-color: white;
+  text-align: center;
+  list-style: none;
+}
+.reservation .dptime-disabled, .view .dptime-disabled {
+  color: #616161 !important;
+}
+
+.view .datepicker {
+  border: 1px solid #616161;
+  position: relative;
+  bottom: 10px;
+  z-index: 0;
+  /* display: none; */
+}
+
+.view .box {
+  position: relative;
+  z-index: 1;
+  padding: 0%;
+  bottom: 10px;
+  width: 176.8px;
+  left: 177px;
+}
+.view #datepicker-li {
+  position: relative;
+  width: 176.8px;
+  bottom: 20px;
+  border-bottom: 1px solid #616161;
+  border-left: 1px solid #616161;
+  border-right: 1px solid #616161;
+  z-index: 2;
+}
