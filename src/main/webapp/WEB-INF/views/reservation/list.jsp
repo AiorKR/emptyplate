@@ -33,7 +33,14 @@ $(document).ready(function() {
 	      document.bbsForm.action = "/reservation/list";
 	      document.bbsForm.submit();
 	   });
-	   
+   $("#search").on("keyup",function(key){         
+		   if(key.keyCode==13) {
+		      document.bbsForm.curPage.value = "1";
+		      document.bbsForm.searchValue.value = $("#search").val();
+		      document.bbsForm.action = "/reservation/list";
+		      document.bbsForm.submit();
+		   }
+	   });
 });
 
 </script>
@@ -240,12 +247,8 @@ $(document).ready(function() {
                       </select>
                   </ul>
                 </form>
-              
-                  
-                    <input type="text" name="text" id="search">
+                    <input type="text" name="text" id="search" <c:if test="${searchValue ne null and searchValue ne ''}">value="${searchValue}"</c:if>>
                     <button class="btn" type="submit" id="searchBtn">검색</button>
-
-             
                 </div>
               </div>
             </nav>
@@ -302,6 +305,26 @@ $(document).ready(function() {
             <input type="hidden" name="curPage" value="${curPage}" />
             </form>
     </div>
+    <div class="page-wrap">
+         <ul class="page-nation">
+           <c:if test="${paging.prevBlockPage gt 0}">
+             <li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="fn_list(${paging.prevBlockPage})"><</a></li>
+           </c:if>
+           <c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
+             <c:choose>
+               <c:when test="${i ne curpage}">
+                 <li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="fn_list(${i})">${i}</a></li>
+           	   </c:when>
+               <c:otherwise>
+                 <li class="page-item"><a class="page-link" href="javascript:void(0)" style="cursor:default;">${i}</a></li>
+               </c:otherwise>
+             </c:choose>
+           </c:forEach>
+           <c:if test="${paging.nextBlockPage gt 0}">
+               <li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="fn_list(${paging.nextBlockPage})">></a></li>
+           </c:if>
+         </ul>
+       </div>
   </section>
   <!-- End reservation Section -->
   <%@ include file="/WEB-INF/views/include/footer.jsp" %>

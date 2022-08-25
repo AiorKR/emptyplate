@@ -11,7 +11,7 @@ public class ShopFile implements Serializable{
 	private String shopFileOrgName;
 	private String shopFileName;
 	private String shopFileExt;
-	private String shopFileSize;
+	private long shopFileSize;
 	private String shopFileRegDate;
 	
 	
@@ -21,7 +21,7 @@ public class ShopFile implements Serializable{
 		shopFileOrgName = "";
 		shopFileName = "";
 		shopFileExt = "";
-		shopFileSize = "";
+		shopFileSize = 0;
 		shopFileRegDate = "";
 	}
 
@@ -76,12 +76,12 @@ public class ShopFile implements Serializable{
 	}
 
 
-	public String getShopFileSize() {
+	public long getShopFileSize() {
 		return shopFileSize;
 	}
 
 
-	public void setShopFileSize(String shopFileSize) {
+	public void setShopFileSize(long shopFileSize) {
 		this.shopFileSize = shopFileSize;
 	}
 

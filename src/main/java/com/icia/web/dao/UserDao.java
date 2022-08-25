@@ -38,6 +38,8 @@ public interface UserDao
 	 */
 	public User userSelect(String userId);
 
+	public User userUIDSelect(String userUID);
+	
 	//사용자 등록
 	public int userInsert(User user);
    

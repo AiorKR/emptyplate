@@ -61,6 +61,7 @@ public class BoardController
 		long curPage = HttpUtil.get(request, "curPage", (long)1);
 		//총 게시물 수
 		long totalCount = 0;
+
 		//게시물 리스트
 		List<Board> list = null;
 		//페이징 객체
@@ -136,16 +137,17 @@ public class BoardController
 		String bbsContent = HttpUtil.get(request, "bbsContent", "");
 		FileData fileData = HttpUtil.getFile(request, "bbsFile", UPLOAD_SAVE_DIR);	//getFile메서드는 보내준 파일을 유효 아이디 값 생성 > 해당경로에 파일 업로드, FileData객체 생성후 값 세팅을 함. > getFile의 시작주소를 fileData가 바라봄.
 		int bbsNo = HttpUtil.get(request, "bbsNo", 0);
-		
+
 		//서버에서 다이렉트로 들어올 경우 체크
 		if(!StringUtil.isEmpty(bbsTitle) && !StringUtil.isEmpty(bbsContent))
 		{
 			Board board = new Board();
-			
 			board.setBbsNo(bbsNo);
 			board.setUserUID(cookieUserUID);
 			board.setBbsTitle(bbsTitle);
 			board.setBbsContent(bbsContent);
+			
+			logger.debug("board에 bbsNo : " + board.getBbsNo());
 			
 			if(fileData != null && fileData.getFileSize() > 0)
 			{	

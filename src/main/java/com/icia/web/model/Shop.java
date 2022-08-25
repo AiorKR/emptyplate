@@ -1,6 +1,7 @@
 package com.icia.web.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Shop implements Serializable{
 
@@ -28,8 +29,12 @@ public class Shop implements Serializable{
 	
 	private String searchType;	//조회항목(0: 전체, 1: 파인다이닝. 2:오마카세)
 	private String searchValue;	//검색값
-	
 	private ShopFile shopFile;
+	private List<ShopFile> shopFileList;
+	private List<ShopMenu> shopMenu;
+	private List<ShopTime> shopTime;
+	private List<ShopTotalTable> shopTotalTable;
+	private List<Order> order;
 	
 	
 	public Shop() {
@@ -49,6 +54,11 @@ public class Shop implements Serializable{
 		shopRegDate = "";
 		
 		shopFile = null;
+		shopFileList = null;
+		shopMenu = null;
+		shopTime = null;
+		shopTotalTable = null;
+		order = null;
 		
 	}
 
@@ -232,6 +242,45 @@ public class Shop implements Serializable{
 		this.searchValue = searchValue;
 	}
 
+	public List<ShopMenu> getShopMenu() {
+		return shopMenu;
+	}
+
+
+	public void setShopMenu(List<ShopMenu> shopMenu) {
+		this.shopMenu = shopMenu;
+	}
+
+
+	public List<ShopTime> getShopTime() {
+		return shopTime;
+	}
+
+
+	public void setShopTime(List<ShopTime> shopTime) {
+		this.shopTime = shopTime;
+	}
+
+
+	public List<ShopTotalTable> getShopTotalTable() {
+		return shopTotalTable;
+	}
+
+
+	public void setShopTotalTable(List<ShopTotalTable> shopTotalTable) {
+		this.shopTotalTable = shopTotalTable;
+	}
+
+
+	public List<Order> getOrder() {
+		return order;
+	}
+
+
+	public void setOrder(List<Order> order) {
+		this.order = order;
+	}
+
 
 	public ShopFile getShopFile() {
 		return shopFile;
@@ -241,5 +290,14 @@ public class Shop implements Serializable{
 	public void setShopFile(ShopFile shopFile) {
 		this.shopFile = shopFile;
 	}
-	
+
+
+	public List<ShopFile> getShopFileList() {
+		return shopFileList;
+	}
+
+
+	public void setShopFileList(List<ShopFile> shopFileList) {
+		this.shopFileList = shopFileList;
+	}	
 }
