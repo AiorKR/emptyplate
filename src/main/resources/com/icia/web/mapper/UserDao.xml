@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.icia.web.dao.UserDao">
   <resultMap type="com.icia.web.model.User" id="userResultMap"> <!--ResultMap = 결과를 처리하기위한 용도 -->
-     <id column="USER_UID" property="userUId" /> <!--컬럼은 쿼리에, 프로퍼티는 User객체에 있는 것 -->
+     <id column="USER_UID" property="userUID" /> <!--컬럼은 쿼리에, 프로퍼티는 User객체에 있는 것 -->
      <result column="USER_ID" property="userId" />
      <result column="USER_PWD" property="userPwd" />
 	 <result column="USER_PHONE" property="userPhone" />
@@ -50,7 +50,7 @@
           BIZ_NUM,
           BIZ_NAME,
           BIZ_DATE) 
- VALUES (#{userUId},
+ VALUES (#{userUID},
     	 #{userId},
    	 	 #{userPwd},
     	 #{userPhone},

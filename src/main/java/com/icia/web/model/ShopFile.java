@@ -6,7 +6,7 @@ public class ShopFile implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	private String shopUid;
+	private String shopUID;
 	private long shopFileSeq;
 	private String shopFileOrgName;
 	private String shopFileName;
@@ -16,7 +16,7 @@ public class ShopFile implements Serializable{
 	
 	
 	public ShopFile() {
-		shopUid = "";
+		shopUID = "";
 		shopFileSeq = 0;
 		shopFileOrgName = "";
 		shopFileName = "";
@@ -26,13 +26,13 @@ public class ShopFile implements Serializable{
 	}
 
 
-	public String getShopUid() {
-		return shopUid;
+	public String getShopUID() {
+		return shopUID;
 	}
 
 
-	public void setShopUid(String shopUid) {
-		this.shopUid = shopUid;
+	public void setShopUID(String shopUID) {
+		this.shopUID = shopUID;
 	}
 
 

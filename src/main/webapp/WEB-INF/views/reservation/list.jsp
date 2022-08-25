@@ -26,6 +26,14 @@ $(document).ready(function() {
       document.bbsForm.action = "/reservation/list";
       document.bbsForm.submit();
    });
+   
+   $("#searchBtn").click(function() { 
+	      document.bbsForm.curPage.value = "1";
+	      document.bbsForm.searchValue.value = $("#search").val();
+	      document.bbsForm.action = "/reservation/list";
+	      document.bbsForm.submit();
+	   });
+	   
 });
 
 </script>
@@ -234,8 +242,8 @@ $(document).ready(function() {
                 </form>
               
                   
-                    <input type="text" name="text">
-                    <button class="btn" type="submit">검색</button>
+                    <input type="text" name="text" id="search">
+                    <button class="btn" type="submit" id="searchBtn">검색</button>
 
              
                 </div>

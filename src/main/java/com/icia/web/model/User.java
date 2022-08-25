@@ -24,7 +24,7 @@ public class User implements Serializable
 {
 	private static final long serialVersionUID = 8638989512396268543L;
 	
-	private String userUId;	   // 사용자유아이디
+	private String userUID;	   // 사용자유아이디
 	private String userId;     // 사용자 아이디
 	private String userPwd;    // 비밀번호
 	private String userPhone;  // 전화번호
@@ -43,7 +43,7 @@ public class User implements Serializable
 	 */
 	public User()
 	{
-		userUId = "";
+		userUID = "";
 		userId = "";
 		userPwd = "";
 		userPhone = "";
@@ -258,12 +258,12 @@ public class User implements Serializable
 		this.bizNum = bizNum;
 	}
 
-	public String getUserUId() {
-		return userUId;
+	public String getUserUID() {
+		return userUID;
 	}
 
-	public void setUserUId(String userUId) {
-		this.userUId = userUId;
+	public void setUserUID(String userUID) {
+		this.userUID = userUID;
 	}
 
 	public String getBizName() {

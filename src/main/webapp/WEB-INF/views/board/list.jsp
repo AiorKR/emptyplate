@@ -20,6 +20,14 @@ $(document).ready(function() {
       document.bbsForm.action = "/board/list";
       document.bbsForm.submit();
    });
+   $("#btnSort").on("click", function() { 
+      document.bbsForm.bbsSeq.value = "";
+      document.bbsForm.searchType.value = $("#_searchType").val();
+      document.bbsForm.searchValue.value = $("#_searchValue").val();
+      document.bbsForm.curPage.value = "1";
+      document.bbsForm.action = "/board/list";
+      document.bbsForm.submit();
+   });
 });
 
 function fn_view(bbsSeq)
@@ -42,9 +50,9 @@ function fn_list(curPage)
 <body>
 <%@ include file="/WEB-INF/views/include/navigation.jsp" %>
  <section id="community" class="community">
-   <div class="container" data-aos="fade-up">
+   <div class="container">
      <div class = "row">
-       <div class="community-slider swiper" data-aos="fade-up" data-aos-delay="100">
+       <div class="community-slider swiper" data-aos-delay="100">
          <div class="swiper-wrapper">
            <div class="swiper-slide">
              <div class="row community-item">
@@ -78,9 +86,9 @@ function fn_list(curPage)
        <div class="d-flex flex-row justify-content-between">
          <div>
            <ul>
-             <li><button type="button" value="1" id="btnSort" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sort=dateCount'" class="btn btn-outline-dark float-right" data-bs-toggle="button">최신순</button></li>
-             <li><button type="button" value="2" id="btnSort" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sort=likeCount'" class="btn btn-outline-dark float-right">좋아요순</button></li>
-             <li><button type="button" value="3" id="btnSort" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sort=readCount'" class="btn btn-outline-dark float-right ">조회순</button></li>
+             <li><button type="button" value="dateCount" id="btnSort" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sort=dateCount'" class="btn btn-outline-dark float-right" data-bs-toggle="button">최신순</button></li>
+             <li><button type="button" value="likeCount" id="btnSort" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sort=likeCount'" class="btn btn-outline-dark float-right">좋아요순</button></li>
+             <li><button type="button" value="readCount" id="btnSort" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sort=readCount'" class="btn btn-outline-dark float-right ">조회순</button></li>
            </ul>
          </div>
          <div>
@@ -96,7 +104,7 @@ function fn_list(curPage)
     	  </div>
          </div>
        </div>
-       <div class="board-content" data-aos="fade-up">
+       <div class="board-content">
          <table>
            <tr>
              <th style="width:10%">번호</th>
@@ -110,7 +118,7 @@ function fn_list(curPage)
            	  <c:if test="${!empty list}">
                 <c:forEach var="board" items="${list}" varStatus="status">
                   <tr>
-                    <td>${board.bbsSeq}</td>
+                    <td>${board.rNum}</td>
                     <td><ion-icon name="heart"></ion-icon>&nbsp;</td>
                     <td class="likeNum">${board.bbsLikeCnt}</td>
                     <td><a href="javascript:void(0)" onclick="fn_view(${board.bbsSeq})">${board.bbsTitle}</a></td>
@@ -153,6 +161,7 @@ function fn_list(curPage)
 	<input type="hidden" name="searchType" value="${searchType}" />
 	<input type="hidden" name="searchValue" value="${searchValue}" />
 	<input type="hidden" name="curPage" value="${curPage}" />
+	<input type="hidden" name="bbsNo" value="${bbsNo}" />
    </form>
    
    </div>

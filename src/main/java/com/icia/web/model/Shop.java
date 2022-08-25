@@ -7,8 +7,8 @@ public class Shop implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	
-	private String shopUid;			//매장 고유번호
-	private String userUid;			//관지자(유저)고유번호
+	private String shopUID;			//매장 고유번호
+	private String userUID;			//관지자(유저)고유번호
 	private String shopName;		//매장이름
 	private String shopType;		//매장타입
 	private String shopHoliday;		//매장휴일
@@ -33,8 +33,8 @@ public class Shop implements Serializable{
 	
 	
 	public Shop() {
-		shopUid = "";
-		userUid = "";
+		shopUID = "";
+		userUID = "";
 		shopName = "";
 		shopType = "";
 		shopHoliday = "";
@@ -53,23 +53,23 @@ public class Shop implements Serializable{
 	}
 
 
-	public String getShopUid() {
-		return shopUid;
+	public String getShopUID() {
+		return shopUID;
 	}
 
 
-	public void setShopUid(String shopUid) {
-		this.shopUid = shopUid;
+	public void setShopUID(String shopUID) {
+		this.shopUID = shopUID;
 	}
 
 
-	public String getUserUid() {
-		return userUid;
+	public String getUserUID() {
+		return userUID;
 	}
 
 
-	public void setUserUid(String userUid) {
-		this.userUid = userUid;
+	public void setUserUID(String userUID) {
+		this.userUID = userUID;
 	}
 
 

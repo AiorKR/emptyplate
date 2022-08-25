@@ -6,8 +6,8 @@ public class Board implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
-	private long bbsSeq;			//게시물고유번호
-	private String userUid;		//회원고유번호
+	private long bbsSeq;		//게시물고유번호
+	private String userUID;		//회원고유번호
 	private int bbsNo;			//게시판 번호
 	private String bbsTitle;	//게시물 제목
 	private String bbsContent;	//내용
@@ -21,6 +21,8 @@ public class Board implements Serializable
 	private int commentIndent;	//댓글 들여쓰기
 	
 	private String userNick;	//사용자 닉네임
+	
+	private long rNum;			//게시물번호 RNUM
 	
 	private long startRow;		//시작 rownum
 	private long endRow;		//끝 rownum
@@ -36,7 +38,7 @@ public class Board implements Serializable
 	public Board()
 	{
 		bbsSeq = 0;
-		userUid = "";
+		userUID = "";
 		bbsNo = 0;
 		bbsTitle = "";
 		bbsContent = "";
@@ -50,6 +52,8 @@ public class Board implements Serializable
 		commentIndent = 0;
 		
 		userNick = "";
+		
+		rNum = 0;
 		
 		startRow = 0;
 		endRow = 0;
@@ -66,23 +70,19 @@ public class Board implements Serializable
 	}
 
 
-
 	public void setBbsSeq(long bbsSeq) {
 		this.bbsSeq = bbsSeq;
 	}
 
 
-
-	public String getUserUid() {
-		return userUid;
+	public String getUserUID() {
+		return userUID;
 	}
 
 
-
-	public void setUserUid(String userUid) {
-		this.userUid = userUid;
+	public void setUserUID(String userUID) {
+		this.userUID = userUID;
 	}
-
 
 
 	public int getBbsNo() {
@@ -90,11 +90,9 @@ public class Board implements Serializable
 	}
 
 
-
 	public void setBbsNo(int bbsNo) {
 		this.bbsNo = bbsNo;
 	}
-
 
 
 	public String getBbsTitle() {
@@ -102,11 +100,9 @@ public class Board implements Serializable
 	}
 
 
-
 	public void setBbsTitle(String bbsTitle) {
 		this.bbsTitle = bbsTitle;
 	}
-
 
 
 	public String getBbsContent() {
@@ -114,11 +110,9 @@ public class Board implements Serializable
 	}
 
 
-
 	public void setBbsContent(String bbsContent) {
 		this.bbsContent = bbsContent;
 	}
-
 
 
 	public int getBbsLikeCnt() {
@@ -126,11 +120,9 @@ public class Board implements Serializable
 	}
 
 
-
 	public void setBbsLikeCnt(int bbsLikeCnt) {
 		this.bbsLikeCnt = bbsLikeCnt;
 	}
-
 
 
 	public int getBbsReadCnt() {
@@ -138,11 +130,9 @@ public class Board implements Serializable
 	}
 
 
-
 	public void setBbsReadCnt(int bbsReadCnt) {
 		this.bbsReadCnt = bbsReadCnt;
 	}
-
 
 
 	public String getRegDate() {
@@ -150,11 +140,9 @@ public class Board implements Serializable
 	}
 
 
-
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-
 
 
 	public String getBbsComment() {
@@ -162,11 +150,9 @@ public class Board implements Serializable
 	}
 
 
-
 	public void setBbsComment(String bbsComment) {
 		this.bbsComment = bbsComment;
 	}
-
 
 
 	public long getCommentParent() {
@@ -174,11 +160,9 @@ public class Board implements Serializable
 	}
 
 
-
 	public void setCommentParent(long commentParent) {
 		this.commentParent = commentParent;
 	}
-
 
 
 	public long getCommentGroup() {
@@ -186,11 +170,9 @@ public class Board implements Serializable
 	}
 
 
-
 	public void setCommentGroup(long commentGroup) {
 		this.commentGroup = commentGroup;
 	}
-
 
 
 	public int getCommentOrder() {
@@ -198,11 +180,9 @@ public class Board implements Serializable
 	}
 
 
-
 	public void setCommentOrder(int commentOrder) {
 		this.commentOrder = commentOrder;
 	}
-
 
 
 	public int getCommentIndent() {
@@ -210,11 +190,9 @@ public class Board implements Serializable
 	}
 
 
-
 	public void setCommentIndent(int commentIndent) {
 		this.commentIndent = commentIndent;
 	}
-
 
 
 	public String getUserNick() {
@@ -222,11 +200,19 @@ public class Board implements Serializable
 	}
 
 
-
 	public void setUserNick(String userNick) {
 		this.userNick = userNick;
 	}
 
+
+	public long getrNum() {
+		return rNum;
+	}
+
+
+	public void setrNum(long rNum) {
+		this.rNum = rNum;
+	}
 
 
 	public long getStartRow() {
@@ -234,11 +220,9 @@ public class Board implements Serializable
 	}
 
 
-
 	public void setStartRow(long startRow) {
 		this.startRow = startRow;
 	}
-
 
 
 	public long getEndRow() {
@@ -246,11 +230,9 @@ public class Board implements Serializable
 	}
 
 
-
 	public void setEndRow(long endRow) {
 		this.endRow = endRow;
 	}
-
 
 
 	public String getSearchType() {
@@ -258,11 +240,9 @@ public class Board implements Serializable
 	}
 
 
-
 	public void setSearchType(String searchType) {
 		this.searchType = searchType;
 	}
-
 
 
 	public String getSearchValue() {
@@ -270,11 +250,9 @@ public class Board implements Serializable
 	}
 
 
-
 	public void setSearchValue(String searchValue) {
 		this.searchValue = searchValue;
 	}
-
 
 
 	public String getSort() {
@@ -282,11 +260,9 @@ public class Board implements Serializable
 	}
 
 
-
 	public void setSort(String sort) {
 		this.sort = sort;
 	}
-
 
 
 	public BoardFile getBoardFile() {
@@ -294,9 +270,8 @@ public class Board implements Serializable
 	}
 
 
-
 	public void setBoardFile(BoardFile boardFile) {
 		this.boardFile = boardFile;
 	}
-
+	
 }

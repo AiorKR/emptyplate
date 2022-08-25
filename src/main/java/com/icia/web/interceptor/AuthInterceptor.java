@@ -1,6 +1,6 @@
 /**
  * <pre>
- * 프로젝트명 : EmptyPlate
+ * 프로젝트명 : HBoard
  * 패키지명   : com.icia.web.interceptor
  * 파일명     : AuthInterceptor.java
  * 작성일     : 2021. 1. 19.
@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -178,6 +177,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter
 							CookieUtil.deleteCookie(request, response, AUTH_COOKIE_NAME);
 							bFlag = false;
 						}
+						
+						//임시 적용
+						bFlag = true;  
 					}
 					else
 					{

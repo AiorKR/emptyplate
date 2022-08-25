@@ -11,7 +11,7 @@ $(document).ready(function() {
    
    $("#btnWrite").on("click", function() {
       
-      $("#btnWrite").prop("disabled", true);	//글쓰기 버튼 비활성화 //버튼 여러번 누르기 방지기능(활성화시 여러번 전송되므로)
+      $("#btnWrite").prop("disabled", true);   //글쓰기 버튼 비활성화 //버튼 여러번 누르기 방지기능(활성화시 여러번 전송되므로)
       
       if($.trim($("#bbsTitle").val()).length <= 0)
       {
@@ -19,7 +19,7 @@ $(document).ready(function() {
          $("#bbsTitle").val("");
          $("#bBbsTitle").focus();
          
-         $("#btnWrite").prop("disabled", false);	//글쓰기 버튼 활성화
+         $("#btnWrite").prop("disabled", false);   //글쓰기 버튼 활성화
          
          return;
       }
@@ -30,7 +30,7 @@ $(document).ready(function() {
          $("#bbsContent").val("");
          $("#bbsContent").focus();
          
-         $("#btnWrite").prop("disabled", false);	//글쓰기 버튼 활성화
+         $("#btnWrite").prop("disabled", false);   //글쓰기 버튼 활성화
          
          return;
       }
@@ -39,46 +39,46 @@ $(document).ready(function() {
       var formData = new FormData(form);
       
       $.ajax({
-    	  type:"POST",
-    	  enctype:'multipart/form-data',	//파일첨부시 필요
-    	  url:"/board/writeProc",
-    	  data:formData,
-    	  processData:false,	//formData를 string으로 변환하지 않음.
-    	  contentType:false,	//comtent-type헤더가 multipart/form-data로 전송하기 위해
-    	  cache:false,
-    	  timeout:600000,
-    	  beforeSend:function(xhr)
-    	  {
-    		  xhr.setRequestHeader("AJAX", "true");
-    	  },
-    	  success:function(response)
-    	  {
-    		  if(response.code == 0)
-   			  {
-    			  alert("게시물이 등록되었습니다.");
-    			  location.href = "/board/list";	// 8088/board/list호출, 검색조건 없이 첫번째 list페이지 띄우기
-    			  /*
-    			  document.bbsForm.action = "/board/list";	//검색조건 값 가져가기	
-    			  document.bbsForm.submit();
-    			  */
-   			  }
-    		  else if(response.code == 400)
-   			  {
-    			  alert("파라미터 값이 올바르지 않습니다.");
-    			  $("#btnWrite").prop("disabled", false);	//글쓰기 버튼 활성화
-   			  }
-    		  else
-   			  {
-    			  alert("게시물 등록 중 오류가 발생.");
-    			  $("#btnWrite").prop("disabled", false);	//글쓰기 버튼 활성화
-   			  }
-    	  },
-    	  error:function(error)
-    	  {
-    		  icia.common.error(error);
-    		  alert("게시물 등록 중 오류가 발생하였습니다.");
-    		  $("#btnWrite").prop("disabled", false);	//글쓰기 버튼 활성화
-    	  }
+         type:"POST",
+         enctype:'multipart/form-data',   //파일첨부시 필요
+         url:"/board/writeProc",
+         data:formData,
+         processData:false,   //formData를 string으로 변환하지 않음.
+         contentType:false,   //comtent-type헤더가 multipart/form-data로 전송하기 위해
+         cache:false,
+         timeout:600000,
+         beforeSend:function(xhr)
+         {
+            xhr.setRequestHeader("AJAX", "true");
+         },
+         success:function(response)
+         {
+            if(response.code == 0)
+              {
+               alert("게시물이 등록되었습니다.");
+               location.href = "/board/list";   // 8088/board/list호출, 검색조건 없이 첫번째 list페이지 띄우기
+               /*
+               document.bbsForm.action = "/board/list";   //검색조건 값 가져가기   
+               document.bbsForm.submit();
+               */
+              }
+            else if(response.code == 400)
+              {
+               alert("파라미터 값이 올바르지 않습니다.");
+               $("#btnWrite").prop("disabled", false);   //글쓰기 버튼 활성화
+              }
+            else
+              {
+               alert("게시물 등록 중 오류가 발생.");
+               $("#btnWrite").prop("disabled", false);   //글쓰기 버튼 활성화
+              }
+         },
+         error:function(error)
+         {
+            icia.common.error(error);
+            alert("게시물 등록 중 오류가 발생하였습니다.");
+            $("#btnWrite").prop("disabled", false);   //글쓰기 버튼 활성화
+         }
       });
    });
    
@@ -98,12 +98,13 @@ $(document).ready(function() {
       <div class="notice">
         <p>Community 글 작성시 유의사항</p>
           <ul>- 홍보/비방/욕설/기타 특성에 맞지 않는 등의 글은 관리자가 내용 확인 후 임의로 삭제할 수 있습니다.<br/>
-              - 첫번째 등록한 이미지가 대표이미지로 자동 등록됩니다.
+              - 파일첨부란에 등록한 이미지가 대표이미지로 자동 등록됩니다.
           </ul>
       </div>
     </div>
 
     <form name="writeForm" id="writeForm" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="bbsNo" value="${bbsNo}" />
       <table>
         <tr>
           <td class="title">제목</td>
@@ -125,6 +126,10 @@ $(document).ready(function() {
             <textarea class="summernote" id="bbsContent" name="bbsContent" placeholder="내용을 입력해주세요."></textarea> 
           </td>
         </tr>
+        <tr>
+          <td class="file">파일첨부</td>
+          <td><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요." required /></td>
+        </tr>
       </table>
         
       <div class="d-flex flex-row justify-content-center">
@@ -140,7 +145,7 @@ $(document).ready(function() {
     <input type="hidden" name="searchValue" value="" />
     <input type="hidden" name="curPage" value="" />
    </form>
-   	
+      
   </div>
  </section> 
 </body>
