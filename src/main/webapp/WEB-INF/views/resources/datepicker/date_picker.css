@@ -1,0 +1,107 @@
+
+.reservation input:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid #cda45e;
+    outline-width: 0;
+}
+
+.reservation ::placeholder {
+    text-align: center;
+    color: #cda45e;
+    opacity: 1;
+}
+
+.reservation :-ms-input-placeholder {
+    color: #fff;
+}
+
+.reservation ::-ms-input-placeholder {
+    color: #fff;
+}
+
+.reservation button:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    outline-width: 0;
+}
+
+.reservation .datepicker {
+  background-color: rgb(255, 255, 255) !important;
+  color: #cda45e !important;
+  border: none;
+  padding: 10px !important;
+  height: 38px;
+  width: 176.8px;
+  border-radius: 0%;
+}
+
+.reservation .datepicker-dropdown:after {
+  border-bottom: 6px solid #000;
+}
+
+.reservation thead tr:nth-child(3) th {
+  color: #fff !important;
+  font-weight: bold;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+.reservation .dow, .old-day, .day, .new-day {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 0px !important;
+}
+
+.reservation .old-day:hover, .day:hover, .new-day:hover, .month:hover, .year:hover, .decade:hover, .century:hover {
+  border-radius: 6px !important;
+  background-color: #eee;
+  color: #000;
+}
+
+.reservation .prev, .next, .datepicker-switch {
+  border-radius: 0 !important;
+  padding: 20px 10px !important;
+  text-transform: uppercase;
+  font-size: 20px;
+  color: #fff !important;
+  opacity: 0.8;
+}
+
+.reservation .prev:hover, .next:hover, .datepicker-switch:hover {
+  background-color: inherit !important;
+  opacity: 1;
+}
+
+.reservation .dptime {
+  border: 1px solid #BDBDBD;
+  margin: 2px;
+  cursor: pointer;
+}
+
+.reservation .dptime:hover {     
+  border: 1px solid #cda45e;
+}
+
+.reservation .dptime.select {
+  background-color: rgb(255, 255, 255);
+  color: #cda45e
+}
+.reservation #viewUlTag {
+  background-color: rgb(255, 255, 255);
+  color: black;
+  position: relative;
+  display: none;
+}
+.reservation .card {
+  width: 176.8px;
+  height: 38px;
+  border-radius: 0%;
+}
+
+.reservation .card li {
+  position: relative;
+  list-style: none;
+}
