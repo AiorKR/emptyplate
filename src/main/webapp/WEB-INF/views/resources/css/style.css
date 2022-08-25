@@ -956,7 +956,7 @@ section {
   /*background-image: */
 }
 
-#community .d-flex .search {
+#community .d-flex form {
   background: rgba(225, 225, 225);
   padding: 1px 70px 1px 10px;
   position: relative;
@@ -965,7 +965,7 @@ section {
   float: right;
 }
 
-#community .d-flex .search input[type=text] {
+#community .d-flex form input[type=text] {
   border: 0;
   padding: 1px;
   width: 100%;
@@ -973,7 +973,7 @@ section {
   /*color: #0c0b09;*/
 }
  
-#community .d-flex .search button[type=button] {
+#community .d-flex form input[type=submit] {
   position: absolute;
   top: -1px;
   right: -1px;
@@ -986,10 +986,9 @@ section {
   color: #fff;
   transition: 0.3s;
   /*border-radius: 50px;*/
-  font-family: 'Cafe24Dangdanghae';
 }
 
-#community .d-flex .search button[type=button]:hover {
+#community .d-flex form input[type=submit]:hover {
   background: #d3af71;
 }
 
@@ -1114,7 +1113,6 @@ section {
   color:white;
 }
 
-
 /*--------------------------------------------------------------
 # Community_WriteForm Section (글쓰기)
 --------------------------------------------------------------*/
@@ -1148,7 +1146,7 @@ section {
   margin-top: 20px;
   width: 80%;
   /*height: 100%;*/
-  position: relative;
+  /*position: relative;*/
   background: #fff;
   color: #0c0b09;
   padding: 0px 10px 0px 10px;
@@ -1167,24 +1165,23 @@ section {
 }
 
 /*내용 작성 테이블*/
-#communityWriteForm form table{
+#communityWriteForm .writeForm table{
   width: 90%;
   border-collapse: collapse;
   text-align: center;
   border-top: 2px solid #7d7d7d;
   border-bottom: 2px solid #7d7d7d;
   margin: auto;
-  position: relative;
 }
 
-#communityWriteForm form tr {
+#communityWriteForm .writeForm tr {
   border-bottom: 0.5px solid #7d7d7d;
   font-size: 15px;
   color: #0c0b09;
 }
 
 /*제목*/
-#communityWriteForm form .title {
+#communityWriteForm .writeForm .title {
   border-right: 0.5px solid #7d7d7d;
   width: 10%;
   height: 50px;
@@ -1195,7 +1192,7 @@ section {
   padding-left: 10px;
 }
 
-#communityWriteForm form input[type="text"] {
+#communityWriteForm .writeForm input[type="text"] {
   border: 0;
   width: 85%;
   height: 47px;
@@ -1204,7 +1201,7 @@ section {
   padding-left: 10px;
 }
 
-#communityWriteForm form .title-text {
+#communityWriteForm .writeForm .title-text {
   border: 0;
   width: 100%;
   height: 50px;
@@ -1212,20 +1209,20 @@ section {
   background: #fff;
 }
 
-#communityWriteForm form .title-text .comment {
+#communityWriteForm .writeForm .title-text .comment {
   float: right;
   font-size: 18px;
   margin-top: 10px;
   margin-right: 20px;
 }
 
-#communityWriteForm form .title-text input[type=checkbox] {
+#communityWriteForm .writeForm .title-text input[type=checkbox] {
   width: 20px;
   height: 20px;
 }
 
 /*내용*/
-#communityWriteForm form .content {
+#communityWriteForm .writeForm .content {
   border-right: 0.5px solid #7d7d7d;
   width: 100px;
   height: 400px;
@@ -1236,7 +1233,7 @@ section {
   padding-left: 10px;
 }
 
-#communityWriteForm form .content-text {
+#communityWriteForm .writeForm .content-text {
   border: 0;
   padding: 1px;
   width: 100%;
@@ -1245,7 +1242,7 @@ section {
   background: #fff;
 }
 
-#communityWriteForm form textarea {
+#communityWriteForm .writeForm textarea {
   border: 0;
   padding: 1px;
   width: 100%;
@@ -1257,7 +1254,7 @@ section {
   padding-left: 10px;
 }
 
-/*등록, 취소 버튼*/
+/*등록, 취소, 삭제 버튼*/
 #communityWriteForm .d-flex .submit button {
   background: #C2A383;
   border: 0;
@@ -1267,7 +1264,6 @@ section {
   border-radius: 10px;
   font-family: 'Cafe24Dangdanghae';
   font-size: 19px;
-  position: relative;
 }
 
 #communityWriteForm .d-flex .cancle button {
@@ -1281,158 +1277,10 @@ section {
   font-size: 19px;
   margin-left: 10px;
   margin-right: 10px;
-  position: relative;
-}
-
-#communityWriteForm .d-flex {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-/*--------------------------------------------------------------
-# CommunityUpdateForm Section (글수정)
---------------------------------------------------------------*/
-#communityUpdateForm {
-  width: 100%;
-  height: 100%;
-  background: url("/resources/images/hero-bg.jpg") top center;
-  background-size: cover;
-  position: relative;
-  padding: 0;
-}
-
-#communityUpdateForm .container{
-  padding-top: 110px;
 }
 
 
-#communityUpdateForm:before {
-  content: "";
-  background: rgba(225, 225, 225);
-  opacity : 0.95;
-  position: absolute;
-  bottom: 0;
-  top: 14.5%;
-  left: 5%;
-  right: 5%;
-}
-
-/*작성시 유의사항*/
-#communityUpdateForm .d-flex .notice{
-  margin-top: 20px;
-  width: 80%;
-  /*height: 100%;*/
-  position: relative;
-  background: #fff;
-  color: #0c0b09;
-  padding: 0px 10px 0px 10px;
-}
-
-#communityUpdateForm .d-flex .notice p{
-  font-size: 30px;
-  text-align: center;
-  padding-top: 10px;
-}
-
-#communityUpdateForm .d-flex .notice ul{
-  padding-left: 15%;
-  padding-right: 15%;
-  text-align: left;
-}
-
-/*내용 작성 테이블*/
-#communityUpdateForm form table{
-  width: 90%;
-  border-collapse: collapse;
-  text-align: center;
-  border-top: 2px solid #7d7d7d;
-  border-bottom: 2px solid #7d7d7d;
-  margin: auto;
-  position: relative;
-}
-
-#communityUpdateForm form tr {
-  border-bottom: 0.5px solid #7d7d7d;
-  font-size: 15px;
-  color: #0c0b09;
-}
-
-/*제목*/
-#communityUpdateForm form .title {
-  border-right: 0.5px solid #7d7d7d;
-  width: 10%;
-  height: 50px;
-  font-size: 18px;
-  text-align: left;
-  color: #0c0b09;
-  background: #D9D9D9;
-  padding-left: 10px;
-}
-
-#communityUpdateForm form input[type="text"] {
-  border: 0;
-  width: 85%;
-  height: 47px;
-  float: left;
-  background: #fff;
-  padding-left: 10px;
-}
-
-#communityUpdateForm form .title-text {
-  border: 0;
-  width: 100%;
-  height: 50px;
-  float: left;
-  background: #fff;
-}
-
-#communityUpdateForm form .title-text .comment {
-  float: right;
-  font-size: 18px;
-  margin-top: 10px;
-  margin-right: 20px;
-}
-
-#communityUpdateForm form .title-text input[type=checkbox] {
-  width: 20px;
-  height: 20px;
-}
-
-/*내용*/
-#communityUpdateForm form .content {
-  border-right: 0.5px solid #7d7d7d;
-  width: 100px;
-  height: 400px;
-  font-size: 18px;
-  text-align: left;
-  color: #0c0b09;
-  background: #D9D9D9;
-  padding-left: 10px;
-}
-
-#communityUpdateForm form .content-text {
-  border: 0;
-  padding: 1px;
-  width: 100%;
-  height: 400px;
-  float: left;
-  background: #fff;
-}
-
-#communityUpdateForm form textarea {
-  border: 0;
-  padding: 1px;
-  width: 100%;
-  height: 380px;
-  float: left;
-  background: #fff;
-  margin-top: 10px;
-  padding-top: 10px;
-  padding-left: 10px;
-}
-
-/*수정, 취소 버튼*/
-#communityUpdateForm .d-flex .update button {
+#communityWriteForm .d-flex .delete button {
   background: #C2A383;
   border: 0;
   padding: 4px 20px;
@@ -1441,27 +1289,14 @@ section {
   border-radius: 10px;
   font-family: 'Cafe24Dangdanghae';
   font-size: 19px;
-  position: relative;
 }
 
-#communityUpdateForm .d-flex .cancle button {
-  background: #0c0b09;
-  border: 0;
-  padding: 4px 20px;
-  color: #fff;
-  transition: 0.4s;
-  border-radius: 10px;
-  font-family: 'Cafe24Dangdanghae';
-  font-size: 19px;
-  margin-left: 10px;
-  margin-right: 10px;
-  position: relative;
-}
-
-#communityUpdateForm .d-flex {
+#communityWriteForm .d-flex {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+
 
 
 /*--------------------------------------------------------------
@@ -1590,24 +1425,6 @@ section {
 }
 
 #communityView .board-innercontent .update button:hover {
-  background: #d3af71;
-}
-
-
-#communityView .board-innercontent .delete button {
-  margin-top: 10px;
-  background: #C2A383;
-  border: 0;
-  padding: 4px 20px;
-  color: #fff;
-  transition: 0.4s;
-  border-radius: 10px;
-  font-family: 'Cafe24Dangdanghae';
-  font-size: 19px;
-  float: right;
-}
-
-#communityView .board-innercontent .delete button:hover {
   background: #d3af71;
 }
 

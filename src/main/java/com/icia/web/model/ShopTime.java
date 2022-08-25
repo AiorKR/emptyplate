@@ -1,33 +1,28 @@
 package com.icia.web.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ShopTime implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	private String shopUid;
-	private String shopOrderTime;
-	
+	private List<String> shopTime;
 	public ShopTime() {
 		shopUid = "";
-		shopOrderTime = "";
+		shopTime = null;
 	}
-
 	public String getShopUid() {
 		return shopUid;
 	}
-
 	public void setShopUid(String shopUid) {
 		this.shopUid = shopUid;
 	}
-
-	public String getShopOrderTime() {
-		return shopOrderTime;
+	public List<String> getShopTime() {
+		return shopTime;
 	}
-
-	public void setShopOrderTime(String shopOrderTime) {
-		this.shopOrderTime = shopOrderTime;
+	public void setShopTime(List<String> shopTime) {
+		this.shopTime = shopTime;
 	}
-	
 }

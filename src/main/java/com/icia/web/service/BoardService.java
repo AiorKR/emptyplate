@@ -10,10 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.icia.common.util.FileUtil;
 import com.icia.web.dao.BoardDao;
 import com.icia.web.model.Board;
-import com.icia.web.model.BoardFile;
 
 @Service("boardService")
 public class BoardService 
@@ -34,14 +32,6 @@ public class BoardService
 		int count = boardDao.boardInsert(board);
 		
 		//게시물 등록 후 첨부파일 있으면 등록
-		if(count > 0 && board.getBoardFile() != null)
-		{	
-			BoardFile boardFile = board.getBoardFile();	//같은 시작주소를 바라보게 함.
-			boardFile.setBbsSeq(board.getBbsSeq());
-			boardFile.setFileSeq((short)1);
-			
-			boardDao.boardFileInsert(board.getBoardFile());	//여러개 첨부파일 적용시 for문 적용
-		}
 		
 		return count;
 	}
@@ -82,7 +72,7 @@ public class BoardService
 	}
 	
 	//게시물 조회
-	public Board boardSelect(long bbsSeq)
+	public Board boardSelect(int bbsSeq)
 	{
 		Board board = null;
 		
@@ -112,135 +102,6 @@ public class BoardService
 		}
 		
 		return sort;
-	}
-	
-	//게시물 조회(첨부파일 포함)
-	public Board boardView(long bbsSeq)
-	{
-		Board board = null;
-		
-		try
-		{
-			board = boardDao.boardSelect(bbsSeq);
-			
-			if(board != null)
-			{
-				boardDao.boardReadCntPlus(bbsSeq);
-				
-				BoardFile boardFile = boardDao.boardFileSelect(bbsSeq);
-				
-				if(boardFile != null)
-				{
-					board.setBoardFile(boardFile);
-				}
-			}
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] boardView Exception", e);
-		}
-		
-		return board;
-	}
-	
-	//게시물 수정form 조회(첨부파일 포함)
-	public Board boardViewUpdate(long bbsSeq)
-	{
-		Board board = null;
-		
-		try
-		{
-			board = boardDao.boardSelect(bbsSeq);
-			
-			if(board != null)
-			{
-				//첨부파일 확인
-				BoardFile boardFile = boardDao.boardFileSelect(bbsSeq);	//hiBoard.를 작성해도 됨.
-				
-				if(boardFile != null)
-				{
-					board.setBoardFile(boardFile);
-				}
-			}
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] boardViewUpdate Exception", e);
-		}
-		
-		return board;
-	}
-	
-	//게시물 수정
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)	//트랜잭션 정의
-	public int boardUpdate(Board board) throws Exception
-	{
-		int count = boardDao.boardUpdate(board);	
-		
-		if(count > 0 && board.getBoardFile() != null)
-		{
-			BoardFile delBoardFile = boardDao.boardFileSelect(board.getBbsSeq());	
-			
-			//기존파일 있으면 삭제
-			if(delBoardFile != null)
-			{
-				FileUtil.deleteFile(UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + delBoardFile.getFileName());
-				boardDao.boardFileDelete(board.getBbsSeq());
-			}
-			//후 새로운 파일 등록
-			board.getBoardFile().setBbsSeq(board.getBbsSeq());
-			board.getBoardFile().setFileSeq((short)1);
-		
-			
-			boardDao.boardFileInsert(board.getBoardFile());
-		}	
-		
-		return count;
-	}
-	
-	//게시물 삭제(첨부파일 있으면 함께 삭제)
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
-	public int boardDelete(long bbsSeq) throws Exception
-	{
-		int count = 0;
-		Board board = boardViewUpdate(bbsSeq);
-		
-		if(board != null)
-		{
-			count = boardDao.boardDelete(bbsSeq);
-			
-			if(count > 0)
-			{
-				BoardFile boardFile = board.getBoardFile();
-				
-				if(boardFile != null)
-				{	
-					if(boardDao.boardFileDelete(bbsSeq) > 0)
-					{
-						FileUtil.deleteFile(UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + boardFile.getFileName());
-					}
-				}
-			}
-		}
-		
-		return count;
-	}
-	
-	//첨부파일 조회
-	public BoardFile boardFileSelect(long bbsSeq)
-	{
-		BoardFile boardFile = null;
-		
-		try
-		{
-			boardFile = boardDao.boardFileSelect(bbsSeq);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] boardFileSelect Exception", e);
-		}
-		
-		return boardFile;
 	}
 
 }

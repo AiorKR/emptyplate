@@ -38,7 +38,7 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 
-  <script src="assets/js/dropdown.js"></script>
+  
 
 </head>
 
@@ -92,32 +92,32 @@
 
   
   <!-- ======= term Section ======= -->
-    <section id="term">
-        <div class="container"> <!--class="container"시작-->
+  <section id="term" class="term">
+          <div class="container"> <!--class="container"시작-->
             <div class="row"> <!--class="row"시작-->
               
                 <!--term 메뉴시작-->
-                <div class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
-                  <li class="nav-item" >
-                    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button">개인정보처리방침</button>
+                <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">개인정보처리방침</button>
                   </li>
-                  <li class="nav-item">
-                    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button">서비스 이용약관</button>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">서비스 이용약관</button>
                   </li>
-                  <li class="nav-item">
-                    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button">위치정보 이용약관</button>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">위치정보 이용약관</button>
                   </li>
-                  <li class="nav-item">
-                    <button class="nav-link" id="pills-contact-tab2" data-bs-toggle="pill" data-bs-target="#pills-contact2" type="button">입점문의</button>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-contact-tab2" data-bs-toggle="pill" data-bs-target="#pills-contact2" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">입점문의</button>
                   </li>
-                </div>
+                </ul>
                 <!--term 메뉴끝-->  
                 
                 <!--약관내용시작-->
-                <div class="tab-content">
+                <div class="tab-content" id="pills-tabContent">
 
                   <!--개인정보처리방침 시작(119~326)-->
-                  <div class="tab-pane active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                         <p>
                             <br>
                            Empty Plate은(는) 개인정보보호법에 따라 이용자의 개인정보 보호 및 권익을 보호하고 개인정보와 
@@ -316,17 +316,20 @@
                             <br>
                             : 중요한 개인정보는 데이터를 전송 시 암호화하는 등의 별도 보안기능을 이용하고 있으며, 
                             추가적인 보안문제가 발견될 경우 보안성 확보를 위해 기술적인 장치를 갖추려고 노력하고 있습니다.
-                            
-                            
+                            <br>
+                            - 개인정보 보호책임자
+                            <br>
+                            : Empty Plate 은(는) 개인정보 처리에 관한 업무를 총괄해서 책임지고, 
+                            개인정보 처리와 관련한 정보주체의 불만처리 및 피해구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.
                         </p>
-                        <br><br><br>
                         
                   </div><!--개인정보처리방침 끝(119~326)-->
-                </div>                     
+                                     
                   
                   <!--서비스이용약관 시작(329~964)-->
-                <div class="tab-content"> 
-                  <div class="tab-pane" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">          
+                  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+
+                    
                         <p>
                             <strong>제 1 장 총칙</strong>
                         </p>
@@ -360,8 +363,11 @@
                             동영상 및 각종 파일과 링크 등을 의미합니다.
                             <br>
                             5. "가입신청인"이라 함은 이 약관에 의하여 "회원"이 되고자 하는 사람을 말합니다.
-                            <br>                            
-                            6. 본 약관에서 사용하는 용어 중 본 조에서 정하지 아니한 사항은 관계 법령에서 정하는 바에 따르며, 그 외에는 일반 관례에 따릅니다.
+                            <br>
+                            6. "포인트"란 "회원"이 "서비스"에 종속된 활동을 통해 적립 받은 것으로, 상품 등을 구매할 때나
+                             "Empty Plate"가 제공하는 "서비스"를 이용할 때 현금처럼 사용할 수 있는 "서비스" 전용의 사이버 화폐를 말합니다.
+                             <br>
+                            7. 본 약관에서 사용하는 용어 중 본 조에서 정하지 아니한 사항은 관계 법령에서 정하는 바에 따르며, 그 외에는 일반 관례에 따릅니다.
                         </p>
                         <p>
                             제 3 조 (약관의 게시와 개정)
@@ -619,9 +625,29 @@
                             <br>
                             8) 대금 결제 일체는 "판매자"의 운영 제도를 따르며, "회원"은 "서비스" 이용시 반드시 그 내용을 숙지해야 합니다. 
                             "회원"이 이 내용을 제대로 숙지하지 못해 발생한 피해에 대해서는 "Empty Plate"가 책임을 부담하지 않습니다.
-                        </p>                        
+                        </p>
                         <p>
-                            제 12 조 (정보의 제공 및 광고의 게재)
+                            제 12 조 (포인트)
+                        </p>
+                        <p>
+                            1. "포인트"는 "Empty Plate"의 정책에 따라 "회원"에게 부여되며, 포인트 별 적립기준, 사용방법, 
+                            사용기한 및 제한에 관한 사항은 별도로 공지합니다. 단, 포인트 사용기한에 대해 별도로 안내하지 않은 경우에는 1년으로 봅니다.
+                            <br>
+                            2. "포인트"는 사용기한 동안 사용되지 않거나 회원 탈퇴 또는 자격상실 사유가 발생한 경우 자동으로 소멸됩니다. 
+                            회원 탈퇴 내지 자격상실로 포인트가 소멸된 경우 재가입하더라도 소멸된 포인트는 복구되지 않습니다.
+                            <br>
+                            3. "회원"은 "Empty Plate"가 별도로 명시한 경우를 제외하고는 포인트를 제3자에게 양도 할 수 없습니다. 
+                            만일 회원이 Empty Plate가 승인하지 않은 방법으로 포인트 획득/이용한 사실이 확인될 경우 
+                            Empty Plate는 포인트를 사용한 예약 신청을 취소하거나 회원 자격을 정지 또는 해지할 수 있습니다.
+                            <br>
+                            4. 포인트 관련 Empty Plate의 정책은 Empty Plate의 영업정책에 따라 변동될 수 있습니다. 
+                            회원에게 불리한 변경인 경우에는 제5조의 규정에 따라 통지하며 서비스 계속 이용 시 동의한 것으로 간주됩니다.
+                            <br>
+                            5. 서비스 종료 시 적립된 "포인트"는 Empty Plate가 별도 지정하는 날까지 Empty Plate가 지정하는 바에 
+                            따라 사용하여야 하며, 지정일 이후 미사용 잔여분은 소멸합니다.
+                        </p>
+                        <p>
+                            제 13 조 (정보의 제공 및 광고의 게재)
                         </p>
                         <p>
                             1. "Empty Plate"는 "회원"이 "서비스" 이용 중 필요하다고 인정되는 다양한 정보를 공지사항이나 전자우편, 
@@ -646,7 +672,7 @@
                             회원과 광고주간에 직접 해결하여야 하며, 이와 관련하여 Empty Plate는 어떠한 책임도 지지 않습니다.
                         </p>
                         <p>
-                            제 13 조 (게시물의 저작권 및 배타적 이용허락)
+                            제 14 조 (게시물의 저작권 및 배타적 이용허락)
                         </p>
                         <p>
                             1. "회원"이 작성한 게시물의 저작권은 이를 작성한 "회원" 본인에게 있으며, 
@@ -683,7 +709,7 @@
                             요구할 수 있으며 마케팅, 판촉, 홍보 및 기타 자료로 사용되지 않을 것을 요청할 수 있습니다.
                         </p>
                         <p>
-                           제 14 조 (저작권의 귀속) 
+                           제 15 조 (저작권의 귀속) 
                         </p>
                         <p>
                             1. "Empty Plate"가 작성한 저작물에 대한 저작권 및 기타 지적 재산권은 "Empty Plate"에 귀속됩니다.
@@ -700,7 +726,7 @@
                             <strong>제 4 장 권리와 의무</strong>
                         </p>
                         <p>
-                            제 15 조 (Empty Plate의 의무)
+                            제 16 조 (Empty Plate의 의무)
                         </p>
                         <p>
                             1. "Empty Plate"는 관련 법령과 이 약관이 금지하거나 공공질서, 미풍양속에 반하는 행위를 하지 않으며, 
@@ -726,7 +752,7 @@
                             Empty Plate의 고의나 과실에 의해 발생한 경우에 한하여 Empty Plate에서 책임을 부담하며, 그 책임의 범위는 통상손해에 한합니다.
                         </p>
                         <p>
-                            제 16 조 (회원의 의무)
+                            제 17 조 (회원의 의무)
                         </p>
                         <p>
                             1. "회원"은 기타 관계 법령, 본 약관의 규정, 이용안내 및 서비스상에 공지한 주의사항, 
@@ -799,7 +825,7 @@
                             <strong>제 5 장 정보의 보호 및 위치정보</strong>
                         </p>
                         <p>
-                            제 17 조 (개인정보보호)
+                            제 18 조 (개인정보보호)
                         </p>
                         <p>
                             1. "Empty Plate"는 "회원"이 안전하게 "서비스"를 이용할 수 있도록 "회원"의 개인정보보호를 위하여 
@@ -842,7 +868,7 @@
                             <strong>제 6 장 기타</strong>
                         </p>
                         <p>
-                            제 18 조 (손해배상)
+                            제 19 조 (손해배상)
                         </p>
                         <p>
                             1. "회원"이 본 약관의 규정을 위반함으로 인하여 "Empty Plate"에 손해가 발생하게 되는 경우, 
@@ -854,7 +880,7 @@
                             당해 회원은 그로 인하여 Empty Plate에 발생한 모든 손해를 배상하여야 합니다.
                         </p>
                         <p>
-                            제 19 조(Empty Plate의 책임제한)
+                            제 20 조(Empty Plate의 책임제한)
                         </p>
                         <p>
                             1. "Empty Plate"는 천재지변 또는 이에 준하는 불가항력으로 인하여 서비스를 제공할 수 없는 경우에는 서비스 제공에 관한 책임이 면책됩니다.
@@ -892,7 +918,7 @@
                             7. "Empty Plate"는 무료로 제공되는 서비스 이용과 관련하여 관련법에 특별한 규정이 없는 한 책임을 지지 않습니다.
                         </p>
                         <p>
-                            제 20 조 (분쟁조정)
+                            제 21 조 (분쟁조정)
                         </p>
                         <p>
                             1. "Empty Plate"는 위치정보와 관련된 분쟁에 대해 당사자 간 협의가 이루어지지 아니하거나 
@@ -907,7 +933,7 @@
                             Empty Plate의 전자금융거래서비스의 이용과 관련한 분쟁조정을 신청할 수 있습니다.
                         </p>
                         <p>
-                            제 21 조 (준거법 및 재판관할)
+                            제 22 조 (준거법 및 재판관할)
                         </p>
                         <p>
                             1. 이 약관과 관련된 사항에 대하여는 대한민국 법을 준거법으로 합니다.
@@ -915,7 +941,7 @@
                             2. "Empty Plate"와 "회원"간 발생한 분쟁에 관한 소송은 민사소송법 상의 관할법원에 제소합니다.
                         </p>
                         <p>
-                            제 22 조 (인수 및 합병)
+                            제 23 조 (인수 및 합병)
                         </p>
                         <p>
                             1. "Empty Plate"는 인수 또는 합병이 되는 경우, 보유하고 있는 모든 지적 재산권을 포함하여 
@@ -931,15 +957,15 @@
                         <p>
                             이 약관은 2021년 9월 01일부터 시행합니다.
                         </p>
-                        <br><br><br>
 
+                    
+                  
                   </div>
-                </div> 
                   <!--서비스이용약관 끝(329~964)-->
+
                   
                   <!--위치정보 이용약관 시작(967~1218)-->
-                <div class="tab-content"> 
-                  <div class="tab-pane" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                  <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
 
 
                         <p>
@@ -1187,38 +1213,48 @@
                             <br>
                             - 연락처 : 031-706-1205, help@emptyplate.co.kr
                         </p>
-                        <br><br><br>
 
                   </div>
-                </div>   
                   <!--위치정보 이용약관 끝(967~1218)------------------------------------------->
 
-                  <!--입점문의 시작(1220~1312)-------------------------------------------------->
-                <div class="tab-content">   
-                  <div class="tab-pane" id="pills-contact2" role="tabpanel" aria-labelledby="pills-contact-tab">
+                <!--입점문의 시작(1220~1312)-------------------------------------------------->
+
+                <div class="tab-pane fade" id="pills-contact2" role="tabpanel" aria-labelledby="pills-contact-tab">
                     <div class="title-area">
-                        <br>
                         <h3>입점문의</h3>
                     </div>
 
 
                     <form name="form1" id="form1" method="post" action="">
-                        
                         <fieldset>
-                          <div class="shopquestion"> 
-                            <p>
-                                매장명:
-                            <input type="text" name="shop_name" id="shop_name" value="매장명을 입력하세요" size="30">
-                            </p>
-                            <p>
-                                문의자 이름:
-                            <input type="text" name="customer_name" id="customer_name" value="문의자 이름을 입력하세요." size="30">
-                            </p>
-                            <p>
-                               문의자 번호:
-                            <input type="tel" name="customer_phone" id="customer_phone" value="문의자 번호를 입력하세요." size="30">
-                            </p>
-                          </div> 
+                            <div class="fieldset-header">
+                                <h4>매장 및 문의자 정보</h4>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-block">
+                                    <label for="shop_name" class="form-label">매장명</label>
+                                    <div class="form-control">
+                                        <input type="text" placeholder="매장명을 입력하세요" id="shop_name" name="shop_name" value class="form-input">
+                                    </div>
+                                </div>
+                                <div class="form-block">
+                                    <label for="customer_name" class="form-label">문의자 이름</label>
+                                    <div class="form-control">
+                                        <input type="text" placeholder="문의자 이름을 입력하세요" id="customer_name" name="customer_name" value class="form-input">
+                                    </div>
+                                </div>
+                                <div class="form-block">
+                                    <label for="customer_phone" class="form-label">문의자 번호</label>
+                                    <div class="form-control">
+                                        <input type="phone" placeholder="문의자번호를 입력하세요" id="customer_phone" name="customer_phone" value class="form-input">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            
+                            
                             <div class="doc">
                                 <div class="doc-inner">
                                     <br>
@@ -1229,24 +1265,35 @@
                                     <br>
                                     <p>
                                         (주)와드는 입점,문의사항 접수시 최소한의 범위 내에서 아래와 같이 개인정보를 수집,이용합니다.
-                                    </p>                      
-
+                                    </p>
+                                    <p>수집하는 개인정보 항목</p>
+                                    <table class="private_table">
+                                        <tbody>
+                                            <tr>
+                                                <th>수집하는 개인정보 항목</th>
+                                                <th>수집 및 이용 목적</th>
+                                            </tr>
+                                            <tr>
+                                                <td>매장명, 이름, 연락처</td>
+                                                <td>입점, 문의사항 접수 및 처리결과 회신</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <br>
                                     <p>
-                                        <div>
-                                            <ul>수집하는 개인정보 항목 : 매장명, 이름, 연락처</ul>                                        
-                                            <ul>수집 및 이용목적 : 입점, 문의사항 접수 및 처리결과 회신</ul>
-                                            <ul>개인정보의 이용기간 : 목적 달성 후, 해당 개인정보 지체없이 파기</ul>
-                                        </div>                                        
-                                    </p>                                          
-
+                                        수집 및 이용목적 : 입점, 문의사항 접수 및 처리결과 회신
+                                    </p>
+                                    <br>
+                                    <p>
+                                        개인정보의 이용기간 : &nbsp;
+                                        <u>목적 달성 후, 해당 개인정보 지체없이 파기</u>
+                                    </p>
                                     <br>
                                     <p>
                                         위 개인정보 수집,이용에 대한 동의를 거부할 권리가 있습니다. 다만 동의를 거부하는 경우 입점, 문의사항 접수가 제한될 수 있습니다.
                                     </p>
                                 </div>
                             </div>
-                            <br>
-                            <br>
                             <div class="fieldset-header">
                                 <h4> 약관동의 </h4>
                                 <div class="utils">
@@ -1257,20 +1304,20 @@
                                 </div>
                             </div>
                         </fieldset>
-                        <button type="submit" id="inquiryBtn" name="inquiryBtn" value="접수하기">                         
+                        <button type="submit" id="inquiryBtn" name="inquiryBtn" value="접수하기" style="color:wheat; border:1px solid white">
                             접수하기
                         </button>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
                     </form>
 
-                  </div>
-                </div> 
-                  <!--입점문의 끝(1220~1312)-->               
 
-            </div>  
+
+                  </div>
+                  <!--입점문의 끝(10707~10798)-->
+
+
+                
+
+                </div>  
             </div> <!--class="row"끝--> 
           </div> <!--class="container"끝-->          
         

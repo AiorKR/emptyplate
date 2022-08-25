@@ -24,7 +24,7 @@ public class User implements Serializable
 {
 	private static final long serialVersionUID = 8638989512396268543L;
 	
-	private String userUId;	   // 사용자유아이디
+	private String userUID;	   // 사용자유아이디
 	private String userId;     // 사용자 아이디
 	private String userPwd;    // 비밀번호
 	private String userPhone;  // 전화번호
@@ -38,12 +38,13 @@ public class User implements Serializable
 	private String bizName;    // 사업자명
 	private String bizDate;	   // 사업자등록일
 
+	private UserFile userFile; //첨부파일
 	/**
 	 * 생성자 
 	 */
 	public User()
 	{
-		userUId = "";
+		userUID = "";
 		userId = "";
 		userPwd = "";
 		userPhone = "";
@@ -56,6 +57,15 @@ public class User implements Serializable
 		bizNum = "";
 		bizName = "";
 		bizDate = "";
+		userFile = null;
+	}
+
+	public UserFile getUserFile() {
+		return userFile;
+	}
+
+	public void setUserFile(UserFile userFile) {
+		this.userFile = userFile;
 	}
 
 	/**
@@ -258,12 +268,12 @@ public class User implements Serializable
 		this.bizNum = bizNum;
 	}
 
-	public String getUserUId() {
-		return userUId;
+	public String getUserUID() {
+		return userUID;
 	}
 
-	public void setUserUId(String userUId) {
-		this.userUId = userUId;
+	public void setUserUID(String userUID) {
+		this.userUID = userUID;
 	}
 
 	public String getBizName() {

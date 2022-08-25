@@ -13,9 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.icia.web.dao.UserDao;
 import com.icia.web.model.User;
+
 
 /**
  * <pre>
@@ -95,5 +95,5 @@ public class UserService
 		   
 		   return count;
 	   }
-	   
+
 }

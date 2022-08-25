@@ -1,62 +1,53 @@
 package com.icia.web.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ShopMenu implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	private String shopUid;
-	private String shopMenuCode;
-	private String shopMenuName;
-	private int shopMenuPrice;
-	
+	private List<String> menuCode;
+	private List<String> menuName;
+	private List<Integer> menuPrice;
 	
 	public ShopMenu() {
 		shopUid = "";
-		shopMenuCode = "";
-		shopMenuName = "";
-		shopMenuPrice = 0;
+		menuCode = null;
+		menuName = null;
+		menuPrice = null;
 	}
-
 
 	public String getShopUid() {
 		return shopUid;
 	}
 
-
 	public void setShopUid(String shopUid) {
 		this.shopUid = shopUid;
 	}
 
-
-	public String getShopMenuCode() {
-		return shopMenuCode;
+	public List<String> getMenuCode() {
+		return menuCode;
 	}
 
-
-	public void setShopMenuCode(String shopMenuCode) {
-		this.shopMenuCode = shopMenuCode;
+	public void setMenuCode(List<String> menuCode) {
+		this.menuCode = menuCode;
 	}
 
-
-	public String getShopMenuName() {
-		return shopMenuName;
+	public List<String> getMenuName() {
+		return menuName;
 	}
 
-
-	public void setShopMenuName(String shopMenuName) {
-		this.shopMenuName = shopMenuName;
+	public void setMenuName(List<String> menuName) {
+		this.menuName = menuName;
 	}
 
-
-	public int getShopMenuPrice() {
-		return shopMenuPrice;
+	public List<Integer> getMenuPrice() {
+		return menuPrice;
 	}
 
-
-	public void setShopMenuPrice(int shopMenuPrice) {
-		this.shopMenuPrice = shopMenuPrice;
+	public void setMenuPrice(List<Integer> menuPrice) {
+		this.menuPrice = menuPrice;
 	}
-	
 }

@@ -6,11 +6,24 @@
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
 <script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/icia.common.js"></script>
-<script type="text/javascript" src="/resources/js/icia.ajax.js"></script>
 <script src="https://kit.fontawesome.com/def66b134a.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
 </script>
- 
+<style>
+.btn-upload {
+  width: 150px;
+  height: 30px;
+  border-radius: 10px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#file {
+  display: none;
+}
+</style> 
 </head>
 
 <body style="background:linear-gradient(grey,antiquewhite);">
@@ -25,14 +38,22 @@
        <hr role="tournament1">
     </container>
     </br>
-  
+
         <div class="d-flex justify-content-between align-items-center">
           <div id="mypage" class="user-edit">
             <div class = "profile-card">
                 <div class = "profile-img-div">
-                    <img src="https://yt3.ggpht.com/a/AGF-l79XK-d5idwFKcK721BiXyDc4I5txa4soB89pA=s900-mo-c-c0xffffffff-rj-k-no" class = 'profile-card-img'>
-                    <div><button class = "mypage-profile-btn">프로필사진변경<i class="fa-solid fa-pen-to-square"></i></button></div>
-                </div>   
+                    <img src="/image/${login.memberImg}" class = 'profile-card-img'>
+                    <div>
+                    <form action="user/userImgFile" method="post" enctyoe="multipart/form-data">
+                    	<input type="hidden" name="memberId" id="memberId" value="${login.memberId}">
+                    	<label for="file">
+  							<div class="btn-upload"><p type="submit" class = "mypage-profile-btn">프로필사진변경<i class="fa-solid fa-pen-to-square"></i></p></div>
+						</label>
+							<input type="file" name="file" id="file">
+                    	</div>
+              		</form>  
+              		</div>
                 <div class = "profile-card-name"><span>유저닉네임</span><button class = "mypage-profile-btn"><i class="fa-solid fa-pen-to-square"></i></button></div>
                 <div class = "profile-card-intro">
                   <form style="margin-top: 20px;">아이디 : <span>brown</span></form>

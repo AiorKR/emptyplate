@@ -1,6 +1,6 @@
 /**
  * <pre>
- * 프로젝트명 : EmptyPlate
+ * 프로젝트명 : HBoard
  * 패키지명   : com.icia.web.interceptor
  * 파일명     : AuthInterceptor.java
  * 작성일     : 2021. 1. 19.
@@ -178,6 +178,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter
 							CookieUtil.deleteCookie(request, response, AUTH_COOKIE_NAME);
 							bFlag = false;
 						}
+						
+					 
 					}
 					else
 					{
