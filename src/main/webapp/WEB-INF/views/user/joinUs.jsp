@@ -33,7 +33,135 @@ $(document).ready(function() {
 		
 	});
 	
+	$("#btnReg").on("click", function() {
+		fn_userReg();
+	});
+	
 });
+
+$("#userId2").focus();
+
+$("#btnReg").on("click", function() {
+   
+   // 모든 공백 체크 정규식
+   var emptCheck = /\s/g;
+   // 영문 대소문자, 숫자로만 이루어진 4~12자리 정규식
+   var idPwCheck = /^[a-zA-Z0-9]{4,12}$/;
+         
+   if($.trim($("#userId2").val()).length <= 0)
+   {
+      alert("사용자 아이디를 입력하세요.");
+      $("#userId2").val("");
+      $("#userId2").focus();
+      return;
+   }
+   
+   if (emptCheck.test($("#userId2").val())) 
+   {
+      alert("사용자 아이디는 공백을 포함할 수 없습니다.");
+      $("#userId2").focus();
+      return;
+   }
+   
+   if (!idPwCheck.test($("#userId2").val())) 
+   {
+      alert("사용자 아이디는 4~12자의 영문 대소문자와 숫자로만 입력하세요");
+      $("#userId2").focus();
+      return;
+   }
+   
+   if($.trim($("#userPwd2").val()).length <= 0)
+   {
+      alert("비밀번호를 입력하세요.");
+      $("#userPwd2").val("");
+      $("#userPwd2").focus();
+      return;
+   }
+   
+   if (emptCheck.test($("#userPwd2").val())) 
+   {
+      alert("비밀번호는 공백을 포함할 수 없습니다.");
+      $("#userPwd2").focus();
+      return;
+   }
+   
+   if (!idPwCheck.test($("#userPwd2").val())) 
+   {
+      alert("비밀번호는 영문 대소문자와 숫자로 4~12자리 입니다.");
+      $("#userPwd2").focus();
+      return;
+   }
+   
+   if ($("#userPwd2").val() != $("#userPwd3").val()) 
+   {
+      alert("비밀번호가 일치하지 않습니다.");
+      $("#userPwd3").focus();
+      return;
+   }
+   
+   if($.trim($("#userName").val()).length <= 0)
+   {
+      alert("사용자 이름을 입력하세요.");
+      $("#userName").val("");
+      $("#userName").focus();
+      return;
+   }
+   
+   if($.trim($("#userPhone").val()).length <= 0)
+   {
+      alert("사용자 전화번호를 입력하세요.");
+      $("#userPhone").val("");
+      $("#userPhone").focus();
+      return;
+   }
+      
+   if(!fn_validateEmail($("#userEmail").val()))
+   {
+      alert("사용자 이메일 형식이 올바르지 않습니다.");
+      $("#userEmail").focus();
+      return;   
+   }
+   
+   $("#userPwd2").val($("#userPwd3").val());
+   
+
+   //아이디중복체크 ajax
+   $.ajax({
+     type:"POST",
+     url:"/user/idCheck",
+     data:{
+        userId: $("#userId2").val()
+     },
+     datatype:"JSON",
+     beforeSend:function(xhr){
+        xhr.setRequestHeader("AJAX", "true");
+     },
+     success:function(response){
+        if(response.code == 0)
+        {
+           fn_userReg(); 
+        }
+        else if(response.code == 100)
+        {
+           alert("중복된 아이디 입니다.");
+        }
+        else if(response.code == 400)
+        {
+           alert("파라미터 값이 올바르지 않습니다.");
+        }
+        else
+        {
+           alert("오류가 발생하였습니다. ");
+           $("#userId").focus();
+        }
+     }, 
+     error:function(xhr, status, error){
+        icia.common.error(error);
+     }
+   });
+});
+
+
  
 function fn_loginCheck()
 {
@@ -115,188 +243,66 @@ function fn_loginCheck()
 			icia.common.error(error);
 		}
 	});
-	
-	//회원가입 시작	   
-	   $("#btnReg").on("click", function() {
-	      
-	      // 모든 공백 체크 정규식
-	      var emptCheck = /\s/g;
-	      // 영문 대소문자, 숫자로만 이루어진 4~12자리 정규식
-	      var idPwCheck = /^[a-zA-Z0-9]{4,12}$/;
-	            
-	      if($.trim($("#userId2").val()).length <= 0)
-	      {
-	         alert("사용자 아이디를 입력하세요.");
-	         $("#userId2").val("");
-	         $("#userId2").focus();
-	         return;
-	      }
-	      
-	      if (emptCheck.test($("#userId2").val())) 
-	      {
-	         alert("사용자 아이디는 공백을 포함할 수 없습니다.");
-	         $("#userId2").focus();
-	         return;
-	      }
-	      
-	      if (!idPwCheck.test($("#userId2").val())) 
-	      {
-	         alert("사용자 아이디는 4~12자의 영문 대소문자와 숫자로만 입력하세요");
-	         $("#userId2").focus();
-	         return;
-	      }
-	      
-	      if($.trim($("#userPwd2").val()).length <= 0)
-	      {
-	         alert("비밀번호를 입력하세요.");
-	         $("#userPwd2").val("");
-	         $("#userPwd2").focus();
-	         return;
-	      }
-	      
-	      if (emptCheck.test($("#userPwd2").val())) 
-	      {
-	         alert("비밀번호는 공백을 포함할 수 없습니다.");
-	         $("#userPwd2").focus();
-	         return;
-	      }
-	      
-	      if (!idPwCheck.test($("#userPwd2").val())) 
-	      {
-	         alert("비밀번호는 영문 대소문자와 숫자로 4~12자리 입니다.");
-	         $("#userPwd2").focus();
-	         return;
-	      }
-	      
-	      if ($("#userPwd2").val() != $("#userPwd3").val()) 
-	      {
-	         alert("비밀번호가 일치하지 않습니다.");
-	         $("#userPwd3").focus();
-	         return;
-	      }
-	      
-	      if($.trim($("#userName").val()).length <= 0)
-	      {
-	         alert("사용자 이름을 입력하세요.");
-	         $("#userName").val("");
-	         $("#userName").focus();
-	         return;
-	      }
-	      
-	      if($.trim($("#userPhone").val()).length <= 0)
-	      {
-	         alert("전화번호를 입력하세요.");
-	         $("#userPhone").val("");
-	         $("#userPhone").focus();
-	         return;
-	      }
-	      
-	      if(!fn_validateEmail($("#userEmail").val()))
-	      {
-	         alert("사용자 이메일 형식이 올바르지 않습니다.");
-	         $("#userEmail").focus();
-	         return;   
-	      }
-	      
-	      $("#userPwd2").val($("#userPwd3").val());
-	      
+}
 
-	      //아이디중복체크 ajax
-	      $.ajax({
-	    	 type:"POST",
-	    	 url:"/user/idCheck",
-	    	 data:{
-	    		 userId: $("#userId2").val()
-	    	 },
-	    	 datatype:"JSON",
-	    	 beforeSend:function(xhr){
-	    		 xhr.setRequestHeader("AJAX", "true");
-	    	 },
-	    	 success:function(response){
-	    		 if(response.code == 0)
-	    		 {
-	    			 fn_userReg(); 
-	    		 }
-	    		 else if(response.code == 100)
-	    		 {
-	    			 alert("중복된 아이디 입니다.");
-	    		 }
-	    		 else if(response.code == 400)
-	    		 {
-	    			 alert("파라미터 값이 올바르지 않습니다.");
-	    		 }
-	    		 else
-	    		 {
-	    			 alert("오류가 발생하였습니다. ");
-	    			 $("#userId2").focus();
-	    		 }
-	    	 }, 
-	    	 error:function(xhr, status, error){
-	    		 icia.common.error(error);
-	    	 }
-	      });
-	   });
-	}
+function fn_userReg()
+{	
+	$.ajax({
+       type:"POST",
+       url:"/user/regProc",
+       data:{
+    	  userUId: $("#userUId").val(),
+          userId: $("#userId2").val(),
+          userPwd: $("#userPwd2").val(),
+          userName: $("#userName").val(),
+          userPhone: $("#userPhone").val(),
+          userEmail: $("#userEmail").val()
+       },
+       datatype:"JSON",
+       beforeSend:function(xhr){
+          xhr.setRequestHeader("AJAX", "true");
+       },
+       success:function(response)
+       {
+         if(response.code == 0)
+         {
+             alert("회원 가입이 되었습니다. ");
+             location.href = "/"; //"/bord/list";
+         }
+         else if(response.code == 100)
+         {
+            alert("회원 아이디가 중복 되었습니다.");
+            $("#userId2").focus();
+         }
+         else if(response.code == 400)
+         {
+            alert("파라미터 값이 올바르지 않습니다.");
+            $("#userId2").focus();
+         }
+         else if(response.code == 500)
+         {
+            alert("회원가입 중 오류가 발생하였습니다.");
+            $("#userId2").focus();
+         }
+         else
+         {
+            alert("회원가입 중 오류가 발생하였습니다.");
+            $("#userId2").focus();
+         }
+       },
+      error:function(xhr, status, error)
+      {
+          icia.common.error(error);
+      }
+  });
+}
 
-	function fn_userReg()
-	{
-		$.ajax({
-	   	 type:"POST",
-	   	 url:"/user/regProc",
-	   	 data:{
-	   		 userId: $("#userId2").val(),
-	   		 userPwd: $("#userPwd2").val(),
-	   		 userName: $("#userName").val(),
-	   		 userEmail: $("#userEmail").val(),
-	   		 userPhone: $("#userPhone").val()
-	   	 },
-	   	 datatype:"JSON",
-	   	 beforeSend:function(xhr){
-	   		 xhr.setRequestHeader("AJAX", "true");
-	   	 },
-	   	 success:function(response)
-	   	 {
-	   		if(response.code == 0)
-	   		{
-	   		 	alert("회원 가입이 되었습니다. ");
-	   		 	location.herf = "/"; //"/bord/list";
-	   		}
-	   		else if(response.code == 100)
-	   		{
-	   			alert("회원 아이디가 중복 되었습니다.");
-	   			$("#userId2").focus();
-	   		}
-	   		else if(response.code == 400)
-	   		{
-	   			alert("파라미터 값이 올바르지 않습니다.");
-	   			$("#userId2").focus();
-	   		}
-	   		else if(response.code == 500)
-	   		{
-	   			alert("회원가입 중 오류가 발생하였습니다.");
-	   			$("#userId2").focus();
-	   		}
-	   		else
-	   		{
-	   			alert("회원가입 중 오류가 발생하였습니다.");
-	   			$("#userId2").focus();
-	   		}
-	   	 },
-	   	error:function(xhr, status, error)
-	   	{
-	   		 icia.common.error(error);
-	   	}
-	  });
-	}
-
-	function fn_validateEmail(value)
-	{
-	   var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-	   
-	   return emailReg.test(value);
-	}
-	//회원가입 끝
-
+function fn_validateEmail(value)
+{
+   var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+   
+   return emailReg.test(value);
+}
 </script>
  
 </head>
