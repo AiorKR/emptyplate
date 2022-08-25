@@ -73,9 +73,11 @@ public class Board implements Serializable
 	public void setBbsSeq(long bbsSeq) {
 		this.bbsSeq = bbsSeq;
 	}
+
 	public String getUserUID() {
 		return userUID;
 	}
+
 	public void setUserUID(String userUID) {
 		this.userUID = userUID;
 	}
