@@ -42,4 +42,13 @@ public interface BoardDao
 	
 	//첨부파일 삭제
 	public int boardFileDelete(long bbsSeq);
+	
+	//좋아요 추가
+	//public int boardLikeUpdate(long bbsSeq);
+	 
+	//좋아요 취소
+	//public int boardLikeDelet(long bbsSeq);
+	
+	//좋아요 갯수 조회 
+	//public BoardFile boardLikeCnt(long bbsSeq);
 }

@@ -920,6 +920,7 @@ section {
   padding: 0;
   margin: 0;
   color: #0c0b09;
+  position: relative;
 }
 
 #community .d-flex ul li {
@@ -950,7 +951,7 @@ section {
 #community .d-flex select{
   background: rgba(225, 225, 225);
   border: 1px solid #C2A383;
-  /*position: relative;*/
+  position: relative;
   width: 80px;
   height: 30px;
   /*background-image: */
@@ -1000,6 +1001,7 @@ section {
   /*border-top: 1px solid #C2A383;*/
   border-collapse: collapse;
   text-align: center;
+  position: relative;
 }
 
 #community .board-content table th {
@@ -1047,6 +1049,7 @@ section {
   border-radius: 10px;
   float:right;
   font-family: 'Cafe24Dangdanghae';
+  position: relative;
 }
 
 #community .text-center button:hover {
@@ -1068,6 +1071,7 @@ section {
   transition: 0.4s;
   border-radius: 10px;
   font-family: 'Cafe24Dangdanghae';
+  position: relative;
 }
 
 #community .text-center2 button:hover {
@@ -1257,6 +1261,38 @@ section {
   padding-left: 10px;
 }
 
+/*파일첨부*/
+#communityWriteForm form .file {
+  border-right: 0.5px solid #7d7d7d;
+  width: 10%;
+  height: 40px;
+  font-size: 18px;
+  text-align: left;
+  color: #0c0b09;
+  background: #D9D9D9;
+  padding-left: 10px;
+}
+
+#communityWriteForm form input[type="file"] {
+  border: 0;
+  width: 100%;
+  height: 40px;
+  float: left;
+  background: #fff;
+  padding-left: 10px;
+}
+
+#communityWriteForm form .file-content {
+  border: 0;
+  padding: 1px;
+  width: 100%;
+  height: 400px;
+  float: left;
+  background: #fff;
+  padding-top: 6px;
+}
+
+
 /*등록, 취소 버튼*/
 #communityWriteForm .d-flex .submit button {
   background: #C2A383;
@@ -1431,6 +1467,61 @@ section {
   padding-left: 10px;
 }
 
+/*파일첨부*/
+#communityUpdateForm form .file {
+  border-right: 0.5px solid #7d7d7d;
+  width: 10%;
+  height: 40px;
+  font-size: 18px;
+  text-align: left;
+  color: #0c0b09;
+  background: #D9D9D9;
+  padding-left: 10px;
+}
+
+#communityUpdateForm form input[type="file"] {
+  border: 0;
+  width: 100%;
+  height: 40px;
+  float: left;
+  background: #fff;
+  padding-left: 10px;
+}
+
+#communityUpdateForm form .file-content {
+  border: 0;
+  padding: 1px;
+  width: 100%;
+  height: 400px;
+  float: left;
+  background: #fff;
+  padding-top: 6px;
+}
+
+/*파일첨부 확인*/
+#communityUpdateForm form .file-check {
+  border-right: 0.5px solid #7d7d7d;
+  width: 10%;
+  height: 40px;
+  font-size: 18px;
+  text-align: left;
+  color: #0c0b09;
+  background: #D9D9D9;
+  padding-left: 10px;
+}
+
+#communityUpdateForm form .file-check-content {
+  border: 0;
+  padding: 1px;
+  width: 100%;
+  height: 40px;
+  text-align: left;
+  /*float: left;*/
+  background: #fff;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
 /*수정, 취소 버튼*/
 #communityUpdateForm .d-flex .update button {
   background: #C2A383;
@@ -1463,7 +1554,6 @@ section {
   margin-bottom: 10px;
 }
 
-
 /*--------------------------------------------------------------
 # Community_View Section (게시물 화면)
 --------------------------------------------------------------*/
@@ -1478,8 +1568,8 @@ section {
 
 #communityView .container{
   padding-top: 110px;
+  position: relative;
 }
-
 
 #communityView:before {
   content: "";
@@ -1535,7 +1625,7 @@ section {
 
 /*좋아요 버튼*/
 #communityView .board-innercontent .like button {
-  margin-top: 10px;
+  /*margin-top: 10px;*/
   background: rgba(225, 225, 225);
   border:3px solid #C2A383;
   padding: 3px 15px;
@@ -1554,7 +1644,7 @@ section {
 
 /*즐겨찾기 버튼*/
 #communityView .board-innercontent .bookmark button {
-  margin-top: 10px;
+  /*margin-top: 10px;*/
   background: rgba(225, 225, 225);
   border:3px solid #C2A383;
   padding: 3px 15px;
@@ -1563,7 +1653,7 @@ section {
   border-radius: 10px;
   font-family: 'Cafe24Dangdanghae';
   font-size: 17px;
-  margin-right: 5px;
+  margin-left: 5px;
   float: center;
 }
 
@@ -1575,24 +1665,7 @@ section {
   color: #c78e54;
 }
 
-/*수정 버튼*/
-#communityView .board-innercontent .update button {
-  margin-top: 10px;
-  background: #C2A383;
-  border: 0;
-  padding: 4px 20px;
-  color: #fff;
-  transition: 0.4s;
-  border-radius: 10px;
-  font-family: 'Cafe24Dangdanghae';
-  font-size: 19px;
-  float: right;
-}
-
-#communityView .board-innercontent .update button:hover {
-  background: #d3af71;
-}
-
+/*수정,삭제 버튼*/
 
 #communityView .board-innercontent .delete button {
   margin-top: 10px;
@@ -1611,13 +1684,31 @@ section {
   background: #d3af71;
 }
 
+#communityView .board-innercontent .update button {
+  margin-top: 10px;
+  background: #C2A383;
+  border: 0;
+  padding: 4px 20px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 19px;
+  float: right;
+  margin-right: 5px;
+}
+
+#communityView .board-innercontent .update button:hover {
+  background: #d3af71;
+}
+
 /*목록, 신고 버튼*/
 #communityView .board-service {
   font-size: 20px;
   color: #595959;
   border-bottom : 2px solid #C2A383;
   padding-top: 10px;
-  padding-bottom: 37px;
+  padding-bottom: 10px;
 }
 
 #communityView .board-service .board-list button{
@@ -1661,12 +1752,12 @@ section {
   margin-right: 5px;
 }
 
-#communityView .board-commentwrite form {
+#communityView .board-commentwrite .submit {
   background: rgba(225, 225, 225);
   position: relative;
 }
 
-#communityView .board-commentwrite form input[type=text] {
+#communityView .board-commentwrite .submit input[type=text] {
   /*padding: 1px;*/
   width: calc(100% - 10%);
   height: 80px;
@@ -1675,7 +1766,7 @@ section {
 }
 
 /*댓글등록버튼*/
-#communityView .board-commentwrite form input[type=submit] {
+#communityView .board-commentwrite .submit button[type=submit] {
   position: absolute;
   top: 0px;
   right: 0px;
@@ -1689,7 +1780,7 @@ section {
   border: 1px solid #C2A383;
 }
 
-#communityView .board-commentwrite form input[type=submit]:hover {
+#communityView .board-commentwrite .submit button[type=submit]:hover {
   background: #d3af71;
 }
 

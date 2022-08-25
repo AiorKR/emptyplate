@@ -118,11 +118,9 @@ public class BoardService
 	public Board boardView(long bbsSeq)
 	{
 		Board board = null;
-		
 		try
 		{
 			board = boardDao.boardSelect(bbsSeq);
-			
 			if(board != null)
 			{
 				boardDao.boardReadCntPlus(bbsSeq);
@@ -242,5 +240,7 @@ public class BoardService
 		
 		return boardFile;
 	}
+	
+	
 
 }

@@ -29,92 +29,138 @@ $(document).ready(function() {
    $("#btnDelete").on("click", function(){
       if(confirm("게시물을 삭제 하시겠습니까?") == true)
       {
-    	  $.ajax({
-    		  type:"POST",
-    		  url:"/board/delete",
-    		  data:{
-    			  bbsSeq:<c:out value="${board.bbsSeq}" />
-    		  },
-    		  datatype:"JSON",
-    		  beforeSend:function(xhr){
-    			  xhr.setRequestHeader("AJAX", "true");
-    		  },
-    		  success:function(response){
-    			  if(response.code == 0)
-   				  {
-    				  alert("게시물이 삭제되었습니다.");
-    				  location.href = "/board/list";
-   				  }
-    			  else if(response.code == 400)
-   				  {
-    				  alert("파라미터 값이 올바르지 않습니다.");
-   				  }
-    			  else if(response.code == 403)
-   				  {
-    				  alert("본인 글이 아니므로 삭제할 수 없습니다.");
-   				  }
-    			  else if(response.code == 404)
-   				  {
-    				  alert("게시물을 찾을 수 없습니다.");
-    				  location.href = "/board/list";    				  
-   				  }
-    			  else if(response.code == -999)
-   				  {
-    				  alert("답변 게시물이 존재하여 삭제할 수 없습니다.");
-   				  }
-    			  else
-   				  {
-    				  alert("게시물 삭제 중 오류가 발생하였습니다.");
-   				  }
-    		  },
-    		  error:function(xhr, status, error){
-    			  icia.common.error(error);
-    		  }
-    	  });
+         $.ajax({
+            type:"POST",
+            url:"/board/delete",
+            data:{
+               bbsSeq:<c:out value="${board.bbsSeq}" />
+            },
+            datatype:"JSON",
+            beforeSend:function(xhr){
+               xhr.setRequestHeader("AJAX", "true");
+            },
+            success:function(response){
+               if(response.code == 0)
+                 {
+                  alert("게시물이 삭제되었습니다.");
+                  location.href = "/board/list";
+                 }
+               else if(response.code == 400)
+                 {
+                  alert("파라미터 값이 올바르지 않습니다.");
+                 }
+               else if(response.code == 403)
+                 {
+                  alert("본인 글이 아니므로 삭제할 수 없습니다.");
+                 }
+               else if(response.code == 404)
+                 {
+                  alert("게시물을 찾을 수 없습니다.");
+                  location.href = "/board/list";                  
+                 }
+               else if(response.code == -999)
+                 {
+                  alert("답변 게시물이 존재하여 삭제할 수 없습니다.");
+                 }
+               else
+                 {
+                  alert("게시물 삭제 중 오류가 발생하였습니다.");
+                 }
+            },
+            error:function(xhr, status, error){
+               icia.common.error(error);
+            }
+         });
       }
    });
    
+   /*$("#btnLike").on("click", function(){
+         $.ajax({
+            type:"POST",
+            url:"/board/like",
+            data:{
+               bbsSeq:<c:out value="${board.bbsSeq}" />
+               userUID:"${user.userUID}"
+            },
+            datatype:"JSON",
+            beforeSend:function(xhr){
+               xhr.setRequestHeader("AJAX", "true");
+            },
+            success:function(response){
+            	likeCount();
+            },
+            error:function(xhr, status, error){
+               icia.common.error(error);
+            }
+         });
+   });*/    
+   
 });
+
+/*function likeCount(){
+    $.ajax({
+        type:"POST",
+        url:"/board/likeCount",
+        data:{
+           bbsSeq:<c:out value="${board.bbsSeq}" />
+        },
+        datatype:"JSON",
+        beforeSend:function(xhr){
+           xhr.setRequestHeader("AJAX", "true");
+        },
+        success:function(response){
+     	   $(".likeCount").html(count);
+        },
+        error:function(xhr, status, error){
+           icia.common.error(error);
+        }
+     });
+}*/
 </script>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/include/navigation.jsp" %>
  <section id="communityView" class="community">
-   <div class="container" data-aos="fade-up">
+   <div class="container">
      <div class = "row">
-       <div class="board-title" data-aos="fade-up">
-         <col-lg-12><c:out value="${board.bbsTitle}" /><br/></col-lg-12>
+       <div class="board-title">
+         <c:out value="${board.bbsTitle}" /><br/>
        </div>
 
-       <div class="board-writer" data-aos="fade-up">
-         <col-lg-12><ion-icon name="person"></ion-icon> <a href="#"><c:out value="${board.userNick}"/></a></col-lg-12>
-         <col-lg-12><ion-icon name="calendar"></ion-icon> ${board.regDate}</col-lg-12>
-         <col-lg-12><ion-icon name="eye"></ion-icon> ${board.bbsReadCnt}</col-lg-12>
+       <div class="board-writer">
+         <ion-icon name="person"></ion-icon> <a href="#"><c:out value="${board.userNick}"/></a> &nbsp;
+         <ion-icon name="calendar"></ion-icon> ${board.regDate} &nbsp;
+         <ion-icon name="eye"></ion-icon> ${board.bbsReadCnt}
        </div>
 
-       <div class="board-innercontent" data-aos="fade-up">
-         <col-lg-12><c:out value="${hiBoard.hiBbsContent}" /> </col-lg-12>
+       <div class="board-innercontent">
+         <col-lg-12><c:out value="${board.bbsContent}" /> </col-lg-12>
+           <div>
+           <c:if test="${boardMe eq 'Y'}">
+              <div class="delete"><button type="button" id="btnDelete" class="delete">삭제</button></div>
+              <div class="update"><button type="button" id="btnUpdate" class="update">수정</button></div>
+             </c:if>
+           </div>
+           
            <div class="d-flex flex-row justify-content-center">
-             <div class="like"><button><ion-icon name="heart"></ion-icon>&nbsp;&nbsp;좋아요  ${board.bbsLikeCnt}</button></div>
-             <div class="bookmark"><button><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div></div>
-             <c:if test="${boardMe eq 'Y'}">
-			   <div class="update"><button type="button" id="btnUpdate" class="update">수정</button></div>
-			   <div class="delete"><button type="button" id="btnDelete" class="delete">삭제</button></div>
-			 </c:if>
+             <div class="like"><button type="button" id="btnLike" class="like"><ion-icon name="heart"></ion-icon>&nbsp;&nbsp;좋아요  <span class="likeCount">${board.bbsLikeCnt}</span></button></div>
+             <div class="bookmark"><button type="button" id="btnBoomark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
             
+           </div>
        </div>
 
-       <div class="board-service" data-aos="fade-up">
+       <div class="board-service">
          <div class="board-list"><button type="button" id="btnList" class="board-list"><ion-icon name="reader"></ion-icon>&nbsp;목록</button></div>
          <div class="report"><button><ion-icon name="alert-circle"></ion-icon>&nbsp;신고</button></div>
        </div>
 
 
-       <div class="board-commentwrite" data-aos="fade-up">
+       <div class="board-commentwrite">
          <col-lg-12><ion-icon name="chatbubbles"></ion-icon>댓글</col-lg-12>
-         <form action="" method="post">
-           <input type="text" name="text"><input type="submit" value="등록">
-         </form>
+         <div class="submit">
+           <input type="text" name="text">
+           <button type="submit" id="btnSearch">등록</button>
+        </div>
        </div>
 
        <div class="comment">
@@ -145,15 +191,18 @@ $(document).ready(function() {
 
      </div>
      
-	 <form name="bbsForm" id="bbsForm" method="post">
-	   <input type="hidden" name="bbsSeq" value="${bbsSeq}" />
-	   <input type="hidden" name="searchType" value="${searchType}" />
-	   <input type="hidden" name="searchValue" value="${searchValue}" />
-	   <input type="hidden" name="curPage" value="${curPage}" />
-	 </form>
+    <form name="bbsForm" id="bbsForm" method="post">
+      <input type="hidden" name="bbsSeq" value="${bbsSeq}" />
+      <input type="hidden" name="searchType" value="${searchType}" />
+      <input type="hidden" name="searchValue" value="${searchValue}" />
+      <input type="hidden" name="curPage" value="${curPage}" />
+     <input type="hidden" name="bbsNo" value="${bbsNo}" />
+    </form>
 
    </div> 
  </section>
   
+  <!-- ======= Footer ======= -->
+  <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 </body>
 </html>

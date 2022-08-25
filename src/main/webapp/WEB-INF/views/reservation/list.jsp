@@ -41,7 +41,6 @@ $(document).ready(function() {
 		      document.bbsForm.submit();
 		   }
 	   });
-	   
 });
 
 </script>
@@ -248,12 +247,8 @@ $(document).ready(function() {
                       </select>
                   </ul>
                 </form>
-              
-                  
                     <input type="text" name="text" id="search" <c:if test="${searchValue ne null and searchValue ne ''}">value="${searchValue}"</c:if>>
                     <button class="btn" type="submit" id="searchBtn">검색</button>
-
-             
                 </div>
               </div>
             </nav>

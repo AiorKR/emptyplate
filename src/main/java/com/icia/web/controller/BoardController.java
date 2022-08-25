@@ -1,6 +1,5 @@
 package com.icia.web.controller;
 
-import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,10 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.icia.common.model.FileData;
-import com.icia.common.util.FileUtil;
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Board;
 import com.icia.web.model.BoardFile;
@@ -140,13 +137,10 @@ public class BoardController
 		String bbsContent = HttpUtil.get(request, "bbsContent", "");
 		FileData fileData = HttpUtil.getFile(request, "bbsFile", UPLOAD_SAVE_DIR);	//getFile메서드는 보내준 파일을 유효 아이디 값 생성 > 해당경로에 파일 업로드, FileData객체 생성후 값 세팅을 함. > getFile의 시작주소를 fileData가 바라봄.
 		int bbsNo = HttpUtil.get(request, "bbsNo", 0);
-		
-		
+
 		//서버에서 다이렉트로 들어올 경우 체크
 		if(!StringUtil.isEmpty(bbsTitle) && !StringUtil.isEmpty(bbsContent))
 		{
-			
-			
 			Board board = new Board();
 			board.setBbsNo(bbsNo);
 			board.setUserUID(cookieUserUID);
@@ -398,6 +392,7 @@ public class BoardController
   		return ajaxResponse;
   	}
   	
+    /*
     //첨부파일 다운로드
   	@RequestMapping(value="/board/download")
   	public ModelAndView download(HttpServletRequest request, HttpServletResponse response)
@@ -432,6 +427,8 @@ public class BoardController
   		}
   		
   		return modelAndView;
-  	}
+  	}*/
+  	
+  	
 		
 }
