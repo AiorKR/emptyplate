@@ -142,7 +142,11 @@ public class BoardController
 		if(!StringUtil.isEmpty(bbsTitle) && !StringUtil.isEmpty(bbsContent))
 		{
 			Board board = new Board();
+<<<<<<< Updated upstream
 			board.setBbsNo(bbsNo);
+=======
+			
+>>>>>>> Stashed changes
 			board.setUserUID(cookieUserUID);
 			board.setBbsTitle(bbsTitle);
 			board.setBbsContent(bbsContent);
