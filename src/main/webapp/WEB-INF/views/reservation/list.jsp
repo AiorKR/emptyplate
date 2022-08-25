@@ -1,10 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="org.springframework.beans.factory.annotation.Value" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="/resources/datepicker/date_picker.css">
+
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
-<<<<<<< HEAD
 
 <!--date and time picker-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
@@ -36,11 +42,10 @@ $(document).ready(function() {
 		      document.bbsForm.submit();
 		   }
 	   });
+	   
 });
 
 </script>
-=======
->>>>>>> User_
 </head>
 
 <body>
@@ -216,32 +221,40 @@ $(document).ready(function() {
                   <input type="text" class="datepicker" placeholder="날자를 선택해주세요" name="date" readonly>
                   </div>
                   <div class="box">
-                      <ul id="viewUlTag">
-                          <li>
-                              <div class="dptime">09:00</div>
+                      <ul id="datepicker-ul">
+                          <li id="datepicker-li">
                               <div class="dptime">10:00</div>
                               <div class="dptime">11:00</div>
                               <div class="dptime">12:00</div>
                               <div class="dptime">13:00</div>
                               <div class="dptime">14:00</div>
+                              <div class="dptime">18:00</div>
+                              <div class="dptime">19:00</div>
+                              <div class="dptime">20:00</div>
+                              <div class="dptime">21:00</div>
+                              <div class="dptime">22:00</div>
                           </li>
                       </ul>
                   </div>
               </div> 
-              <script src="/resource/assets/datepicker/date_picker.js"></script>
+              <script src="/resources/datepicker/date_picker.js"></script>
               <!--datepicker--> 
                 &nbsp;&nbsp;&nbsp;
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="navbar-nav me-auto ">
                       <select class="select" aria-label="Default select example" style="width: 150px; height: 35px;">
-                        <option value="0" selected style="width: 150px; height: 35px;" <c:if test="${searchType ne '1' and searchType ne '2'}"</c:if>>전체</option>
-                        <option value="1" style="width: 150px; height: 35px;"  <c:if test="${searchType eq '1'}"</c:if>>selected>오마카세</option>
-                        <option value="2" style="width: 150px; height: 35px;"  <c:if test="${searchType eq '2'}"</c:if>>selected>파인다이닝</option>
+                        <option value="0" selected style="width: 150px; height: 35px;" selected <c:if test="${searchType eq '0'}">selected</c:if>>전체</option>
+                        <option value="1" style="width: 150px; height: 35px;"  <c:if test="${searchType eq '1'}">selected</c:if>>파인다이닝</option>
+                        <option value="2" style="width: 150px; height: 35px;"  <c:if test="${searchType eq '2'}">selected</c:if>>오마카세</option>
                       </select>
                   </ul>
                 </form>
+              
+                  
                     <input type="text" name="text" id="search" <c:if test="${searchValue ne null and searchValue ne ''}">value="${searchValue}"</c:if>>
                     <button class="btn" type="submit" id="searchBtn">검색</button>
+
+             
                 </div>
               </div>
             </nav>
@@ -249,41 +262,51 @@ $(document).ready(function() {
               
             </div>
             <tbody class="menutable">
-            <c:if test="${!enpty list}">
-            <c:forEach var="hiBoard" items="${list}" varStatus="status">
-              <tr onClick="location.href='./view.html'">
-                <th scope="row">1</th>
+            <c:if test="${!empty list}">
+            <c:forEach items="${list}" var="shop" varStatus="status">
+              <tr onClick="location.href='/reservation/view'">
+                <th scope="row">${status.count}</th>
                 <td class="w-25">
-                  <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-3.jpg" class="img-fluid img-thumbnail" alt="Sheep">
+                <fmt:setBundle var="SHOP_UPLOAD_IMAGE_DIR" basename="shop.upload.image.dir"></fmt:setBundle>
+                  <img src="" class="img-fluid img-thumbnail" alt="Sheep">
                 </td>
                 <td>
-                  <div class="star-ratings">
-                  <div 
-                    class="star-ratings-fill space-x-2 text-lg"
-                    :style="{ width: ratingToPercent + '%' }"
-                  >
-                    ${shop.shopName}
-                  </div>
-                  <script>
-                  </script>
-                </div></td>
-                <td>${shop.shopName}</td>
-                <td>913</td>
-            </td>
+                	<c:out value="${shop.shopName}" />
+                	<c:if test="${shop.shopType ne null}">
+                		<c:choose>
+                			<c:when test='${shop.shopType eq "1"}'>
+                				<br />
+                				<p>파인다이닝</p>
+                			</c:when>
+                			<c:when test='${shop.shopType eq "2"}'>
+                				<br />
+                				<p>오마카세</p>
+                			</c:when>
+                		</c:choose>
+                	</c:if>
+                </td>
+                <td>
+                	<c:out value="${shop.shopHashtag}" />
+                </td>
+                <td>
+                	<c:out value="${shop.shopIntro}" />
+                </td>
+                <td>
+                	<c:out value="${shop.shopLocation1}" />
+                	<c:out value="${shop.shopLocation2}" />
+                	<c:out value="${shop.shopLocation3}" />
+                	<c:out value="${shop.shopAddress}" />
+                </td>
+
 			</tr>
 			  </c:forEach>  
 			</c:if>
             </tbody>
-          </table>   
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <div class="page-wrap">
+          </table>
+           <div class="page-wrap">
          <ul class="page-nation">
            <c:if test="${paging.prevBlockPage gt 0}">
-             <li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="fn_list(${paging.prevBlockPage})"><</a></li>
+             <li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="fn_list(${paging.prevBlockPage})"> < </a></li>
            </c:if>
            <c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
              <c:choose>
@@ -296,16 +319,22 @@ $(document).ready(function() {
              </c:choose>
            </c:forEach>
            <c:if test="${paging.nextBlockPage gt 0}">
-               <li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="fn_list(${paging.nextBlockPage})">></a></li>
+               <li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="fn_list(${paging.nextBlockPage})"> > </a></li>
            </c:if>
          </ul>
-       </div>
+       </div>   
+          </div>
+        </div>
+      </div>
+	         <form name="bbsForm" id="bbsForm" method="post">
+            <input type="hidden" name="searchType" value="${searchType}"/>
+            <input type="hidden" name="searchValue" value="${searchValue}" />
+            <input type="hidden" name="curPage" value="${curPage}" />
+            </form>
+    </div>
+
   </section>
   <!-- End reservation Section -->
-
-  <!--count down-->
-  <script src="./assets/countdown/countdown.js"></script>
-  <!--count down-->
   <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 </body>
 </html>

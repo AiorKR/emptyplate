@@ -18,14 +18,12 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.icia.common.model.FileData;
 import com.icia.common.util.StringUtil;
-import com.icia.web.model.Board;
 import com.icia.web.model.Paging;
 import com.icia.web.model.Response;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
 import com.icia.web.service.ShopService;
 import com.icia.web.service.UserService;
-import com.icia.web.util.CookieUtil;
 import com.icia.web.util.HttpUtil;
 
 @Controller("shopController")
@@ -37,8 +35,8 @@ public class ShopController {
 	private String AUTH_COOKIE_NAME;
 	
 	//파일 저장 경로
-	@Value("#{env['shop_image_dir']}")
-	private String SHOP_IMAGE_DIR;
+	@Value("#{env['shop.upload.image.dir']}")
+	private String SHOP_UPLOAD_IMAGE_DIR;
 	
 	@Autowired
 	private UserService userService;
@@ -83,9 +81,11 @@ public class ShopController {
 			
 			totalCount = shopService.shopListCount(search); //총 매장 수를 확인
 			
+			logger.debug("totalCount : " + totalCount);
+			
 			if(totalCount > 0)
 			{
-				paging = new Paging("/board/list", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
+				paging = new Paging("/reservation/list", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
 				
 				paging.addParam("searchType", searchType);
 				paging.addParam("searchValue", searchValue);
@@ -105,6 +105,7 @@ public class ShopController {
 			model.addAttribute("searchValue", searchValue);
 			model.addAttribute("curPage", curPage);
 			model.addAttribute("paging", paging);
+			model.addAttribute("SHOP_UPLOAD_IMAGE_DIR", SHOP_UPLOAD_IMAGE_DIR);
 			
 			return "/reservation/list";
 		}
@@ -127,8 +128,8 @@ public class ShopController {
 			
 			List<ShopFile> shopFileList = new ArrayList<ShopFile>();
 			
-			String shopUID = "5";
-			String userUID = "10";
+			String shopUID = "6";
+			String userUID = "11";
 			String shopName = HttpUtil.get(request, "shopName");
 			String shopType = HttpUtil.get(request, "shopType");
 			String shopHoliday = HttpUtil.get(request, "shopHoliday");
@@ -144,14 +145,27 @@ public class ShopController {
 			String[] name = new String[100];
 			
 			
-			for(int i=0; i <= fileQuantity; i++) {
+			for(int i=0; i < fileQuantity; i++) {
 				logger.debug("i값 : " + i);
-				name[i] = "ShopFile";
-				name[i] += i;
+				name[i] = "shopFile";
+				name[i] += Integer.toString(i);;
 				
 				logger.debug("name[i] : " + name[i]);
 				
-				FileData fileData = (HttpUtil.getFile(request, name[i], SHOP_IMAGE_DIR));
+				if(StringUtil.equals(name[i], "shopFile0")) {
+					logger.debug("값이 같음!!!!0");
+				}
+				
+				if(StringUtil.equals(name[i], "shopFile1")) {
+					logger.debug("값이 같음!!!!1");
+				}
+				
+				if(StringUtil.equals(name[i], "shopFile2")) {
+					logger.debug("값이 같음!!!!2");
+				}
+				
+				FileData fileData = new FileData();
+				fileData = (HttpUtil.getFile(request, name[i], SHOP_UPLOAD_IMAGE_DIR));
        		 	
 				logger.debug("fileData(첨 파일 받을때) : " + fileData);
 				logger.debug("fileData이름(첨 파일 받을때) : " + fileData.getFileName());
@@ -162,6 +176,7 @@ public class ShopController {
 				ShopFile shopFile = new ShopFile();
 				
 				if(fileData != null) {
+					shopFile.setShopUID(shopUID);
 			   		shopFile.setShopFileSeq(i);
 			   		shopFile.setShopFileName(fileData.getFileName());
 			   		shopFile.setShopFileOrgName(fileData.getFileOrgName());

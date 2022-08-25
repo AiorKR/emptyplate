@@ -19,4 +19,3 @@ public interface ShopDao {
 	public int ShopFileInsert(List<ShopFile> list);
 
 }
-	
