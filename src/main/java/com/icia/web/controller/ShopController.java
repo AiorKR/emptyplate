@@ -1,5 +1,6 @@
 package com.icia.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,12 +13,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.icia.common.model.FileData;
 import com.icia.common.util.StringUtil;
+import com.icia.web.model.Board;
 import com.icia.web.model.Paging;
+import com.icia.web.model.Response;
 import com.icia.web.model.Shop;
+import com.icia.web.model.ShopFile;
 import com.icia.web.service.ShopService;
 import com.icia.web.service.UserService;
+import com.icia.web.util.CookieUtil;
 import com.icia.web.util.HttpUtil;
 
 @Controller("shopController")
@@ -60,7 +68,6 @@ public class ShopController {
 			Paging paging = null;
 			//조회 객체
 			Shop search = new Shop();
-						
 			
 			if(StringUtil.equals(searchType, "1") || StringUtil.equals(searchType, "2")) { // 1: 파인다이닝 2:오마카세
 				
@@ -100,5 +107,116 @@ public class ShopController {
 			model.addAttribute("paging", paging);
 			
 			return "/reservation/list";
+		}
+		
+		
+		
+		//임시 매장 정보 인서트
+		@RequestMapping(value="/reservation/shopInsert")
+		public String shopInsert(HttpServletRequest request, HttpServletResponse response) {
+			return "/reservation/shopInsert";
+		}
+		
+		
+		@RequestMapping(value="/reservation/shopInsertProc")
+		@ResponseBody
+		public Response<Object> shopInsertProc(MultipartHttpServletRequest request, HttpServletResponse response) {
+			Response<Object> ajax = new Response<Object>();
+					
+			int fileQuantity = HttpUtil.get(request, "fileQuantity", 0);
+			
+			List<ShopFile> shopFileList = new ArrayList<ShopFile>();
+			
+			String shopUID = "5";
+			String userUID = "10";
+			String shopName = HttpUtil.get(request, "shopName");
+			String shopType = HttpUtil.get(request, "shopType");
+			String shopHoliday = HttpUtil.get(request, "shopHoliday");
+			String shopLocation1 = HttpUtil.get(request, "shopLocation1");
+			String shopLocation2 = HttpUtil.get(request, "shopLocation2");
+			String shopLocation3 = HttpUtil.get(request, "shopLocation3");
+			String shopAddress = HttpUtil.get(request, "shopAddress");
+			String shopHashtag = HttpUtil.get(request, "shopHashtag");
+			String shopTelephon = HttpUtil.get(request, "shopTelephon");
+			String shopIntro = HttpUtil.get(request, "shopIntro");
+			String shopContent = HttpUtil.get(request, "shopContent");
+			
+			String[] name = new String[100];
+			
+			
+			for(int i=0; i <= fileQuantity; i++) {
+				logger.debug("i값 : " + i);
+				name[i] = "ShopFile";
+				name[i] += i;
+				
+				logger.debug("name[i] : " + name[i]);
+				
+				FileData fileData = (HttpUtil.getFile(request, name[i], SHOP_IMAGE_DIR));
+       		 	
+				logger.debug("fileData(첨 파일 받을때) : " + fileData);
+				logger.debug("fileData이름(첨 파일 받을때) : " + fileData.getFileName());
+				logger.debug("fileData원본이름(첨 파일 받을때) : " + fileData.getFileOrgName());
+				logger.debug("fileData사이즈(첨 파일 받을때) : " + fileData.getFileSize());
+				logger.debug("fileData확장자(첨 파일 받을때) : " + fileData.getFileExt());
+				
+				ShopFile shopFile = new ShopFile();
+				
+				if(fileData != null) {
+			   		shopFile.setShopFileSeq(i);
+			   		shopFile.setShopFileName(fileData.getFileName());
+			   		shopFile.setShopFileOrgName(fileData.getFileOrgName());
+			   		shopFile.setShopFileExt(fileData.getFileExt());
+			   		shopFile.setShopFileSize(fileData.getFileSize());
+				}
+		   		 
+		   		logger.debug("shopFileName : " + shopFile.getShopFileName());
+		   		 
+		   		 shopFileList.add(shopFile);
+			}
+			logger.debug("shopFileList : " + shopFileList);
+			
+		      Shop shop = new Shop();
+		      shop.setShopFileList(shopFileList);
+    
+		      shop.setShopUID(shopUID);
+		      shop.setUserUID(userUID);
+		      shop.setShopName(shopName);
+		      shop.setShopType(shopType);
+		      shop.setShopHoliday(shopHoliday);
+		      shop.setShopLocation1(shopLocation1);
+		      shop.setShopLocation2(shopLocation2);
+		      shop.setShopLocation3(shopLocation3);
+		      shop.setShopAddress(shopAddress);
+		      shop.setShopHashtag(shopHashtag);
+		      shop.setShopTelephone(shopTelephon);
+		      shop.setShopIntro(shopIntro);
+		      shop.setShopContent(shopContent);
+		      
+				logger.debug("ShopFileList(서비스 날리기 마지막 전) : " + shopFileList);
+				logger.debug("ShopFile이름(서비스 날리기 마지막 전) : " + shopFileList.get(0).getShopFileName());
+				logger.debug("ShopFile원본이름(서비스 날리기 마지막 전) : " + shopFileList.get(0).getShopFileOrgName());
+				logger.debug("ShopFile사이즈(서비스 날리기 마지막 전) : " + shopFileList.get(0).getShopFileSize());
+				logger.debug("ShopFile확장자(서비스 날리기 마지막 전) : " + shopFileList.get(0).getShopFileExt());
+				
+		      
+		         //service호출
+		         try
+		         {
+		            if(shopService.shopInsert(shop) > 0)
+		            {
+		            	ajax.setResponse(0, "success");
+		            }
+		            else
+		            {
+		            	ajax.setResponse(500, "internal server error");
+		            }
+		         }
+		         catch(Exception e)
+		         {
+		            logger.error("ShopController]/Shop writeProc Exception", e);
+		            ajax.setResponse(500, "internal server error");
+		         }
+		         
+			return ajax;
 		}
 }
