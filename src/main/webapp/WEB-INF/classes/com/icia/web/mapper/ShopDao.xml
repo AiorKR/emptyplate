@@ -3,8 +3,8 @@
 <mapper namespace="com.icia.web.dao.ShopDao">
 
 	<resultMap id="ShopResultMap" type="com.icia.web.model.Shop">
-	<id column="SHOP_UID" property="shopUid"/>
-	<result column="USER_UID" property="userUid"/>
+	<id column="SHOP_UID" property="shopUID"/>
+	<result column="USER_UID" property="userUID"/>
 	<result column="SHOP_NAME" property="shopName"/>
 	<result column="SHOP_TYPE" property="shopType"/>
 	<result column="SHOP_HOLIDAY" property="shopHoliday"/>
@@ -21,7 +21,7 @@
 	</resultMap>
 	
 	<resultMap id="ShopFileResultMap" type="com.icia.web.model.ShopFile">
-	<id column="SHOP_UID" property="shopUid"/>
+	<id column="SHOP_UID" property="shopUID"/>
 	<result column="FILE_SEQ" property="shopFileSeq"/>
 	<result column="FILE_ORG_NAME" property="shopFileOrgName"/>
 	<result column="FILE_NAME" property="shopFileName"/>
