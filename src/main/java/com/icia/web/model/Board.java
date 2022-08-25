@@ -7,7 +7,7 @@ public class Board implements Serializable
 	private static final long serialVersionUID = 1L;
 	
 	private long bbsSeq;			//게시물고유번호
-	private String userUid;		//회원고유번호
+	private String userUID;		//회원고유번호
 	private int bbsNo;			//게시판 번호
 	private String bbsTitle;	//게시물 제목
 	private String bbsContent;	//내용
@@ -36,7 +36,7 @@ public class Board implements Serializable
 	public Board()
 	{
 		bbsSeq = 0;
-		userUid = "";
+		userUID = "";
 		bbsNo = 0;
 		bbsTitle = "";
 		bbsContent = "";
@@ -73,14 +73,14 @@ public class Board implements Serializable
 
 
 
-	public String getUserUid() {
-		return userUid;
+	public String getUserUID() {
+		return userUID;
 	}
 
 
 
-	public void setUserUid(String userUid) {
-		this.userUid = userUid;
+	public void setUserUID(String userUID) {
+		this.userUID = userUID;
 	}
 
 

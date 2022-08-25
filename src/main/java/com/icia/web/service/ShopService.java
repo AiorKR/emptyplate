@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.icia.web.dao.ShopDao;
 import com.icia.web.model.Shop;
+import com.icia.web.model.ShopFile;
 
 @Service("shopService")
 public class ShopService {
@@ -19,8 +20,8 @@ public class ShopService {
 	private static Logger logger = LoggerFactory.getLogger(ShopService.class);
 	
 	//파일 저장 디렉토리
-	@Value("#{env['upload.save.dir']}")
-	private String UPLOAD_SAVE_DIR;
+	@Value("#{env['shop_image_dir']}")
+	private String SHOP_IMAGE_DIR;
 	
 	@Autowired
 	private ShopDao shopDao;
@@ -60,5 +61,28 @@ public class ShopService {
 			
 			
 			return list;
+		}
+		
+		@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+		public int shopInsert(Shop shop) throws Exception
+		{	//Propagation.REQUIRED : 트랜젝션이 있으면 그 트랜젝션에서 실행,
+			//없으면 새로운 트랜젝션을 실행(기본설정)
+		
+			int count = shopDao.shopInsert(shop);
+			logger.debug("shop.getShopFileList() : " + shop.getShopFileList());
+			//게시물 등록 후 첨부파일이 잇으면 첨부파일 등록
+			if(count > 0 && shop.getShopFileList() != null) {
+				List<ShopFile> shopFileList = shop.getShopFileList();
+				
+				logger.debug("ShopFileList(쿼리 날리기 마지막 전) : " + shopFileList);
+				logger.debug("ShopFile이름(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileName());
+				logger.debug("ShopFile원본이름(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileOrgName());
+				logger.debug("ShopFile사이즈(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileSize());
+				logger.debug("ShopFile확장자(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileExt());
+				
+				shopDao.ShopFileInsert(shopFileList);
+			}
+			
+			return count;
 		}
 }

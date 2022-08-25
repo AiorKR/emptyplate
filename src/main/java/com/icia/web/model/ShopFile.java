@@ -6,33 +6,33 @@ public class ShopFile implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	private String shopUid;
+	private String shopUID;
 	private long shopFileSeq;
 	private String shopFileOrgName;
 	private String shopFileName;
 	private String shopFileExt;
-	private String shopFileSize;
+	private long shopFileSize;
 	private String shopFileRegDate;
 	
 	
 	public ShopFile() {
-		shopUid = "";
+		shopUID = "";
 		shopFileSeq = 0;
 		shopFileOrgName = "";
 		shopFileName = "";
 		shopFileExt = "";
-		shopFileSize = "";
+		shopFileSize = 0;
 		shopFileRegDate = "";
 	}
 
 
-	public String getShopUid() {
-		return shopUid;
+	public String getShopUID() {
+		return shopUID;
 	}
 
 
-	public void setShopUid(String shopUid) {
-		this.shopUid = shopUid;
+	public void setShopUID(String shopUID) {
+		this.shopUID = shopUID;
 	}
 
 
@@ -76,12 +76,12 @@ public class ShopFile implements Serializable{
 	}
 
 
-	public String getShopFileSize() {
+	public long getShopFileSize() {
 		return shopFileSize;
 	}
 
 
-	public void setShopFileSize(String shopFileSize) {
+	public void setShopFileSize(long shopFileSize) {
 		this.shopFileSize = shopFileSize;
 	}
 

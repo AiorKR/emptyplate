@@ -63,6 +63,22 @@ public class UserService
 		return user;
 	}
 	
+	public User userUIDSelect(String userUID)
+	{
+		User user = null;
+		
+		try
+		{
+			user = userDao.userUIDSelect(userUID);
+		}
+		catch(Exception e)
+		{
+			logger.error("[UserService] userUIDSelect Exception", e);
+		}
+		
+		return user;
+	}
+	
 	//사용자 정보 등록
 	   public int userInsert(User user)
 	   {

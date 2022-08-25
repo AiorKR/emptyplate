@@ -6,20 +6,20 @@ public class ShopTime implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String shopUid;
+	private String shopUID;
 	private String shopOrderTime;
 	
 	public ShopTime() {
-		shopUid = "";
+		shopUID = "";
 		shopOrderTime = "";
 	}
 
-	public String getShopUid() {
-		return shopUid;
+	public String getShopUID() {
+		return shopUID;
 	}
 
-	public void setShopUid(String shopUid) {
-		this.shopUid = shopUid;
+	public void setShopUID(String shopUID) {
+		this.shopUID = shopUID;
 	}
 
 	public String getShopOrderTime() {
