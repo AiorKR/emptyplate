@@ -64,4 +64,29 @@
     	 #{bizName},
     	 #{bizDate})   
  </insert>
+ 
+ <!--첨부파일 resultMap -->
+<resultMap type="com.icia.web.model.UserFile" id="userFileResultMap" >
+   <id column="USER_UID" property="userUID" />
+   <id column="FILE_NAME" property="fileName" />
+   <id column="FILE_EXT" property="fileExt" />
+   <id column="FILE_SIZE" property="fileSize" />
+   <id column="REG_DATE" property="regDate" />
+</resultMap>
+
+<!-- 첨부파일 등록 -->
+<insert id="userFileInsert" parameterType="com.icia.web.model.UserFile">
+INSERT INTO T_USER_FILE (
+            USER_UID,
+            FILE_NAME,
+            FILE_EXT,
+            FILE_SIZE,
+            REG_DATE
+)   VALUES (#{userUID},
+            #{fileName},
+            #{fileExt},
+            #{fileSize},
+            SYSDATE
+)
+</insert>
 </mapper>

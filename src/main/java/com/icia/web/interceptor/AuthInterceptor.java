@@ -178,8 +178,12 @@ public class AuthInterceptor extends HandlerInterceptorAdapter
 							bFlag = false;
 						}
 						
+<<<<<<< HEAD
 						//임시 적용
 						bFlag = true;  
+=======
+					 
+>>>>>>> User_
 					}
 					else
 					{

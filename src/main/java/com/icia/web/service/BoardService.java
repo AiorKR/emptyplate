@@ -10,10 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.icia.common.util.FileUtil;
 import com.icia.web.dao.BoardDao;
 import com.icia.web.model.Board;
-import com.icia.web.model.BoardFile;
 
 @Service("boardService")
 public class BoardService 
@@ -34,14 +32,6 @@ public class BoardService
 		int count = boardDao.boardInsert(board);
 		
 		//게시물 등록 후 첨부파일 있으면 등록
-		if(count > 0 && board.getBoardFile() != null)
-		{	
-			BoardFile boardFile = board.getBoardFile();	//같은 시작주소를 바라보게 함.
-			boardFile.setBbsSeq(board.getBbsSeq());
-			boardFile.setFileSeq((short)1);
-			
-			boardDao.boardFileInsert(board.getBoardFile());	//여러개 첨부파일 적용시 for문 적용
-		}
 		
 		return count;
 	}
@@ -82,7 +72,7 @@ public class BoardService
 	}
 	
 	//게시물 조회
-	public Board boardSelect(long bbsSeq)
+	public Board boardSelect(int bbsSeq)
 	{
 		Board board = null;
 		
@@ -113,6 +103,7 @@ public class BoardService
 		
 		return sort;
 	}
+<<<<<<< HEAD
 	
 	//게시물 조회(첨부파일 포함)
 	public Board boardView(long bbsSeq)
@@ -242,5 +233,7 @@ public class BoardService
 	}
 	
 	
+=======
+>>>>>>> User_
 
 }

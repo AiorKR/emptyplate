@@ -14,18 +14,19 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+<<<<<<< HEAD
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.icia.common.model.FileData;
+=======
+import org.springframework.web.servlet.ModelAndView;
+
+>>>>>>> User_
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Board;
-import com.icia.web.model.BoardFile;
 import com.icia.web.model.Paging;
-import com.icia.web.model.Response;
-import com.icia.web.model.User;
 import com.icia.web.service.BoardService;
 import com.icia.web.service.UserService;
-import com.icia.web.util.CookieUtil;
 import com.icia.web.util.HttpUtil;
 
 @Controller("boardController")
@@ -71,7 +72,7 @@ public class BoardController
 		//**순
 		List<Board> sort = null;
 		//게시판 번호
-		search.setBbsNo(5);
+		int bbsNo = HttpUtil.get(request, "bbsNo", (int)5);
 		
 		if(!StringUtil.isEmpty(searchType) && !StringUtil.isEmpty(searchValue))
 		{
@@ -85,7 +86,7 @@ public class BoardController
 		{
 			paging = new Paging("/board/list", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
 			
-			paging.addParam("bbsNo", search.getBbsNo());
+			paging.addParam("bbsNo", bbsNo);
 			paging.addParam("searchType", searchType);
 			paging.addParam("searchValue", searchValue);
 			paging.addParam("curPage", curPage);
@@ -98,7 +99,7 @@ public class BoardController
 		}
 		
 		model.addAttribute("list", list);
-		model.addAttribute("bbsNo", search.getBbsNo());
+		model.addAttribute("bbsNo", bbsNo);
 		model.addAttribute("searchType", searchType);
 		model.addAttribute("searchValue", searchValue);
 		model.addAttribute("curPage", curPage);
@@ -107,6 +108,7 @@ public class BoardController
 		
 		return "/board/list";
 	}
+<<<<<<< HEAD
 	
 	//게시물 등록 form(글쓰기)
 	@RequestMapping(value="/board/writeForm")
@@ -430,5 +432,7 @@ public class BoardController
   	}*/
   	
   	
+=======
+>>>>>>> User_
 		
 }

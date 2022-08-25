@@ -5,16 +5,12 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.icia.web.model.Board;
-import com.icia.web.model.BoardFile;
 
 @Repository("boardDao")
 public interface BoardDao 
 {
 	//게시물 등록
 	public int boardInsert(Board board);
-	
-	//게시물 첨부파일 등록
-	public int boardFileInsert(BoardFile boardFile);
 	
 	//게시물 리스트
 	public List<Board> boardList(Board board);
@@ -23,13 +19,14 @@ public interface BoardDao
 	public long boardListCount(Board board);
 	
 	//게시물 조회
-	public Board boardSelect(long bbsSeq);
+	public Board boardSelect(int bbsSeq);
 	
 	//게시물 조회수 증가
-	public int boardReadCntPlus(long bbsSeq);
+	public int boardReadCntPlus(int bbsSeq);
 	
 	//**순
 	public List<Board> boardSort(Board board);
+<<<<<<< HEAD
 	
 	//첨부파일 조회
 	public BoardFile boardFileSelect(long bbsSeq);
@@ -51,4 +48,6 @@ public interface BoardDao
 	
 	//좋아요 갯수 조회 
 	//public BoardFile boardLikeCnt(long bbsSeq);
+=======
+>>>>>>> User_
 }

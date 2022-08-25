@@ -5,17 +5,24 @@ import java.io.Serializable;
 public class Board implements Serializable
 {
 	private static final long serialVersionUID = 1L;
+<<<<<<< HEAD
 	private long bbsSeq;		//게시물고유번호
 	private String userUID;		//회원고유번호
 	private int bbsNo;			//게시판 번호
+=======
+	
+	private int bbsSeq;			//게시물고유번호
+	private String userUid;		//회원고유번호
+	private int bbsNo;		//게시판 번호
+>>>>>>> User_
 	private String bbsTitle;	//게시물 제목
 	private String bbsContent;	//내용
 	private int bbsLikeCnt;		//게시물 좋아요수
 	private int bbsReadCnt;		//게시물 조회수
 	private String regDate;		//게시물 등록일
 	private String bbsComment;	//댓글허용
-	private long commentParent;	//댓글 부모번호
-	private long commentGroup;	//댓글 그룹번호
+	private int commentParent;	//댓글 부모번호
+	private int commentGroup;	//댓글 그룹번호
 	private int commentOrder;	//댓글 그룹내순서
 	private int commentIndent;	//댓글 들여쓰기
 	
@@ -29,11 +36,18 @@ public class Board implements Serializable
 	private String searchType;	//조회항목(1:작성자, 2:제목, 3:내용)
 	private String searchValue;	//조회값
 	
-	private String sort;		//**순 정렬(1:최신글순, 2:좋아요순, 3:조회순)
+	private String sort;		//**순 정렬(1:최신글술, 2:좋아요순, 3:조회순)
 	
-	private BoardFile boardFile;	//첨부파일
+	
+	
+	public String getSort() {
+		return sort;
+	}
 
-	
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
+
 	public Board()
 	{
 		bbsSeq = 0;
@@ -59,36 +73,48 @@ public class Board implements Serializable
 		
 		searchType = "";
 		searchValue = "";
-		
-		boardFile = null;
 	}
 
 
-	public long getBbsSeq() {
+	public int getBbsSeq() {
 		return bbsSeq;
 	}
 
 
+<<<<<<< HEAD
 	public void setBbsSeq(long bbsSeq) {
+=======
+	public void setBbsSeq(int bbsSeq) {
+>>>>>>> User_
 		this.bbsSeq = bbsSeq;
 	}
 
 <<<<<<< Updated upstream
 =======
 
+<<<<<<< HEAD
 
 >>>>>>> Stashed changes
 	public String getUserUID() {
 		return userUID;
+=======
+	public String getUserUid() {
+		return userUid;
+>>>>>>> User_
 	}
 
 <<<<<<< Updated upstream
 =======
 
+<<<<<<< HEAD
 
 >>>>>>> Stashed changes
 	public void setUserUID(String userUID) {
 		this.userUID = userUID;
+=======
+	public void setUserUid(String userUid) {
+		this.userUid = userUid;
+>>>>>>> User_
 	}
 
 
@@ -162,22 +188,38 @@ public class Board implements Serializable
 	}
 
 
+<<<<<<< HEAD
 	public long getCommentParent() {
+=======
+	public int getCommentParent() {
+>>>>>>> User_
 		return commentParent;
 	}
 
 
+<<<<<<< HEAD
 	public void setCommentParent(long commentParent) {
+=======
+	public void setCommentParent(int commentParent) {
+>>>>>>> User_
 		this.commentParent = commentParent;
 	}
 
 
+<<<<<<< HEAD
 	public long getCommentGroup() {
+=======
+	public int getCommentGroup() {
+>>>>>>> User_
 		return commentGroup;
 	}
 
 
+<<<<<<< HEAD
 	public void setCommentGroup(long commentGroup) {
+=======
+	public void setCommentGroup(int commentGroup) {
+>>>>>>> User_
 		this.commentGroup = commentGroup;
 	}
 
@@ -212,6 +254,7 @@ public class Board implements Serializable
 	}
 
 
+<<<<<<< HEAD
 	public long getrNum() {
 		return rNum;
 	}
@@ -222,6 +265,8 @@ public class Board implements Serializable
 	}
 
 
+=======
+>>>>>>> User_
 	public long getStartRow() {
 		return startRow;
 	}
@@ -260,6 +305,7 @@ public class Board implements Serializable
 	public void setSearchValue(String searchValue) {
 		this.searchValue = searchValue;
 	}
+<<<<<<< HEAD
 
 
 	public String getSort() {
@@ -280,5 +326,7 @@ public class Board implements Serializable
 	public void setBoardFile(BoardFile boardFile) {
 		this.boardFile = boardFile;
 	}
+=======
+>>>>>>> User_
 	
 }

@@ -4,6 +4,7 @@
 
 <!-- 게시물 resultMap -->
 <resultMap id="boardResultMap" type="com.icia.web.model.Board">
+<<<<<<< HEAD
    <id column="BBS_SEQ" property="bbsSeq" />
    <result column="USER_UID" property="userUID" />
    <result column="USER_NICK" property="userNick" />
@@ -31,14 +32,30 @@
    <result column="FILE_EXT" property="fileExt" />
    <result column="FILE_SIZE" property="fileSize" />
    <result column="REG_DATE" property="regDate" />
+=======
+	<id column="BBS_SEQ" property="bbsSeq" />
+	<result column="USER_UID" property="userUid" />
+	<result column="USER_NICK" property="userNick" />
+	<result column="BBS_NO" property="bbsNo" />
+	<result column="BBS_TITLE" property="bbsTitle" />
+	<result column="BBS_CONTENT" property="bbsContent" />
+	<result column="BBS_LIKE_CNT" property="bbsLikeCnt" />
+	<result column="BBS_READ_CNT" property="bbsReadCnt" />
+	<result column="REG_DATE" property="regDate" />
+	<result column="BBS_COMMENT" property="bbsComment" />
+	<result column="COMMENT_PARENT" property="commentParent" />
+	<result column="COMMENT_GROUP" property="commentGroup" />
+	<result column="COMMENT_ORDER" property="commentOrder" />
+	<result column="COMMENT_INDENT" property="commentIndent" />
+>>>>>>> User_
 </resultMap>
 
 <!-- 게시물 등록 -->
 <insert id="boardInsert" parameterType="com.icia.web.model.Board">
 
 <!-- 선행처리기(시퀀스 번호 생성) -->
-<selectKey resultType="long" keyProperty="bbsSeq" order="BEFORE">
-   SELECT BBS_SEQ.NEXTVAL FROM DUAL
+<selectKey resultType="int" keyProperty="bbsSeq" order="BEFORE">
+	SELECT BBS_SEQ.NEXTVAL FROM DUAL
 </selectKey>
 
 INSERT INTO T_BOARD (BBS_SEQ,
@@ -69,6 +86,7 @@ VALUES (#{bbsSeq},
         #{commentIndent})
 </insert>
 
+<<<<<<< HEAD
 <!-- 첨부파일 등록  --> 
 <insert id="boardFileInsert" parameterType="com.icia.web.model.BoardFile">
 INSERT INTO T_BOARD_FILE (BBS_SEQ,
@@ -86,6 +104,8 @@ VALUES (#{bbsSeq},
         #{fileSize},
         SYSDATE)
 </insert>
+=======
+>>>>>>> User_
 
 <!-- 게시물 리스트 -->
 <select id="boardList" parameterType="com.icia.web.model.Board" resultMap="boardResultMap">
@@ -120,20 +140,18 @@ SELECT RNUM,
               NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD HH24:MI:SS'), '') AS REG_DATE
          FROM T_BOARD A, T_USER B
         WHERE A.USER_UID = B.USER_UID
-          AND BBS_NO = #{bbsNo}
-        
-<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>   <!-- searchType, searchValue가 있을 때 조회 -->      
-   <choose>
-      <when test='searchType == "1"'>   
+<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>	<!-- searchType, searchValue가 있을 때 조회 -->      
+	<choose>
+		<when test='searchType == "1"'>   
                    AND B.USER_NICK LIKE '%' || #{searchValue} || '%'
-      </when>
-      <when test='searchType == "2"'>
+		</when>
+		<when test='searchType == "2"'>
                    AND A.BBS_TITLE LIKE '%' || #{searchValue} || '%'
-      </when>
-      <when test='searchType == "3"'>
+		</when>
+		<when test='searchType == "3"'>
                    AND DBMS_LOB.INSTR(A.BBS_CONTENT, #{searchValue}) > 0
-      </when>
-   </choose>
+		</when>
+	</choose>
 </if>  
         ORDER BY A.BBS_SEQ DESC))
  WHERE RNUM <![CDATA[>=]]> #{startRow}
@@ -146,19 +164,18 @@ SELECT RNUM,
 SELECT COUNT(A.BBS_SEQ) AS CNT
   FROM T_BOARD A, T_USER B
  WHERE A.USER_UID = B.USER_UID
-   AND BBS_NO = #{bbsNo}
-<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>   <!-- searchType, searchValue가 있을 때 조회 -->      
-   <choose>
-      <when test='searchType == "1"'>   
+<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>	<!-- searchType, searchValue가 있을 때 조회 -->      
+	<choose>
+		<when test='searchType == "1"'>   
                    AND B.USER_NICK LIKE '%' || #{searchValue} || '%'
-      </when>
-      <when test='searchType == "2"'>
+		</when>
+		<when test='searchType == "2"'>
                    AND A.BBS_TITLE LIKE '%' || #{searchValue} || '%'
-      </when>
-      <when test='searchType == "3"'>
+		</when>
+		<when test='searchType == "3"'>
                    AND DBMS_LOB.INSTR(A.BBS_CONTENT, #{searchValue}) > 0
-      </when>
-   </choose>
+		</when>
+	</choose>
 </if>
 </select>
 
@@ -234,6 +251,7 @@ ORDER BY A.BBS_READ_CNT DESC))
    AND RNUM <![CDATA[<=]]> #{endRow}
 </select>
 
+<<<<<<< HEAD
 <!-- 첨부파일 조회 -->
 <select id="boardFileSelect" parameterType="long" resultMap="boardFileResultMap">
 SELECT BBS_SEQ,
@@ -290,3 +308,6 @@ SELECT BBS_LIKE_CNT
 </select>-->
 
 </mapper>
+=======
+</mapper>
+>>>>>>> User_
