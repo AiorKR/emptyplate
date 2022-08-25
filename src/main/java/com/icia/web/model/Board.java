@@ -5,12 +5,7 @@ import java.io.Serializable;
 public class Board implements Serializable
 {
 	private static final long serialVersionUID = 1L;
-	
-<<<<<<< Updated upstream
 	private long bbsSeq;		//게시물고유번호
-=======
-	private long bbsSeq;			//게시물고유번호
->>>>>>> Stashed changes
 	private String userUID;		//회원고유번호
 	private int bbsNo;			//게시판 번호
 	private String bbsTitle;	//게시물 제목
