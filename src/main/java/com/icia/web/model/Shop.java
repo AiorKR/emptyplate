@@ -1,14 +1,15 @@
 package com.icia.web.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Shop implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
 	
-	private String shopUid;			//매장 고유번호
-	private String userUid;			//관지자(유저)고유번호
+	private String shopUID;			//매장 고유번호
+	private String userUID;			//관지자(유저)고유번호
 	private String shopName;		//매장이름
 	private String shopType;		//매장타입
 	private String shopHoliday;		//매장휴일
@@ -28,13 +29,17 @@ public class Shop implements Serializable{
 	
 	private String searchType;	//조회항목(0: 전체, 1: 파인다이닝. 2:오마카세)
 	private String searchValue;	//검색값
-	
 	private ShopFile shopFile;
+	private List<ShopFile> shopFileList;
+	private List<ShopMenu> shopMenu;
+	private List<ShopTime> shopTime;
+	private List<ShopTotalTable> shopTotalTable;
+	private List<Order> order;
 	
 	
 	public Shop() {
-		shopUid = "";
-		userUid = "";
+		shopUID = "";
+		userUID = "";
 		shopName = "";
 		shopType = "";
 		shopHoliday = "";
@@ -49,27 +54,32 @@ public class Shop implements Serializable{
 		shopRegDate = "";
 		
 		shopFile = null;
+		shopFileList = null;
+		shopMenu = null;
+		shopTime = null;
+		shopTotalTable = null;
+		order = null;
 		
 	}
 
 
-	public String getShopUid() {
-		return shopUid;
+	public String getShopUID() {
+		return shopUID;
 	}
 
 
-	public void setShopUid(String shopUid) {
-		this.shopUid = shopUid;
+	public void setShopUID(String shopUID) {
+		this.shopUID = shopUID;
 	}
 
 
-	public String getUserUid() {
-		return userUid;
+	public String getUserUID() {
+		return userUID;
 	}
 
 
-	public void setUserUid(String userUid) {
-		this.userUid = userUid;
+	public void setUserUID(String userUID) {
+		this.userUID = userUID;
 	}
 
 
@@ -232,6 +242,45 @@ public class Shop implements Serializable{
 		this.searchValue = searchValue;
 	}
 
+	public List<ShopMenu> getShopMenu() {
+		return shopMenu;
+	}
+
+
+	public void setShopMenu(List<ShopMenu> shopMenu) {
+		this.shopMenu = shopMenu;
+	}
+
+
+	public List<ShopTime> getShopTime() {
+		return shopTime;
+	}
+
+
+	public void setShopTime(List<ShopTime> shopTime) {
+		this.shopTime = shopTime;
+	}
+
+
+	public List<ShopTotalTable> getShopTotalTable() {
+		return shopTotalTable;
+	}
+
+
+	public void setShopTotalTable(List<ShopTotalTable> shopTotalTable) {
+		this.shopTotalTable = shopTotalTable;
+	}
+
+
+	public List<Order> getOrder() {
+		return order;
+	}
+
+
+	public void setOrder(List<Order> order) {
+		this.order = order;
+	}
+
 
 	public ShopFile getShopFile() {
 		return shopFile;
@@ -241,5 +290,14 @@ public class Shop implements Serializable{
 	public void setShopFile(ShopFile shopFile) {
 		this.shopFile = shopFile;
 	}
-	
+
+
+	public List<ShopFile> getShopFileList() {
+		return shopFileList;
+	}
+
+
+	public void setShopFileList(List<ShopFile> shopFileList) {
+		this.shopFileList = shopFileList;
+	}	
 }

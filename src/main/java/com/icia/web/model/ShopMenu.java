@@ -6,27 +6,27 @@ public class ShopMenu implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String shopUid;
+	private String shopUID;
 	private String shopMenuCode;
 	private String shopMenuName;
 	private int shopMenuPrice;
 	
 	
 	public ShopMenu() {
-		shopUid = "";
+		shopUID = "";
 		shopMenuCode = "";
 		shopMenuName = "";
 		shopMenuPrice = 0;
 	}
 
 
-	public String getShopUid() {
-		return shopUid;
+	public String getShopUID() {
+		return shopUID;
 	}
 
 
-	public void setShopUid(String shopUid) {
-		this.shopUid = shopUid;
+	public void setShopUID(String shopUID) {
+		this.shopUID = shopUID;
 	}
 
 

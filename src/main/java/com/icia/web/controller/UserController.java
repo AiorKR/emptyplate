@@ -1,7 +1,10 @@
 package com.icia.web.controller;
+
 import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Response;
 import com.icia.web.model.User;
@@ -18,6 +22,7 @@ import com.icia.web.service.UserService;
 import com.icia.web.util.CookieUtil;
 import com.icia.web.util.HttpUtil;
 import com.icia.web.util.JsonUtil;
+
 @Controller("userController")
 public class UserController 
 {
@@ -50,28 +55,28 @@ public class UserController
    {
 	   return "/user/storeJoinUs";
    }
+
    //로그인
    @RequestMapping(value="/user/loginOk", method=RequestMethod.POST)
    @ResponseBody
    public Response<Object> loginOk(HttpServletRequest request, HttpServletResponse response)
    {
       Response<Object> ajaxResponse = new Response<Object>();
-      String userId = HttpUtil.get(request, "userId");
+      String userid = HttpUtil.get(request, "userId");
       String userPwd = HttpUtil.get(request, "userPwd");
       
-      if(!StringUtil.isEmpty(userId) && !StringUtil.isEmpty(userPwd))
+      if(!StringUtil.isEmpty(userid) && !StringUtil.isEmpty(userPwd))
       {
-         User user = userService.userSelect(userId);
+         User user = userService.userSelect(userid);
          
          if(user != null)
          {
             if(StringUtil.equals(user.getUserPwd(), userPwd))
             {
-            	String userUId = user.getUserUId();
-            	CookieUtil.addCookie(response, "/", -1, AUTH_COOKIE_NAME, CookieUtil.stringToHex(userUId));
+               CookieUtil.addCookie(response, "/", -1, AUTH_COOKIE_NAME, CookieUtil.stringToHex(user.getUserUID()));
                ajaxResponse.setResponse(0, "Success");
             }
-            else  
+            else
             {
                ajaxResponse.setResponse(-1, "Passwords do not match");
             }
@@ -147,7 +152,7 @@ public class UserController
    public Response<Object> regProc(HttpServletRequest request, HttpServletResponse response)
    {
 	   Response<Object> ajaxResponse = new Response<Object>();
-	   String userUId = HttpUtil.get(request, "userUId");
+	   String userUID = HttpUtil.get(request, "userUID");
 	   String userId = HttpUtil.get(request, "userId");
 	   String userPwd = HttpUtil.get(request, "userPwd");
 	   String userName = HttpUtil.get(request, "userName");
@@ -156,13 +161,13 @@ public class UserController
 	   
 	   if(!StringUtil.isEmpty(userId) && !StringUtil.isEmpty(userPwd) && !StringUtil.isEmpty(userName) && !StringUtil.isEmpty(userEmail) && !StringUtil.isEmpty(userPhone))
 	   {
-		   if(userService.userSelect(userUId) == null)
+		   if(userService.userSelect(userUID) == null)
 		   {
 			   User user = new User();
 			   
-			   String uuid = UUID.randomUUID().toString();  //uuid생성
+			   String uuid = UUID.randomUUID().toString();  //uUID생성
 	           
-			   user.setUserUId(uuid);	
+			   user.setUserUID(uuid);	
 			   user.setUserId(userId);
 	           user.setUserPwd(userPwd);
 	           user.setUserName(userName);
@@ -197,3 +202,4 @@ public class UserController
 	      return ajaxResponse;
    }
 }   
+   

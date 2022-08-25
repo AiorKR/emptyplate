@@ -64,6 +64,7 @@ public class BoardController
 		long curPage = HttpUtil.get(request, "curPage", (long)1);
 		//총 게시물 수
 		long totalCount = 0;
+
 		//게시물 리스트
 		List<Board> list = null;
 		//페이징 객체
@@ -115,12 +116,12 @@ public class BoardController
 	public String writeForm(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	{
 		//쿠키값 조회
-		String cookieUserUid = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		
-		int bbsNo = HttpUtil.get(request, "bbsNO", 0);
+		int bbsNo = HttpUtil.get(request, "bbsNo", 0);
 		
 		//사용자 정보 조회
-		User user = userService.userSelect(cookieUserUid);
+		User user = userService.userSelect(cookieUserUID);
 		
 		model.addAttribute("bbsNo", bbsNo);
 		model.addAttribute("user", user);	//user객체에 받아 writeForm 에서 사용할 이름 "user"
@@ -134,22 +135,25 @@ public class BoardController
 	public Response<Object> writeProc(MultipartHttpServletRequest request, HttpServletResponse response)
 	{
 		Response<Object> ajaxResponse = new Response<Object>();
-		String cookieUserUid = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		String bbsTitle = HttpUtil.get(request, "bbsTitle", "");	//writeForm에서 name이 넘어옴
 		String bbsContent = HttpUtil.get(request, "bbsContent", "");
 		FileData fileData = HttpUtil.getFile(request, "bbsFile", UPLOAD_SAVE_DIR);	//getFile메서드는 보내준 파일을 유효 아이디 값 생성 > 해당경로에 파일 업로드, FileData객체 생성후 값 세팅을 함. > getFile의 시작주소를 fileData가 바라봄.
 		int bbsNo = HttpUtil.get(request, "bbsNo", 0);
 		
 		
-		
 		//서버에서 다이렉트로 들어올 경우 체크
 		if(!StringUtil.isEmpty(bbsTitle) && !StringUtil.isEmpty(bbsContent))
 		{
-			Board board = new Board();
 			
-			board.setUserUid(cookieUserUid);
+			
+			Board board = new Board();
+			board.setBbsNo(bbsNo);
+			board.setUserUID(cookieUserUID);
 			board.setBbsTitle(bbsTitle);
 			board.setBbsContent(bbsContent);
+			
+			logger.debug("board에 bbsNo : " + board.getBbsNo());
 			
 			if(fileData != null && fileData.getFileSize() > 0)
 			{	
@@ -194,7 +198,7 @@ public class BoardController
     public String view(ModelMap model, HttpServletRequest request, HttpServletResponse response)
     {
        //쿠키 값
-       String cookieUserUid = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+       String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
        //게시물 번호
        long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
        //조회항목(1:작성자, 2:제목, 3:내용)
@@ -212,7 +216,7 @@ public class BoardController
        {
           board = boardService.boardView(bbsSeq);
                 
-          if(board != null && StringUtil.equals(board.getUserUid(), cookieUserUid))
+          if(board != null && StringUtil.equals(board.getUserUID(), cookieUserUID))
           {
              boardMe = "Y";
           }
@@ -233,7 +237,7 @@ public class BoardController
   	public String updateForm(ModelMap model, HttpServletRequest request, HttpServletResponse rseponse)
   	{
   		//쿠키값
-  		String cookieUserUid = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
   		//게시물 번호
   		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
   		//조회항목(1:작성자, 2:제목, 3:내용)
@@ -252,9 +256,9 @@ public class BoardController
   			
   			if(board != null)
   			{
-  				if(StringUtil.equals(board.getUserUid(), cookieUserUid))
+  				if(StringUtil.equals(board.getUserUID(), cookieUserUID))
   				{
-  					user = userService.userSelect(cookieUserUid);
+  					user = userService.userSelect(cookieUserUID);
   				}
   				else
   				{
@@ -279,7 +283,7 @@ public class BoardController
   	{
   		Response<Object> ajaxResponse = new Response<Object>();
   		
-  		String cookieUserUid = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
   		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
   		String bbsTitle = HttpUtil.get(request, "bbsTitle", "");
   		String bbsContent = HttpUtil.get(request, "bbsContent", "");
@@ -291,7 +295,7 @@ public class BoardController
   			
   			if(board != null)
   			{	
-  				if(StringUtil.equals(board.getUserUid(), cookieUserUid))
+  				if(StringUtil.equals(board.getUserUID(), cookieUserUID))
   				{	
   					board.setBbsTitle(bbsTitle);
   					board.setBbsContent(bbsContent);
@@ -347,7 +351,7 @@ public class BoardController
   	@ResponseBody
   	public Response<Object> delete(HttpServletRequest request, HttpServletResponse response)
   	{
-  		String cookieUserUid = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
   		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
   		
   		Response<Object> ajaxResponse = new Response<Object>();
@@ -357,7 +361,7 @@ public class BoardController
   			Board board = boardService.boardSelect(bbsSeq);
   			if(board != null)
   			{	
-  				if(StringUtil.equals(board.getUserUid(), cookieUserUid))
+  				if(StringUtil.equals(board.getUserUID(), cookieUserUID))
   				{	//내 게시물인지 확인 //다이렉트로 들어올 경우 방지
   					try
   					{
