@@ -73,7 +73,8 @@ public class UserController
          {
             if(StringUtil.equals(user.getUserPwd(), userPwd))
             {
-               CookieUtil.addCookie(response, "/", -1, AUTH_COOKIE_NAME, CookieUtil.stringToHex(user.getUserUID()));
+            	String userUID = user.getUserUID();
+            	CookieUtil.addCookie(response, "/", -1, AUTH_COOKIE_NAME, CookieUtil.stringToHex(userUID));
                ajaxResponse.setResponse(0, "Success");
             }
             else
