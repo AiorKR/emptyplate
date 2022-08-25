@@ -1,7 +1,6 @@
 package com.icia.web.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class ShopTime implements Serializable {
 
@@ -30,5 +29,5 @@ public class ShopTime implements Serializable {
 	public void setShopOrderTime(String shopOrderTime) {
 		this.shopOrderTime = shopOrderTime;
 	}
-
+	
 }
