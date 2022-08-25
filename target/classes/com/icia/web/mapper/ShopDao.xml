@@ -3,8 +3,8 @@
 <mapper namespace="com.icia.web.dao.ShopDao">
 
 	<resultMap id="ShopResultMap" type="com.icia.web.model.Shop">
-	<id column="SHOP_UID" property="shopUid"/>
-	<result column="USER_UID" property="userUid"/>
+	<id column="SHOP_UID" property="shopUID"/>
+	<result column="USER_UID" property="userUID"/>
 	<result column="SHOP_NAME" property="shopName"/>
 	<result column="SHOP_TYPE" property="shopType"/>
 	<result column="SHOP_HOLIDAY" property="shopHoliday"/>
@@ -21,7 +21,7 @@
 	</resultMap>
 	
 	<resultMap id="ShopFileResultMap" type="com.icia.web.model.ShopFile">
-	<id column="SHOP_UID" property="shopUid"/>
+	<id column="SHOP_UID" property="shopUID"/>
 	<result column="FILE_SEQ" property="shopFileSeq"/>
 	<result column="FILE_ORG_NAME" property="shopFileOrgName"/>
 	<result column="FILE_NAME" property="shopFileName"/>
@@ -76,8 +76,73 @@
 				</when>
 			</choose>
 		</if> 
+		<if test='searchValue != null and searchValue != "" '>
+			AND (SHOP_NAME LIKE '%' || #{searchValue} || '%' 
+                OR SHOP_LOCATION1 LIKE '%' || #{searchValue} || '%'
+                OR SHOP_LOCATION2 LIKE '%' || #{searchValue} || '%'
+                OR SHOP_LOCATION3 LIKE '%' || #{searchValue} || '%'
+                OR SHOP_ADDRESS LIKE '%' || #{searchValue} || '%'
+                OR SHOP_INTRO LIKE '%' || #{searchValue} || '%'
+                OR SHOP_HASHTAG LIKE '%' || #{searchValue} || '%' )
+		</if> 
             )
  WHERE RNUM <![CDATA[>=]]>  #{startRow}
    AND RNUM <![CDATA[<=]]>  #{endRow}
 	</select>
+	
+	<insert id="shopInsert" parameterType="com.icia.web.model.Shop">
+		INSERT INTO T_SHOP (
+    SHOP_UID,
+    USER_UID,
+    SHOP_NAME,
+    SHOP_TYPE,
+    SHOP_HOLIDAY,
+    SHOP_HASHTAG,
+    SHOP_LOCATION1,
+    SHOP_LOCATION2,
+    SHOP_LOCATION3,
+    SHOP_ADDRESS,
+    SHOP_TELEPHONE,
+    SHOP_INTRO,
+    SHOP_CONTENT,
+    REG_DATE
+) VALUES (
+    #{shopUID},
+    #{userUID},
+    #{shopName},
+    #{shopType},
+    #{shopHoliday},
+    #{shopHashtag},
+    #{shopLocation1},
+    #{shopLocation2},
+    #{shopLocation3},
+    #{shopAddress},
+    #{shopTelephone},
+    #{shopIntro},
+    #{shopContent},
+    SYSDATE
+)
+	</insert>
+
+
+	<insert id="ShopFileInsert" parameterType="com.icia.web.model.ShopFile">
+		INSERT INTO T_SHOP_FILE (
+    SHOP_UID,
+    FILE_SEQ,
+    FILE_ORG_NAME,
+    FILE_NAME,
+    FILE_EXT,
+    FILE_SIZE,
+    REG_DATE) 
+		VALUES 
+    <foreach collection="list" item="list" separator=" , ">
+        (#{list.shopUID},
+         #{list.shopFileSeq},
+         #{list.shopFileOrgName},
+         #{list.shopFileName},
+         #{list.shopFileExt},
+         #{list.shopFileSize},
+         #{list.shopFileRegDate})
+    </foreach>
+	</insert>
 </mapper>
