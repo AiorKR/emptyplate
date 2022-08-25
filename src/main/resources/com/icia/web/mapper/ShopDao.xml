@@ -32,9 +32,8 @@
 
 
 	<select id="shopListTotlaCount" resultType="long" parameterType="com.icia.web.model.Shop">
-		SELECT COUNT(A.SHOP_UID) AS CNT
-	  FROM T_SHOP A, T_SHOP_FILE B
-	 WHERE A.SHOP_UID = B.SHOP_UID
+		SELECT COUNT(SHOP_UID) AS CNT
+	  FROM T_SHOP
 <if test='searchType != null and searchType != "0" '>
 	<choose>
 		<when test='searchType == "1"'>   
@@ -126,23 +125,23 @@
 
 
 	<insert id="ShopFileInsert" parameterType="com.icia.web.model.ShopFile">
-		INSERT INTO T_SHOP_FILE (
-    SHOP_UID,
-    FILE_SEQ,
-    FILE_ORG_NAME,
-    FILE_NAME,
-    FILE_EXT,
-    FILE_SIZE,
-    REG_DATE) 
+    <foreach  collection="list" item="list" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+		INTO T_SHOP_FILE (
+		    SHOP_UID,
+		    FILE_SEQ,
+		    FILE_ORG_NAME,
+		    FILE_NAME,
+		    FILE_EXT
+		    FILE_SIZE,
+		    REG_DATE) 
 		VALUES 
-    <foreach collection="list" item="list" separator=" , ">
-        (#{list.shopUID},
-         #{list.shopFileSeq},
-         #{list.shopFileOrgName},
-         #{list.shopFileName},
-         #{list.shopFileExt},
-         #{list.shopFileSize},
-         #{list.shopFileRegDate})
+	        (#{list.shopUID},
+	         #{list.shopFileSeq},
+	         #{list.shopFileOrgName},
+	         #{list.shopFileName},
+	         #{list.shopFileExt},
+	         #{list.shopFileSize},
+	         SYSDATE)
     </foreach>
 	</insert>
 </mapper>

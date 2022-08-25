@@ -1,12 +1,11 @@
 package com.icia.web.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class ShopMenu implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	
 	private String shopUID;
 	private String shopMenuCode;
 	private String shopMenuName;
@@ -59,5 +58,5 @@ public class ShopMenu implements Serializable {
 	public void setShopMenuPrice(int shopMenuPrice) {
 		this.shopMenuPrice = shopMenuPrice;
 	}
-
+	
 }
