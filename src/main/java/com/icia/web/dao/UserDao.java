@@ -49,5 +49,8 @@ public interface UserDao
 
 	//프로필사진 등록
 	public int userFileInsert(String userFile);
+	
+	//사용자 탈퇴
+	public int userDelete(User user);
 
 }

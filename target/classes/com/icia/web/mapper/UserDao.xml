@@ -15,7 +15,6 @@
      <result column="BIZ_NUM" property="bizNum" />
      <result column="BIZ_NAME" property="bizName" />
      <result column="BIZ_DATE" property="bizDate" />
-     <result column="USER_FILE" property="userFile" />
   </resultMap>
  
   <select id="userSelect" parameterType="String" resultMap="userResultMap">
@@ -50,7 +49,6 @@
           NVL(BIZ_NUM, '') BIZ_NUM,
           NVL(BIZ_NAME, '') BIZ_NAME,
           NVL(TO_CHAR(BIZ_DATE, 'YYYY.MM.DD HH24:MI:SS') , ''),
-          NVL(USER_FILE, '') USER_FILE
      FROM T_USER
      WHERE USER_UID = #{value}
  </select>
