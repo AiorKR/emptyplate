@@ -205,20 +205,17 @@ public class BoardService
 		
 		if(board != null)
 		{
-			count = boardDao.boardDelete(bbsSeq);
+			BoardFile boardFile = board.getBoardFile();
 			
-			if(count > 0)
-			{
-				BoardFile boardFile = board.getBoardFile();
-				
-				if(boardFile != null)
-				{	
-					if(boardDao.boardFileDelete(bbsSeq) > 0)
-					{
-						FileUtil.deleteFile(UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + boardFile.getFileName());
-					}
+			if(boardFile != null)
+			{	
+				if(boardDao.boardFileDelete(bbsSeq) > 0)
+				{
+					FileUtil.deleteFile(UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + boardFile.getFileName());
 				}
 			}
+			
+			count = boardDao.boardDelete(bbsSeq);
 		}
 		
 		return count;
