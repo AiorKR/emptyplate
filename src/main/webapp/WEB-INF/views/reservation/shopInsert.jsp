@@ -43,14 +43,12 @@ $(document).ready(function() {
 	    		  else
 	    		  {
 	    			  alert("게시물 등록중 오류 발생.");
-	    			  $("#btnWrite2").prop("disabled", false);
 	    		  }
 	    	  },
 	    	  error:function(error)
 	    	  {
 	    		  icia.common.error(error);
 	    		  alert("게시물 등록 중 오류가 발생하였습니다.");
-	    		  $("#btnWrite2").prop("disabled", false);
 	    	  }
 	     	  });
 		});
