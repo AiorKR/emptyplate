@@ -18,7 +18,6 @@ import com.icia.common.model.FileData;
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Response;
 import com.icia.web.model.User;
-import com.icia.web.model.UserFile;
 import com.icia.web.service.UserService;
 import com.icia.web.util.CookieUtil;
 import com.icia.web.util.HttpUtil;
