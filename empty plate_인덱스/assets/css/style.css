@@ -4807,16 +4807,24 @@ hr[role="tournament1"]::before {
   background-color: #c78e54;  
 }
 
-#term .nav-link {
-  color: black;
-  background-color: white;
-  font-family :'cafe24Dangdanghae';
-  
+
+#term .nav-item button{
+  margin-top: 10px;
+    background: #C2A383;
+    border: 0;
+    padding: 4px 20px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 10px;
+    font-family: 'Cafe24Dangdanghae';
+    font-size: 19px;
+    float: right;
 
 }
 
 #term .nav-item:hover { /*hover가 마우스 커서가 올라가 있다면, action이 클릭을 했다면 작동*/
   border: 2px solid #c78e54;
+  border-radius: 10px;
 
 }
 
@@ -4826,6 +4834,8 @@ hr[role="tournament1"]::before {
   border-radius: 0%;
 
 }
+
+
 
 #term #pills-contact2 .title-area {
   text-align: center;
@@ -4856,7 +4866,236 @@ hr[role="tournament1"]::before {
   text-align: left;
 }
 
+/*--------------------------------------------------------------
+# aboutusstart
+--------------------------------------------------------------*/
 
+.aboutus {
+  width: 100%;
+  height: 100%;
+  background: url("../img/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+}
+
+.aboutus-container {
+  margin-top: 100px;
+}
+
+.aboutus:before {
+  content: "";
+  background: rgba(16, 16, 16);
+  opacity : 0.95;
+  position: absolute;
+  bottom: 0;
+  top: 6%;
+  left: 5%;
+  right: 5%;
+}
+
+
+.aboutus .nav-item button{
+  margin-top: 10px;
+    background: #C2A383;
+    border: 0;
+    padding: 4px 20px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 10px;
+    font-family: 'Cafe24Dangdanghae';
+    font-size: 19px;
+    float: right;
+
+}
+
+.aboutus #pills-tab .active {
+  color: white;
+  background-color: rgba(16, 16, 16);
+  border-radius: 0%;
+
+}
+
+
+.aboutus .container {
+  margin-top: 100px;
+}
+
+.reservation .section-title h2 {
+  color: #fff;
+}
+
+.aboutus .container {
+  position: relative;
+}
+
+@media (min-width: 1024px) {
+  .reservation {
+    background-attachment: fixed;
+  }
+}
+
+.reservation .reservation-carousel {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 30px;
+}
+
+.reservation .reservation-item {
+  color: #fff;
+}
+
+.reservation .reservation-item h3 {
+  font-weight: 300;
+  font-size: 40px;
+  font-family: "Do Hyeon", sans-serif;
+  color: #cda45e;
+}
+
+.reservation .reservation-item .price {
+  font-size: 20px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.reservation .reservation-item .price span {
+  border-bottom: 2px solid #cda45e;
+}
+
+.reservation .reservation-item .int i {
+  font-size: 20px;
+  padding-right: 4px;
+  color: #cda45e;
+} 
+
+.reservation .reservation-item .int {
+  font-size: 18px;
+  font-family: "Nanum Gothic Coding", monospace;
+  color: white;
+}
+
+.reservation .reservation-item ul {
+  list-style: none;
+  padding: 0;
+}
+
+.reservation .reservation-item ul li {
+  padding-bottom: 10px;
+}
+
+.reservation .reservation-item ul i {
+  font-size: 20px;
+  padding-right: 4px;
+  color: #cda45e;
+}
+
+.reservation .reservation-item p:last-child {
+  margin-bottom: 0;
+}
+
+.reservation .swiper-pagination {
+  margin-top: 30px;
+  position: relative;
+}
+
+.reservation .swiper-pagination .swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background-color: rgba(255, 255, 255, 0.4);
+  opacity: 1;
+}
+
+.reservation .swiper-pagination .swiper-pagination-bullet-active {
+  background-color: #cda45e;
+}
+
+/*
+reservation 검색
+*/
+.reservation .collapse select{
+  background: rgb(255, 255, 255);
+  border: 1px solid #C2A383;
+  /*position: relative;*/
+  width: 80px;
+  height: 30px;
+  /*background-image: */
+}
+
+.reservation .collapse .btn {
+  background: #C2A383;
+  color: rgb(255, 255, 255);
+  padding: 1px 20px;
+  position: relative;
+  border: 1px solid #C2A383;
+  float: right;
+  height: 38px;
+  width: 100px;
+  border-radius: 0%;
+}
+
+.reservation .collapse input[type=text]{
+  border: 0;
+  padding: 1px;
+  width: calc(100% - 50px);
+  background: rgba(225, 225, 225);
+  height: 38px;
+  width: 190px;
+  /*color: #0c0b09;*/
+}
+ 
+.reservation .collapse input[type=submit] {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  bottom: -1px;
+  border: 0;
+  background: none;
+  font-size: 16px;
+  padding: 0 20px 2px 20px;
+  background: #C2A383;
+  color: #fff;
+  transition: 0.3s;
+  /*border-radius: 50px;*/
+}
+
+.reservation .collapse .btn:hover {
+  background: #d3af71;
+}
+
+.reservation tr{
+  border-color: #C2A383;
+}
+
+.reservation .menutable {
+  color: #fff;
+}
+
+.star-ratings {
+  color: #aaa9a9; 
+  position: relative;
+  unicode-bidi: bidi-override;
+  width: max-content;
+  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 1.3px;
+  -webkit-text-stroke-color: #2b2a29;
+}
+ 
+.star-ratings-fill {
+  color: #fff58c;
+  padding: 0;
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  -webkit-text-fill-color: gold;
+}
+ 
+.star-ratings-base {
+  z-index: 0;
+  padding: 0;
+}
 
 
 
