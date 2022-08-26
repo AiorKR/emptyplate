@@ -48,7 +48,7 @@
           NVL(TO_CHAR(REG_DATE, 'YYYY.MM.DD HH24:MI:SS') , ''),
           NVL(BIZ_NUM, '') BIZ_NUM,
           NVL(BIZ_NAME, '') BIZ_NAME,
-          NVL(TO_CHAR(BIZ_DATE, 'YYYY.MM.DD HH24:MI:SS') , ''),
+          NVL(TO_CHAR(BIZ_DATE, 'YYYY.MM.DD HH24:MI:SS') , '')
      FROM T_USER
      WHERE USER_UID = #{value}
  </select>
