@@ -64,6 +64,10 @@ public class ShopController {
 			List<Shop> list = null;
 			//페이징 객체
 			Paging paging = null;
+			
+			String backslash = "\\";
+			
+			logger.debug(backslash);
 			//조회 객체
 			Shop search = new Shop();
 			
@@ -100,12 +104,17 @@ public class ShopController {
 				list = shopService.shopList(search);
 			}
 			
+			for(int i = 0; i < list.size(); i++) {
+				logger.debug("받아온  shop이름 list 내역 : " +list.get(i).getShopName());
+				logger.debug("받아온  shop이름 list 내역 : " +list.get(i).getShopFile().getShopFileName());
+			}
+			
 			model.addAttribute("list", list);
 			model.addAttribute("searchType", searchType);
 			model.addAttribute("searchValue", searchValue);
 			model.addAttribute("curPage", curPage);
 			model.addAttribute("paging", paging);
-			model.addAttribute("SHOP_UPLOAD_IMAGE_DIR", SHOP_UPLOAD_IMAGE_DIR);
+			model.addAttribute("backslash", backslash);
 			
 			return "/reservation/list";
 		}
@@ -128,8 +137,8 @@ public class ShopController {
 			
 			List<ShopFile> shopFileList = new ArrayList<ShopFile>();
 			
-			String shopUID = "6";
-			String userUID = "11";
+			String shopUID = "Shop_a93d61d0-3d15-4060-9bbe-9fd5e22c397b";
+			String userUID = "a93d61d0-3d15-4060-9bbe-9fd5e22c397b";
 			String shopName = HttpUtil.get(request, "shopName");
 			String shopType = HttpUtil.get(request, "shopType");
 			String shopHoliday = HttpUtil.get(request, "shopHoliday");
@@ -183,7 +192,6 @@ public class ShopController {
 			   		shopFile.setShopFileExt(fileData.getFileExt());
 			   		shopFile.setShopFileSize(fileData.getFileSize());
 				}
-		   		 
 		   		logger.debug("shopFileName : " + shopFile.getShopFileName());
 		   		 
 		   		 shopFileList.add(shopFile);

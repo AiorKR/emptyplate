@@ -1,15 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%@ page import="org.springframework.beans.factory.annotation.Value" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
     <link rel="stylesheet" href="/resources/datepicker/date_picker.css">
-
+        
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
 
 <!--date and time picker-->
@@ -63,134 +64,44 @@ $(document).ready(function() {
           <hr role="tournament2">
         </container>
         <div></div>
+        
         <div class="swiper-wrapper">
-          <div class="swiper-slide">
+        
+                    <c:if test="${!empty list}">
+            <c:forEach items="${list}" var="shop" varStatus="status">
+                   <div class="swiper-slide">
             <div class="row reservation-item">
               <div class="col-lg-6">
-                <img src="assets/img/파인다이닝.jpg" class="img-fluid" alt="">
+                <img alt="" src="${SHOP_UPLOAD_IMAGE_DIR}${backslash}${shop.shopFile.shopFileName}">
               </div>
               <div class="col-lg-6 pt-4 pt-lg-0 content">
-                <h3>empty plate식당</h3>
+                <h3> ${shop.shopName} </h3>
                 <div class="price">
-                  <p><span>₩100.0</span></p>
                 </div>
                 <p class="fst-italic">
-                  귀한 재료와 정성의 손길로 빚어내는 아름다움 empty plate의 고유함을 지니며, 현재를 반영한 '우리 한식상'을 선보입니다. 전통과 현대를 유연히 그리고 다채롭게 표현하는 한식의 모습들을 경험하세요.
+                 ${shop.shopIntro}
                 </p>
                 <ul>
-                  <li><i class="fa-solid fa-map-location-dot"></i> 인천 구월동</li>
-                  <li><i class="fa-regular fa-star"></i> 별점 4.5 (100)</li>
-                </ul>
-                <p class="int">
-                  <i class="fa-brands fa-instagram"></i> #파인다이닝 #한식 #인기많은 #인천 #구월동
-                </p>
-              </div>
-            </div>
-          </div>
-          <!-- End testimonial item -->
-          
-          <div class="swiper-slide">
-            <div class="row reservation-item">
-              <div class="col-lg-6">
-                <img src="assets/img/오마카세.jpg" class="img-fluid" alt="">
-              </div>
-              <div class="col-lg-6 pt-4 pt-lg-0 content">
-                <h3>오마카세 식당</h3>
-                <div class="price">
-                  <p><span>₩60.0</span></p>
-                </div>
-                <p class="fst-italic">
-                  오마카세 식당은 오마카세 입문으로 좋은, 최고의 가성비 오마카세를 추구합니다. 10년 이상의 경력을 지닌 일식 셰프가 조용하고 아담한 다찌 구조의 오마카세에서 손님을 정성껏 대접합니다.
-                </p>
-                <ul>
-                  <li><i class="fa-solid fa-map-location-dot"></i> 인천 청라</li>
+                  <li>
+                  <i class="fa-solid fa-map-location-dot">
+                  </i>
+                    ${shop.shopLocation1}
+                  	${shop.shopLocation2}
+                    ${shop.shopLocation3}
+                    ${shop.shopAddress}
+                   </li>
                   <li><i class="fa-regular fa-star"></i> 별점 4.3 (500)</li>
                 </ul>
                 <p class="int">
-                  <i class="fa-brands fa-instagram"></i> #오마카세 #스시 #리뷰많은 #인천 #청라
-                </p>
+                  <i class="fa-brands fa-instagram"></i> ${shop.shopHashtag}
               </div>
             </div>
           </div>
-          <!-- End testimonial item -->
-
-          <div class="swiper-slide">
-            <div class="row reservation-item">
-              <div class="col-lg-6">
-                <img src="assets/img/카페.jpg" class="img-fluid" alt="">
-              </div>
-              <div class="col-lg-6 pt-4 pt-lg-0 content">
-                <h3>커피바</h3>
-                <div class="price">
-                  <p><span>₩30.0</span></p>
-                </div>
-                <p class="fst-italic">
-                  단순 커피를 넘어 고객이 원하는 맛과 향을 선택할 수 있는 커피 페어링 코스를 통해 다양한 커피를 느껴보세요. 이제 커피바에서 커피 페어링 코스를 경험해보시기 바랍니다.
-                </p>
-                <ul>
-                  <li><i class="fa-solid fa-map-location-dot"></i> 인천 학익동</li>
-                  <li><i class="fa-regular fa-star"></i> 별점 5.0 (80)</li>
-                </ul>
-                <p class="int">
-                  <i class="fa-brands fa-instagram"></i> #커피 #디저트 #별점높은 #인천 #학익동
-                </p>
-              </div>
-            </div>
-          </div>
-          <!-- End testimonial item -->
-
-          <div class="swiper-slide">
-            <div class="row reservation-item">
-              <div class="col-lg-6">
-                <img src="assets/img/카페.jpg" class="img-fluid" alt="">
-              </div>
-              <div class="col-lg-6 pt-4 pt-lg-0 content">
-                <h3>커피바</h3>
-                <div class="price">
-                  <p><span>₩30.0</span></p>
-                </div>
-                <p class="fst-italic">
-                  단순 커피를 넘어 고객이 원하는 맛과 향을 선택할 수 있는 커피 페어링 코스를 통해 다양한 커피를 느껴보세요. 이제 커피바에서 커피 페어링 코스를 경험해보시기 바랍니다.
-                </p>
-                <ul>
-                  <li><i class="fa-solid fa-map-location-dot"></i> 인천 학익동</li>
-                  <li><i class="fa-regular fa-star"></i> 별점 5.0 (80)</li>
-                </ul>
-                <p class="int">
-                  <i class="fa-brands fa-instagram"></i> #커피 #디저트 #별점높은 #인천 #학익동
-                </p>
-              </div>
-            </div>
-          </div>
-          <!-- End testimonial item -->
-
-          <div class="swiper-slide">
-            <div class="row reservation-item">
-              <div class="col-lg-6">
-                <img src="assets/img/카페.jpg" class="img-fluid" alt="">
-              </div>
-              <div class="col-lg-6 pt-4 pt-lg-0 content">
-                <h3>커피바</h3>
-                <div class="price">
-                  <p><span>₩30.0</span></p>
-                </div>
-                <p class="fst-italic">
-                  단순 커피를 넘어 고객이 원하는 맛과 향을 선택할 수 있는 커피 페어링 코스를 통해 다양한 커피를 느껴보세요. 이제 커피바에서 커피 페어링 코스를 경험해보시기 바랍니다.
-                </p>
-                <ul>
-                  <li><i class="fa-solid fa-map-location-dot"></i> 인천 학익동</li>
-                  <li><i class="fa-regular fa-star"></i> 별점 5.0 (80)</li>
-                </ul>
-                <p class="int">
-                  <i class="fa-brands fa-instagram"></i> #커피 #디저트 #별점높은 #인천 #학익동
-                </p>
-              </div>
-            </div>
-          </div>
-          <!-- End testimonial item -->
+  </c:forEach>  
+</c:if>          
         </div>
-
         <div class="swiper-pagination"></div>
+
 
         <!--메뉴-->
         <div class="row">
@@ -267,8 +178,8 @@ $(document).ready(function() {
               <tr onClick="location.href='/reservation/view'">
                 <th scope="row">${status.count}</th>
                 <td class="w-25">
-                <fmt:setBundle var="SHOP_UPLOAD_IMAGE_DIR" basename="shop.upload.image.dir"></fmt:setBundle>
-                  <img src="" class="img-fluid img-thumbnail" alt="Sheep">
+                	<img src='${SHOP_UPLOAD_IMAGE_DIR}${backslash}${shop.shopFile.shopFileName}' class="img-fluid img-thumbnail">
+
                 </td>
                 <td>
                 	<c:out value="${shop.shopName}" />

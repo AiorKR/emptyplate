@@ -38,7 +38,7 @@ public class User implements Serializable
 	private String bizName;    // 사업자명
 	private String bizDate;	   // 사업자등록일
 
-	private UserFile userFile; //첨부파일
+	private String userFile; //첨부파일
 	/**
 	 * 생성자 
 	 */
@@ -57,14 +57,14 @@ public class User implements Serializable
 		bizNum = "";
 		bizName = "";
 		bizDate = "";
-		userFile = null;
+		userFile = "";
 	}
 
-	public UserFile getUserFile() {
+	public String getUserFile() {
 		return userFile;
 	}
 
-	public void setUserFile(UserFile userFile) {
+	public void setUserFile(String userFile) {
 		this.userFile = userFile;
 	}
 
