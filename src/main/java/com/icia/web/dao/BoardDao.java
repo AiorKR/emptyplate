@@ -54,4 +54,5 @@ public interface BoardDao
 	
 	/*//좋아요 갯수 조회
 	public long boardLikeCount(Board board);*/
+
 }

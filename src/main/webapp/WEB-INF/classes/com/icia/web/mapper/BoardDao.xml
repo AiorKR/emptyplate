@@ -297,4 +297,5 @@ SELECT COUNT(*)
  WHERE BBS_SEQ = #{bbsSeq}
 </select>-->
 
+
 </mapper>

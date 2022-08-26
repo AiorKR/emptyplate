@@ -390,7 +390,45 @@ public class BoardController
   		return ajaxResponse;
   	}
   	
-    
+	//좋아요 추가(AJAX)
+  	@RequestMapping(value="/board/like", method=RequestMethod.POST)
+  	@ResponseBody
+  	public Response<Object> boardLike(HttpServletRequest request, HttpServletResponse response)
+  	{
+  		Response<Object> ajaxResponse = new Response<Object>();
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+  		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+  		
+  		Board board = null;
+  		
+  		if(!StringUtil.isEmpty(cookieUserUID) && bbsSeq > 0)
+  		{
+   			try
+  			{
+  				if(boardService.boardLikeCheck(board) == 0)  					
+  				{
+  					boardService.boardLikeUpdate(bbsSeq);
+  					ajaxResponse.setResponse(0, "insert success");
+  				}
+  				else
+  				{
+  					boardService.boardLikeDelete(bbsSeq);
+  					ajaxResponse.setResponse(1, "delete success");
+  				}
+  			}
+  			catch(Exception e)
+  			{
+  				logger.error("[BoardController] /board/like Exception", e);
+  				ajaxResponse.setResponse(500, "internal server error");
+  			}	
+  		}
+  		else
+  		{
+  			ajaxResponse.setResponse(400, "Bad Request");
+  		}
+  		
+  		return ajaxResponse;
+  	}
   	
   	
 		

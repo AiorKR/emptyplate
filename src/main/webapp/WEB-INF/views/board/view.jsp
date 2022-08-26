@@ -73,6 +73,46 @@ $(document).ready(function() {
          });
       }
    });
+   
+   $("#btnLike").on("click", function(){
+      if(confirm("게시물을 좋아 하시겠습니까?") == true)
+      {
+         $.ajax({
+            type:"POST",
+            url:"/board/like",
+            data:{
+               bbsSeq:<c:out value="${board.bbsSeq}" />
+            },
+            datatype:"JSON",
+            beforeSend:function(xhr){
+               xhr.setRequestHeader("AJAX", "true");
+            },
+            success:function(response){
+               if(response.code == 0)
+                 {
+                  alert("좋아요를 클릭하셨습니다.");
+                  location.href = "/board/list";
+                 }
+               else if(response.code == 1)
+                 {
+                  alert("좋아요를 취소하셨습니다.");
+                 }
+               else if(response.code == 400)
+               {
+                alert("로그인 후 좋아요 버튼을 사용하실 수 있습니다.");
+               }
+               else
+                 {
+                  alert("좋아요 중 오류가 발생하였습니다.");
+                 }
+            },
+            error:function(xhr, status, error){
+               icia.common.error(error);
+            }
+         });
+      }
+   });
+   
 });   
 </script>
 </head>
