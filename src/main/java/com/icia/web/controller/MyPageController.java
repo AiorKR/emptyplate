@@ -53,5 +53,19 @@ public class MyPageController {
       
       return "/myPage/myProfile";
    }
-
+   
+   //팝업로드
+   
+   @RequestMapping(value="/myPage/nick_popup", method=RequestMethod.GET)
+   public String nick_popup(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+   {
+      String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+       User user = null;
+      
+      user = userService.userUIDSelect(userUID);
+              
+      model.addAttribute("user", user);
+      
+      return "/myPage/nick_popup";
+   }
 }
