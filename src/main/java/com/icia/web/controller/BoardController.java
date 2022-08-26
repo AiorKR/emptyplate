@@ -399,15 +399,18 @@ public class BoardController
   		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
   		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
   		
-  		Board board = null;
+  		Board board = new Board();
   		
   		if(!StringUtil.isEmpty(cookieUserUID) && bbsSeq > 0)
   		{
    			try
   			{
+   				board.setBbsSeq(bbsSeq);
+   				board.setUserUID(cookieUserUID);
+   				
   				if(boardService.boardLikeCheck(board) == 0)  					
   				{
-  					boardService.boardLikeUpdate(bbsSeq);
+  					boardService.boardLikeUpdate(board);
   					ajaxResponse.setResponse(0, "insert success");
   				}
   				else

@@ -256,13 +256,12 @@ public class BoardService
 	}
 	
 	//좋아요 추가
-	public int boardLikeUpdate(long bbsSeq)
+	public int boardLikeUpdate(Board board)
 	{
-		int count = boardDao.boardLikeUpdate(bbsSeq);
-		
+		int count = 0;
 		try
 		{
-			count = boardDao.boardLikeUpdate(bbsSeq);
+			count = boardDao.boardLikeUpdate(board);
 		}
 		catch(Exception e)
 		{

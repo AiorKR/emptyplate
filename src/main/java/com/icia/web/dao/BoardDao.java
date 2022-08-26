@@ -47,7 +47,7 @@ public interface BoardDao
 	public int boardLikeCheck(Board board);
 	
 	//좋아요 추가
-	public int boardLikeUpdate(long bbsSeq);
+	public int boardLikeUpdate(Board board);
 	
 	//좋아요 취소
 	public int boardLikeDelete (long bbsSeq);

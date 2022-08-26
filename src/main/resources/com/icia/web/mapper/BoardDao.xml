@@ -268,7 +268,7 @@ DELETE FROM T_BOARD_FILE
 </delete>
 
 <!-- 동일 게시글 좋아요 여부 확인 -->
-<select id="boardLikeCheck" parameterType="com.icia.web.model.Board" resultType="long">
+<select id="boardLikeCheck" parameterType="com.icia.web.model.Board" resultType="int">
 SELECT COUNT(*)
   FROM T_BOARD_LIKE
  WHERE BBS_SEQ = #{bbsSeq}
