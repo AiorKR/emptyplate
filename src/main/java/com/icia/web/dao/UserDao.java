@@ -1,6 +1,6 @@
 /**
  * <pre>
- * 프로젝트명 : HiBoard
+ * 프로젝트명 : EmptyPlate
  * 패키지명   : com.icia.web.dao
  * 파일명     : UserDao.java
  * 작성일     : 2021. 1. 19.

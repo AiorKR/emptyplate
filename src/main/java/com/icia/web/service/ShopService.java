@@ -51,8 +51,10 @@ public class ShopService {
 			logger.debug("searchType : " +  shop.getSearchType());
 			
 			try
-			{
+			{	
 				list = shopDao.shopList(shop);
+				
+				logger.debug("list 다오에서 받은 후 : " + list);
 			}
 			catch(Exception e)
 			{

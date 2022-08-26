@@ -67,6 +67,10 @@
             			<value>/user/regProc</value>
             			<value>/user/idCheck</value>
             			<value>/reservation/list</value>
+            			<value>/board/list</value>
+            			<value>/board/view</value>
+            			<value>/board/like</value>
+            			<value>/reservation/shopInsert</value>
             			<value>/today/list</value>
             			<value>/help/index</value>
             			<value>/myPage/myProfile</value>

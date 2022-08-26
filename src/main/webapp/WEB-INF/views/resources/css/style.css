@@ -1575,10 +1575,11 @@ section {
   opacity : 0.95;
   position: absolute;
   bottom: 0;
-  top: 12.3%;
+  top: 115px;
   left: 5%;
   right: 5%;
 }
+
 
 /*제목*/
 #communityView .board-title {
