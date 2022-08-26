@@ -71,7 +71,7 @@ public class BoardController
 		List<Board> sort = null;
 		//게시판 번호
 		search.setBbsNo(5);
-		
+  		
 		if(!StringUtil.isEmpty(searchType) && !StringUtil.isEmpty(searchValue))
 		{
 			search.setSearchType(searchType);
@@ -103,6 +103,8 @@ public class BoardController
 		model.addAttribute("curPage", curPage);
 		model.addAttribute("sort", sort);
 		model.addAttribute("paging", paging);
+		model.addAttribute("board", search);
+		
 		
 		return "/board/list";
 	}
@@ -411,12 +413,12 @@ public class BoardController
   				if(boardService.boardLikeCheck(board) == 0)  					
   				{
   					boardService.boardLikeUpdate(board);
-  					ajaxResponse.setResponse(0, "insert success");
+  					ajaxResponse.setResponse(0, "boardlike insert success");
   				}
   				else
   				{
-  					boardService.boardLikeDelete(bbsSeq);
-  					ajaxResponse.setResponse(1, "delete success");
+  					boardService.boardLikeDelete(board);
+  					ajaxResponse.setResponse(1, "boardlike delete success");
   				}
   			}
   			catch(Exception e)
