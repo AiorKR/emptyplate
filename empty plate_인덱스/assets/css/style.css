@@ -4750,135 +4750,121 @@ hr[role="tournament1"]::before {
 /*
 약관 css
 */
-.term {
+#term {
   width: 100%;
   height: 100%;
   background: url("../img/hero-bg.jpg") top center;
   background-size: cover;
   position: relative;
   padding: 0;
+  
 }
 
-.term .container {
+#term .container {
   margin-top: 300px;
 }
 
-.term:before {
+#term .row{
   content: "";
   background: rgba(16, 16, 16);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
-  top: 6%;
+  top: 50%;
   left: 5%;
-  right: 5%;
+  right: 15%;
 }
 
-.term .section-title h2 {
-  color: #fff;
-}
 
-.term .container {
+#term .container {
   position: relative;
 }
 
+#term .row {
+  position: relative;
+  top: -20vh;
+}
+
+
 @media (min-width: 1024px) {
-  .term {
+  #term {
     background-attachment: fixed;
   }
 }
 
-.term .term-carousel {
+#term .term-carousel {
   background: rgba(255, 255, 255, 0.08);
   padding: 30px;
 }
 
-.term .term-item {
-  color: #fff;
-}
-
-.term .term-item h3 {
-  font-weight: 300;
-  font-size: 40px;
-  font-family: "Do Hyeon", sans-serif;
-  color: #cda45e;
-}
-
-.term .term-item .price {
-  font-size: 20px;
-  font-family: "Open Sans", sans-serif;
-  font-weight: 500;
-  margin-bottom: 15px;
-}
-
-.term .term-item .price span {
-  border-bottom: 2px solid #cda45e;
-}
-
-.term .term-item .int i {
-  font-size: 20px;
-  padding-right: 4px;
-  color: #cda45e;
-} 
-
-.term .term-item .int {
-  font-size: 18px;
-  font-family: "Nanum Gothic Coding", monospace;
-  color: white;
-}
-
-.term .term-item ul {
-  list-style: none;
-  padding: 0;
-}
-
-.term .term-item ul li {
-  padding-bottom: 10px;
-}
-
-.term .term-item ul i {
-  font-size: 20px;
-  padding-right: 4px;
-  color: #cda45e;
-}
-
-.term .term-item p:last-child {
-  margin-bottom: 0;
-}
-
-.term .footer-info {
+#term .footer-info {
   text-align: left;
   width: 100vh;
 }
-.term #dropdown1 {
-  display: none;
-}
-.term .select {
+
+#term .select {
   color: white;
   background-color: #c78e54;  
 }
 
-.term .nav-link {
+#term .nav-link {
   color: black;
   background-color: white;
   font-family :'cafe24Dangdanghae';
-
-}
-.term .row {
-  position: relative;
-  top: 0vh;
-}
-
-.term .nav-item:hover { /*hover가 마우스 커서가 올라가 있다면, action이 클릭을 했다면 작동*/
-  border: 3px solid #c78e54;
+  
 
 }
 
-.term #pills-tab .active {
+#term .nav-item:hover { /*hover가 마우스 커서가 올라가 있다면, action이 클릭을 했다면 작동*/
+  border: 2px solid #c78e54;
+
+}
+
+#term #pills-tab .active {
   color: white;
   background-color: rgba(16, 16, 16);
   border-radius: 0%;
 
 }
+
+#term #pills-contact2 .title-area {
+  text-align: center;
+}
+
+#term #pills-contact2 .storequestion{
+  padding: 50px 300px;
+}
+
+#term .container .row #inquiryBtn {
+  margin-top: 10px;
+  background: #c78e54;
+  border: 0;
+  padding: 20px 60px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 19px;
+  float: center;
+  
+}
+#term .inquiry {
+  text-align:center;
+}
+
+#term .doc #doc-inner {
+  text-align: left;
+}
+
+
+
+
+
+
+
+
+
+
+
 /*rlist.html CSS끝*/
 
