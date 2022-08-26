@@ -12,6 +12,8 @@
 <script type="text/javascript" src="/resources/js/icia.common.js"></script>
 <script src="https://kit.fontawesome.com/def66b134a.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
+
+function showPopupNick() { window.open("./nick_popup", "b", "width=400, height=100, margin=auto"); }
 </script>
 <style>
 .btn-upload {
@@ -59,7 +61,7 @@
                        </div>
                     </form>  
                     </div>
-                <div class = "profile-card-name"><span>${user.userNick}</span><button class = "mypage-profile-btn"><i class="fa-solid fa-pen-to-square"></i></button></div>
+                <div class = "profile-card-name"><span>${user.userNick}</span><button class = "mypage-profile-btn"  onclick="showPopupNick()"><i class="fa-solid fa-pen-to-square"></i></button></div>
                 <div class = "profile-card-intro">
                   <form style="margin-top: 20px;">아이디 : <span><c:out value="${user.userId}" /></span></form>
                   <hr>
