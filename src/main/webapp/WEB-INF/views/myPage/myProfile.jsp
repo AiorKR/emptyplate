@@ -1,4 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+   // 개행문자 값을 저장한다.
+   pageContext.setAttribute("newLine", "\n");
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,7 +27,8 @@
 #file {
   display: none;
 }
-</style> 
+</style>
+
 </head>
 
 <body style="background:linear-gradient(grey,antiquewhite);">
@@ -32,7 +37,7 @@
   <main id="main">
    <section class="mypage">
         <!--마이페이지-->
- 	</br></br>
+    </br></br>
     <container class="mypage-cont">
      <div class="mypage-title">내 프로필</div>         
        <hr role="tournament1">
@@ -46,23 +51,23 @@
                     <img src="/image/${login.memberImg}" class = 'profile-card-img'>
                     <div>
                     <form action="user/userImgFile" method="post" enctyoe="multipart/form-data">
-                    	<input type="hidden" name="memberId" id="memberId" value="${login.memberId}">
-                    	<label for="file">
-  							<div class="btn-upload"><p type="submit" class = "mypage-profile-btn">프로필사진변경<i class="fa-solid fa-pen-to-square"></i></p></div>
-						</label>
-							<input type="file" name="file" id="file">
-                    	</div>
-              		</form>  
-              		</div>
-                <div class = "profile-card-name"><span>유저닉네임</span><button class = "mypage-profile-btn"><i class="fa-solid fa-pen-to-square"></i></button></div>
+                       <input type="hidden" name="memberId" id="memberId" value="${login.memberId}">
+                       <label for="file">
+                       <div class="btn-upload"><p type="submit" class = "mypage-profile-btn">프로필사진변경<i class="fa-solid fa-pen-to-square"></i></p></div>
+                  </label>
+                     <input type="file" name="file" id="file">
+                       </div>
+                    </form>  
+                    </div>
+                <div class = "profile-card-name"><span>${user.userNick}</span><button class = "mypage-profile-btn"><i class="fa-solid fa-pen-to-square"></i></button></div>
                 <div class = "profile-card-intro">
-                  <form style="margin-top: 20px;">아이디 : <span>brown</span></form>
+                  <form style="margin-top: 20px;">아이디 : <span><c:out value="${user.userId}" /></span></form>
                   <hr>
-                  <form style="margin-top: 20px;">이메일 : <span>brown@icia.co.kr</span>&nbsp;<button><i class="fa-solid fa-pen-to-square"></i></button></form>
+                  <form style="margin-top: 20px;">이메일 : <span><c:out value="${user.userEmail}" /></span>&nbsp;<button><i class="fa-solid fa-pen-to-square"></i></button></form>
                   <hr>
-                  <form style="margin-top: 20px;">이름 : <span>브라운 킴</span>&nbsp;</form>    
+                  <form style="margin-top: 20px;">이름 : <span><c:out value="${user.userName}" /></span>&nbsp;</form>    
                   <hr>
-                  <form style="margin-top: 20px;">전화번호 : <span>010-1234-1234</span>&nbsp;<button><i class="fa-solid fa-pen-to-square"></i></button></form>
+                  <form style="margin-top: 20px;">전화번호 : <span><c:out value="${user.userPhone}" /></span>&nbsp;<button><i class="fa-solid fa-pen-to-square"></i></button></form>
                   <hr>
                   <form style="margin-top: 20px;"><button class="btn-password">비밀번호변경</button></form><br/><br/>
                   <form style="margin-top: 20px;"><button style="color: gray; text-decoration:underline; float: right;">회원탈퇴</button></form>
