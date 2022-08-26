@@ -34,6 +34,7 @@
 	<select id="shopListTotlaCount" resultType="long" parameterType="com.icia.web.model.Shop">
 		SELECT COUNT(SHOP_UID) AS CNT
 	  FROM T_SHOP
+	  WHERE 1 = 1
 <if test='searchType != null and searchType != "0" '>
 	<choose>
 		<when test='searchType == "1"'>   
@@ -65,6 +66,7 @@
 	                NVL(B.FILE_SIZE, 0) AS FILE_SIZE
 	           FROM T_SHOP A, T_SHOP_FILE B
 	          WHERE A.SHOP_UID = B.SHOP_UID
+	            AND B.FILE_ORG_NAME LIKE '%'|| '상호' ||'%'
         <if test='searchType != null and searchType != "0" '>
 			<choose>
 				<when test='searchType == "1"'>   
@@ -131,7 +133,7 @@
 		    FILE_SEQ,
 		    FILE_ORG_NAME,
 		    FILE_NAME,
-		    FILE_EXT
+		    FILE_EXT,
 		    FILE_SIZE,
 		    REG_DATE) 
 		VALUES 
