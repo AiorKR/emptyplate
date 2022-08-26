@@ -241,6 +241,72 @@ public class BoardService
 		return boardFile;
 	}
 	
+	//동일 게시글 좋아요 여부 확인
+	public int boardLikeCheck(Board board)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = boardDao.boardLikeCheck(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardLikeCheck Exception", e);
+		}
+		
+		return count;
+	}
 	
+	//좋아요 추가
+	public int boardLikeUpdate(long bbsSeq)
+	{
+		int count = boardDao.boardLikeUpdate(bbsSeq);
+		
+		try
+		{
+			count = boardDao.boardLikeUpdate(bbsSeq);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardLikeUpdate Exception", e);
+		}
+		
+		return count;
+	}
+	
+	//좋아요 취소
+	public int boardLikeDelete (long bbsSeq)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = boardDao.boardLikeDelete(bbsSeq);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardLikeDelete Exception", e);
+		}
+		
+		return count;
+	}
+	
+	/*//좋아요 갯수 조회
+	public long boardLikeCount(Board board)
+	{
+		long count = 0;
+		
+		try
+		{
+			count = boardDao.boardLikeCount(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardLikeCount Exception", e);
+		}
+		
+		return count;
+	}*/
 
 }

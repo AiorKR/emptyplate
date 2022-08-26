@@ -390,42 +390,7 @@ public class BoardController
   		return ajaxResponse;
   	}
   	
-    /*
-    //첨부파일 다운로드
-  	@RequestMapping(value="/board/download")
-  	public ModelAndView download(HttpServletRequest request, HttpServletResponse response)
-  	{
-  		ModelAndView modelAndView = null;
-  		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
-  		
-  		if(bbsSeq > 0)
-  		{
-  			BoardFile boardFile = boardService.boardFileSelect(bbsSeq);
-  			
-  			if(boardFile != null)
-  			{
-  				File file = new File(UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + boardFile.getFileName());
-  				
-  				logger.debug("UPLOAD_SAVE_DIR : " + UPLOAD_SAVE_DIR);
-  				logger.debug("FileUtil.getFileSeparator() : " + FileUtil.getFileSeparator());
-  				logger.debug("hiBoardFile.getFileName() : " + boardFile.getFileName());
-  				
-  				if(FileUtil.isFile(file))
-  				{
-  					modelAndView = new ModelAndView();
-  					
-  					//응답할 view 설정(servlet-context.xml에 정의한 FileDownloadView id 사용)
-  					modelAndView.setViewName("fileDownloadView");
-  					modelAndView.addObject("file", file);
-  					modelAndView.addObject("fileName", boardFile.getFileOrgName());
-  					
-  					return modelAndView;
-  				}
-  			}
-  		}
-  		
-  		return modelAndView;
-  	}*/
+    
   	
   	
 		
