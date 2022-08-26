@@ -390,42 +390,48 @@ public class BoardController
   		return ajaxResponse;
   	}
   	
-    /*
-    //첨부파일 다운로드
-  	@RequestMapping(value="/board/download")
-  	public ModelAndView download(HttpServletRequest request, HttpServletResponse response)
+	//좋아요 추가(AJAX)
+  	@RequestMapping(value="/board/like", method=RequestMethod.POST)
+  	@ResponseBody
+  	public Response<Object> boardLike(HttpServletRequest request, HttpServletResponse response)
   	{
-  		ModelAndView modelAndView = null;
+  		Response<Object> ajaxResponse = new Response<Object>();
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
   		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
   		
-  		if(bbsSeq > 0)
+  		Board board = new Board();
+  		
+  		if(!StringUtil.isEmpty(cookieUserUID) && bbsSeq > 0)
   		{
-  			BoardFile boardFile = boardService.boardFileSelect(bbsSeq);
-  			
-  			if(boardFile != null)
+   			try
   			{
-  				File file = new File(UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + boardFile.getFileName());
-  				
-  				logger.debug("UPLOAD_SAVE_DIR : " + UPLOAD_SAVE_DIR);
-  				logger.debug("FileUtil.getFileSeparator() : " + FileUtil.getFileSeparator());
-  				logger.debug("hiBoardFile.getFileName() : " + boardFile.getFileName());
-  				
-  				if(FileUtil.isFile(file))
+   				board.setBbsSeq(bbsSeq);
+   				board.setUserUID(cookieUserUID);
+   				
+  				if(boardService.boardLikeCheck(board) == 0)  					
   				{
-  					modelAndView = new ModelAndView();
-  					
-  					//응답할 view 설정(servlet-context.xml에 정의한 FileDownloadView id 사용)
-  					modelAndView.setViewName("fileDownloadView");
-  					modelAndView.addObject("file", file);
-  					modelAndView.addObject("fileName", boardFile.getFileOrgName());
-  					
-  					return modelAndView;
+  					boardService.boardLikeUpdate(board);
+  					ajaxResponse.setResponse(0, "insert success");
+  				}
+  				else
+  				{
+  					boardService.boardLikeDelete(bbsSeq);
+  					ajaxResponse.setResponse(1, "delete success");
   				}
   			}
+  			catch(Exception e)
+  			{
+  				logger.error("[BoardController] /board/like Exception", e);
+  				ajaxResponse.setResponse(500, "internal server error");
+  			}	
+  		}
+  		else
+  		{
+  			ajaxResponse.setResponse(400, "Bad Request");
   		}
   		
-  		return modelAndView;
-  	}*/
+  		return ajaxResponse;
+  	}
   	
   	
 		
