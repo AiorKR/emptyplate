@@ -103,7 +103,6 @@ public class BoardController
 		model.addAttribute("curPage", curPage);
 		model.addAttribute("sort", sort);
 		model.addAttribute("paging", paging);
-		model.addAttribute("board", search);
 		
 		
 		return "/board/list";

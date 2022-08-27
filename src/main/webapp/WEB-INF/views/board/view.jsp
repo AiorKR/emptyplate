@@ -88,7 +88,7 @@ $(document).ready(function() {
 	       success:function(response){
 	          if(response.code == 0)
 	            {
-	             alert("좋아요를 클릭하셨습니다.");
+	             alert("좋아요를 하셨습니다.");
 	             location.reload();
 	            }
 	          else if(response.code == 1)
@@ -98,7 +98,7 @@ $(document).ready(function() {
 	            }
 	          else if(response.code == 400)
 	          {
-	           alert("로그인 후 좋아요 버튼을 사용하실 수 있습니다.");
+	           alert("로그인 후, 좋아요 버튼을 사용하실 수 있습니다.");
 	          }
 	          else
 	            {
@@ -138,8 +138,8 @@ $(document).ready(function() {
            </c:if>
            </div>
            
-           <div class="d-flex flex-row justify-content-center">
-             <div class="like"><button type="button" id="btnLike" class="like"><ion-icon name="heart"></ion-icon>&nbsp;&nbsp;좋아요  <span class="likeCount">${board.bbsLikeCnt}</span></button></div>
+           <div class="d-flex flex-row justify-content-center"> 
+             <div class="like"><button type="button" id="btnLike" class="like"><ion-icon name="heart"></ion-icon>&nbsp;&nbsp;좋아요  <span class="likeCount">${board.bbsLikeCnt}</span></button></div> 
              <div class="bookmark"><button type="button" id="btnBoomark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
            </div>
        </div>

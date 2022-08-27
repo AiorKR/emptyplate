@@ -119,7 +119,7 @@ SELECT RNUM,
               NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD HH24:MI:SS'), '') AS REG_DATE
          FROM T_BOARD A, T_USER B, (SELECT COUNT(*) AS BBS_LIKE_CNT
                                       FROM T_BOARD_LIKE
-                                     WHERE BBS_SEQ = 85) C
+                                     WHERE BBS_SEQ = #{bbsSeq}) C
         WHERE A.USER_UID = B.USER_UID
           AND A.BBS_NO = #{bbsNo}
 <if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>	<!-- searchType, searchValue가 있을 때 조회 -->      
@@ -291,13 +291,6 @@ DELETE FROM T_BOARD_LIKE
  WHERE BBS_SEQ = #{bbsSeq}
    AND USER_UID = #{userUID}
 </delete>
-
-<!-- 좋아요 갯수 조회 
-<select id="boardLikeCount" parameterType="long" resultMap="boardResultMap">
-SELECT COUNT(*)
-  FROM T_BOARD_LIKE
- WHERE BBS_SEQ = #{bbsSeq}
-</select>-->
 
 
 </mapper>
