@@ -114,26 +114,24 @@ SELECT RNUM,
               NVL(A.BBS_NO, 0) AS BBS_NO,
               NVL(BBS_TITLE, '') AS BBS_TITLE,
               NVL(BBS_CONTENT, '') AS BBS_CONTENT,
-              C.BBS_LIKE_CNT AS BBS_LIKE_CNT,
+              A.BBS_LIKE_CNT AS BBS_LIKE_CNT,
               NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
               NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD HH24:MI:SS'), '') AS REG_DATE
-         FROM T_BOARD A, T_USER B, (SELECT COUNT(*) AS BBS_LIKE_CNT
-                                      FROM T_BOARD_LIKE
-                                     WHERE BBS_SEQ = #{bbsSeq}) C
+         FROM T_BOARD A, T_USER B
         WHERE A.USER_UID = B.USER_UID
           AND A.BBS_NO = #{bbsNo}
-<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>	<!-- searchType, searchValue가 있을 때 조회 -->      
-	<choose>
-		<when test='searchType == "1"'>   
+<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>   
+   <choose>
+      <when test='searchType == "1"'>   
                    AND B.USER_NICK LIKE '%' || #{searchValue} || '%'
-		</when>
-		<when test='searchType == "2"'>
+      </when>
+      <when test='searchType == "2"'>
                    AND A.BBS_TITLE LIKE '%' || #{searchValue} || '%'
-		</when>
-		<when test='searchType == "3"'>
+      </when>
+      <when test='searchType == "3"'>
                    AND DBMS_LOB.INSTR(A.BBS_CONTENT, #{searchValue}) > 0
-		</when>
-	</choose>
+      </when>
+   </choose>
 </if>  
         ORDER BY A.BBS_SEQ DESC))
  WHERE RNUM <![CDATA[>=]]> #{startRow}
@@ -220,15 +218,28 @@ SELECT RNUM,
   FROM T_BOARD A, T_USER B 
  WHERE A.USER_UID = B.USER_UID
    AND A.BBS_NO = #{bbsNo}
+<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>	<!-- searchType, searchValue가 있을 때 조회 -->      
+	<choose>
+		<when test='searchType == "1"'>   
+                   AND B.USER_NICK LIKE '%' || #{searchValue} || '%'
+		</when>
+		<when test='searchType == "2"'>
+                   AND A.BBS_TITLE LIKE '%' || #{searchValue} || '%'
+		</when>
+		<when test='searchType == "3"'>
+                   AND DBMS_LOB.INSTR(A.BBS_CONTENT, #{searchValue}) > 0
+		</when>
+	</choose>
+</if>   
 <choose>
 <when test='sort == "dateCount"'>
-ORDER BY A.REG_DATE DESC))
+ORDER BY REG_DATE DESC))
 </when>
 <when test='sort == "likeCount"'>
-ORDER BY A.BBS_LIKE_CNT DESC))
+ORDER BY BBS_LIKE_CNT DESC))
 </when>
 <when test='sort == "readCount"'>
-ORDER BY A.BBS_READ_CNT DESC))
+ORDER BY BBS_READ_CNT DESC))
 </when>
 </choose>
  WHERE RNUM <![CDATA[>=]]> #{startRow}
@@ -291,6 +302,15 @@ DELETE FROM T_BOARD_LIKE
  WHERE BBS_SEQ = #{bbsSeq}
    AND USER_UID = #{userUID}
 </delete>
+
+<!-- 좋아요 수 업데이트 -->
+<update id="boardLikeCntUpdate" parameterType="com.icia.web.model.Board">
+UPDATE T_BOARD A
+   SET ( A.BBS_LIKE_CNT ) = ( SELECT COUNT(*)
+                             FROM T_BOARD_LIKE B
+                            WHERE B.BBS_SEQ = #{bbsSeq})
+ WHERE A.BBS_SEQ = #{bbsSeq}
+</update>
 
 
 </mapper>

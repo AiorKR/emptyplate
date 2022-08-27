@@ -81,22 +81,6 @@ public class BoardService
 		return count;
 	}
 	
-	//게시물 조회
-	public Board boardSelect(long bbsSeq)
-	{
-		Board board = null;
-		
-		try
-		{
-			board = boardDao.boardSelect(bbsSeq);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] boardSelect Exception", e);
-		}
-		return board;
-	}
-	
 	//**순
 	public List<Board> boardSort(Board board)
 	{
@@ -112,6 +96,22 @@ public class BoardService
 		}
 		
 		return sort;
+	}
+	
+	//게시물 조회
+	public Board boardSelect(long bbsSeq)
+	{
+		Board board = null;
+		
+		try
+		{
+			board = boardDao.boardSelect(bbsSeq);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardSelect Exception", e);
+		}
+		return board;
 	}
 	
 	//게시물 조회(첨부파일 포함)
@@ -288,5 +288,23 @@ public class BoardService
 		
 		return count;
 	}
+	
+	//좋아요 수 업데이트
+	public int boardLikeCntUpdate(Board board)
+	{
+		int count = 0;
+      
+		try
+		{
+			count = boardDao.boardLikeCntUpdate(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardLikeCntUpdate Exception", e);
+		}
+      
+		return count;
+   }
+
 
 }

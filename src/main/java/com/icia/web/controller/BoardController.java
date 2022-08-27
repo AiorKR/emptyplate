@@ -63,12 +63,13 @@ public class BoardController
 		long totalCount = 0;
 		//게시물 리스트
 		List<Board> list = null;
+		//**순
+		List<Board> sort = null;
+		//String sort = HttpUtil.get(request, "sort", "");
 		//페이징 객체
 		Paging paging = null;
 		//조회 객체
 		Board search = new Board();
-		//**순
-		List<Board> sort = null;
 		//게시판 번호
 		search.setBbsNo(5);
   		
@@ -185,6 +186,42 @@ public class BoardController
 		
 		return ajaxResponse;
 	}
+	
+	/*//파일 등록(AJAX)
+	@RequestMapping(value="/board/fileUpload", method=RequestMethod.POST)
+	@ResponseBody
+	public Response<Object> fileUpload(MultipartHttpServletRequest request, HttpServletResponse response)
+	{
+		Response<Object> ajaxResponse = new Response<Object>();
+		FileData fileData = HttpUtil.getFile(request, "bbsFile", UPLOAD_SAVE_DIR);
+		
+		Board board = new Board();
+		
+		if(fileData != null && fileData.getFileSize() > 0)
+		{				
+			BoardFile boardFile = new BoardFile();
+
+			//파일이름 
+			String fileName = boardFile.getFileOrgName();
+			boardFile.setFileName(fileName);
+			
+			//uuid 적용 파일이름
+			String uuid = UUID.randomUUID().toString();
+			boardFile.setUuid(uuid);
+			fileName = uuid + "_" + fileName;
+			
+			BoardFile saveFile = new BoardFile();
+			
+			saveFile.setFileName(fileData.getFileName());
+			saveFile.setFileOrgName(fileData.getFileOrgName());
+			saveFile.setFileExt(fileData.getFileExt());
+			saveFile.setFileSize(fileData.getFileSize());
+			
+			board.setBoardFile(boardFile);	
+		}
+		
+		return ajaxResponse;
+	}	*/
 	
 	//게시물 조회
     @RequestMapping(value="/board/view")
@@ -419,6 +456,8 @@ public class BoardController
   					boardService.boardLikeDelete(board);
   					ajaxResponse.setResponse(1, "boardlike delete success");
   				}
+  				
+  				boardService.boardLikeCntUpdate(board);
   			}
   			catch(Exception e)
   			{
@@ -433,7 +472,5 @@ public class BoardController
   		
   		return ajaxResponse;
   	}
-  	
-  	
 		
 }
