@@ -24,6 +24,7 @@ public class BoardFile implements Serializable
 		fileExt = "";
 		fileSize = 0;
 		regDate = "";
+		
 	}
 
 

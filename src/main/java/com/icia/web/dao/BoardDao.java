@@ -51,5 +51,9 @@ public interface BoardDao
 	
 	//좋아요 취소
 	public int boardLikeDelete(Board board);
+	
+	//좋아요 수 업데이트
+	public int boardLikeCntUpdate(Board board);
+
 
 }
