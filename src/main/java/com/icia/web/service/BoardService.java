@@ -259,6 +259,7 @@ public class BoardService
 	public int boardLikeUpdate(Board board)
 	{
 		int count = 0;
+		
 		try
 		{
 			count = boardDao.boardLikeUpdate(board);
@@ -272,13 +273,13 @@ public class BoardService
 	}
 	
 	//좋아요 취소
-	public int boardLikeDelete (long bbsSeq)
+	public int boardLikeDelete(Board board)
 	{
 		int count = 0;
 		
 		try
 		{
-			count = boardDao.boardLikeDelete(bbsSeq);
+			count = boardDao.boardLikeDelete(board);
 		}
 		catch(Exception e)
 		{
@@ -287,22 +288,5 @@ public class BoardService
 		
 		return count;
 	}
-	
-	/*//좋아요 갯수 조회
-	public long boardLikeCount(Board board)
-	{
-		long count = 0;
-		
-		try
-		{
-			count = boardDao.boardLikeCount(board);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] boardLikeCount Exception", e);
-		}
-		
-		return count;
-	}*/
 
 }

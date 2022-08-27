@@ -114,10 +114,12 @@ SELECT RNUM,
               NVL(A.BBS_NO, 0) AS BBS_NO,
               NVL(BBS_TITLE, '') AS BBS_TITLE,
               NVL(BBS_CONTENT, '') AS BBS_CONTENT,
-              NVL(BBS_LIKE_CNT, 0) AS BBS_LIKE_CNT,
+              C.BBS_LIKE_CNT AS BBS_LIKE_CNT,
               NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
               NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD HH24:MI:SS'), '') AS REG_DATE
-         FROM T_BOARD A, T_USER B
+         FROM T_BOARD A, T_USER B, (SELECT COUNT(*) AS BBS_LIKE_CNT
+                                      FROM T_BOARD_LIKE
+                                     WHERE BBS_SEQ = #{bbsSeq}) C
         WHERE A.USER_UID = B.USER_UID
           AND A.BBS_NO = #{bbsNo}
 <if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>	<!-- searchType, searchValue가 있을 때 조회 -->      
@@ -284,18 +286,11 @@ VALUES (#{userUID},
 </insert>
 
 <!-- 좋아요 취소 -->
-<delete id="boardLikeDelete" parameterType="long">
+<delete id="boardLikeDelete" parameterType="com.icia.web.model.Board">
 DELETE FROM T_BOARD_LIKE
  WHERE BBS_SEQ = #{bbsSeq}
-   AND USER_UID = #{userUID},
+   AND USER_UID = #{userUID}
 </delete>
-
-<!-- 좋아요 갯수 조회 
-<select id="boardLikeCount" parameterType="long" resultMap="boardResultMap">
-SELECT COUNT(*)
-  FROM T_BOARD_LIKE
- WHERE BBS_SEQ = #{bbsSeq}
-</select>-->
 
 
 </mapper>

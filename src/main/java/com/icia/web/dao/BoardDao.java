@@ -50,9 +50,6 @@ public interface BoardDao
 	public int boardLikeUpdate(Board board);
 	
 	//좋아요 취소
-	public int boardLikeDelete (long bbsSeq);
-	
-	/*//좋아요 갯수 조회
-	public long boardLikeCount(Board board);*/
+	public int boardLikeDelete(Board board);
 
 }
