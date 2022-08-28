@@ -1736,6 +1736,19 @@ section {
   margin-left: 2px;
 }
 
+#communityView .board-service a{
+  background: rgba(225, 225, 225);
+  border:2px solid #A6A6A6;
+  padding: 1px 10px;
+  color: #595959;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 15px;
+  float:left;
+  margin-right: 2px;
+}
+
 /*댓글작성칸*/
 #communityView .board-commentwrite {
   font-size: 20px;
@@ -2906,6 +2919,45 @@ reservation 검색
 .star-ratings-base {
   z-index: 0;
   padding: 0;
+}
+
+.reservation .page-wrap .page-nation li{ 
+  list-style: none;
+}
+
+.reservation .page-wrap {
+  text-align:center;
+  font-size:0;
+  padding-left: 0px;
+}
+
+.reservation .page-wrap .page-nation  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top:5px;
+  padding-left: 0px;
+}
+
+.reservation .page-wrap .page-nation a {
+  display:block;
+  margin:0 3px;
+  border:1px solid #C2A383;
+  border-radius: 10px;
+  width:28px;
+  height:28px;
+  line-height:28px;
+  text-align:center;
+  background-color:#C2A383;
+  font-size:13px;
+  color:#0c0b09;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+.reservation .page-wrap .page-nation a:hover{
+  background-color:gray;
+  color:white;
 }
 
 /*--------------------------------------------------------------

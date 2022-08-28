@@ -9,6 +9,49 @@ $(document).ready(function() {
     
    $("#bbsTitle").focus();
    
+   /*이미지 파일 첨부 확장자, 사이즈 체크*/
+   $("input[type='file']").on("change", function(e){
+ 		let formData = new FormData();
+ 		let fileInput = $('input[name="bbsFile"]');
+ 		let fileList = fileInput[0].files;
+ 		let fileObj = fileList[0];
+ 		if(!fileCheck(fileObj.name, fileObj.size)){
+ 			return false;
+ 		}
+ 		formData.append("bbsFile", fileObj);
+ 		
+ 		/*$.ajax({
+			url: "/board/fileUpload",
+	    	processData : false,
+	    	contentType : false,
+	    	data : formData,
+	    	type : 'POST',
+	    	dataType : 'json',
+	    	success : function(result){
+	    		console.log(result);
+	    	},
+	    	error : function(result){
+	    		alert("이미지 파일이 아닙니다.");
+	    	}
+		});*/
+ 		
+ 	});
+	//파일 확장자
+	let regex = new RegExp("(.*?)\.(jpg|png)$", "i");
+ 	let maxSize = 1048576; //1MB	
+	
+	function fileCheck(fileName, fileSize){
+		if(fileSize >= maxSize){
+			alert("파일 사이즈 초과");
+			return false;
+		}
+		if(!regex.test(fileName)){
+			alert("해당 종류의 파일은 업로드할 수 없습니다.");
+			return false;
+		}
+		return true;
+	}
+   
    $("#btnWrite").on("click", function() {
       
       $("#btnWrite").prop("disabled", true);   //글쓰기 버튼 비활성화 //버튼 여러번 누르기 방지기능(활성화시 여러번 전송되므로)
@@ -40,7 +83,7 @@ $(document).ready(function() {
          alert("파일을 첨부하세요.");
          $("#bbsFile").val("");
          
-         $("#btnWrite").prop("disabled", false);   //글쓰기 버튼 활성화
+         $("#btnWrite").prop("disabled", false);   //글쓰기 버튼 활성화		
          
          return;
       }
@@ -177,8 +220,8 @@ $(document).ready(function() {
           </td>
         </tr>
         <tr>
-          <td class="file">파일첨부</td>
-          <td><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요." required /></td>
+          <td class="file">이미지 첨부</td>
+          <td><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요." required/></td>
         </tr>
       </table>
         
