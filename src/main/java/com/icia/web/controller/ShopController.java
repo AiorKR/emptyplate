@@ -24,7 +24,9 @@ import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
 import com.icia.web.service.ShopService;
 import com.icia.web.service.UserService;
+import com.icia.web.util.CookieUtil;
 import com.icia.web.util.HttpUtil;
+
 
 @Controller("shopController")
 public class ShopController {
@@ -54,18 +56,31 @@ public class ShopController {
 		{
 			//조회항목
 			String searchType = HttpUtil.get(request, "searchType");
+			
 			//조회값
 			String searchValue = HttpUtil.get(request, "searchValue", "");
+			
 			//현재페이지
 			long curPage = HttpUtil.get(request, "curPage", (long)1);
+			
 			//총 게시물 수
 			long totalCount = 0;
+			
 			//게시물 리스트
 			List<Shop> list = null;
+			
 			//페이징 객체
 			Paging paging = null;
+			
+			//데이터피커에서 선택한 날자
+			String reservationDate = HttpUtil.get(request, "reservationDate");
+			
+			//데이터피커에서 선택한 시간
+			String reservationTime = HttpUtil.get(request, "reservationTime");
+			
 			//조회 객체
 			Shop search = new Shop();
+			
 			
 			if(StringUtil.equals(searchType, "1") || StringUtil.equals(searchType, "2")) { // 1: 파인다이닝 2:오마카세
 				
@@ -90,6 +105,8 @@ public class ShopController {
 				paging.addParam("searchType", searchType);
 				paging.addParam("searchValue", searchValue);
 				paging.addParam("curPage", curPage);
+				paging.addParam("reservationDate", reservationDate);
+				paging.addParam("reservationTime", reservationTime);
 				
 				search.setStartRow(paging.getStartRow());
 				search.setEndRow(paging.getEndRow());
@@ -105,9 +122,84 @@ public class ShopController {
 			model.addAttribute("searchValue", searchValue);
 			model.addAttribute("curPage", curPage);
 			model.addAttribute("paging", paging);
-			model.addAttribute("SHOP_UPLOAD_IMAGE_DIR", SHOP_UPLOAD_IMAGE_DIR);
 			
 			return "/reservation/list";
+		}
+		
+		//매장 상세정보 페이지
+		@RequestMapping(value="/reservation/view")
+		public String shopView(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		   //쿠키 값
+		   String cookieUserUID= CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		   //게시물 번호
+		   //String shopUID = HttpUtil.get(request, "shopUID", "");
+		   
+		   String shopUID = HttpUtil.get(request, "shopUID");
+		   
+		   String address = "";
+		   
+		   logger.debug("shopUID : " + shopUID);
+		   
+		   //조회항목(0 모두 1 파인다이닝 2오마카세)
+		   String searchType = HttpUtil.get(request, "searchType", "0");
+		   String searchValue = HttpUtil.get(request, "searchValue", "");
+		   //현제페이지
+		   long curPage = HttpUtil.get(request, "curPage", (long)1);
+		   //관리자 본인 여부
+		   String ManagerMe = "N";
+		   
+		   Shop shop = null;
+		   
+		   if(!StringUtil.isEmpty(shopUID) && !StringUtil.equals(shopUID, "")) {
+			   shop = shopService.shopViewSelect(shopUID);
+			   
+			   if(shop != null && StringUtil.equals(shop.getShopUID(), cookieUserUID)) {
+				   ManagerMe = "Y";
+			   }
+			   
+			   if(shop.getShopFileList() != null) {
+				   logger.debug("파일을 가져옴");
+				   for(int i = 0; i < shop.getShopFileList().size(); i++) {
+					   logger.debug("받아온  shopfileList 사이즈  : " + shop.getShopFileList().size());
+					   logger.debug("i :" + i);
+						logger.debug("받아온  shopUID list 내역 : " + shop.getShopFileList().get(i).getShopUID());
+						logger.debug("받아온  shopFile이름 list 내역 : " +shop.getShopFileList().get(i).getShopFileName());
+					}
+					
+			   }
+		   }
+		   else {
+			   return "/reservation/list";
+		   }
+		   if(shop.getShopLocation1() != null && !StringUtil.equals("", shop.getShopLocation1())) { //도 가 있는 지역이라면
+			   address = shop.getShopLocation1(); //도
+			   address += " ";
+			   address += shop.getShopLocation2(); //시 군
+			   address += " ";
+			   address += shop.getShopLocation3(); // 구
+			   address += " ";
+			   address += shop.getShopAddress(); //상세주소
+		   }
+		   
+		   else { //도가 없는 지역이라면
+			   address += shop.getShopLocation2();
+			   address += " ";
+			   address += shop.getShopLocation3();
+			   address += " ";
+			   address += shop.getShopAddress();
+		   }
+		   
+		   List<ShopFile> shopFileList = shop.getShopFileList();
+			
+		   model.addAttribute("shopFileList", shopFileList);
+		   model.addAttribute("address", address);		   
+		   model.addAttribute("shop", shop);
+		   model.addAttribute("boardMe", ManagerMe);
+		   model.addAttribute("searchType", searchType);
+		   model.addAttribute("searchValue", searchValue);
+		   model.addAttribute("curPage", curPage);
+		   
+		   return "/reservation/view";
 		}
 		
 		
@@ -128,8 +220,8 @@ public class ShopController {
 			
 			List<ShopFile> shopFileList = new ArrayList<ShopFile>();
 			
-			String shopUID = "6";
-			String userUID = "11";
+			String shopUID = "Shop_a93d61d0-3d15-4060-9bbe-9fd5e22c397b";
+			String userUID = "a93d61d0-3d15-4060-9bbe-9fd5e22c397b";
 			String shopName = HttpUtil.get(request, "shopName");
 			String shopType = HttpUtil.get(request, "shopType");
 			String shopHoliday = HttpUtil.get(request, "shopHoliday");
@@ -183,7 +275,6 @@ public class ShopController {
 			   		shopFile.setShopFileExt(fileData.getFileExt());
 			   		shopFile.setShopFileSize(fileData.getFileSize());
 				}
-		   		 
 		   		logger.debug("shopFileName : " + shopFile.getShopFileName());
 		   		 
 		   		 shopFileList.add(shopFile);

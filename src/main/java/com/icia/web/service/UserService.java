@@ -63,22 +63,6 @@ public class UserService
 		return user;
 	}
 	
-	public User userUIDSelect(String userUID)
-	{
-		User user = null;
-		
-		try
-		{
-			user = userDao.userUIDSelect(userUID);
-		}
-		catch(Exception e)
-		{
-			logger.error("[UserService] userUIDSelect Exception", e);
-		}
-		
-		return user;
-	}
-	
 	//사용자 정보 등록
 	   public int userInsert(User user)
 	   {
@@ -107,6 +91,39 @@ public class UserService
 		   catch(Exception e)
 		   {
 			   logger.error("UserService]userUpdate Exception", e);
+		   }
+		   
+		   return count;
+	   }
+
+	public User userUIDSelect(String userUID) 
+	{
+			
+		User user = null;
+		
+		try
+		{
+			user = userDao.userUIDSelect(userUID);
+		}
+		catch(Exception e)
+		{
+			logger.error("[UserService] userSelect Exception", e);
+		}
+		
+		return user;
+	}
+	
+	public int userDelete(User user)
+	   {
+		   int count = 0;
+		   
+		   try
+		   {
+			   count = userDao.userDelete(user);
+		   }
+		   catch(Exception e)
+		   {
+			   logger.error("[UserService] userDelete", e);
 		   }
 		   
 		   return count;

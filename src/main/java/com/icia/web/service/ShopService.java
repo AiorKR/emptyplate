@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.icia.web.dao.ShopDao;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
+import com.icia.web.model.ShopMenu;
+import com.icia.web.model.ShopTime;
 
 @Service("shopService")
 public class ShopService {
@@ -45,14 +47,19 @@ public class ShopService {
 		//게시물 리스트
 		public List<Shop> shopList(Shop shop) //shop 조회
 		{
+			
+			
+			
 			List<Shop> list = null;
 			
 			
 			logger.debug("searchType : " +  shop.getSearchType());
 			
 			try
-			{
+			{	
 				list = shopDao.shopList(shop);
+				
+				logger.debug("list 다오에서 받은 후 : " + list.get(1).getShopFile().getShopFileOrgName());
 			}
 			catch(Exception e)
 			{
@@ -61,6 +68,41 @@ public class ShopService {
 			
 			
 			return list;
+		}
+		//매장 상세페이지
+		public Shop shopViewSelect(String shopUID) {
+			Shop shop = null;
+			logger.debug("들어옴1");
+			try {
+				shop = shopDao.shopSelect(shopUID);
+				logger.debug("들어옴2");
+				
+				if(shop != null) {
+					List<ShopFile> shopFile = shopDao.shopFileSelect(shop.getShopUID());
+					
+					List<ShopMenu> shopMenu = shopDao.shopMenuSelect(shop.getShopUID());
+					
+					List<ShopTime> shopTime = shopDao.shopTimeSelect(shop.getShopUID());
+					if(shopFile != null && shopMenu != null && shopTime != null) {
+						shop.setShopFileList(shopFile);
+						
+						shop.setShopMenu(shopMenu);
+						
+						shop.setShopTime(shopTime);
+					}
+					else {
+						logger.error("shop file or menu or time is empty");
+					}
+				}
+			}
+			
+			catch(Exception e) {
+				logger.error("[ShopService] ShopViewSelect", e);
+			}
+			
+			logger.debug("들어옴3");
+			
+			return shop;
 		}
 		
 		@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
@@ -80,7 +122,7 @@ public class ShopService {
 				logger.debug("ShopFile사이즈(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileSize());
 				logger.debug("ShopFile확장자(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileExt());
 				
-				shopDao.ShopFileInsert(shopFileList);
+				shopDao.shopFileInsert(shopFileList);
 			}
 			
 			return count;

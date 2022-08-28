@@ -114,24 +114,24 @@ SELECT RNUM,
               NVL(A.BBS_NO, 0) AS BBS_NO,
               NVL(BBS_TITLE, '') AS BBS_TITLE,
               NVL(BBS_CONTENT, '') AS BBS_CONTENT,
-              NVL(BBS_LIKE_CNT, 0) AS BBS_LIKE_CNT,
+              A.BBS_LIKE_CNT AS BBS_LIKE_CNT,
               NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
               NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD HH24:MI:SS'), '') AS REG_DATE
          FROM T_BOARD A, T_USER B
         WHERE A.USER_UID = B.USER_UID
           AND A.BBS_NO = #{bbsNo}
-<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>	<!-- searchType, searchValue가 있을 때 조회 -->      
-	<choose>
-		<when test='searchType == "1"'>   
+<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>   
+   <choose>
+      <when test='searchType == "1"'>   
                    AND B.USER_NICK LIKE '%' || #{searchValue} || '%'
-		</when>
-		<when test='searchType == "2"'>
+      </when>
+      <when test='searchType == "2"'>
                    AND A.BBS_TITLE LIKE '%' || #{searchValue} || '%'
-		</when>
-		<when test='searchType == "3"'>
+      </when>
+      <when test='searchType == "3"'>
                    AND DBMS_LOB.INSTR(A.BBS_CONTENT, #{searchValue}) > 0
-		</when>
-	</choose>
+      </when>
+   </choose>
 </if>  
         ORDER BY A.BBS_SEQ DESC))
  WHERE RNUM <![CDATA[>=]]> #{startRow}
@@ -167,10 +167,12 @@ SELECT A.BBS_SEQ,
        NVL(A.BBS_NO, 0) AS BBS_NO,
        NVL(BBS_TITLE, '') AS BBS_TITLE,
        NVL(BBS_CONTENT, '') AS BBS_CONTENT,
-       NVL(BBS_LIKE_CNT, 0) AS BBS_LIKE_CNT,
+       C.BBS_LIKE_CNT AS BBS_LIKE_CNT,
        NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
        NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD HH24:MI:SS'), '') AS REG_DATE
-  FROM T_BOARD A, T_USER B
+  FROM T_BOARD A, T_USER B, (SELECT COUNT(*) AS BBS_LIKE_CNT
+                               FROM T_BOARD_LIKE
+                              WHERE BBS_SEQ = #{value}) C
  WHERE A.BBS_SEQ = #{value}
    AND A.USER_UID = B.USER_UID
 </select>
@@ -216,15 +218,28 @@ SELECT RNUM,
   FROM T_BOARD A, T_USER B 
  WHERE A.USER_UID = B.USER_UID
    AND A.BBS_NO = #{bbsNo}
+<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>	<!-- searchType, searchValue가 있을 때 조회 -->      
+	<choose>
+		<when test='searchType == "1"'>   
+                   AND B.USER_NICK LIKE '%' || #{searchValue} || '%'
+		</when>
+		<when test='searchType == "2"'>
+                   AND A.BBS_TITLE LIKE '%' || #{searchValue} || '%'
+		</when>
+		<when test='searchType == "3"'>
+                   AND DBMS_LOB.INSTR(A.BBS_CONTENT, #{searchValue}) > 0
+		</when>
+	</choose>
+</if>   
 <choose>
 <when test='sort == "dateCount"'>
-ORDER BY A.REG_DATE DESC))
+ORDER BY REG_DATE DESC))
 </when>
 <when test='sort == "likeCount"'>
-ORDER BY A.BBS_LIKE_CNT DESC))
+ORDER BY BBS_LIKE_CNT DESC))
 </when>
 <when test='sort == "readCount"'>
-ORDER BY A.BBS_READ_CNT DESC))
+ORDER BY BBS_READ_CNT DESC))
 </when>
 </choose>
  WHERE RNUM <![CDATA[>=]]> #{startRow}
@@ -265,25 +280,37 @@ DELETE FROM T_BOARD_FILE
  WHERE BBS_SEQ = #{value}
 </delete>
 
-<!-- 좋아요 추가
-<update id="boardLikeUpdate" parameterType="long">
-UPDATE T_BOARD
-   SET BBS_LIKE_CNT = BBS_LIKE_CNT + 1
- WHERE BBS_SEQ = #{value}
-</update>-->
+<!-- 동일 게시글 좋아요 여부 확인 -->
+<select id="boardLikeCheck" parameterType="com.icia.web.model.Board" resultType="int">
+SELECT COUNT(*)
+  FROM T_BOARD_LIKE
+ WHERE BBS_SEQ = #{bbsSeq}
+   AND USER_UID = #{userUID}
+</select>
 
-<!-- 좋아요 취소 
-<update id="boardLikeDelete" parameterType="long">
-UPDATE T_BOARD
-   SET BBS_LIKE_CNT = BBS_LIKE_CNT - 1
- WHERE BBS_SEQ = #{value}
-</update>-->
+<!-- 좋아요 추가-->
+<insert id="boardLikeUpdate" parameterType="com.icia.web.model.Board">
+INSERT INTO T_BOARD_LIKE (USER_UID,
+                          BBS_SEQ) 
+VALUES (#{userUID},
+        #{bbsSeq})
+</insert>
 
-<!-- 좋아요 갯수 조회 
-<select id="boardLikeCnt" parameterType="long" resultMap="boardFileResultMap">
-SELECT BBS_LIKE_CNT
-  FROM T_BOARD
- WHERE BBS_SEQ = #{value}
-</select>-->
+<!-- 좋아요 취소 -->
+<delete id="boardLikeDelete" parameterType="com.icia.web.model.Board">
+DELETE FROM T_BOARD_LIKE
+ WHERE BBS_SEQ = #{bbsSeq}
+   AND USER_UID = #{userUID}
+</delete>
+
+<!-- 좋아요 수 업데이트 -->
+<update id="boardLikeCntUpdate" parameterType="com.icia.web.model.Board">
+UPDATE T_BOARD A
+   SET ( A.BBS_LIKE_CNT ) = ( SELECT COUNT(*)
+                             FROM T_BOARD_LIKE B
+                            WHERE B.BBS_SEQ = #{bbsSeq})
+ WHERE A.BBS_SEQ = #{bbsSeq}
+</update>
+
 
 </mapper>

@@ -74,48 +74,44 @@ $(document).ready(function() {
       }
    });
    
-   /*$("#btnLike").on("click", function(){
-         $.ajax({
-            type:"POST",
-            url:"/board/like",
-            data:{
-               bbsSeq:<c:out value="${board.bbsSeq}" />
-               userUID:"${user.userUID}"
-            },
-            datatype:"JSON",
-            beforeSend:function(xhr){
-               xhr.setRequestHeader("AJAX", "true");
-            },
-            success:function(response){
-            	likeCount();
-            },
-            error:function(xhr, status, error){
-               icia.common.error(error);
-            }
-         });
-   });*/    
+   $("#btnLike").on("click", function(){
+	   $.ajax({
+	       type:"POST",
+	       url:"/board/like",
+	       data:{
+	          bbsSeq:<c:out value="${board.bbsSeq}" />
+	       },
+	       datatype:"JSON",
+	       beforeSend:function(xhr){
+	          xhr.setRequestHeader("AJAX", "true");
+	       },
+	       success:function(response){
+	          if(response.code == 0)
+	            {
+	             alert("좋아요를 하셨습니다.");
+	             location.reload();
+	            }
+	          else if(response.code == 1)
+	            {
+	             alert("좋아요를 취소하셨습니다.");
+	             location.reload();
+	            }
+	          else if(response.code == 400)
+	          {
+	           alert("로그인 후, 좋아요 버튼을 사용하실 수 있습니다.");
+	          }
+	          else
+	            {
+	             alert("좋아요 중 오류가 발생하였습니다.");
+	            }
+	       },
+	       error:function(xhr, status, error){
+	          icia.common.error(error);
+	       }
+	    });
+   });
    
-});
-
-/*function likeCount(){
-    $.ajax({
-        type:"POST",
-        url:"/board/likeCount",
-        data:{
-           bbsSeq:<c:out value="${board.bbsSeq}" />
-        },
-        datatype:"JSON",
-        beforeSend:function(xhr){
-           xhr.setRequestHeader("AJAX", "true");
-        },
-        success:function(response){
-     	   $(".likeCount").html(count);
-        },
-        error:function(xhr, status, error){
-           icia.common.error(error);
-        }
-     });
-}*/
+});   
 </script>
 </head>
 <body>
@@ -134,24 +130,26 @@ $(document).ready(function() {
        </div>
 
        <div class="board-innercontent">
-         <col-lg-12><c:out value="${board.bbsContent}" /> </col-lg-12>
+         <col-lg-12>${board.bbsContent}</col-lg-12>
            <div>
            <c:if test="${boardMe eq 'Y'}">
               <div class="delete"><button type="button" id="btnDelete" class="delete">삭제</button></div>
               <div class="update"><button type="button" id="btnUpdate" class="update">수정</button></div>
-             </c:if>
+           </c:if>
            </div>
            
-           <div class="d-flex flex-row justify-content-center">
-             <div class="like"><button type="button" id="btnLike" class="like"><ion-icon name="heart"></ion-icon>&nbsp;&nbsp;좋아요  <span class="likeCount">${board.bbsLikeCnt}</span></button></div>
+           <div class="d-flex flex-row justify-content-center"> 
+             <div class="like"><button type="button" id="btnLike" class="like"><ion-icon name="heart"></ion-icon>&nbsp;&nbsp;좋아요  <span class="likeCount">${board.bbsLikeCnt}</span></button></div> 
              <div class="bookmark"><button type="button" id="btnBoomark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
-            
            </div>
        </div>
 
        <div class="board-service">
          <div class="board-list"><button type="button" id="btnList" class="board-list"><ion-icon name="reader"></ion-icon>&nbsp;목록</button></div>
          <div class="report"><button><ion-icon name="alert-circle"></ion-icon>&nbsp;신고</button></div>
+         <c:if test="${!empty board.boardFile}">
+			<a href="/board/download?bbsSeq=${board.boardFile.bbsSeq}" style="float:right;">첨부이미지 다운로드</a>
+         </c:if>   
        </div>
 
 

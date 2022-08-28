@@ -1,5 +1,6 @@
 package com.icia.web.controller;
 
+import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.icia.common.model.FileData;
+import com.icia.common.util.FileUtil;
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Board;
 import com.icia.web.model.BoardFile;
@@ -63,15 +66,16 @@ public class BoardController
 		long totalCount = 0;
 		//게시물 리스트
 		List<Board> list = null;
+		//**순
+		List<Board> sort = null;
+		//String sort = HttpUtil.get(request, "sort", "");
 		//페이징 객체
 		Paging paging = null;
 		//조회 객체
 		Board search = new Board();
-		//**순
-		List<Board> sort = null;
 		//게시판 번호
 		search.setBbsNo(5);
-		
+  		
 		if(!StringUtil.isEmpty(searchType) && !StringUtil.isEmpty(searchValue))
 		{
 			search.setSearchType(searchType);
@@ -103,6 +107,7 @@ public class BoardController
 		model.addAttribute("curPage", curPage);
 		model.addAttribute("sort", sort);
 		model.addAttribute("paging", paging);
+		
 		
 		return "/board/list";
 	}
@@ -184,6 +189,42 @@ public class BoardController
 		
 		return ajaxResponse;
 	}
+	
+	/*//파일 등록(AJAX)
+	@RequestMapping(value="/board/fileUpload", method=RequestMethod.POST)
+	@ResponseBody
+	public Response<Object> fileUpload(MultipartHttpServletRequest request, HttpServletResponse response)
+	{
+		Response<Object> ajaxResponse = new Response<Object>();
+		FileData fileData = HttpUtil.getFile(request, "bbsFile", UPLOAD_SAVE_DIR);
+		
+		Board board = new Board();
+		
+		if(fileData != null && fileData.getFileSize() > 0)
+		{				
+			BoardFile boardFile = new BoardFile();
+
+			//파일이름 
+			String fileName = boardFile.getFileOrgName();
+			boardFile.setFileName(fileName);
+			
+			//uuid 적용 파일이름
+			String uuid = UUID.randomUUID().toString();
+			boardFile.setUuid(uuid);
+			fileName = uuid + "_" + fileName;
+			
+			BoardFile saveFile = new BoardFile();
+			
+			saveFile.setFileName(fileData.getFileName());
+			saveFile.setFileOrgName(fileData.getFileOrgName());
+			saveFile.setFileExt(fileData.getFileExt());
+			saveFile.setFileSize(fileData.getFileSize());
+			
+			board.setBoardFile(boardFile);	
+		}
+		
+		return ajaxResponse;
+	}	*/
 	
 	//게시물 조회
     @RequestMapping(value="/board/view")
@@ -390,8 +431,52 @@ public class BoardController
   		return ajaxResponse;
   	}
   	
-    /*
-    //첨부파일 다운로드
+	//좋아요 추가(AJAX)
+  	@RequestMapping(value="/board/like", method=RequestMethod.POST)
+  	@ResponseBody
+  	public Response<Object> boardLike(HttpServletRequest request, HttpServletResponse response)
+  	{
+  		Response<Object> ajaxResponse = new Response<Object>();
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+  		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+  		
+  		Board board = new Board();
+  		
+  		if(!StringUtil.isEmpty(cookieUserUID) && bbsSeq > 0)
+  		{
+   			try
+  			{
+   				board.setBbsSeq(bbsSeq);
+   				board.setUserUID(cookieUserUID);
+   				
+  				if(boardService.boardLikeCheck(board) == 0)  					
+  				{
+  					boardService.boardLikeUpdate(board);
+  					ajaxResponse.setResponse(0, "boardlike insert success");
+  				}
+  				else
+  				{
+  					boardService.boardLikeDelete(board);
+  					ajaxResponse.setResponse(1, "boardlike delete success");
+  				}
+  				
+  				boardService.boardLikeCntUpdate(board);
+  			}
+  			catch(Exception e)
+  			{
+  				logger.error("[BoardController] /board/like Exception", e);
+  				ajaxResponse.setResponse(500, "internal server error");
+  			}	
+  		}
+  		else
+  		{
+  			ajaxResponse.setResponse(400, "Bad Request");
+  		}
+  		
+  		return ajaxResponse;
+  	}
+  	
+	//첨부파일 다운로드
   	@RequestMapping(value="/board/download")
   	public ModelAndView download(HttpServletRequest request, HttpServletResponse response)
   	{
@@ -405,10 +490,6 @@ public class BoardController
   			if(boardFile != null)
   			{
   				File file = new File(UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + boardFile.getFileName());
-  				
-  				logger.debug("UPLOAD_SAVE_DIR : " + UPLOAD_SAVE_DIR);
-  				logger.debug("FileUtil.getFileSeparator() : " + FileUtil.getFileSeparator());
-  				logger.debug("hiBoardFile.getFileName() : " + boardFile.getFileName());
   				
   				if(FileUtil.isFile(file))
   				{
@@ -425,8 +506,7 @@ public class BoardController
   		}
   		
   		return modelAndView;
-  	}*/
-  	
-  	
+  	}
+
 		
 }

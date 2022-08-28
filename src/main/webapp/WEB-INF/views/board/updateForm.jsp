@@ -49,11 +49,7 @@ $(document).ready(function() {
             if(response.code == 0)
               {
                alert("게시물이 수정되었습니다.");
-               location.href = "/board/list";
-               /* 왔었던 해당페이지로 이동(단점:수정 중 다른사람이 글을 써서 해당페이지에 내 글이 없을때)
-               document.bbsForm.action = "/board/list";
-               document.bbsForm.submit();*/
-               
+               location.href = "/board/list";               
               }
             else if(response.code == 400)
            {
@@ -134,12 +130,49 @@ $(document).ready(function() {
             <script src="/resources/summernote/summernote-lite.js"></script>
             <script src="/resources/summernote/lang/summernote-ko-KR.js"></script>
             <link rel="stylesheet" href="/resources/summernote/summernote-lite.css">
-            <script> $('.summernote').summernote({ height: 340, maxHeight: 340, lang: "ko-KR" });</script>
+            <script>$('.summernote').summernote({
+					  // 에디터 높이
+					  height: 340,
+					  maxHeight: 340,
+					  // 에디터 한글 설정
+					  lang: "ko-KR",
+					  callbacks: {
+					        onInit: function (c) {
+					            c.editable.html('${board.bbsContent}');
+					        }
+					    },
+					  toolbar: [
+						    // 글꼴 설정
+						    ['fontname', ['fontname']],
+						    // 글자 크기 설정
+						    ['fontsize', ['fontsize']],
+						    // 굵기, 기울임꼴, 밑줄,취소 선, 서식지우기
+						    ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+						    // 글자색
+						    ['color', ['forecolor','color']],
+						    // 표만들기
+						    ['table', ['table']],
+						    // 글머리 기호, 번호매기기, 문단정렬
+						    ['para', ['ul', 'ol', 'paragraph']],
+						    // 줄간격
+						    ['height', ['height']],
+						    // 그림첨부, 링크만들기, 동영상첨부
+						    ['insert',['picture','link','video']],
+						    // 코드보기, 확대해서보기, 도움말
+						    ['view', ['codeview','fullscreen', 'help']]
+						  ],
+						  // 추가한 글꼴
+						fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
+						 // 추가한 폰트사이즈
+						fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
+						
+					});
+            </script>
             
           </td>
         </tr>
         <tr>
-          <td class="file">파일첨부</td>
+          <td class="file">이미지 첨부</td>
           <td><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요." required /></td>
         </tr>
         
