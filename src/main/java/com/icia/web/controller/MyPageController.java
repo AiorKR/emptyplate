@@ -12,9 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.icia.common.model.FileData;
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Response;
 import com.icia.web.model.User;
@@ -221,7 +219,7 @@ public class MyPageController {
  		   { 
  			   if(userService.userDelete(user) > 0)
  			   {
- 				   CookieUtil.deleteCookie(request, response, "/", AUTH_COOKIE_NAME);
+ 				  CookieUtil.deleteCookie(request, response, "/", AUTH_COOKIE_NAME);
  				   ajaxResponse.setResponse(0, "Success");
  			   }
  			   else
@@ -232,7 +230,7 @@ public class MyPageController {
  		   else
  		   {	
  			   //사용자 정보가 없을 때 쿠키 삭제
- 			   CookieUtil.deleteCookie(request, response, "/", AUTH_COOKIE_NAME);
+ 			  CookieUtil.deleteCookie(request, response, "/", AUTH_COOKIE_NAME);
  			   ajaxResponse.setResponse(404, "Not Found");
  		   }
  	   
