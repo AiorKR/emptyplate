@@ -76,6 +76,9 @@
             			<value>/help/index</value>
             			<value>/myPage/myProfile</value>
             			<value>/footer/resources</value>
+            			<value>/user/NickUpdate</value>
+            			<value>/user/EmailUpdate</value>
+            			<value>/myPage/userDelete</value>
             		</list>
             	</constructor-arg>
             </bean>
