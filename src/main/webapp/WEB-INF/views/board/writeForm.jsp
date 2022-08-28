@@ -9,7 +9,7 @@ $(document).ready(function() {
     
    $("#bbsTitle").focus();
    
-   /*이미지 파일 첨부 ajax*/
+   /*이미지 파일 첨부 확장자, 사이즈 체크*/
    $("input[type='file']").on("change", function(e){
  		let formData = new FormData();
  		let fileInput = $('input[name="bbsFile"]');
@@ -20,7 +20,7 @@ $(document).ready(function() {
  		}
  		formData.append("bbsFile", fileObj);
  		
- 		$.ajax({
+ 		/*$.ajax({
 			url: "/board/fileUpload",
 	    	processData : false,
 	    	contentType : false,
@@ -33,11 +33,11 @@ $(document).ready(function() {
 	    	error : function(result){
 	    		alert("이미지 파일이 아닙니다.");
 	    	}
-		});
+		});*/
  		
  	});
 	//파일 확장자
-	let regex = new RegExp("(.*?)\.(jpg|png)$");
+	let regex = new RegExp("(.*?)\.(jpg|png)$", "i");
  	let maxSize = 1048576; //1MB	
 	
 	function fileCheck(fileName, fileSize){

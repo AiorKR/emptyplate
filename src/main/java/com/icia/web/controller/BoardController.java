@@ -1,5 +1,6 @@
 package com.icia.web.controller;
 
+import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.icia.common.model.FileData;
+import com.icia.common.util.FileUtil;
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Board;
 import com.icia.web.model.BoardFile;
@@ -472,5 +475,38 @@ public class BoardController
   		
   		return ajaxResponse;
   	}
+  	
+	//첨부파일 다운로드
+  	@RequestMapping(value="/board/download")
+  	public ModelAndView download(HttpServletRequest request, HttpServletResponse response)
+  	{
+  		ModelAndView modelAndView = null;
+  		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+  		
+  		if(bbsSeq > 0)
+  		{
+  			BoardFile boardFile = boardService.boardFileSelect(bbsSeq);
+  			
+  			if(boardFile != null)
+  			{
+  				File file = new File(UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + boardFile.getFileName());
+  				
+  				if(FileUtil.isFile(file))
+  				{
+  					modelAndView = new ModelAndView();
+  					
+  					//응답할 view 설정(servlet-context.xml에 정의한 FileDownloadView id 사용)
+  					modelAndView.setViewName("fileDownloadView");
+  					modelAndView.addObject("file", file);
+  					modelAndView.addObject("fileName", boardFile.getFileOrgName());
+  					
+  					return modelAndView;
+  				}
+  			}
+  		}
+  		
+  		return modelAndView;
+  	}
+
 		
 }

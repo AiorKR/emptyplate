@@ -147,6 +147,9 @@ $(document).ready(function() {
        <div class="board-service">
          <div class="board-list"><button type="button" id="btnList" class="board-list"><ion-icon name="reader"></ion-icon>&nbsp;목록</button></div>
          <div class="report"><button><ion-icon name="alert-circle"></ion-icon>&nbsp;신고</button></div>
+         <c:if test="${!empty board.boardFile}">
+			<a href="/board/download?bbsSeq=${board.boardFile.bbsSeq}" style="float:right;">첨부이미지 다운로드</a>
+         </c:if>   
        </div>
 
 
