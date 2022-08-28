@@ -2908,6 +2908,45 @@ reservation 검색
   padding: 0;
 }
 
+.reservation .page-wrap .page-nation li{ 
+  list-style: none;
+}
+
+.reservation .page-wrap {
+  text-align:center;
+  font-size:0;
+  padding-left: 0px;
+}
+
+.reservation .page-wrap .page-nation  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top:5px;
+  padding-left: 0px;
+}
+
+.reservation .page-wrap .page-nation a {
+  display:block;
+  margin:0 3px;
+  border:1px solid #C2A383;
+  border-radius: 10px;
+  width:28px;
+  height:28px;
+  line-height:28px;
+  text-align:center;
+  background-color:#C2A383;
+  font-size:13px;
+  color:#0c0b09;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+.reservation .page-wrap .page-nation a:hover{
+  background-color:gray;
+  color:white;
+}
+
 /*--------------------------------------------------------------
 # Reservation End
 --------------------------------------------------------------*/

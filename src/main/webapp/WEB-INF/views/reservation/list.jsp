@@ -1,16 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%@ page import="org.springframework.beans.factory.annotation.Value" %>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+	<!--date and time picker-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
     <link rel="stylesheet" href="/resources/datepicker/date_picker.css">
-        
+      <!--date and time picker-->  
+      
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
 
 <!--date and time picker-->
@@ -46,6 +47,24 @@ $(document).ready(function() {
 	   
 });
 
+function fn_view(shopUID) {
+   document.bbsForm.shopUID.value = shopUID;
+   document.bbsForm.action = "/reservation/view";
+   document.bbsForm.submit();
+}
+
+function fn_list(curPage) {
+   document.bbsForm.curPage.value = curPage;
+   document.bbsForm.action = "/reservation/list";
+   document.bbsForm.submit();   
+}
+
+function fn_search(shopHashtag) { //해시태그 클릭시 검색
+    document.bbsForm.searchValue.value = shopHashtag	;
+    document.bbsForm.action = "/reservation/list";
+    document.bbsForm.submit();
+ }
+
 </script>
 </head>
 
@@ -72,7 +91,7 @@ $(document).ready(function() {
                    <div class="swiper-slide">
             <div class="row reservation-item">
               <div class="col-lg-6">
-                <img alt="" src="${SHOP_UPLOAD_IMAGE_DIR}${backslash}${shop.shopFile.shopFileName}">
+                <img alt="" src="../resources/upload/shop/${shop.shopFile.shopFileName}" style="height: 500px;width: 500px;">
               </div>
               <div class="col-lg-6 pt-4 pt-lg-0 content">
                 <h3> ${shop.shopName} </h3>
@@ -93,7 +112,10 @@ $(document).ready(function() {
                   <li><i class="fa-regular fa-star"></i> 별점 4.3 (500)</li>
                 </ul>
                 <p class="int">
-                  <i class="fa-brands fa-instagram"></i> ${shop.shopHashtag}
+                 <i class="fa-brands fa-instagram"></i>                	
+                 <c:forTokens items="${shop.shopHashtag}" delims = "#" var="shopHashtag">
+					<span onclick="fn_search('${shopHashtag}')" style="cursor: pointer; "><c:out value='${shopHashtag}'/></span>
+				 </c:forTokens>	
               </div>
             </div>
           </div>
@@ -134,11 +156,13 @@ $(document).ready(function() {
                   <div class="box">
                       <ul id="datepicker-ul">
                           <li id="datepicker-li">
+                              <div class="dptime-disabled">런치 타임</div>
                               <div class="dptime">10:00</div>
                               <div class="dptime">11:00</div>
                               <div class="dptime">12:00</div>
                               <div class="dptime">13:00</div>
                               <div class="dptime">14:00</div>
+                              <div class="dptime-disabled">디너 타임</div>
                               <div class="dptime">18:00</div>
                               <div class="dptime">19:00</div>
                               <div class="dptime">20:00</div>
@@ -175,10 +199,10 @@ $(document).ready(function() {
             <tbody class="menutable">
             <c:if test="${!empty list}">
             <c:forEach items="${list}" var="shop" varStatus="status">
-              <tr onClick="location.href='/reservation/view'">
+              <tr onclick="fn_view('${shop.shopUID}')" style="cursor:pointer;">
                 <th scope="row">${status.count}</th>
                 <td class="w-25">
-                	<img src='${SHOP_UPLOAD_IMAGE_DIR}${backslash}${shop.shopFile.shopFileName}' class="img-fluid img-thumbnail">
+                	<img src='../resources/upload/shop/${shop.shopFile.shopFileName}' class="img-fluid img-thumbnail" style="height: 200px;width: 200px; " >
 
                 </td>
                 <td>
@@ -197,7 +221,10 @@ $(document).ready(function() {
                 	</c:if>
                 </td>
                 <td>
-                	<c:out value="${shop.shopHashtag}" />
+                	<c:forTokens items="${shop.shopHashtag}" delims = "#" var="shopHashtag">
+               			<span onclick="fn_search('${shopHashtag}')" style="cursor: pointer; "><c:out value='# ${shopHashtag}'/></span>
+             		</c:forTokens>	
+                	
                 </td>
                 <td>
                 	<c:out value="${shop.shopIntro}" />
@@ -206,9 +233,7 @@ $(document).ready(function() {
                 	<c:out value="${shop.shopLocation1}" />
                 	<c:out value="${shop.shopLocation2}" />
                 	<c:out value="${shop.shopLocation3}" />
-                	<c:out value="${shop.shopAddress}" />
                 </td>
-
 			</tr>
 			  </c:forEach>  
 			</c:if>
@@ -238,12 +263,14 @@ $(document).ready(function() {
         </div>
       </div>
 	         <form name="bbsForm" id="bbsForm" method="post">
+	        <input type="hidden" name="shopUID" value=""/> 
             <input type="hidden" name="searchType" value="${searchType}"/>
             <input type="hidden" name="searchValue" value="${searchValue}" />
             <input type="hidden" name="curPage" value="${curPage}" />
+            <input type="hidden" name="reservationDate" value="${reservationDate}" />
+            <input type="hidden" name="reservationTime" value="${reservationTime}" />
             </form>
     </div>
-
   </section>
   <!-- End reservation Section -->
   <%@ include file="/WEB-INF/views/include/footer.jsp" %>

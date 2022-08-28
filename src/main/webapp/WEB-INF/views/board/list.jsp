@@ -86,7 +86,7 @@ function fn_list(curPage)
        <div class="d-flex flex-row justify-content-between">
          <div>
            <ul>
-             <li><button type="button" value="dateCount" id="btnSort" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sort=dateCount'" class="btn btn-outline-dark float-right" data-bs-toggle="button">최신순</button></li>
+             <li><button type="button" value="dateCount" id="btnSort" onclick="location.href='/board/list?No=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sort=dateCount'" class="btn btn-outline-dark float-right" data-bs-toggle="button">최신순</button></li>
              <li><button type="button" value="likeCount" id="btnSort" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sort=likeCount'" class="btn btn-outline-dark float-right">좋아요순</button></li>
              <li><button type="button" value="readCount" id="btnSort" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sort=readCount'" class="btn btn-outline-dark float-right ">조회순</button></li>
            </ul>
