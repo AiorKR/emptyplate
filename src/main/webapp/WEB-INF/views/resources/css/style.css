@@ -2736,7 +2736,7 @@ section {
 
 .reservation:before {
   content: "";
-  background: rgba(16, 16, 16);
+  background: rgba(200, 200, 200);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
@@ -2746,7 +2746,7 @@ section {
 }
 
 .reservation .section-title h2 {
-  color: #fff;
+  color: #000;
 }
 
 .reservation .container {
@@ -2765,7 +2765,7 @@ section {
 }
 
 .reservation .reservation-item {
-  color: #fff;
+  color: #000;
 }
 
 .reservation .reservation-item h3 {
@@ -2795,7 +2795,7 @@ section {
 .reservation .reservation-item .int {
   font-size: 18px;
   font-family: "Nanum Gothic Coding", monospace;
-  color: white;
+  color: #000;
 }
 
 .reservation .reservation-item ul {
@@ -2847,7 +2847,7 @@ reservation 검색
 
 .reservation .collapse .btn {
   background: #C2A383;
-  color: rgb(255, 255, 255);
+  color: rgb(16, 16, 16);
   padding: 1px 20px;
   position: relative;
   border: 1px solid #C2A383;
@@ -2877,7 +2877,7 @@ reservation 검색
   font-size: 16px;
   padding: 0 20px 2px 20px;
   background: #C2A383;
-  color: #fff;
+  color: #000;
   transition: 0.3s;
   /*border-radius: 50px;*/
 }
@@ -2891,11 +2891,11 @@ reservation 검색
 }
 
 .reservation .menutable {
-  color: #fff;
+  color: #000;
 }
 
 .star-ratings {
-  color: #aaa9a9; 
+  color: #000; 
   position: relative;
   unicode-bidi: bidi-override;
   width: max-content;
@@ -2957,7 +2957,7 @@ reservation 검색
 
 .reservation .page-wrap .page-nation a:hover{
   background-color:gray;
-  color:white;
+  color:#000;
 }
 
 /*--------------------------------------------------------------
@@ -3005,7 +3005,7 @@ reservation 검색
 
 .view:before{
   content: "";
-  background: rgba(16, 16, 16);
+  background: rgba(200, 200, 200);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
@@ -3015,7 +3015,7 @@ reservation 검색
 }
 
 .view .section-title h2 {
-  color: #fff;
+  color: #000;
 }
 
 .view .container {
@@ -3034,7 +3034,7 @@ reservation 검색
 }
 
 .view .view-item {
-  color: #fff;
+  color: #000;
 }
 
 .view .view-item h3 {
@@ -3064,7 +3064,7 @@ reservation 검색
 .view .view-item .int {
   font-size: 18px;
   font-family: "Nanum Gothic Coding", monospace;
-  color: white;
+  color: #000;
 }
 
 .view .view-item ul {
@@ -3153,6 +3153,10 @@ reservation 검색
   font-size: 17px;
   margin-right: 5px;
   float: center;
+}
+
+.view p, .view ul, .view h3, .view span{
+  color:#000;
 }
 
 .view .star:hover {
@@ -3253,7 +3257,7 @@ reservation 검색
   top: 22px
 }
 .view .buttons .btn {
-  color: rgb(255, 255, 255);
+  color: #000;
   background-color: #C2A383;
   border: 1px solid rgba(255, 255, 255, 0.2);
   height: 50px;
