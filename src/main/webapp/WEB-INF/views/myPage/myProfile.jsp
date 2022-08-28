@@ -4,7 +4,7 @@
    pageContext.setAttribute("newLine", "\n");
 %>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
@@ -12,8 +12,104 @@
 <script type="text/javascript" src="/resources/js/icia.common.js"></script>
 <script src="https://kit.fontawesome.com/def66b134a.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
+$(document).ready(function() {
+	$("#btnDelete").on("click", function(){
+		   if(confirm("정말 탈퇴하시겠습니까?") == true)
+			{  	
+				$.ajax({
+					type:"POST",
+					url:"/myPage/userDelete",
+					data:{
+						userId : $("#userId").val()
+					},
+					datatype:"JSON",
+					beforeSend:function(xhr){
+						xhr.setRequestHeader("AJAX", "true");
+					},
+					success:function(response){
+						if(response.code == 0)
+						{
+							alert("탈퇴가 완료되었습니다.");
+							location.href = "/index";
+						}
+						else if(response.code == 500)
+						{
+							alert("회원 정보를 찾을 수 없습니다. 메인 페이지로 돌아갑니다.");
+							location.href = "/index";
+						}
+						else if(response.code == 404)
+						{
+							alert("사용자가 아닙니다.");
+							location.href = "/index";
+						}
+						else
+						{
+							alert("회원 탈퇴 중 오류가 발생했습니다.");
+							location.href = "/index";
+						}
+					},
+					complete:function(data)
+					{
+						icia.common.log(data);
+					},
+					error:function(xhr, status, error)
+					{
+						icia.common.error(error);
+					}
+				});
+			}
+	});
 
-function showPopupNick() { window.open("./nick_popup", "b", "width=400, height=100, margin=auto"); }
+	})
+
+
+//닉네임 변경 시작
+function showPopupNick() { 
+	var popHeight = 130;                                      // 띄울 팝업창 높이   
+	var popWidth = 460;                                       // 띄울 팝업창 너비
+	var winHeight = document.body.clientHeight;	  		      // 현재창의 높이
+	var winWidth = document.body.clientWidth;	              // 현재창의 너비
+	var winX = window.screenLeft;	                          // 현재창의 x좌표
+	var winY = window.screenTop;	                          // 현재창의 y좌표
+	var popX = winX + (winWidth - popWidth)/2;
+	var popY = winY + (winHeight - popHeight)/2;
+
+	var nick_popup = window.open("./nick_popup", "pop", "top="+popY+", left="+popX+",width="+popWidth+",height="+popHeight+"resizable=yes"); 
+};
+//닉네임 변경 끝
+
+
+//이메일 변경 시작
+function showPopupEmail() { 
+	var popHeight = 130;                                      // 띄울 팝업창 높이   
+	var popWidth = 460;                                       // 띄울 팝업창 너비
+	var winHeight = document.body.clientHeight;	  		      // 현재창의 높이
+	var winWidth = document.body.clientWidth;	              // 현재창의 너비
+	var winX = window.screenLeft;	                          // 현재창의 x좌표
+	var winY = window.screenTop;	                          // 현재창의 y좌표
+	var popX = winX + (winWidth - popWidth)/2;
+	var popY = winY + (winHeight - popHeight)/2;
+	
+	var email_popup = window.open("./email_popup", "pop", "top="+popY+", left="+popX+",width="+popWidth+",height="+popHeight+"resizable=yes"); 
+};
+//이메일 변경 끝
+
+function updateSuccess() {
+	location.href = "/myPage/myProfile";
+}
+
+function ParmError(){
+	alert("파라미터 값이 올바르지 않습니다.");
+}
+
+function userError(){
+	alert("회원정보가 존재하지 않습다.");
+}
+
+function updateError(){
+	alert("회원정보 수정 중 오류가 발생하였습니다.");
+}
+
 </script>
 <style>
 .btn-upload {
@@ -65,14 +161,14 @@ function showPopupNick() { window.open("./nick_popup", "b", "width=400, height=1
                 <div class = "profile-card-intro">
                   <form style="margin-top: 20px;">아이디 : <span><c:out value="${user.userId}" /></span></form>
                   <hr>
-                  <form style="margin-top: 20px;">이메일 : <span><c:out value="${user.userEmail}" /></span>&nbsp;<button><i class="fa-solid fa-pen-to-square"></i></button></form>
+                  <form style="margin-top: 20px;">이메일 : <span><c:out value="${user.userEmail}" /></span>&nbsp;<button class = "mypage-profile-btn" onclick="showPopupEmail()"><i class="fa-solid fa-pen-to-square"></i></button></form>
                   <hr>
                   <form style="margin-top: 20px;">이름 : <span><c:out value="${user.userName}" /></span>&nbsp;</form>    
                   <hr>
                   <form style="margin-top: 20px;">전화번호 : <span><c:out value="${user.userPhone}" /></span>&nbsp;<button><i class="fa-solid fa-pen-to-square"></i></button></form>
                   <hr>
                   <form style="margin-top: 20px;"><button class="btn-password">비밀번호변경</button></form><br/><br/>
-                  <form style="margin-top: 20px;"><button style="color: gray; text-decoration:underline; float: right;">회원탈퇴</button></form>
+                   <form style="margin-top: 20px;"><button id="btnDelete" style="color: gray; text-decoration:underline; float: right;">회원탈퇴</button></form>
                 </div>                
             </div>
         </div>     
