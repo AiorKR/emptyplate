@@ -19,13 +19,19 @@
 $(document).ready(function() {
 		
 		$("#btnUpdate").on("click", function() { 
-	  
-	   $.ajax({
+	  	
+		var form = $("#updateForm")[0];
+		var formData = new FormData(form);	
+			
+	    $.ajax({
 	    	type:"POST",
 	    	enctype:'multipart/form-data',
-	    	url:"/board/writeProc",
+	    	url:"/user/picUpdate",
 	    	data:formData,
+	    	contentType:false,
 	    	processData:false,		//formData를 String으로 변환하지 않음
+	    	cache:false,
+	    	timeout:600000,
 	    	beforSend:function(xhr)
 	    	{
 	    		xhr.setRequestHeader("AJAX", "true");	
@@ -76,9 +82,9 @@ function fn_validateEmail(value)
 </head>
 
 <body>
- <form action="user/userImgFile" method="post" enctype="multipart/form-data">
+ <form name="updateForm" id="updateForm" method="post" enctype="multipart/form-data">
     <input type="file" id="userFile" name="userFile" class="form-control mb-2" placeholder="파일을 선택하세요." required />
-	<button type="submit" id="btnUpdate">확인</button> 
+	<button type="button" id="btnUpdate">확인</button> 
 	<input type="button" value="닫 기" onclick="self.close();" />       
 </form>
 </body>

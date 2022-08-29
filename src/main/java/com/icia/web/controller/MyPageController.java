@@ -12,7 +12,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.icia.common.model.FileData;
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Response;
 import com.icia.web.model.User;
@@ -32,7 +34,7 @@ public class MyPageController {
     private String AUTH_COOKIE_NAME;
    
     //파일 저장 경로
-    @Value("#{env['user.upload.save.dir']}")
+    @Value("#{env['user.upload.image.dir']}")
     private String UPLOAD_SAVE_DIR;
    
     @Autowired
@@ -276,7 +278,8 @@ public class MyPageController {
           {
              
              
-             userFile.setFileName(fileData.getFileName());
+             userFile.setUserUID(userUID);
+        	 userFile.setFileName(fileData.getFileName());
              userFile.setFileExt(fileData.getFileExt());
              userFile.setFileSize(fileData.getFileSize());
              
