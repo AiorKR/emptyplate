@@ -36,7 +36,7 @@
 <insert id="boardInsert" parameterType="com.icia.web.model.Board">
 
 <!-- 선행처리기(시퀀스 번호 생성) -->
-<selectKey resultType="int" keyProperty="bbsSeq" order="BEFORE">
+<selectKey resultType="long" keyProperty="bbsSeq" order="BEFORE">
 	SELECT BBS_SEQ.NEXTVAL FROM DUAL
 </selectKey>
 
@@ -116,7 +116,7 @@ SELECT RNUM,
               NVL(BBS_CONTENT, '') AS BBS_CONTENT,
               A.BBS_LIKE_CNT AS BBS_LIKE_CNT,
               NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
-              NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD HH24:MI:SS'), '') AS REG_DATE
+              NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD'), '') AS REG_DATE
          FROM T_BOARD A, T_USER B
         WHERE A.USER_UID = B.USER_UID
           AND A.BBS_NO = #{bbsNo}
@@ -264,5 +264,47 @@ UPDATE T_BOARD A
  WHERE A.BBS_SEQ = #{bbsSeq}
 </update>
 
+<!-- 댓글 등록 -->
+<insert id="boardCommentInsert" parameterType="com.icia.web.model.Board">
+<!-- 선행처리기 -->
+<selectKey resultType="long" keyProperty="bbsSeq" order="BEFORE">
+	SELECT BBS_SEQ.NEXTVAL FROM DUAL
+</selectKey>
+
+INSERT INTO T_BOARD (BBS_SEQ,
+                     USER_UID,
+                     BBS_NO,
+                     BBS_TITLE,
+                     BBS_CONTENT,
+                     BBS_LIKE_CNT,
+                     BBS_READ_CNT,
+                     REG_DATE,
+                     BBS_COMMENT,
+                     COMMENT_PARENT,
+                     COMMENT_GROUP,
+                     COMMENT_ORDER,
+                     COMMENT_INDENT) 
+VALUES (#{bbsSeq},
+        #{userUID},
+        #{bbsNo},
+        #{bbsTitle},
+        #{bbsContent},
+        0,
+        0,
+        SYSDATE,
+        #{bbsComment},
+        #{commentParent},
+        #{commentGroup},
+        #{commentOrder},
+        #{commentIndent})
+</insert>
+
+<!-- 댓글 그룹순서 변경 -->
+<update id="commentGroupOrderUpdate" parameterType="com.icia.web.model.Board">
+UPDATE T_BOARD
+   SET COMMENT_ORDER = COMMENT_ORDER + 1
+ WHERE COMMENT_GROUP = #{commentGroup}
+   AND COMMENT_ORDER <![CDATA[>=]]> #{commentOrder}
+</update>
 
 </mapper>

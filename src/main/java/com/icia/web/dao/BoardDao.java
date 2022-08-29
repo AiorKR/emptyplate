@@ -55,5 +55,9 @@ public interface BoardDao
 	//좋아요 수 업데이트
 	public int boardLikeCntUpdate(Board board);
 
-
+	//댓글 등록
+	public int boardCommentInsert(Board board);
+	
+	//댓글 그룹순서 변경
+	public int commentGroupOrderUpdate(Board board);
 }

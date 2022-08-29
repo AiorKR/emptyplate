@@ -111,6 +111,68 @@ $(document).ready(function() {
 	    });
    });
    
+   $("#btnSearch").on("click", function() {
+	      
+	      $("#btnSearch").prop("disabled", true);   //글쓰기 버튼 비활성화 //버튼 여러번 누르기 방지기능(활성화시 여러번 전송되므로)
+	      
+	      if($.trim($("#commentContent").val()).length <= 0)
+	      {
+	         alert("내용을 입력하세요.");
+	         $("#commentContent").val("");
+	         $("#commentContent").focus();
+	         
+	         $("#btnSearch").prop("disabled", false);   //글쓰기 버튼 활성화
+	         
+	         return;
+	      }
+	      
+	      var form = $("#commentForm")[0];
+	      var formData = new FormData(form);
+	      
+	      $.ajax({
+	         type:"POST",
+	         url:"/board/commentProc",
+	         data:formData,
+	         processData:false,   //formData를 string으로 변환하지 않음.
+	         contentType:false,   //comtent-type헤더가 multipart/form-data로 전송하기 위해
+	         cache:false,
+	         timeout:600000,
+	         beforeSend:function(xhr)
+	         {
+	            xhr.setRequestHeader("AJAX", "true");
+	         },
+	         success:function(response)
+	         {
+	            if(response.code == 0)
+	              {
+	               alert("댓글이 등록되었습니다.");
+		           location.reload();
+	              }
+	            else if(response.code == 400)
+	              {
+	               alert("파라미터 값이 올바르지 않습니다.");
+	               $("#btnSearch").prop("disabled", false);   //글쓰기 버튼 활성화
+	              }
+	            else if(response.code == 404)
+	              {
+	               alert("게시물을 찾을 수 없습니다.");
+	               $("#btnSearch").prop("disabled", false);   //글쓰기 버튼 활성화
+	              }
+	            else
+	              {
+	               alert("댓글 등록 중 오류가 발생.");
+	               $("#btnSearch").prop("disabled", false);   //글쓰기 버튼 활성화
+	              }
+	         },
+	         error:function(error)
+	         {
+	            icia.common.error(error);
+	            alert("댓글 등록 중 오류가 발생하였습니다.");
+	            $("#btnSearch").prop("disabled", false);   //글쓰기 버튼 활성화
+	         }
+	      });
+	   });
+   
 });   
 </script>
 </head>
@@ -138,11 +200,19 @@ $(document).ready(function() {
            </c:if>
            </div>
            
-           <div class="d-flex flex-row justify-content-center"> 
-             <div class="like"><button type="button" id="btnLike" class="like"><ion-icon name="heart"></ion-icon>&nbsp;&nbsp;좋아요  <span class="likeCount">${board.bbsLikeCnt}</span></button></div> 
+           <div class="d-flex flex-row justify-content-center">
+            <c:choose>
+               <c:when test="${bbsLikeActive eq 'Y'}">
+                  <div class="like"><button type="button" id="btnLike" class="like"><ion-icon name="heart"></ion-icon>&nbsp;&nbsp;좋아요  <span class="likeCount">${board.bbsLikeCnt}</span></button></div>
+               </c:when>
+               <c:when test="${bbsLikeActive eq 'N'}">
+                  <div class="like"><button type="button" id="btnLike" class="like"><ion-icon name="heart-outline"></ion-icon>&nbsp;&nbsp;좋아요  <span class="likeCount">${board.bbsLikeCnt}</span></button></div>
+               </c:when>
+            </c:choose>
              <div class="bookmark"><button type="button" id="btnBoomark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
            </div>
        </div>
+
 
        <div class="board-service">
          <div class="board-list"><button type="button" id="btnList" class="board-list"><ion-icon name="reader"></ion-icon>&nbsp;목록</button></div>
@@ -152,41 +222,30 @@ $(document).ready(function() {
          </c:if>   
        </div>
 
-
+	  <form name="commentForm" id="commentForm" method="post">
        <div class="board-commentwrite">
+        
          <col-lg-12><ion-icon name="chatbubbles"></ion-icon>댓글</col-lg-12>
          <div class="submit">
-           <input type="text" name="text">
+           <input type="text" id="commentContent" name="commentContent">
            <button type="submit" id="btnSearch">등록</button>
-        </div>
+         </div>
        </div>
-
-       <div class="comment">
+       
+       <c:if test="${!empty board.commentGroup}">
+        <div class="comment">
          <div class="comment-write">
            <col-lg-12><ion-icon name="person"></ion-icon> ${board.userNick}</col-lg-12>
            <a href="#">신고</a>
            <a>${board.regDate}</a>
            <a href="#">댓글달기</a>
          </div>
-
          <div class="comment-content">
-           <col-lg-12>댓글내용입니다. 댓글내용입니다.</col-lg-12>
+           <col-lg-12>${board.bbsContent}</col-lg-12>
          </div>
-       </div>
-
-       <div class="recomment">
-         <div class="recomment-write">
-           <col-lg-12><ion-icon name="return-down-forward" class="return"></ion-icon><ion-icon name="person" class="person"></ion-icon> ${board.userNick}</col-lg-12>
-           <a href="#">신고</a>
-           <a>${board.regDate}</a>
-           <a href="#">댓글달기</a>
-         </div>
-
-         <div class="recomment-content">
-           <col-lg-12>댓글내용입니다. 댓글내용입니다.</col-lg-12>
-         </div>
-       </div>
-
+        </div>
+       </c:if>
+	  </form>
      </div>
      
     <form name="bbsForm" id="bbsForm" method="post">

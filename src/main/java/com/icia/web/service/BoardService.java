@@ -304,7 +304,18 @@ public class BoardService
 		}
       
 		return count;
-   }
-
+	}
+	
+	//댓글 등록
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public int boardCommentInsert(Board board) throws Exception
+	{
+		int count = 0;
+		
+		boardDao.commentGroupOrderUpdate(board);
+		count = boardDao.boardCommentInsert(board);
+		
+		return count;
+	}
 
 }

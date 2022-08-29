@@ -243,6 +243,9 @@ public class BoardController
        long curPage = HttpUtil.get(request, "curPage", (long)1);
        //본인글 여부
        String boardMe = "N";
+       //좋아요 여부 체크
+       String bbsLikeActive = "N";
+
        
        Board board = null;
        
@@ -254,11 +257,26 @@ public class BoardController
           {
              boardMe = "Y";
           }
+       
+	      if(!StringUtil.isEmpty(cookieUserUID) && bbsSeq > 0)
+	      {
+	         board.setBbsSeq(bbsSeq);
+	         board.setUserUID(cookieUserUID);
+	         if(boardService.boardLikeCheck(board) == 0)                 
+	         {
+	        	 bbsLikeActive = "N";
+	         }
+	         else
+	         {
+	        	 bbsLikeActive = "Y";
+	         }   
+	      }
        }
        
        model.addAttribute("bbsSeq", bbsSeq);
        model.addAttribute("board", board);
        model.addAttribute("boardMe", boardMe);
+       model.addAttribute("bbsLikeActive", bbsLikeActive);
        model.addAttribute("searchType", searchType);
        model.addAttribute("searchValue", searchValue);
        model.addAttribute("curPage", curPage);
@@ -508,6 +526,62 @@ public class BoardController
   		
   		return modelAndView;
   	}
-
+  	
+  	//댓글
+  	@RequestMapping(value="/board/commentProc", method=RequestMethod.POST)
+  	@ResponseBody
+  	public Response<Object> commentProc(HttpServletRequest request, HttpServletResponse response)
+  	{
+  		Response<Object> ajaxResponse = new Response<Object>();
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+		String bbsContent = HttpUtil.get(request, "bbsContent", "");
+		//int bbsNo = HttpUtil.get(request, "bbsNo", 0);
 		
+		if(bbsSeq > 0 && !StringUtil.isEmpty(bbsContent))
+		{
+			Board parentBoard = boardService.boardSelect(bbsSeq);
+			
+			if(parentBoard != null)
+			{
+				Board board = new Board();
+				
+				board.setUserUID(cookieUserUID);
+				board.setBbsContent(bbsContent);
+				board.setCommentGroup(parentBoard.getCommentGroup());
+				board.setCommentOrder(parentBoard.getCommentOrder() + 1);
+				board.setCommentIndent(parentBoard.getCommentIndent() + 1);
+				board.setCommentParent(bbsSeq);
+				
+				try
+				{
+					if(boardService.boardCommentInsert(board) > 0)
+					{
+						ajaxResponse.setResponse(0, "success");
+					}
+					else
+					{
+						ajaxResponse.setResponse(500, "internal server error");
+					}	
+				}
+				catch(Exception e)
+				{
+					logger.error("[BoardController] /board/commentProc Exception", e);
+					ajaxResponse.setResponse(500, "internal server error2");
+				}
+			}
+			else
+			{
+				ajaxResponse.setResponse(404, "not found");
+			}
+		}
+		else
+		{
+			ajaxResponse.setResponse(400, "bad request");
+		}
+		
+		return ajaxResponse;
+  	}
+		
+  	
 }
