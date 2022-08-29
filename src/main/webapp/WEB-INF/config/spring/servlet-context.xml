@@ -71,10 +71,14 @@
             			<value>/board/view</value>
             			<value>/board/like</value>
             			<value>/reservation/shopInsert</value>
+            			<value>/reservation/view</value>
             			<value>/today/list</value>
             			<value>/help/index</value>
             			<value>/myPage/myProfile</value>
             			<value>/footer/resources</value>
+            			<value>/user/NickUpdate</value>
+            			<value>/user/EmailUpdate</value>
+            			<value>/myPage/userDelete</value>
             		</list>
             	</constructor-arg>
             </bean>

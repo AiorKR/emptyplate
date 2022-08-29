@@ -112,5 +112,21 @@ public class UserService
 		
 		return user;
 	}
+	
+	public int userDelete(User user)
+	   {
+		   int count = 0;
+		   
+		   try
+		   {
+			   count = userDao.userDelete(user);
+		   }
+		   catch(Exception e)
+		   {
+			   logger.error("[UserService] userDelete", e);
+		   }
+		   
+		   return count;
+	   }
 
 }
