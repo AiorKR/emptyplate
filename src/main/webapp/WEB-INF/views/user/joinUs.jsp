@@ -350,7 +350,7 @@ function fn_validateEmail(value)
 		            </label>
 		            <label>
 		              <span>Email</span>
-		              <input type="email" id="userEmail" name="userEmail" placeholder="이메일 주소를 입력하세요." maxlength="20" />
+		              <input type="email" id="userEmail" name="userEmail" placeholder="이메일 주소를 입력하세요." maxlength="40" />
 		            </label>
 		            <label>
 		              <span>전화번호</span>
