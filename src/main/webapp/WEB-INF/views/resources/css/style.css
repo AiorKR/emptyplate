@@ -903,14 +903,16 @@ section {
 
 /*--순*/
 
-#btnSort{
+#community .btnSort{
   border :none;
   background: none;
+  font-family: 'Cafe24Dangdanghae';
 }
-#btnSort:hover{
+#community .btnSort:hover{
   border :none;
   background: none;
   color: #c2a383;
+  font-family: 'Cafe24Dangdanghae';
 }
 #community .d-flex ul {
   margin-top: 5px;
@@ -921,6 +923,7 @@ section {
   margin: 0;
   color: #0c0b09;
   position: relative;
+  font-family: 'Cafe24Dangdanghae';
 }
 
 #community .d-flex ul li {
