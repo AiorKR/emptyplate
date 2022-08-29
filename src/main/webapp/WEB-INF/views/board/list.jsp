@@ -20,14 +20,34 @@ $(document).ready(function() {
       document.bbsForm.action = "/board/list";
       document.bbsForm.submit();
    });
-   $("#btnSort").on("click", function() { 
-      document.bbsForm.bbsSeq.value = "";
-      document.bbsForm.searchType.value = $("#_searchType").val();
-      document.bbsForm.searchValue.value = $("#_searchValue").val();
-      document.bbsForm.curPage.value = "1";
-      document.bbsForm.action = "/board/list";
-      document.bbsForm.submit();
+   $("#btnSort1").on("click", function() { 
+	      document.bbsForm.bbsSeq.value = "";
+	      document.bbsForm.searchType.value = $("#_searchType").val();
+	      document.bbsForm.searchValue.value = $("#_searchValue").val();
+	      document.bbsForm.sortValue.value = "4";
+	      document.bbsForm.curPage.value = "1";
+	      document.bbsForm.action = "/board/list";
+	      document.bbsForm.submit();
    });
+   $("#btnSort2").on("click", function() { 
+         document.bbsForm.bbsSeq.value = "";
+         document.bbsForm.searchType.value = $("#_searchType").val();
+         document.bbsForm.searchValue.value = $("#_searchValue").val();
+         document.bbsForm.sortValue.value = "5";
+         document.bbsForm.curPage.value = "1";
+         document.bbsForm.action = "/board/list";
+         document.bbsForm.submit();
+      });
+   $("#btnSort3").on("click", function() { 
+         document.bbsForm.bbsSeq.value = "";
+         document.bbsForm.searchType.value = $("#_searchType").val();
+         document.bbsForm.searchValue.value = $("#_searchValue").val();
+         document.bbsForm.sortValue.value = "6";
+         document.bbsForm.curPage.value = "1";
+         document.bbsForm.action = "/board/list";
+         document.bbsForm.submit();
+      });
+
 });
 
 function fn_view(bbsSeq)
@@ -86,9 +106,9 @@ function fn_list(curPage)
        <div class="d-flex flex-row justify-content-between">
          <div>
            <ul>
-             <li><button type="button" value="dateCount" id="btnSort" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sort=dateCount'" class="btn btn-outline-dark float-right" data-bs-toggle="button">최신순</button></li>
-             <li><button type="button" value="likeCount" id="btnSort" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sort=likeCount'" class="btn btn-outline-dark float-right">좋아요순</button></li>
-             <li><button type="button" value="readCount" id="btnSort" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sort=readCount'" class="btn btn-outline-dark float-right ">조회순</button></li>
+             <li><button type="button" value="4" id="btnSort1" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=4'" class="btnSort">최신순</button></li>
+             <li><button type="button" value="5" id="btnSort2" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=5'" class="btnSort">좋아요순</button></li>
+             <li><button type="button" value="6" id="btnSort3" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=6'" class="btnSort">조회순</button></li>
            </ul>
          </div>
          <div>
@@ -157,11 +177,12 @@ function fn_list(curPage)
      </div>
    
    <form name="bbsForm" id="bbsForm" method="post">
-	<input type="hidden" name="bbsSeq" value="" />
-	<input type="hidden" name="searchType" value="${searchType}" />
-	<input type="hidden" name="searchValue" value="${searchValue}" />
-	<input type="hidden" name="curPage" value="${curPage}" />
-	<input type="hidden" name="bbsNo" value="${bbsNo}" />
+    <input type="hidden" name="bbsSeq" value="" />
+    <input type="hidden" name="searchType" value="${searchType}" />
+    <input type="hidden" name="searchValue" value="${searchValue}" />
+    <input type="hidden" name="sortValue" value="${sortValue}" />
+    <input type="hidden" name="curPage" value="${curPage}" />
+    <input type="hidden" name="bbsNo" value="${bbsNo}" />
    </form>
    
    </div>
