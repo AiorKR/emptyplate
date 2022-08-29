@@ -216,10 +216,15 @@ function fn_loginCheck()
 						$("#userPwd").focus();
 					}
 					else if(code == 404)
-					{
-						alert("아이디와 일치하는 사용자 정보가 없습니다.");
-						$("#userId").focus();
-					}
+		               {
+		                  alert("아이디와 일치하는 사용자 정보가 없습니다.");
+		                  $("#userId").focus();                  
+		               }
+	               	else if(code == 403)
+	               	{
+	                	  alert("사용이 중지된 사용자 입니다.");
+	                  	  $("#userId").focus();
+	                }                  
 					else if(code == 400)
 					{
 						alert("파라미터 값이 올바르지 않습니다.");
@@ -378,7 +383,7 @@ function fn_validateEmail(value)
 		            </label>
 		            <label>
 		              <span>Email</span>
-		              <input type="email" id="userEmail" name="userEmail" placeholder="이메일 주소를 입력하세요." maxlength="20" />
+		              <input type="email" id="userEmail" name="userEmail" placeholder="이메일 주소를 입력하세요." maxlength="40" />
 		            </label>
 		            <label>
 		              <span>전화번호</span>
