@@ -79,6 +79,7 @@
             			<value>/user/NickUpdate</value>
             			<value>/user/EmailUpdate</value>
             			<value>/myPage/userDelete</value>
+            			<value>/user/FileUpdate</value>
             		</list>
             	</constructor-arg>
             </bean>

@@ -74,7 +74,7 @@ function showPopupNick() {
 	var popX = winX + (winWidth - popWidth)/2;
 	var popY = winY + (winHeight - popHeight)/2;
 
-	var nick_popup = window.open("./nick_popup", "pop", "top="+popY+", left="+popX+",width="+popWidth+",height="+popHeight+"resizable=yes"); 
+	window.open("./nick_popup", "pop", "top="+popY+", left="+popX+",width="+popWidth+",height="+popHeight+"resizable=yes"); 
 };
 //닉네임 변경 끝
 
@@ -90,9 +90,24 @@ function showPopupEmail() {
 	var popX = winX + (winWidth - popWidth)/2;
 	var popY = winY + (winHeight - popHeight)/2;
 	
-	var email_popup = window.open("./email_popup", "pop", "top="+popY+", left="+popX+",width="+popWidth+",height="+popHeight+"resizable=yes"); 
+	window.open("./email_popup", "pop", "top="+popY+", left="+popX+",width="+popWidth+",height="+popHeight+"resizable=yes"); 
 };
 //이메일 변경 끝
+
+//사진 변경 시작
+function showPopupFile() { 
+	var popHeight = 130;                                      // 띄울 팝업창 높이   
+	var popWidth = 460;                                       // 띄울 팝업창 너비
+	var winHeight = document.body.clientHeight;	  		      // 현재창의 높이
+	var winWidth = document.body.clientWidth;	              // 현재창의 너비
+	var winX = window.screenLeft;	                          // 현재창의 x좌표
+	var winY = window.screenTop;	                          // 현재창의 y좌표
+	var popX = winX + (winWidth - popWidth)/2;
+	var popY = winY + (winHeight - popHeight)/2;
+	
+	var file_popup = window.open("./file_popup", "pop", "top="+popY+", left="+popX+",width="+popWidth+",height="+popHeight+"resizable=yes"); 
+};
+//사진 변경 끝
 
 function updateSuccess() {
 	location.href = "/myPage/myProfile";
@@ -148,14 +163,14 @@ function updateError(){
                 <div class = "profile-img-div">
                     <img src="/image/${login.memberImg}" class = 'profile-card-img'>
                     <div>
-                    <form action="user/userImgFile" method="post" enctyoe="multipart/form-data">
-                       <input type="hidden" name="memberId" id="memberId" value="${login.memberId}">
+                   
+
                        <label for="file">
-                       <div class="btn-upload"><p type="submit" class = "mypage-profile-btn">프로필사진변경<i class="fa-solid fa-pen-to-square"></i></p></div>
+                       <div class="btn-upload"><p type="button" class = "mypage-profile-btn" onclick="showPopupFile()">프로필사진변경<i class="fa-solid fa-pen-to-square"></i></p></div>
                   </label>
-                     <input type="file" name="file" id="file">
+                     <input type="button" onclick="showPopupFile()" name="file" id="file">
                        </div>
-                    </form>  
+                    
                     </div>
                 <div class = "profile-card-name"><span>${user.userNick}</span><button class = "mypage-profile-btn"  onclick="showPopupNick()"><i class="fa-solid fa-pen-to-square"></i></button></div>
                 <div class = "profile-card-intro">

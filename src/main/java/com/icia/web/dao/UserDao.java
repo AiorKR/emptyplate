@@ -12,6 +12,7 @@ package com.icia.web.dao;
 import org.springframework.stereotype.Repository;
 
 import com.icia.web.model.User;
+import com.icia.web.model.UserFile;
 
 
 /**
@@ -48,7 +49,7 @@ public interface UserDao
 	public int userUpdate(User user);
 
 	//프로필사진 등록
-	public int userFileInsert(String userFile);
+	public int userFileInsert(UserFile userFile);
 	
 	//사용자 탈퇴
 	public int userDelete(User user);

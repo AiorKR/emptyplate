@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.icia.web.dao.UserDao;
 import com.icia.web.model.User;
+import com.icia.web.model.UserFile;
 
 
 /**
@@ -127,6 +128,22 @@ public class UserService
 		   }
 		   
 		   return count;
+	   }
+	
+	//프로필 사진 등록
+	   public int userFileInsert(UserFile userFile)
+	   {
+	      int count = 0;
+	      
+	      try
+	      {
+	         count = userDao.userFileInsert(userFile);
+	      }
+	      catch(Exception e)
+	      {
+	         logger.error("[UserService]userInsert Exception", e);
+	      }
+	      return count;
 	   }
 
 }

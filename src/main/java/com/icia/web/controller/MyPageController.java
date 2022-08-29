@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Response;
 import com.icia.web.model.User;
+import com.icia.web.model.UserFile;
 import com.icia.web.service.UserService;
 import com.icia.web.util.CookieUtil;
 import com.icia.web.util.HttpUtil;
@@ -31,7 +32,7 @@ public class MyPageController {
     private String AUTH_COOKIE_NAME;
    
     //파일 저장 경로
-    @Value("#{env['upload.save.dir']}")
+    @Value("#{env['user.upload.save.dir']}")
     private String UPLOAD_SAVE_DIR;
    
     @Autowired
@@ -241,4 +242,72 @@ public class MyPageController {
  	   
  	   return ajaxResponse;
     }
+ 	
+ 	
+ 	//파일 팝업로드
+    @RequestMapping(value="/myPage/file_popup", method=RequestMethod.GET)
+    public String file_popup(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+    {
+       String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+        User user = null;
+       
+       user = userService.userUIDSelect(userUID);
+               
+       model.addAttribute("user", user);
+       
+       return "/myPage/file_popup";
+    }
+    
+    
+    //게시물 등록(AJAX)
+    @RequestMapping(value="/user/picUpdate", method=RequestMethod.POST)
+    @ResponseBody
+    public Response<Object> picUpdate(MultipartHttpServletRequest request, HttpServletResponse response)
+    {
+       Response<Object> ajaxResponse = new Response<Object>();
+       String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+       FileData fileData = HttpUtil.getFile(request, "userFile", UPLOAD_SAVE_DIR);
+       
+       if(!StringUtil.isEmpty(userUID))
+       {
+    	  UserFile userFile = new UserFile();
+          
+          if(fileData != null && fileData.getFileSize() > 0)
+          {
+             
+             
+             userFile.setFileName(fileData.getFileName());
+             userFile.setFileExt(fileData.getFileExt());
+             userFile.setFileSize(fileData.getFileSize());
+             
+          
+          }   
+          //service호출
+          try
+          {
+             if(userService.userFileInsert(userFile) > 0)
+             {
+                ajaxResponse.setResponse(0, "success");
+             }
+             else
+             {
+                ajaxResponse.setResponse(500, "internal server error");
+             }
+          }
+          catch(Exception e)
+          {
+             logger.error("[HiBoardController]/board/writeProc Exception", 3);
+             ajaxResponse.setResponse(500, "internal server error");
+          }
+          
+       }
+       else
+       {
+          ajaxResponse.setResponse(400, "bad request");
+       }
+       
+       return ajaxResponse; 
+    }
+    
+ 	
 }
