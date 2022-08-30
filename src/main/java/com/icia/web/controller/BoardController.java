@@ -586,6 +586,7 @@ public class BoardController
 		
 		return ajaxResponse;
   	}
+  	
   	/*
   	@RequestMapping(value="/board/addReply", method=RequestMethod.POST)
   	@ResponseBody
@@ -612,5 +613,67 @@ public class BoardController
   		return ajaxResponse;
   	}
 		*/
+  	
+  	//댓글 삭제
+  	@RequestMapping(value="/board/commentDelete", method=RequestMethod.POST)
+  	@ResponseBody
+  	public Response<Object> commentDelete(HttpServletRequest request, HttpServletResponse response)
+  	{
+  		Response<Object> ajaxResponse = new Response<Object>();
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+  		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+  		
+  		Board board = new Board();
+  		board.setBbsSeq(bbsSeq);
+
+  		Board juniorBoard = new Board();
+  		juniorBoard.setCommentParent(bbsSeq);
+  		juniorBoard.setCommentGroup(boardService.boardGroupCheck(bbsSeq) + 1);
+  		juniorBoard.setCommentOrder(1);
+  		juniorBoard.setBbsSeq(bbsSeq);
+
+  		if(bbsSeq > 0)
+  		{	
+  			juniorBoard = boardService.boardSelect(bbsSeq);
+  			
+  			if(juniorBoard != null)
+  			{	
+  				if(StringUtil.equals(juniorBoard.getUserUID(), cookieUserUID))
+  				{	
+  					try
+  					{
+						if(boardService.boardCommentDelete(bbsSeq) > 0)
+						{
+							ajaxResponse.setResponse(0, "Success");
+						}
+						else
+						{
+							ajaxResponse.setResponse(500, "Internal server error");
+						}
+  					}
+  					catch(Exception e)
+  					{
+  						logger.error("[BoardController] commentDelete Exception", e);
+  						ajaxResponse.setResponse(500, "Internal server error");
+  					}
+  				}
+  				else
+  				{	
+  					ajaxResponse.setResponse(403, "Server error");
+  				}
+  			}
+  			else
+  			{	
+  				ajaxResponse.setResponse(404, "Not found");
+  			}
+  		}
+  		else
+  		{
+  			ajaxResponse.setResponse(400, "Bad request");
+  		}
+  		
+  		return ajaxResponse;
+  	}
+  	
   	
 }

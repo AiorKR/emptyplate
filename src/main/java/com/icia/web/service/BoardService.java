@@ -358,5 +358,23 @@ public class BoardService
 		
 		return list;
 	}
+	
+	//댓글 삭제
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public int boardCommentDelete(long bbsSeq) throws Exception
+	{
+		int count = 0;
+		
+		try
+		{
+			count=boardDao.boardCommentDelete(bbsSeq);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardCommentDelete Exception", e);
+		}
+		
+		return count;
+	}
 
 }

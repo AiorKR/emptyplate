@@ -66,4 +66,7 @@ public interface BoardDao
 	
 	//댓글 리스트 출력
 	public List<Board> boardCommentList(Board board);
+	
+	//댓글 삭제
+	public int boardCommentDelete(long bbsSeq);
 }

@@ -330,4 +330,17 @@ SELECT A.COMMENT_PARENT AS COMMENT_PARENT,
  ORDER BY A.COMMENT_GROUP ASC, A.COMMENT_ORDER DESC
 </select>
 
+<!-- 댓글 삭제
+<delete id="boardCommentDelete" parameterType="long">
+DELETE FROM T_BOARD
+ WHERE COMMENT_PARENT = #{bbsSeq}
+   AND COMMENT_GROUP = #{commentGroup}
+</delete> -->
+
+<!-- 댓글 삭제 -->
+<delete id="boardCommentDelete" parameterType="long">
+DELETE FROM T_BOARD
+ WHERE BBS_SEQ = #{bbsSeq}
+</delete>
+
 </mapper>
