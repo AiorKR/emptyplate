@@ -9,7 +9,7 @@
 <script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/icia.common.js"></script>
 <style>
-	.userNick{
+	.userEmail{
 		width: 250px;
 		height: 25px;
 }
@@ -17,18 +17,26 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-		$("#userNick").focus();
+		$("#userEmail").focus();
+		
 		$("#btnUpdate").on("click", function() { 
-	      	if($.trim($("#userNick").val()).length <= 0)
+	      	if($.trim($("#userEmail").val()).length <= 0)
 	      	{
-	         $("#userNick").focus();
-	         return;
+	        	$("#userEmail").focus();
+	        	return;
 	      	}
+	      	
+	      	if(!fn_validateEmail($("#userEmail").val()))
+			{	
+	      		alert("올바르지 않은 이메일 형식입니다."); 
+	      		opener.parent.emailChk();
+			 	 return;   
+			}
 	     	$.ajax({
 			type:"POST",
-			url:"/user/NickUpdate",
+			url:"/user/EmailUpdate",
 			data:{
-				userNick:$("#userNick").val()
+				userEmail:$("#userEmail").val()
 			},
 			dataType:"JSON",
 			beforeSend:function(xhr){
@@ -37,7 +45,7 @@ $(document).ready(function() {
 			success:function(response){
 				if(response.code == 0)
 				{
-					alert("닉네임이 변경되었습니다.");
+					alert("이메일이 변경되었습니다.");
 					opener.parent.updateSuccess();
 					self.close();
 				}
@@ -69,16 +77,22 @@ $(document).ready(function() {
 	      });
 	   });
 	});
+	
+function fn_validateEmail(value)
+	{
+	   var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+	   
+	   return emailReg.test(value);
+	}
 </script>
 </head>
 
 <body>
 <form>
-	<input type="text" id="userNick" name="userNick" class="userNick" placeholder="변경하실 닉네임을 입력해주세요" maxlength="12">
+	<input type="text" id="userEmail" name="userEmail" class="userEmail" placeholder="변경하실 이메일을 입력해주세요" maxlength="20">
 	<button type="button" id="btnUpdate">확인</button> 
-	<input type="button" value="닫 기" onclick="self.close();" /> 
+	<input type="button" value="닫 기" onclick="self.close();" />       
 </form>
-
 </body>
 
 </html>

@@ -49,11 +49,7 @@ $(document).ready(function() {
             if(response.code == 0)
               {
                alert("게시물이 수정되었습니다.");
-               location.href = "/board/list";
-               /* 왔었던 해당페이지로 이동(단점:수정 중 다른사람이 글을 써서 해당페이지에 내 글이 없을때)
-               document.bbsForm.action = "/board/list";
-               document.bbsForm.submit();*/
-               
+               location.href = "/board/list";               
               }
             else if(response.code == 400)
            {
@@ -176,7 +172,7 @@ $(document).ready(function() {
           </td>
         </tr>
         <tr>
-          <td class="file">파일첨부</td>
+          <td class="file">이미지 첨부</td>
           <td><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요." required /></td>
         </tr>
         
