@@ -39,7 +39,7 @@ public interface UserDao
 	 * @return  com.icia.web.model.User
 	 */
 	public User userSelect(String userId);
-
+	
 	public User userUIDSelect(String userUID);
 	
 	//사용자 등록

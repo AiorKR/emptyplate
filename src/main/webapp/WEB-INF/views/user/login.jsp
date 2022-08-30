@@ -125,12 +125,13 @@ $(document).ready(function() {
 		   $("#userPwd2").val($("#userPwd3").val());
 		   
 
-		   //아이디중복체크 ajax
+		   //아이디, 닉네임중복체크 ajax
 		   $.ajax({
 		     type:"POST",
 		     url:"/user/idCheck",
 		     data:{
-		        userId: $("#userId2").val()
+		        userId: $("#userId2").val(),
+		        userNick: $("#userNick").val()
 		     },
 		     datatype:"JSON",
 		     beforeSend:function(xhr){
@@ -144,6 +145,10 @@ $(document).ready(function() {
 		        else if(response.code == 100)
 		        {
 		           alert("중복된 아이디 입니다.");
+		        }
+		        else if(response.code == 110)
+		        {
+		           alert("중복된 닉네임 입니다.");
 		        }
 		        else if(response.code == 400)
 		        {
@@ -159,15 +164,9 @@ $(document).ready(function() {
 		        icia.common.error(error);
 		     }
 		   });
-		});
-
-	
-	
+		});	
 });
 
-
-
- 
 function fn_loginCheck()
 {
 	if($.trim($("#userId").val()).length <= 0)
@@ -285,6 +284,11 @@ function fn_userReg()
             alert("회원 아이디가 중복 되었습니다.");
             $("#userId2").focus();
          }
+         else if(response.code == 110)
+       	 {
+        	 alert("회원 닉네임이 중복 되었습니다.");
+        	 $("userNick").focus();
+       	 }
          else if(response.code == 400)
          {
             alert("파라미터 값이 올바르지 않습니다.");
