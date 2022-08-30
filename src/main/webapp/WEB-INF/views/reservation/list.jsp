@@ -83,7 +83,7 @@ function fn_search(shopHashtag) {
                   <c:forEach items="${list}" var="shop" varStatus="status">
                          <div class="swiper-slide">
                         <div class="reservation-item" style="height:350px;";>
-                               <img alt="" src="../resources/upload/shop/${shop.shopFile.shopFileName}" style="height: 300px;width:300px; position: relative; left: 150px; top:70px;">
+                               <img alt="" src="../resources/upload/shop/main/${shop.shopFile.shopFileName}" style="height: 300px;width:300px; position: relative; left: 150px; top:70px;">
                         <span style="position: relative; bottom:200px; left: 600px;">    
                             <h3> ${shop.shopName} </h3>
                             <ul>
@@ -177,7 +177,7 @@ function fn_search(shopHashtag) {
                                 <tr onclick="fn_view('${shop.shopUID}')" style="cursor:pointer;">
                                   <th>${status.count}</th>
                                   <td class="w-25" colspan="4">
-                                     <img src='../resources/upload/shop/${shop.shopFile.shopFileName}' class="img-fluid img-thumbnail" style="height: 200px;width: 200px;z-index:0;" >
+                                     <img src='../resources/upload/shop/main/${shop.shopFile.shopFileName}' class="img-fluid img-thumbnail" style="height: 200px;width: 200px;z-index:0;" >
                                   </td>
                                   <td>
                                   <h2>
