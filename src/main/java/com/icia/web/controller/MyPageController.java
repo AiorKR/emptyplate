@@ -27,7 +27,7 @@ import com.icia.web.util.JsonUtil;
 @Controller("myPageController")
 public class MyPageController {
    
-   public static Logger logger = LoggerFactory.getLogger(TodayController.class);
+   public static Logger logger = LoggerFactory.getLogger(MyPageController.class);
    
     //쿠키명
     @Value("#{env['auth.cookie.name']}")
