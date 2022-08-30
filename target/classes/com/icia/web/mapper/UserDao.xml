@@ -15,6 +15,8 @@
      <result column="BIZ_NUM" property="bizNum" />
      <result column="BIZ_NAME" property="bizName" />
      <result column="BIZ_DATE" property="bizDate" />
+     <result column="FILE_NAME" property="fileName" />
+     
   </resultMap>
  
  <resultMap id="userFileResultMap" type="com.icia.web.model.UserFile">
@@ -44,21 +46,23 @@
  </select>
 
 <select id="userUIDSelect" parameterType="String" resultMap="userResultMap">
-   SELECT USER_UID,
-          USER_ID,
-          NVL(USER_PWD,'') USER_PWD,
-          NVL(USER_PHONE, '') USER_PHONE,
-          NVL(USER_NAME, '') USER_NAME,
-          NVL(USER_NICK, '') USER_NICK,
-          NVL(USER_EMAIL, '') USER_EMAIL,
-          NVL(ADMIN_STATUS, '') ADMIN_STATUS,
-          NVL(STATUS, '') STATUS,
-          NVL(TO_CHAR(REG_DATE, 'YYYY.MM.DD HH24:MI:SS') , ''),
-          NVL(BIZ_NUM, '') BIZ_NUM,
-          NVL(BIZ_NAME, '') BIZ_NAME,
-          NVL(TO_CHAR(BIZ_DATE, 'YYYY.MM.DD HH24:MI:SS') , '')
-     FROM T_USER
-     WHERE USER_UID = #{value}
+     SELECT U.USER_UID,
+          U.USER_ID,
+          NVL(U.USER_PWD,'') USER_PWD,
+          NVL(U.USER_PHONE, '') USER_PHONE,
+          NVL(U.USER_NAME, '') USER_NAME,
+          NVL(U.USER_NICK, '') USER_NICK,
+          NVL(U.USER_EMAIL, '') USER_EMAIL,
+          NVL(U.ADMIN_STATUS, '') ADMIN_STATUS,
+          NVL(U.STATUS, '') STATUS,
+          NVL(TO_CHAR(U.REG_DATE, 'YYYY.MM.DD HH24:MI:SS') , ''),
+          NVL(U.BIZ_NUM, '') BIZ_NUM,
+          NVL(U.BIZ_NAME, '') BIZ_NAME,
+          NVL(TO_CHAR(U.BIZ_DATE, 'YYYY.MM.DD HH24:MI:SS') , ''),
+          NVL(F.FILE_NAME, '') AS FILE_NAME
+     FROM T_USER U, T_USER_FILE F
+     WHERE U.USER_UID = #{value}
+       AND U.USER_UID = F.USER_UID(+)
  </select>
 
  <insert id="userInsert" parameterType="com.icia.web.model.User">
@@ -136,5 +140,19 @@ INSERT INTO T_USER_FILE (
     SYSDATE
 )
 </insert>
+
+<update id="userFileUpdate" parameterType="com.icia.web.model.UserFile">
+ UPDATE T_USER_FILE
+   SET FILE_NAME = #{fileName},
+       FILE_EXT = #{fileExt},
+       FILE_SIZE = #{fileSize},
+       REG_DATE = SYSDATE
+ WHERE USER_UID = #{userUID}
+</update>
+
+<delete id="userFileDelete" parameterType="com.icia.web.model.UserFile">
+DELETE FROM T_USER_FILE
+WHERE  USER_UID = #{userUID}
+</delete>
 
 </mapper>

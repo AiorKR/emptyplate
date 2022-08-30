@@ -220,6 +220,11 @@ function fn_loginCheck()
 						alert("아이디와 일치하는 사용자 정보가 없습니다.");
 						$("#userId").focus();
 					}
+					else if(code == 403)
+	               	{
+	                	  alert("사용이 중지된 사용자 입니다.");
+	                  	  $("#userId").focus();
+	                }      
 					else if(code == 400)
 					{
 						alert("파라미터 값이 올바르지 않습니다.");

@@ -73,9 +73,16 @@ public class UserController
          {
             if(StringUtil.equals(user.getUserPwd(), userPwd))
             {
-               String userUID = user.getUserUID();
-               CookieUtil.addCookie(response, "/", -1, AUTH_COOKIE_NAME, CookieUtil.stringToHex(userUID));
-               ajaxResponse.setResponse(0, "Success");
+               if(StringUtil.equals(user.getStatus(), "Y"))
+	            {	
+            	   	String userUID = user.getUserUID();
+	               	CookieUtil.addCookie(response, "/", -1, AUTH_COOKIE_NAME, CookieUtil.stringToHex(userUID));
+	               	ajaxResponse.setResponse(0, "Success");
+            	}
+               else
+               {
+            	   ajaxResponse.setResponse(403, "Not Found");
+               }
             }
             else
             {
@@ -166,9 +173,7 @@ public class UserController
          if(userService.userSelect(userUID) == null)
          {
             User user = new User();
-            
-            
-              
+      
             user.setUserUID(userUID);   
             user.setUserId(userId);
               user.setUserPwd(userPwd);

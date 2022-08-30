@@ -261,29 +261,25 @@ public class MyPageController {
     }
     
     
-    //게시물 등록(AJAX)
-    @RequestMapping(value="/user/picUpdate", method=RequestMethod.POST)
+    //프로필 사진 등록
+    @RequestMapping(value="/user/picInsert", method=RequestMethod.POST)
     @ResponseBody
-    public Response<Object> picUpdate(MultipartHttpServletRequest request, HttpServletResponse response)
+    public Response<Object> picInsert(MultipartHttpServletRequest request, HttpServletResponse response)
     {
        Response<Object> ajaxResponse = new Response<Object>();
        String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
        FileData fileData = HttpUtil.getFile(request, "userFile", UPLOAD_SAVE_DIR);
-       
+    
        if(!StringUtil.isEmpty(userUID))
        {
     	  UserFile userFile = new UserFile();
           
           if(fileData != null && fileData.getFileSize() > 0)
-          {
-             
-             
+          { 
              userFile.setUserUID(userUID);
         	 userFile.setFileName(fileData.getFileName());
              userFile.setFileExt(fileData.getFileExt());
-             userFile.setFileSize(fileData.getFileSize());
-             
-          
+             userFile.setFileSize(fileData.getFileSize());     
           }   
           //service호출
           try
@@ -299,7 +295,96 @@ public class MyPageController {
           }
           catch(Exception e)
           {
-             logger.error("[HiBoardController]/board/writeProc Exception", 3);
+             logger.error("[MyPageController]/user/picInsert Exception", 3);
+             ajaxResponse.setResponse(500, "internal server error");
+          }
+          
+       }
+       else
+       {
+          ajaxResponse.setResponse(400, "bad request");
+       }
+       
+       return ajaxResponse; 
+    }
+    
+    
+    
+    //프로필 사진 변경
+    @RequestMapping(value="/user/picUpdate", method=RequestMethod.POST)
+    @ResponseBody
+    public Response<Object> picUpdate(MultipartHttpServletRequest request, HttpServletResponse response)
+    {
+       Response<Object> ajaxResponse = new Response<Object>();
+       String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+       FileData fileData = HttpUtil.getFile(request, "userFile", UPLOAD_SAVE_DIR);
+    
+       if(!StringUtil.isEmpty(userUID))
+       {
+    	  UserFile userFile = new UserFile();
+          
+          if(fileData != null && fileData.getFileSize() > 0)
+          { 
+             userFile.setUserUID(userUID);
+        	 userFile.setFileName(fileData.getFileName());
+             userFile.setFileExt(fileData.getFileExt());
+             userFile.setFileSize(fileData.getFileSize());     
+          }   
+          //service호출
+          try
+          {
+             if(userService.userFileUpdate(userFile) > 0)
+             {
+                ajaxResponse.setResponse(0, "success");
+             }
+             else
+             {
+                ajaxResponse.setResponse(500, "internal server error");
+             }
+          }
+          catch(Exception e)
+          {
+             logger.error("[MyPageController]/user/picInsert Exception", 3);
+             ajaxResponse.setResponse(500, "internal server error");
+          }
+          
+       }
+       else
+       {
+          ajaxResponse.setResponse(400, "bad request");
+       }
+       
+       return ajaxResponse; 
+    }
+    
+    
+    //프로필 사진 삭제
+    @RequestMapping(value="/user/delPic")
+    @ResponseBody
+    public Response<Object> delPic(HttpServletRequest request, HttpServletResponse response)
+    {
+       Response<Object> ajaxResponse = new Response<Object>();
+       String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+       if(!StringUtil.isEmpty(userUID))
+       {
+            UserFile userFile = new UserFile();
+            userFile.setUserUID(userUID);
+            
+          //service호출
+          try
+          {
+             if(userService.userFileDelete(userFile) > 0)
+             {
+                ajaxResponse.setResponse(0, "success");
+             }
+             else
+             {
+                ajaxResponse.setResponse(500, "internal server error");
+             }
+          }
+          catch(Exception e)
+          {
+             logger.error("[MyPageController]/user/defaultPic Exception", 3);
              ajaxResponse.setResponse(500, "internal server error");
           }
           

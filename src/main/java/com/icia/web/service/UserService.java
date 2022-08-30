@@ -141,9 +141,43 @@ public class UserService
 	      }
 	      catch(Exception e)
 	      {
-	         logger.error("[UserService]userInsert Exception", e);
+	         logger.error("[UserService]userFileInsert Exception", e);
 	      }
 	      return count;
+	   }
+	   
+
+	 //프로필 사진 변경
+	   public int userFileUpdate(UserFile userFile)
+	   {
+	      int count = 0;
+	      
+	      try
+	      {
+	         count = userDao.userFileUpdate(userFile);
+	      }
+	      catch(Exception e)
+	      {
+	         logger.error("[UserService]userFileUpdate Exception", e);
+	      }
+	      return count;
+	   }
+	   
+	   //기본프로필 설정
+	   public int userFileDelete(UserFile userFile)
+	   {
+		   int count = 0;
+		   
+		   try
+		   {
+			   count = userDao.userFileDelete(userFile);
+		   }
+		   catch(Exception e)
+		   {
+			   logger.error("[UserService] PicDelete", e);
+		   }
+		   
+		   return count;
 	   }
 
 }

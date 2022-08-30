@@ -51,6 +51,11 @@ public interface UserDao
 	//프로필사진 등록
 	public int userFileInsert(UserFile userFile);
 	
+	//프로필사진 변경
+	public int userFileUpdate(UserFile userFile);
+	
+	public int userFileDelete(UserFile userFile);
+	
 	//사용자 탈퇴
 	public int userDelete(User user);
 

@@ -161,7 +161,12 @@ function updateError(){
           <div id="mypage" class="user-edit">
             <div class = "profile-card">
                 <div class = "profile-img-div">
-                    <img src="/image/${login.memberImg}" class = 'profile-card-img'>
+                    <c:if test="${user.fileName eq ''}">
+                    <img src="/resources/upload/user/userDefault.jpg" class = 'profile-card-img'>
+                    </c:if>
+                    <c:if test="${user.fileName ne ''}">
+                     <img src="/resources/upload/user/${user.fileName}" class = 'profile-card-img'>
+		            </c:if>       
                     <div>
                    
 
