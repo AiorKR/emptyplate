@@ -317,5 +317,15 @@ public class BoardService
 		
 		return count;
 	}
+	
+	//최초 댓글 체크
+	public int boardGroupCheck(long bbsSeq)
+	{
+		int count = 0;
+		
+		count=boardDao.boardGroupCheck(bbsSeq);
+		
+		return count;
+	}
 
 }

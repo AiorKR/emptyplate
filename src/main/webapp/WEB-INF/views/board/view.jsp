@@ -115,11 +115,11 @@ $(document).ready(function() {
 	      
 	      $("#btnSearch").prop("disabled", true);   //글쓰기 버튼 비활성화 //버튼 여러번 누르기 방지기능(활성화시 여러번 전송되므로)
 	      
-	      if($.trim($("#commentContent").val()).length <= 0)
+	      if($.trim($("#juniorBbsContent").val()).length <= 0)
 	      {
 	         alert("내용을 입력하세요.");
-	         $("#commentContent").val("");
-	         $("#commentContent").focus();
+	         $("#juniorBbsContent").val("");
+	         $("#juniorBbsContent").focus();
 	         
 	         $("#btnSearch").prop("disabled", false);   //글쓰기 버튼 활성화
 	         
@@ -223,16 +223,21 @@ $(document).ready(function() {
        </div>
 
 	  <form name="commentForm" id="commentForm" method="post">
-       <div class="board-commentwrite">
-        
-         <col-lg-12><ion-icon name="chatbubbles"></ion-icon>댓글</col-lg-12>
-         <div class="submit">
-           <input type="text" id="commentContent" name="commentContent">
-           <button type="submit" id="btnSearch">등록</button>
-         </div>
-       </div>
-       
-       <c:if test="${!empty board.commentGroup}">
+      
+<!-- 댓글달기 -->               
+<form name="commentForm" id="commentForm" method="post" enctype="form-data">
+ 	<div class="board-commentwrite">
+ 		<col-lg-12><ion-icon name="chatbubbles"></ion-icon>댓글</col-lg-12>
+ 			 <div class="submit">
+ 			 	<input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
+      			<input type="text" id="juniorBbsContent" name="juniorBbsContent"  value="${juniorBoard.bbsContent}"style="ime-mode:active;" class="form-control mt-4 mb-2"/>
+     			<button type="submit" id="btnSearch">등록</button>
+     		</div>
+ 	</div>
+</form>
+  
+       <!-- 댓글달기 종료 -->
+       <c:if test="${board.commentGroup gt 0}">
         <div class="comment">
          <div class="comment-write">
            <col-lg-12><ion-icon name="person"></ion-icon> ${board.userNick}</col-lg-12>

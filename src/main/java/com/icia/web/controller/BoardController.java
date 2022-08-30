@@ -532,30 +532,38 @@ public class BoardController
   	@ResponseBody
   	public Response<Object> commentProc(HttpServletRequest request, HttpServletResponse response)
   	{
+
   		Response<Object> ajaxResponse = new Response<Object>();
   		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
-		String bbsContent = HttpUtil.get(request, "bbsContent", "");
-		//int bbsNo = HttpUtil.get(request, "bbsNo", 0);
+		Board board = new Board();
+		Board juniorBoard = new Board(); 
+		board.setBbsSeq(bbsSeq);
+		String juniorBbsContent = HttpUtil.get(request, "juniorBbsContent", "");
 		
-		if(bbsSeq > 0 && !StringUtil.isEmpty(bbsContent))
+		if(bbsSeq > 0 && !StringUtil.isEmpty(juniorBbsContent))
 		{
-			Board parentBoard = boardService.boardSelect(bbsSeq);
-			
-			if(parentBoard != null)
+			logger.debug("#######################################");
+	  		logger.debug("#여기까지 작동#");
+	  		logger.debug("#cookieUserUID : " + cookieUserUID );
+	  		logger.debug("bbsSeq : " + board.getBbsSeq());
+	  		logger.debug("bbsContent : " + juniorBbsContent);
+	  		logger.debug("#######################################");
+	  		juniorBoard.setUserUID(cookieUserUID);
+	  		juniorBoard.setBbsContent(juniorBbsContent);
+	  		juniorBoard.setCommentParent(bbsSeq);
+	  		if(boardService.boardGroupCheck(bbsSeq) == 0)
+	  		{
+	  			juniorBoard.setCommentGroup(1);
+	  			juniorBoard.setCommentOrder(1);
+	  			juniorBoard.setCommentIndent(0);
+	  		}
+			if(board != null)
 			{
-				Board board = new Board();
-				
-				board.setUserUID(cookieUserUID);
-				board.setBbsContent(bbsContent);
-				board.setCommentGroup(parentBoard.getCommentGroup());
-				board.setCommentOrder(parentBoard.getCommentOrder() + 1);
-				board.setCommentIndent(parentBoard.getCommentIndent() + 1);
-				board.setCommentParent(bbsSeq);
 				
 				try
 				{
-					if(boardService.boardCommentInsert(board) > 0)
+					if(boardService.boardCommentInsert(juniorBoard) > 0)
 					{
 						ajaxResponse.setResponse(0, "success");
 					}

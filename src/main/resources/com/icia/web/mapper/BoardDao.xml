@@ -286,8 +286,8 @@ INSERT INTO T_BOARD (BBS_SEQ,
                      COMMENT_INDENT) 
 VALUES (#{bbsSeq},
         #{userUID},
-        #{bbsNo},
-        #{bbsTitle},
+        5,
+        NULL,
         #{bbsContent},
         0,
         0,
@@ -306,5 +306,13 @@ UPDATE T_BOARD
  WHERE COMMENT_GROUP = #{commentGroup}
    AND COMMENT_ORDER <![CDATA[>=]]> #{commentOrder}
 </update>
+
+<!-- 최초 댓글 체크 -->
+<select id="boardGroupCheck" parameterType="long" resultType="int"> 
+SELECT COUNT(*)
+  FROM T_BOARD
+ WHERE BBS_SEQ = #{value}
+   AND COMMENT_GROUP <![CDATA[>]]> 0
+</select>
 
 </mapper>

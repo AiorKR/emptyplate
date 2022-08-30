@@ -60,4 +60,7 @@ public interface BoardDao
 	
 	//댓글 그룹순서 변경
 	public int commentGroupOrderUpdate(Board board);
+	
+	//최초 댓글 체크
+	public int boardGroupCheck(long bbsSeq);
 }
