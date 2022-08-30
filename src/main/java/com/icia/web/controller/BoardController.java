@@ -246,6 +246,8 @@ public class BoardController
        String boardMe = "N";
        //좋아요 여부 체크
        String bbsLikeActive = "N";
+       //댓글허용체크
+       String bbsComment = "";
 
        Board board = null;
        List<Board> juniorBoard = null;
@@ -254,8 +256,6 @@ public class BoardController
        {
           board = boardService.boardView(bbsSeq);
           juniorBoard = boardService.boardCommentList(board);
-          
-                
           if(board != null && StringUtil.equals(board.getUserUID(), cookieUserUID))
           {
              boardMe = "Y";
@@ -275,10 +275,10 @@ public class BoardController
 	         }   
 	      }
        }
-       
        model.addAttribute("bbsSeq", bbsSeq);
        model.addAttribute("board", board);
        model.addAttribute("boardMe", boardMe);
+       model.addAttribute("bbsComment", bbsComment);
        model.addAttribute("bbsLikeActive", bbsLikeActive);
        model.addAttribute("searchType", searchType);
        model.addAttribute("searchValue", searchValue);

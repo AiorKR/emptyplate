@@ -171,8 +171,9 @@ $(document).ready(function() {
 	            $("#btnSearch").prop("disabled", false);   //글쓰기 버튼 활성화
 	         }
 	      });
-	   });/*
-   $("#_addReply").on("click", function(){
+	   });
+   $("#btnAddReply").on("click", function(){
+		$("#btnSearch").prop("disabled", true);   //버튼 여러번 누르기 방지기능(활성화시 여러번 전송되므로)
 	   $.ajax({
 	       type:"POST",
 	       url:"/board/addReply",
@@ -203,101 +204,96 @@ $(document).ready(function() {
 	       }
 	    });
    });
-	   */
 });   
 </script>
 </head>
-<body>
-<%@ include file="/WEB-INF/views/include/navigation.jsp" %>
- <section id="communityView" class="community">
-   <div class="container">
-     <div class = "row">
-       <div class="board-title">
-         <c:out value="${board.bbsTitle}" /><br/>
-       </div>
+	<body>
+		<%@ include file="/WEB-INF/views/include/navigation.jsp" %>
+		<section id="communityView" class="community">
+		<div class="container">
+			<div class = "row">
+				<div class="board-title">
+					<c:out value="${board.bbsTitle}" /><br/>
+				</div>
+				<div class="board-writer">
+					<ion-icon name="person"></ion-icon> <a href="#"><c:out value="${board.userNick}"/></a> &nbsp;
+					<ion-icon name="calendar"></ion-icon> ${board.regDate} &nbsp;
+					<ion-icon name="eye"></ion-icon> ${board.bbsReadCnt}
+				</div>
 
-       <div class="board-writer">
-         <ion-icon name="person"></ion-icon> <a href="#"><c:out value="${board.userNick}"/></a> &nbsp;
-         <ion-icon name="calendar"></ion-icon> ${board.regDate} &nbsp;
-         <ion-icon name="eye"></ion-icon> ${board.bbsReadCnt}
-       </div>
+				<div class="board-innercontent">
+					<col-lg-12>${board.bbsContent}</col-lg-12>
+					<div>
+						<c:if test="${boardMe eq 'Y'}">
+							<div class="delete"><button type="button" id="btnDelete" class="delete">삭제</button></div>
+							<div class="update"><button type="button" id="btnUpdate" class="update">수정</button></div>
+						</c:if>
+					</div>
 
-       <div class="board-innercontent">
-         <col-lg-12>${board.bbsContent}</col-lg-12>
-           <div>
-           <c:if test="${boardMe eq 'Y'}">
-              <div class="delete"><button type="button" id="btnDelete" class="delete">삭제</button></div>
-              <div class="update"><button type="button" id="btnUpdate" class="update">수정</button></div>
-           </c:if>
-           </div>
-           
-           <div class="d-flex flex-row justify-content-center">
-            <c:choose>
-               <c:when test="${bbsLikeActive eq 'Y'}">
-                  <div class="like"><button type="button" id="btnLike" class="like"><ion-icon name="heart"></ion-icon>&nbsp;&nbsp;좋아요  <span class="likeCount">${board.bbsLikeCnt}</span></button></div>
-               </c:when>
-               <c:when test="${bbsLikeActive eq 'N'}">
-                  <div class="like"><button type="button" id="btnLike" class="like"><ion-icon name="heart-outline"></ion-icon>&nbsp;&nbsp;좋아요  <span class="likeCount">${board.bbsLikeCnt}</span></button></div>
-               </c:when>
-            </c:choose>
-             <div class="bookmark"><button type="button" id="btnBoomark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
-           </div>
-       </div>
+					<div class="d-flex flex-row justify-content-center">
+						<c:choose>
+							<c:when test="${bbsLikeActive eq 'Y'}">
+								<div class="like"><button type="button" id="btnLike" class="like"><ion-icon name="heart"></ion-icon>&nbsp;&nbsp;좋아요  <span class="likeCount">${board.bbsLikeCnt}</span></button></div>
+							</c:when>
+							<c:when test="${bbsLikeActive eq 'N'}">
+								<div class="like"><button type="button" id="btnLike" class="like"><ion-icon name="heart-outline"></ion-icon>&nbsp;&nbsp;좋아요  <span class="likeCount">${board.bbsLikeCnt}</span></button></div>
+							</c:when>
+						</c:choose>
+						<div class="bookmark"><button type="button" id="btnBoomark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
+					</div>
+				</div>
 
 
-       <div class="board-service">
-         <div class="board-list"><button type="button" id="btnList" class="board-list"><ion-icon name="reader"></ion-icon>&nbsp;목록</button></div>
-         <div class="report"><button><ion-icon name="alert-circle"></ion-icon>&nbsp;신고</button></div>
-         <c:if test="${!empty board.boardFile}">
-			<a href="/board/download?bbsSeq=${board.boardFile.bbsSeq}" style="float:right;">첨부이미지 다운로드</a>
-         </c:if>   
-       </div>
+<div class="board-service">
+<div class="board-list"><button type="button" id="btnList" class="board-list"><ion-icon name="reader"></ion-icon>&nbsp;목록</button></div>
+<div class="report"><button><ion-icon name="alert-circle"></ion-icon>&nbsp;신고</button></div>
+<c:if test="${!empty board.boardFile}">
+<a href="/board/download?bbsSeq=${board.boardFile.bbsSeq}" style="float:right;">첨부이미지 다운로드</a>
+</c:if>   
+</div>
 
-	  <form name="commentForm" id="commentForm" method="post">
-      
+<c:if test="${board.bbsComment eq 'Y'}">
 <!-- 댓글달기 -->               
 <form name="commentForm" id="commentForm" method="post" enctype="form-data">
- 	<div class="board-commentwrite">
- 		<col-lg-12><ion-icon name="chatbubbles"></ion-icon>댓글</col-lg-12>
-			<div class="submit">
-				<input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
-      			<input type="text" id="juniorBbsContent" name="juniorBbsContent"  value="${juniorBoard.bbsContent}"style="ime-mode:active;" class="form-control mt-4 mb-2"/>
-     			<button type="submit" id="btnSearch">등록</button>
-     		</div>
- 	</div>
+<div class="board-commentwrite">
+<col-lg-12><ion-icon name="chatbubbles"></ion-icon>댓글</col-lg-12>
+<div class="submit">
+<input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
+<input type="text" id="juniorBbsContent" name="juniorBbsContent"  value="${juniorBoard.bbsContent}"style="ime-mode:active;" class="form-control mt-4 mb-2"/>
+<button type="submit" id="btnSearch">등록</button>
+</div>
+</div>
 </form>
   
-       <!-- 댓글달기 종료 -->
-       <c:if test="${!empty list}">
-       <c:forEach var="juniorBoard" items="${list}" varStatus="status">
-        <div class="comment">
-         <div class="comment-write">
-           <col-lg-12><ion-icon name="person"></ion-icon> ${juniorBoard.userNick}</col-lg-12>
-           <a href="#">신고</a>
-           <a>${juniorBoard.regDate}</a>
-           <a href="#">댓글달기</a>
-         </div>
-         <div class="comment-content">
-           <col-lg-12>${juniorBoard.bbsContent}</col-lg-12>
-         </div>
-        </div>
-        </c:forEach>
-       </c:if>
-	  </form>
-     </div>
-     
-    <form name="bbsForm" id="bbsForm" method="post">
-      <input type="hidden" name="bbsSeq" value="${bbsSeq}" />
-      <input type="hidden" name="searchType" value="${searchType}" />
-      <input type="hidden" name="searchValue" value="${searchValue}" />
-      <input type="hidden" name="curPage" value="${curPage}" />
-     <input type="hidden" name="bbsNo" value="${bbsNo}" />
-    </form>
-
-   </div> 
- </section>
-  
-  <!-- ======= Footer ======= -->
-  <%@ include file="/WEB-INF/views/include/footer.jsp" %>
+<!-- 댓글달기 종료 -->
+<c:if test="${!empty list}">
+<c:forEach var="juniorBoard" items="${list}" varStatus="status">
+<div class="comment">
+<div class="comment-write">
+<col-lg-12><ion-icon name="person"></ion-icon> ${juniorBoard.userNick}</col-lg-12>
+<button type="submit" id="btnReport">신고</button>
+<a>${juniorBoard.regDate}</a>
+<button type="submit" id="btnAddReply">댓글달기</button>
+</div>
+<div class="comment-content">
+<col-lg-12>${juniorBoard.bbsContent}</col-lg-12>
+</div>
+</div>
+</c:forEach>
+</c:if>
+</form>
+</c:if>
+</div>
+<form name="bbsForm" id="bbsForm" method="post">
+<input type="hidden" name="bbsSeq" value="${bbsSeq}" />
+<input type="hidden" name="searchType" value="${searchType}" />
+<input type="hidden" name="searchValue" value="${searchValue}" />
+<input type="hidden" name="curPage" value="${curPage}" />
+<input type="hidden" name="bbsNo" value="${bbsNo}" />
+</form>
+</div> 
+</section>
+ <!-- ======= Footer ======= -->
+<%@ include file="/WEB-INF/views/include/footer.jsp" %>
 </body>
 </html>
