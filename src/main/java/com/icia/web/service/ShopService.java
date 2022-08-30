@@ -45,10 +45,7 @@ public class ShopService {
 		}
 		
 		//게시물 리스트
-		public List<Shop> shopList(Shop shop) //shop 조회
-		{
-			
-			
+		public List<Shop> shopList(Shop shop) { //shop 조회 
 			
 			List<Shop> list = null;
 			
@@ -59,7 +56,6 @@ public class ShopService {
 			{	
 				list = shopDao.shopList(shop);
 				
-				logger.debug("list 다오에서 받은 후 : " + list.get(1).getShopFile().getShopFileOrgName());
 			}
 			catch(Exception e)
 			{
