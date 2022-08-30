@@ -106,7 +106,7 @@ SELECT RNUM,
                         BBS_TITLE,
                         BBS_CONTENT,
                         BBS_LIKE_CNT,
-                        BBS_READ_CNT,
+                        BBS_READ_CNT,	
                         REG_DATE
   FROM(SELECT BBS_SEQ,
               NVL(B.USER_UID, '') AS USER_UID,
@@ -120,6 +120,7 @@ SELECT RNUM,
          FROM T_BOARD A, T_USER B
         WHERE A.USER_UID = B.USER_UID
           AND A.BBS_NO = #{bbsNo}
+          AND A.BBS_TITLE IS NOT NULL
 <if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>   
   <choose>
     <when test='searchType == "1"'>   
@@ -158,6 +159,7 @@ SELECT RNUM,
 SELECT COUNT(A.BBS_SEQ) AS CNT
   FROM T_BOARD A, T_USER B
  WHERE A.USER_UID = B.USER_UID
+   AND A.BBS_TITLE IS NOT NULL
 <if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>	<!-- searchType, searchValue가 있을 때 조회 -->      
 	<choose>
 		<when test='searchType == "1"'>   
@@ -307,12 +309,26 @@ UPDATE T_BOARD
    AND COMMENT_ORDER <![CDATA[>=]]> #{commentOrder}
 </update>
 
-<!-- 최초 댓글 체크 -->
+<!--그룹번호 체크 -->
 <select id="boardGroupCheck" parameterType="long" resultType="int"> 
-SELECT COUNT(*)
+SELECT MAX(COMMENT_GROUP) AS MAXVALUE
   FROM T_BOARD
- WHERE BBS_SEQ = #{value}
-   AND COMMENT_GROUP <![CDATA[>]]> 0
+ WHERE COMMENT_PARENT = #{value}
+</select>
+
+<!-- 댓글 리스트 -->
+<select id="boardCommentList" parameterType="com.icia.web.model.Board" resultMap="boardResultMap">
+SELECT A.COMMENT_PARENT AS COMMENT_PARENT,
+       B.USER_NICK AS USER_NICK,
+       A.BBS_CONTENT AS BBS_CONTENT,
+       A.REG_DATE AS REG_DATE,
+       A.COMMENT_GROUP AS COMMENT_GROUP,
+       A.COMMENT_ORDER AS COMMENT_ORDER,
+       A.COMMENT_INDENT AS COMMENT_INDENT
+  FROM T_BOARD A, T_USER B
+ WHERE A.USER_UID = B.USER_UID
+   AND A.COMMENT_PARENT = #{bbsSeq}
+ ORDER BY A.COMMENT_GROUP ASC, A.COMMENT_ORDER DESC
 </select>
 
 </mapper>

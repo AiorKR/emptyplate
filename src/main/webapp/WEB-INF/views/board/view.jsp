@@ -171,8 +171,39 @@ $(document).ready(function() {
 	            $("#btnSearch").prop("disabled", false);   //글쓰기 버튼 활성화
 	         }
 	      });
-	   });
-   
+	   });/*
+   $("#_addReply").on("click", function(){
+	   $.ajax({
+	       type:"POST",
+	       url:"/board/addReply",
+	       data:{
+	    	$("juniorBbsContent").val() = "@" + ${juniorBoard.userNick} + " ";
+	       },
+	       datatype:"JSON",
+	       beforeSend:function(xhr){
+	          xhr.setRequestHeader("AJAX", "true");
+	       },
+	       success:function(response){
+	          if(response.code == 0)
+	            {
+	             alert("댓글 등록준비!");
+	             location.reload();
+	            }
+	          else if(response.code == 400)
+	          {
+	           alert("로그인 후, 댓글버튼을 사용하실 수 있습니다.");
+	          }
+	          else
+	            {
+	             alert("좋아요 중 오류가 발생하였습니다.");
+	            }
+	       },
+	       error:function(xhr, status, error){
+	          icia.common.error(error);
+	       }
+	    });
+   });
+	   */
 });   
 </script>
 </head>
@@ -228,8 +259,8 @@ $(document).ready(function() {
 <form name="commentForm" id="commentForm" method="post" enctype="form-data">
  	<div class="board-commentwrite">
  		<col-lg-12><ion-icon name="chatbubbles"></ion-icon>댓글</col-lg-12>
- 			 <div class="submit">
- 			 	<input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
+			<div class="submit">
+				<input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
       			<input type="text" id="juniorBbsContent" name="juniorBbsContent"  value="${juniorBoard.bbsContent}"style="ime-mode:active;" class="form-control mt-4 mb-2"/>
      			<button type="submit" id="btnSearch">등록</button>
      		</div>
@@ -237,18 +268,20 @@ $(document).ready(function() {
 </form>
   
        <!-- 댓글달기 종료 -->
-       <c:if test="${board.commentGroup gt 0}">
+       <c:if test="${!empty list}">
+       <c:forEach var="juniorBoard" items="${list}" varStatus="status">
         <div class="comment">
          <div class="comment-write">
-           <col-lg-12><ion-icon name="person"></ion-icon> ${board.userNick}</col-lg-12>
+           <col-lg-12><ion-icon name="person"></ion-icon> ${juniorBoard.userNick}</col-lg-12>
            <a href="#">신고</a>
-           <a>${board.regDate}</a>
+           <a>${juniorBoard.regDate}</a>
            <a href="#">댓글달기</a>
          </div>
          <div class="comment-content">
-           <col-lg-12>${board.bbsContent}</col-lg-12>
+           <col-lg-12>${juniorBoard.bbsContent}</col-lg-12>
          </div>
         </div>
+        </c:forEach>
        </c:if>
 	  </form>
      </div>

@@ -311,9 +311,16 @@ public class BoardService
 	public int boardCommentInsert(Board board) throws Exception
 	{
 		int count = 0;
-		
-		boardDao.commentGroupOrderUpdate(board);
-		count = boardDao.boardCommentInsert(board);
+
+		try
+		{
+			boardDao.commentGroupOrderUpdate(board);
+			count = boardDao.boardCommentInsert(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardCommentInsert Exception", e);
+		}
 		
 		return count;
 	}
@@ -323,9 +330,33 @@ public class BoardService
 	{
 		int count = 0;
 		
-		count=boardDao.boardGroupCheck(bbsSeq);
+		try
+		{
+			count=boardDao.boardGroupCheck(bbsSeq);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardGroupCheck Exception", e);
+		}
 		
 		return count;
+	}
+	
+	//댓글 리스트 출력
+	public List<Board> boardCommentList(Board board)
+	{
+		List<Board> list = null;
+		
+		try
+		{
+			list = boardDao.boardCommentList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardCommentList Exception", e);
+		}
+		
+		return list;
 	}
 
 }

@@ -63,4 +63,7 @@ public interface BoardDao
 	
 	//최초 댓글 체크
 	public int boardGroupCheck(long bbsSeq);
+	
+	//댓글 리스트 출력
+	public List<Board> boardCommentList(Board board);
 }

@@ -88,6 +88,18 @@ $(document).ready(function() {
          return;
       }
       
+      var comment = document.getElementById('bbsComment1');
+
+      var resultValue = comment.checked;
+      if(resultValue == true)
+      {
+         $('#bbsComment').val("Y");
+      }
+      else
+      {
+         $('#bbsComment').val("N");
+      }
+      
       var form = $("#writeForm")[0];
       var formData = new FormData(form);
       
@@ -163,7 +175,7 @@ $(document).ready(function() {
           <td class="title">제목</td>
           <td class="title-text">
             <input type="text" id="bbsTitle" name="bbsTitle" placeholder="제목을 입력해주세요.">
-            <div class="comment">댓글허용 <input type="checkbox" required/></div>
+			<div class="comment">댓글허용 <input type="checkbox" id="bbsComment1" name="bbsComment1" checked="checked"/></div>
           </td>
         </tr>
         <tr>
@@ -224,7 +236,7 @@ $(document).ready(function() {
           <td><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요." required/></td>
         </tr>
       </table>
-        
+        <input type="hidden" id="bbsComment" name="bbsComment" value="" />
       <div class="d-flex flex-row justify-content-center">
         <div class="submit"><button type="button" id="btnWrite" class="submit" title="등록">등록</button></div>
         <div class="cancle"><button type="button" id="btnList" class="cancle" title="취소">취소</button></div>
@@ -233,6 +245,7 @@ $(document).ready(function() {
    </div>
 
    <form name="bbsForm" id="bbsForm" method="post">
+   
     <input type="hidden" name="bbsNo" value="${bbsNo}" />
     <input type="hidden" name="searchType" value="" />
     <input type="hidden" name="searchValue" value="" />

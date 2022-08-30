@@ -62,7 +62,6 @@ public class BoardController
 		String searchValue = HttpUtil.get(request, "searchValue", "");
 		//분류값
 	    long sortValue = HttpUtil.get(request, "sortValue", (long)4);
-
 		//현재페이지
 		long curPage = HttpUtil.get(request, "curPage", (long)1);
 		//총 게시물 수
@@ -142,16 +141,18 @@ public class BoardController
 		String bbsContent = HttpUtil.get(request, "bbsContent", "");
 		FileData fileData = HttpUtil.getFile(request, "bbsFile", UPLOAD_SAVE_DIR);	//getFile메서드는 보내준 파일을 유효 아이디 값 생성 > 해당경로에 파일 업로드, FileData객체 생성후 값 세팅을 함. > getFile의 시작주소를 fileData가 바라봄.
 		int bbsNo = HttpUtil.get(request, "bbsNo", 0);
-		
-		//서버에서 다이렉트로 들어올 경우 체크
-		if(!StringUtil.isEmpty(bbsTitle) && !StringUtil.isEmpty(bbsContent))
-		{
-			Board board = new Board();
-			
-			board.setBbsNo(bbsNo);
-			board.setUserUID(cookieUserUID);
-			board.setBbsTitle(bbsTitle);
-			board.setBbsContent(bbsContent);
+		String bbsComment = HttpUtil.get(request, "bbsComment", "");
+	      
+		  //서버에서 다이렉트로 들어올 경우 체크
+		  if(!StringUtil.isEmpty(bbsTitle) && !StringUtil.isEmpty(bbsContent) && !StringUtil.isEmpty(bbsComment))
+		  {
+	         Board board = new Board();
+	         
+	         board.setBbsNo(bbsNo);
+	         board.setUserUID(cookieUserUID);
+	         board.setBbsTitle(bbsTitle);
+	         board.setBbsContent(bbsContent);
+	         board.setBbsComment(bbsComment);
 			
 			if(fileData != null && fileData.getFileSize() > 0)
 			{	
@@ -246,12 +247,14 @@ public class BoardController
        //좋아요 여부 체크
        String bbsLikeActive = "N";
 
-       
        Board board = null;
+       List<Board> juniorBoard = null;
        
        if(bbsSeq > 0)
        {
           board = boardService.boardView(bbsSeq);
+          juniorBoard = boardService.boardCommentList(board);
+          
                 
           if(board != null && StringUtil.equals(board.getUserUID(), cookieUserUID))
           {
@@ -280,6 +283,7 @@ public class BoardController
        model.addAttribute("searchType", searchType);
        model.addAttribute("searchValue", searchValue);
        model.addAttribute("curPage", curPage);
+       model.addAttribute("list", juniorBoard);
        
        return "/board/view";
     }
@@ -527,7 +531,7 @@ public class BoardController
   		return modelAndView;
   	}
   	
-  	//댓글
+  	//댓글등록
   	@RequestMapping(value="/board/commentProc", method=RequestMethod.POST)
   	@ResponseBody
   	public Response<Object> commentProc(HttpServletRequest request, HttpServletResponse response)
@@ -537,27 +541,19 @@ public class BoardController
   		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
 		Board board = new Board();
-		Board juniorBoard = new Board(); 
+		Board juniorBoard = new Board();
 		board.setBbsSeq(bbsSeq);
 		String juniorBbsContent = HttpUtil.get(request, "juniorBbsContent", "");
 		
 		if(bbsSeq > 0 && !StringUtil.isEmpty(juniorBbsContent))
 		{
-			logger.debug("#######################################");
-	  		logger.debug("#여기까지 작동#");
-	  		logger.debug("#cookieUserUID : " + cookieUserUID );
-	  		logger.debug("bbsSeq : " + board.getBbsSeq());
-	  		logger.debug("bbsContent : " + juniorBbsContent);
-	  		logger.debug("#######################################");
 	  		juniorBoard.setUserUID(cookieUserUID);
 	  		juniorBoard.setBbsContent(juniorBbsContent);
 	  		juniorBoard.setCommentParent(bbsSeq);
-	  		if(boardService.boardGroupCheck(bbsSeq) == 0)
-	  		{
-	  			juniorBoard.setCommentGroup(1);
-	  			juniorBoard.setCommentOrder(1);
-	  			juniorBoard.setCommentIndent(0);
-	  		}
+	  		/*댓글등록 최상위그룹세팅*/
+	  		juniorBoard.setCommentGroup(boardService.boardGroupCheck(bbsSeq) + 1);
+	  		juniorBoard.setCommentOrder(1);
+	  		 
 			if(board != null)
 			{
 				
@@ -590,6 +586,31 @@ public class BoardController
 		
 		return ajaxResponse;
   	}
-		
+  	/*
+  	@RequestMapping(value="/board/addReply", method=RequestMethod.POST)
+  	@ResponseBody
+  	public Response<Object> addReply(HttpServletRequest request, HttpServletResponse response)
+  	{
+  		Response<Object> ajaxResponse = new Response<Object>();
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+  		try
+		{
+			if(!StringUtil.isEmpty(cookieUserUID))
+			{
+				ajaxResponse.setResponse(0, "success");
+			}
+			else
+			{
+				ajaxResponse.setResponse(500, "internal server error");
+			}	
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardController] /board/addReply Exception", e);
+			ajaxResponse.setResponse(500, "internal server error2");
+		}
+  		return ajaxResponse;
+  	}
+		*/
   	
 }
