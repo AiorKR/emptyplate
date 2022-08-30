@@ -177,7 +177,7 @@ function fn_search(shopHashtag) {
                                 <tr onclick="fn_view('${shop.shopUID}')" style="cursor:pointer;">
                                   <th>${status.count}</th>
                                   <td class="w-25" colspan="4">
-                                     <img src='../resources/upload/shop/main/${shop.shopFile.shopFileName}' class="img-fluid img-thumbnail" style="height: 200px;width: 200px;z-index:0;" >
+                                     <img src='../resources/upload/shop/${shop.shopUID}/${shop.shopFile.shopFileName}' class="img-fluid img-thumbnail" style="height: 200px;width: 200px;z-index:0;" >
                                   </td>
                                   <td>
                                   <h2>
