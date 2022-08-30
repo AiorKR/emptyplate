@@ -84,17 +84,19 @@ public class ShopService {
 					
 					List<ShopTime> shopTime = shopDao.shopTimeSelect(shop.getShopUID());
 					if(shopFile != null && shopMenu != null && shopTime != null) {
-						shop.setShopFileList(shopFile);
 						
-						shop.setShopMenu(shopMenu);
+							shop.setShopFileList(shopFile);
+							
+							shop.setShopMenu(shopMenu);
+							
+							shop.setShopTime(shopTime);
+						}
 						
-						shop.setShopTime(shopTime);
 					}
 					else {
 						logger.error("shop file or menu or time is empty");
 					}
 				}
-			}
 			
 			catch(Exception e) {
 				logger.error("[ShopService] ShopViewSelect", e);
@@ -114,7 +116,7 @@ public class ShopService {
 			logger.debug("shop.getShopFileList() : " + shop.getShopFileList());
 			//게시물 등록 후 첨부파일이 잇으면 첨부파일 등록
 			if(count > 0 && shop.getShopFileList() != null) {
-				List<ShopFile> shopFileList = shop.getShopFileList();
+				List<ShopFile> shopFileList = shop.getShopFileList();	
 				
 				logger.debug("ShopFileList(쿼리 날리기 마지막 전) : " + shopFileList);
 				logger.debug("ShopFile이름(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileName());
