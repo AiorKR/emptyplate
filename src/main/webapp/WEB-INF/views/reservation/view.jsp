@@ -10,7 +10,7 @@ function fn_search(shopHashtag) { //해시태그 클릭시 검색
     document.bbsForm.searchValue.value = shopHashtag	;
     document.bbsForm.action = "/reservation/list";
     document.bbsForm.submit();
- }
+}
 </script>
 </head>
 <body> 
@@ -21,7 +21,7 @@ function fn_search(shopHashtag) { //해시태그 클릭시 검색
       <div class="container">
         <div class="card">
             <div class="row g-0">
-                <div class="col-md-6">
+                <div class="col-md-6" style="border-right:2px solid #C2A383;">
                     <div class="d-flex flex-column justify-content-center">
                         <div class="main_image"> <img src="../resources/upload/shop/sub/${shop.shopUID}/${shop.shopFileList.get(1).shopFileName}" id="main_product_image" height="400px" width="400px"> </div>
                         <div class="thumbnail_images">
@@ -31,8 +31,8 @@ function fn_search(shopHashtag) { //해시태그 클릭시 검색
                             	</c:forEach>  
                             </ul>
                         </div>
-                        <div class="view-text">
-                          <p id="title"> 공지사항 </p>
+                        <div class="view-text" style="margin-left: 10px; border-top:2px solid #C2A383;">
+                          <p id="title" style="font-size:20px"> 공지사항 </p>
                           <p class="view-content">
                             ${shop.shopContent}
                           </p>
@@ -42,7 +42,7 @@ function fn_search(shopHashtag) { //해시태그 클릭시 검색
                 <div class="col-md-6">
                     <div class="p-3 right-side">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h3>${shop.shopName}</h3> <button class="star"><i class='bx bx-star'>즐겨찾기</i></button>
+                            <h3>${shop.shopName}</h3><div class="bookmark"><button type="button" id="btnBoomark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
                         </div>
                         <div class="mt-2 pr-3 content">
                             <p>${shop.shopIntro}</p>
@@ -54,7 +54,7 @@ function fn_search(shopHashtag) { //해시태그 클릭시 검색
                         <c:forTokens items="${shop.shopHashtag}" delims="#" var="shopHashtag">
             				<span onclick="fn_search('${shopHashtag}')" style="cursor: pointer; "><c:out value='${shopHashtag}'/></span>
            				</c:forTokens>	
-                        <div id="map" style="width:100%;height:350px;"></div>
+                        <div id="map" style="width:100%; height:350px; margin-top: 15px;"></div>
 
 						<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c114849a120d4c8456de73d6e0e3b3a0&libraries=services"></script>
 						<script>
@@ -96,10 +96,10 @@ function fn_search(shopHashtag) { //해시태그 클릭시 검색
 						});  
 						</script>
 						</div>
-                        <div class="buttons d-flex flex-row mt-5 gap-3">
-                           <button class="btn btn-outline-dark"><a href="./today.html" style="color: white;">Today 확인</a></button>
+                        <div class="buttons d-flex flex-row mt-2 gap-3" style="margin-left: 15px;">
+                           <button class="btn btn-outline-dark"><a href="" style="color: white;">Today 확인</a></button>
                            <!-- Button trigger modal -->
-                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="modal-btn">
+                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="modal-btn"  style="color:#ffff;">
                             	예약
                           </button>
 
@@ -193,8 +193,14 @@ function fn_search(shopHashtag) { //해시태그 클릭시 검색
                 </div>
             </div>
         </div>
-        <div class="review-container">
-          <p class="review" id="review-title">Review</p>
+        <container>
+        	<hr class="hr-5">
+        </container>
+        <div class="review-container1">
+          <h5 style="color:#FF7F50; text-align:center;">Review</h5>
+        <container>
+        	<hr class="hr-5">
+        </container>
           <div class="review">
             <ul>
               <li><a href="#">Review text1</a></li>
@@ -204,20 +210,20 @@ function fn_search(shopHashtag) { //해시태그 클릭시 검색
               <li><a href="#">Review text5</a></li>
             </ul>
           </div>
-          	         <form name="bbsForm" id="bbsForm" method="post">
-	        <input type="hidden" name="shopUID" value=""/> 
-            <input type="hidden" name="searchType" value="${searchType}"/>
-            <input type="hidden" name="searchValue" value="${searchValue}" />
-            <input type="hidden" name="curPage" value="${curPage}" />
-            <input type="hidden" name="reservationDate" value="${reservationDate}" />
-            <input type="hidden" name="reservationTime" value="${reservationTime}" />
+          	<form name="bbsForm" id="bbsForm" method="post">
+		        <input type="hidden" name="shopUID" value=""/> 
+	            <input type="hidden" name="searchType" value="${searchType}"/>
+	            <input type="hidden" name="searchValue" value="${searchValue}" />
+	            <input type="hidden" name="curPage" value="${curPage}" />
+	            <input type="hidden" name="reservationDate" value="${reservationDate}" />
+	            <input type="hidden" name="reservationTime" value="${reservationTime}" />
             </form>
         </div>
     <script>
       function changeImage(element) {
 
-      var main_prodcut_image = document.getElementById('main_product_image');
-      main_prodcut_image.src = element.src; 
+	      var main_prodcut_image = document.getElementById('main_product_image');
+	      main_prodcut_image.src = element.src; 
       }
     </script>
 </body>

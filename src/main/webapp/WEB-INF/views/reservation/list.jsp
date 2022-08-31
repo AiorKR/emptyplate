@@ -80,7 +80,7 @@ function fn_search(shopHashtag) {
             	<div class="swiper-wrapper">
             		<c:if test="${!empty list}">
                   		<c:forEach items="${list}" var="shop" varStatus="status">
-                        	<div class="swiper-slide" style="height: auto; width: 100%; border:2px solid #cda45e; border-radius: 20px; background-color: rgba(240, 240, 240);">
+                        	<div class="swiper-slide" style="height: auto; width: 100%; background-color: rgba(240, 240, 240, 0.7);">
                         		<div class="reservation-item" style="height:350px;">
                                		<img alt="" src="../resources/upload/shop/${shop.shopFile.shopFileName}" style="height: 300px;width:300px; position: relative; left: 150px; top:25px;">
                       				<span style="position: relative; bottom:220px; left: 600px;">    
@@ -164,8 +164,10 @@ function fn_search(shopHashtag) {
                                      	</select>
                                  	</ul>
 								</form>
+								<div style="border:1px solid #C2A384">
                              	<input type="text" name="text" id="search" <c:if test="${searchValue ne null and searchValue ne ''}">value="${searchValue}"</c:if>>
-                             	<button class="btn" type="submit" id="searchBtn">검색</button>      
+                             	<button class="btn" type="submit" id="searchBtn">검색</button>    
+                             	</div>  
                          		</div>
                      		</nav>    
                      		<tbody class="menutable"  style="height: auto; width: 100%;">

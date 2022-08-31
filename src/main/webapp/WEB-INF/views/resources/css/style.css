@@ -3029,7 +3029,7 @@ reservation 검색
   opacity : 0.95;
   position: absolute;
   bottom: 0;
-  top: 6%;
+  top: 11%;
   left: 11%;
   right: 11%;
   border-radius: 20px;
@@ -3318,6 +3318,31 @@ reservation 검색
 .view #reservation {
   margin-top: 14px;
 }
+
+/*즐겨찾기*/
+.view .bookmark button {
+  /*margin-top: 10px;*/
+  background: rgba(225, 225, 225);
+  border:3px solid #C2A383;
+  padding: 3px 15px;
+  color: #0c0b09;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 17px;
+  margin-left: 5px;
+  margin-top: -15px;
+  float: center;
+}
+
+.view .bookmark button:hover {
+  background: #C2A383;
+}
+
+.view ion-icon {
+  color: #c78e54;
+}
+
 
 
 /*--------------------------------------------------------------
