@@ -42,6 +42,8 @@ public interface UserDao
 	
 	public User userUIDSelect(String userUID);
 	
+	public User userNickSelect(String userNick);
+	
 	//사용자 등록
 	public int userInsert(User user);
    

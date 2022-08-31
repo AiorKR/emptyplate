@@ -130,19 +130,18 @@ public class UserController
       String userId = HttpUtil.get(request,  "userId");
       String userNick = HttpUtil.get(request, "userNick");
       Response<Object> ajaxResponse = new Response<Object>();
-      User user = new User();
       
       if(!StringUtil.isEmpty(userId) && !StringUtil.isEmpty(userNick))
       {
          if(userService.userSelect(userId) == null)
          {        	
-        	 if(StringUtil.equals(user.getUserNick(), userNick))
+        	 if(userService.userNickSelect(userNick) == null)
         	 {
         		 ajaxResponse.setResponse(0, "Success");
         	 }
         	 else
         	 {
-        		 ajaxResponse.setResponse(110, "duplikcate Nick");
+        		 ajaxResponse.setResponse(110, "duplikcate Nick"); 
         	 } 
          } 
          else
@@ -219,6 +218,13 @@ public class UserController
           }
          
          return ajaxResponse;
+   }
+
+   //약관동의 팝업
+   @RequestMapping(value="/user/signUpPopUp", method=RequestMethod.GET)
+   public String signUpPopUp(HttpServletRequest request, HttpServletResponse response)
+   {
+      return "/user/signUpPopUp";
    }
 }   
    

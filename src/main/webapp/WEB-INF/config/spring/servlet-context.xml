@@ -81,6 +81,7 @@
             			<value>/myPage/userDelete</value>
             			<value>/user/FileUpdate</value>
             			<value>/user/FileInsert</value>
+            			<value>/user/signUpPopUp</value>
             		</list>
             	</constructor-arg>
             </bean>
