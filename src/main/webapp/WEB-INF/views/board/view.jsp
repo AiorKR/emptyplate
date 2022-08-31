@@ -275,8 +275,8 @@ function fn_deleteComment(bbsSeqValue)
                            <div class="modal-body">
                               <div class="datecard">
                                  <h3 id="view-name">
-                                 신고자 : <br>
-                                 신고게시물 : 
+					                                 신고자 : <br>
+					                                 신고게시물 : 
                                  </h3>
                                  <div class="content">
                                     <ul>

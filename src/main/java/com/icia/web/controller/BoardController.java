@@ -40,8 +40,8 @@ public class BoardController
 	private String AUTH_COOKIE_NAME;
 	
 	//파일 저장 경로
-	@Value("#{env['upload.save.dir']}")
-	private String UPLOAD_SAVE_DIR;
+	@Value("#{env['board.upload.save.dir']}")
+	private String BOARD_UPLOAD_SAVE_DIR;
 	
 	@Autowired
 	private UserService userService;
@@ -74,7 +74,22 @@ public class BoardController
 		Board search = new Board();
 		//게시판 번호
 		search.setBbsNo(5);
-  		
+		
+		//인기게시물리스트 관련
+		/*********************
+	    hotListCount = 인기게시글 총 리스트;
+		List<Board> hotList = 인기게시글 리스트객체;
+		hot = 인기게시글 보드객체;
+		hotLCount = 인기게시글 리스트;
+		hotPCount = 인기게시글 페이지;
+		 *********************/
+		long hotListCount = 0;
+		List<Board> hotList = null;
+		Board hot = new Board();
+		hot.setBbsNo(5);
+		int hotLCount = 3;
+		int hotPCount = 2;
+		
 		if(!StringUtil.isEmpty(searchType) && !StringUtil.isEmpty(searchValue))
 		{
 			search.setSearchType(searchType);
@@ -96,11 +111,15 @@ public class BoardController
 			
 			search.setStartRow(paging.getStartRow());
 			search.setEndRow(paging.getEndRow());
+			hot.setStartRow(1);
+			hot.setEndRow(3);
 			
 			list = boardService.boardList(search);
+			hotList = boardService.boardHotList(hot);
 		}
 		
 		model.addAttribute("list", list);
+		model.addAttribute("hotList", hotList);
 		model.addAttribute("bbsNo", search.getBbsNo());
 		model.addAttribute("searchType", searchType);
 		model.addAttribute("searchValue", searchValue);
@@ -139,7 +158,7 @@ public class BoardController
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		String bbsTitle = HttpUtil.get(request, "bbsTitle", "");	//writeForm에서 name이 넘어옴
 		String bbsContent = HttpUtil.get(request, "bbsContent", "");
-		FileData fileData = HttpUtil.getFile(request, "bbsFile", UPLOAD_SAVE_DIR);	//getFile메서드는 보내준 파일을 유효 아이디 값 생성 > 해당경로에 파일 업로드, FileData객체 생성후 값 세팅을 함. > getFile의 시작주소를 fileData가 바라봄.
+		FileData fileData = HttpUtil.getFile(request, "bbsFile", BOARD_UPLOAD_SAVE_DIR);	//getFile메서드는 보내준 파일을 유효 아이디 값 생성 > 해당경로에 파일 업로드, FileData객체 생성후 값 세팅을 함. > getFile의 시작주소를 fileData가 바라봄.
 		int bbsNo = HttpUtil.get(request, "bbsNo", 0);
 		String bbsComment = HttpUtil.get(request, "bbsComment", "");
 	      
@@ -308,7 +327,7 @@ public class BoardController
   		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
   		String bbsTitle = HttpUtil.get(request, "bbsTitle", "");
   		String bbsContent = HttpUtil.get(request, "bbsContent", "");
-  		FileData fileData = HttpUtil.getFile(request, "bbsFile", UPLOAD_SAVE_DIR);
+  		FileData fileData = HttpUtil.getFile(request, "bbsFile", BOARD_UPLOAD_SAVE_DIR);
   		
   		if(bbsSeq > 0 && !StringUtil.isEmpty(bbsTitle) && !StringUtil.isEmpty(bbsContent))
   		{
@@ -477,7 +496,7 @@ public class BoardController
   			
   			if(boardFile != null)
   			{
-  				File file = new File(UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + boardFile.getFileName());
+  				File file = new File(BOARD_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + boardFile.getFileName());
   				
   				if(FileUtil.isFile(file))
   				{

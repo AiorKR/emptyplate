@@ -20,9 +20,9 @@ public class BoardService
 {
 	private static Logger logger = LoggerFactory.getLogger(BoardService.class);
 	
-	//파일 저장 디렉토리
-	@Value("#{env['upload.save.dir']}")
-	private String UPLOAD_SAVE_DIR;
+	//파일 저장 경로
+	@Value("#{env['board.upload.save.dir']}")
+	private String BOARD_UPLOAD_SAVE_DIR;
 	
 	@Autowired
 	private BoardDao boardDao;
@@ -31,6 +31,8 @@ public class BoardService
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public int boardInsert(Board board) throws Exception
 	{
+		long bbsSeq = boardDao.beforeInsert();
+		board.setBbsSeq(bbsSeq);
 		int count = boardDao.boardInsert(board);
 		
 		//게시물 등록 후 첨부파일 있으면 등록
@@ -38,12 +40,29 @@ public class BoardService
 		{	
 			BoardFile boardFile = board.getBoardFile();	//같은 시작주소를 바라보게 함.
 			boardFile.setBbsSeq(board.getBbsSeq());
+			boardFile.setFileOrgName(Long.toString(bbsSeq) + "."+ boardFile.getFileExt());
 			boardFile.setFileSeq((short)1);
 			
 			boardDao.boardFileInsert(board.getBoardFile());	//여러개 첨부파일 적용시 for문 적용
 		}
 		
 		return count;
+	}
+	
+	//인기게시물 리스트
+	public List<Board> boardHotList(Board board)
+	{
+		List<Board> list = null;
+		
+		try
+		{
+			list = boardDao.boardHotList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardList Exception", e);
+		}
+		return list;
 	}
 	
 	//게시물 리스트
@@ -182,11 +201,12 @@ public class BoardService
 			//기존파일 있으면 삭제
 			if(delBoardFile != null)
 			{
-				FileUtil.deleteFile(UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + delBoardFile.getFileName());
+				FileUtil.deleteFile(BOARD_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + delBoardFile.getFileName());
 				boardDao.boardFileDelete(board.getBbsSeq());
 			}
 			//후 새로운 파일 등록
 			board.getBoardFile().setBbsSeq(board.getBbsSeq());
+			board.getBoardFile().setFileOrgName(Long.toString(board.getBbsSeq()));
 			board.getBoardFile().setFileSeq((short)1);
 		
 			
@@ -211,7 +231,7 @@ public class BoardService
 			{	
 				if(boardDao.boardFileDelete(bbsSeq) > 0)
 				{
-					FileUtil.deleteFile(UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + boardFile.getFileName());
+					FileUtil.deleteFile(BOARD_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + boardFile.getFileName());
 				}
 			}
 			

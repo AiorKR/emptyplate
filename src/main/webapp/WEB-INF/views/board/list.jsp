@@ -78,11 +78,13 @@ function fn_list(curPage)
              <div class="row community-item">
                <div class="col-lg-12">
                  <table class="col-lg-12">
-                   <tr>
-                    <td><img src="/resources/images/파인다이닝.jpg" class="img-thumbnail" alt=""></td>
-                    <td><img src="/resources/images/오마카세.jpg" class="img-thumbnail" alt=""></td>
-                    <td><img src="/resources/images/카페.jpg" class="img-thumbnail" alt=""></td>
-                   </tr>
+                   <c:if test="${!empty hotList}">
+                	<c:forEach var="board" items="${hotList}" varStatus="status">
+	                  <tr>
+	                    <td><img alt="" src="../resources/upload/board/${board.boardFile.fileName}" onclick="fn_view(${board.bbsSeq})" style="height: 50px;width: 50px;"></td>
+	                  </tr>
+	                </c:forEach>
+	           	  </c:if>
                   </table>
                 </div>
               </div>

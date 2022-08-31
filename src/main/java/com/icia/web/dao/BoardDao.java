@@ -10,11 +10,17 @@ import com.icia.web.model.BoardFile;
 @Repository("boardDao")
 public interface BoardDao 
 {
+	//시퀀스 선행처리
+	public long beforeInsert();
+	
 	//게시물 등록
 	public int boardInsert(Board board);
 	
 	//게시물 첨부파일 등록
 	public int boardFileInsert(BoardFile boardFile);
+		
+	//인기게시물 리스트
+	public List<Board> boardHotList(Board board);
 	
 	//게시물 리스트
 	public List<Board> boardList(Board board);
@@ -69,5 +75,4 @@ public interface BoardDao
 	
 	//게시물 삭제
 	public int commentDelete(long bbsSeq);
-	
 }
