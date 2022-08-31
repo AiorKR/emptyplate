@@ -530,7 +530,7 @@ public class BoardController
   		
   		return modelAndView;
   	}
-  	
+  	/*
   	//댓글등록
   	@RequestMapping(value="/board/commentProc", method=RequestMethod.POST)
   	@ResponseBody
@@ -550,7 +550,7 @@ public class BoardController
 	  		juniorBoard.setUserUID(cookieUserUID);
 	  		juniorBoard.setBbsContent(juniorBbsContent);
 	  		juniorBoard.setCommentParent(bbsSeq);
-	  		/*댓글등록 최상위그룹세팅*/
+	  		//댓글등록 최상위그룹세팅
 	  		juniorBoard.setCommentGroup(boardService.boardGroupCheck(bbsSeq) + 1);
 	  		juniorBoard.setCommentOrder(1);
 	  		 
@@ -560,6 +560,67 @@ public class BoardController
 				try
 				{
 					if(boardService.boardCommentInsert(juniorBoard) > 0)
+					{
+						ajaxResponse.setResponse(0, "success");
+					}
+					else
+					{
+						ajaxResponse.setResponse(500, "internal server error");
+					}	
+				}
+				catch(Exception e)
+				{
+					logger.error("[BoardController] /board/commentProc Exception", e);
+					ajaxResponse.setResponse(500, "internal server error2");
+				}
+			}
+			else
+			{
+				ajaxResponse.setResponse(404, "not found");
+			}
+		}
+		else
+		{
+			ajaxResponse.setResponse(400, "bad request");
+		}
+		
+		return ajaxResponse;
+  	}
+  	*/
+  	//댓글등록
+  	@RequestMapping(value="/board/commentProc", method=RequestMethod.POST)
+  	@ResponseBody
+  	public Response<Object> commentProc(HttpServletRequest request, HttpServletResponse response)
+  	{
+  		Response<Object> ajaxResponse = new Response<Object>();
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+		String bbsContent = HttpUtil.get(request, "bbsContent", "");  		
+		
+
+  		logger.debug("===========================================================");
+  		logger.debug("commentProc bbsSeq : " + bbsSeq);
+  		logger.debug("commentProc bbsContent : " + bbsContent);
+  		logger.debug("===========================================================");
+		
+		if(bbsSeq > 0 && !StringUtil.isEmpty(bbsContent))
+		{
+	  		Board parentBoard = boardService.boardSelect(bbsSeq);
+	  		
+			if(parentBoard != null)
+			{
+				Board board = new Board();
+				
+				board.setUserUID(cookieUserUID);
+				board.setBbsContent(bbsContent);
+				board.setCommentGroup(parentBoard.getCommentGroup());
+				board.setCommentOrder(parentBoard.getCommentOrder() + 1);
+				board.setCommentIndent(parentBoard.getCommentIndent() + 1);
+				board.setCommentParent(bbsSeq);
+				
+				try
+				{
+					if(boardService.boardCommentInsert(board) > 0)
 					{
 						ajaxResponse.setResponse(0, "success");
 					}
@@ -619,30 +680,21 @@ public class BoardController
   	@ResponseBody
   	public Response<Object> commentDelete(HttpServletRequest request, HttpServletResponse response)
   	{
-  		Response<Object> ajaxResponse = new Response<Object>();
   		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
   		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
   		
-  		Board board = new Board();
-  		board.setBbsSeq(bbsSeq);
-
-  		Board juniorBoard = new Board();
-  		juniorBoard.setCommentParent(bbsSeq);
-  		juniorBoard.setCommentGroup(boardService.boardGroupCheck(bbsSeq) + 1);
-  		juniorBoard.setCommentOrder(1);
-  		juniorBoard.setBbsSeq(bbsSeq);
-
+  		Response<Object> ajaxResponse = new Response<Object>();
+  		
   		if(bbsSeq > 0)
-  		{	
-  			juniorBoard = boardService.boardSelect(bbsSeq);
-  			
-  			if(juniorBoard != null)
+  		{			
+  			Board board = boardService.boardSelect(bbsSeq);
+  			if(board != null)
   			{	
-  				if(StringUtil.equals(juniorBoard.getUserUID(), cookieUserUID))
-  				{	
+  				if(StringUtil.equals(board.getUserUID(), cookieUserUID))
+  				{	//내 게시물인지 확인 //다이렉트로 들어올 경우 방지
   					try
   					{
-						if(boardService.boardCommentDelete(bbsSeq) > 0)
+						if(boardService.boardDelete(board.getBbsSeq()) > 0)
 						{
 							ajaxResponse.setResponse(0, "Success");
 						}
@@ -658,12 +710,12 @@ public class BoardController
   					}
   				}
   				else
-  				{	
+  				{	//내 게시글이 아닐 경우
   					ajaxResponse.setResponse(403, "Server error");
   				}
   			}
   			else
-  			{	
+  			{	//게시물이 없을 때
   				ajaxResponse.setResponse(404, "Not found");
   			}
   		}

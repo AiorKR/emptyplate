@@ -68,5 +68,5 @@ public interface BoardDao
 	public List<Board> boardCommentList(Board board);
 	
 	//댓글 삭제
-	public int boardCommentDelete(long bbsSeq);
+	public int boardCommentDelete(Board board);
 }

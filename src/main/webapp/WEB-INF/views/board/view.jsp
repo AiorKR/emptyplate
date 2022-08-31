@@ -60,7 +60,7 @@ $(document).ready(function() {
                  }
                else if(response.code == -999)
                  {
-                  alert("답변 게시물이 존재하여 삭제할 수 없습니다.");
+                  alert("답변 댓글이 존재하여 삭제할 수 없습니다.");
                  }
                else
                  {
@@ -115,11 +115,11 @@ $(document).ready(function() {
 	      
 	      $("#btnSearch").prop("disabled", true);   //글쓰기 버튼 비활성화 //버튼 여러번 누르기 방지기능(활성화시 여러번 전송되므로)
 	      
-	      if($.trim($("#juniorBbsContent").val()).length <= 0)
+	      if($.trim($("#bbsContent").val()).length <= 0)
 	      {
 	         alert("내용을 입력하세요.");
-	         $("#juniorBbsContent").val("");
-	         $("#juniorBbsContent").focus();
+	         $("#bbsContent").val("");
+	         $("#bbsContent").focus();
 	         
 	         $("#btnSearch").prop("disabled", false);   //글쓰기 버튼 활성화
 	         
@@ -173,7 +173,7 @@ $(document).ready(function() {
 	      });
 	   });
    
-   $("#btnAddReply").on("click", function(){
+   /* $("#btnAddReply").on("click", function(){
 		$("#btnSearch").prop("disabled", true);   //버튼 여러번 누르기 방지기능(활성화시 여러번 전송되므로)
 	   $.ajax({
 	       type:"POST",
@@ -204,7 +204,7 @@ $(document).ready(function() {
 	          icia.common.error(error);
 	       }
 	    });
-   });
+   }); */
    
    $("#btnCommentDelete").on("click", function(){
       if(confirm("댓글을 삭제 하시겠습니까?") == true)
@@ -240,7 +240,7 @@ $(document).ready(function() {
                  }
                else if(response.code == -999)
                  {
-                  alert("답글이 존재하여 삭제할 수 없습니다.");
+                  alert("답변 댓글이 존재하여 삭제할 수 없습니다.");
                  }
                else
                  {
@@ -296,7 +296,38 @@ $(document).ready(function() {
 
 					<div class="board-service">
 						<div class="board-list"><button type="button" id="btnList" class="board-list"><ion-icon name="reader"></ion-icon>&nbsp;목록</button></div>
-						<div class="report"><button><ion-icon name="alert-circle"></ion-icon>&nbsp;신고</button></div>
+						<div class="report"><button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="btnReport"><ion-icon name="alert-circle"></ion-icon>&nbsp;신고</button></div>
+                  <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+                     <div class="modal-dialog">
+                        <div class="modal-content">
+                           <div class="modal-header">
+                              <h5 class="modal-title" id="m">신고하기</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                           </div>
+                           <div class="modal-body">
+                              <div class="datecard">
+                                 <h3 id="view-name">
+                                 신고자 : <br>
+                                 신고게시물 : 
+                                 </h3>
+                                 <div class="content">
+                                    <ul>
+                                       <li><input type="checkbox" id="reportCheck" class="reportCheck" name="report1" value="Y">&nbsp;신고사유1</li>
+                                       <li><input type="checkbox" id="reportCheck" class="reportCheck" name="report2" value="Y">&nbsp;신고사유2</li>
+                                       <li><input type="checkbox" id="reportCheck" class="reportCheck" name="report3" value="Y">&nbsp;신고사유3</li>
+                                       <li><input type="checkbox" id="reportCheck" class="reportCheck" name="report4" value="Y">&nbsp;신고사유4</li>
+                                       <li><input type="checkbox" id="reportCheck" class="reportCheck" name="report4" value="Y">&nbsp;<input type="text" id="reportReason" name="reportReason" placeholder="기타사유를 적어주세요"></li>
+                                    </ul>
+                                 </div>
+                                 <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary">취소</button>
+                                    <button type="button" class="btn btn-primary">신고</button>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
 						<c:if test="${!empty board.boardFile}">
 							<a href="/board/download?bbsSeq=${board.boardFile.bbsSeq}" style="float:right;">첨부이미지 다운로드</a>
 						</c:if>   
@@ -310,26 +341,26 @@ $(document).ready(function() {
 								<col-lg-12><ion-icon name="chatbubbles"></ion-icon>댓글</col-lg-12>
 								<div class="submit">
 									<input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
-									<input type="text" id="juniorBbsContent" name="juniorBbsContent"  value="${juniorBoard.bbsContent}"style="ime-mode:active;" class="form-control mt-4 mb-2"/>
+									<input type="text" id="bbsContent" name="bbsContent" style="ime-mode:active;" class="form-control mt-4 mb-2"/>
 									<button type="submit" id="btnSearch">등록</button>
 								</div>
 							</div>
 						</form>
   
 						<c:if test="${!empty list}">
-							<c:forEach var="juniorBoard" items="${list}" varStatus="status">
+							<c:forEach var="board" items="${list}" varStatus="status">
 								<div class="comment">
 									<div class="comment-write">
-										<col-lg-12><ion-icon name="person"></ion-icon> ${juniorBoard.userNick}</col-lg-12>
+										<col-lg-12><ion-icon name="person"></ion-icon> ${board.userNick}</col-lg-12>
 										<c:if test="${boardMe eq 'Y'}">
-											<button type="submit" id="btnCommentDelete" class="delete">삭제</button>
+											<button type="submit" id="btnCommentDelete" class="commentDelete">삭제</button>
 										</c:if>
-										<a>${juniorBoard.regDate}</a>
+										<a>${board.regDate}</a>
 										<button type="submit" id="btnReport">신고</button>
 										<button type="submit" id="btnAddReply">댓글달기</button>
 									</div>
 									<div class="comment-content">
-										<col-lg-12>${juniorBoard.bbsContent}</col-lg-12>
+										<col-lg-12>${board.bbsContent}</col-lg-12>
 									</div>
 								</div>
 							</c:forEach>

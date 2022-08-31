@@ -63,7 +63,7 @@ VALUES (#{bbsSeq},
         SYSDATE,
         #{bbsComment},
         #{commentParent},
-        #{commentGroup},
+        #{bbsSeq},
         #{commentOrder},
         #{commentIndent})
 </insert>
@@ -186,7 +186,11 @@ SELECT A.BBS_SEQ,
        NVL(A.BBS_LIKE_CNT, 0) AS BBS_LIKE_CNT,
        NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
        NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD HH24:MI:SS'), '') AS REG_DATE,
-       NVL(A.BBS_COMMENT, '') AS BBS_COMMENT
+       NVL(A.BBS_COMMENT, '') AS BBS_COMMENT,
+       NVL(COMMENT_PARENT, 0) AS COMMENT_PARENT,
+       NVL(COMMENT_GROUP, 0) AS COMMENT_GROUP,
+       NVL(COMMENT_ORDER, 0) AS COMMENT_ORDER,
+       NVL(COMMENT_INDENT, 0) AS COMMENT_INDENT
   FROM T_BOARD A, T_USER B
  WHERE A.BBS_SEQ = #{VALUE}
    AND A.USER_UID = B.USER_UID
@@ -317,7 +321,8 @@ SELECT MAX(COMMENT_GROUP) AS MAXVALUE
 
 <!-- 댓글 리스트 -->
 <select id="boardCommentList" parameterType="com.icia.web.model.Board" resultMap="boardResultMap">
-SELECT A.COMMENT_PARENT AS COMMENT_PARENT,
+SELECT A.BBS_SEQ AS BBS_SEQ,
+	   A.COMMENT_PARENT AS COMMENT_PARENT,
        B.USER_NICK AS USER_NICK,
        A.BBS_CONTENT AS BBS_CONTENT,
        A.REG_DATE AS REG_DATE,
@@ -330,17 +335,10 @@ SELECT A.COMMENT_PARENT AS COMMENT_PARENT,
  ORDER BY A.COMMENT_GROUP ASC, A.COMMENT_ORDER DESC
 </select>
 
-<!-- 댓글 삭제
-<delete id="boardCommentDelete" parameterType="long">
-DELETE FROM T_BOARD
- WHERE COMMENT_PARENT = #{bbsSeq}
-   AND COMMENT_GROUP = #{commentGroup}
-</delete> -->
-
 <!-- 댓글 삭제 -->
-<delete id="boardCommentDelete" parameterType="long">
+<update id="boardCommentDelete" parameterType="com.icia.web.model.Board">
 DELETE FROM T_BOARD
  WHERE BBS_SEQ = #{bbsSeq}
-</delete>
+</update>
 
 </mapper>

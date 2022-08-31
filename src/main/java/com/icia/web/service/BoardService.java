@@ -360,20 +360,19 @@ public class BoardService
 	}
 	
 	//댓글 삭제
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
-	public int boardCommentDelete(long bbsSeq) throws Exception
+	public int boardCommentDelete(Board board)
 	{
 		int count = 0;
-		
+      
 		try
 		{
-			count=boardDao.boardCommentDelete(bbsSeq);
+			count = boardDao.boardCommentDelete(board);
 		}
 		catch(Exception e)
 		{
 			logger.error("[BoardService] boardCommentDelete Exception", e);
 		}
-		
+      
 		return count;
 	}
 
