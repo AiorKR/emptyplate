@@ -311,69 +311,61 @@ public class BoardService
 	public int boardCommentInsert(Board board) throws Exception
 	{
 		int count = 0;
-
-		try
-		{
-			boardDao.commentGroupOrderUpdate(board);
-			count = boardDao.boardCommentInsert(board);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] boardCommentInsert Exception", e);
-		}
+		
+		boardDao.commentGroupOrderUpdate(board);
+		count = boardDao.boardCommentInsert(board);
 		
 		return count;
 	}
 	
-	//최초 댓글 체크
-	public int boardGroupCheck(long bbsSeq)
-	{
-		int count = 0;
-		
-		try
-		{
-			count=boardDao.boardGroupCheck(bbsSeq);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] boardGroupCheck Exception", e);
-		}
-		
-		return count;
-	}
-	
-	//댓글 리스트 출력
-	public List<Board> boardCommentList(Board board)
+	//댓글 리스트
+	public List<Board> commentList(Board board)
 	{
 		List<Board> list = null;
 		
 		try
 		{
-			list = boardDao.boardCommentList(board);
+			list = boardDao.commentList(board);
 		}
 		catch(Exception e)
 		{
-			logger.error("[BoardService] boardCommentList Exception", e);
+			logger.error("[BoardService] boardList Exception", e);
 		}
 		
 		return list;
 	}
 	
-	//댓글 삭제
-	public int boardCommentDelete(Board board)
+	/*//댓글 조회
+	public Board commentSelect(long bbsSeq)
 	{
-		int count = 0;
-      
+		Board board = null;
+		
 		try
 		{
-			count = boardDao.boardCommentDelete(board);
+			board = boardDao.commentSelect(bbsSeq);
 		}
 		catch(Exception e)
 		{
-			logger.error("[BoardService] boardCommentDelete Exception", e);
+			logger.error("[BoardService] commentSelect Exception", e);
 		}
-      
+		return board;
+	}*/
+	
+	//게시물 삭제(첨부파일 있으면 함께 삭제)
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public int commentDelete(long bbsSeq) throws Exception
+	{
+		int count = 0;
+	      
+		try
+		{
+			count = boardDao.commentDelete(bbsSeq);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] commentDelete Exception", e);
+		}
+		
 		return count;
 	}
-
 }

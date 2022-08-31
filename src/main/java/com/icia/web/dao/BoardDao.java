@@ -54,19 +54,20 @@ public interface BoardDao
 	
 	//좋아요 수 업데이트
 	public int boardLikeCntUpdate(Board board);
-
+	
 	//댓글 등록
 	public int boardCommentInsert(Board board);
 	
-	//댓글 그룹순서 변경
+	//댓글 그룹 순서 변경
 	public int commentGroupOrderUpdate(Board board);
 	
-	//최초 댓글 체크
-	public int boardGroupCheck(long bbsSeq);
+	//댓글 리스트
+	public List<Board> commentList(Board board);
 	
-	//댓글 리스트 출력
-	public List<Board> boardCommentList(Board board);
+	//댓글 조회
+	//public Board commentSelect(long bbsSeq);
 	
-	//댓글 삭제
-	public int boardCommentDelete(Board board);
+	//게시물 삭제
+	public int commentDelete(long bbsSeq);
+	
 }

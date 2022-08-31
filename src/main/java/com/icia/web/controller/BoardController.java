@@ -192,42 +192,6 @@ public class BoardController
 		return ajaxResponse;
 	}
 	
-	/*//파일 등록(AJAX)
-	@RequestMapping(value="/board/fileUpload", method=RequestMethod.POST)
-	@ResponseBody
-	public Response<Object> fileUpload(MultipartHttpServletRequest request, HttpServletResponse response)
-	{
-		Response<Object> ajaxResponse = new Response<Object>();
-		FileData fileData = HttpUtil.getFile(request, "bbsFile", UPLOAD_SAVE_DIR);
-		
-		Board board = new Board();
-		
-		if(fileData != null && fileData.getFileSize() > 0)
-		{				
-			BoardFile boardFile = new BoardFile();
-
-			//파일이름 
-			String fileName = boardFile.getFileOrgName();
-			boardFile.setFileName(fileName);
-			
-			//uuid 적용 파일이름
-			String uuid = UUID.randomUUID().toString();
-			boardFile.setUuid(uuid);
-			fileName = uuid + "_" + fileName;
-			
-			BoardFile saveFile = new BoardFile();
-			
-			saveFile.setFileName(fileData.getFileName());
-			saveFile.setFileOrgName(fileData.getFileOrgName());
-			saveFile.setFileExt(fileData.getFileExt());
-			saveFile.setFileSize(fileData.getFileSize());
-			
-			board.setBoardFile(boardFile);	
-		}
-		
-		return ajaxResponse;
-	}	*/
-	
 	//게시물 조회
     @RequestMapping(value="/board/view")
     public String view(ModelMap model, HttpServletRequest request, HttpServletResponse response)
@@ -250,12 +214,13 @@ public class BoardController
        String bbsComment = "";
 
        Board board = null;
-       List<Board> juniorBoard = null;
+       List<Board> comment = null;
        
        if(bbsSeq > 0)
        {
           board = boardService.boardView(bbsSeq);
-          juniorBoard = boardService.boardCommentList(board);
+          comment = boardService.commentList(board);
+          
           if(board != null && StringUtil.equals(board.getUserUID(), cookieUserUID))
           {
              boardMe = "Y";
@@ -283,7 +248,7 @@ public class BoardController
        model.addAttribute("searchType", searchType);
        model.addAttribute("searchValue", searchValue);
        model.addAttribute("curPage", curPage);
-       model.addAttribute("list", juniorBoard);
+       model.addAttribute("list", comment);
        
        return "/board/view";
     }
@@ -530,63 +495,7 @@ public class BoardController
   		
   		return modelAndView;
   	}
-  	/*
-  	//댓글등록
-  	@RequestMapping(value="/board/commentProc", method=RequestMethod.POST)
-  	@ResponseBody
-  	public Response<Object> commentProc(HttpServletRequest request, HttpServletResponse response)
-  	{
-
-  		Response<Object> ajaxResponse = new Response<Object>();
-  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
-		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
-		Board board = new Board();
-		Board juniorBoard = new Board();
-		board.setBbsSeq(bbsSeq);
-		String juniorBbsContent = HttpUtil.get(request, "juniorBbsContent", "");
-		
-		if(bbsSeq > 0 && !StringUtil.isEmpty(juniorBbsContent))
-		{
-	  		juniorBoard.setUserUID(cookieUserUID);
-	  		juniorBoard.setBbsContent(juniorBbsContent);
-	  		juniorBoard.setCommentParent(bbsSeq);
-	  		//댓글등록 최상위그룹세팅
-	  		juniorBoard.setCommentGroup(boardService.boardGroupCheck(bbsSeq) + 1);
-	  		juniorBoard.setCommentOrder(1);
-	  		 
-			if(board != null)
-			{
-				
-				try
-				{
-					if(boardService.boardCommentInsert(juniorBoard) > 0)
-					{
-						ajaxResponse.setResponse(0, "success");
-					}
-					else
-					{
-						ajaxResponse.setResponse(500, "internal server error");
-					}	
-				}
-				catch(Exception e)
-				{
-					logger.error("[BoardController] /board/commentProc Exception", e);
-					ajaxResponse.setResponse(500, "internal server error2");
-				}
-			}
-			else
-			{
-				ajaxResponse.setResponse(404, "not found");
-			}
-		}
-		else
-		{
-			ajaxResponse.setResponse(400, "bad request");
-		}
-		
-		return ajaxResponse;
-  	}
-  	*/
+  	
   	//댓글등록
   	@RequestMapping(value="/board/commentProc", method=RequestMethod.POST)
   	@ResponseBody
@@ -648,33 +557,6 @@ public class BoardController
 		return ajaxResponse;
   	}
   	
-  	/*
-  	@RequestMapping(value="/board/addReply", method=RequestMethod.POST)
-  	@ResponseBody
-  	public Response<Object> addReply(HttpServletRequest request, HttpServletResponse response)
-  	{
-  		Response<Object> ajaxResponse = new Response<Object>();
-  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
-  		try
-		{
-			if(!StringUtil.isEmpty(cookieUserUID))
-			{
-				ajaxResponse.setResponse(0, "success");
-			}
-			else
-			{
-				ajaxResponse.setResponse(500, "internal server error");
-			}	
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardController] /board/addReply Exception", e);
-			ajaxResponse.setResponse(500, "internal server error2");
-		}
-  		return ajaxResponse;
-  	}
-		*/
-  	
   	//댓글 삭제
   	@RequestMapping(value="/board/commentDelete", method=RequestMethod.POST)
   	@ResponseBody
@@ -689,12 +571,12 @@ public class BoardController
   		{			
   			Board board = boardService.boardSelect(bbsSeq);
   			if(board != null)
-  			{	
+  			{	  		  		
   				if(StringUtil.equals(board.getUserUID(), cookieUserUID))
   				{	//내 게시물인지 확인 //다이렉트로 들어올 경우 방지
   					try
   					{
-						if(boardService.boardDelete(board.getBbsSeq()) > 0)
+						if(boardService.commentDelete(board.getBbsSeq()) > 0)
 						{
 							ajaxResponse.setResponse(0, "Success");
 						}
@@ -726,6 +608,4 @@ public class BoardController
   		
   		return ajaxResponse;
   	}
-  	
-  	
 }

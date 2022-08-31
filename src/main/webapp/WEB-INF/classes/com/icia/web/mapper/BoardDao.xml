@@ -192,7 +192,7 @@ SELECT A.BBS_SEQ,
        NVL(COMMENT_ORDER, 0) AS COMMENT_ORDER,
        NVL(COMMENT_INDENT, 0) AS COMMENT_INDENT
   FROM T_BOARD A, T_USER B
- WHERE A.BBS_SEQ = #{VALUE}
+ WHERE A.BBS_SEQ = #{value}
    AND A.USER_UID = B.USER_UID
 </select>
 
@@ -276,7 +276,7 @@ UPDATE T_BOARD A
 	SELECT BBS_SEQ.NEXTVAL FROM DUAL
 </selectKey>
 
-INSERT INTO T_BOARD (BBS_SEQ,
+ INSERT INTO T_BOARD (BBS_SEQ,
                      USER_UID,
                      BBS_NO,
                      BBS_TITLE,
@@ -297,7 +297,7 @@ VALUES (#{bbsSeq},
         0,
         0,
         SYSDATE,
-        #{bbsComment},
+        NULL,
         #{commentParent},
         #{commentGroup},
         #{commentOrder},
@@ -312,15 +312,23 @@ UPDATE T_BOARD
    AND COMMENT_ORDER <![CDATA[>=]]> #{commentOrder}
 </update>
 
-<!--그룹번호 체크 -->
-<select id="boardGroupCheck" parameterType="long" resultType="int"> 
-SELECT MAX(COMMENT_GROUP) AS MAXVALUE
-  FROM T_BOARD
- WHERE COMMENT_PARENT = #{value}
-</select>
+<!-- 댓글 조회
+<select id="commentSelect" parameterType="long" resultMap="boardResultMap">
+SELECT A.BBS_SEQ,
+       NVL(B.USER_UID, '') AS USER_UID,
+       NVL(B.USER_NICK, '') AS USER_NICK
+       NVL(BBS_CONTENT, '') AS BBS_CONTENT
+       NVL(COMMENT_PARENT, 0) AS COMMENT_PARENT,
+       NVL(COMMENT_GROUP, 0) AS COMMENT_GROUP,
+       NVL(COMMENT_ORDER, 0) AS COMMENT_ORDER,
+       NVL(COMMENT_INDENT, 0) AS COMMENT_INDENT
+  FROM T_BOARD A, T_USER B
+ WHERE A.BBS_SEQ = ${bbsNo}
+   AND A.USER_UID = B.USER_UID
+</select> -->
 
 <!-- 댓글 리스트 -->
-<select id="boardCommentList" parameterType="com.icia.web.model.Board" resultMap="boardResultMap">
+<select id="commentList" parameterType="com.icia.web.model.Board" resultMap="boardResultMap">
 SELECT A.BBS_SEQ AS BBS_SEQ,
 	   A.COMMENT_PARENT AS COMMENT_PARENT,
        B.USER_NICK AS USER_NICK,
@@ -336,7 +344,7 @@ SELECT A.BBS_SEQ AS BBS_SEQ,
 </select>
 
 <!-- 댓글 삭제 -->
-<update id="boardCommentDelete" parameterType="com.icia.web.model.Board">
+<update id="commentDelete" parameterType="com.icia.web.model.Board">
 DELETE FROM T_BOARD
  WHERE BBS_SEQ = #{bbsSeq}
 </update>

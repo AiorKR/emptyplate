@@ -171,90 +171,58 @@ $(document).ready(function() {
 	            $("#btnSearch").prop("disabled", false);   //글쓰기 버튼 활성화
 	         }
 	      });
-	   });
-   
-   /* $("#btnAddReply").on("click", function(){
-		$("#btnSearch").prop("disabled", true);   //버튼 여러번 누르기 방지기능(활성화시 여러번 전송되므로)
-	   $.ajax({
-	       type:"POST",
-	       url:"/board/addReply",
-	       data:{
-	    	//$("juniorBbsContent").val() = "@" + ${juniorBoard.userNick} + " ";
-	       },
-	       datatype:"JSON",
-	       beforeSend:function(xhr){
-	          xhr.setRequestHeader("AJAX", "true");
-	       },
-	       success:function(response){
-	          if(response.code == 0)
-	            {
-	             alert("댓글 등록준비!");
-	             location.reload();
-	            }
-	          else if(response.code == 400)
-	          {
-	           alert("로그인 후, 댓글버튼을 사용하실 수 있습니다.");
-	          }
-	          else
-	            {
-	             alert("좋아요 중 오류가 발생하였습니다.");
-	            }
-	       },
-	       error:function(xhr, status, error){
-	          icia.common.error(error);
-	       }
-	    });
-   }); */
-   
-   $("#btnCommentDelete").on("click", function(){
-      if(confirm("댓글을 삭제 하시겠습니까?") == true)
-      {
-         $.ajax({
-            type:"POST",
-            url:"/board/commentDelete",
-            datatype:"JSON",
-            data:{
-               bbsSeq:<c:out value="${board.bbsSeq}" />
-            },
-            beforeSend:function(xhr){
-               xhr.setRequestHeader("AJAX", "true");
-            },
-            success:function(response){
-               if(response.code == 0)
-                 {
-                  alert("댓글이 삭제되었습니다.");
- 	             location.reload();
-                 }
-               else if(response.code == 400)
-                 {
-                  alert("파라미터 값이 올바르지 않습니다.");
-                 }
-               else if(response.code == 403)
-                 {
-                  alert("본인 글이 아니므로 삭제할 수 없습니다.");
-                 }
-               else if(response.code == 404)
-                 {
-                  alert("댓글을 찾을 수 없습니다.");
-                  location.href = "/board/list";                  
-                 }
-               else if(response.code == -999)
-                 {
-                  alert("답변 댓글이 존재하여 삭제할 수 없습니다.");
-                 }
-               else
-                 {
-                  alert("댓글 삭제 중 오류가 발생하였습니다.");
-                 }
-            },
-            error:function(xhr, status, error){
-               icia.common.error(error);
-            }
-         });
-      }
-   });
-   
+	   });   
 });
+
+function fn_deleteComment(bbsSeqValue)
+{
+    if(confirm("댓글을 삭제 하시겠습니까?") == true)
+    {
+       $.ajax({
+          type:"POST",
+          url:"/board/commentDelete",
+          datatype:"JSON",
+          data:{
+             bbsSeq:bbsSeqValue
+          },
+          beforeSend:function(xhr){
+             xhr.setRequestHeader("AJAX", "true");
+          },
+          success:function(response){
+             if(response.code == 0)
+               {
+                alert("댓글이 삭제되었습니다.");
+	             location.reload();
+               }
+             else if(response.code == 400)
+               {
+                alert("파라미터 값이 올바르지 않습니다.");
+               }
+             else if(response.code == 403)
+               {
+                alert("본인 글이 아니므로 삭제할 수 없습니다.");
+               }
+             else if(response.code == 404)
+               {
+                alert("댓글을 찾을 수 없습니다.");
+                location.href = "/board/list";                  
+               }
+             else if(response.code == -999)
+               {
+                alert("답변 댓글이 존재하여 삭제할 수 없습니다.");
+               }
+             else
+               {
+                alert("댓글 삭제 중 오류가 발생하였습니다.");
+               }
+          },
+          error:function(xhr, status, error){
+             icia.common.error(error);
+          }
+       });
+    }
+}
+
 </script>
 </head>
 	<body>
@@ -345,7 +313,7 @@ $(document).ready(function() {
 									<button type="submit" id="btnSearch">등록</button>
 								</div>
 							</div>
-						</form>
+						
   
 						<c:if test="${!empty list}">
 							<c:forEach var="board" items="${list}" varStatus="status">
@@ -353,7 +321,7 @@ $(document).ready(function() {
 									<div class="comment-write">
 										<col-lg-12><ion-icon name="person"></ion-icon> ${board.userNick}</col-lg-12>
 										<c:if test="${boardMe eq 'Y'}">
-											<button type="submit" id="btnCommentDelete" class="commentDelete">삭제</button>
+											<button onclick="fn_deleteComment(${board.bbsSeq})" id="btnCommentDelete" class="commentDelete">삭제</button>
 										</c:if>
 										<a>${board.regDate}</a>
 										<button type="submit" id="btnReport">신고</button>
@@ -365,6 +333,7 @@ $(document).ready(function() {
 								</div>
 							</c:forEach>
 						</c:if>
+						</form>
 					</c:if>
 				</div>
 				
