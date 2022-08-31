@@ -294,60 +294,59 @@ $(document).ready(function() {
 				</div>
 
 
-<div class="board-service">
-<div class="board-list"><button type="button" id="btnList" class="board-list"><ion-icon name="reader"></ion-icon>&nbsp;목록</button></div>
-<div class="report"><button><ion-icon name="alert-circle"></ion-icon>&nbsp;신고</button></div>
-<c:if test="${!empty board.boardFile}">
-<a href="/board/download?bbsSeq=${board.boardFile.bbsSeq}" style="float:right;">첨부이미지 다운로드</a>
-</c:if>   
-</div>
+					<div class="board-service">
+						<div class="board-list"><button type="button" id="btnList" class="board-list"><ion-icon name="reader"></ion-icon>&nbsp;목록</button></div>
+						<div class="report"><button><ion-icon name="alert-circle"></ion-icon>&nbsp;신고</button></div>
+						<c:if test="${!empty board.boardFile}">
+							<a href="/board/download?bbsSeq=${board.boardFile.bbsSeq}" style="float:right;">첨부이미지 다운로드</a>
+						</c:if>   
+					</div>
 
-<c:if test="${board.bbsComment eq 'Y'}">
-             
-<form name="commentForm" id="commentForm" method="post" enctype="form-data">
-<div class="board-commentwrite">
-<col-lg-12><ion-icon name="chatbubbles"></ion-icon>댓글</col-lg-12>
-<div class="submit">
-<input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
-<input type="text" id="juniorBbsContent" name="juniorBbsContent"  value="${juniorBoard.bbsContent}"style="ime-mode:active;" class="form-control mt-4 mb-2"/>
-<button type="submit" id="btnSearch">등록</button>
-</div>
-</div>
-</form>
+
+					
+					<c:if test="${board.bbsComment eq 'Y'}">             
+						<form name="commentForm" id="commentForm" method="post" enctype="form-data">
+							<div class="board-commentwrite">
+								<col-lg-12><ion-icon name="chatbubbles"></ion-icon>댓글</col-lg-12>
+								<div class="submit">
+									<input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
+									<input type="text" id="juniorBbsContent" name="juniorBbsContent"  value="${juniorBoard.bbsContent}"style="ime-mode:active;" class="form-control mt-4 mb-2"/>
+									<button type="submit" id="btnSearch">등록</button>
+								</div>
+							</div>
+						</form>
   
-<c:if test="${!empty list}">
-<c:forEach var="juniorBoard" items="${list}" varStatus="status">
-<div class="comment">
-<div class="comment-write">
-<col-lg-12><ion-icon name="person"></ion-icon> ${juniorBoard.userNick}</col-lg-12>
-
-<c:if test="${boardMe eq 'Y'}">
-	<button type="submit" id="btnCommentDelete" class="delete">삭제</button>
-</c:if>
-<a>${juniorBoard.regDate}</a>
-<button type="submit" id="btnReport">신고</button>
-<button type="submit" id="btnAddReply">댓글달기</button>
-
-</div>
-<div class="comment-content">
-<col-lg-12>${juniorBoard.bbsContent}</col-lg-12>
-</div>
-</div>
-</c:forEach>
-</c:if>
-</form>
-</c:if>
-</div>
-<form name="bbsForm" id="bbsForm" method="post">
-<input type="hidden" name="bbsSeq" value="${bbsSeq}" />
-<input type="hidden" name="searchType" value="${searchType}" />
-<input type="hidden" name="searchValue" value="${searchValue}" />
-<input type="hidden" name="curPage" value="${curPage}" />
-<input type="hidden" name="bbsNo" value="${bbsNo}" />
-</form>
-</div> 
-</section>
- <!-- ======= Footer ======= -->
-<%@ include file="/WEB-INF/views/include/footer.jsp" %>
-</body>
+						<c:if test="${!empty list}">
+							<c:forEach var="juniorBoard" items="${list}" varStatus="status">
+								<div class="comment">
+									<div class="comment-write">
+										<col-lg-12><ion-icon name="person"></ion-icon> ${juniorBoard.userNick}</col-lg-12>
+										<c:if test="${boardMe eq 'Y'}">
+											<button type="submit" id="btnCommentDelete" class="delete">삭제</button>
+										</c:if>
+										<a>${juniorBoard.regDate}</a>
+										<button type="submit" id="btnReport">신고</button>
+										<button type="submit" id="btnAddReply">댓글달기</button>
+									</div>
+									<div class="comment-content">
+										<col-lg-12>${juniorBoard.bbsContent}</col-lg-12>
+									</div>
+								</div>
+							</c:forEach>
+						</c:if>
+					</c:if>
+				</div>
+				
+				<form name="bbsForm" id="bbsForm" method="post">
+					<input type="hidden" name="bbsSeq" value="${bbsSeq}" />
+					<input type="hidden" name="searchType" value="${searchType}" />
+					<input type="hidden" name="searchValue" value="${searchValue}" />
+					<input type="hidden" name="curPage" value="${curPage}" />
+					<input type="hidden" name="bbsNo" value="${bbsNo}" />
+				</form>
+			</div> 
+		</section>
+ 	<!-- ======= Footer ======= -->
+	<%@ include file="/WEB-INF/views/include/footer.jsp" %>
+	</body>
 </html>
