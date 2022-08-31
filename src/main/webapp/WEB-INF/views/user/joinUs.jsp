@@ -4,6 +4,7 @@
 
 <head>
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 	
@@ -307,6 +308,261 @@ function fn_userReg()
   });
 }
 
+
+
+Kakao.init('37cdbda3af5494984233ca8e8d7d9f7b'); //발급받은 키 중 javascript키를 사용해준다.
+console.log(Kakao.isInitialized()); // sdk초기화여부판단
+//카카오로그인
+function kakaoLogin() {
+    Kakao.Auth.login({
+        success: function (authObj) {
+            console.log(authObj); // access토큰 값
+            Kakao.Auth.setAccessToken(authObj.access_token); // access토큰값 저장
+         
+            getInfo();
+            
+        },
+        fail: function (err) {
+            console.log(err);
+        }
+    });
+}
+
+// 4. 엑세스 토큰을 발급받고, 아래 함수를 호출시켜서 사용자 정보를 받아옴.
+function getInfo() {
+   Kakao.API.request({
+        url: '/v2/user/me',
+        success: function (res) {
+            console.log(res);
+            // 이메일, 닉네임, 프로필이미지
+            var id = res.id;
+            var email = res.kakao_account.email;
+            var nickname = res.kakao_account.profile.nickname;
+            var profile_image = res.kakao_account.profile.thumbnail_image_url;
+            var pw = "kaP";
+            var phone = "01012341234";
+            var name = "정슈미"
+            console.log(id, email, nickname, profile_image);
+              
+            $.ajax({
+               type:"POST",
+               url:"/user/idCheck",
+               data:{
+                  userId: id
+               },
+               datatype:"JSON",
+               beforeSend:function(xhr){
+                  xhr.setRequestHeader("AJAX", "true");
+               },
+               success:function(response){
+                  if(response.code == 0)
+                  {//카카오 최초 로그인
+                    $.ajax({
+                        type:"POST",
+                        url:"/user/regProc",
+                        data:{
+                           userId: id,
+                           userEmail: email,
+                           userName: name,
+                           userNick : nickname,
+                           userPwd : pw,
+                           userPhone : phone
+                        },
+                        datatype:"JSON",
+                        beforeSend:function(xhr){
+                           xhr.setRequestHeader("AJAX", "true");
+                        },
+                        success:function(response)
+                        {
+                          if(response.code == 0)
+                          { //자동회원가입 후 자동 로그인
+                             
+                             $.ajax({
+                           type : "POST",
+                           url : "/user/loginOk",
+                           data : {
+                              userId: id,
+                              userPwd: pw 
+                           },
+                           datatype : "JSON",
+                           beforeSend : function(xhr){
+                                 xhr.setRequestHeader("AJAX", "true");
+                             },
+                           success : function(response) {
+                              
+                              if(!icia.common.isEmpty(response))
+                              {
+                                 icia.common.log(response);
+                                 
+                                 // var data = JSON.parse(obj);
+                                 var code = icia.common.objectValue(response, "code", -500);
+                                 
+                                 if(code == 0)
+                                 {
+                                    kakaoLogout();
+                                    location.href = "/index";
+                                 }
+                                 else
+                                 {
+                                    kakaoLogout();
+                                    if(code == -1)
+                                    {
+                                       alert("비밀번호가 올바르지 않습니다.");
+                                    }
+                                    else if(code == 404)
+                                          {
+                                             alert("아이디와 일치하는 사용자 정보가 없습니다.");                 
+                                          }
+                                          else if(code == 403)
+                                          {
+                                             alert("사용이 중지된 사용자 입니다.");
+                                        }                  
+                                    else if(code == 400)
+                                    {
+                                       alert("파라미터 값이 올바르지 않습니다.");
+                                    }
+                                    else
+                                    {
+                                       alert("오류가 발생하였습니다.");
+                                    }   
+                                 }   
+                              }
+                              else
+                              {
+                                 kakaoLogout();
+                                 alert("오류가 발생하였습니다.");
+                              }
+                           },
+                           complete : function(data) 
+                           { 
+                              // 응답이 종료되면 실행, 잘 사용하지않는다
+                              icia.common.log(data);
+                           },
+                           error : function(xhr, status, error) 
+                           {
+                              icia.common.error(error);
+                           }
+                           });                      
+                             //자동로그인 종료
+                 
+                          }
+                          
+                        },
+                       error:function(xhr, status, error)
+                       {
+                           icia.common.error(error);
+                       }
+                      });
+                  }
+                  else if(response.code == 100)
+                  {//카카오 자동로그인
+                    $.ajax({
+                        type : "POST",
+                        url : "/user/loginOk",
+                        data : {
+                           userId: id,
+                           userPwd: pw 
+                        },
+                        datatype : "JSON",
+                        beforeSend : function(xhr){
+                              xhr.setRequestHeader("AJAX", "true");
+                          },
+                        success : function(response) {
+                           
+                           if(!icia.common.isEmpty(response))
+                           {
+                              icia.common.log(response);
+                              
+                              // var data = JSON.parse(obj);
+                              var code = icia.common.objectValue(response, "code", -500);
+                              
+                              if(code == 0)
+                              {
+                                 kakaoLogout();
+                                 location.href = "/index";
+                              }
+                              else
+                              {
+                                 kakaoLogout();
+                                 if(code == -1)
+                                 {
+                                    alert("비밀번호가 올바르지 않습니다.");         
+                                 }
+                                 else if(code == 404)
+                                       {
+                                          alert("아이디와 일치하는 사용자 정보가 없습니다.");                 
+                                       }
+                                       else if(code == 403)
+                                       {
+                                          alert("사용이 중지된 사용자 입니다.");
+                                     }                  
+                                 else if(code == 400)
+                                 {
+                                    alert("파라미터 값이 올바르지 않습니다.");
+                                 }
+                                 else
+                                 {
+                                    alert("오류가 발생하였습니다.");
+                                 }   
+                              }   
+                           }
+                           else
+                           {
+                              kakaoLogout();
+                              alert("오류가 발생하였습니다.");
+                           }
+                        },
+                        complete : function(data) 
+                        { 
+                           // 응답이 종료되면 실행, 잘 사용하지않는다
+                           icia.common.log(data);
+                        },
+                        error : function(xhr, status, error) 
+                        {
+                           icia.common.error(error);
+                        }
+                        });                      
+                         //자동로그인 종료
+                  }
+                  else if(response.code == 400)
+                  {
+                     kakaoLogout();
+                     alert("파라미터 값이 올바르지 않습니다.");
+                  }
+                  else
+                  {
+                    kakaoLogout();
+                     alert("오류가 발생하였습니다. ");
+                  }
+               }, 
+               error:function(xhr, status, error){
+                  icia.common.error(error);
+               }
+             });
+        },
+        fail: function (error) {
+            alert('카카오 로그인에 실패했습니다. 관리자에게 문의하세요.' + JSON.stringify(error));
+        }
+    });
+}
+//카카오 로그인 끝
+
+function kakaoLogout() {
+    if (Kakao.Auth.getAccessToken()) {
+      Kakao.API.request({
+        url: '/v1/user/unlink',
+        success: function (response) {
+           console.log(response)
+        },
+        fail: function (error) {
+          console.log(error)
+        },
+      })
+      Kakao.Auth.setAccessToken(undefined)
+    }
+  }  
+
+
 function fn_validateEmail(value)
 {
    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
@@ -382,7 +638,7 @@ function signUpPopUp() {
                    
 		            <button type="button" id="btnReg" class="submit">회원가입</button>
 		    	</form> 
-            <button type="button"><img src="/resources/images/kakao_login_medium_wide.png" style="margin:auto;" /></button><br />
+            <button type="button" onclick="kakaoLogin()"><img src="/resources/images/kakao_login_medium_wide.png" style="margin:auto;" /></button><br />
           </div>
         <!-- 회원가입 끝 -->  
           
@@ -413,7 +669,7 @@ function signUpPopUp() {
             </label>
             <button type="button"><p class="forgot-pass" style="font-family:'cafe24Dangdanghae';">비밀번호 찾기</p></button>
             <button type="button" id="btnLogin" class="submit">로그인</button>
-            <button type="button"><img src="/resources/images/kakao_login_medium_wide.png" style="margin:auto;" /></button><br />
+            <button type="button" onclick="kakaoLogin()"><img src="/resources/images/kakao_login_medium_wide.png" style="margin:auto;" /></button><br />
               <p class="forgot-pass"><a href="/user/storeJoinUs" style="color: #270d0d; text-decoration:underline;">매장가입</a></p>
               <br />
               <br />

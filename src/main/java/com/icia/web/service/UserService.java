@@ -63,22 +63,7 @@ public class UserService
 		
 		return user;
 	}
-	
-	public User userNickSelect(String userNick)
-	{
-		User user = null;
-		
-		try
-		{
-			user = userDao.userNickSelect(userNick);
-		}
-		catch(Exception e)
-		{
-			logger.error("[UserService] userSelect Exception", e);
-		}
-		
-		return user;
-	}
+
 	
 	//사용자 정보 등록
 	   public int userInsert(User user)

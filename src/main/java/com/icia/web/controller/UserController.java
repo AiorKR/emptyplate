@@ -122,27 +122,19 @@ public class UserController
       return "redirect:/";
    }
    
-   //아이디, 닉네임중복체크
+   //아이디
    @RequestMapping(value="/user/idCheck", method=RequestMethod.POST)
    @ResponseBody
    public Response<Object> idCheck(HttpServletRequest request, HttpServletResponse response)
    {
       String userId = HttpUtil.get(request,  "userId");
-      String userNick = HttpUtil.get(request, "userNick");
       Response<Object> ajaxResponse = new Response<Object>();
       
-      if(!StringUtil.isEmpty(userId) && !StringUtil.isEmpty(userNick))
+      if(!StringUtil.isEmpty(userId))
       {
          if(userService.userSelect(userId) == null)
-         {        	
-        	 if(userService.userNickSelect(userNick) == null)
-        	 {
-        		 ajaxResponse.setResponse(0, "Success");
-        	 }
-        	 else
-        	 {
-        		 ajaxResponse.setResponse(110, "duplikcate Nick"); 
-        	 } 
+         {        	       	 
+        		 ajaxResponse.setResponse(0, "Success");	
          } 
          else
          {

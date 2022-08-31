@@ -65,23 +65,6 @@
        AND U.USER_UID = F.USER_UID(+)
  </select>
  
- <select id="userNickSelect" parameterType="String" resultMap="userResultMap">
-   SELECT USER_UID,
-          USER_ID,
-          NVL(USER_PWD,'') USER_PWD,
-          NVL(USER_PHONE, '') USER_PHONE,
-          NVL(USER_NAME, '') USER_NAME,
-          NVL(USER_NICK, '') USER_NICK,
-          NVL(USER_EMAIL, '') USER_EMAIL,
-          NVL(ADMIN_STATUS, '') ADMIN_STATUS,
-          NVL(STATUS, '') STATUS,
-          NVL(TO_CHAR(REG_DATE, 'YYYY.MM.DD HH24:MI:SS') , ''),
-          NVL(BIZ_NUM, '') BIZ_NUM,
-          NVL(BIZ_NAME, '') BIZ_NAME,
-          NVL(TO_CHAR(BIZ_DATE, 'YYYY.MM.DD HH24:MI:SS') , '')
-     FROM T_USER
-     WHERE USER_NICK = #{value}
- </select>
 
  <insert id="userInsert" parameterType="com.icia.web.model.User">
  INSERT INTO T_USER
