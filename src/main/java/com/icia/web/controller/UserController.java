@@ -171,13 +171,13 @@ public class UserController
               
             user.setUserUID(userUID);   
             user.setUserId(userId);
-              user.setUserPwd(userPwd);
-              user.setUserName(userName);
-              user.setUserEmail(userEmail);
-              user.setUserPhone(userPhone);
-              user.setStatus("Y");
-              user.setAdminStatus("N");
-              user.setUserNick(userNick);
+            user.setUserPwd(userPwd);
+            user.setUserName(userName);
+            user.setUserEmail(userEmail);
+            user.setUserPhone(userPhone);
+            user.setStatus("Y");
+            user.setAdminStatus("N");
+            user.setUserNick(userNick);
               
               
                if(userService.userInsert(user) > 0)

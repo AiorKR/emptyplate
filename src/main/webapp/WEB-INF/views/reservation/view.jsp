@@ -23,11 +23,11 @@ function fn_search(shopHashtag) { //해시태그 클릭시 검색
             <div class="row g-0">
                 <div class="col-md-6">
                     <div class="d-flex flex-column justify-content-center">
-                        <div class="main_image"> <img src="../resources/upload/shop/${shop.shopFileList.get(1).shopFileName}" id="main_product_image" height="400px" width="400px"> </div>
+                        <div class="main_image"> <img src="../resources/upload/shop/sub/${shop.shopUID}/${shop.shopFileList.get(1).shopFileName}" id="main_product_image" height="400px" width="400px"> </div>
                         <div class="thumbnail_images">
                             <ul id="thumbnail">
             					<c:forEach items="${shop.shopFileList}" var="shopFileList" varStatus="status" begin="1" end="5">
-                                	<li><img onclick="changeImage(this)" src="../resources/upload/shop/${shopFileList.shopFileName}" width="100px" height="100px"></li>
+                                	<li><img onclick="changeImage(this)" src="../resources/upload/shop/sub/${shop.shopUID}/${shopFileList.shopFileName}" width="100px" height="100px"></li>
                             	</c:forEach>  
                             </ul>
                         </div>
@@ -221,4 +221,5 @@ function fn_search(shopHashtag) { //해시태그 클릭시 검색
       }
     </script>
 </body>
+<%@ include file="/WEB-INF/views/include/footer.jsp" %>
 </html>

@@ -6,20 +6,20 @@
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
 <script type="text/javascript">
 $(document).ready(function() {
-    
-   $("#bbsTitle").focus();
+	$("#bbsTitle").focus();
    
-   /*이미지 파일 첨부 확장자, 사이즈 체크*/
-   $("input[type='file']").on("change", function(e){
- 		let formData = new FormData();
+	/*이미지 파일 첨부 확장자, 사이즈 체크*/
+	$("input[type='file']").on("change", function(e){
+		let formData = new FormData();
  		let fileInput = $('input[name="bbsFile"]');
  		let fileList = fileInput[0].files;
  		let fileObj = fileList[0];
+ 		
  		if(!fileCheck(fileObj.name, fileObj.size)){
  			return false;
  		}
- 		formData.append("bbsFile", fileObj);
  		
+ 		formData.append("bbsFile", fileObj);		
  		/*$.ajax({
 			url: "/board/fileUpload",
 	    	processData : false,

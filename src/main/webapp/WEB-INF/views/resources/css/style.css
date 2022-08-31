@@ -2700,6 +2700,7 @@ section {
   font-family: "Poppins", sans-serif;
 }
 
+
 /*--------------------------------------------------------------
 # Reservation start
 --------------------------------------------------------------*/
@@ -2730,27 +2731,37 @@ section {
   padding: 0;
 }
 
+.reservation h2{
+   color:#000
+}
 .reservation-container {
   margin-top: 100px;
+  
 }
 
 .reservation:before {
   content: "";
-  background: rgba(16, 16, 16);
+  background: rgba(225, 225, 225);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
   top: 6%;
-  left: 5%;
-  right: 5%;
+  left: 11%;
+  right: 11%;
+  border-radius: 20px;
 }
 
 .reservation .section-title h2 {
-  color: #fff;
+  color: #000;
 }
 
 .reservation .container {
   position: relative;
+}
+
+.reservation .container-fluid {
+  position: relative;
+  margin-bottom: 15px;
 }
 
 @media (min-width: 1024px) {
@@ -2759,20 +2770,26 @@ section {
   }
 }
 
+hr.hr-5 {
+  border: 0;
+  border-top: 3px double #8c8c8c;
+  border-color: #000;
+}
+
 .reservation .reservation-carousel {
   background: rgba(255, 255, 255, 0.08);
   padding: 30px;
 }
 
 .reservation .reservation-item {
-  color: #fff;
+  color: #000;
 }
 
 .reservation .reservation-item h3 {
   font-weight: 300;
   font-size: 40px;
   font-family: "Do Hyeon", sans-serif;
-  color: #cda45e;
+  color: #000;
 }
 
 .reservation .reservation-item .price {
@@ -2795,7 +2812,7 @@ section {
 .reservation .reservation-item .int {
   font-size: 18px;
   font-family: "Nanum Gothic Coding", monospace;
-  color: white;
+  color: #000;
 }
 
 .reservation .reservation-item ul {
@@ -2818,7 +2835,7 @@ section {
 }
 
 .reservation .swiper-pagination {
-  margin-top: 30px;
+  margin-top: 40px;
   position: relative;
 }
 
@@ -2847,7 +2864,7 @@ reservation 검색
 
 .reservation .collapse .btn {
   background: #C2A383;
-  color: rgb(255, 255, 255);
+  color: rgb(16, 16, 16);
   padding: 1px 20px;
   position: relative;
   border: 1px solid #C2A383;
@@ -2877,7 +2894,7 @@ reservation 검색
   font-size: 16px;
   padding: 0 20px 2px 20px;
   background: #C2A383;
-  color: #fff;
+  color: #000;
   transition: 0.3s;
   /*border-radius: 50px;*/
 }
@@ -2891,11 +2908,11 @@ reservation 검색
 }
 
 .reservation .menutable {
-  color: #fff;
+  color: #000;
 }
 
 .star-ratings {
-  color: #aaa9a9; 
+  color: #000; 
   position: relative;
   unicode-bidi: bidi-override;
   width: max-content;
@@ -2957,7 +2974,7 @@ reservation 검색
 
 .reservation .page-wrap .page-nation a:hover{
   background-color:gray;
-  color:white;
+  color:#000;
 }
 
 /*--------------------------------------------------------------
@@ -2990,6 +3007,7 @@ reservation 검색
   background: url("/resources/images/hero-bg.jpg") top center;
   background-size: cover;
   position: relative;
+  
   padding: 0;
 }
 
@@ -3002,20 +3020,23 @@ reservation 검색
   padding: 0;
 }
 
-
+.view p span{
+   font-family: 'Cafe24Dangdanghae';
+}
 .view:before{
   content: "";
-  background: rgba(16, 16, 16);
+  background: rgba(225, 225, 225);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
-  top: 11%;
-  left: 5%;
-  right: 5%;
+  top: 6%;
+  left: 11%;
+  right: 11%;
+  border-radius: 20px;
 }
 
 .view .section-title h2 {
-  color: #fff;
+  color: #000;
 }
 
 .view .container {
@@ -3034,7 +3055,7 @@ reservation 검색
 }
 
 .view .view-item {
-  color: #fff;
+  color: #000;
 }
 
 .view .view-item h3 {
@@ -3064,7 +3085,7 @@ reservation 검색
 .view .view-item .int {
   font-size: 18px;
   font-family: "Nanum Gothic Coding", monospace;
-  color: white;
+  color: #000;
 }
 
 .view .view-item ul {
@@ -3153,6 +3174,11 @@ reservation 검색
   font-size: 17px;
   margin-right: 5px;
   float: center;
+}
+
+.view p, .view ul, .view h3, .view span{
+  color:#000;
+
 }
 
 .view .star:hover {
@@ -3253,7 +3279,7 @@ reservation 검색
   top: 22px
 }
 .view .buttons .btn {
-  color: rgb(255, 255, 255);
+  color: #000;
   background-color: #C2A383;
   border: 1px solid rgba(255, 255, 255, 0.2);
   height: 50px;
