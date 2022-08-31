@@ -48,11 +48,11 @@ function fn_search(shopHashtag) { //해시태그 클릭시 검색
                             <p>${shop.shopIntro}</p>
                         </div>
                         <ul>
-                          <li><i class="fa-solid fa-map-location-dot"></i> ${address} </li>
-                          <li><i class="fa-regular fa-star"></i> 별점 4.5 (100)</li>
+                          <li><i class="fa-solid fa-map-location-dot" style="color:#C2A383"></i> ${address} </li>
+                          <li><i class="fa-regular fa-star" style="color:#C2A383"></i> 별점 4.5 (100)</li>
                         </ul>
                         <c:forTokens items="${shop.shopHashtag}" delims="#" var="shopHashtag">
-            				<span onclick="fn_search('${shopHashtag}')" style="cursor: pointer; "><c:out value='${shopHashtag}'/></span>
+            				<span onclick="fn_search('${shopHashtag}')" style="cursor: pointer; color:#FF7F50;"><c:out value='${shopHashtag}'/></span>
            				</c:forTokens>	
                         <div id="map" style="width:100%; height:350px; margin-top: 15px;"></div>
 
@@ -202,12 +202,8 @@ function fn_search(shopHashtag) { //해시태그 클릭시 검색
         	<hr class="hr-5">
         </container>
           <div class="review">
-            <ul>
+            <ul style="border-bottom:1px solid #C2A383">
               <li><a href="#">Review text1</a></li>
-              <li><a href="#">Review text2</a></li>
-              <li><a href="#">Review text3</a></li>
-              <li><a href="#">Review text4</a></li>
-              <li><a href="#">Review text5</a></li>
             </ul>
           </div>
           	<form name="bbsForm" id="bbsForm" method="post">
