@@ -89,6 +89,7 @@ function fn_validateEmail(value)
 
 <body>
 <form>
+	
 	<input type="text" id="userEmail" name="userEmail" class="userEmail" placeholder="변경하실 이메일을 입력해주세요" maxlength="20">
 	<button type="button" id="btnUpdate">확인</button> 
 	<input type="button" value="닫 기" onclick="self.close();" />       
