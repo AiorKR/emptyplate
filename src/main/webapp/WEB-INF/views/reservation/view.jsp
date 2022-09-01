@@ -202,9 +202,15 @@ function fn_search(shopHashtag) { //해시태그 클릭시 검색
         	<hr class="hr-5">
         </container>
           <div class="review">
-            <ul style="border-bottom:1px solid #C2A383">
-              <li><a href="#">Review text1</a></li>
-            </ul>
+            <table style="border-bottom:1px solid #C2A383">
+              <c:if test="${!empty list}">
+              	<c:forEach var="shop" items="${list}" varStatus="status">
+	              <tr>
+	              	<td></td>
+	              </tr>
+              	</c:forEach>
+              </c:if>
+            </table>
           </div>
           	<form name="bbsForm" id="bbsForm" method="post">
 		        <input type="hidden" name="shopUID" value=""/> 
