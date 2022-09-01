@@ -100,7 +100,7 @@
 	                NVL(B.FILE_SIZE, 0) AS FILE_SIZE
 	           FROM T_SHOP A, T_SHOP_FILE B
 	          WHERE A.SHOP_UID = B.SHOP_UID
-	            AND B.FILE_ORG_NAME LIKE '%'|| '상호' ||'%'
+	            AND B.FILE_ORG_NAME LIKE '%'|| 'Shop_' ||'%'
         <if test='searchType != null and searchType != "0" '>
 			<choose>
 				<when test='searchType == "1"'>   

@@ -60,15 +60,15 @@ public class BoardController
 		String searchType = HttpUtil.get(request, "searchType");
 		//조회값
 		String searchValue = HttpUtil.get(request, "searchValue", "");
+		//분류값
+	    long sortValue = HttpUtil.get(request, "sortValue", (long)4);
+
 		//현재페이지
 		long curPage = HttpUtil.get(request, "curPage", (long)1);
 		//총 게시물 수
 		long totalCount = 0;
 		//게시물 리스트
 		List<Board> list = null;
-		//**순
-		List<Board> sort = null;
-		//String sort = HttpUtil.get(request, "sort", "");
 		//페이징 객체
 		Paging paging = null;
 		//조회 객체
@@ -82,6 +82,7 @@ public class BoardController
 			search.setSearchValue(searchValue);
 		}
 		
+		search.setSortValue(sortValue);
 		totalCount = boardService.boardListCount(search);
 		
 		if(totalCount > 0)
@@ -91,8 +92,8 @@ public class BoardController
 			paging.addParam("bbsNo", search.getBbsNo());
 			paging.addParam("searchType", searchType);
 			paging.addParam("searchValue", searchValue);
+			paging.addParam("sortValue", sortValue);
 			paging.addParam("curPage", curPage);
-			paging.addParam("sort", sort);
 			
 			search.setStartRow(paging.getStartRow());
 			search.setEndRow(paging.getEndRow());
@@ -104,8 +105,8 @@ public class BoardController
 		model.addAttribute("bbsNo", search.getBbsNo());
 		model.addAttribute("searchType", searchType);
 		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("sortValue", sortValue);
 		model.addAttribute("curPage", curPage);
-		model.addAttribute("sort", sort);
 		model.addAttribute("paging", paging);
 		
 		

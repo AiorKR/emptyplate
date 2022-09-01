@@ -121,23 +121,37 @@ SELECT RNUM,
         WHERE A.USER_UID = B.USER_UID
           AND A.BBS_NO = #{bbsNo}
 <if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>   
-   <choose>
-      <when test='searchType == "1"'>   
-                   AND B.USER_NICK LIKE '%' || #{searchValue} || '%'
-      </when>
-      <when test='searchType == "2"'>
-                   AND A.BBS_TITLE LIKE '%' || #{searchValue} || '%'
-      </when>
-      <when test='searchType == "3"'>
-                   AND DBMS_LOB.INSTR(A.BBS_CONTENT, #{searchValue}) > 0
-      </when>
-   </choose>
-</if>  
-        ORDER BY A.BBS_SEQ DESC))
+  <choose>
+    <when test='searchType == "1"'>   
+          AND B.USER_NICK LIKE '%' || #{searchValue} || '%'
+    </when>
+    <when test='searchType == "2"'>
+          AND A.BBS_TITLE LIKE '%' || #{searchValue} || '%'
+    </when>
+    <when test='searchType == "3"'>
+          AND DBMS_LOB.INSTR(A.BBS_CONTENT, #{searchValue}) > 0
+    </when>
+  </choose>
+</if>
+
+  <choose>
+    <when test='sortValue == "5"'>
+        ORDER BY A.BBS_LIKE_CNT DESC
+    </when>
+    <when test='sortValue == "6"'>
+        ORDER BY A.BBS_READ_CNT DESC
+    </when>
+    <otherwise>   
+        ORDER BY A.BBS_SEQ DESC
+    </otherwise>
+  </choose>
+   ))
+
  WHERE RNUM <![CDATA[>=]]> #{startRow}
    AND RNUM <![CDATA[<=]]> #{endRow}
  ORDER BY RNUM ASC
 </select>
+
 
 <!-- 총 게시물 수 -->
 <select id="boardListCount" parameterType="com.icia.web.model.Board" resultType="long">
@@ -183,68 +197,6 @@ UPDATE T_BOARD
    SET BBS_READ_CNT = BBS_READ_CNT + 1
  WHERE BBS_SEQ = #{value}
 </update>
-
-<!-- **순 -->
-<select id="boardSort" parameterType="com.icia.web.model.Board" resultMap="boardResultMap">
-SELECT RNUM,
-       BBS_SEQ,
-       USER_UID,
-       USER_NICK, 
-       BBS_NO,
-       BBS_TITLE,
-       BBS_CONTENT,
-       BBS_LIKE_CNT,
-       BBS_READ_CNT,
-       REG_DATE
-  FROM(SELECT ROWNUM AS RNUM,
-                        BBS_SEQ,
-                        USER_UID,
-                        USER_NICK, 
-                        BBS_NO,
-                        BBS_TITLE,
-                        BBS_CONTENT,
-                        BBS_LIKE_CNT,
-                        BBS_READ_CNT,
-                        REG_DATE
-  FROM(SELECT BBS_SEQ,
-              NVL(B.USER_UID, '') AS USER_UID,
-              NVL(B.USER_NICK, '') AS USER_NICK, 
-              NVL(A.BBS_NO, 0) AS BBS_NO,
-              NVL(BBS_TITLE, '') AS BBS_TITLE,
-              NVL(BBS_CONTENT, '') AS BBS_CONTENT,
-              NVL(BBS_LIKE_CNT, 0) AS BBS_LIKE_CNT,
-              NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
-              NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD HH24:MI:SS'), '') AS REG_DATE
-  FROM T_BOARD A, T_USER B 
- WHERE A.USER_UID = B.USER_UID
-   AND A.BBS_NO = #{bbsNo}
-<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>	<!-- searchType, searchValue가 있을 때 조회 -->      
-	<choose>
-		<when test='searchType == "1"'>   
-                   AND B.USER_NICK LIKE '%' || #{searchValue} || '%'
-		</when>
-		<when test='searchType == "2"'>
-                   AND A.BBS_TITLE LIKE '%' || #{searchValue} || '%'
-		</when>
-		<when test='searchType == "3"'>
-                   AND DBMS_LOB.INSTR(A.BBS_CONTENT, #{searchValue}) > 0
-		</when>
-	</choose>
-</if>   
-<choose>
-<when test='sort == "dateCount"'>
-ORDER BY REG_DATE DESC))
-</when>
-<when test='sort == "likeCount"'>
-ORDER BY BBS_LIKE_CNT DESC))
-</when>
-<when test='sort == "readCount"'>
-ORDER BY BBS_READ_CNT DESC))
-</when>
-</choose>
- WHERE RNUM <![CDATA[>=]]> #{startRow}
-   AND RNUM <![CDATA[<=]]> #{endRow}
-</select>
 
 <!-- 첨부파일 조회 -->
 <select id="boardFileSelect" parameterType="long" resultMap="boardFileResultMap">

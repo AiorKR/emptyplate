@@ -30,7 +30,7 @@ public class Board implements Serializable
 	private String searchType;	//조회항목(1:작성자, 2:제목, 3:내용)
 	private String searchValue;	//조회값
 	
-	private String sort;		//**순 정렬(1:최신글순, 2:좋아요순, 3:조회순)
+	private long sortValue;      //**순 정렬(1:최신글순, 2:좋아요순, 3:조회순)
 	
 	private BoardFile boardFile;	//첨부파일
 
@@ -57,6 +57,8 @@ public class Board implements Serializable
 		
 		startRow = 0;
 		endRow = 0;
+		
+		sortValue = 0;
 		
 		searchType = "";
 		searchValue = "";
@@ -255,16 +257,6 @@ public class Board implements Serializable
 	}
 
 
-	public String getSort() {
-		return sort;
-	}
-
-
-	public void setSort(String sort) {
-		this.sort = sort;
-	}
-
-
 	public BoardFile getBoardFile() {
 		return boardFile;
 	}
@@ -273,5 +265,15 @@ public class Board implements Serializable
 	public void setBoardFile(BoardFile boardFile) {
 		this.boardFile = boardFile;
 	}
+	
+	public long getSortValue() {
+	      return sortValue;
+	}
+
+
+   public void setSortValue(long sortValue) {
+      this.sortValue = sortValue;
+   }
+
 	
 }
