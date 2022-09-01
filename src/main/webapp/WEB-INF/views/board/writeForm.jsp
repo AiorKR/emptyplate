@@ -34,10 +34,9 @@ $(document).ready(function() {
 	    		alert("이미지 파일이 아닙니다.");
 	    	}
 		});*/
- 		
  	});
 	//파일 확장자
-	let regex = new RegExp("(.*?)\.(jpg|png)$", "i");
+	let regex = new RegExp("(.*?)\.(jpg|png|jpeg|gif)$", "i");
  	let maxSize = 1048576; //1MB	
 	
 	function fileCheck(fileName, fileSize){
@@ -54,7 +53,7 @@ $(document).ready(function() {
    
    $("#btnWrite").on("click", function() {
       
-      $("#btnWrite").prop("disabled", true);   //글쓰기 버튼 비활성화 //버튼 여러번 누르기 방지기능(활성화시 여러번 전송되므로)
+      $("#btnWrite").prop("disabled", true);
       
       if($.trim($("#bbsTitle").val()).length <= 0)
       {
@@ -62,7 +61,7 @@ $(document).ready(function() {
          $("#bbsTitle").val("");
          $("#bBbsTitle").focus();
          
-         $("#btnWrite").prop("disabled", false);   //글쓰기 버튼 활성화
+         $("#btnWrite").prop("disabled", false);
          
          return;
       }
@@ -73,7 +72,7 @@ $(document).ready(function() {
          $("#bbsContent").val("");
          $("#bbsContent").focus();
          
-         $("#btnWrite").prop("disabled", false);   //글쓰기 버튼 활성화
+         $("#btnWrite").prop("disabled", false);
          
          return;
       }
@@ -83,7 +82,7 @@ $(document).ready(function() {
          alert("파일을 첨부하세요.");
          $("#bbsFile").val("");
          
-         $("#btnWrite").prop("disabled", false);   //글쓰기 버튼 활성화		
+         $("#btnWrite").prop("disabled", false);
          
          return;
       }
@@ -105,11 +104,11 @@ $(document).ready(function() {
       
       $.ajax({
          type:"POST",
-         enctype:'multipart/form-data',   //파일첨부시 필요
+         enctype:'multipart/form-data',
          url:"/board/writeProc",
          data:formData,
-         processData:false,   //formData를 string으로 변환하지 않음.
-         contentType:false,   //comtent-type헤더가 multipart/form-data로 전송하기 위해
+         processData:false,
+         contentType:false,
          cache:false,
          timeout:600000,
          beforeSend:function(xhr)
@@ -121,28 +120,24 @@ $(document).ready(function() {
             if(response.code == 0)
               {
                alert("게시물이 등록되었습니다.");
-               location.href = "/board/list";   // 8088/board/list호출, 검색조건 없이 첫번째 list페이지 띄우기
-               /*
-               document.bbsForm.action = "/board/list";   //검색조건 값 가져가기   
-               document.bbsForm.submit();
-               */
+               location.href = "/board/list";
               }
             else if(response.code == 400)
               {
                alert("파라미터 값이 올바르지 않습니다.");
-               $("#btnWrite").prop("disabled", false);   //글쓰기 버튼 활성화
+               $("#btnWrite").prop("disabled", false);
               }
             else
               {
                alert("게시물 등록 중 오류가 발생.");
-               $("#btnWrite").prop("disabled", false);   //글쓰기 버튼 활성화
+               $("#btnWrite").prop("disabled", false);
               }
          },
          error:function(error)
          {
             icia.common.error(error);
             alert("게시물 등록 중 오류가 발생하였습니다.");
-            $("#btnWrite").prop("disabled", false);   //글쓰기 버튼 활성화
+            $("#btnWrite").prop("disabled", false);
          }
       });
    });

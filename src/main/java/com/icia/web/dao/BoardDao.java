@@ -69,10 +69,22 @@ public interface BoardDao
 	
 	//댓글 리스트
 	public List<Board> commentList(Board board);
-	
-	//댓글 조회
-	//public Board commentSelect(long bbsSeq);
-	
+
 	//게시물 삭제
 	public int commentDelete(long bbsSeq);
+	
+	//동일 게시글 즐겨찾기 여부 확인
+	public int boardMarkCheck(Board board);
+		
+	//즐겨찾기 추가
+	public int boardMarkUpdate(Board board);
+	
+	//즐겨찾기 취소
+	public int boardMarkDelete(Board board);
+	
+	//즐겨찾기 리스트
+	public List<Board> markList(Board board);
+	
+	//즐겨찾기 총 게시물 수
+	public long markListCount(Board board);
 }

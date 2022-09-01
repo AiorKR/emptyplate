@@ -11,7 +11,7 @@ $(document).ready(function() {
    
    $("#btnUpdate").on("click", function() {
       
-      $("#btnUpdate").prop("disabled", true);  // 수정 버튼 활성화
+      $("#btnUpdate").prop("disabled", true);
       
       if($.trim($("#bbsTitle").val()).length <= 0)
       {
@@ -127,13 +127,6 @@ $(document).ready(function() {
         <tr>
           <td class="content">내용</td>
           <td class="content-text">
-
-                <!--<script>
-                  $(document).ready(function() {
-                    $('.summernote').summernote();
-                  });
-                </script>-->
-
             <textarea class="summernote" id="bbsContent" name="bbsContent" placeholder="내용을 입력해주세요.">${board.bbsContent}</textarea> 
             
             <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">

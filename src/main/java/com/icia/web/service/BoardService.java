@@ -93,7 +93,6 @@ public class BoardService
 		}
 		catch(Exception e)
 		{
-			logger.debug("count : " + count);
 			logger.error("[BoardService] boardListCount Exception", e);
 		}
 		
@@ -355,22 +354,6 @@ public class BoardService
 		return list;
 	}
 	
-	/*//댓글 조회
-	public Board commentSelect(long bbsSeq)
-	{
-		Board board = null;
-		
-		try
-		{
-			board = boardDao.commentSelect(bbsSeq);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] commentSelect Exception", e);
-		}
-		return board;
-	}*/
-	
 	//게시물 삭제(첨부파일 있으면 함께 삭제)
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public int commentDelete(long bbsSeq) throws Exception
@@ -388,4 +371,90 @@ public class BoardService
 		
 		return count;
 	}
+	
+	//동일 게시글 즐겨찾기 여부 확인
+	public int boardMarkCheck(Board board)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = boardDao.boardMarkCheck(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardMarkCheck Exception", e);
+		}
+		
+		return count;
+	}
+	
+	//즐겨찾기 추가
+	public int boardMarkUpdate(Board board)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = boardDao.boardMarkUpdate(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardMarkUpdate Exception", e);
+		}
+		
+		return count;
+	}
+	
+	//즐겨찾기 취소
+	public int boardMarkDelete(Board board)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = boardDao.boardMarkDelete(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardMarkDelete Exception", e);
+		}
+		
+		return count;
+	}
+	
+	//즐겨찾기 리스트
+	public List<Board> markList(Board board)
+	{
+		List<Board> marklist = null;
+		
+		try
+		{
+			marklist = boardDao.markList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] markList Exception", e);
+		}
+		
+		return marklist;
+	}
+	
+	//즐겨찾기 총 게시물 수
+	public long markListCount(Board board)
+	{
+		long count = 0;
+		
+		try
+		{
+			count = boardDao.markListCount(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] markListCount Exception", e);
+		}
+		
+		return count;
+	}
+	
 }

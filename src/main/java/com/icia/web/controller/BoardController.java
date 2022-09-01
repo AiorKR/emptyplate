@@ -211,6 +211,75 @@ public class BoardController
 		return ajaxResponse;
 	}
 	
+	//즐겨찾기 리스트
+	@RequestMapping(value="/board/markList")
+	public String markList(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+	{
+		//쿠키 값
+        String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		//조회항목
+		String searchType = HttpUtil.get(request, "searchType");
+		//조회값
+		String searchValue = HttpUtil.get(request, "searchValue", "");
+		//분류값
+	    long sortValue = HttpUtil.get(request, "sortValue", (long)4);
+		//현재페이지
+		long curPage = HttpUtil.get(request, "curPage", (long)1);
+		//총 게시물 수
+		long totalCount = 0;
+		//게시물 리스트
+		List<Board> marklist = null;
+		//페이징 객체
+		Paging paging = null;
+		//조회 객체
+		Board search = new Board();
+		//게시판 번호
+		search.setBbsNo(5);
+	 
+		if(!StringUtil.isEmpty(cookieUserUID))
+		{
+			search.setUserUID(cookieUserUID);
+		}
+		
+		if(!StringUtil.isEmpty(searchType) && !StringUtil.isEmpty(searchValue))
+		{
+			search.setSearchType(searchType);
+			search.setSearchValue(searchValue);
+		}
+		
+		search.setSortValue(sortValue);
+		totalCount = boardService.markListCount(search);
+		
+		logger.debug("토탈 카운트 : " + totalCount);
+		
+		if(totalCount > 0)
+		{	
+			logger.debug("들어옴");
+			paging = new Paging("/board/markList", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
+			
+			paging.addParam("bbsNo", search.getBbsNo());
+			paging.addParam("searchType", searchType);
+			paging.addParam("searchValue", searchValue);
+			paging.addParam("sortValue", sortValue);
+			paging.addParam("curPage", curPage);
+			
+			search.setStartRow(paging.getStartRow());
+			search.setEndRow(paging.getEndRow());
+			
+			marklist = boardService.markList(search);
+		}
+		
+		model.addAttribute("marklist", marklist);
+		model.addAttribute("bbsNo", search.getBbsNo());
+		model.addAttribute("searchType", searchType);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("sortValue", sortValue);
+		model.addAttribute("curPage", curPage);
+		model.addAttribute("paging", paging);
+		
+		return "/board/markList";
+	}
+	
 	//게시물 조회
     @RequestMapping(value="/board/view")
     public String view(ModelMap model, HttpServletRequest request, HttpServletResponse response)
@@ -229,6 +298,8 @@ public class BoardController
        String boardMe = "N";
        //좋아요 여부 체크
        String bbsLikeActive = "N";
+       //즐겨찾기 여부 체크
+       String bbsMarkActive = "N";
        //댓글허용체크
        String bbsComment = "";
 
@@ -257,17 +328,27 @@ public class BoardController
 	         {
 	        	 bbsLikeActive = "Y";
 	         }   
+	         
+	         if(boardService.boardMarkCheck(board) == 0)                 
+	         {
+	        	 bbsMarkActive = "N";
+	         }
+	         else
+	         {
+	        	 bbsMarkActive = "Y";
+	         }
 	      }
        }
        model.addAttribute("bbsSeq", bbsSeq);
        model.addAttribute("board", board);
        model.addAttribute("boardMe", boardMe);
        model.addAttribute("bbsComment", bbsComment);
-       model.addAttribute("bbsLikeActive", bbsLikeActive);
        model.addAttribute("searchType", searchType);
        model.addAttribute("searchValue", searchValue);
        model.addAttribute("curPage", curPage);
        model.addAttribute("list", comment);
+       model.addAttribute("bbsLikeActive", bbsLikeActive);
+       model.addAttribute("bbsMarkActive", bbsMarkActive);
        
        return "/board/view";
     }
@@ -472,6 +553,51 @@ public class BoardController
   			catch(Exception e)
   			{
   				logger.error("[BoardController] /board/like Exception", e);
+  				ajaxResponse.setResponse(500, "internal server error");
+  			}	
+  		}
+  		else
+  		{
+  			ajaxResponse.setResponse(400, "Bad Request");
+  		}
+  		
+  		return ajaxResponse;
+  	}
+  	
+  	//즐겨찾기 추가(AJAX)
+  	@RequestMapping(value="/board/mark", method=RequestMethod.POST)
+  	@ResponseBody
+  	public Response<Object> boardMark(HttpServletRequest request, HttpServletResponse response)
+  	{
+  		Response<Object> ajaxResponse = new Response<Object>();
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+  		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+  		
+  		Board board = new Board();
+  		
+  		if(!StringUtil.isEmpty(cookieUserUID) && bbsSeq > 0)
+  		{
+   			try
+  			{
+   				board.setBbsSeq(bbsSeq);
+   				board.setUserUID(cookieUserUID);
+   				
+  				if(boardService.boardMarkCheck(board) == 0)  					
+  				{
+  					boardService.boardMarkUpdate(board);
+  					ajaxResponse.setResponse(0, "boardmark insert success");
+  				}
+  				else
+  				{
+  					boardService.boardMarkDelete(board);
+  					ajaxResponse.setResponse(1, "boardmark delete success");
+  				}
+  				
+  				//boardService.boardLikeCntUpdate(board);
+  			}
+  			catch(Exception e)
+  			{
+  				logger.error("[BoardController] /board/mark Exception", e);
   				ajaxResponse.setResponse(500, "internal server error");
   			}	
   		}

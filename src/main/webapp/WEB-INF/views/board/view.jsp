@@ -15,17 +15,13 @@ $(document).ready(function() {
       document.bbsForm.action = "/board/list";
       document.bbsForm.submit();
    });   
-/*
-   $("#btnReply").on("click", function() {
-      document.bbsForm.action = "/board/replyForm";
-      document.bbsForm.submit();
-   });
-*/
+
    $("#btnUpdate").on("click", function() {
       document.bbsForm.action = "/board/updateForm";
       document.bbsForm.submit();
    });
    
+   //게시물 삭제
    $("#btnDelete").on("click", function(){
       if(confirm("게시물을 삭제 하시겠습니까?") == true)
       {
@@ -74,6 +70,7 @@ $(document).ready(function() {
       }
    });
    
+   //게시물 좋아요
    $("#btnLike").on("click", function(){
 	   $.ajax({
 	       type:"POST",
@@ -111,9 +108,48 @@ $(document).ready(function() {
 	    });
    });
    
+   //게시물 즐겨찾기
+   $("#btnMark").on("click", function(){
+	   $.ajax({
+	       type:"POST",
+	       url:"/board/mark",
+	       data:{
+	          bbsSeq:<c:out value="${board.bbsSeq}" />
+	       },
+	       datatype:"JSON",
+	       beforeSend:function(xhr){
+	          xhr.setRequestHeader("AJAX", "true");
+	       },
+	       success:function(response){
+	          if(response.code == 0)
+	            {
+	             alert("즐겨찾기를 하셨습니다.");
+	             location.reload();
+	            }
+	          else if(response.code == 1)
+	            {
+	             alert("즐겨찾기를 취소하셨습니다.");
+	             location.reload();
+	            }
+	          else if(response.code == 400)
+	          {
+	           alert("로그인 후, 즐겨찾기 버튼을 사용하실 수 있습니다.");
+	          }
+	          else
+	            {
+	             alert("즐겨찾기 중 오류가 발생하였습니다.");
+	            }
+	       },
+	       error:function(xhr, status, error){
+	          icia.common.error(error);
+	       }
+	    });
+   });
+   
+   //댓글 등록
    $("#btnSearch").on("click", function() {
 	      
-	      $("#btnSearch").prop("disabled", true);   //글쓰기 버튼 비활성화 //버튼 여러번 누르기 방지기능(활성화시 여러번 전송되므로)
+	      $("#btnSearch").prop("disabled", true);
 	      
 	      if($.trim($("#bbsContent").val()).length <= 0)
 	      {
@@ -121,7 +157,7 @@ $(document).ready(function() {
 	         $("#bbsContent").val("");
 	         $("#bbsContent").focus();
 	         
-	         $("#btnSearch").prop("disabled", false);   //글쓰기 버튼 활성화
+	         $("#btnSearch").prop("disabled", false);
 	         
 	         return;
 	      }
@@ -133,8 +169,8 @@ $(document).ready(function() {
 	         type:"POST",
 	         url:"/board/commentProc",
 	         data:formData,
-	         processData:false,   //formData를 string으로 변환하지 않음.
-	         contentType:false,   //comtent-type헤더가 multipart/form-data로 전송하기 위해
+	         processData:false,
+	         contentType:false,
 	         cache:false,
 	         timeout:600000,
 	         beforeSend:function(xhr)
@@ -151,27 +187,28 @@ $(document).ready(function() {
 	            else if(response.code == 400)
 	              {
 	               alert("파라미터 값이 올바르지 않습니다.");
-	               $("#btnSearch").prop("disabled", false);   //글쓰기 버튼 활성화
+	               $("#btnSearch").prop("disabled", false);
 	              }
 	            else if(response.code == 404)
 	              {
 	               alert("게시물을 찾을 수 없습니다.");
-	               $("#btnSearch").prop("disabled", false);   //글쓰기 버튼 활성화
+	               $("#btnSearch").prop("disabled", false);
 	              }
 	            else
 	              {
 	               alert("댓글 등록 중 오류가 발생.");
-	               $("#btnSearch").prop("disabled", false);   //글쓰기 버튼 활성화
+	               $("#btnSearch").prop("disabled", false);
 	              }
 	         },
 	         error:function(error)
 	         {
 	            icia.common.error(error);
 	            alert("댓글 등록 중 오류가 발생하였습니다.");
-	            $("#btnSearch").prop("disabled", false);   //글쓰기 버튼 활성화
+	            $("#btnSearch").prop("disabled", false);
 	         }
 	      });
 	   });   
+  
 });
 
 function fn_deleteComment(bbsSeqValue)
@@ -192,7 +229,7 @@ function fn_deleteComment(bbsSeqValue)
              if(response.code == 0)
                {
                 alert("댓글이 삭제되었습니다.");
-	             location.reload();
+	            location.reload();
                }
              else if(response.code == 400)
                {
@@ -257,7 +294,15 @@ function fn_deleteComment(bbsSeqValue)
 								<div class="like"><button type="button" id="btnLike" class="like"><ion-icon name="heart-outline"></ion-icon>&nbsp;&nbsp;좋아요  <span class="likeCount">${board.bbsLikeCnt}</span></button></div>
 							</c:when>
 						</c:choose>
-						<div class="bookmark"><button type="button" id="btnBoomark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
+						<c:choose>
+							<c:when test="${bbsMarkActive eq 'Y'}">
+								<div class="bookmark"><button type="button" id="btnMark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
+							</c:when>
+							<c:when test="${bbsMarkActive eq 'N'}">
+								<div class="bookmark"><button type="button" id="btnMark" class="bookmark"><ion-icon name="star-outline"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
+							</c:when>
+						
+						</c:choose>
 					</div>
 				</div>
 
@@ -325,7 +370,7 @@ function fn_deleteComment(bbsSeqValue)
 										</c:if>
 										<a>${board.regDate}</a>
 										<button type="submit" id="btnReport">신고</button>
-										<button type="submit" id="btnAddReply">댓글달기</button>
+										<button onclick="fn_reComment(${board.bbsSeq})" id="btnReply" class="btnReply">댓글달기</button>
 									</div>
 									<div class="comment-content">
 										<col-lg-12>${board.bbsContent}</col-lg-12>
