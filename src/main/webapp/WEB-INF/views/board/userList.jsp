@@ -55,7 +55,7 @@ function fn_list(curPage)
 {
    document.bbsForm.bbsSeq.value = "";
    document.bbsForm.curPage.value = curPage;
-   document.bbsForm.action = "/board/markList";
+   document.bbsForm.action = "/board/userList";
    document.bbsForm.submit();   
 }
 
@@ -66,7 +66,7 @@ function fn_list(curPage)
   <section id="bookMark" class="bookMark">
    <div class="container">
      <div class = "row">
-       	<div class="bookmark-name">내가 즐겨찾기한 글</div>
+       	<div class="bookmark-name">${board.userNick} 님의 글</div>
        	
        <div class="d-flex flex-row justify-content-between">
          <div>
@@ -101,8 +101,8 @@ function fn_list(curPage)
              <th style="width:15%">날짜</th>
            </tr>
                 
-           <c:if test="${!empty marklist}">
-             <c:forEach var="board" items="${marklist}" varStatus="status">
+           <c:if test="${!empty userlist}">
+             <c:forEach var="board" items="${userlist}" varStatus="status">
                <tr>
                  <td>${board.rNum}</td>
                  <td><ion-icon name="heart"></ion-icon>&nbsp;</td>

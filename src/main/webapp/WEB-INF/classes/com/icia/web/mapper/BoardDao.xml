@@ -494,10 +494,10 @@ SELECT COUNT(MARK.BBS_SEQ) AS CNT
                    AND A.USER_NICK LIKE '%' || #{searchValue} || '%'
 		</when>
 		<when test='searchType == "2"'>
-                   AND BOARD.BBS_TITLE LIKE '%' || #{searchValue} || '%'
+                   AND MARK.BBS_TITLE LIKE '%' || #{searchValue} || '%'
 		</when>
 		<when test='searchType == "3"'>
-                   AND DBMS_LOB.INSTR(BOARD.BBS_CONTENT, #{searchValue}) > 0
+                   AND DBMS_LOB.INSTR(MARK.BBS_CONTENT, #{searchValue}) > 0
 		</when>
 	</choose>
 </if>

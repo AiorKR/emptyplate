@@ -70,8 +70,6 @@ function fn_list(curPage)
    document.bbsForm.submit();   
 }
 
-
-
 </script>
 </head>
 <body>
