@@ -6,6 +6,18 @@
 <meta charset="UTF-8">
 
 <script type="text/javascript">
+$(document).ready(function(){
+	//리뷰로 변경 필요
+	$("#btnSearch").on("click", function(){
+		document.bbsForm.bbsSeq.value = "";
+		document.bbsForm.searchType.value = $("#_searchType").val();
+		document.bbsForm.searchValue.value = $("#_searchValue").val();
+		document.bbsForm.curPage.value = "1";
+		document.bbsForm.action = "/board/list";
+		document.bbsForm.submit();
+	});
+});
+
 function fn_search(shopHashtag) { //해시태그 클릭시 검색
     document.bbsForm.searchValue.value = shopHashtag	;
     document.bbsForm.action = "/reservation/list";
@@ -205,8 +217,10 @@ function fn_search(shopHashtag) { //해시태그 클릭시 검색
             <table style="border-bottom:1px solid #C2A383">
               <c:if test="${!empty list}">
               	<c:forEach var="shop" items="${list}" varStatus="status">
-	              <tr>
-	              	<td></td>
+	              <tr><!-- 리뷰로 변경 필요 -->
+	              	<td style="width:80%"><a href="javascript:void(0)" onclick="fn_view(${board.bbsSeq})">${boardbbsTitle}</a></td>
+	              	<td style="width:10%">${board.userNick}</td>
+	              	<td style="width:10%">${board.regDate}</td>
 	              </tr>
               	</c:forEach>
               </c:if>

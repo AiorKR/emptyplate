@@ -67,15 +67,15 @@ function fn_search(shopHashtag) {
 
 <!-- ======= Today Section ======= -->
 <section id="today" class="today">
-	<div class="today-container container" data-aos="fade-up">
-    	<div class="today-slider swiper" data-aos="fade-up" data-aos-delay="100">
+	<div class="today-container container">
+    	<div class="today-slider swiper">
       		<container>
-        		<hr role="tournament2">
-      		</container>
-      		<h2><strong>< 오늘 마감 ></strong></h2>
+            	<hr class="hr-5">
+            </container>
+      		<h2 style="color:#000; margin-left: 30px;"><strong>Today 마감</strong></h2>
       		<container>
-        		<hr role="tournament2">
-      		</container>
+            	<hr class="hr-5">
+            </container>
       		
       		<!--메뉴-->
   			<div class="row">
@@ -97,16 +97,18 @@ function fn_search(shopHashtag) {
                 						</select>
             							</ul>
           						</form>  
-        						<input type="text" name="text" id="search" <c:if test="${searchValue ne null and searchValue ne ''}">value="${searchValue}"</c:if>>
-        						<button class="btn" type="submit" id="searchBtn">검색</button>
+	          					<div style="border:1px solid #C2A384">
+	        						<input type="text" name="text" id="search" <c:if test="${searchValue ne null and searchValue ne ''}">value="${searchValue}"</c:if>>
+	        						<button class="btn" type="submit" id="searchBtn">검색</button>
+        						</div>
           					</div>
       					</nav>   
       					<tbody class="menutable">
       						<c:if test="${!empty list}">     						
-      							<c:forEach items="${list}" var="shop" varStatus="status">
+      							<c:forEach items="${list}" var="shop" varStatus="status" step="3">
 		        					<tr>
 		        					<c:forEach items="${list}" var="shop">
-		          						<th scope="row">${status.count}
+		          						<th scope="row">
 		          							<td>
 		              							<div class="card" onClick="fn_view('${sho.shopUID}')" style="cursor:pointer;">
 		                      						<img src='../resources/upload/shop/${shop.shopFile.shopFileName}' class="img-fluid img-thumbnail" style="height: 200px;width: 200px;">

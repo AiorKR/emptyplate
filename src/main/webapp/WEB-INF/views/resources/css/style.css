@@ -775,9 +775,10 @@ section {
   opacity : 0.95;
   position: absolute;
   bottom: 0;
-  top: 15%;
-  left: 5%;
-  right: 5%;
+  top: 13.9%;
+  left: 11%;
+  right: 11%;
+  border-radius: 20px;
 }
 
 #community .section-title h2 {
@@ -3384,17 +3385,14 @@ reservation 검색
 
 .today:before {
   content: "";
-  background: rgba(16, 16, 16);
+  background: rgba(225, 225, 225);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
-  top: 8%;
-  left: 5%;
-  right: 5%;
-}
-
-.today .section-title h2 {
-  color: #fff;
+  top: 7.22%;
+  left: 11%;
+  right: 11%;
+  border-radius: 20px;
 }
 
 .today .container {
@@ -4041,10 +4039,13 @@ hr[role="tournament1"]::before {
 
 #help .row{
   width : 100%;
-  background-color:rgba(255, 255, 255, 0.8);
-  border-radius: 1em;
+  background-color:rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
   padding: 3vh 0;
-  margin: 5vh 0;
+  bottom: 0;
+  top: 13.9%;
+  left: 11%;
+  right: 11%;
   text-align: center;
 }
 
