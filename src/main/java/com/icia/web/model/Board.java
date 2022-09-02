@@ -30,9 +30,9 @@ public class Board implements Serializable
 	private String searchType;	//조회항목(1:작성자, 2:제목, 3:내용)
 	private String searchValue;	//조회값
 	
-	private long sortValue;      //**순 정렬(1:최신글순, 2:좋아요순, 3:조회순)
+	private long sortValue;     //**순 정렬(1:최신글순, 2:좋아요순, 3:조회순)
 	
-	private BoardFile boardFile;	//첨부파일
+	private BoardFile boardFile;//첨부파일
 
 	
 	public Board()

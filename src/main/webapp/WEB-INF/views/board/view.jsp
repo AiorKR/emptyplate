@@ -207,8 +207,7 @@ $(document).ready(function() {
 	            $("#btnSearch").prop("disabled", false);
 	         }
 	      });
-	   });   
-  
+   });   
 });
 
 function fn_deleteComment(bbsSeqValue)
@@ -260,21 +259,24 @@ function fn_deleteComment(bbsSeqValue)
     }
 }
 
+
+
 </script>
 </head>
-	<body>
-		<%@ include file="/WEB-INF/views/include/navigation.jsp" %>
-		<section id="communityView" class="community">
+<body>
+<%@ include file="/WEB-INF/views/include/navigation.jsp" %>
+	<section id="communityView" class="community">
 		<div class="container">
 			<div class = "row">
 				<div class="board-title">
 					<c:out value="${board.bbsTitle}" /><br/>
 				</div>
 				<div class="board-writer">
-					<ion-icon name="person"></ion-icon> <a href="#"><c:out value="${board.userNick}"/></a> &nbsp;
+					<ion-icon name="person"></ion-icon><a href="javascript:void(0)" onclick="fn_userList(${board.userUID})">${board.userNick}</a> &nbsp;
 					<ion-icon name="calendar"></ion-icon> ${board.regDate} &nbsp;
 					<ion-icon name="eye"></ion-icon> ${board.bbsReadCnt}
 				</div>
+
 
 				<div class="board-innercontent">
 					<col-lg-12>${board.bbsContent}</col-lg-12>
@@ -284,7 +286,6 @@ function fn_deleteComment(bbsSeqValue)
 							<div class="update"><button type="button" id="btnUpdate" class="update">수정</button></div>
 						</c:if>
 					</div>
-
 					<div class="d-flex flex-row justify-content-center">
 						<c:choose>
 							<c:when test="${bbsLikeActive eq 'Y'}">
@@ -307,47 +308,46 @@ function fn_deleteComment(bbsSeqValue)
 				</div>
 
 
-					<div class="board-service">
-						<div class="board-list"><button type="button" id="btnList" class="board-list"><ion-icon name="reader"></ion-icon>&nbsp;목록</button></div>
-						<div class="report"><button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="btnReport"><ion-icon name="alert-circle"></ion-icon>&nbsp;신고</button></div>
-                  <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
-                     <div class="modal-dialog">
-                        <div class="modal-content">
-                           <div class="modal-header">
-                              <h5 class="modal-title" id="m">신고하기</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                           </div>
-                           <div class="modal-body">
-                              <div class="datecard">
-                                 <h3 id="view-name">
-					                                 신고자 : <br>
-					                                 신고게시물 : 
-                                 </h3>
-                                 <div class="content">
-                                    <ul>
-                                       <li><input type="checkbox" id="reportCheck" class="reportCheck" name="report1" value="Y">&nbsp;신고사유1</li>
-                                       <li><input type="checkbox" id="reportCheck" class="reportCheck" name="report2" value="Y">&nbsp;신고사유2</li>
-                                       <li><input type="checkbox" id="reportCheck" class="reportCheck" name="report3" value="Y">&nbsp;신고사유3</li>
-                                       <li><input type="checkbox" id="reportCheck" class="reportCheck" name="report4" value="Y">&nbsp;신고사유4</li>
-                                       <li><input type="checkbox" id="reportCheck" class="reportCheck" name="report4" value="Y">&nbsp;<input type="text" id="reportReason" name="reportReason" placeholder="기타사유를 적어주세요"></li>
-                                    </ul>
-                                 </div>
-                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary">취소</button>
-                                    <button type="button" class="btn btn-primary">신고</button>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-						<c:if test="${!empty board.boardFile}">
-							<a href="/board/download?bbsSeq=${board.boardFile.bbsSeq}" style="float:right;">첨부이미지 다운로드</a>
-						</c:if>   
+				<div class="board-service">
+				  <div class="board-list"><button type="button" id="btnList" class="board-list"><ion-icon name="reader"></ion-icon>&nbsp;목록</button></div>
+					<div class="report"><button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="btnReport"><ion-icon name="alert-circle"></ion-icon>&nbsp;신고</button></div>
+	                  <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+	                     <div class="modal-dialog">
+	                        <div class="modal-content">
+	                           <div class="modal-header">
+	                              <h5 class="modal-title" id="m">신고하기</h5>
+	                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	                           </div>
+	                           <div class="modal-body">
+	                              <div class="datecard">
+	                                 <h3 id="view-name">
+						                                 신고자 : <br>
+						                                 신고게시물 : 
+	                                 </h3>
+	                                 <div class="content">
+	                                    <ul>
+	                                       <li><input type="checkbox" id="reportCheck" class="reportCheck" name="report1" value="Y">&nbsp;신고사유1</li>
+	                                       <li><input type="checkbox" id="reportCheck" class="reportCheck" name="report2" value="Y">&nbsp;신고사유2</li>
+	                                       <li><input type="checkbox" id="reportCheck" class="reportCheck" name="report3" value="Y">&nbsp;신고사유3</li>
+	                                       <li><input type="checkbox" id="reportCheck" class="reportCheck" name="report4" value="Y">&nbsp;신고사유4</li>
+	                                       <li><input type="checkbox" id="reportCheck" class="reportCheck" name="report4" value="Y">&nbsp;<input type="text" id="reportReason" name="reportReason" placeholder="기타사유를 적어주세요"></li>
+	                                    </ul>
+	                                 </div>
+	                                 <div class="modal-footer">
+	                                    <button type="button" class="btn btn-secondary">취소</button>
+	                                    <button type="button" class="btn btn-primary">신고</button>
+	                                 </div>
+	                              </div>
+	                           </div>
+	                        </div>
+	                     </div>
+	                  </div>
+				      <c:if test="${!empty board.boardFile}">
+						<a href="/board/download?bbsSeq=${board.boardFile.bbsSeq}" style="float:right;">첨부이미지 다운로드</a>
+					  </c:if>   
 					</div>
 
 
-					
 					<c:if test="${board.bbsComment eq 'Y'}">             
 						<form name="commentForm" id="commentForm" method="post" enctype="form-data">
 							<div class="board-commentwrite">
@@ -382,16 +382,17 @@ function fn_deleteComment(bbsSeqValue)
 					</c:if>
 				</div>
 				
-				<form name="bbsForm" id="bbsForm" method="post">
-					<input type="hidden" name="bbsSeq" value="${bbsSeq}" />
-					<input type="hidden" name="searchType" value="${searchType}" />
-					<input type="hidden" name="searchValue" value="${searchValue}" />
-					<input type="hidden" name="curPage" value="${curPage}" />
-					<input type="hidden" name="bbsNo" value="${bbsNo}" />
-				</form>
-			</div> 
-		</section>
- 	<!-- ======= Footer ======= -->
-	<%@ include file="/WEB-INF/views/include/footer.jsp" %>
-	</body>
+			<form name="bbsForm" id="bbsForm" method="post">
+				<input type="hidden" name="bbsSeq" value="${bbsSeq}" />
+				<input type="hidden" name="searchType" value="${searchType}" />
+				<input type="hidden" name="searchValue" value="${searchValue}" />
+				<input type="hidden" name="curPage" value="${curPage}" />
+				<input type="hidden" name="bbsNo" value="${bbsNo}" />
+			</form>
+		</div> 
+	</section>
+	
+<!-- ======= Footer ======= -->
+<%@ include file="/WEB-INF/views/include/footer.jsp" %>
+</body>
 </html>

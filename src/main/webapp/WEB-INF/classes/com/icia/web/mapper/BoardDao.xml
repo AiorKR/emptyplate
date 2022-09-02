@@ -275,7 +275,7 @@ UPDATE T_BOARD A
  WHERE A.BBS_SEQ = #{bbsSeq}
 </update>
 
-<!-- 동일 게시글 즐겨찾기 여부 확인 -->
+<!-- 동일 게시물  즐겨찾기 여부 확인 -->
 <select id="boardMarkCheck" parameterType="com.icia.web.model.Board" resultType="int">
 SELECT COUNT(*)
   FROM T_BOARD_MARK
@@ -283,7 +283,7 @@ SELECT COUNT(*)
    AND USER_UID = #{userUID}
 </select>
 
-<!-- 즐겨찾기 추가-->
+<!-- 게시물 즐겨찾기 추가-->
 <insert id="boardMarkUpdate" parameterType="com.icia.web.model.Board">
 INSERT INTO T_BOARD_MARK (USER_UID,
                           BBS_SEQ) 
@@ -291,7 +291,7 @@ VALUES (#{userUID},
         #{bbsSeq})
 </insert>
 
-<!-- 즐겨찾기 취소 -->
+<!-- 게시물 즐겨찾기 취소 -->
 <delete id="boardMarkDelete" parameterType="com.icia.web.model.Board">
 DELETE FROM T_BOARD_MARK
  WHERE BBS_SEQ = #{bbsSeq}
@@ -408,7 +408,7 @@ SELECT RNUM,
  ORDER BY RNUM ASC
 </select>
 
-<!-- 즐겨찾기 리스트 -->
+<!-- 게시물 즐겨찾기 리스트 -->
 <select id="markList" parameterType="com.icia.web.model.Board" resultMap="boardResultMap">
 SELECT RNUM,
        BBS_SEQ,
@@ -477,17 +477,17 @@ SELECT RNUM,
  ORDER BY RNUM ASC
 </select>
 
-<!-- 즐겨찾기 총 게시물 수 -->
+<!-- 게시물 즐겨찾기 총 게시물 수 -->
 <select id="markListCount" parameterType="com.icia.web.model.Board" resultType="long">
 SELECT COUNT(MARK.BBS_SEQ) AS CNT
-  FROM T_USER A, (SELECT B.BBS_SEQ AS BBS_SEQ,
-                         B.USER_UID AS USER_UID,
+  FROM T_USER A, (SELECT BM.BBS_SEQ AS BBS_SEQ,
+                         BM.USER_UID AS USER_UID,
                          B.BBS_TITLE AS BBS_TITLE,
                          B.BBS_CONTENT AS BBS_CONTENT
                     FROM T_BOARD B, T_BOARD_MARK BM
                    WHERE B.BBS_SEQ = BM.BBS_SEQ) MARK
  WHERE A.USER_UID = MARK.USER_UID
-   AND A.USER_UID = #{userUID}
+   AND MARK.USER_UID = #{userUID}
 <if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>
 	<choose>
 		<when test='searchType == "1"'>   

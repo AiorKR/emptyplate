@@ -372,7 +372,7 @@ public class BoardService
 		return count;
 	}
 	
-	//동일 게시글 즐겨찾기 여부 확인
+	//동일 게시물  즐겨찾기 여부 확인
 	public int boardMarkCheck(Board board)
 	{
 		int count = 0;
@@ -389,7 +389,7 @@ public class BoardService
 		return count;
 	}
 	
-	//즐겨찾기 추가
+	//게시물 즐겨찾기 추가
 	public int boardMarkUpdate(Board board)
 	{
 		int count = 0;
@@ -406,7 +406,7 @@ public class BoardService
 		return count;
 	}
 	
-	//즐겨찾기 취소
+	//게시물 즐겨찾기 취소
 	public int boardMarkDelete(Board board)
 	{
 		int count = 0;
@@ -423,7 +423,7 @@ public class BoardService
 		return count;
 	}
 	
-	//즐겨찾기 리스트
+	//게시물 즐겨찾기 리스트
 	public List<Board> markList(Board board)
 	{
 		List<Board> marklist = null;
@@ -440,7 +440,7 @@ public class BoardService
 		return marklist;
 	}
 	
-	//즐겨찾기 총 게시물 수
+	//게시물 즐겨찾기 총 게시물 수
 	public long markListCount(Board board)
 	{
 		long count = 0;

@@ -97,7 +97,6 @@ $(document).ready(function() {
       document.bbsForm.action = "/board/list";
       document.bbsForm.submit();
    });
-
 });
 </script>
 </head>
@@ -124,11 +123,11 @@ $(document).ready(function() {
          <div class="comment">댓글허용 <input type="checkbox" id="bbsComment1" name="bbsComment1" checked="checked"/></div>
           </td>
         </tr>
+        
         <tr>
           <td class="content">내용</td>
           <td class="content-text">
             <textarea class="summernote" id="bbsContent" name="bbsContent" placeholder="내용을 입력해주세요.">${board.bbsContent}</textarea> 
-            
             <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
             <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
             <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
@@ -136,56 +135,56 @@ $(document).ready(function() {
             <script src="/resources/summernote/lang/summernote-ko-KR.js"></script>
             <link rel="stylesheet" href="/resources/summernote/summernote-lite.css">
             <script>$('.summernote').summernote({
-                 // 에디터 높이
-                 height: 340,
-                 maxHeight: 340,
-                 // 에디터 한글 설정
-                 lang: "ko-KR",
-                 callbacks: {
-                       onInit: function (c) {
-                           c.editable.html('${board.bbsContent}');
-                       }
-                   },
-                 toolbar: [
-                      // 글꼴 설정
-                      ['fontname', ['fontname']],
-                      // 글자 크기 설정
-                      ['fontsize', ['fontsize']],
-                      // 굵기, 기울임꼴, 밑줄,취소 선, 서식지우기
-                      ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
-                      // 글자색
-                      ['color', ['forecolor','color']],
-                      // 표만들기
-                      ['table', ['table']],
-                      // 글머리 기호, 번호매기기, 문단정렬
-                      ['para', ['ul', 'ol', 'paragraph']],
-                      // 줄간격
-                      ['height', ['height']],
-                      // 그림첨부, 링크만들기, 동영상첨부
-                      ['insert',['picture','link','video']],
-                      // 코드보기, 확대해서보기, 도움말
-                      ['view', ['codeview','fullscreen', 'help']]
-                    ],
-                    // 추가한 글꼴
-                  fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
-                   // 추가한 폰트사이즈
-                  fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
-                  
-               });
+		            	//에디터 높이
+		                height: 340,
+		                maxHeight: 340,
+		                //에디터 한글 설정
+		                lang: "ko-KR",
+		                callbacks: {
+		                      onInit: function (c) {
+		                          c.editable.html('${board.bbsContent}');
+		                      }
+		                },
+		                toolbar: [
+		                     //글꼴 설정
+		                     ['fontname', ['fontname']],
+		                     //글자 크기 설정
+		                     ['fontsize', ['fontsize']],
+		                     //굵기, 기울임꼴, 밑줄,취소 선, 서식지우기
+		                     ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+		                     //글자색
+		                     ['color', ['forecolor','color']],
+		                     //표만들기
+		                     ['table', ['table']],
+		                     //글머리 기호, 번호매기기, 문단정렬
+		                     ['para', ['ul', 'ol', 'paragraph']],
+		                     //줄간격
+		                     ['height', ['height']],
+		                     //그림첨부, 링크만들기, 동영상첨부
+		                     ['insert',['picture','link','video']],
+		                     //코드보기, 확대해서보기, 도움말
+		                     ['view', ['codeview','fullscreen', 'help']]
+		                 ],
+		                 //추가한 글꼴
+		                 fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
+		                 //추가한 폰트사이즈
+		                 fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
+		                 
+		              });
             </script>
-            
           </td>
         </tr>
+        
         <tr>
           <td class="file">이미지 첨부</td>
           <td><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요." required /></td>
         </tr>
         
         <c:if test="${!empty board.boardFile}">
-        <tr>
-           <td class="file-check">등록파일</td>
-             <td><div class="file-check-content">[등록한 첨부파일 : ${board.boardFile.fileOrgName}]</div>
-        </tr>
+			<tr>
+			   <td class="file-check">등록파일</td>
+			     <td><div class="file-check-content">[등록한 첨부파일 : ${board.boardFile.fileOrgName}]</div>
+			</tr>
         </c:if>
       </table>
       
@@ -194,8 +193,8 @@ $(document).ready(function() {
       <input type="hidden" name="searchType" value="${searchType}" />
       <input type="hidden" name="searchValue" value="${searchValue}" />
       <input type="hidden" name="curPage" value="${curPage}" />
-        
     </form>
+    
       <div class="d-flex flex-row justify-content-center">
         <div class="update"><button type="button" id="btnUpdate" class="update" title="수정">수정</button></div>
         <div class="cancle"><button type="button" id="btnList" class="cancle" title="취소">취소</button></div>

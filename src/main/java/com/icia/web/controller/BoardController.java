@@ -144,7 +144,7 @@ public class BoardController
 		User user = userService.userSelect(cookieUserUID);
 		
 		model.addAttribute("bbsNo", bbsNo);
-		model.addAttribute("user", user);	//user객체에 받아 writeForm 에서 사용할 이름 "user"
+		model.addAttribute("user", user);
 				
 		return "/board/writeForm";
 	}
@@ -156,13 +156,12 @@ public class BoardController
 	{
 		Response<Object> ajaxResponse = new Response<Object>();
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
-		String bbsTitle = HttpUtil.get(request, "bbsTitle", "");	//writeForm에서 name이 넘어옴
+		String bbsTitle = HttpUtil.get(request, "bbsTitle", "");
 		String bbsContent = HttpUtil.get(request, "bbsContent", "");
-		FileData fileData = HttpUtil.getFile(request, "bbsFile", BOARD_UPLOAD_SAVE_DIR);	//getFile메서드는 보내준 파일을 유효 아이디 값 생성 > 해당경로에 파일 업로드, FileData객체 생성후 값 세팅을 함. > getFile의 시작주소를 fileData가 바라봄.
+		FileData fileData = HttpUtil.getFile(request, "bbsFile", BOARD_UPLOAD_SAVE_DIR);
 		int bbsNo = HttpUtil.get(request, "bbsNo", 0);
 		String bbsComment = HttpUtil.get(request, "bbsComment", "");
-	      
-		  //서버에서 다이렉트로 들어올 경우 체크
+
 		  if(!StringUtil.isEmpty(bbsTitle) && !StringUtil.isEmpty(bbsContent) && !StringUtil.isEmpty(bbsComment))
 		  {
 	         Board board = new Board();
@@ -184,8 +183,7 @@ public class BoardController
 				
 				board.setBoardFile(boardFile);	
 			}
-			
-			//service호출
+
 			try
 			{
 				if(boardService.boardInsert(board) > 0)
@@ -211,7 +209,7 @@ public class BoardController
 		return ajaxResponse;
 	}
 	
-	//즐겨찾기 리스트
+	//게시물 즐겨찾기 리스트
 	@RequestMapping(value="/board/markList")
 	public String markList(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	{
@@ -250,11 +248,8 @@ public class BoardController
 		search.setSortValue(sortValue);
 		totalCount = boardService.markListCount(search);
 		
-		logger.debug("토탈 카운트 : " + totalCount);
-		
 		if(totalCount > 0)
 		{	
-			logger.debug("들어옴");
 			paging = new Paging("/board/markList", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
 			
 			paging.addParam("bbsNo", search.getBbsNo());
@@ -279,6 +274,7 @@ public class BoardController
 		
 		return "/board/markList";
 	}
+	
 	
 	//게시물 조회
     @RequestMapping(value="/board/view")
@@ -362,7 +358,7 @@ public class BoardController
   		//게시물 번호
   		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
   		//조회항목(1:작성자, 2:제목, 3:내용)
-  		String searchType = HttpUtil.get(request, "searchType", "");	//같은 클래스 안에 오버로딩
+  		String searchType = HttpUtil.get(request, "searchType", "");
   		//조회값
   		String searchValue = HttpUtil.get(request, "searchValue", "");
   		//현재페이지
@@ -483,7 +479,7 @@ public class BoardController
   			if(board != null)
   			{	
   				if(StringUtil.equals(board.getUserUID(), cookieUserUID))
-  				{	//내 게시물인지 확인 //다이렉트로 들어올 경우 방지
+  				{	
   					try
   					{
 						if(boardService.boardDelete(board.getBbsSeq()) > 0)
@@ -502,12 +498,12 @@ public class BoardController
   					}
   				}
   				else
-  				{	//내 게시글이 아닐 경우
+  				{	
   					ajaxResponse.setResponse(403, "Server error");
   				}
   			}
   			else
-  			{	//게시물이 없을 때
+  			{	
   				ajaxResponse.setResponse(404, "Not found");
   			}
   		}
@@ -592,8 +588,6 @@ public class BoardController
   					boardService.boardMarkDelete(board);
   					ajaxResponse.setResponse(1, "boardmark delete success");
   				}
-  				
-  				//boardService.boardLikeCntUpdate(board);
   			}
   			catch(Exception e)
   			{
@@ -627,8 +621,7 @@ public class BoardController
   				if(FileUtil.isFile(file))
   				{
   					modelAndView = new ModelAndView();
-  					
-  					//응답할 view 설정(servlet-context.xml에 정의한 FileDownloadView id 사용)
+
   					modelAndView.setViewName("fileDownloadView");
   					modelAndView.addObject("file", file);
   					modelAndView.addObject("fileName", boardFile.getFileOrgName());
@@ -650,12 +643,6 @@ public class BoardController
   		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
 		String bbsContent = HttpUtil.get(request, "bbsContent", "");  		
-		
-
-  		logger.debug("===========================================================");
-  		logger.debug("commentProc bbsSeq : " + bbsSeq);
-  		logger.debug("commentProc bbsContent : " + bbsContent);
-  		logger.debug("===========================================================");
 		
 		if(bbsSeq > 0 && !StringUtil.isEmpty(bbsContent))
 		{
@@ -718,7 +705,7 @@ public class BoardController
   			if(board != null)
   			{	  		  		
   				if(StringUtil.equals(board.getUserUID(), cookieUserUID))
-  				{	//내 게시물인지 확인 //다이렉트로 들어올 경우 방지
+  				{	
   					try
   					{
 						if(boardService.commentDelete(board.getBbsSeq()) > 0)
@@ -737,12 +724,12 @@ public class BoardController
   					}
   				}
   				else
-  				{	//내 게시글이 아닐 경우
+  				{	
   					ajaxResponse.setResponse(403, "Server error");
   				}
   			}
   			else
-  			{	//게시물이 없을 때
+  			{	
   				ajaxResponse.setResponse(404, "Not found");
   			}
   		}
