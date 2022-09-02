@@ -4,13 +4,16 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -217,6 +220,47 @@ public class UserController
    public String signUpPopUp(HttpServletRequest request, HttpServletResponse response)
    {
       return "/user/signUpPopUp";
+   }
+   
+   //문자인증
+   HttpSession session;
+   @ModelAttribute
+	void init(HttpServletRequest request, Model model) {
+		
+		this.session = request.getSession();
+	}
+   
+   @PostMapping("/user/sendSms")
+   @ResponseBody
+   public Response<Object> sendSms(HttpServletRequest request, HttpServletResponse response)
+   {
+	  String userPhone = HttpUtil.get(request, "tel");
+      Response<Object> ajaxResponse = new Response<Object>();
+      
+      if(!StringUtil.isEmpty(userPhone))
+      {
+         if(userService.userPhoneSelect(userPhone) == null)
+         {        	       	 
+        	 String code = userService.sendRandomMessage(userPhone);
+        	 session.setAttribute("numStr", code);	 
+        	 ajaxResponse.setResponse(0, "Success");	
+         } 
+         else
+         {
+        	 ajaxResponse.setResponse(100, "duplikcate phone");
+         }
+      }
+      else
+      {
+         ajaxResponse.setResponse(400, "Bad Request");
+      }
+      
+      if(logger.isDebugEnabled())
+          {
+             logger.debug("[UserController] /user/poneChk response\n" + JsonUtil.toJsonPretty(ajaxResponse));
+          }
+      
+      return ajaxResponse;
    }
 }   
    

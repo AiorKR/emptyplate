@@ -397,5 +397,22 @@ public class MyPageController {
        return ajaxResponse; 
     }
     
- 	
+    
+    
+  //문자인증 팝업로드
+    @RequestMapping(value="/myPage/phone_popup", method=RequestMethod.GET)
+    public String phone_popup(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+    {  
+    	 String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+         User user = null;
+        
+        user = userService.userUIDSelect(userUID);
+                
+        model.addAttribute("user", user);
+        
+        return "/myPage/phone_popup";
+    }
+    
+    
+    
 }

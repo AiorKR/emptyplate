@@ -82,6 +82,7 @@
             			<value>/user/FileUpdate</value>
             			<value>/user/FileInsert</value>
             			<value>/user/signUpPopUp</value>
+            			<value>/user/sendSms</value>
             		</list>
             	</constructor-arg>
             </bean>
