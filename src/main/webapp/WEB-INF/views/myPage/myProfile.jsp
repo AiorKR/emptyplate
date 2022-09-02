@@ -196,7 +196,12 @@ function updateError(){
                     </div>
                 <div class = "profile-card-name"><span>${user.userNick}</span><button class = "mypage-profile-btn"  onclick="showPopupNick()"><i class="fa-solid fa-pen-to-square"></i></button></div>
                 <div class = "profile-card-intro">
+                  <c:if test="${user.userPwd eq 'kaP'}">
+                    <form style="margin-top: 20px;">아이디 : <span><c:out value="카카오 회원" /></span></form>
+                  </c:if>
+                  <c:if test="${user.userPwd ne 'kaP'}">
                   <form style="margin-top: 20px;">아이디 : <span><c:out value="${user.userId}" /></span></form>
+                  </c:if>
                   <hr>
                   <form style="margin-top: 20px;">이메일 : <span><c:out value="${user.userEmail}" /></span>&nbsp;<button class = "mypage-profile-btn" onclick="showPopupEmail()"><i class="fa-solid fa-pen-to-square"></i></button></form>
                   <hr>

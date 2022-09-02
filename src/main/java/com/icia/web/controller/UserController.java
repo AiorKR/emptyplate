@@ -262,5 +262,32 @@ public class UserController
       
       return ajaxResponse;
    }
+   
+   
+   
+	@PostMapping("/user/sendSmsOk")
+   	@ResponseBody
+   	public Response<Object> sendSmsOk(HttpServletRequest request) {
+		Response<Object> ajaxResponse = new Response<Object>();
+		String code1 = (String) session.getAttribute("numStr");
+   	    String code = (String) request.getParameter("code");
+
+   	    System.out.println(code1 + " : " + code);
+
+   	    if (code1.equals(code)) {
+   	        session.removeAttribute("numStr");
+   	        ajaxResponse.setResponse(0, "Success");	
+   	    } 
+   	    else {
+   	    ajaxResponse.setResponse(100, "not equal phone");
+   	    }
+   	    return ajaxResponse;
+   	}
+   	
+   
+   
+   
+   
+   
 }   
    
