@@ -111,7 +111,7 @@ function showPopupFile() {
 
 
 //전화번호 변경 시작
-function showPopupPhoneChk() { 
+function showPopupPhone() { 
    var popHeight = 130;                                      // 띄울 팝업창 높이   
    var popWidth = 460;                                       // 띄울 팝업창 너비
    var winHeight = document.body.clientHeight;                 // 현재창의 높이
@@ -121,7 +121,7 @@ function showPopupPhoneChk() {
    var popX = winX + (winWidth - popWidth)/2;
    var popY = winY + (winHeight - popHeight)/2;
    
-   window.open("./email_popup", "pop", "top="+popY+", left="+popX+",width="+popWidth+",height="+popHeight+"resizable=yes"); 
+   window.open("./phone_popup", "pop", "top="+popY+", left="+popX+",width="+popWidth+",height="+popHeight+"resizable=yes"); 
 };
 //전화번호 변경 끝
 
@@ -196,13 +196,18 @@ function updateError(){
                     </div>
                 <div class = "profile-card-name"><span>${user.userNick}</span><button class = "mypage-profile-btn"  onclick="showPopupNick()"><i class="fa-solid fa-pen-to-square"></i></button></div>
                 <div class = "profile-card-intro">
+                  <c:if test="${user.userPwd eq 'kaP'}">
+                    <form style="margin-top: 20px;">아이디 : <span><c:out value="카카오 회원" /></span></form>
+                  </c:if>
+                  <c:if test="${user.userPwd ne 'kaP'}">
                   <form style="margin-top: 20px;">아이디 : <span><c:out value="${user.userId}" /></span></form>
+                  </c:if>
                   <hr>
                   <form style="margin-top: 20px;">이메일 : <span><c:out value="${user.userEmail}" /></span>&nbsp;<button class = "mypage-profile-btn" onclick="showPopupEmail()"><i class="fa-solid fa-pen-to-square"></i></button></form>
                   <hr>
                   <form style="margin-top: 20px;">이름 : <span><c:out value="${user.userName}" /></span>&nbsp;</form>    
                   <hr>
-                  <form style="margin-top: 20px;">전화번호 : <span><c:out value="${user.userPhone}" /></span>&nbsp;<button><i class="fa-solid fa-pen-to-square" onclick="showPopupPhoneChk"></i></button></form>
+                  <form style="margin-top: 20px;">전화번호 : <span><c:out value="${user.userPhone}" /></span>&nbsp;<button><i class="fa-solid fa-pen-to-square" onclick="showPopupPhone()"></i></button></form>
                   <hr>
                   <form style="margin-top: 20px;"><button class="btn-password">비밀번호변경</button></form><br/><br/>
                    <form style="margin-top: 20px;"><button id="btnDelete" style="color: gray; text-decoration:underline; float: right;">회원탈퇴</button></form>

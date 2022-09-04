@@ -58,10 +58,31 @@
             	<constructor-arg> <!-- 인증체크 제외 URL 설정 -->
             		<list>
             			<value>/index</value>
+            			<value>/user/login</value>
+            			<value>/user/loginOk</value>
+            			<value>/user/loginOut</value>
+            			<value>/user/joinUs</value>
+            			<value>/user/storeJoinUs</value>
+            			<value>/user/regForm</value>
+            			<value>/user/regProc</value>
+            			<value>/user/idCheck</value>
             			<value>/reservation/list</value>
-            			<value>/today/list</value>
             			<value>/board/list</value>
+            			<value>/board/view</value>
+            			<value>/board/like</value>
+            			<value>/reservation/shopInsert</value>
+            			<value>/reservation/view</value>
+            			<value>/today/list</value>
             			<value>/help/index</value>
+            			<value>/myPage/myProfile</value>
+            			<value>/footer/resources</value>
+            			<value>/user/NickUpdate</value>
+            			<value>/user/EmailUpdate</value>
+            			<value>/myPage/userDelete</value>
+            			<value>/user/FileUpdate</value>
+            			<value>/user/FileInsert</value>
+            			<value>/user/signUpPopUp</value>
+            			<value>/user/sendSMs</value>
             		</list>
             	</constructor-arg>
             </bean>

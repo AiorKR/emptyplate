@@ -42,7 +42,7 @@ public interface UserDao
 	
 	public User userUIDSelect(String userUID);
 	
-	public User userNickSelect(String userNick);
+	public User userPhoneSelect(String userPhone);
 	
 	//사용자 등록
 	public int userInsert(User user);
@@ -60,5 +60,7 @@ public interface UserDao
 	
 	//사용자 탈퇴
 	public int userDelete(User user);
+
+	
 
 }

@@ -80,6 +80,9 @@
             			<value>/user/FileUpdate</value>
             			<value>/user/FileInsert</value>
             			<value>/user/signUpPopUp</value>
+            			<value>/user/sendSms</value>
+            			<value>/user/sendSmsOk</value>
+            			<value>/user/PhoneUpdate</value>
             		</list>
             	</constructor-arg>
             </bean>
