@@ -2727,13 +2727,14 @@ section {
 
 .reservation:before {
   content: "";
-  background: rgba(200, 200, 200);
+  background: rgba(225, 225, 225);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
   top: 6%;
-  left: 5%;
-  right: 5%;
+  left: 11%;
+  right: 11%;
+  border-radius: 20px;
 }
 
 .reservation .section-title h2 {
@@ -3004,15 +3005,15 @@ reservation 검색
 }
 .view:before{
   content: "";
-  background: rgba(200, 200, 200);
+  background: rgba(225, 225, 225);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
-  top: 11%;
-  left: 5%;
-  right: 5%;
+  top: 12%;
+  left: 11%;
+  right: 11%;
+  border-radius: 20px;
 }
-
 .view .section-title h2 {
   color: #000;
 }
@@ -3297,6 +3298,189 @@ reservation 검색
   margin-top: 14px;
 }
 
+.view .modal {
+  margin-top: 15vh;
+  color:black;
+}
+
+.view .modal-header {
+  border-bottom: 2px solid rgba(127, 137, 161, 0.25);
+}
+
+.view #modal-btn:hover {
+  border: 2px solid white;
+}
+
+.view #modal-btn:active {
+  background-color: white;
+  color: #c78e54;
+
+}
+.view #select-ul {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  margin: 0%;
+  list-style: none; 
+  display: none;
+  border: 1px solid #999;
+}
+
+.view .option:hover {
+  border-top: 1px solid #c78e54;
+  border-bottom: 1px solid #c78e54;
+}
+
+.view .personnel-select {
+  float: left; width: 50%;
+  display: inline-block;
+  width: 176.8px;
+  border: 1px solid #999;
+  cursor: pointer;
+  position: relative;
+  bottom: 10px;
+  height: 38px;
+}
+
+.view .personnel-select:hover {
+  border: 1px solid #cda45e;
+}
+
+.view .personnel-selected {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 5px;
+  width: 176.8px;
+  height: 100%;
+  z-index: 1;
+}
+
+.view  .personnel-selected-value {
+  width: 176.8px;
+  color: #c78e54;
+  text-align: center;
+  z-index: 1;
+}
+
+.view .option {
+  position: relative;
+  right: 15px;
+  z-index: 1;
+}
+
+.view  #select-ul {
+  margin-right: 10px;
+  width: 176.8px;
+  border-top: 1px solid #999;
+  position: absolute;
+  background: #fff;
+  border-top: none;
+  position: relative;
+  right: 1px;
+  z-index: 1;
+}
+.view #modal-title {
+  position: relative;
+  left: 50%;
+}
+
+.view .modal-body {
+  height: 55vh;
+  z-index: 0;
+}
+.view .modal-footer {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+
+.view .view-container {
+  display: inline-block;
+  position: relative;
+  left: 18px;
+  top:28px;
+  width: 120px;
+  height: 30px;
+  color:#c78e54;
+}
+
+.view .modal-menu{
+  display: inline-block;
+  width: 499px;
+  position: relative;
+  bottom: 31%;
+  right: 3.6%;
+  height: 150px;
+  border-top: 2px solid rgba(127, 137, 161, 0.2);
+}
+
+.view #view-name {
+  position: relative;
+  bottom: 10px;
+}
+.view .menuQuantity {
+  width: 50px;
+  position: relative;
+  bottom: 15px;
+  display: inline;
+  text-align: center;
+  z-index: 0;
+}
+
+.view .menu {
+  position: relative;
+  height: 30px;
+  width: 30px;
+}
+
+.view .modal-title, .view #view-name {
+  color: #c78e54
+}
+
+.view .menu-print {
+  position: relative;
+  display: none;
+  z-index: 0;
+}
+
+.view #shopName {
+	font-size: 20px;
+	position: relative;
+	bottom:10px;
+	text-align: center;
+}
+
+.view .selectcontent {
+	height:50px;
+	position: relative;
+	margin: auto;
+	z-index: 500;
+	word-break:break-all;
+}
+
+.view .bookmark button {
+  /*margin-top: 10px;*/
+  background: rgba(225, 225, 225);
+  border:3px solid #C2A383;
+  padding: 3px 15px;
+  color: #0c0b09;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 17px;
+  margin-left: 5px;
+  margin-top: -15px;
+  float: center;
+}
+
+.view .bookmark button:hover {
+  background: #C2A383;
+}
+
+.view ion-icon {
+  color: #c78e54;
+}
 
 /*--------------------------------------------------------------
 # view end
