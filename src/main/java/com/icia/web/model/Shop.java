@@ -29,11 +29,17 @@ public class Shop implements Serializable{
 	
 	private String searchType;	//조회항목(0: 전체, 1: 파인다이닝. 2:오마카세)
 	private String searchValue;	//검색값
+	
 	private ShopFile shopFile;
+	
 	private List<ShopFile> shopFileList;
+	
 	private List<ShopMenu> shopMenu;
+	
 	private List<ShopTime> shopTime;
+	
 	private List<ShopTotalTable> shopTotalTable;
+	
 	private List<Order> order;
 	
 	
