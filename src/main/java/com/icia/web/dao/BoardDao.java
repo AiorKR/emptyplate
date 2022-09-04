@@ -10,11 +10,17 @@ import com.icia.web.model.BoardFile;
 @Repository("boardDao")
 public interface BoardDao 
 {
+	//시퀀스 선행처리
+	public long beforeInsert();
+	
 	//게시물 등록
 	public int boardInsert(Board board);
 	
 	//게시물 첨부파일 등록
 	public int boardFileInsert(BoardFile boardFile);
+		
+	//인기게시물 리스트
+	public List<Board> boardHotList(Board board);
 	
 	//게시물 리스트
 	public List<Board> boardList(Board board);
@@ -54,6 +60,31 @@ public interface BoardDao
 	
 	//좋아요 수 업데이트
 	public int boardLikeCntUpdate(Board board);
+	
+	//댓글 등록
+	public int boardCommentInsert(Board board);
+	
+	//댓글 그룹 순서 변경
+	public int commentGroupOrderUpdate(Board board);
+	
+	//댓글 리스트
+	public List<Board> commentList(Board board);
 
-
+	//게시물 삭제
+	public int commentDelete(long bbsSeq);
+	
+	//동일 게시물 즐겨찾기 여부 확인
+	public int boardMarkCheck(Board board);
+		
+	//게시물 즐겨찾기 추가
+	public int boardMarkUpdate(Board board);
+	
+	//게시물 즐겨찾기 취소
+	public int boardMarkDelete(Board board);
+	
+	//게시물 즐겨찾기 리스트
+	public List<Board> markList(Board board);
+	
+	//게시물 즐겨찾기 총 게시물 수
+	public long markListCount(Board board);
 }
