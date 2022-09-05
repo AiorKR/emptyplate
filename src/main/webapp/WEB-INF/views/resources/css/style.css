@@ -903,16 +903,14 @@ section {
 
 /*--순*/
 
-#community .btnSort{
+#btnSort{
   border :none;
   background: none;
-  font-family: 'Cafe24Dangdanghae';
 }
-#community .btnSort:hover{
+#btnSort:hover{
   border :none;
   background: none;
   color: #c2a383;
-  font-family: 'Cafe24Dangdanghae';
 }
 #community .d-flex ul {
   margin-top: 5px;
@@ -923,7 +921,6 @@ section {
   margin: 0;
   color: #0c0b09;
   position: relative;
-  font-family: 'Cafe24Dangdanghae';
 }
 
 #community .d-flex ul li {
@@ -1739,19 +1736,6 @@ section {
   margin-left: 2px;
 }
 
-#communityView .board-service a{
-  background: rgba(225, 225, 225);
-  border:2px solid #A6A6A6;
-  padding: 1px 10px;
-  color: #595959;
-  transition: 0.4s;
-  border-radius: 10px;
-  font-family: 'Cafe24Dangdanghae';
-  font-size: 15px;
-  float:left;
-  margin-right: 2px;
-}
-
 /*댓글작성칸*/
 #communityView .board-commentwrite {
   font-size: 20px;
@@ -1819,17 +1803,41 @@ section {
   margin-right: 5px;
 }
 
-/*대댓글 달기, 댓글신고*/
+/*대댓글 달기, 댓글신고, 댓글 삭제*/
+#communityView .comment .comment-write button {
+  font-size: 17px;
+  color: #595959;
+  float: right;
+  font-family: 'Cafe24Dangdanghae';
+}
+
 #communityView .comment .comment-write a {
   font-size: 17px;
   color: #595959;
   float: right;
+  font-family: 'Cafe24Dangdanghae';
+  padding-top: 2px;
 }
 
-#communityView .comment .comment-write a+a::after {
+#communityView .comment .comment-write button+button::after {
   display: inline-block;
   padding-left: 10px;
-  padding-right: 10px;
+  color: #6c6c6c;
+  content: "|";
+}
+
+#communityView .comment .comment-write button+a::after {
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 5px;
+  color: #6c6c6c;
+  content: "|";
+}
+
+#communityView .comment .comment-write a+button::after {
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 5px;
   color: #6c6c6c;
   content: "|";
 }
@@ -1962,7 +1970,8 @@ section {
   width : 100%;                               
   background-color:rgba(255, 255, 255, 0.8);   
   border-radius: 1em;                         
-  display: inline-block;                      
+  display: inline-block;     
+  position: relative;                 
 }
 
 #bookMark:before {
@@ -2050,10 +2059,18 @@ section {
 }
 
 /*--순*/
-#bookMark .d-flex{
-  margin-bottom : 10px;
-}
 
+#bookMark .btnSort{
+  border :none;
+  background: none;
+  font-family: 'Cafe24Dangdanghae';
+}
+#bookMark .btnSort:hover{
+  border :none;
+  background: none;
+  color: #c2a383;
+  font-family: 'Cafe24Dangdanghae';
+}
 #bookMark .d-flex ul {
   margin-top: 5px;
   display: flex;
@@ -2062,6 +2079,8 @@ section {
   padding: 0;
   margin: 0;
   color: #0c0b09;
+  position: relative;
+  font-family: 'Cafe24Dangdanghae';
 }
 
 #bookMark .d-flex ul li {
@@ -2078,13 +2097,11 @@ section {
 }
 
 #bookMark .d-flex ul li+li {
-  padding-left: 10px;
+  padding-left: 0px;
 }
 
 #bookMark .d-flex ul li+li::before {
   display: inline-block;
-  padding-right: 10px;
-  color: #0c0b09;
   content: "|";
   color: #C2A383;
 }
@@ -2094,13 +2111,13 @@ section {
 #bookMark .d-flex select{
   background: rgba(225, 225, 225);
   border: 1px solid #C2A383;
-  /*position: relative;*/
+  position: relative;
   width: 80px;
   height: 30px;
   /*background-image: */
 }
 
-#bookMark .d-flex form {
+#bookMark .d-flex .search {
   background: rgba(225, 225, 225);
   padding: 1px 70px 1px 10px;
   position: relative;
@@ -2109,7 +2126,7 @@ section {
   float: right;
 }
 
-#bookMark .d-flex form input[type=text] {
+#bookMark .d-flex .search input[type=text] {
   border: 0;
   padding: 1px;
   width: 100%;
@@ -2117,7 +2134,7 @@ section {
   /*color: #0c0b09;*/
 }
  
-#bookMark .d-flex form input[type=submit] {
+#bookMark .d-flex .search button[type=button] {
   position: absolute;
   top: -1px;
   right: -1px;
@@ -2130,9 +2147,10 @@ section {
   color: #fff;
   transition: 0.3s;
   /*border-radius: 50px;*/
+  font-family: 'Cafe24Dangdanghae';
 }
 
-#bookMark .d-flex form input[type=submit]:hover {
+#bookMark .d-flex .search button[type=button]:hover {
   background: #d3af71;
 }
 
@@ -2703,6 +2721,7 @@ section {
   font-family: "Poppins", sans-serif;
 }
 
+
 /*--------------------------------------------------------------
 # Reservation start
 --------------------------------------------------------------*/
@@ -2733,19 +2752,23 @@ section {
   padding: 0;
 }
 
+.reservation h2{
+   color:#000
+}
 .reservation-container {
   margin-top: 100px;
 }
 
 .reservation:before {
   content: "";
-  background: rgba(200, 200, 200);
+  background: rgba(225, 225, 225);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
   top: 6%;
-  left: 5%;
-  right: 5%;
+  left: 11%;
+  right: 11%;
+  border-radius: 20px;
 }
 
 .reservation .section-title h2 {
@@ -2775,7 +2798,7 @@ section {
   font-weight: 300;
   font-size: 40px;
   font-family: "Do Hyeon", sans-serif;
-  color: #cda45e;
+  color: #000;
 }
 
 .reservation .reservation-item .price {
@@ -2963,6 +2986,11 @@ reservation 검색
   color:#000;
 }
 
+.reservation .container-fluid {
+  position: relative;
+  margin-bottom: 14px;
+}
+
 /*--------------------------------------------------------------
 # Reservation End
 --------------------------------------------------------------*/
@@ -2993,6 +3021,7 @@ reservation 검색
   background: url("/resources/images/hero-bg.jpg") top center;
   background-size: cover;
   position: relative;
+  
   padding: 0;
 }
 
@@ -3005,18 +3034,20 @@ reservation 검색
   padding: 0;
 }
 
-
+.view p span{
+   font-family: 'Cafe24Dangdanghae';
+}
 .view:before{
   content: "";
-  background: rgba(200, 200, 200);
+  background: rgba(225, 225, 225);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
-  top: 11%;
-  left: 5%;
-  right: 5%;
+  top: 12%;
+  left: 11%;
+  right: 11%;
+  border-radius: 20px;
 }
-
 .view .section-title h2 {
   color: #000;
 }
@@ -3160,6 +3191,7 @@ reservation 검색
 
 .view p, .view ul, .view h3, .view span{
   color:#000;
+
 }
 
 .view .star:hover {
@@ -3300,6 +3332,189 @@ reservation 검색
   margin-top: 14px;
 }
 
+.view .modal {
+  margin-top: 15vh;
+  color:black;
+}
+
+.view .modal-header {
+  border-bottom: 2px solid rgba(127, 137, 161, 0.25);
+}
+
+.view #modal-btn:hover {
+  border: 2px solid white;
+}
+
+.view #modal-btn:active {
+  background-color: white;
+  color: #c78e54;
+
+}
+.view #select-ul {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  margin: 0%;
+  list-style: none; 
+  display: none;
+  border: 1px solid #999;
+}
+
+.view .option:hover {
+  border-top: 1px solid #c78e54;
+  border-bottom: 1px solid #c78e54;
+}
+
+.view .personnel-select {
+  float: left; width: 50%;
+  display: inline-block;
+  width: 176.8px;
+  border: 1px solid #999;
+  cursor: pointer;
+  position: relative;
+  bottom: 10px;
+  height: 38px;
+}
+
+.view .personnel-select:hover {
+  border: 1px solid #cda45e;
+}
+
+.view .personnel-selected {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 5px;
+  width: 176.8px;
+  height: 100%;
+  z-index: 1;
+}
+
+.view  .personnel-selected-value {
+  width: 176.8px;
+  color: #c78e54;
+  text-align: center;
+  z-index: 1;
+}
+
+.view .option {
+  position: relative;
+  right: 15px;
+  z-index: 1;
+}
+
+.view  #select-ul {
+  margin-right: 10px;
+  width: 176.8px;
+  border-top: 1px solid #999;
+  position: absolute;
+  background: #fff;
+  border-top: none;
+  position: relative;
+  right: 1px;
+  z-index: 1;
+}
+.view #modal-title {
+  position: relative;
+  left: 50%;
+}
+
+.view .modal-body {
+  height: 55vh;
+  z-index: 0;
+}
+.view .modal-footer {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+
+.view .view-container {
+  display: inline-block;
+  position: relative;
+  left: 18px;
+  top:28px;
+  width: 120px;
+  height: 30px;
+  color:#c78e54;
+}
+
+.view .modal-menu{
+  display: inline-block;
+  width: 499px;
+  position: relative;
+  bottom: 31%;
+  right: 3.6%;
+  height: 150px;
+  border-top: 2px solid rgba(127, 137, 161, 0.2);
+}
+
+.view #view-name {
+  position: relative;
+  bottom: 10px;
+}
+.view .menuQuantity {
+  width: 50px;
+  position: relative;
+  bottom: 15px;
+  display: inline;
+  text-align: center;
+  z-index: 0;
+}
+
+.view .menu {
+  position: relative;
+  height: 30px;
+  width: 30px;
+}
+
+.view .modal-title, .view #view-name {
+  color: #c78e54
+}
+
+.view .menu-print {
+  position: relative;
+  display: none;
+  z-index: 0;
+}
+
+.view #shopName {
+	font-size: 20px;
+	position: relative;
+	bottom:10px;
+	text-align: center;
+}
+
+.view .selectcontent {
+	height:50px;
+	position: relative;
+	margin: auto;
+	z-index: 500;
+	word-break:break-all;
+}
+
+.view .bookmark button {
+  /*margin-top: 10px;*/
+  background: rgba(225, 225, 225);
+  border:3px solid #C2A383;
+  padding: 3px 15px;
+  color: #0c0b09;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 17px;
+  margin-left: 5px;
+  margin-top: -15px;
+  float: center;
+}
+
+.view .bookmark button:hover {
+  background: #C2A383;
+}
+
+.view ion-icon {
+  color: #c78e54;
+}
 
 /*--------------------------------------------------------------
 # view end
@@ -3872,7 +4087,7 @@ hr[role="tournament1"] {
   display: block;
 }
 hr[role="tournament1"]::before {
-  position: absolute;
+  position: absolute; 	
   background-color: #efefef;
   border: 1px solid;
   border-color: #AC8353;

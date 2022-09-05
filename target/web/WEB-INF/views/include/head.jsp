@@ -8,8 +8,8 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="/resources/img/favicon.png" rel="icon">
-  <link href="/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="/resources/images/favicon.png" rel="icon">
+  <link href="/resources/images/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair Display:wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i|Nanum+Brush+Script|Nanum+Gothic+Coding|Do+Hyeon&display=swap" rel="stylesheet">
@@ -25,7 +25,9 @@
 
   <script src="https://kit.fontawesome.com/842f2be68c.js" crossorigin="anonymous"></script>
   <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
-
+  
+  <script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
+  <script type="text/javascript" src="/resources/js/icia.common.js"></script>
 
   <!-- Template Main CSS File -->
   <link href="/resources/css/style.css" rel="stylesheet">

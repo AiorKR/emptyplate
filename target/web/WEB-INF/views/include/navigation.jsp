@@ -12,8 +12,8 @@
 	</div>
 	<div class="log d-none d-md-flex align-items-center">
 	  <ul>
-		<li><a href="login.jsp">LogOut</a></li>
-		<li><a href="./joinUs.html">My Page</a></li>
+		<li><a href="/user/loginOut">LogOut</a></li>
+		<li><a href="/myPage/myProfile">My Page</a></li>
 	  </ul>
 	</div>
   </div>
@@ -30,8 +30,8 @@
 	</div>
 	<div class="log d-none d-md-flex align-items-center">
 	  <ul>
-		<li><a href="login.jsp">Login</a></li>
-		<li><a href="./joinUs.html">Join Us</a></li>
+		<li><a href="/user/login">Login</a></li>
+		<li><a href="/user/joinUs">Join Us</a></li>
 	  </ul>
 	</div>
   </div>
@@ -66,10 +66,10 @@
 	<ul>
 	  <li class="dropdown"><a href="#">김땡땡 님<i class="bi bi-chevron-down"></i></a>
 		<ul>
-		  <li><a href="./myPage.html">내 프로필</a></li>
+		  <li><a href="/myPage/myProfile">내 프로필</a></li>
 		  <li><a href="./reservationList.html">예약내역</a></li>
 		  <li><a href="#">고객센터</a></li>
-		  <li><a href="#">로그아웃</a></li>
+		  <li><a href="/user/loginOut">로그아웃</a></li>
 		</ul>
 	  </li>
 	<i class="bi bi-list mobile-nav-toggle"></i>
@@ -84,8 +84,8 @@
 	<ul>
 	  <li class="dropdown"><a href="#">로그인<i class="bi bi-chevron-down"></i></a>
 		<ul>
-		  <li><a href="./myPage.html">로그인</a></li>
-		  <li><a href="./reservationList.html">회원가입</a></li>
+		  <li><a href="/user/login">로그인</a></li>
+		  <li><a href="/user/joinUs">회원가입</a></li>
 		  <li><a href="#">고객센터</a></li>
 		</ul>
 	  </li>

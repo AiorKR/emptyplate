@@ -12,8 +12,11 @@ package com.icia.common.util;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -1241,4 +1244,20 @@ public final class StringUtil
 		
 		return decimalFormat.format(value);
 	}
+	
+	public static int getDayOfweek(String date){ //그 날이 무슨 요일인지 알려줌
+		int w = -1;
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        Calendar cal = Calendar.getInstance();
+        Date getDate;
+		try {
+			getDate = format.parse(date);
+			cal.setTime(getDate);			
+			w = cal.get(Calendar.DAY_OF_WEEK)-1;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return w;
+    }
 }
