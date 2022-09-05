@@ -34,7 +34,7 @@ public class MyPageController {
     private String AUTH_COOKIE_NAME;
    
     //파일 저장 경로
-    @Value("#{env['user.upload.image.dir']}")
+    @Value("#{env['user.upload.save.dir']}")
     private String UPLOAD_SAVE_DIR;
    
     @Autowired
