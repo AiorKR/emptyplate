@@ -37,7 +37,6 @@
   height: 38px;
   width: 176.8px;
   border-radius: 0%;
-  cursor: pointer;
 }
 
 .reservation .datepicker-dropdown:after, .view .datepicker-dropdown:after  {
