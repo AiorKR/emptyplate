@@ -73,6 +73,11 @@
   opacity: 0.8;
 }
 
+.prev, .next {
+	font-family:normal;
+}
+
+
 .prev:hover, .next:hover, .datepicker-switch:hover {
   background-color: inherit !important;
   opacity: 1;
@@ -106,12 +111,12 @@
 }
 .reservation #datepicker-ul {
   position: relative;
-  z-index: 1;
+  z-index: 1900;
 }
 .view #datepicker-ul {
   position: relative;
   bottom:4px;
-  z-index: 1;
+  z-index: 1000;
 }
 .reservation .card {
   width: 176.8px;
@@ -122,7 +127,6 @@
   width: 499px;
   height: 250px;
   position: relative;
-  right: 17px;
   margin: 0%;
   padding: 0;
   z-index: 1;
@@ -141,7 +145,7 @@
   border: 1px solid #616161;
   position: relative;
   bottom: 10px;
-  z-index: 0;
+  z-index: 1000;
   /* display: none; */
 }
 
@@ -152,6 +156,7 @@
   bottom: 10px;
   width: 176.8px;
   left: 177px;
+  z-index: 1500;
 }
 .view #datepicker-li {
   position: relative;
@@ -160,5 +165,5 @@
   border-bottom: 1px solid #616161;
   border-left: 1px solid #616161;
   border-right: 1px solid #616161;
-  z-index: 2;
+  z-index: 2000;
 }

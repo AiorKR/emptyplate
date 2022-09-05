@@ -13,17 +13,16 @@ import org.springframework.transaction.annotation.Transactional;
 import com.icia.web.dao.ShopDao;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
-import com.icia.web.model.ShopMenu;
-import com.icia.web.model.ShopTime;
+import com.icia.web.model.ShopTotalTable;
 
 @Service("shopService")
 public class ShopService {
 	
 	private static Logger logger = LoggerFactory.getLogger(ShopService.class);
 	
-	//파일 저장 디렉토리
-	@Value("#{env['shop_image_dir']}")
-	private String SHOP_IMAGE_DIR;
+	//파일 저장 경로
+	@Value("#{env['shop.upload.dir']}")
+	private String SHOP_UPLOAD_DIR;
 	
 	@Autowired
 	private ShopDao shopDao;
@@ -68,31 +67,20 @@ public class ShopService {
 		//매장 상세페이지
 		public Shop shopViewSelect(String shopUID) {
 			Shop shop = null;
+			
 			logger.debug("들어옴1");
+			logger.debug("shopUID : " + shopUID);
 			try {
-				shop = shopDao.shopSelect(shopUID);
-				logger.debug("들어옴2");
 				
-				if(shop != null) {
-					List<ShopFile> shopFile = shopDao.shopFileSelect(shop.getShopUID());
-					
-					List<ShopMenu> shopMenu = shopDao.shopMenuSelect(shop.getShopUID());
-					
-					List<ShopTime> shopTime = shopDao.shopTimeSelect(shop.getShopUID());
-					if(shopFile != null && shopMenu != null && shopTime != null) {
-						
-							shop.setShopFileList(shopFile);
-							
-							shop.setShopMenu(shopMenu);
-							
-							shop.setShopTime(shopTime);
-						}
-						
-					}
-					else {
-						logger.error("shop file or menu or time is empty");
-					}
-				}
+			   shop = shopDao.shopViewSelect(shopUID);
+			
+			   logger.debug("파일 사이즈 : " + shop.getShopFileList().size());	
+			   
+			   logger.debug("메뉴 사이즈 : " + shop.getShopMenu().size());
+		   
+			   logger.debug("시간 사이즈 : " + shop.getShopTime().size());
+				   
+			}
 			
 			catch(Exception e) {
 				logger.error("[ShopService] ShopViewSelect", e);
@@ -101,6 +89,18 @@ public class ShopService {
 			logger.debug("들어옴3");
 			
 			return shop;
+		}
+		
+		public List<ShopTotalTable> shopReservationCheck(Shop shop) {
+			List<ShopTotalTable> shopTotlaTable = null;
+			
+			try {
+				shopTotlaTable = shopDao.shopReservationCheck(shop);
+			}
+			catch(Exception e) {
+				logger.error("[ShopService] shopReservationCheck", e);
+			}
+			return shopTotlaTable;
 		}
 		
 		@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
