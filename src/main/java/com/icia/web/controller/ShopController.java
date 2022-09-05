@@ -2,7 +2,6 @@ package com.icia.web.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.io.File;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -221,12 +220,8 @@ public class ShopController {
 			
 			List<ShopFile> shopFileList = new ArrayList<ShopFile>();
 			
-			ShopFile shopFile = new ShopFile();
-			
-			String shopUID = "Shop_";
-			String userUID = "1";
-			String subDir = "";
-			String mainDir = "";
+			String shopUID = "Shop_a93d61d0-3d15-4060-9bbe-9fd5e22c397b";
+			String userUID = "a93d61d0-3d15-4060-9bbe-9fd5e22c397b";
 			String shopName = HttpUtil.get(request, "shopName");
 			String shopType = HttpUtil.get(request, "shopType");
 			String shopHoliday = HttpUtil.get(request, "shopHoliday");
@@ -239,89 +234,47 @@ public class ShopController {
 			String shopIntro = HttpUtil.get(request, "shopIntro");
 			String shopContent = HttpUtil.get(request, "shopContent");
 			
-			shopUID += userUID;
-			
-			subDir += SHOP_UPLOAD_IMAGE_DIR;
-			subDir += "\\sub\\";
-			subDir += shopUID;
-
-			mainDir += SHOP_UPLOAD_IMAGE_DIR;
-			mainDir += "\\main\\";
-			
 			String[] name = new String[100];
 			
 			
-			
 			for(int i=0; i < fileQuantity; i++) {
-				
 				logger.debug("i값 : " + i);
-				
 				name[i] = "shopFile";
 				name[i] += Integer.toString(i);;
-
-				if(i == 0) {
-					
-					File mainFolder = new File(mainDir);
-
-					// 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
-					if (!mainFolder.exists()) {
-						try{
-							mainFolder.mkdir(); //폴더 생성합니다.
-						    	logger.debug("폴더가 생성됨");
-					        } 
-					        catch(Exception e){
-					        	logger.debug("폴더 생성 중 오류");
-					        	e.getStackTrace();
-						}        
-				         }else {
-				        	 logger.debug("폴더가 존재함");
-					}
-						
-					FileData fileData = new FileData();
-					fileData = (HttpUtil.getFile(request, name[i], mainDir));
-					
-					if(fileData != null) {
-						
-						File subFolder = new File(subDir);
-
-						// 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
-						if (!subFolder.exists()) {
-							try{
-								subFolder.mkdir(); //폴더 생성합니다.
-							    	logger.debug("폴더가 생성됨");
-						        } 
-						        catch(Exception e){
-						        	logger.debug("폴더 생성 중 오류");
-						        	e.getStackTrace();
-							}        
-					         }else {
-					        	 logger.debug("폴더가 존재함");
-						}
-						
-						shopFile.setShopUID(shopUID);
-				   		shopFile.setShopFileSeq(i);
-				   		shopFile.setShopFileName(fileData.getFileName());
-				   		shopFile.setShopFileOrgName(fileData.getFileOrgName());
-				   		shopFile.setShopFileExt(fileData.getFileExt());
-				   		shopFile.setShopFileSize(fileData.getFileSize());
-					}
+				
+				logger.debug("name[i] : " + name[i]);
+				
+				if(StringUtil.equals(name[i], "shopFile0")) {
+					logger.debug("값이 같음!!!!0");
 				}
 				
-				else {
-					FileData fileData = new FileData();
-					fileData = (HttpUtil.getFile(request, name[i], subDir));
-					
-					if(fileData != null) {
-						shopFile.setShopUID(shopUID);
-				   		shopFile.setShopFileSeq(i);
-				   		shopFile.setShopFileName(fileData.getFileName());
-				   		shopFile.setShopFileOrgName(fileData.getFileOrgName());
-				   		shopFile.setShopFileExt(fileData.getFileExt());
-				   		shopFile.setShopFileSize(fileData.getFileSize());
-					}
+				if(StringUtil.equals(name[i], "shopFile1")) {
+					logger.debug("값이 같음!!!!1");
 				}
 				
-
+				if(StringUtil.equals(name[i], "shopFile2")) {
+					logger.debug("값이 같음!!!!2");
+				}
+				
+				FileData fileData = new FileData();
+				fileData = (HttpUtil.getFile(request, name[i], SHOP_UPLOAD_IMAGE_DIR));
+       		 	
+				logger.debug("fileData(첨 파일 받을때) : " + fileData);
+				logger.debug("fileData이름(첨 파일 받을때) : " + fileData.getFileName());
+				logger.debug("fileData원본이름(첨 파일 받을때) : " + fileData.getFileOrgName());
+				logger.debug("fileData사이즈(첨 파일 받을때) : " + fileData.getFileSize());
+				logger.debug("fileData확장자(첨 파일 받을때) : " + fileData.getFileExt());
+				
+				ShopFile shopFile = new ShopFile();
+				
+				if(fileData != null) {
+					shopFile.setShopUID(shopUID);
+			   		shopFile.setShopFileSeq(i);
+			   		shopFile.setShopFileName(fileData.getFileName());
+			   		shopFile.setShopFileOrgName(fileData.getFileOrgName());
+			   		shopFile.setShopFileExt(fileData.getFileExt());
+			   		shopFile.setShopFileSize(fileData.getFileSize());
+				}
 		   		logger.debug("shopFileName : " + shopFile.getShopFileName());
 		   		 
 		   		 shopFileList.add(shopFile);
