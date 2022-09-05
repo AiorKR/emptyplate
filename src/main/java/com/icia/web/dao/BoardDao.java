@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.icia.web.model.Board;
 import com.icia.web.model.BoardFile;
+import com.icia.web.model.BoardReport;
 
 @Repository("boardDao")
 public interface BoardDao 
@@ -87,4 +88,7 @@ public interface BoardDao
 	
 	//게시물 즐겨찾기 총 게시물 수
 	public long markListCount(Board board);
+	
+	//게시물 신고
+	public long boardReport(BoardReport boardReport);
 }

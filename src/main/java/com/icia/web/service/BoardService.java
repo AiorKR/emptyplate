@@ -14,6 +14,7 @@ import com.icia.common.util.FileUtil;
 import com.icia.web.dao.BoardDao;
 import com.icia.web.model.Board;
 import com.icia.web.model.BoardFile;
+import com.icia.web.model.BoardReport;
 
 @Service("boardService")
 public class BoardService 
@@ -354,7 +355,7 @@ public class BoardService
 		return list;
 	}
 	
-	//게시물 삭제(첨부파일 있으면 함께 삭제)
+	//댓글 삭제(첨부파일 있으면 함께 삭제)
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public int commentDelete(long bbsSeq) throws Exception
 	{
@@ -453,6 +454,15 @@ public class BoardService
 		{
 			logger.error("[BoardService] markListCount Exception", e);
 		}
+		
+		return count;
+	}
+	
+	//게시물 신고
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public long boardReport(BoardReport boardReport)
+	{
+		long count = boardDao.boardReport(boardReport);		
 		
 		return count;
 	}

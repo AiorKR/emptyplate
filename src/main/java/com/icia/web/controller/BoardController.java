@@ -23,6 +23,7 @@ import com.icia.common.util.FileUtil;
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Board;
 import com.icia.web.model.BoardFile;
+import com.icia.web.model.BoardReport;
 import com.icia.web.model.Paging;
 import com.icia.web.model.Response;
 import com.icia.web.model.User;
@@ -740,4 +741,58 @@ public class BoardController
   		
   		return ajaxResponse;
   	}
+  	
+  	
+  	//게시물 신고(AJAX)
+  	@RequestMapping(value="/board/reportProc", method=RequestMethod.POST)
+  	@ResponseBody
+  	public Response<Object> reportProc(MultipartHttpServletRequest request, HttpServletResponse response)
+  	{
+  		Response<Object> ajaxResponse = new Response<Object>();
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+        //게시물 번호
+        long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+        //신고사유
+  		String report1 = HttpUtil.get(request, "report1", "");
+  		String report2 = HttpUtil.get(request, "report2", "");
+  		String report3 = HttpUtil.get(request, "report3", "");
+  		String report4 = HttpUtil.get(request, "report4", "");
+  		String etcReport = HttpUtil.get(request, "etcReport", "");
+  		
+  		if(!StringUtil.isEmpty(cookieUserUID) && bbsSeq > 0)
+  		{
+  	       BoardReport boardReport = new BoardReport();
+
+	  	   boardReport.setUserUID(cookieUserUID);
+	  	   boardReport.setBbsSeq(bbsSeq);
+	  	   boardReport.setReport1(report1);
+	  	   boardReport.setReport2(report2);
+	  	   boardReport.setReport3(report3);
+	  	   boardReport.setReport4(report4);
+	  	   boardReport.setEtcReport(etcReport);
+		  	try
+	  		{
+	  			if(boardService.boardReport(boardReport) > 0)
+	  			{
+	  				ajaxResponse.setResponse(0, "success");
+	  			}
+				else
+				{
+					ajaxResponse.setResponse(500, "internal server error");
+				}
+			}
+			catch(Exception e)
+			{
+				logger.error("[BoardController] /board/reportProc Exception", e);
+				ajaxResponse.setResponse(500, "internal server error");
+			}	
+		}
+		else
+		{
+			ajaxResponse.setResponse(400, "Bad Request");
+		}
+		
+		return ajaxResponse;
+  	}
+  	
 }

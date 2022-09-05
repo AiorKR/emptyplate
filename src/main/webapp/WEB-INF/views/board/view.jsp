@@ -208,6 +208,67 @@ $(document).ready(function() {
 	         }
 	      });
    });   
+   
+	//게시물 신고
+	$("#reportBtn").on("click", function() {	
+		
+		var report = document.getElementById('reportCheck');
+	      var resultValue = report.checked;
+	      if(resultValue == true)
+	      {
+	         $('#reportCheck').val("Y");
+	      }
+	      else
+	      {
+	         $('#reportCheck').val("N");
+	      }
+	      
+	      var form = $("#reportForm")[0];
+	      var formData = new FormData(form);
+	      
+	      $.ajax({
+	         type:"POST",
+	         url:"/board/reportProc",
+	         data:formData,
+	         processData:false,
+	         contentType:false,
+	         cache:false,
+	         timeout:600000,
+	         beforeSend:function(xhr)
+	         {
+	            xhr.setRequestHeader("AJAX", "true");
+	         },
+	         success:function(response)
+	         {
+	            if(response.code == 0)
+	              {
+	               alert("신고가 접수되었습니다.");
+	              }
+	            else if(response.code == 400)
+	              {
+	               alert("파라미터 값이 올바르지 않습니다.");
+	               $("#reportBtn").prop("disabled", false);
+	              }
+	            else if(response.code == 404)
+	              {
+	               alert("신고 게시물을 찾을 수 없습니다.");
+	               $("#reportBtn").prop("disabled", false);
+	              }
+	            else
+	              {
+	               alert("신고 접수 중 오류가 발생.");
+	               $("#reportBtn").prop("disabled", false);
+	              }
+	         },
+	         error:function(error)
+	         {
+	            icia.common.error(error);
+	            alert("신고 접수 중 오류가 발생하였습니다.");
+	            $("#reportBtn").prop("disabled", false);
+	         }
+	      });
+   });   
+ 
 });
 
 function fn_deleteComment(bbsSeqValue)
@@ -311,6 +372,7 @@ function fn_deleteComment(bbsSeqValue)
 				<div class="board-service">
 				  <div class="board-list"><button type="button" id="btnList" class="board-list"><ion-icon name="reader"></ion-icon>&nbsp;목록</button></div>
 					<div class="report"><button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="btnReport"><ion-icon name="alert-circle"></ion-icon>&nbsp;신고</button></div>
+	                 
 	                  <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
 	                     <div class="modal-dialog">
 	                        <div class="modal-content">
@@ -319,29 +381,34 @@ function fn_deleteComment(bbsSeqValue)
 	                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	                           </div>
 	                           <div class="modal-body">
+ 			  					 <form name="reportForm" id="reportForm" method="post">	
 	                              <div class="datecard">
 	                                 <h3 id="view-name">
-						                                 신고자 : <br>
-						                                 신고게시물 : 
+						                                 신고게시물 : ${board.bbsTitle}<br>
+						                                 신고자 : ${board.userNick}
 	                                 </h3>
 	                                 <div class="content">
 	                                    <ul>
-	                                       <li><input type="checkbox" id="reportCheck" class="reportCheck" name="report1" value="Y">&nbsp;신고사유1</li>
-	                                       <li><input type="checkbox" id="reportCheck" class="reportCheck" name="report2" value="Y">&nbsp;신고사유2</li>
-	                                       <li><input type="checkbox" id="reportCheck" class="reportCheck" name="report3" value="Y">&nbsp;신고사유3</li>
-	                                       <li><input type="checkbox" id="reportCheck" class="reportCheck" name="report4" value="Y">&nbsp;신고사유4</li>
-	                                       <li><input type="checkbox" id="reportCheck" class="reportCheck" name="report4" value="Y">&nbsp;<input type="text" id="reportReason" name="reportReason" placeholder="기타사유를 적어주세요"></li>
+	                                       <li><input type="checkbox" class="reportCheck" id="reportCheck" name="report1" value="Y">&nbsp;스팸 게시물 입니다.</li>
+	                                       <li><input type="checkbox" class="reportCheck" id="reportCheck" name="report2" value="Y">&nbsp;게시판 성격에 맞지 않는 글입니다.</li>
+	                                       <li><input type="checkbox" class="reportCheck" id="reportCheck" name="report3" value="Y">&nbsp;과도한 욕설이 포함된 글입니다.</li>
+	                                       <li><input type="checkbox" class="reportCheck" id="reportCheck" name="report4" value="Y">&nbsp;게시판의 분위기를 어지럽히는 글입니다.</li>
+	                                       <li><input type="checkbox" class="reportCheck" id="reportCheck" name="etcReport" value="Y">&nbsp;기타사유</li>
 	                                    </ul>
+	                                    <input type="hidden" id="reportCheck" name="reportCheck" value="" />
+	                                    <input type="hidden" id="bbsSeq" name="bbsSeq" value="${board.bbsSeq}" />
 	                                 </div>
 	                                 <div class="modal-footer">
 	                                    <button type="button" class="btn btn-secondary">취소</button>
-	                                    <button type="button" class="btn btn-primary">신고</button>
+	                                    <button type="button" id="reportBtn" class="reportBtn">신고</button>
 	                                 </div>
+			     				    </form>
 	                              </div>
 	                           </div>
 	                        </div>
 	                     </div>
 	                  </div>
+	                 
 				      <c:if test="${!empty board.boardFile}">
 						<a href="/board/download?bbsSeq=${board.boardFile.bbsSeq}" style="float:right;">첨부이미지 다운로드</a>
 					  </c:if>   
