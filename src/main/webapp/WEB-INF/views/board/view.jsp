@@ -355,7 +355,7 @@ function fn_deleteComment(bbsSeqValue)
 								<div class="submit">
 									<input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
 									<input type="text" id="bbsContent" name="bbsContent" style="ime-mode:active;" class="form-control mt-4 mb-2"/>
-									<button type="submit" id="btnSearch">등록</button>
+									<button type="submit" id="btnSearch">등 록</button>
 								</div>
 							</div>
 						
