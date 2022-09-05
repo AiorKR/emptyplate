@@ -6,25 +6,20 @@ import org.springframework.stereotype.Repository;
 
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
-import com.icia.web.model.ShopMenu;
-import com.icia.web.model.ShopTime;
+import com.icia.web.model.ShopTotalTable;
 
 @Repository("shopdDao")
 public interface ShopDao {
 	
-	public long shopListTotlaCount(Shop shop);
+	public long shopListTotlaCount(Shop shop); //매장 카운트
 	
-	public List<Shop> shopList(Shop shop);
+	public List<Shop> shopList(Shop shop); //매장 리스트
 	
-	public int shopInsert(Shop shop);
+	public int shopInsert(Shop shop); //매장 insert
 	
-	public int shopFileInsert(List<ShopFile> list);
+	public int shopFileInsert(List<ShopFile> list); //매장 file insert
 	
-	public Shop shopSelect(String shopUID);
+	public Shop shopViewSelect(String shopUID); //매장 view select
 	
-	public List<ShopFile> shopFileSelect(String shopUID);
-	
-	public List<ShopMenu> shopMenuSelect(String shopUID);
-
-	public List<ShopTime> shopTimeSelect(String shopUID);
+	public List<ShopTotalTable> shopReservationCheck(Shop shop); //예약 자리 있는지 select
 }
