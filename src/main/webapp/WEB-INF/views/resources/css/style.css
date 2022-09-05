@@ -885,7 +885,7 @@ section {
 }
 
 #community .swiper-pagination {
-  margin-top: 10px;
+  margin-top: 30px;
   position: relative;
   bottom : 30px;
 }
@@ -903,14 +903,16 @@ section {
 
 /*--순*/
 
-#btnSort{
+#community .btnSort{
   border :none;
   background: none;
+  font-family: 'Cafe24Dangdanghae';
 }
-#btnSort:hover{
+#community .btnSort:hover{
   border :none;
   background: none;
   color: #c2a383;
+  font-family: 'Cafe24Dangdanghae';
 }
 #community .d-flex ul {
   margin-top: 5px;
@@ -921,6 +923,7 @@ section {
   margin: 0;
   color: #0c0b09;
   position: relative;
+  font-family: 'Cafe24Dangdanghae';
 }
 
 #community .d-flex ul li {
@@ -1736,6 +1739,19 @@ section {
   margin-left: 2px;
 }
 
+#communityView .board-service a{
+  background: rgba(225, 225, 225);
+  border:2px solid #A6A6A6;
+  padding: 1px 10px;
+  color: #595959;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 15px;
+  float:left;
+  margin-right: 2px;
+}
+
 /*댓글작성칸*/
 #communityView .board-commentwrite {
   font-size: 20px;
@@ -1777,6 +1793,7 @@ section {
   color: #fff;
   transition: 0.3s;
   border: 1px solid #C2A383;
+  font-family: 'Cafe24Dangdanghae';
 }
 
 #communityView .board-commentwrite .submit button[type=submit]:hover {

@@ -274,6 +274,5 @@ public class Board implements Serializable
    public void setSortValue(long sortValue) {
       this.sortValue = sortValue;
    }
-
 	
 }
