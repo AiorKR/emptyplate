@@ -284,7 +284,41 @@ public class UserController
    	    return ajaxResponse;
    	}
    	
-   
+	//비밀번호 변경용 문자인증
+	@PostMapping("/user/sendSms2")
+	   @ResponseBody
+	   public Response<Object> sendSms2(HttpServletRequest request, HttpServletResponse response)
+	   {
+		  String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		  String userPhone = HttpUtil.get(request, "tel");
+		  User user = userService.userUIDSelect(userUID);
+	      Response<Object> ajaxResponse = new Response<Object>();
+	      String phone = user.getUserPhone();
+	      if(!StringUtil.isEmpty(userPhone))
+	      {
+	         if(StringUtil.equals(phone, userPhone))
+	         {        	       	 
+	        	 String code = userService.sendRandomMessage(userPhone);
+	        	 session.setAttribute("numStr", code);	 
+	        	 ajaxResponse.setResponse(0, "Success");	
+	         } 
+	         else
+	         {
+	        	 ajaxResponse.setResponse(100, "duplikcate phone");
+	         }
+	      }
+	      else
+	      {
+	         ajaxResponse.setResponse(400, "Bad Request");
+	      }
+	      
+	      if(logger.isDebugEnabled())
+	          {
+	             logger.debug("[UserController] /user/poneChk response\n" + JsonUtil.toJsonPretty(ajaxResponse));
+	          }
+	      
+	      return ajaxResponse;
+	   }
    
    
    

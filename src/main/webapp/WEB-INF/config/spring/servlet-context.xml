@@ -83,8 +83,11 @@
             			<value>/user/FileInsert</value>
             			<value>/user/signUpPopUp</value>
             			<value>/user/sendSms</value>
+            			<value>/user/sendSms2</value>
             			<value>/user/sendSmsOk</value>
             			<value>/user/PhoneUpdate</value>
+            			<value>/myPage/pwd_popup</value>
+            			<value>/user/PwdUpdate</value>
             		</list>
             	</constructor-arg>
             </bean>
