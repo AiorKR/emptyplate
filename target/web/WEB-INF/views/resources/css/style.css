@@ -903,6 +903,15 @@ section {
 
 /*--순*/
 
+#btnSort{
+  border :none;
+  background: none;
+}
+#btnSort:hover{
+  border :none;
+  background: none;
+  color: #c2a383;
+}
 #community .d-flex ul {
   margin-top: 5px;
   display: flex;
@@ -911,6 +920,7 @@ section {
   padding: 0;
   margin: 0;
   color: #0c0b09;
+  position: relative;
 }
 
 #community .d-flex ul li {
@@ -927,13 +937,11 @@ section {
 }
 
 #community .d-flex ul li+li {
-  padding-left: 10px;
+  padding-left: 0px;
 }
 
 #community .d-flex ul li+li::before {
   display: inline-block;
-  padding-right: 10px;
-  color: #0c0b09;
   content: "|";
   color: #C2A383;
 }
@@ -943,13 +951,13 @@ section {
 #community .d-flex select{
   background: rgba(225, 225, 225);
   border: 1px solid #C2A383;
-  /*position: relative;*/
+  position: relative;
   width: 80px;
   height: 30px;
   /*background-image: */
 }
 
-#community .d-flex form {
+#community .d-flex .search {
   background: rgba(225, 225, 225);
   padding: 1px 70px 1px 10px;
   position: relative;
@@ -958,7 +966,7 @@ section {
   float: right;
 }
 
-#community .d-flex form input[type=text] {
+#community .d-flex .search input[type=text] {
   border: 0;
   padding: 1px;
   width: 100%;
@@ -966,7 +974,7 @@ section {
   /*color: #0c0b09;*/
 }
  
-#community .d-flex form input[type=submit] {
+#community .d-flex .search button[type=button] {
   position: absolute;
   top: -1px;
   right: -1px;
@@ -979,9 +987,10 @@ section {
   color: #fff;
   transition: 0.3s;
   /*border-radius: 50px;*/
+  font-family: 'Cafe24Dangdanghae';
 }
 
-#community .d-flex form input[type=submit]:hover {
+#community .d-flex .search button[type=button]:hover {
   background: #d3af71;
 }
 
@@ -992,6 +1001,7 @@ section {
   /*border-top: 1px solid #C2A383;*/
   border-collapse: collapse;
   text-align: center;
+  position: relative;
 }
 
 #community .board-content table th {
@@ -1039,6 +1049,7 @@ section {
   border-radius: 10px;
   float:right;
   font-family: 'Cafe24Dangdanghae';
+  position: relative;
 }
 
 #community .text-center button:hover {
@@ -1060,6 +1071,7 @@ section {
   transition: 0.4s;
   border-radius: 10px;
   font-family: 'Cafe24Dangdanghae';
+  position: relative;
 }
 
 #community .text-center2 button:hover {
@@ -1139,7 +1151,7 @@ section {
   margin-top: 20px;
   width: 80%;
   /*height: 100%;*/
-  /*position: relative;*/
+  position: relative;
   background: #fff;
   color: #0c0b09;
   padding: 0px 10px 0px 10px;
@@ -1158,23 +1170,24 @@ section {
 }
 
 /*내용 작성 테이블*/
-#communityWriteForm .writeForm table{
+#communityWriteForm form table{
   width: 90%;
   border-collapse: collapse;
   text-align: center;
   border-top: 2px solid #7d7d7d;
   border-bottom: 2px solid #7d7d7d;
   margin: auto;
+  position: relative;
 }
 
-#communityWriteForm .writeForm tr {
+#communityWriteForm form tr {
   border-bottom: 0.5px solid #7d7d7d;
   font-size: 15px;
   color: #0c0b09;
 }
 
 /*제목*/
-#communityWriteForm .writeForm .title {
+#communityWriteForm form .title {
   border-right: 0.5px solid #7d7d7d;
   width: 10%;
   height: 50px;
@@ -1185,7 +1198,7 @@ section {
   padding-left: 10px;
 }
 
-#communityWriteForm .writeForm input[type="text"] {
+#communityWriteForm form input[type="text"] {
   border: 0;
   width: 85%;
   height: 47px;
@@ -1194,7 +1207,7 @@ section {
   padding-left: 10px;
 }
 
-#communityWriteForm .writeForm .title-text {
+#communityWriteForm form .title-text {
   border: 0;
   width: 100%;
   height: 50px;
@@ -1202,20 +1215,20 @@ section {
   background: #fff;
 }
 
-#communityWriteForm .writeForm .title-text .comment {
+#communityWriteForm form .title-text .comment {
   float: right;
   font-size: 18px;
   margin-top: 10px;
   margin-right: 20px;
 }
 
-#communityWriteForm .writeForm .title-text input[type=checkbox] {
+#communityWriteForm form .title-text input[type=checkbox] {
   width: 20px;
   height: 20px;
 }
 
 /*내용*/
-#communityWriteForm .writeForm .content {
+#communityWriteForm form .content {
   border-right: 0.5px solid #7d7d7d;
   width: 100px;
   height: 400px;
@@ -1226,7 +1239,7 @@ section {
   padding-left: 10px;
 }
 
-#communityWriteForm .writeForm .content-text {
+#communityWriteForm form .content-text {
   border: 0;
   padding: 1px;
   width: 100%;
@@ -1235,7 +1248,7 @@ section {
   background: #fff;
 }
 
-#communityWriteForm .writeForm textarea {
+#communityWriteForm form textarea {
   border: 0;
   padding: 1px;
   width: 100%;
@@ -1247,7 +1260,38 @@ section {
   padding-left: 10px;
 }
 
-/*등록, 취소, 삭제 버튼*/
+/*파일첨부*/
+#communityWriteForm form .file {
+  border-right: 0.5px solid #7d7d7d;
+  width: 10%;
+  height: 40px;
+  font-size: 18px;
+  text-align: left;
+  color: #0c0b09;
+  background: #D9D9D9;
+  padding-left: 10px;
+}
+
+#communityWriteForm form input[type="file"] {
+  border: 0;
+  width: 100%;
+  height: 40px;
+  float: left;
+  background: #fff;
+  padding-left: 10px;
+}
+
+#communityWriteForm form .file-content {
+  border: 0;
+  padding: 1px;
+  width: 100%;
+  height: 400px;
+  float: left;
+  background: #fff;
+  padding-top: 6px;
+}
+
+/*등록, 취소 버튼*/
 #communityWriteForm .d-flex .submit button {
   background: #C2A383;
   border: 0;
@@ -1257,6 +1301,7 @@ section {
   border-radius: 10px;
   font-family: 'Cafe24Dangdanghae';
   font-size: 19px;
+  position: relative;
 }
 
 #communityWriteForm .d-flex .cancle button {
@@ -1270,10 +1315,213 @@ section {
   font-size: 19px;
   margin-left: 10px;
   margin-right: 10px;
+  position: relative;
+}
+
+#communityWriteForm .d-flex {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/*--------------------------------------------------------------
+# CommunityUpdateForm Section (글수정)
+--------------------------------------------------------------*/
+#communityUpdateForm {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+}
+
+#communityUpdateForm .container{
+  padding-top: 110px;
 }
 
 
-#communityWriteForm .d-flex .delete button {
+#communityUpdateForm:before {
+  content: "";
+  background: rgba(225, 225, 225);
+  opacity : 0.95;
+  position: absolute;
+  bottom: 0;
+  top: 14.5%;
+  left: 5%;
+  right: 5%;
+}
+
+/*작성시 유의사항*/
+#communityUpdateForm .d-flex .notice{
+  margin-top: 20px;
+  width: 80%;
+  /*height: 100%;*/
+  position: relative;
+  background: #fff;
+  color: #0c0b09;
+  padding: 0px 10px 0px 10px;
+}
+
+#communityUpdateForm .d-flex .notice p{
+  font-size: 30px;
+  text-align: center;
+  padding-top: 10px;
+}
+
+#communityUpdateForm .d-flex .notice ul{
+  padding-left: 15%;
+  padding-right: 15%;
+  text-align: left;
+}
+
+/*내용 작성 테이블*/
+#communityUpdateForm form table{
+  width: 90%;
+  border-collapse: collapse;
+  text-align: center;
+  border-top: 2px solid #7d7d7d;
+  border-bottom: 2px solid #7d7d7d;
+  margin: auto;
+  position: relative;
+}
+
+#communityUpdateForm form tr {
+  border-bottom: 0.5px solid #7d7d7d;
+  font-size: 15px;
+  color: #0c0b09;
+}
+
+/*제목*/
+#communityUpdateForm form .title {
+  border-right: 0.5px solid #7d7d7d;
+  width: 10%;
+  height: 50px;
+  font-size: 18px;
+  text-align: left;
+  color: #0c0b09;
+  background: #D9D9D9;
+  padding-left: 10px;
+}
+
+#communityUpdateForm form input[type="text"] {
+  border: 0;
+  width: 85%;
+  height: 47px;
+  float: left;
+  background: #fff;
+  padding-left: 10px;
+}
+
+#communityUpdateForm form .title-text {
+  border: 0;
+  width: 100%;
+  height: 50px;
+  float: left;
+  background: #fff;
+}
+
+#communityUpdateForm form .title-text .comment {
+  float: right;
+  font-size: 18px;
+  margin-top: 10px;
+  margin-right: 20px;
+}
+
+#communityUpdateForm form .title-text input[type=checkbox] {
+  width: 20px;
+  height: 20px;
+}
+
+/*내용*/
+#communityUpdateForm form .content {
+  border-right: 0.5px solid #7d7d7d;
+  width: 100px;
+  height: 400px;
+  font-size: 18px;
+  text-align: left;
+  color: #0c0b09;
+  background: #D9D9D9;
+  padding-left: 10px;
+}
+
+#communityUpdateForm form .content-text {
+  border: 0;
+  padding: 1px;
+  width: 100%;
+  height: 400px;
+  float: left;
+  background: #fff;
+}
+
+#communityUpdateForm form textarea {
+  border: 0;
+  padding: 1px;
+  width: 100%;
+  height: 380px;
+  float: left;
+  background: #fff;
+  margin-top: 10px;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+/*파일첨부*/
+#communityUpdateForm form .file {
+  border-right: 0.5px solid #7d7d7d;
+  width: 10%;
+  height: 40px;
+  font-size: 18px;
+  text-align: left;
+  color: #0c0b09;
+  background: #D9D9D9;
+  padding-left: 10px;
+}
+
+#communityUpdateForm form input[type="file"] {
+  border: 0;
+  width: 100%;
+  height: 40px;
+  float: left;
+  background: #fff;
+  padding-left: 10px;
+}
+
+#communityUpdateForm form .file-content {
+  border: 0;
+  padding: 1px;
+  width: 100%;
+  height: 400px;
+  float: left;
+  background: #fff;
+  padding-top: 6px;
+}
+
+/*파일첨부 확인*/
+#communityUpdateForm form .file-check {
+  border-right: 0.5px solid #7d7d7d;
+  width: 10%;
+  height: 40px;
+  font-size: 18px;
+  text-align: left;
+  color: #0c0b09;
+  background: #D9D9D9;
+  padding-left: 10px;
+}
+
+#communityUpdateForm form .file-check-content {
+  border: 0;
+  padding: 1px;
+  width: 100%;
+  height: 40px;
+  text-align: left;
+  /*float: left;*/
+  background: #fff;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+/*수정, 취소 버튼*/
+#communityUpdateForm .d-flex .update button {
   background: #C2A383;
   border: 0;
   padding: 4px 20px;
@@ -1282,15 +1530,27 @@ section {
   border-radius: 10px;
   font-family: 'Cafe24Dangdanghae';
   font-size: 19px;
+  position: relative;
 }
 
-#communityWriteForm .d-flex {
+#communityUpdateForm .d-flex .cancle button {
+  background: #0c0b09;
+  border: 0;
+  padding: 4px 20px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 19px;
+  margin-left: 10px;
+  margin-right: 10px;
+  position: relative;
+}
+
+#communityUpdateForm .d-flex {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-
-
-
 
 /*--------------------------------------------------------------
 # Community_View Section (게시물 화면)
@@ -1306,8 +1566,8 @@ section {
 
 #communityView .container{
   padding-top: 110px;
+  position: relative;
 }
-
 
 #communityView:before {
   content: "";
@@ -1315,10 +1575,11 @@ section {
   opacity : 0.95;
   position: absolute;
   bottom: 0;
-  top: 12.3%;
+  top: 115px;
   left: 5%;
   right: 5%;
 }
+
 
 /*제목*/
 #communityView .board-title {
@@ -1363,7 +1624,7 @@ section {
 
 /*좋아요 버튼*/
 #communityView .board-innercontent .like button {
-  margin-top: 10px;
+  /*margin-top: 10px;*/
   background: rgba(225, 225, 225);
   border:3px solid #C2A383;
   padding: 3px 15px;
@@ -1382,7 +1643,7 @@ section {
 
 /*즐겨찾기 버튼*/
 #communityView .board-innercontent .bookmark button {
-  margin-top: 10px;
+  /*margin-top: 10px;*/
   background: rgba(225, 225, 225);
   border:3px solid #C2A383;
   padding: 3px 15px;
@@ -1391,7 +1652,7 @@ section {
   border-radius: 10px;
   font-family: 'Cafe24Dangdanghae';
   font-size: 17px;
-  margin-right: 5px;
+  margin-left: 5px;
   float: center;
 }
 
@@ -1403,8 +1664,9 @@ section {
   color: #c78e54;
 }
 
-/*수정 버튼*/
-#communityView .board-innercontent .update button {
+/*수정,삭제 버튼*/
+
+#communityView .board-innercontent .delete button {
   margin-top: 10px;
   background: #C2A383;
   border: 0;
@@ -1417,6 +1679,24 @@ section {
   float: right;
 }
 
+#communityView .board-innercontent .delete button:hover {
+  background: #d3af71;
+}
+
+#communityView .board-innercontent .update button {
+  margin-top: 10px;
+  background: #C2A383;
+  border: 0;
+  padding: 4px 20px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 19px;
+  float: right;
+  margin-right: 5px;
+}
+
 #communityView .board-innercontent .update button:hover {
   background: #d3af71;
 }
@@ -1427,7 +1707,7 @@ section {
   color: #595959;
   border-bottom : 2px solid #C2A383;
   padding-top: 10px;
-  padding-bottom: 37px;
+  padding-bottom: 10px;
 }
 
 #communityView .board-service .board-list button{
@@ -1471,12 +1751,12 @@ section {
   margin-right: 5px;
 }
 
-#communityView .board-commentwrite form {
+#communityView .board-commentwrite .submit {
   background: rgba(225, 225, 225);
   position: relative;
 }
 
-#communityView .board-commentwrite form input[type=text] {
+#communityView .board-commentwrite .submit input[type=text] {
   /*padding: 1px;*/
   width: calc(100% - 10%);
   height: 80px;
@@ -1485,7 +1765,7 @@ section {
 }
 
 /*댓글등록버튼*/
-#communityView .board-commentwrite form input[type=submit] {
+#communityView .board-commentwrite .submit button[type=submit] {
   position: absolute;
   top: 0px;
   right: 0px;
@@ -1499,7 +1779,7 @@ section {
   border: 1px solid #C2A383;
 }
 
-#communityView .board-commentwrite form input[type=submit]:hover {
+#communityView .board-commentwrite .submit button[type=submit]:hover {
   background: #d3af71;
 }
 
@@ -2407,6 +2687,7 @@ section {
   font-family: "Poppins", sans-serif;
 }
 
+
 /*--------------------------------------------------------------
 # Reservation start
 --------------------------------------------------------------*/
@@ -2437,13 +2718,16 @@ section {
   padding: 0;
 }
 
+.reservation h2{
+   color:#000
+}
 .reservation-container {
   margin-top: 100px;
 }
 
 .reservation:before {
   content: "";
-  background: rgba(16, 16, 16);
+  background: rgba(200, 200, 200);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
@@ -2453,7 +2737,7 @@ section {
 }
 
 .reservation .section-title h2 {
-  color: #fff;
+  color: #000;
 }
 
 .reservation .container {
@@ -2472,14 +2756,14 @@ section {
 }
 
 .reservation .reservation-item {
-  color: #fff;
+  color: #000;
 }
 
 .reservation .reservation-item h3 {
   font-weight: 300;
   font-size: 40px;
   font-family: "Do Hyeon", sans-serif;
-  color: #cda45e;
+  color: #000;
 }
 
 .reservation .reservation-item .price {
@@ -2502,7 +2786,7 @@ section {
 .reservation .reservation-item .int {
   font-size: 18px;
   font-family: "Nanum Gothic Coding", monospace;
-  color: white;
+  color: #000;
 }
 
 .reservation .reservation-item ul {
@@ -2554,7 +2838,7 @@ reservation 검색
 
 .reservation .collapse .btn {
   background: #C2A383;
-  color: rgb(255, 255, 255);
+  color: rgb(16, 16, 16);
   padding: 1px 20px;
   position: relative;
   border: 1px solid #C2A383;
@@ -2584,7 +2868,7 @@ reservation 검색
   font-size: 16px;
   padding: 0 20px 2px 20px;
   background: #C2A383;
-  color: #fff;
+  color: #000;
   transition: 0.3s;
   /*border-radius: 50px;*/
 }
@@ -2598,11 +2882,11 @@ reservation 검색
 }
 
 .reservation .menutable {
-  color: #fff;
+  color: #000;
 }
 
 .star-ratings {
-  color: #aaa9a9; 
+  color: #000; 
   position: relative;
   unicode-bidi: bidi-override;
   width: max-content;
@@ -2626,6 +2910,50 @@ reservation 검색
 .star-ratings-base {
   z-index: 0;
   padding: 0;
+}
+
+.reservation .page-wrap .page-nation li{ 
+  list-style: none;
+}
+
+.reservation .page-wrap {
+  text-align:center;
+  font-size:0;
+  padding-left: 0px;
+}
+
+.reservation .page-wrap .page-nation  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top:5px;
+  padding-left: 0px;
+}
+
+.reservation .page-wrap .page-nation a {
+  display:block;
+  margin:0 3px;
+  border:1px solid #C2A383;
+  border-radius: 10px;
+  width:28px;
+  height:28px;
+  line-height:28px;
+  text-align:center;
+  background-color:#C2A383;
+  font-size:13px;
+  color:#0c0b09;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+.reservation .page-wrap .page-nation a:hover{
+  background-color:gray;
+  color:#000;
+}
+
+.reservation .container-fluid {
+  position: relative;
+  margin-bottom: 14px;
 }
 
 /*--------------------------------------------------------------
@@ -2658,6 +2986,7 @@ reservation 검색
   background: url("/resources/images/hero-bg.jpg") top center;
   background-size: cover;
   position: relative;
+  
   padding: 0;
 }
 
@@ -2670,10 +2999,12 @@ reservation 검색
   padding: 0;
 }
 
-
+.view p span{
+   font-family: 'Cafe24Dangdanghae';
+}
 .view:before{
   content: "";
-  background: rgba(16, 16, 16);
+  background: rgba(200, 200, 200);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
@@ -2683,7 +3014,7 @@ reservation 검색
 }
 
 .view .section-title h2 {
-  color: #fff;
+  color: #000;
 }
 
 .view .container {
@@ -2702,7 +3033,7 @@ reservation 검색
 }
 
 .view .view-item {
-  color: #fff;
+  color: #000;
 }
 
 .view .view-item h3 {
@@ -2732,7 +3063,7 @@ reservation 검색
 .view .view-item .int {
   font-size: 18px;
   font-family: "Nanum Gothic Coding", monospace;
-  color: white;
+  color: #000;
 }
 
 .view .view-item ul {
@@ -2821,6 +3152,11 @@ reservation 검색
   font-size: 17px;
   margin-right: 5px;
   float: center;
+}
+
+.view p, .view ul, .view h3, .view span{
+  color:#000;
+
 }
 
 .view .star:hover {
@@ -2921,7 +3257,7 @@ reservation 검색
   top: 22px
 }
 .view .buttons .btn {
-  color: rgb(255, 255, 255);
+  color: #000;
   background-color: #C2A383;
   border: 1px solid rgba(255, 255, 255, 0.2);
   height: 50px;
@@ -3533,7 +3869,7 @@ hr[role="tournament1"] {
   display: block;
 }
 hr[role="tournament1"]::before {
-  position: absolute;
+  position: absolute; 	
   background-color: #efefef;
   border: 1px solid;
   border-color: #AC8353;
@@ -4598,3 +4934,140 @@ hr[role="tournament1"]::before {
 
 /*rlist.html CSS끝*/
 
+/*--------------------------------------------------------------
+# term start
+--------------------------------------------------------------*/
+
+/*
+약관 css
+*/
+.term {
+  width: 100%;
+  height: 100%;
+  background: url("../img/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+}
+
+.term .container {
+  margin-top: 300px;
+}
+
+.term:before {
+  content: "";
+  background: rgba(16, 16, 16);
+  opacity : 0.95;
+  position: absolute;
+  bottom: 0;
+  top: 6%;
+  left: 5%;
+  right: 5%;
+}
+
+.term .section-title h2 {
+  color: #fff;
+}
+
+.term .container {
+  position: relative;
+}
+
+@media (min-width: 1024px) {
+  .term {
+    background-attachment: fixed;
+  }
+}
+
+.term .term-carousel {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 30px;
+}
+
+.term .term-item {
+  color: #fff;
+}
+
+.term .term-item h3 {
+  font-weight: 300;
+  font-size: 40px;
+  font-family: "Do Hyeon", sans-serif;
+  color: #cda45e;
+}
+
+.term .term-item .price {
+  font-size: 20px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.term .term-item .price span {
+  border-bottom: 2px solid #cda45e;
+}
+
+.term .term-item .int i {
+  font-size: 20px;
+  padding-right: 4px;
+  color: #cda45e;
+} 
+
+.term .term-item .int {
+  font-size: 18px;
+  font-family: "Nanum Gothic Coding", monospace;
+  color: white;
+}
+
+.term .term-item ul {
+  list-style: none;
+  padding: 0;
+}
+
+.term .term-item ul li {
+  padding-bottom: 10px;
+}
+
+.term .term-item ul i {
+  font-size: 20px;
+  padding-right: 4px;
+  color: #cda45e;
+}
+
+.term .term-item p:last-child {
+  margin-bottom: 0;
+}
+
+.term .footer-info {
+  text-align: left;
+  width: 100vh;
+}
+.term #dropdown1 {
+  display: none;
+}
+.term .select {
+  color: white;
+  background-color: #c78e54;  
+}
+
+.term .nav-link {
+  color: black;
+  background-color: white;
+  font-family :'cafe24Dangdanghae';
+
+}
+.term .row {
+  position: relative;
+  top: 20vh;
+}
+
+.term .nav-item:hover { /*hover가 마우스 커서가 올라가 있다면, action이 클릭을 했다면 작동*/
+  border: 3px solid #c78e54;
+
+}
+
+.term #pills-tab .active {
+  color: white;
+  background-color: rgba(16, 16, 16);
+  border-radius: 0%;
+
+}

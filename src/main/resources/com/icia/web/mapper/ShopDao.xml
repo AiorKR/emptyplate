@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.icia.web.dao.ShopDao">
 
-	<resultMap id="shopResultMap" type="com.icia.web.model.Shop"> <!--매장-->
+	<resultMap id="shopListResultMap" type="com.icia.web.model.Shop"> <!--매장 list resultMap-->
 	<id column="SHOP_UID" property="shopUID"/>
 	<result column="USER_UID" property="userUID"/>
 	<result column="SHOP_NAME" property="shopName"/>
@@ -18,10 +18,31 @@
 	<result column="SHOP_CONTENT" property="shopContent"/>
 	<result column="REG_DATE" property="shopRegDate"/>
 	<collection property="shopFile" resultMap="shopFileResultMap"/>
+	<collection property="shopTime" resultMap="shopTimeResultMap"/>
+	</resultMap>
+	
+	<resultMap id="shopViewResultMap" type="com.icia.web.model.Shop"> <!--매장 view resultMap-->
+	<id column="SHOP_UID" property="shopUID"/>
+	<result column="USER_UID" property="userUID"/>
+	<result column="SHOP_NAME" property="shopName"/>
+	<result column="SHOP_TYPE" property="shopType"/>
+	<result column="SHOP_HOLIDAY" property="shopHoliday"/>
+	<result column="SHOP_HASHTAG" property="shopHashtag"/>
+	<result column="SHOP_LOCATION1" property="shopLocation1"/>
+	<result column="SHOP_LOCATION2" property="shopLocation2"/>
+	<result column="SHOP_LOCATION3" property="shopLocation3"/>
+	<result column="SHOP_ADDRESS" property="shopAddress"/>
+	<result column="SHOP_TELEPHONE" property="shopTelephone"/>
+	<result column="SHOP_INTRO" property="shopIntro"/>
+	<result column="SHOP_CONTENT" property="shopContent"/>
+	<result column="REG_DATE" property="shopRegDate"/>
+	<collection property="shopFileList" resultMap="shopFileResultMap"/>
+	<collection property="shopMenu" resultMap="shopMenuResultMap"/>
+	<collection property="shopTime" resultMap="shopTimeResultMap"/>
 	</resultMap>
 	
 	<resultMap id="shopFileResultMap" type="com.icia.web.model.ShopFile"> <!--매장파일-->
-	<id column="SHOP_UID" property="shopUID"/>
+	<result column="SHOP_UID" property="shopUID"/>
 	<result column="FILE_SEQ" property="shopFileSeq"/>
 	<result column="FILE_ORG_NAME" property="shopFileOrgName"/>
 	<result column="FILE_NAME" property="shopFileName"/>
@@ -31,59 +52,82 @@
 	</resultMap>
 	
 	<resultMap id="shopTimeResultMap" type="com.icia.web.model.ShopTime"> <!--매장시간-->
-	<id column="SHOP_UID" property="shopUID"/>
+	<result column="SHOP_UID" property="shopUID"/>
 	<result column="ORDER_TIME" property="shopOrderTime"/>
 	</resultMap>
 
 	<resultMap id="shopMenuResultMap" type="com.icia.web.model.ShopMenu"> <!--매장메뉴-->
-	<id column="SHOP_UID" property="shopUID"/>
-	<result column="SHOP_MENU_CODE" property="shopMenuCode"/>
-	<result column="SHOP_MENU_NAME" property="shopMenuName"/>
+	<result column="SHOP_UID" property="shopUID"/>
+	<result column="MENU_CODE" property="shopMenuCode"/>
+	<result column="MENU_NAME" property="shopMenuName"/>
+	<result column="MENU_PRICE" property="shopMenuPrice"/>
 	</resultMap>
 	
 	<resultMap id="shopTotalTableResultMap" type="com.icia.web.model.ShopTotalTable"> <!--매장 총합 테이블-->
-	<id column="SHOP_UID" property="shopUID"/>
-	<result column="SHOP_MENU_CODE" property="shopMenuCode"/>
-	<result column="SHOP_MENU_NAME" property="shopMenuName"/>
+	<id column="TOTAL_TABLE_UID" property="shopTotalTableUID"/>
+	<result column="SHOP_UID" property="shopUID"/>
+	<result column="TOTAL_TABLE_CAPACITY" property="shopTotalTableCapacity"/>
+	<result column="TOTAL_TABLE" property="shopTotalTable"/>
 	<collection property="shopTable" resultMap="shopTableResultMap"/>
 	</resultMap>
 	
 	<resultMap id="shopTableResultMap" type="com.icia.web.model.ShopTable"> <!--매장 테이블-->
-	<id column="SHOP_UID" property="shopUID"/>
-	<result column="SHOP_MENU_CODE" property="shopMenuCode"/>
-	<result column="SHOP_MENU_NAME" property="shopMenuName"/>
+	<id column="TABLE_UID" property="shopTableUID"/>
+	<result column="TOTAL_TABLE_UID" property="shopTotalTableUID"/>
 	<collection property="shopReservationTable" resultMap="shopReservationTableResultMap"/>
 	</resultMap>
 	
 	<resultMap id="shopReservationTableResultMap" type="com.icia.web.model.ShopReservationTable"> <!--매장 태이블 상태-->
-	<id column="SHOP_UID" property="shopUID"/>
-	<result column="SHOP_MENU_CODE" property="shopTableUID"/>
-	<result column="SHOP_MENU_NAME" property="shopTableStatus"/>
-	<result column="SHOP_MENU_NAME" property="shopReservationDate"/>
-	<result column="SHOP_MENU_NAME" property="shopReservationTime"/>
-	<result column="SHOP_MENU_NAME" property="orderUID"/>
+	<result column="TABLE_UID" property="shopTableUID"/>
+	<result column="TABLE_STATUS" property="shopTableStatus"/>
+	<result column="RESERVATION_DATE" property="shopReservationDate"/>
+	<result column="RESERVATION_TIME" property="shopReservationTime"/>
+	<result column="ORDER_UID" property="orderUID"/>
 	</resultMap>
 	
 	<select id="shopListTotlaCount" resultType="long" parameterType="com.icia.web.model.Shop">
-		SELECT COUNT(SHOP_UID) AS CNT
-	  FROM T_SHOP
+		SELECT COUNT(A.SHOP_UID) AS CNT
+	  FROM T_SHOP A
+	  <if test='reservationTime != null and reservationTime != "" '>
+	                 ,(SELECT   B.SHOP_UID,
+                               C.ORDER_TIME
+                          FROM T_SHOP B, T_SHOP_TIME C
+                         WHERE B.SHOP_UID = C.SHOP_UID
+                           AND ORDER_TIME = '2200') D
+      </if>
 	  WHERE 1 = 1
-<if test='searchType != null and searchType != "0" '>
-	<choose>
-		<when test='searchType == "1"'>   
-                   AND SHOP_TYPE = #{searchType}
-		</when>
-		<when test='searchType == "2"'>
-                   AND SHOP_TYPE = #{searchType}
-		</when>
-	</choose>
-</if>  
+		<if test='searchType != null and searchType != "0" '>
+			<choose>
+				<when test='searchType == "1"'>   
+		AND A.SHOP_TYPE = #{searchType}
+				</when>
+				<when test='searchType == "2"'>
+		AND A.SHOP_TYPE = #{searchType}
+				</when>
+			</choose>
+		</if> 
+		<if test='searchValue != null and searchValue != "" '>
+		AND (SHOP_NAME LIKE '%' || #{searchValue} || '%' 
+               OR SHOP_LOCATION1 LIKE '%' || #{searchValue} || '%'
+               OR SHOP_LOCATION2 LIKE '%' || #{searchValue} || '%'
+               OR SHOP_LOCATION3 LIKE '%' || #{searchValue} || '%'
+               OR SHOP_ADDRESS LIKE '%' || #{searchValue} || '%'
+               OR SHOP_INTRO LIKE '%' || #{searchValue} || '%'
+               OR SHOP_HASHTAG LIKE '%' || #{searchValue} || '%' )
+		</if> 
+		<if test='shopHoliday != null and shopHoliday != "" '>
+		AND A.SHOP_HOLIDAY != #{shopHoliday}
+		</if>
+		<if test='reservationTime != null and reservationTime != "" '>
+        AND A.SHOP_UID = D.SHOP_UID
+		</if>
 	</select>
 	
-	<select id="shopList"  parameterType="com.icia.web.model.Shop" resultMap="shopResultMap">
+	<select id="shopList"  parameterType="com.icia.web.model.Shop" resultMap="shopListResultMap"> <!--매장 LIST SELECT -->
 		SELECT *
 	  FROM (SELECT  ROWNUM AS RNUM,
 	                A.SHOP_UID AS SHOP_UID,
+	                NVL(A.USER_UID, '') AS USER_UID,
 	                NVL(A.SHOP_NAME, '') AS SHOP_NAME,
 	                NVL(A.SHOP_TYPE, '') AS SHOP_TYPE,
 	                NVL(A.SHOP_HASHTAG, '') AS SHOP_HASHTAG,
@@ -99,15 +143,22 @@
 	                NVL(B.FILE_EXT, '') AS FILE_EXT,
 	                NVL(B.FILE_SIZE, 0) AS FILE_SIZE
 	           FROM T_SHOP A, T_SHOP_FILE B
+							          	  <if test='reservationTime != null and reservationTime != "" '>
+							                 ,(SELECT  C.SHOP_UID,
+						                               C.ORDER_TIME
+						                          FROM T_SHOP_TIME C
+						                         WHERE ORDER_TIME = #{reservationTime}) D
+						      			  
+						      			  </if>
 	          WHERE A.SHOP_UID = B.SHOP_UID
 	            AND B.FILE_ORG_NAME LIKE '%'|| '상호' ||'%'
         <if test='searchType != null and searchType != "0" '>
 			<choose>
 				<when test='searchType == "1"'>   
-			                  AND SHOP_TYPE = '1'
+			    AND SHOP_TYPE = '1'
 				</when>
 				<when test='searchType == "2"'>
-			                  AND SHOP_TYPE = '2'
+			    AND SHOP_TYPE = '2'
 				</when>
 			</choose>
 		</if> 
@@ -120,6 +171,12 @@
                 OR SHOP_INTRO LIKE '%' || #{searchValue} || '%'
                 OR SHOP_HASHTAG LIKE '%' || #{searchValue} || '%' )
 		</if> 
+		<if test='shopHoliday != null and shopHoliday != "" '>
+			AND SHOP_HOLIDAY != #{shopHoliday}
+		</if>
+		<if test='reservationTime != null and reservationTime != "" '>
+       		AND A.SHOP_UID = D.SHOP_UID
+		</if>
             )
  WHERE RNUM <![CDATA[>=]]>  #{startRow}
    AND RNUM <![CDATA[<=]]>  #{endRow}
@@ -180,65 +237,61 @@
 	         SYSDATE)
     </foreach>
 	</insert>
-	
-	<!--자리가 남아 있는지 확인
-	<select id="shopReservationTableSelect" parameterType="shopReservationTableResultMap" resultType="long">
-				SELECT count(Table_UID)1
-		  FROM T_SHOP_RESERVATION_TABLE
-		 WHERE 1 = 1
-		 <if test="reservationTable != 0 and reservationTable != null">
-		   AND RESERVATION_TABLE = #{}
-		 </if>
-		 <if test='reservationDate != "" and reservationDate != null'>
-		   AND RESERVATION_DATE = #{}  해당 날자에
-		 </if>
-		 <if test='reservationTime != "" and reservationTime != null'>
-		   AND TABLE_STATUS = 'N'  예약이 안된 테이블
-		 </if>
-	</select> -->
-	
-	
-<select id="shopSelect" parameterType="com.icia.web.model.Shop" resultMap="shopResultMap">
-	SELECT SHOP_UID AS SHOP_UID,
-       NVL(SHOP_NAME, '') AS SHOP_NAME,
-       NVL(SHOP_TYPE, '') AS SHOP_TYPE,
-       NVL(SHOP_LOCATION1, '') AS SHOP_LOCATION1,
-       NVL(SHOP_LOCATION2, '') AS SHOP_LOCATION2,
-       NVL(SHOP_LOCATION3, '') AS SHOP_LOCATION3,
-       NVL(SHOP_ADDRESS, '') AS SHOP_ADDRESS,
-       NVL(SHOP_TELEPHONE, '')AS SHOP_TELEPHONE,
-       NVL(SHOP_INTRO, '') AS SHOP_INTRO,
-       NVL(SHOP_HASHTAG, '') AS SHOP_HASHTAG,
-       NVL(SHOP_CONTENT, '') AS SHOP_CONTENT
-  FROM T_SHOP 
- WHERE SHOP_UID = #{value}
+		
+<select id="shopViewSelect" parameterType="String" resultMap="shopViewResultMap"> <!-- 매장 세부 페이지 SELECT -->
+SELECT S.SHOP_UID AS SHOP_UID,
+       NVL(S.USER_UID, '') AS USER_UID,
+       NVL(S.SHOP_NAME, '') AS SHOP_NAME,
+       NVL(S.SHOP_TYPE, '') AS SHOP_TYPE,
+       NVL(S.SHOP_LOCATION1, '') AS SHOP_LOCATION1,
+       NVL(S.SHOP_LOCATION2, '') AS SHOP_LOCATION2,
+       NVL(S.SHOP_LOCATION3, '') AS SHOP_LOCATION3,
+       NVL(S.SHOP_ADDRESS, '') AS SHOP_ADDRESS,
+       NVL(S.SHOP_HOLIDAY, '') AS SHOP_HOLIDAY,
+       NVL(TO_CHAR(TO_DATE(ST.ORDER_TIME, 'HH24MI'), 'HH24:MI'), '') AS ORDER_TIME,
+       NVL(SM.MENU_CODE, '') AS MENU_CODE,
+       NVL(SM.MENU_NAME, '') AS MENU_NAME,
+       NVL(SM.MENU_PRICE, 0) AS MENU_PRICE,
+       NVL(S.SHOP_TELEPHONE, '')AS SHOP_TELEPHONE,
+       NVL(S.SHOP_INTRO, '') AS SHOP_INTRO,
+       NVL(S.SHOP_HASHTAG, '') AS SHOP_HASHTAG,
+       NVL(S.SHOP_CONTENT, '') AS SHOP_CONTENT,
+       NVL(SF.FILE_SEQ, 0) AS FILE_SEQ,
+       NVL(SF.FILE_ORG_NAME, '') AS FILE_ORG_NAME,
+       NVL(SF.FILE_NAME, '') AS FILE_NAME
+  FROM T_SHOP S, T_SHOP_TIME ST, T_SHOP_MENU SM, T_SHOP_FILE SF
+ WHERE S.SHOP_UID = #{SHOP_UID}
+   AND S.SHOP_UID = ST.SHOP_UID 
+   AND S.SHOP_UID = SM.SHOP_UID
+   AND S.SHOP_UID = SF.SHOP_UID
+   AND SF.FILE_ORG_NAME NOT LIKE '%Shop_%'
+   AND SF.FILE_SEQ <![CDATA[>=]]>  1
+   AND SF.FILE_SEQ <![CDATA[<=]]>  5
 </select>
 
-<select id="shopMenuSelect" parameterType="com.icia.web.model.ShopMenu" resultMap="shopMenuResultMap">
-	SELECT  NVL(SHOP_UID, '') AS SHOP_UID,
-       NVL(MENU_CODE, '') AS MENU_CODE,
-       NVL(MENU_NAME, '') AS MENU_NAME,
-       NVL(MENU_PRICE, 0) AS MENU_PRICE
-  FROM T_SHOP_MENU
- WHERE SHOP_UID = #{value}
+<select id="shopReservationCheck" parameterType="com.icia.web.model.Shop" resultMap="shopTotalTableResultMap"> <!--선택한 날에 대하여  예약이 가능한지 조회-->
+	SELECT AB.SHOP_UID AS SHOP_UID,
+		   AB.TOTAL_TABLE_UID AS TOTAL_TABLE_UID,
+           AB.TABLE_UID AS TABLE_UID,
+           AB.TOTAL_TABLE_CAPACITY AS TOTAL_TABLE_CAPACITY,
+           NVL(C.TABLE_STATUS, 'N') AS TABLE_STATUS,
+           NVL(C.RESERVATION_DATE, #{reservationDate}) AS RESERVATION_DATE, <!-- NULL 처리된 값에 reservationDate 값 대입 -->
+           NVL(TO_CHAR(TO_DATE(C.RESERVATION_TIME, 'HH24MI'), 'HH24:MI'), #{reservationTime}) AS RESERVATION_TIME,
+           AB.TOTAL_TABLE AS TOTAL_TABLE,
+           C.ORDER_UID
+        FROM (SELECT A.SHOP_UID,
+                     A.TOTAL_TABLE_UID,
+                     A.TOTAL_TABLE_CAPACITY,
+                     A.TOTAL_TABLE,
+                     B.TABLE_UID
+                FROM T_SHOP_TOTAL_TABLE A, T_SHOP_TABLE B
+               WHERE A.TOTAL_TABLE_UID = B.TOTAL_TABLE_UID) AB
+  LEFT JOIN T_SHOP_RESERVATION_TABLE C <!--아우터 조인으로 왼족 테이블이 기준이다. 조건이 성립이 안된다면 오른쪽 테이블에 정보는 NULL처리하여 가져온다. -->
+    ON AB.TABLE_UID = C.TABLE_UID
+   AND C.TABLE_STATUS = 'Y'
+   AND C.RESERVATION_DATE = #{reservationDate}
+   AND C.RESERVATION_TIME = #{reservationTime}
+ WHERE AB.SHOP_UID = #{shopUID}
 </select>
 
-<select id="shopTimeSelect" parameterType="com.icia.web.model.ShopTime" resultMap="shopTimeResultMap">
-	SELECT SHOP_UID AS SHOP_UID,
-       NVL(ORDER_TIME, '') AS ORDER_TIME
-  FROM T_SHOP_TIME
- WHERE SHOP_UID = #{value}
-</select>
-
-<select id="shopFileSelect" parameterType="com.icia.web.model.ShopFile" resultMap="shopFileResultMap">
-	SELECT SHOP_UID AS SHOP_UID,
-           NVL(FILE_SEQ, 0) AS FILE_SEQ,
-           NVL(FILE_ORG_NAME, '') AS FILE_ORG_NAME,
-           NVL(FILE_NAME, '') AS FILE_NAME,
-           NVL(FILE_EXT, '') AS FILE_EXT,
-           NVL(FILE_SIZE, 0) AS FILE_SIZE
-  FROM T_SHOP_FILE
- WHERE SHOP_UID = #{value}
-</select>
-	
 </mapper>
