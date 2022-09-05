@@ -20,9 +20,9 @@ public class BoardService
 {
 	private static Logger logger = LoggerFactory.getLogger(BoardService.class);
 	
-	//파일 저장 디렉토리
-	@Value("#{env['upload.save.dir']}")
-	private String UPLOAD_SAVE_DIR;
+	//파일 저장 경로
+	@Value("#{env['board.upload.save.dir']}")
+	private String BOARD_UPLOAD_SAVE_DIR;
 	
 	@Autowired
 	private BoardDao boardDao;
@@ -31,6 +31,8 @@ public class BoardService
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public int boardInsert(Board board) throws Exception
 	{
+		long bbsSeq = boardDao.beforeInsert();
+		board.setBbsSeq(bbsSeq);
 		int count = boardDao.boardInsert(board);
 		
 		//게시물 등록 후 첨부파일 있으면 등록
@@ -38,12 +40,29 @@ public class BoardService
 		{	
 			BoardFile boardFile = board.getBoardFile();	//같은 시작주소를 바라보게 함.
 			boardFile.setBbsSeq(board.getBbsSeq());
+			boardFile.setFileOrgName(Long.toString(bbsSeq) + "."+ boardFile.getFileExt());
 			boardFile.setFileSeq((short)1);
 			
 			boardDao.boardFileInsert(board.getBoardFile());	//여러개 첨부파일 적용시 for문 적용
 		}
 		
 		return count;
+	}
+	
+	//인기게시물 리스트
+	public List<Board> boardHotList(Board board)
+	{
+		List<Board> list = null;
+		
+		try
+		{
+			list = boardDao.boardHotList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardList Exception", e);
+		}
+		return list;
 	}
 	
 	//게시물 리스트
@@ -74,7 +93,6 @@ public class BoardService
 		}
 		catch(Exception e)
 		{
-			logger.debug("count : " + count);
 			logger.error("[BoardService] boardListCount Exception", e);
 		}
 		
@@ -182,11 +200,12 @@ public class BoardService
 			//기존파일 있으면 삭제
 			if(delBoardFile != null)
 			{
-				FileUtil.deleteFile(UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + delBoardFile.getFileName());
+				FileUtil.deleteFile(BOARD_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + delBoardFile.getFileName());
 				boardDao.boardFileDelete(board.getBbsSeq());
 			}
 			//후 새로운 파일 등록
 			board.getBoardFile().setBbsSeq(board.getBbsSeq());
+			board.getBoardFile().setFileOrgName(Long.toString(board.getBbsSeq()));
 			board.getBoardFile().setFileSeq((short)1);
 		
 			
@@ -211,7 +230,7 @@ public class BoardService
 			{	
 				if(boardDao.boardFileDelete(bbsSeq) > 0)
 				{
-					FileUtil.deleteFile(UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + boardFile.getFileName());
+					FileUtil.deleteFile(BOARD_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + boardFile.getFileName());
 				}
 			}
 			
@@ -304,7 +323,138 @@ public class BoardService
 		}
       
 		return count;
-   }
-
-
+	}
+	
+	//댓글 등록
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public int boardCommentInsert(Board board) throws Exception
+	{
+		int count = 0;
+		
+		boardDao.commentGroupOrderUpdate(board);
+		count = boardDao.boardCommentInsert(board);
+		
+		return count;
+	}
+	
+	//댓글 리스트
+	public List<Board> commentList(Board board)
+	{
+		List<Board> list = null;
+		
+		try
+		{
+			list = boardDao.commentList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardList Exception", e);
+		}
+		
+		return list;
+	}
+	
+	//게시물 삭제(첨부파일 있으면 함께 삭제)
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public int commentDelete(long bbsSeq) throws Exception
+	{
+		int count = 0;
+	      
+		try
+		{
+			count = boardDao.commentDelete(bbsSeq);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] commentDelete Exception", e);
+		}
+		
+		return count;
+	}
+	
+	//동일 게시물  즐겨찾기 여부 확인
+	public int boardMarkCheck(Board board)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = boardDao.boardMarkCheck(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardMarkCheck Exception", e);
+		}
+		
+		return count;
+	}
+	
+	//게시물 즐겨찾기 추가
+	public int boardMarkUpdate(Board board)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = boardDao.boardMarkUpdate(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardMarkUpdate Exception", e);
+		}
+		
+		return count;
+	}
+	
+	//게시물 즐겨찾기 취소
+	public int boardMarkDelete(Board board)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = boardDao.boardMarkDelete(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardMarkDelete Exception", e);
+		}
+		
+		return count;
+	}
+	
+	//게시물 즐겨찾기 리스트
+	public List<Board> markList(Board board)
+	{
+		List<Board> marklist = null;
+		
+		try
+		{
+			marklist = boardDao.markList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] markList Exception", e);
+		}
+		
+		return marklist;
+	}
+	
+	//게시물 즐겨찾기 총 게시물 수
+	public long markListCount(Board board)
+	{
+		long count = 0;
+		
+		try
+		{
+			count = boardDao.markListCount(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] markListCount Exception", e);
+		}
+		
+		return count;
+	}
+	
 }

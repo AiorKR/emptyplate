@@ -1803,17 +1803,41 @@ section {
   margin-right: 5px;
 }
 
-/*대댓글 달기, 댓글신고*/
+/*대댓글 달기, 댓글신고, 댓글 삭제*/
+#communityView .comment .comment-write button {
+  font-size: 17px;
+  color: #595959;
+  float: right;
+  font-family: 'Cafe24Dangdanghae';
+}
+
 #communityView .comment .comment-write a {
   font-size: 17px;
   color: #595959;
   float: right;
+  font-family: 'Cafe24Dangdanghae';
+  padding-top: 2px;
 }
 
-#communityView .comment .comment-write a+a::after {
+#communityView .comment .comment-write button+button::after {
   display: inline-block;
   padding-left: 10px;
-  padding-right: 10px;
+  color: #6c6c6c;
+  content: "|";
+}
+
+#communityView .comment .comment-write button+a::after {
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 5px;
+  color: #6c6c6c;
+  content: "|";
+}
+
+#communityView .comment .comment-write a+button::after {
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 5px;
   color: #6c6c6c;
   content: "|";
 }
@@ -1946,7 +1970,8 @@ section {
   width : 100%;                               
   background-color:rgba(255, 255, 255, 0.8);   
   border-radius: 1em;                         
-  display: inline-block;                      
+  display: inline-block;     
+  position: relative;                 
 }
 
 #bookMark:before {
@@ -2034,10 +2059,18 @@ section {
 }
 
 /*--순*/
-#bookMark .d-flex{
-  margin-bottom : 10px;
-}
 
+#bookMark .btnSort{
+  border :none;
+  background: none;
+  font-family: 'Cafe24Dangdanghae';
+}
+#bookMark .btnSort:hover{
+  border :none;
+  background: none;
+  color: #c2a383;
+  font-family: 'Cafe24Dangdanghae';
+}
 #bookMark .d-flex ul {
   margin-top: 5px;
   display: flex;
@@ -2046,6 +2079,8 @@ section {
   padding: 0;
   margin: 0;
   color: #0c0b09;
+  position: relative;
+  font-family: 'Cafe24Dangdanghae';
 }
 
 #bookMark .d-flex ul li {
@@ -2062,13 +2097,11 @@ section {
 }
 
 #bookMark .d-flex ul li+li {
-  padding-left: 10px;
+  padding-left: 0px;
 }
 
 #bookMark .d-flex ul li+li::before {
   display: inline-block;
-  padding-right: 10px;
-  color: #0c0b09;
   content: "|";
   color: #C2A383;
 }
@@ -2078,13 +2111,13 @@ section {
 #bookMark .d-flex select{
   background: rgba(225, 225, 225);
   border: 1px solid #C2A383;
-  /*position: relative;*/
+  position: relative;
   width: 80px;
   height: 30px;
   /*background-image: */
 }
 
-#bookMark .d-flex form {
+#bookMark .d-flex .search {
   background: rgba(225, 225, 225);
   padding: 1px 70px 1px 10px;
   position: relative;
@@ -2093,7 +2126,7 @@ section {
   float: right;
 }
 
-#bookMark .d-flex form input[type=text] {
+#bookMark .d-flex .search input[type=text] {
   border: 0;
   padding: 1px;
   width: 100%;
@@ -2101,7 +2134,7 @@ section {
   /*color: #0c0b09;*/
 }
  
-#bookMark .d-flex form input[type=submit] {
+#bookMark .d-flex .search button[type=button] {
   position: absolute;
   top: -1px;
   right: -1px;
@@ -2114,9 +2147,10 @@ section {
   color: #fff;
   transition: 0.3s;
   /*border-radius: 50px;*/
+  font-family: 'Cafe24Dangdanghae';
 }
 
-#bookMark .d-flex form input[type=submit]:hover {
+#bookMark .d-flex .search button[type=button]:hover {
   background: #d3af71;
 }
 

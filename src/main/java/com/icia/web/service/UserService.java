@@ -9,12 +9,16 @@
  */
 package com.icia.web.service;
 
+import java.util.Random;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.icia.web.dao.UserDao;
 import com.icia.web.model.User;
+import com.icia.web.model.UserFile;
+import com.icia.web.util.SmsMessage;
 
 
 /**
@@ -62,6 +66,7 @@ public class UserService
 		
 		return user;
 	}
+
 	
 	//사용자 정보 등록
 	   public int userInsert(User user)
@@ -128,5 +133,88 @@ public class UserService
 		   
 		   return count;
 	   }
+	
+	//프로필 사진 등록
+	   public int userFileInsert(UserFile userFile)
+	   {
+	      int count = 0;
+	      
+	      try
+	      {
+	         count = userDao.userFileInsert(userFile);
+	      }
+	      catch(Exception e)
+	      {
+	         logger.error("[UserService]userFileInsert Exception", e);
+	      }
+	      return count;
+	   }
+	   
+
+	 //프로필 사진 변경
+	   public int userFileUpdate(UserFile userFile)
+	   {
+	      int count = 0;
+	      
+	      try
+	      {
+	         count = userDao.userFileUpdate(userFile);
+	      }
+	      catch(Exception e)
+	      {
+	         logger.error("[UserService]userFileUpdate Exception", e);
+	      }
+	      return count;
+	   }
+	   
+	   //기본프로필 설정
+	   public int userFileDelete(UserFile userFile)
+	   {
+		   int count = 0;
+		   
+		   try
+		   {
+			   count = userDao.userFileDelete(userFile);
+		   }
+		   catch(Exception e)
+		   {
+			   logger.error("[UserService] PicDelete", e);
+		   }
+		   
+		   return count;
+	   }
+	   
+	  
+	   public User userPhoneSelect(String userPhone)
+		{
+			User user = null;
+			
+			try
+			{
+				user = userDao.userPhoneSelect(userPhone);
+			}
+			catch(Exception e)
+			{
+				logger.error("[UserService] userSelect Exception", e);
+			}
+			
+			return user;
+		}
+
+
+	public String sendRandomMessage(String userPhone) {
+		
+		SmsMessage message = new SmsMessage();
+	    Random rand = new Random();
+	    String numStr = "";
+	    for (int i = 0; i < 6; i++) {
+	        String ran = Integer.toString(rand.nextInt(10));
+	        numStr += ran;
+	    }
+
+	    message.sendsms(userPhone, numStr);
+
+	    return numStr;
+	}
 
 }

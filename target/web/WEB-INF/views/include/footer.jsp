@@ -45,10 +45,10 @@
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Resources</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">개인정보 처리방침</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">서비스 이용약관</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">위치정보 이용약관</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">입점문의</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="/footer/resources">개인정보 처리방침</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="/footer/resources">서비스 이용약관</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="/footer/resources">위치정보 이용약관</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="/footer/resources">입점문의</a></li>
             </ul>
           </div>
 
