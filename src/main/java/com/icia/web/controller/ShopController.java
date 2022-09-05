@@ -45,7 +45,7 @@ public class ShopController {
 	private String AUTH_COOKIE_NAME;
 	
 	//파일 저장 경로
-	@Value("#{env['shop.upload.dir']}")
+	@Value("#{env['shop.upload.save.dir']}")
 	private String SHOP_UPLOAD_DIR;
 	
 	@Autowired
