@@ -489,7 +489,7 @@ public class MyPageController {
     }
     
     //비밀번호 수정
-    @RequestMapping(value="/user/PwdUpdate", method=RequestMethod.POST)
+    @RequestMapping(value="/myPage/PwdUpdate", method=RequestMethod.POST)
     @ResponseBody
     public Response<Object> PwdUpdate(HttpServletRequest request, HttpServletResponse response)
     {

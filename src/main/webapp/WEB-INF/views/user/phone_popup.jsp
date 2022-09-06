@@ -28,7 +28,7 @@ $("#tel_btn").on("click", function() {
 	const telNum = $("#tel").val();
 	$.ajax({
 		type:'POST',
-		url:"/user/sendSms",
+		url:"/user/sendSms4",
 		header:{"Content-Type":"application/json"},
 		dateType:'json',
 		data:{tel:telNum},
@@ -54,6 +54,7 @@ $("#tel_btn").on("click", function() {
 
 $("#code_btn").on("click", function(){
 	const code = $("#code").val();
+	const telNum = $("#tel").val();
 	$.ajax({
 		type:'POST',
 		url:"/user/sendSmsOk",
@@ -63,7 +64,8 @@ $("#code_btn").on("click", function(){
 		success : function(response){
 			if(response.code == 0){
 				alert('인증되었습니다')
-				PhoneUpdate();
+				opener.parent.phonefOk();
+				self.close();
 			} else {
 				alert('인증 번호가 다릅니다.')
 				$("#code").focus();
@@ -72,51 +74,6 @@ $("#code_btn").on("click", function(){
 	})
 })
 
-
-function PhoneUpdate(){
-	$.ajax({
-		type:"POST",
-		url:"/user/PhoneUpdate",
-		data:{
-			userPhone:$("#tel").val()
-		},
-		dataType:"JSON",
-		beforeSend:function(xhr){
-			xhr.setRequestHeader("AJAX", "true");
-		},
-		success:function(response){
-			if(response.code == 0)
-			{
-				opener.parent.updateSuccess();
-				self.close();
-			}
-			else if(response.code == 400)
-			{
-				opener.parent.ParmError();
-				self.close();
-			}
-			else if(response.code == 404)
-			{
-				opener.parent.userError();
-				self.close();
-			}
-			else if(response.code == 500)
-			{
-				opener.parent.updateError();					
-				self.close();
-			}
-			else
-			{
-				opener.parent.updateError();
-				self.close();
-			}
-		},
-		error:function(xhr, status, error)
-		{
-			icia.common.error(error);
-		}
-      });
-}
 
 	
 });
