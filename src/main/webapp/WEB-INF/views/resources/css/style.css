@@ -775,7 +775,7 @@ section {
   opacity : 0.95;
   position: absolute;
   bottom: 0;
-  top: 15%;
+  top: 14.5%;
   left: 5%;
   right: 5%;
 }
@@ -875,13 +875,29 @@ section {
   margin-bottom: 0;
 }
 
+#community .community-item .hotTitle {
+  font-size: 20px;
+  color: #0c0b09;
+  display: flex;
+}
+
 /*이미지*/
+#community .community-item .hotTitle {
+  font-size: 30px;
+  color: #0c0b09;
+  display: flex;
+  justify-content: center;
+  margin-top:10px;
+}
+
 #community .community-item .img-thumbnail {
   width: 300px;
   height: 200px;
   display: flex;
   margin: auto;
-  margin-top: 30px;
+  margin-top: 5px;
+  margin-right: 15px;
+  margin-left: 15px;
 }
 
 #community .swiper-pagination {
@@ -1066,7 +1082,7 @@ section {
 
 /*내가 즐겨찾기한 글보기 버튼*/
 #community .text-center2 button {
-  margin-top: 10px;
+  margin-top: 15px;
   background: rgba(225, 225, 225);
   border:3px solid #C2A383;
   padding: 5px 15px;
@@ -1096,7 +1112,7 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top:5px;
+  margin-top:10px;
   padding-left: 0px;
 }
 
@@ -1637,6 +1653,7 @@ section {
   font-family: 'Cafe24Dangdanghae';
   font-size: 17px;
   margin-right: 5px;
+  margin-left: 140px;
   float: center;
 }
 
@@ -1668,7 +1685,6 @@ section {
 }
 
 /*수정,삭제 버튼*/
-
 #communityView .board-innercontent .delete button {
   margin-top: 10px;
   background: #C2A383;
@@ -1753,6 +1769,10 @@ section {
 }
 
 /*신고 모달창*/
+#communityView .modal-content {
+  border: 7px solid #C2A383;
+}
+
 #communityView .modal h5{
   font-size: 30px;
   color: #0c0b09;
@@ -1765,6 +1785,7 @@ section {
 #communityView .modal ul {
   list-style: none;
   color: #0c0b09;
+  font-size: 20px;
 }
 
 #communityView .modal input[type=checkbox] {
@@ -1857,6 +1878,8 @@ section {
   color: #fff;
   transition: 0.3s;
   border: 1px solid #C2A383;
+  font-family: 'Cafe24Dangdanghae';
+  border-radius: 5px;
 }
 
 #communityView .board-commentwrite .submit button[type=submit]:hover {

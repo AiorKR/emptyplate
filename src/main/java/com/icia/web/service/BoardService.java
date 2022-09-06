@@ -357,18 +357,34 @@ public class BoardService
 		return count;
 	}
 	
-	//인기게시물 리스트
-	public List<Board> boardHotList(Board board)
+	//인기좋아요순 리스트
+	public List<Board> boardHotLikeList(Board board)
 	{
 		List<Board> list = null;
 		
 		try
 		{
-			list = boardDao.boardHotList(board);
+			list = boardDao.boardHotLikeList(board);
 		}
 		catch(Exception e)
 		{
-			logger.error("[BoardService] boardList Exception", e);
+			logger.error("[BoardService] boardHotLikeList Exception", e);
+		}
+		return list;
+	}
+	
+	//인기조회순 리스트
+	public List<Board> boardHotReadList(Board board)
+	{
+		List<Board> list = null;
+		
+		try
+		{
+			list = boardDao.boardHotReadList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardHotReadList Exception", e);
 		}
 		return list;
 	}

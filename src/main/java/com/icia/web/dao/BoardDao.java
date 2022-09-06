@@ -71,8 +71,11 @@ public interface BoardDao
 	//댓글 삭제
 	public int commentDelete(long bbsSeq);
 	
-	//인기게시물 리스트
-	public List<Board> boardHotList(Board board);
+	//인기좋아요순 게시물 리스트
+	public List<Board> boardHotLikeList(Board board);
+	
+	//인기조회순 게시물 리스트
+	public List<Board> boardHotReadList(Board board);
 	
 	//동일 게시물 즐겨찾기 여부 확인
 	public int boardMarkCheck(Board board);

@@ -37,31 +37,27 @@ $(document).ready(function() {
             },
             success:function(response){
                if(response.code == 0)
-                 {
+               {
                   alert("게시물이 삭제되었습니다.");
                   location.href = "/board/list";
-                 }
+               }
                else if(response.code == 400)
-                 {
+               {
                   alert("파라미터 값이 올바르지 않습니다.");
-                 }
+               }
                else if(response.code == 403)
-                 {
+               {
                   alert("본인 글이 아니므로 삭제할 수 없습니다.");
-                 }
+               }
                else if(response.code == 404)
-                 {
+               {
                   alert("게시물을 찾을 수 없습니다.");
                   location.href = "/board/list";                  
-                 }
-               else if(response.code == -999)
-                 {
-                  alert("답변 댓글이 존재하여 삭제할 수 없습니다.");
-                 }
+               }
                else
-                 {
-                  alert("게시물 삭제 중 오류가 발생하였습니다.");
-                 }
+               {
+                  alert("댓글이 존재하여 삭제할 수 없습니다.");
+               }
             },
             error:function(xhr, status, error){
                icia.common.error(error);
@@ -84,23 +80,24 @@ $(document).ready(function() {
 	       },
 	       success:function(response){
 	          if(response.code == 0)
-	            {
-	             alert("좋아요를 하셨습니다.");
+	          {
+	        	 alert("좋아요를 하셨습니다.");
 	             location.reload();
-	            }
+	          }
 	          else if(response.code == 1)
-	            {
+	          {
 	             alert("좋아요를 취소하셨습니다.");
 	             location.reload();
-	            }
+	          }
 	          else if(response.code == 400)
 	          {
-	           alert("로그인 후, 좋아요 버튼을 사용하실 수 있습니다.");
+		          alert("로그인 후 좋아요 버튼을 사용하실 수 있습니다.");
+		          location.href = "/user/login";
 	          }
 	          else
-	            {
+	          {
 	             alert("좋아요 중 오류가 발생하였습니다.");
-	            }
+	          }
 	       },
 	       error:function(xhr, status, error){
 	          icia.common.error(error);
@@ -122,23 +119,24 @@ $(document).ready(function() {
 	       },
 	       success:function(response){
 	          if(response.code == 0)
-	            {
+	          {
 	             alert("즐겨찾기를 하셨습니다.");
 	             location.reload();
-	            }
+	          }
 	          else if(response.code == 1)
-	            {
+	          {
 	             alert("즐겨찾기를 취소하셨습니다.");
 	             location.reload();
-	            }
+	          }
 	          else if(response.code == 400)
 	          {
-	           alert("로그인 후, 즐겨찾기 버튼을 사용하실 수 있습니다.");
+	             alert("로그인 후, 즐겨찾기 버튼을 사용하실 수 있습니다.");
+		         location.href = "/user/login";
 	          }
 	          else
-	            {
+	          {
 	             alert("즐겨찾기 중 오류가 발생하였습니다.");
-	            }
+	          }
 	       },
 	       error:function(xhr, status, error){
 	          icia.common.error(error);
@@ -180,25 +178,26 @@ $(document).ready(function() {
 	         success:function(response)
 	         {
 	            if(response.code == 0)
-	              {
+	            {
 	               alert("댓글이 등록되었습니다.");
 		           location.reload();
-	              }
+	            }
 	            else if(response.code == 400)
-	              {
-	               alert("파라미터 값이 올바르지 않습니다.");
+	            {
+	               alert("로그인 후 댓글을 작성해주세요.");
 	               $("#btnSearch").prop("disabled", false);
-	              }
+			       location.href = "/user/login" ;
+	            }
 	            else if(response.code == 404)
-	              {
+	            {
 	               alert("게시물을 찾을 수 없습니다.");
 	               $("#btnSearch").prop("disabled", false);
-	              }
+	            }
 	            else
-	              {
+	            {
 	               alert("댓글 등록 중 오류가 발생.");
 	               $("#btnSearch").prop("disabled", false);
-	              }
+	            }
 	         },
 	         error:function(error)
 	         {
@@ -404,31 +403,31 @@ function fn_deleteComment(bbsSeqValue)
           },
           success:function(response){
              if(response.code == 0)
-               {
+             {
                 alert("댓글이 삭제되었습니다.");
 	            location.reload();
-               }
+             }
              else if(response.code == 400)
-               {
+             {
                 alert("파라미터 값이 올바르지 않습니다.");
-               }
+             }
              else if(response.code == 403)
-               {
+             {
                 alert("본인 글이 아니므로 삭제할 수 없습니다.");
-               }
+             }
              else if(response.code == 404)
-               {
+             {
                 alert("댓글을 찾을 수 없습니다.");
                 location.href = "/board/list";                  
-               }
+             }
              else if(response.code == -999)
-               {
+             {
                 alert("답변 댓글이 존재하여 삭제할 수 없습니다.");
-               }
+             }
              else
-               {
+             {
                 alert("댓글 삭제 중 오류가 발생하였습니다.");
-               }
+             }
           },
           error:function(xhr, status, error){
              icia.common.error(error);
@@ -500,7 +499,7 @@ function fn_deleteComment(bbsSeqValue)
 	                              <div class="datecard">
 	                                 <h3 id="view-name">
 						                                 신고게시물 : ${board.bbsTitle}<br>
-						                                 신고자 : ${board.userNick}
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;신고자 : ${board.userNick}<br>
 	                                 </h3>
 	                                 <div class="content">
 	                                    <ul>
@@ -537,7 +536,7 @@ function fn_deleteComment(bbsSeqValue)
 								<div class="submit">
 									<input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
 									<input type="text" id="bbsContent" name="bbsContent" style="ime-mode:active;" class="form-control mt-4 mb-2"/>
-									<button type="submit" id="btnSearch">등록</button>
+									<button type="submit" id="btnSearch">등 록</button>
 								</div>
 							</div>
 						

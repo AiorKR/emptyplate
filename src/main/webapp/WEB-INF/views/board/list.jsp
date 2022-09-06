@@ -84,8 +84,9 @@ function fn_list(curPage)
              <div class="row community-item">
                <div class="col-lg-12">
                  <table class="col-lg-12">
-                   <c:if test="${!empty hotList}">
-                	<c:forEach var="board" items="${hotList}" varStatus="status">
+                  <div class="hotTitle">< 인기 많은 글 TOP4 ></div>
+                   <c:if test="${!empty hotLikeList}">
+                	<c:forEach var="board" items="${hotLikeList}" varStatus="status">
 	                    <td><img alt="" class="img-thumbnail" src="../resources/upload/board/${board.boardFile.fileName}" onclick="fn_view(${board.bbsSeq})"></td>
 	                </c:forEach>
 	           	  </c:if>
@@ -97,8 +98,9 @@ function fn_list(curPage)
               <div class="row community-item">
                 <div class="col-lg-12">
                  <table class="col-lg-12">
-                   <c:if test="${!empty hotList}">
-                	<c:forEach var="board" items="${hotList}" varStatus="status">
+                  <div class="hotTitle">< 많이 찾는 글 TOP4 ></div>
+                   <c:if test="${!empty hotReadList}">
+                	<c:forEach var="board" items="${hotReadList}" varStatus="status">
 	                    <td><img alt="" class="img-thumbnail" src="../resources/upload/board/${board.boardFile.fileName}" onclick="fn_view(${board.bbsSeq})"></td>
 	                </c:forEach>
 	           	  </c:if>

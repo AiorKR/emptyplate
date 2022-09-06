@@ -75,21 +75,11 @@ public class BoardController
 		Board search = new Board();
 		//게시판 번호
 		search.setBbsNo(5);
-		
-		//인기게시물리스트 관련
-		/*********************
-	    hotListCount = 인기게시글 총 리스트;
-		List<Board> hotList = 인기게시글 리스트객체;
-		hot = 인기게시글 보드객체;
-		hotLCount = 인기게시글 리스트;
-		hotPCount = 인기게시글 페이지;
-		 *********************/
-		long hotListCount = 0;
-		List<Board> hotList = null;
+		//인기게시물리스트 
+		List<Board> hotLikeList = null;
+		List<Board> hotReadList = null;
 		Board hot = new Board();
 		hot.setBbsNo(5);
-		int hotLCount = 3;
-		int hotPCount = 2;
 		
 		if(!StringUtil.isEmpty(searchType) && !StringUtil.isEmpty(searchValue))
 		{
@@ -113,14 +103,16 @@ public class BoardController
 			search.setStartRow(paging.getStartRow());
 			search.setEndRow(paging.getEndRow());
 			hot.setStartRow(1);
-			hot.setEndRow(3);
+			hot.setEndRow(4);
 			
 			list = boardService.boardList(search);
-			hotList = boardService.boardHotList(hot);
+			hotLikeList = boardService.boardHotLikeList(hot);
+			hotReadList = boardService.boardHotReadList(hot);
 		}
 		
 		model.addAttribute("list", list);
-		model.addAttribute("hotList", hotList);
+		model.addAttribute("hotLikeList", hotLikeList);
+		model.addAttribute("hotReadList", hotReadList);
 		model.addAttribute("bbsNo", search.getBbsNo());
 		model.addAttribute("searchType", searchType);
 		model.addAttribute("searchValue", searchValue);
