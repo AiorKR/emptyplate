@@ -311,6 +311,7 @@ public class BoardController
           {
              boardMe = "Y";
           }
+
        
 	      if(!StringUtil.isEmpty(cookieUserUID) && bbsSeq > 0)
 	      {
@@ -710,6 +711,7 @@ public class BoardController
   					{
 						if(boardService.commentDelete(board.getBbsSeq()) > 0)
 						{
+							
 							ajaxResponse.setResponse(0, "Success");
 						}
 						else
@@ -738,6 +740,47 @@ public class BoardController
   			ajaxResponse.setResponse(400, "Bad request");
   		}
   		
+  		return ajaxResponse;
+  	}
+  	
+  	//대댓글
+	@RequestMapping(value="/board/reComment", method=RequestMethod.POST)
+  	@ResponseBody
+  	public Response<Object> reComment(HttpServletRequest request, HttpServletResponse response)
+  	{
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+  		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+
+  		Response<Object> ajaxResponse = new Response<Object>();
+  		if(bbsSeq > 0)
+  		{
+  			Board board = boardService.boardSelect(bbsSeq);
+  			if(board != null)
+  			{
+  				try
+				{
+  					logger.debug("#######################################################완료");
+  					logger.debug("#######################################################완료");
+  					logger.debug("#######################################################완료");
+  					logger.debug("#######################################################완료");
+  					board.setCommentIndent(board.getCommentIndent()+1);
+					ajaxResponse.setResponse(0, "Success");
+				}
+  				catch(Exception e)
+				{
+					logger.error("[BoardController] reComment Exception", e);
+					ajaxResponse.setResponse(500, "Internal server error");
+				}
+  			}
+  			else
+  			{	
+  				ajaxResponse.setResponse(404, "Not found");
+  			}
+  		}
+  		else
+		{	
+			ajaxResponse.setResponse(404, "Not found");
+		}
   		return ajaxResponse;
   	}
 }

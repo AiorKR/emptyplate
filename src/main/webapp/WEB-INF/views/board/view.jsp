@@ -259,7 +259,28 @@ function fn_deleteComment(bbsSeqValue)
     }
 }
 
-
+function fn_reComment(bbsSeqValue)
+{
+	$.ajax({
+		type:"POST",
+		url:"/board/reComment",
+		datatype:"JSON",
+		data:{
+			bbsSeq:bbsSeqValue
+		},
+		beforeSend:function(xhr)
+		{
+		    xhr.setRequestHeader("AJAX", "true");
+		},
+		success:function()
+		{
+			$("#commentSection").load("/board/list #commentSection");
+		},
+		error:function(xhr, status, error){
+            icia.common.error(error);
+        }
+	})
+}
 
 </script>
 </head>
@@ -347,10 +368,14 @@ function fn_deleteComment(bbsSeqValue)
 					  </c:if>   
 					</div>
 
-
+				<!-- 댓글 세션 -->
+				<div id="commentSection" class="commentSection">
 					<c:if test="${board.bbsComment eq 'Y'}">             
 						<form name="commentForm" id="commentForm" method="post" enctype="form-data">
-							<div class="board-commentwrite">
+						<c:if test="${board.bbsSeq eq '1'}">
+							
+							<!-- 댓글 달기 -->
+							<div id="${board.bbsSeq}" class="board-commentwrite">
 								<col-lg-12><ion-icon name="chatbubbles"></ion-icon>댓글</col-lg-12>
 								<div class="submit">
 									<input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
@@ -358,11 +383,13 @@ function fn_deleteComment(bbsSeqValue)
 									<button type="submit" id="btnSearch">등 록</button>
 								</div>
 							</div>
+							<!-- 댓글 달기  종료-->
+						</c:if>
 						
   
 						<c:if test="${!empty list}">
 							<c:forEach var="board" items="${list}" varStatus="status">
-								<div class="comment">
+								<div id="${board.bbsSeq}" class="comment">
 									<div class="comment-write">
 										<col-lg-12><ion-icon name="person"></ion-icon> ${board.userNick}</col-lg-12>
 										<c:if test="${boardMe eq 'Y'}">
@@ -370,16 +397,38 @@ function fn_deleteComment(bbsSeqValue)
 										</c:if>
 										<a>${board.regDate}</a>
 										<button type="submit" id="btnReport">신고</button>
-										<button onclick="fn_reComment(${board.bbsSeq})" id="btnReply" class="btnReply">댓글달기</button>
+										<form name="reCommentForm" id="reCommentForm" method="post">
+											<button onclick="fn_reComment(${board.bbsSeq})" id="reComment" class="reComment">댓글달기</button>
+											<input type="hidden" id="userNick" name="userNick" value="${board.userNick}"/>
+											<input type="hidden" id="commentGroup" name="commentGroup" value="${board.commentGroup}"/>
+											<input type="hidden" id="commentOrder" name="commentOrder" value="${board.commentOrder}"/>
+											<input type="hidden" id="commentIndent" name="commentIndent" value="${board.commentIndent}"/>
+										</form>
 									</div>
 									<div class="comment-content">
 										<col-lg-12>${board.bbsContent}</col-lg-12>
 									</div>
+									<c:if test="${board.bbsSeq eq '1'}">
+									
+										<!-- 댓글 달기 -->
+										<div id="${board.bbsSeq}" class="board-commentwrite">
+											<col-lg-12><ion-icon name="chatbubbles"></ion-icon>댓글</col-lg-12>
+											<div class="submit">
+												<input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
+												<input type="text" id="bbsContent" name="bbsContent" style="ime-mode:active;" class="form-control mt-4 mb-2"/>
+												<button type="submit" id="btnSearch">등 록</button>
+											</div>
+										</div>
+										<!-- 댓글 달기  종료-->
+										
+									</c:if>
 								</div>
 							</c:forEach>
 						</c:if>
 						</form>
 					</c:if>
+					</div>
+					<!-- 댓글섹션 종료 -->
 				</div>
 				
 			<form name="bbsForm" id="bbsForm" method="post">
