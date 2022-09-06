@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <%
-   // 개행문자 값을 저장한다.
+   //개행문자 값을 저장한다.
    pageContext.setAttribute("newLine", "\n");
 %>
 <!DOCTYPE html>
@@ -209,56 +209,83 @@ $(document).ready(function() {
 	      });
    });   
    
-	//게시물 신고
-	$("#reportBtn").on("click", function() {	
-		
-		var report = document.getElementById('reportCheck');
-	      var resultValue = report.checked;
-	      if(resultValue == true)
-	      {
-	         $('#reportCheck').val("Y");
-	      }
+   //게시물 신고
+   $("#reportBtn").on("click", function() {	
+	      var report1 = "";
+	      var report2 = "";
+	      var report3 = "";
+	      var report4 = "";
+	      var etcReport = "";
+	  
+	      var reportChk = $('#report1').is(':checked');
+	      if(reportChk == true)
+	    	  report1 = "Y";
 	      else
-	      {
-	         $('#reportCheck').val("N");
-	      }
+	    	  report1 = "N";
 	      
-	      var form = $("#reportForm")[0];
-	      var formData = new FormData(form);
+	      reportChk = $('#report2').is(':checked');
+	      if(reportChk == true)
+	    	  report2 = "Y";
+	      else
+	    	  report2 = "N";
+	      
+	      reportChk = $('#report3').is(':checked');
+	      if(reportChk == true)
+	    	  report3 = "Y";
+	      else
+	    	  report3 = "N";
+	      
+	      reportChk = $('#report4').is(':checked');
+	      if(reportChk == true)
+	    	  report4 = "Y";
+	      else
+	    	  report4 = "N";
+	      
+	      reportChk = $('#etcReport').is(':checked');
+	      if(reportChk == true)
+	    	  etcReport = "Y";
+	      else
+	    	  etcReport = "N";
 	      
 	      $.ajax({
 	         type:"POST",
 	         url:"/board/reportProc",
-	         data:formData,
-	         processData:false,
-	         contentType:false,
-	         cache:false,
-	         timeout:600000,
-	         beforeSend:function(xhr)
-	         {
-	            xhr.setRequestHeader("AJAX", "true");
-	         },
-	         success:function(response)
-	         {
-	            if(response.code == 0)
-	              {
+	 		data : {
+	 			bbsSeqChk: "Y",
+	 			bbsSeq: $('#bbsSeq').val(),
+	 			report1: report1,
+	 			report2: report2,
+	 			report3: report3,
+	 			report4: report4,
+	 			etcReport: etcReport
+			},
+			datatype : "JSON",
+	        beforeSend:function(xhr)
+	        {
+	           xhr.setRequestHeader("AJAX", "true");
+	        },
+	        success:function(response)
+	        {
+	           if(response.code == 0)
+	           {
 	               alert("신고가 접수되었습니다.");
-	              }
-	            else if(response.code == 400)
-	              {
+	               location.reload();
+	           }
+	           else if(response.code == 400)
+	           {
 	               alert("파라미터 값이 올바르지 않습니다.");
 	               $("#reportBtn").prop("disabled", false);
-	              }
-	            else if(response.code == 404)
-	              {
+	           }
+	           else if(response.code == 404)
+	           {
 	               alert("신고 게시물을 찾을 수 없습니다.");
 	               $("#reportBtn").prop("disabled", false);
-	              }
-	            else
-	              {
+	           }
+	           else
+	           {
 	               alert("신고 접수 중 오류가 발생.");
 	               $("#reportBtn").prop("disabled", false);
-	              }
+	           }
 	         },
 	         error:function(error)
 	         {
@@ -267,9 +294,99 @@ $(document).ready(function() {
 	            $("#reportBtn").prop("disabled", false);
 	         }
 	      });
-   });   
- 
+   });
+   
+   //댓글 신고
+   $("#reportBtn2").on("click", function() {	      
+	      var report11 = "";
+	      var report12 = "";
+	      var report13 = "";
+	      var report14 = "";
+	      var etcReport2 = "";
+	  
+	      var reportChk = $('#report11').is(':checked');
+	      if(reportChk == true)
+	    	  report11 = "Y";
+	      else
+	    	  report11 = "N";
+	      
+	      reportChk = $('#report12').is(':checked');
+	      if(reportChk == true)
+	    	  report12 = "Y";
+	      else
+	    	  report12 = "N";
+	      
+	      reportChk = $('#report13').is(':checked');
+	      if(reportChk == true)
+	    	  report13 = "Y";
+	      else
+	    	  report13 = "N";
+	      
+	      reportChk = $('#report14').is(':checked');
+	      if(reportChk == true)
+	    	  report14 = "Y";
+	      else
+	    	  report14 = "N";
+	      
+	      reportChk = $('#etcReport2').is(':checked');
+	      if(reportChk == true)
+	    	  etcReport2 = "Y";
+	      else
+	    	  etcReport2 = "N";
+	      
+	      $.ajax({
+	         type:"POST",
+	         url:"/board/reportProc",
+	 		data : {
+	 			bbsSeqChk: "N",
+	 			bbsSeqCom: $('#bbsSeqCom').val(),
+	 			report1: report11,
+	 			report2: report12,
+	 			report3: report13,
+	 			report4: report14,
+	 			etcReport: etcReport2
+			},
+			datatype : "JSON",
+			beforeSend : function(xhr){
+	            xhr.setRequestHeader("AJAX", "true");
+	        },
+	        success:function(response)
+	        {
+	           if(response.code == 0)
+	           {
+	               alert("신고가 접수되었습니다.");
+	               location.reload();
+	           }
+	           else if(response.code == 400)
+	           {
+	               alert("파라미터 값이 올바르지 않습니다.");
+	               $("#reportBtn2").prop("disabled", false);
+	           }
+	           else if(response.code == 404)
+	           {
+	               alert("신고 게시물을 찾을 수 없습니다.");
+	               $("#reportBtn2").prop("disabled", false);
+	           }
+	           else
+	           {
+	               alert("신고 접수 중 오류가 발생.");
+	               $("#reportBtn2").prop("disabled", false);
+	           }
+	         },
+	         error:function(error)
+	         {
+	            icia.common.error(error);
+	            alert("신고 접수 중 오류가 발생하였습니다.");
+	            $("#reportBtn2").prop("disabled", false);
+	         }
+	      });
+   });
+
 });
+
+function fn_Report(bbsSeq2){
+	$('#bbsSeqCom').val(bbsSeq2);
+}
 
 function fn_deleteComment(bbsSeqValue)
 {
@@ -319,8 +436,6 @@ function fn_deleteComment(bbsSeqValue)
        });
     }
 }
-
-
 
 </script>
 </head>
@@ -389,17 +504,17 @@ function fn_deleteComment(bbsSeqValue)
 	                                 </h3>
 	                                 <div class="content">
 	                                    <ul>
-	                                       <li><input type="checkbox" class="reportCheck" id="reportCheck" name="report1" value="Y">&nbsp;스팸 게시물 입니다.</li>
-	                                       <li><input type="checkbox" class="reportCheck" id="reportCheck" name="report2" value="Y">&nbsp;게시판 성격에 맞지 않는 글입니다.</li>
-	                                       <li><input type="checkbox" class="reportCheck" id="reportCheck" name="report3" value="Y">&nbsp;과도한 욕설이 포함된 글입니다.</li>
-	                                       <li><input type="checkbox" class="reportCheck" id="reportCheck" name="report4" value="Y">&nbsp;게시판의 분위기를 어지럽히는 글입니다.</li>
-	                                       <li><input type="checkbox" class="reportCheck" id="reportCheck" name="etcReport" value="Y">&nbsp;기타사유</li>
+	                                       <li><input type="checkbox" class="reportCheck" id="report1" name="report1">&nbsp;스팸 게시물 입니다.</li>
+	                                       <li><input type="checkbox" class="reportCheck" id="report2" name="report2">&nbsp;게시판 성격에 맞지 않는 글입니다.</li>
+	                                       <li><input type="checkbox" class="reportCheck" id="report3" name="report3">&nbsp;과도한 욕설이 포함된 글입니다.</li>
+	                                       <li><input type="checkbox" class="reportCheck" id="report4" name="report4">&nbsp;게시판의 분위기를 어지럽히는 글입니다.</li>
+	                                       <li><input type="checkbox" class="reportCheck" id="etcReport" name="etcReport">&nbsp;기타사유</li>
 	                                    </ul>
-	                                    <input type="hidden" id="reportCheck" name="reportCheck" value="" />
 	                                    <input type="hidden" id="bbsSeq" name="bbsSeq" value="${board.bbsSeq}" />
+	                                    <input type="hidden" id="bbsSeqChk" name="bbsSeqChk" value="Y" />
 	                                 </div>
 	                                 <div class="modal-footer">
-	                                    <button type="button" class="btn btn-secondary">취소</button>
+	                                    <button type="button" id="reportCancle" class="reportCancle" data-bs-dismiss="modal">취소</button>
 	                                    <button type="button" id="reportBtn" class="reportBtn">신고</button>
 	                                 </div>
 			     				    </form>
@@ -426,7 +541,6 @@ function fn_deleteComment(bbsSeqValue)
 								</div>
 							</div>
 						
-  
 						<c:if test="${!empty list}">
 							<c:forEach var="board" items="${list}" varStatus="status">
 								<div class="comment">
@@ -436,17 +550,50 @@ function fn_deleteComment(bbsSeqValue)
 											<button onclick="fn_deleteComment(${board.bbsSeq})" id="btnCommentDelete" class="commentDelete">삭제</button>
 										</c:if>
 										<a>${board.regDate}</a>
-										<button type="submit" id="btnReport">신고</button>
+										<button type="button" data-bs-toggle="modal" data-bs-target="#reportModal2" id="btnReport${board.bbsSeq}" onclick="fn_Report(${board.bbsSeq})">신고</button>
 										<button onclick="fn_reComment(${board.bbsSeq})" id="btnReply" class="btnReply">댓글달기</button>
 									</div>
 									<div class="comment-content">
 										<col-lg-12>${board.bbsContent}</col-lg-12>
 									</div>
 								</div>
-							</c:forEach>
+							</c:forEach>	
+							   
+							<div class="modal fade" id="reportModal2" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+	                         <div class="modal-dialog">
+	                          <div class="modal-content">
+	                           <div class="modal-header">
+	                              <h5 class="modal-title" id="m">댓글 신고하기</h5>
+	                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	                           </div>
+	                           <div class="modal-body">
+ 			  					 <form name="reportFormCom" id="reportFormCom" method="post">	
+	                              <div class="datecard">
+	                                 <div class="content">
+	                                    <ul>
+	                                       <li><input type="checkbox" class="reportCheck" id="report11" name="report11">&nbsp;스팸 게시물 입니다.</li>
+	                                       <li><input type="checkbox" class="reportCheck" id="report12" name="report12">&nbsp;게시판 성격에 맞지 않는 글입니다.</li>
+	                                       <li><input type="checkbox" class="reportCheck" id="report13" name="report13">&nbsp;과도한 욕설이 포함된 글입니다.</li>
+	                                       <li><input type="checkbox" class="reportCheck" id="report14" name="report14">&nbsp;게시판의 분위기를 어지럽히는 글입니다.</li>
+	                                       <li><input type="checkbox" class="reportCheck" id="etcReport2" name="etcReport2">&nbsp;기타사유</li>
+	                                    </ul>
+	                                    <input type="hidden" id="bbsSeqCom" name="bbsSeqCom" value="" />
+	                                    <input type="hidden" id="bbsSeqChk" name="bbsSeqChk" value="N" />
+	                                 </div>
+	                                 <div class="modal-footer">
+	                                    <button type="button" id="reportCancle" class="reportCancle" data-bs-dismiss="modal">취소</button>
+	                                    <button type="button" id="reportBtn2" class="reportBtn2">신고</button>
+	                                 </div>
+			     				    </form>
+	                              </div>
+	                           </div>
+	                        </div>
+	                     </div>	
+	                     						                  
 						</c:if>
 						</form>
 					</c:if>
+					
 				</div>
 				
 			<form name="bbsForm" id="bbsForm" method="post">

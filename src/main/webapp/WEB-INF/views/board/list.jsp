@@ -53,6 +53,7 @@ $(document).ready(function() {
          document.bbsForm.action = "/board/list";
          document.bbsForm.submit();
       });
+   
 });
 
 function fn_view(bbsSeq)
@@ -85,9 +86,7 @@ function fn_list(curPage)
                  <table class="col-lg-12">
                    <c:if test="${!empty hotList}">
                 	<c:forEach var="board" items="${hotList}" varStatus="status">
-	                  <tr>
-	                    <td><img alt="" src="../resources/upload/board/${board.boardFile.fileName}" onclick="fn_view(${board.bbsSeq})" style="height: 50px;width: 50px;"></td>
-	                  </tr>
+	                    <td><img alt="" class="img-thumbnail" src="../resources/upload/board/${board.boardFile.fileName}" onclick="fn_view(${board.bbsSeq})"></td>
 	                </c:forEach>
 	           	  </c:if>
                   </table>
@@ -98,11 +97,11 @@ function fn_list(curPage)
               <div class="row community-item">
                 <div class="col-lg-12">
                  <table class="col-lg-12">
-                   <tr>
-                     <td><img src="/resources/images/요리.jpg" class="img-thumbnail" alt=""></td>
-                     <td><img src="/resources/images/카페.jpg" class="img-thumbnail" alt=""></td>
-                     <td><img src="/resources/images/오마카세.jpg" class="img-thumbnail" alt=""></td>
-                   </tr>
+                   <c:if test="${!empty hotList}">
+                	<c:forEach var="board" items="${hotList}" varStatus="status">
+	                    <td><img alt="" class="img-thumbnail" src="../resources/upload/board/${board.boardFile.fileName}" onclick="fn_view(${board.bbsSeq})"></td>
+	                </c:forEach>
+	           	  </c:if>
                  </table>
                 </div>
               </div>

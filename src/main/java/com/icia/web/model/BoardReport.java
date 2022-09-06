@@ -15,8 +15,6 @@ public class BoardReport implements Serializable
 	private String etcReport;	//기타신고사요
 	private String regDate;		//게시물 등록일
 	
-	private String userNick;	//사용자 닉네임
-	
 	
 	public BoardReport()
 	{
@@ -28,8 +26,6 @@ public class BoardReport implements Serializable
 		report4 = "";
 		etcReport = "";
 		regDate = "";
-		
-		userNick = "";
 	}
 
 
@@ -110,16 +106,6 @@ public class BoardReport implements Serializable
 
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
-	}
-
-
-	public String getUserNick() {
-		return userNick;
-	}
-
-
-	public void setUserNick(String userNick) {
-		this.userNick = userNick;
 	}
 
 }

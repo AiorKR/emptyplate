@@ -746,12 +746,25 @@ public class BoardController
   	//게시물 신고(AJAX)
   	@RequestMapping(value="/board/reportProc", method=RequestMethod.POST)
   	@ResponseBody
-  	public Response<Object> reportProc(MultipartHttpServletRequest request, HttpServletResponse response)
+  	public Response<Object> reportProc(HttpServletRequest request, HttpServletResponse response)
   	{
   		Response<Object> ajaxResponse = new Response<Object>();
+
   		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+  		
+  		String bbsSeqChk = HttpUtil.get(request, "bbsSeqChk", "");
         //게시물 번호
-        long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+        long bbsSeq = 0;
+        
+        if(!StringUtil.isEmpty(bbsSeqChk) && StringUtil.equals(bbsSeqChk, "Y"))
+        {
+        	bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+        }
+        else
+        {
+        	bbsSeq = HttpUtil.get(request, "bbsSeqCom", (long)0);
+        }
+        
         //신고사유
   		String report1 = HttpUtil.get(request, "report1", "");
   		String report2 = HttpUtil.get(request, "report2", "");
@@ -770,6 +783,7 @@ public class BoardController
 	  	   boardReport.setReport3(report3);
 	  	   boardReport.setReport4(report4);
 	  	   boardReport.setEtcReport(etcReport);
+	  	   
 		  	try
 	  		{
 	  			if(boardService.boardReport(boardReport) > 0)
@@ -794,5 +808,6 @@ public class BoardController
 		
 		return ajaxResponse;
   	}
+  
   	
 }

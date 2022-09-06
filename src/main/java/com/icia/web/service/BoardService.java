@@ -50,22 +50,6 @@ public class BoardService
 		return count;
 	}
 	
-	//인기게시물 리스트
-	public List<Board> boardHotList(Board board)
-	{
-		List<Board> list = null;
-		
-		try
-		{
-			list = boardDao.boardHotList(board);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] boardList Exception", e);
-		}
-		return list;
-	}
-	
 	//게시물 리스트
 	public List<Board> boardList(Board board)
 	{
@@ -373,6 +357,22 @@ public class BoardService
 		return count;
 	}
 	
+	//인기게시물 리스트
+	public List<Board> boardHotList(Board board)
+	{
+		List<Board> list = null;
+		
+		try
+		{
+			list = boardDao.boardHotList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardList Exception", e);
+		}
+		return list;
+	}
+		
 	//동일 게시물  즐겨찾기 여부 확인
 	public int boardMarkCheck(Board board)
 	{

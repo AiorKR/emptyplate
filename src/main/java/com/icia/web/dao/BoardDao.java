@@ -19,9 +19,6 @@ public interface BoardDao
 	
 	//게시물 첨부파일 등록
 	public int boardFileInsert(BoardFile boardFile);
-		
-	//인기게시물 리스트
-	public List<Board> boardHotList(Board board);
 	
 	//게시물 리스트
 	public List<Board> boardList(Board board);
@@ -71,8 +68,11 @@ public interface BoardDao
 	//댓글 리스트
 	public List<Board> commentList(Board board);
 
-	//게시물 삭제
+	//댓글 삭제
 	public int commentDelete(long bbsSeq);
+	
+	//인기게시물 리스트
+	public List<Board> boardHotList(Board board);
 	
 	//동일 게시물 즐겨찾기 여부 확인
 	public int boardMarkCheck(Board board);

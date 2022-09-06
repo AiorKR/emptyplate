@@ -1752,6 +1752,70 @@ section {
   margin-right: 2px;
 }
 
+/*신고 모달창*/
+#communityView .modal h5{
+  font-size: 30px;
+  color: #0c0b09;
+}
+#communityView .modal h3{
+  font-size: 25px;
+  color: #0c0b09;
+}
+
+#communityView .modal ul {
+  list-style: none;
+  color: #0c0b09;
+}
+
+#communityView .modal input[type=checkbox] {
+  zoom: 1.3;
+}
+
+#communityView .modal .reportCancle {
+  border:3px solid #C2A383;
+  padding: 3px 10px;
+  color: #0c0b09;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 20px;
+  float: center;
+}
+
+#communityView .modal .reportCancle:hover {
+  background: #C2A383;
+}
+
+#communityView .modal .reportBtn {
+  border:3px solid #C2A383;
+  padding: 3px 10px;
+  color: #0c0b09;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 20px;
+  float: center;
+}
+
+#communityView .modal .reportBtn:hover {
+  background: #C2A383;
+}
+
+#communityView .modal .reportBtn2 {
+  border:3px solid #C2A383;
+  padding: 3px 10px;
+  color: #0c0b09;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 20px;
+  float: center;
+}
+
+#communityView .modal .reportBtn2:hover {
+  background: #C2A383;
+}
+
 /*댓글작성칸*/
 #communityView .board-commentwrite {
   font-size: 20px;
