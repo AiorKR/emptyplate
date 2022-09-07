@@ -38,7 +38,7 @@ public class TodayController {
 	private ShopService shopService;
 	
 	private static final int LIST_COUNT = 3;	//게시물 수
-	private static final int PAGE_COUNT = 5;	//페이징 수
+	private static final int PAGE_COUNT = 9;	//페이징 수
 	
 	@RequestMapping(value="/today/list")
 	public String todayList(ModelMap model, HttpServletRequest request, HttpServletResponse response)

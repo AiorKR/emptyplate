@@ -44,7 +44,7 @@ $(document).ready(function(){
 //shopUID 전송
 function fn_view(shopUID) {
 	document.bbsForm.shopUID.value = shopUID;
-	document.bbsForm.action = "/today/view";
+	document.bbsForm.action = "/reservation/view";
 	document.bbsForm.submit();
 }
 //페이징
@@ -97,22 +97,21 @@ function fn_search(shopHashtag) {
                 						</select>
             							</ul>
           						</form>  
-	          					<div style="border:1px solid #C2A384">
+	          					<div style="border:1px solid #C2A384; margin-bottom: 14px;">
 	        						<input type="text" name="text" id="search" <c:if test="${searchValue ne null and searchValue ne ''}">value="${searchValue}"</c:if>>
 	        						<button class="btn" type="submit" id="searchBtn">검색</button>
         						</div>
           					</div>
       					</nav>   
       					<tbody class="menutable">
-      						<c:if test="${!empty list}">     						
-      							<c:forEach items="${list}" var="shop" varStatus="status" step="3">
+      						<c:if test="${!empty list}">
+      								<c:forEach items="${list}" var="shop" varStatus="status">
 		        					<tr>
-		        					<c:forEach items="${list}" var="shop">
 		          						<th scope="row">
 		          							<td>
-		              							<div class="card" onClick="fn_view('${sho.shopUID}')" style="cursor:pointer;">
-		                      						<img src='../resources/upload/shop/${shop.shopFile.shopFileName}' class="img-fluid img-thumbnail" style="height: 200px;width: 200px;">
-		                      							<div class="card-body">
+		              							<div class="card" onClick="fn_view('${shop.shopUID}')" style="cursor:pointer;">
+		                      						<img src='../resources/upload/shop/${shop.shopFile.shopFileName}' class="img-fluid img-thumbnail" style="height: 300px;width: 300px;">
+		                      							<div class="card-body-right">
 		                        							<h5 class="card-title">${shop.shopName}</h5>
 		                        								<div class="sec7-text-box">
 											                        <p class="font15 time-end1">예약시간</p>
@@ -127,12 +126,12 @@ function fn_search(shopHashtag) {
 		                        								</div>
 		                      							</div>
 		                   						</div>
-		             						</td>
-		             				</c:forEach>
+		             						</td>		             				
 		            				</tr>
-            					</c:forEach>
+		            				</c:forEach>
+		            				
             				</c:if>
-          				</tbody>
+          				</tbody>                  	
         			</table>
         			<div class="page-wrap">
          				<ul class="page-nation">
@@ -170,7 +169,7 @@ function fn_search(shopHashtag) {
 <!-- End today Section -->
 
 <!--count down-->
-<!--  script src="./assets/countdown/countdown.js"></script>-->
+<script src="./assets/countdown/countdown.js"></script>
 <!--count down-->
 
 <!--footer-->

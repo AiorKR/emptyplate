@@ -79,6 +79,11 @@
             			<value>/user/NickUpdate</value>
             			<value>/user/EmailUpdate</value>
             			<value>/myPage/userDelete</value>
+            			<value>/kakao/pay</value>
+            			<value>/kakao/payReady</value>
+            			<value>/kakao/paySuccess</value>
+            			<value>/kakao/payFail</value>
+            			<value>/kakao/payCancel</value>
             		</list>
             	</constructor-arg>
             </bean>

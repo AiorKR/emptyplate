@@ -68,13 +68,11 @@ function fn_search(shopHashtag) {
   
 <!-- ======= reservations Section ======= -->
 <section id="reservation" class="reservation">
-	<div class="reservation-container container" data-aos="fade-up">
-    	<div class="reservation-slider swiper" data-aos="fade-up" data-aos-delay="100">
-        	<container>
+	<div class="reservation-container container">
+    	<div class="reservation-slider swiper">
+        	<container style="color: #2536;">
             	<hr class="hr-5">
-            </container>
             	<h2 style="margin-left: 30px"><strong> 오늘의 추천식당 </strong></h2>
-            <container>
             	<hr class="hr-5">
             </container>
             	<div class="swiper-wrapper">
