@@ -4929,6 +4929,16 @@ hr[role="tournament1"]::before {
   position: relative;
 }
 
+.aboutus .card-list li{
+ padding:24px;
+ flex-basis: 520px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    border-radius: 13px;
+    background: var(--gray0);
+
+}
 @media (min-width: 1024px) {
   .reservation {
     background-attachment: fixed;
