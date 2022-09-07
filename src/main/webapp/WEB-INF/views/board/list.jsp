@@ -71,11 +71,14 @@ function fn_list(curPage)
    document.bbsForm.submit();   
 }
 
-function fn_userList(userUID)
+function fn_userList(userUID, userNick)
 {
    document.bbsForm.userUID.value = userUID;
+   document.bbsForm.searchType.value = "1";
+   document.bbsForm.curPage.value = "1";
+   document.bbsForm.searchValue.value = userNick;
    document.bbsForm.action = "/board/userList";
-   document.bbsForm.submit();  
+   document.bbsForm.submit();
 }
 
 </script>
@@ -159,7 +162,7 @@ function fn_userList(userUID)
                  <td><ion-icon name="heart"></ion-icon>&nbsp;</td>
                  <td class="likeNum">${board.bbsLikeCnt}</td>
                  <td><a href="javascript:void(0)" onclick="fn_view(${board.bbsSeq})">${board.bbsTitle}</a></td>
-                 <td><a href="javascript:void(0)" onclick="fn_userList('${board.userUID}')">${board.userNick}</a></td>
+                 <td><a href="javascript:void(0)" onclick="fn_userList('${board.userUID}', '${board.userNick}')">${board.userNick}</a></td>
                  <td>${board.bbsReadCnt}</td>
                  <td>${board.regDate}</td>
                </tr>
