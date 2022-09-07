@@ -266,8 +266,82 @@ public class BoardController
 		model.addAttribute("paging", paging);
 		
 		return "/board/markList";
-	}
+	}	
 	
+	//유저 게시물 리스트
+	@RequestMapping(value="/board/userList")
+	public String userList(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+	{
+		//쿠키 값
+        //String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+        //해당 유저
+        String userUID = HttpUtil.get(request, "userUID");
+		//조회항목
+		String searchType = HttpUtil.get(request, "searchType");
+		//조회값
+		String searchValue = HttpUtil.get(request, "searchValue", "");
+		//분류값
+	    long sortValue = HttpUtil.get(request, "sortValue", (long)4);
+		//현재페이지
+		long curPage = HttpUtil.get(request, "curPage", (long)1);
+		//총 게시물 수
+		long totalCount = 0;
+		//게시물 리스트
+		List<Board> userList = null;
+		//페이징 객체
+		Paging paging = null;
+		//조회 객체
+		Board search = new Board();
+		//게시판 번호
+		search.setBbsNo(5);
+	 
+		/*if(!StringUtil.isEmpty(cookieUserUID))
+		{
+			search.setUserUID(cookieUserUID);
+		}*/
+		
+		if(!StringUtil.isEmpty(userUID))
+		{
+			search.setUserUID(userUID);
+		}
+		
+		if(!StringUtil.isEmpty(searchType) && !StringUtil.isEmpty(searchValue))
+		{
+			search.setSearchType(searchType);
+			search.setSearchValue(searchValue);
+		}		
+		
+		
+		search.setSortValue(sortValue);
+		totalCount = boardService.userListCount(search);
+
+		if(totalCount > 0)
+		{	
+			paging = new Paging("/board/userList", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
+			
+			paging.addParam("bbsNo", search.getBbsNo());
+			paging.addParam("searchType", searchType);
+			paging.addParam("searchValue", searchValue);
+			paging.addParam("sortValue", sortValue);
+			paging.addParam("curPage", curPage);
+			
+			search.setStartRow(paging.getStartRow());
+			search.setEndRow(paging.getEndRow());
+			
+			userList = boardService.userList(search);
+		}
+		
+		model.addAttribute("userList", userList);
+		model.addAttribute("userUID", userUID);
+		model.addAttribute("bbsNo", search.getBbsNo());
+		model.addAttribute("searchType", searchType);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("sortValue", sortValue);
+		model.addAttribute("curPage", curPage);
+		model.addAttribute("paging", paging);
+		
+		return "/board/userList";
+	}
 	
 	//게시물 조회
     @RequestMapping(value="/board/view")

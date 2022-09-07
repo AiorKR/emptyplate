@@ -59,6 +59,13 @@ function fn_list(curPage)
    document.bbsForm.submit();   
 }
 
+function fn_userList(userUID)
+{
+   document.bbsForm.userUID.value = userUID;
+   document.bbsForm.action = "/board/userList";
+   document.bbsForm.submit();  
+}
+
 </script>
 </head>
 <body>
@@ -108,7 +115,7 @@ function fn_list(curPage)
                  <td><ion-icon name="heart"></ion-icon>&nbsp;</td>
                  <td class="likeNum">${board.bbsLikeCnt}</td>
                  <td><a href="javascript:void(0)" onclick="fn_view(${board.bbsSeq})">${board.bbsTitle}</a></td>
-                 <td><a href="javascript:void(0)" onclick="fn_userList(${board.userUID})">${board.userNick}</a></td>
+                 <td><a href="javascript:void(0)" onclick="fn_userList('${board.userUID}')">${board.userNick}</a></td>
                  <td>${board.bbsReadCnt}</td>
                  <td>${board.regDate}</td>
                </tr>
@@ -146,6 +153,7 @@ function fn_list(curPage)
 	 <input type="hidden" name="sortValue" value="${sortValue}" />
 	 <input type="hidden" name="curPage" value="${curPage}" />
 	 <input type="hidden" name="bbsNo" value="${bbsNo}" />
+	 <input type="hidden" name="userUID" value="${userUID}" />
 	</form>
    
    </div>

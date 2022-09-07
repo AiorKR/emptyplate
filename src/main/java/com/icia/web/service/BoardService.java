@@ -474,6 +474,40 @@ public class BoardService
 		return count;
 	}
 	
+	//유저 게시물 리스트
+	public List<Board> userList(Board board)
+	{
+		List<Board> userList = null;
+		
+		try
+		{
+			userList = boardDao.userList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] userList Exception", e);
+		}
+		
+		return userList;
+	}
+	
+	//유저 총 게시물 수 
+	public long userListCount(Board board)
+	{
+		long count = 0;
+		
+		try
+		{
+			count = boardDao.userListCount(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] userListCount Exception", e);
+		}
+		
+		return count;
+	}
+	
 	//게시물 신고
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public long boardReport(BoardReport boardReport)

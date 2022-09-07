@@ -5,25 +5,13 @@
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
 <script type="text/javascript">
 $(document).ready(function() {
-   
-   $("#btnWrite").on("click", function() {     
-      document.bbsForm.bbsSeq.value = "";
-      document.bbsForm.action = "/board/writeForm";
-      document.bbsForm.submit();
-   });
-   
-   $("#btnMark").on("click", function() {     
-      document.bbsForm.bbsSeq.value = "";
-      document.bbsForm.action = "/board/markList";
-      document.bbsForm.submit();
-   });
 
    $("#btnSearch").on("click", function() { 
       document.bbsForm.bbsSeq.value = "";
       document.bbsForm.searchType.value = $("#_searchType").val();
       document.bbsForm.searchValue.value = $("#_searchValue").val();
       document.bbsForm.curPage.value = "1";
-      document.bbsForm.action = "/board/list";
+      document.bbsForm.action = "/board/userList";
       document.bbsForm.submit();
    });
    $("#btnSort1").on("click", function() { 
@@ -32,7 +20,7 @@ $(document).ready(function() {
 	      document.bbsForm.searchValue.value = $("#_searchValue").val();
 	      document.bbsForm.sortValue.value = "4";
 	      document.bbsForm.curPage.value = "1";
-	      document.bbsForm.action = "/board/list";
+	      document.bbsForm.action = "/board/userList";
 	      document.bbsForm.submit();
    });
    $("#btnSort2").on("click", function() { 
@@ -41,7 +29,7 @@ $(document).ready(function() {
          document.bbsForm.searchValue.value = $("#_searchValue").val();
          document.bbsForm.sortValue.value = "5";
          document.bbsForm.curPage.value = "1";
-         document.bbsForm.action = "/board/list";
+         document.bbsForm.action = "/board/userList";
          document.bbsForm.submit();
       });
    $("#btnSort3").on("click", function() { 
@@ -50,10 +38,10 @@ $(document).ready(function() {
          document.bbsForm.searchValue.value = $("#_searchValue").val();
          document.bbsForm.sortValue.value = "6";
          document.bbsForm.curPage.value = "1";
-         document.bbsForm.action = "/board/list";
+         document.bbsForm.action = "/board/userList";
          document.bbsForm.submit();
       });
-   
+
 });
 
 function fn_view(bbsSeq)
@@ -67,7 +55,7 @@ function fn_list(curPage)
 {
    document.bbsForm.bbsSeq.value = "";
    document.bbsForm.curPage.value = curPage;
-   document.bbsForm.action = "/board/list";
+   document.bbsForm.action = "/board/userList";
    document.bbsForm.submit();   
 }
 
@@ -82,43 +70,14 @@ function fn_userList(userUID)
 </head>
 <body>
 <%@ include file="/WEB-INF/views/include/navigation.jsp" %>
- <section id="community" class="community">
+  <section id="bookMark" class="bookMark">
    <div class="container">
      <div class = "row">
-       <div class="community-slider swiper" data-aos-delay="100">
-         <div class="swiper-wrapper">
-           <div class="swiper-slide">
-             <div class="row community-item">
-               <div class="col-lg-12">
-                 <table class="col-lg-12">
-                  <div class="hotTitle">인기 많은 글 TOP4</div>
-                   <c:if test="${!empty hotLikeList}">
-                	<c:forEach var="board" items="${hotLikeList}" varStatus="status">
-	                    <td><img alt="" class="img-thumbnail" src="../resources/upload/board/${board.boardFile.fileName}" onclick="fn_view(${board.bbsSeq})"></td>
-	                </c:forEach>
-	           	  </c:if>
-                  </table>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="row community-item">
-                <div class="col-lg-12">
-                 <table class="col-lg-12">
-                  <div class="hotTitle">많이 찾는 글 TOP4</div>
-                   <c:if test="${!empty hotReadList}">
-                	<c:forEach var="board" items="${hotReadList}" varStatus="status">
-	                    <td><img alt="" class="img-thumbnail" src="../resources/upload/board/${board.boardFile.fileName}" onclick="fn_view(${board.bbsSeq})"></td>
-	                </c:forEach>
-	           	  </c:if>
-                 </table>
-                </div>
-              </div>
-            </div>
-          </div>
-         <div class="swiper-pagination"></div>
-       </div>
-       
+      <c:if test="${!empty userList}">
+       <c:forEach var="board" items="${userList}" varStatus="status">
+       	<div class="bookmark-name">${board.userNick}님의 글</div>
+       </c:forEach>
+      </c:if>
        <div class="d-flex flex-row justify-content-between">
          <div>
            <ul>
@@ -152,8 +111,8 @@ function fn_userList(userUID)
              <th style="width:15%">날짜</th>
            </tr>
                 
-           <c:if test="${!empty list}">
-             <c:forEach var="board" items="${list}" varStatus="status">
+           <c:if test="${!empty userList}">
+             <c:forEach var="board" items="${userList}" varStatus="status">
                <tr>
                  <td>${board.rNum}</td>
                  <td><ion-icon name="heart"></ion-icon>&nbsp;</td>
@@ -167,12 +126,7 @@ function fn_userList(userUID)
            </c:if>
          </table>
        </div>
-       
-       <div class="d-flex flex-row justify-content-between">
-         <div class="text-center2"><button id="btnMark">내가 즐겨찾기한 글보기</button></div>
-         <div class="text-center"><button id="btnWrite">글쓰기</button></div>
-       </div>
-       
+
        <div class="page-wrap">
          <ul class="page-nation">
            <c:if test="${paging.prevBlockPage gt 0}">
