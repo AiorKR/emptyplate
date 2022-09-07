@@ -74,9 +74,7 @@ function fn_userList(userUID)
    <div class="container">
      <div class = "row">
       <c:if test="${!empty userList}">
-       <c:forEach var="board" items="${userList}" varStatus="status">
-       	<div class="bookmark-name">${board.userNick}님의 글</div>
-       </c:forEach>
+       	<div class="bookmark-name">${userNick}님의 글</div>
       </c:if>
        <div class="d-flex flex-row justify-content-between">
          <div>

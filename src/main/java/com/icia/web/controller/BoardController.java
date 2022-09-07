@@ -292,6 +292,8 @@ public class BoardController
 		Paging paging = null;
 		//조회 객체
 		Board search = new Board();
+		//조회 사용자
+		User user = new User();
 		//게시판 번호
 		search.setBbsNo(5);
 	 
@@ -329,8 +331,10 @@ public class BoardController
 			search.setEndRow(paging.getEndRow());
 			
 			userList = boardService.userList(search);
+			user=userService.userUIDSelect(userUID);
 		}
 		
+		model.addAttribute("userNick", user.getUserNick());
 		model.addAttribute("userList", userList);
 		model.addAttribute("userUID", userUID);
 		model.addAttribute("bbsNo", search.getBbsNo());
