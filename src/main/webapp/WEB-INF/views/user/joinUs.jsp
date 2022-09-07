@@ -661,7 +661,7 @@ userPhone.value = "인증되었습니다"
 		            </label>
 		            <label>
 		              <span>Password확인</span>
-		              <input type="password" id="userPwd3" name="userPwd3"placeholder="비밀번호를 한번 더 입력하세요." maxlength="12" />
+		              <input type="password" id="userPwd3" name="userPwd3" placeholder="비밀번호를 한번 더 입력하세요." maxlength="12" />
 		            </label>
 		            <label>
 		              <span>Name</span>
