@@ -4750,7 +4750,7 @@ hr[role="tournament1"]::before {
 /*
 약관 css
 */
-#term {
+#term1 {
   width: 100%;
   height: 100%;
   background: url("../img/hero-bg.jpg") top center;
@@ -4760,56 +4760,184 @@ hr[role="tournament1"]::before {
   
 }
 
-#term .container {
-  margin-top: 300px;
+#term2 {
+  width: 100%;
+  height: 100%;
+  background: url("../img/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+  
 }
 
-#term .row{
+#term3 {
+  width: 100%;
+  height: 100%;
+  background: url("../img/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+  
+}
+
+#term4 {
+  width: 100%;
+  height: 100%;
+  background: url("../img/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+  
+}
+
+#term1 .container {  
+    margin-top: 170px;
+}
+
+#term2 .container {  
+  margin-top: 170px;
+}
+
+#term3 .container {  
+  margin-top: 170px;
+}
+
+#term4 .container {  
+  margin-top: 170px;
+}
+
+#term1:before {
   content: "";
   background: rgba(16, 16, 16);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
-  top: 50%;
+  top: 4.3%;
   left: 5%;
-  right: 15%;
+  right: 5%;
 }
 
-
-#term .container {
-  position: relative;
+#term2:before {
+  content: "";
+  background: rgba(16, 16, 16);
+  opacity : 0.95;
+  position: absolute;
+  bottom: 0;
+  top: 1.5%;
+  left: 5%;
+  right: 5%;
 }
 
-#term .row {
-  position: relative;
-  top: -20vh;
+#term3:before {
+  content: "";
+  background: rgba(16, 16, 16);
+  opacity : 0.95;
+  position: absolute;
+  bottom: 0;
+  top: 3.2%;
+  left: 5%;
+  right: 5%;
 }
 
+#term4:before {
+  content: "";
+  background: rgba(16, 16, 16);
+  opacity : 0.95;
+  position: absolute;
+  bottom: 0;
+  top: 10.5%;
+  left: 5%;
+  right: 5%;
+}
+
+#term1 .row {
+  position:relative;
+  
+}
+
+#term2 .row {
+  position:relative;
+  
+}
+
+#term3 .row {
+  position:relative;
+  
+}
+
+#term4 .row {
+  position:relative;
+  
+}
 
 @media (min-width: 1024px) {
-  #term {
+  #term1 {
     background-attachment: fixed;
   }
 }
 
-#term .term-carousel {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 30px;
+@media (min-width: 1024px) {
+  #term2 {
+    background-attachment: fixed;
+  }
 }
 
-#term .footer-info {
+@media (min-width: 1024px) {
+  #term3 {
+    background-attachment: fixed;
+  }
+}
+
+@media (min-width: 1024px) {
+  #term4 {
+    background-attachment: fixed;
+  }
+}
+
+
+
+#term1 .footer-info {
   text-align: left;
   width: 100vh;
 }
 
-#term .select {
+#term2 .footer-info {
+  text-align: left;
+  width: 100vh;
+}
+
+#term3 .footer-info {
+  text-align: left;
+  width: 100vh;
+}
+
+#term4 .footer-info {
+  text-align: left;
+  width: 100vh;
+}
+
+#term1 .select {
   color: white;
   background-color: #c78e54;  
 }
 
+#term2 .select {
+  color: white;
+  background-color: #c78e54;  
+}
 
-#term .nav-item button{
-  margin-top: 10px;
+#term3 .select {
+  color: white;
+  background-color: #c78e54;  
+}
+
+#term4 .select {
+  color: white;
+  background-color: #c78e54;  
+}
+
+#term1 .nav-item button{
+  margin-top: -30px;
     background: #C2A383;
     border: 0;
     padding: 4px 20px;
@@ -4822,13 +4950,70 @@ hr[role="tournament1"]::before {
 
 }
 
-#term .nav-item:hover { /*hover가 마우스 커서가 올라가 있다면, action이 클릭을 했다면 작동*/
-  border: 2px solid #c78e54;
-  border-radius: 10px;
+#term2 .nav-item button{
+  margin-top: -30px;
+    background: #C2A383;
+    border: 0;
+    padding: 4px 20px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 10px;
+    font-family: 'Cafe24Dangdanghae';
+    font-size: 19px;
+    float: right;
 
 }
 
-#term #pills-tab .active {
+#term3 .nav-item button{
+  margin-top: -30px;
+    background: #C2A383;
+    border: 0;
+    padding: 4px 20px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 10px;
+    font-family: 'Cafe24Dangdanghae';
+    font-size: 19px;
+    float: right;
+
+}
+
+#term4 .nav-item button{
+  margin-top: -30px;
+    background: #C2A383;
+    border: 0;
+    padding: 4px 20px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 10px;
+    font-family: 'Cafe24Dangdanghae';
+    font-size: 19px;
+    float: right;
+
+}
+
+#term1 #pills-tab .active {
+  color: white;
+  background-color: rgba(16, 16, 16);
+  border-radius: 0%;
+
+}
+
+#term2 #pills-tab .active {
+  color: white;
+  background-color: rgba(16, 16, 16);
+  border-radius: 0%;
+
+}
+
+#term3 #pills-tab .active {
+  color: white;
+  background-color: rgba(16, 16, 16);
+  border-radius: 0%;
+
+}
+
+#term4 #pills-tab .active {
   color: white;
   background-color: rgba(16, 16, 16);
   border-radius: 0%;
@@ -4837,40 +5022,41 @@ hr[role="tournament1"]::before {
 
 
 
-#term #pills-contact2 .title-area {
+#term4 #pills-contact2 .title-area {
   text-align: center;
 }
 
-#term #pills-contact2 .storequestion{
+#term4 #pills-contact2 .storequestion{
   padding: 50px 300px;
 }
 
-#term .container .row #inquiryBtn {
+
+#term4 .inquiry {
+  text-align:center;
+}
+
+#term4 .doc #doc-inner {
+  text-align: left;
+}
+
+#term4 .container .row #inquiryBtn{
   margin-top: 10px;
-  background: #c78e54;
+  background: #C2A383;
   border: 0;
-  padding: 20px 60px;
+  padding: 4px 20px;
   color: #fff;
   transition: 0.4s;
   border-radius: 10px;
   font-family: 'Cafe24Dangdanghae';
   font-size: 19px;
   float: center;
-  
-}
-#term .inquiry {
-  text-align:center;
-}
-
-#term .doc #doc-inner {
-  text-align: left;
 }
 
 /*--------------------------------------------------------------
 # aboutusstart
 --------------------------------------------------------------*/
 
-.aboutus {
+.aboutus1 {
   width: 100%;
   height: 100%;
   background: url("../img/hero-bg.jpg") top center;
@@ -4879,23 +5065,74 @@ hr[role="tournament1"]::before {
   padding: 0;
 }
 
-.aboutus-container {
-  margin-top: 100px;
+.aboutus2 {
+  width: 100%;
+  height: 100%;
+  background: url("../img/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
 }
 
-.aboutus:before {
+.aboutus3 {
+  width: 100%;
+  height: 100%;
+  background: url("../img/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+}
+
+.aboutus1 .container {
+  margin-top: 100px;
+  position: relative;
+}
+
+.aboutus2 .container {
+  margin-top: 100px;
+  position: relative;
+}
+
+.aboutus3 .container {
+  margin-top: 100px;
+  position: relative;
+}
+
+.aboutus1:before {
   content: "";
   background: rgba(16, 16, 16);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
-  top: 6%;
+  top: 13%;
+  left: 5%;
+  right: 5%;
+}
+
+.aboutus2:before {
+  content: "";
+  background: rgba(16, 16, 16);
+  opacity : 0.95;
+  position: absolute;
+  bottom: 0;
+  top: 13%;
+  left: 5%;
+  right: 5%;
+}
+
+.aboutus3:before {
+  content: "";
+  background: rgba(16, 16, 16);
+  opacity : 0.95;
+  position: absolute;
+  bottom: 0;
+  top: 13%;
   left: 5%;
   right: 5%;
 }
 
 
-.aboutus .nav-item button{
+.aboutus1 .nav-item button{
   margin-top: 10px;
     background: #C2A383;
     border: 0;
@@ -4909,25 +5146,70 @@ hr[role="tournament1"]::before {
 
 }
 
-.aboutus #pills-tab .active {
+.aboutus2 .nav-item button{
+  margin-top: 10px;
+    background: #C2A383;
+    border: 0;
+    padding: 4px 20px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 10px;
+    font-family: 'Cafe24Dangdanghae';
+    font-size: 19px;
+    float: right;
+
+}
+
+.aboutus3 .nav-item button{
+  margin-top: 10px;
+    background: #C2A383;
+    border: 0;
+    padding: 4px 20px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 10px;
+    font-family: 'Cafe24Dangdanghae';
+    font-size: 19px;
+    float: right;
+
+}
+
+.aboutus1 #pills-tab .active {
   color: white;
   background-color: rgba(16, 16, 16);
   border-radius: 0%;
 
 }
 
+.aboutus2 #pills-tab .active {
+  color: white;
+  background-color: rgba(16, 16, 16);
+  border-radius: 0%;
 
-.aboutus .container {
-  margin-top: 100px;
 }
+
+.aboutus3 #pills-tab .active {
+  color: white;
+  background-color: rgba(16, 16, 16);
+  border-radius: 0%;
+
+}
+
+.aboutus3 .content .current-logo {
+  text-align:center;
+}
+
+.aboutus3 .logo-list {
+  
+  text-align:center;
+}
+
 
 .reservation .section-title h2 {
   color: #fff;
 }
 
-.aboutus .container {
-  position: relative;
-}
+
 
 .aboutus .card-list li{
  padding:24px;
