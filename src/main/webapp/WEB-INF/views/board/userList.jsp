@@ -11,7 +11,7 @@ $(document).ready(function() {
       document.bbsForm.searchType.value = $("#_searchType").val();
       document.bbsForm.searchValue.value = $("#_searchValue").val();
       document.bbsForm.curPage.value = "1";
-      document.bbsForm.action = "/board/markList";
+      document.bbsForm.action = "/board/userList";
       document.bbsForm.submit();
    });
    $("#btnSort1").on("click", function() { 
@@ -20,7 +20,7 @@ $(document).ready(function() {
 	      document.bbsForm.searchValue.value = $("#_searchValue").val();
 	      document.bbsForm.sortValue.value = "4";
 	      document.bbsForm.curPage.value = "1";
-	      document.bbsForm.action = "/board/markList";
+	      document.bbsForm.action = "/board/userList";
 	      document.bbsForm.submit();
    });
    $("#btnSort2").on("click", function() { 
@@ -29,19 +29,58 @@ $(document).ready(function() {
          document.bbsForm.searchValue.value = $("#_searchValue").val();
          document.bbsForm.sortValue.value = "5";
          document.bbsForm.curPage.value = "1";
-         document.bbsForm.action = "/board/markList";
+         document.bbsForm.action = "/board/userList";
          document.bbsForm.submit();
-      });
+   });
    $("#btnSort3").on("click", function() { 
          document.bbsForm.bbsSeq.value = "";
          document.bbsForm.searchType.value = $("#_searchType").val();
          document.bbsForm.searchValue.value = $("#_searchValue").val();
          document.bbsForm.sortValue.value = "6";
          document.bbsForm.curPage.value = "1";
-         document.bbsForm.action = "/board/markList";
+         document.bbsForm.action = "/board/userList";
          document.bbsForm.submit();
-      });
-
+    });
+   /******추가******/
+	//유저 즐겨찾기
+    $("#btnMark").on("click", function(){
+	   $.ajax({
+	       type:"POST",
+	       url:"/board/userMark",
+	       data:{
+	    	   //userUID:<c:out value="${board.userUID}" />
+		       },
+	       datatype:"JSON",
+	       beforeSend:function(xhr){
+	          xhr.setRequestHeader("AJAX", "true");
+	       },
+	       success:function(response){
+	          if(response.code == 0)
+	          {
+	             alert("즐겨찾기를 하셨습니다.");
+	             location.reload();
+	          }
+	          else if(response.code == 1)
+	          {
+	             alert("즐겨찾기를 취소하셨습니다.");
+	             location.reload();
+	          }
+	          else if(response.code == 400)
+	          {
+	             alert("로그인 후, 즐겨찾기 버튼을 사용하실 수 있습니다.");
+		         location.href = "/user/login";
+	          }
+	          else
+	          {
+	             alert("즐겨찾기 중 오류가 발생하였습니다.");
+	          }
+	       },
+	       error:function(xhr, status, error){
+	          icia.common.error(error);
+	       }
+	    });
+   });
+    /******추가******/
 });
 
 function fn_view(bbsSeq)
@@ -59,6 +98,16 @@ function fn_list(curPage)
    document.bbsForm.submit();   
 }
 
+function fn_userList(userUID, userNick)
+{
+   document.bbsForm.userUID.value = userUID;
+   document.bbsForm.searchType.value = "1";
+   document.bbsForm.curPage.value = "1";
+   document.bbsForm.searchValue.value = userNick;
+   document.bbsForm.action = "/board/userList";
+   document.bbsForm.submit();
+}
+
 </script>
 </head>
 <body>
@@ -66,8 +115,19 @@ function fn_list(curPage)
   <section id="bookMark" class="bookMark">
    <div class="container">
      <div class = "row">
-       	<div class="bookmark-name">${board.userNick} 님의 글</div>
-       	
+      <c:if test="${!empty userList}">
+       	<div class="bookmark-name">${userNick}님의 글</div>
+       	<!-- 추가 -->
+       	<c:choose>
+			<c:when test="${userMarkActive eq 'Y'}">
+				<div class="bookmark"><button type="button" id="btnMark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
+			</c:when>
+			<c:when test="${userMarkActive eq 'N'}">
+				<div class="bookmark"><button type="button" id="btnMark" class="bookmark"><ion-icon name="star-outline"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
+			</c:when>
+		</c:choose>
+		<!-- 추가끝 -->
+      </c:if>
        <div class="d-flex flex-row justify-content-between">
          <div>
            <ul>
@@ -101,14 +161,14 @@ function fn_list(curPage)
              <th style="width:15%">날짜</th>
            </tr>
                 
-           <c:if test="${!empty userlist}">
-             <c:forEach var="board" items="${userlist}" varStatus="status">
+           <c:if test="${!empty userList}">
+             <c:forEach var="board" items="${userList}" varStatus="status">
                <tr>
                  <td>${board.rNum}</td>
                  <td><ion-icon name="heart"></ion-icon>&nbsp;</td>
                  <td class="likeNum">${board.bbsLikeCnt}</td>
                  <td><a href="javascript:void(0)" onclick="fn_view(${board.bbsSeq})">${board.bbsTitle}</a></td>
-                 <td><a href="javascript:void(0)" onclick="fn_userList(${board.userUID})">${board.userNick}</a></td>
+                 <td><a href="javascript:void(0)" onclick="fn_userList('${board.userUID}', '${board.userNick}')">${board.userNick}</a></td>
                  <td>${board.bbsReadCnt}</td>
                  <td>${board.regDate}</td>
                </tr>
@@ -146,6 +206,7 @@ function fn_list(curPage)
 	 <input type="hidden" name="sortValue" value="${sortValue}" />
 	 <input type="hidden" name="curPage" value="${curPage}" />
 	 <input type="hidden" name="bbsNo" value="${bbsNo}" />
+	 <input type="hidden" name="userUID" value="${userUID}" />
 	</form>
    
    </div>

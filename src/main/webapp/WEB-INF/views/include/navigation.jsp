@@ -53,6 +53,7 @@
 		<li><a class="nav-link scrollto" href="/today/list">Today</a></li> 
 		<li><a class="nav-link scrollto" href="/board/list">Community</a></li>
 		<li><a class="nav-link scrollto" href="/help/index">Help</a></li>
+		<li><a class="nav-link scrollto" href="/kakao/pay">pay</a></li>
 	  </ul>
 	  <i class="bi bi-list mobile-nav-toggle"></i>
 	</nav><!-- .navbar -->

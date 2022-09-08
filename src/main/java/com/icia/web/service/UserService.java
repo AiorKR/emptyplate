@@ -217,4 +217,56 @@ public class UserService
 	    return numStr;
 	}
 
+	/************추가**********/
+	//동일 유저 즐겨찾기 여부 확인
+	public int userMarkCheck(User user)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = userDao.userMarkCheck(user);
+		}
+		catch(Exception e)
+		{
+			logger.error("[UserService] userMarkCheck Exception", e);
+		}
+		
+		return count;
+	}
+	
+	//유저 즐겨찾기 추가
+	public int userMarkUpdate(User user)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = userDao.userMarkUpdate(user);
+		}
+		catch(Exception e)
+		{
+			logger.error("[UserService] userMarkUpdate Exception", e);
+		}
+		
+		return count;
+	}
+	
+	//유저 즐겨찾기 취소
+	public int userMarkDelete(User user)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = userDao.userMarkDelete(user);
+		}
+		catch(Exception e)
+		{
+			logger.error("[UserService] userMarkDelete Exception", e);
+		}
+		
+		return count;
+	}
+	/************추가끝**********/
 }
