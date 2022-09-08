@@ -92,10 +92,10 @@ public interface BoardDao
 	//게시물 즐겨찾기 총 게시물 수
 	public long markListCount(Board board);
 	
-	//게시물 즐겨찾기 리스트
+	//유저 게시물 리스트
 	public List<Board> userList(Board board);
 	
-	//게시물 즐겨찾기 총 게시물 수
+	//유저 총 게시물 수
 	public long userListCount(Board board);
 	
 	//게시물 신고

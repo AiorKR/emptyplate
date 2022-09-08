@@ -272,9 +272,8 @@ public class BoardController
 	@RequestMapping(value="/board/userList")
 	public String userList(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	{
-		//쿠키 값
-        //String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
-        //해당 유저
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		//해당 유저
         String userUID = HttpUtil.get(request, "userUID");
 		//조회항목
 		String searchType = HttpUtil.get(request, "searchType");
@@ -296,11 +295,11 @@ public class BoardController
 		User user = new User();
 		//게시판 번호
 		search.setBbsNo(5);
-	 
-		/*if(!StringUtil.isEmpty(cookieUserUID))
-		{
-			search.setUserUID(cookieUserUID);
-		}*/
+		
+		/******추가******/
+		//즐겨찾기 여부 체크
+		String userMarkActive = "N";
+		/******추가끝******/
 		
 		if(!StringUtil.isEmpty(userUID))
 		{
@@ -312,7 +311,6 @@ public class BoardController
 			search.setSearchType(searchType);
 			search.setSearchValue(searchValue);
 		}		
-		
 		
 		search.setSortValue(sortValue);
 		totalCount = boardService.userListCount(search);
@@ -331,8 +329,26 @@ public class BoardController
 			search.setEndRow(paging.getEndRow());
 			
 			userList = boardService.userList(search);
-			user=userService.userUIDSelect(userUID);
+			user = userService.userUIDSelect(userUID);
 		}
+		
+		/******추가******/
+		if(!StringUtil.isEmpty(cookieUserUID))
+	    {
+			user.setUserUID(userUID);
+			//search.setUserUID(cookieUserUID);
+			user.setLoginUser(cookieUserUID);
+			//유저 좋아요 여부
+	        if(userService.userMarkCheck(user) == 0)                 
+	        {
+	        	userMarkActive = "N";
+	        }
+	        else
+	        {
+	        	userMarkActive = "Y";
+	        }
+	     }
+		/******추가끝******/
 		
 		model.addAttribute("userNick", user.getUserNick());
 		model.addAttribute("userList", userList);
@@ -344,8 +360,60 @@ public class BoardController
 		model.addAttribute("curPage", curPage);
 		model.addAttribute("paging", paging);
 		
+		/******추가******/
+		model.addAttribute("userMarkActive", userMarkActive);
+		/******추가끝******/
+		
 		return "/board/userList";
 	}
+	
+	/******추가******/
+	//유저 즐겨찾기 추가(AJAX)
+  	@RequestMapping(value="/board/userMark", method=RequestMethod.POST)
+  	@ResponseBody
+  	public Response<Object> userMark(HttpServletRequest request, HttpServletResponse response)
+  	{
+  		Response<Object> ajaxResponse = new Response<Object>();
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+  		//해당 유저
+        String userUID = HttpUtil.get(request, "userUID");
+        
+  		User user = new User();
+  		//Board board = new Board();
+  		
+  		if(!StringUtil.isEmpty(cookieUserUID))
+  		{
+   			try
+  			{
+   				user.setUserUID(userUID);
+   				//board.setUserUID(cookieUserUID);
+   				user.setLoginUser(cookieUserUID);
+   				
+  				if(userService.userMarkCheck(user) == 0)  					
+  				{
+  					userService.userMarkUpdate(user);
+  					ajaxResponse.setResponse(0, "userMark insert success");
+  				}
+  				else
+  				{
+  					userService.userMarkDelete(user);
+  					ajaxResponse.setResponse(1, "userMark delete success");
+  				}
+  			}
+  			catch(Exception e)
+  			{
+  				logger.error("[BoardController] /board/userMark Exception", e);
+  				ajaxResponse.setResponse(500, "internal server error");
+  			}	
+  		}
+  		else
+  		{
+  			ajaxResponse.setResponse(400, "Bad Request");
+  		}
+  		
+  		return ajaxResponse;
+  	}
+  	/******추가끝******/
 	
 	//게시물 조회
     @RequestMapping(value="/board/view")

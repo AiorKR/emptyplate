@@ -40,6 +40,11 @@ public class User implements Serializable
 
 	private String userFile; //첨부파일
 	private String fileName; //프로필 사진
+	
+	/******추가******/
+	private String loginUser;	//로그인한 아이디
+	/******추가끝******/
+	
 	/**
 	 * 생성자 
 	 */
@@ -60,7 +65,22 @@ public class User implements Serializable
 		bizDate = "";
 		userFile = "";
 		fileName = "";
+		
+		/******추가******/
+		loginUser = "";
+		/******추가끝******/
 	}
+	
+	/******추가******/
+	public String getLoginUser() {
+		return loginUser;
+	}
+
+	public void setLoginUser(String loginUser) {
+		this.loginUser = loginUser;
+	}
+	/******추가끝******/
+
 
 	public String getUserFile() {
 		return userFile;

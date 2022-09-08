@@ -2139,7 +2139,7 @@ section {
 }
 
 /*즐겨찾기 버튼*/
-#bookMark .boomarkButton button {
+#bookMark .bookmark button[type=button]{
   /*margin-top: 10px;*/
   background: rgba(225, 225, 225);
   border:3px solid #C2A383;
@@ -2149,15 +2149,15 @@ section {
   border-radius: 10px;
   font-family: 'Cafe24Dangdanghae';
   font-size: 17px;
-  /*margin-right: 5px;*/
+  margin-left: 5px;
   float: center;
 }
 
-#bookMark .boomarkButton button:hover {
+#bookMark .bookmark button[type=button]:hover {
   background: #C2A383;
 }
 
-#bookMark .boomarkButton ion-icon {
+#bookMark .bookmark ion-icon {
   color: #c78e54;
 }
 

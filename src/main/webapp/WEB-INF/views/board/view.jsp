@@ -447,12 +447,10 @@ function fn_deleteComment(bbsSeqValue)
 					<c:out value="${board.bbsTitle}" /><br/>
 				</div>
 				<div class="board-writer">
-					<ion-icon name="person"></ion-icon><a href="javascript:void(0)" onclick="fn_userList(${board.userUID})">${board.userNick}</a> &nbsp;
+					<ion-icon name="person"></ion-icon> ${board.userNick} &nbsp;
 					<ion-icon name="calendar"></ion-icon> ${board.regDate} &nbsp;
 					<ion-icon name="eye"></ion-icon> ${board.bbsReadCnt}
 				</div>
-
-
 				<div class="board-innercontent">
 					<col-lg-12>${board.bbsContent}</col-lg-12>
 					<div>
@@ -477,7 +475,6 @@ function fn_deleteComment(bbsSeqValue)
 							<c:when test="${bbsMarkActive eq 'N'}">
 								<div class="bookmark"><button type="button" id="btnMark" class="bookmark"><ion-icon name="star-outline"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
 							</c:when>
-						
 						</c:choose>
 					</div>
 				</div>

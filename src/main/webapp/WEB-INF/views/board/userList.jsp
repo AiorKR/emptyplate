@@ -31,7 +31,7 @@ $(document).ready(function() {
          document.bbsForm.curPage.value = "1";
          document.bbsForm.action = "/board/userList";
          document.bbsForm.submit();
-      });
+   });
    $("#btnSort3").on("click", function() { 
          document.bbsForm.bbsSeq.value = "";
          document.bbsForm.searchType.value = $("#_searchType").val();
@@ -40,8 +40,47 @@ $(document).ready(function() {
          document.bbsForm.curPage.value = "1";
          document.bbsForm.action = "/board/userList";
          document.bbsForm.submit();
-      });
-
+    });
+   /******추가******/
+	//유저 즐겨찾기
+    $("#btnMark").on("click", function(){
+	   $.ajax({
+	       type:"POST",
+	       url:"/board/userMark",
+	       data:{
+	    	   //userUID:<c:out value="${board.userUID}" />
+		       },
+	       datatype:"JSON",
+	       beforeSend:function(xhr){
+	          xhr.setRequestHeader("AJAX", "true");
+	       },
+	       success:function(response){
+	          if(response.code == 0)
+	          {
+	             alert("즐겨찾기를 하셨습니다.");
+	             location.reload();
+	          }
+	          else if(response.code == 1)
+	          {
+	             alert("즐겨찾기를 취소하셨습니다.");
+	             location.reload();
+	          }
+	          else if(response.code == 400)
+	          {
+	             alert("로그인 후, 즐겨찾기 버튼을 사용하실 수 있습니다.");
+		         location.href = "/user/login";
+	          }
+	          else
+	          {
+	             alert("즐겨찾기 중 오류가 발생하였습니다.");
+	          }
+	       },
+	       error:function(xhr, status, error){
+	          icia.common.error(error);
+	       }
+	    });
+   });
+    /******추가******/
 });
 
 function fn_view(bbsSeq)
@@ -59,11 +98,14 @@ function fn_list(curPage)
    document.bbsForm.submit();   
 }
 
-function fn_userList(userUID)
+function fn_userList(userUID, userNick)
 {
    document.bbsForm.userUID.value = userUID;
+   document.bbsForm.searchType.value = "1";
+   document.bbsForm.curPage.value = "1";
+   document.bbsForm.searchValue.value = userNick;
    document.bbsForm.action = "/board/userList";
-   document.bbsForm.submit();  
+   document.bbsForm.submit();
 }
 
 </script>
@@ -75,6 +117,16 @@ function fn_userList(userUID)
      <div class = "row">
       <c:if test="${!empty userList}">
        	<div class="bookmark-name">${userNick}님의 글</div>
+       	<!-- 추가 -->
+       	<c:choose>
+			<c:when test="${userMarkActive eq 'Y'}">
+				<div class="bookmark"><button type="button" id="btnMark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
+			</c:when>
+			<c:when test="${userMarkActive eq 'N'}">
+				<div class="bookmark"><button type="button" id="btnMark" class="bookmark"><ion-icon name="star-outline"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
+			</c:when>
+		</c:choose>
+		<!-- 추가끝 -->
       </c:if>
        <div class="d-flex flex-row justify-content-between">
          <div>
@@ -116,7 +168,7 @@ function fn_userList(userUID)
                  <td><ion-icon name="heart"></ion-icon>&nbsp;</td>
                  <td class="likeNum">${board.bbsLikeCnt}</td>
                  <td><a href="javascript:void(0)" onclick="fn_view(${board.bbsSeq})">${board.bbsTitle}</a></td>
-                 <td><a href="javascript:void(0)" onclick="fn_userList('${board.userUID}')">${board.userNick}</a></td>
+                 <td><a href="javascript:void(0)" onclick="fn_userList('${board.userUID}', '${board.userNick}')">${board.userNick}</a></td>
                  <td>${board.bbsReadCnt}</td>
                  <td>${board.regDate}</td>
                </tr>
