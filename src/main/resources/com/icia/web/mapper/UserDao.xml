@@ -57,7 +57,7 @@
           NVL(U.STATUS, '') STATUS,
           NVL(TO_CHAR(U.REG_DATE, 'YYYY.MM.DD HH24:MI:SS') , ''),
           NVL(U.BIZ_NUM, '') BIZ_NUM,
-          NVL(U.BIZ_NAME, '') BIZ_NAME
+          NVL(U.BIZ_NAME, '') BIZ_NAME,
           NVL(F.FILE_NAME, '') AS FILE_NAME
      FROM T_USER U, T_USER_FILE F
      WHERE U.USER_UID = #{value}
