@@ -20,6 +20,23 @@
 <meta charset="UTF-8">
 
 <script type="text/javascript">
+$(document).ready(function(){
+	//리뷰로 변경 필요
+	$("#btnSearch").on("click", function(){
+		document.bbsForm.bbsSeq.value = "";
+		document.bbsForm.searchType.value = $("#_searchType").val();
+		document.bbsForm.searchValue.value = $("#_searchValue").val();
+		document.bbsForm.curPage.value = "1";
+		document.bbsForm.action = "/board/list";
+		document.bbsForm.submit();
+	});
+	
+	$("#btn-primary").on("click", function() { 
+	      document.bbsForm.bbsSeq.value = "";
+	      document.bbsForm.action = "/purchase/pay";
+	      document.bbsForm.submit();
+	   });
+});
 
 var type = "";
 var shopOrderMenuSumPrice = 0;
@@ -357,6 +374,7 @@ $(document).ready(function(){
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-primary" onclick="ㄱㄷ볃ㄴ셰묘">결제</button>
                                 </div>
+                                <button onclick="requestPay();">결제하기</button> <!-- 결제하기 버튼 생성 -->
                               </div>
                             </div>
                           </div>
@@ -394,13 +412,46 @@ $(document).ready(function(){
                </c:forEach>
             </form>
         </div>
+        </section>
     <script>
       function changeImage(element) {
 
          var main_prodcut_image = document.getElementById('main_product_image');
          main_prodcut_image.src = element.src; 
       }
+      
     </script>
+        
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+    <!-- iamport.payment.js -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script>
+        var IMP = window.IMP; 
+        IMP.init("imp44526465"); 
+
+        function requestPay() {
+            IMP.request_pay({
+                pg : 'html5_inicis',
+                pay_method : 'card',
+                merchant_uid: "57008833-33005", 
+                name : '당근 10kg',
+                amount : 1004,
+                buyer_email : 'Iamport@chai.finance',
+                buyer_name : '아임포트 기술지원팀',
+                buyer_tel : '010-1234-5678',
+                buyer_addr : '서울특별시 강남구 삼성동',
+                buyer_postcode : '123-456'
+            }, function (rsp) { // callback
+                if (rsp.success) {
+                    console.log(rsp);
+                } else {
+                    console.log(rsp);
+                }
+            });
+        }
+    </script>
+    <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 </body>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 </html>

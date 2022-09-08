@@ -775,9 +775,10 @@ section {
   opacity : 0.95;
   position: absolute;
   bottom: 0;
-  top: 14.5%;
-  left: 5%;
-  right: 5%;
+  top: 13.9%;
+  left: 11%;
+  right: 11%;
+  border-radius: 20px;
 }
 
 #community .section-title h2 {
@@ -2860,6 +2861,7 @@ section {
 }
 .reservation-container {
   margin-top: 100px;
+  
 }
 
 .reservation:before {
@@ -2882,10 +2884,21 @@ section {
   position: relative;
 }
 
+.reservation .container-fluid {
+  position: relative;
+  margin-bottom: 15px;
+}
+
 @media (min-width: 1024px) {
   .reservation {
     background-attachment: fixed;
   }
+}
+
+hr.hr-5 {
+  border: 0;
+  border-top: 3px double #8c8c8c;
+  border-color: #000;
 }
 
 .reservation .reservation-carousel {
@@ -2947,7 +2960,7 @@ section {
 }
 
 .reservation .swiper-pagination {
-  margin-top: 30px;
+  margin-top: 40px;
   position: relative;
 }
 
@@ -3435,6 +3448,7 @@ reservation 검색
   margin-top: 14px;
 }
 
+/*즐겨찾기*/
 .view .modal {
   margin-top: 15vh;
   color:black;
@@ -3658,17 +3672,14 @@ reservation 검색
 
 .today:before {
   content: "";
-  background: rgba(16, 16, 16);
+  background: rgba(225, 225, 225);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
-  top: 8%;
-  left: 5%;
-  right: 5%;
-}
-
-.today .section-title h2 {
-  color: #fff;
+  top: 15.5%;
+  left: 11%;
+  right: 11%;
+  border-radius: 20px;
 }
 
 .today .container {
@@ -3756,7 +3767,7 @@ reservation 검색
 }
 
 .today .card {
-  width: 25rem;
+  width: 100%;
 }
 
 .today .table tr {
@@ -3815,6 +3826,46 @@ today 검색
 
 .today .collapse .btn:hover {
   background: #d3af71;
+}
+
+/*페이징*/
+.today .page-wrap .page-nation li{ 
+  list-style: none;
+}
+
+.today .page-wrap {
+  text-align:center;
+  font-size:0;
+  padding-left: 0px;
+}
+
+.today .page-wrap .page-nation  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top:5px;
+  padding-left: 0px;
+}
+
+.today .page-wrap .page-nation a {
+  display:block;
+  margin:0 3px;
+  border:1px solid #C2A383;
+  border-radius: 10px;
+  width:28px;
+  height:28px;
+  line-height:28px;
+  text-align:center;
+  background-color:#C2A383;
+  font-size:13px;
+  color:#0c0b09;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+.today .page-wrap .page-nation a:hover{
+  background-color:gray;
+  color:white;
 }
 
 /*--------------------------------------------------------------
@@ -4166,7 +4217,7 @@ login.html시작
 }
 
 .mypage-title {
-  margin-top: 25px;
+  margin-top: 3px;
   font-family: 'cafe24Dangdanghae';
   font-size: 48px;
   color: #cda45e;
@@ -4207,7 +4258,7 @@ hr[role="tournament1"]::before {
   margin-top: 20px;
   margin: auto;
   width:550px;
-  height:600px;
+  height: 760px;
   border-radius :3%;
   overflow : hidden;
   background-color: white;
@@ -4315,10 +4366,13 @@ hr[role="tournament1"]::before {
 
 #help .row{
   width : 100%;
-  background-color:rgba(255, 255, 255, 0.8);
-  border-radius: 1em;
+  background-color:rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
   padding: 3vh 0;
-  margin: 5vh 0;
+  bottom: 0;
+  top: 13.9%;
+  left: 11%;
+  right: 11%;
   text-align: center;
 }
 
@@ -5391,4 +5445,102 @@ hr[role="tournament1"]::before {
   background-color: rgba(16, 16, 16);
   border-radius: 0%;
 
+}
+
+/*결제*/
+.pay-back {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 70%;
+  background: rgb(255, 255, 255);
+  margin: auto;
+}
+
+.pay-title {
+  margin-top: 25px;
+  font-family: 'cafe24Dangdanghae';
+  font-size: 48px;
+  color: #cda45e;
+  text-align: center;
+}
+
+.pay.user-edit {
+  width: 600px;
+  height: auto;
+  color:#cda45e;
+  font-size: 20pt;
+  font-family: 'cafe24Dangdanghae';
+  margin: auto;
+}
+
+hr[role="tournament1"] {
+  border: 0px solid;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(172, 131, 83, 0.75), rgba(0, 0, 0, 0));
+  margin: 0px 0px;
+  display: block;
+}
+hr[role="tournament1"]::before {
+  position: absolute;
+  background-color: #efefef;
+  border: 1px solid;
+  border-color: #AC8353;
+  border-left: 0px solid;
+  border-top: 0px solid;
+  padding: 10px;
+  transform: rotate(45deg);
+  left: 50%;
+  margin: -10px 0px 0px -22px;
+  content: "";
+}
+
+.pay-card {
+  margin-top: 20px;
+  margin: auto;
+  width:550px;
+  height:600px;
+  border-radius :3%;
+  overflow : hidden;
+  background-color: white;
+  box-shadow: 5px 5px 5px 5px gray;
+  }
+
+.pay-card-img {
+  margin-top: 20px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  }
+
+.pay-card-name {
+  text-align: center;
+  font-size : 20px;
+  color : black;
+  margin-top : 10px;
+  margin-left : 20px;
+  margin-right : 20px;
+  border-bottom : 0.5px solid gray;
+  padding-bottom: 10px;
+  }
+
+.pay-card-intro {
+  margin-left: 20px;
+  height:400px;
+  padding-right:25px;
+  padding-left:25px;
+  color: #000;
+  font-size: 13px;
+  }
+
+.pay-img-div { 
+  margin-bottom:15px;
+  text-align: center;
+  background-color: #cda45e;
+  }
+
+.pay-profile-btn {
+  
+  font-size: 11pt;
+  color: #28251f;
 }
