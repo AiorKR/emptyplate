@@ -25,13 +25,14 @@ $("#tel_btn").on("click", function() {
 		return;
 	}
 	else{
+	const userId = $("#userId").val();
 	const telNum = $("#tel").val();
 	$.ajax({
 		type:'POST',
-		url:"/user/sendSms2",
+		url:"/user/sendSms3",
 		header:{"Content-Type":"application/json"},
 		dateType:'json',
-		data:{tel:telNum},
+		data:{tel:telNum, userId:userId},
 		success : function(response){
 			if(response.code == 0){
 				alert('인증 번호를 전송했습니다.')
@@ -111,7 +112,7 @@ $("#btnUpdate").on("click", function() {
   	
  	$.ajax({
 	type:"POST",
-	url:"/myPage/PwdUpdate",
+	url:"/user/PwdUpdate",
 	data:{
 		userPwd:$("#userPwd2").val()
 	},
@@ -123,28 +124,23 @@ $("#btnUpdate").on("click", function() {
 		if(response.code == 0)
 		{
 			alert("비밀번호가 변경되었습니다.");
-			opener.parent.updateSuccess();
 			self.close();
 		}
 		else if(response.code == 400)
 		{
-			opener.parent.ParmError();
-			self.close();
+			alert("파라미터 값이 올바르지 않습니다.");
 		}
 		else if(response.code == 404)
 		{
-			opener.parent.userError();
-			self.close();
+			alert("회원정보가 존재하지 않습다.");
 		}
 		else if(response.code == 500)
 		{
-			opener.parent.updateError();					
-			self.close();
+			alert("회원정보 수정 중 오류가 발생하였습니다.");
 		}
 		else
 		{
-			opener.parent.updateError();
-			self.close();
+			alert("회원정보 수정 중 오류가 발생하였습니다.");
 		}
 	},
 	error:function(xhr, status, error)
@@ -161,6 +157,7 @@ $("#btnUpdate").on("click", function() {
 
 <body>
 	<form>
+		<input type="text" id="userId" name="userId" class="pwds" placeholder="아이디를 입력해주세요.">
 		<div>
 			<input type="tel" id="tel" name="tel" class="pwds" placeholder="전화번호(- 빼고 작성해주세요)" pattern="[0-9]{11}" required>
 			<button type="button" id="tel_btn">인증번호 전송</button>

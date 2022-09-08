@@ -36,7 +36,6 @@ public class User implements Serializable
 	private String regDate;    // 등록일
 	private String bizNum;	   // 사업자번호
 	private String bizName;    // 사업자명
-	private String bizDate;	   // 사업자등록일
 
 	private String userFile; //첨부파일
 	private String fileName; //프로필 사진
@@ -62,7 +61,6 @@ public class User implements Serializable
 		regDate = "";
 		bizNum = "";
 		bizName = "";
-		bizDate = "";
 		userFile = "";
 		fileName = "";
 		
@@ -312,13 +310,5 @@ public class User implements Serializable
 
 	public void setBizName(String bizName) {
 		this.bizName = bizName;
-	}
-
-	public String getBizDate() {
-		return bizDate;
-	}
-
-	public void setBizDate(String bizDate) {
-		this.bizDate = bizDate;
 	}
 }

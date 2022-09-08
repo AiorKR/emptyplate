@@ -20,14 +20,92 @@
 <meta charset="UTF-8">
 
 <script type="text/javascript">
+$(document).ready(function(){
+	//리뷰로 변경 필요
+	$("#btnSearch").on("click", function(){
+		document.bbsForm.bbsSeq.value = "";
+		document.bbsForm.searchType.value = $("#_searchType").val();
+		document.bbsForm.searchValue.value = $("#_searchValue").val();
+		document.bbsForm.curPage.value = "1";
+		document.bbsForm.action = "/board/list";
+		document.bbsForm.submit();
+	});
+	
+	$("#btn-primary").on("click", function() { 
+	      document.bbsForm.bbsSeq.value = "";
+	      document.bbsForm.action = "/purchase/pay";
+	      document.bbsForm.submit();
+	   });
+});
+
+var type = "";
+var shopOrderMenuSumPrice = 0;
+
 function fn_search(shopHashtag) { //해시태그 클릭시 검색
     document.bbsForm.searchValue.value = "#" + shopHashtag;
     document.bbsForm.action = "/reservation/list";
     document.bbsForm.submit();
 }
 
-function fn_MenuAdd(shopMenu) { //메뉴 클릭시 메뉴 출력
-	$('#selectMenu').append(shopMenu + "<br />");
+function fn_MenuAdd(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid) { //메뉴 클릭시 메뉴 출력	
+	if(type != "") {
+		if(type == shopMenuCode) {
+				$("#shopOrderMenu" + shopMenuid).text(shopOrderMenu + "x"); //메뉴 하나 선택시 추가
+				if($("#shopOrderMenuQuantity" + shopMenuid).text() == "") {
+					$("#shopOrderMenuQuantity" + shopMenuid).text(1);
+				}
+				else {
+					var cnt = $("#shopOrderMenuQuantity" + shopMenuid).text();
+					cnt++;
+					if(cnt >= 10) {
+						return;
+					}
+					$("#shopOrderMenuQuantity" + shopMenuid).text(cnt);
+				}
+			shopOrderMenuSumPrice += shopOrderMenuPrice;
+			$("#sumPrice").text(shopOrderMenuSumPrice);		
+		}
+	}
+	else {
+		alert("날짜와 시간을 먼저 선택해주세요");
+	}
+}
+
+function fn_MenuSub(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid) { //메뉴 빼기
+	if(type == shopMenuCode) {
+		var cnt = $("#shopOrderMenuQuantity" + shopMenuid).text();
+		if(cnt <= 0) {
+			console.log(cnt);
+			$("#shopOrderMenu" + shopMenuid).text("");
+			$("#shopOrderMenuQuantity" + shopMenuid).text("");
+			fn_Menudel();
+			return;
+		}
+		$("#shopOrderMenu" + shopMenuid).text(shopOrderMenu + "x"); //메뉴 하나 선택시 추가
+		cnt--;
+		shopOrderMenuSumPrice -= shopOrderMenuPrice;
+		$("#sumPrice").text(shopOrderMenuSumPrice);		
+		$("#shopOrderMenuQuantity" + shopMenuid).text(cnt);
+	}
+	else {
+		alert("날짜와 시간을 먼저 선택해주세요");
+	}
+}
+
+function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid) { //메뉴 삭제
+	if(type == shopMenuCode) {
+		var price = shopOrderMenuPrice;
+		var cnt = $("#shopOrderMenuQuantity" + shopMenuid).text();
+		
+		price = price * cnt;
+		
+		shopOrderMenuSumPrice -= price;
+		
+		$("#shopOrderMenu" + shopMenuid).text("");
+		$("#shopOrderMenuQuantity" + shopMenuid).text("");
+		
+		$("#sumPrice").text(shopOrderMenuSumPrice);		
+	}
 }
 
 $(document).ready(function(){ 
@@ -48,8 +126,6 @@ $(document).ready(function(){
 			$("#datepicker-ul").attr('style', "display:inline;");
 		});
 
-
-
 		$(document).ready(function(){
 		    $('.datepicker').datepicker({
 				format: 'yyyy.mm.dd',
@@ -60,17 +136,27 @@ $(document).ready(function(){
 				immediateUpdates: true
 		    });
 		    
-		    $('.dptime').click(function(){
-		      $('.dptime').removeClass('select');
-		      $(this).addClass('select');
-		      $("#datepicker-ul").attr('style', "display:none;");
-		      document.bbsForm.reservationDate.value = $('.datepicker').val().replaceAll(".", "");
-		      document.bbsForm.reservationTime.value = $(this).text();
-		      document.bbsForm.reservationTime.value = $(this).text().replaceAll(":", "");
-			  $('.datepicker').val($('.datepicker').val()+ ' ' + $(this).text());
-			  $("#tableCheck").text("");
-			  reservationCheck();
-		    });
+	    $('.dptime').click(function(){
+	    	$('.dptime').removeClass('select');
+	      	$(this).addClass('select');
+	      	$("#datepicker-ul").attr('style', "display:none;");
+	      	document.bbsForm.reservationDate.value = $('.datepicker').val().replaceAll(".", "");
+	      	document.bbsForm.reservationTime.value = $(this).text();
+	      	if($(this).text() != "" && $(this).text() != null) {
+				<c:forEach items="${shop.shopTime}" var="shopTime" varStatus="status">
+					if($(this).text() ==  '${shopTime.shopOrderTime}') {
+					 	type = '${shopTime.shopTimeType}';
+					 	$(".shopOrderMenu").text("");
+					 	$("#sumPrice").text(0);
+					 	shopOrderMenuSumPrice = 0;
+					}
+				</c:forEach>
+	      	}
+	      	document.bbsForm.reservationTime.value = $(this).text().replaceAll(":", "");
+		  	$('.datepicker').val($('.datepicker').val()+ ' ' + $(this).text());
+		  	$("#tableCheck").text("");
+		  	reservationCheck();	
+	    	});
 		});
 	
 	function reservationCheck() {
@@ -88,12 +174,7 @@ $(document).ready(function(){
 	          },
 	          success:function(response) {
 	             if(response.code == 0) {
-	               	if(response.data != null) {
-	    				$.each(response.data, function(index, item) { // 데이터 =item
-	    					$("#tableCheck").append(item.shopTotalTableCapacity +  '인 테이블 '); // index가 끝날때까지 
-	    					$("#tableCheck").append(item.shopTotalTableRmains + "개 남아있음" + '<br />');
-	    				});
-	               	}
+
 	             }
 	             else if(response.code == 400) {
 	                alert("파라미터 값이 올바르지 않습니다.");
@@ -247,7 +328,7 @@ $(document).ready(function(){
 	                                        <ul id="datepicker-ul">
 	                                            <li id="datepicker-li">
 	                                            	<c:forEach items="${shop.shopTime}" var="shopTime" varStatus="status">
-														<div class="dptime">${shopTime.shopOrderTime}</div>
+														<div class="dptime" id="shopTime${status.index}">${shopTime.shopOrderTime}</div>
 	                               					</c:forEach>  
 	                                            </li>
 	                                        </ul>
@@ -258,19 +339,42 @@ $(document).ready(function(){
 									</div>
                                     <div class="menuQuantity">
                                    		<ul class="menuQuantity">
-                                       		<c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
-												<div onclick="fn_MenuAdd('${shopMenu.shopMenuName}')">${shopMenu.shopMenuName} ${shopMenu.shopMenuPrice} 원</div>
-                        			  		</c:forEach>  
+                                   			<table>
+                                       			<c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
+													<tr id="shopMenu${status.index}">
+														<td>
+															${shopMenu.shopMenuName}
+														</td>
+														
+														<td>
+															 ${shopMenu.shopMenuPrice} 원
+														</td>
+														<td>
+															<input type="button" value="+" onclick="fn_MenuAdd('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})" />
+															<input type="button" value="-" onclick="fn_MenuSub('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})" />
+															<input type="button" value="삭제" onclick="fn_Menudel('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})" />
+														</td>
+													</tr>
+                        			  			</c:forEach>
+                        			  		</table>
                                       	</ul>
                                 	</div>
-                                	<div style="border:1px solid black;" id="selectMenu">
-                                		<p>주문 메뉴</p>
-                                	</div>
+	                                	<div style="border:1px solid black;">
+	                                		<p>주문 메뉴</p>
+	                                		<c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
+	                                			<div>
+	                              	  				<span id="shopOrderMenu${status.index}" class="shopOrderMenu"></span>
+	                                				<span id="shopOrderMenuQuantity${status.index}" class="shopOrderMenu"></span>
+	                                			</div>
+	                                		</c:forEach>
+	                                		<p style="border:1px solid blakc;">총 금액 : <span id="sumPrice">0</span></p>
+	                                	</div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                  <button type="button" class="btn btn-primary">예약</button>
+                                  <button type="button" class="btn btn-primary" onclick="ㄱㄷ볃ㄴ셰묘">결제</button>
                                 </div>
+                                <button onclick="requestPay();">결제하기</button> <!-- 결제하기 버튼 생성 -->
                               </div>
                             </div>
                           </div>
@@ -302,15 +406,52 @@ $(document).ready(function(){
                <input type="hidden" name="reservationDate" id="reservationDate" value="${reservationDate}" />
                <input type="hidden" name="reservationTime" id="reservationTime" value="${reservationTime}" />
                <input type="hidden" name="reservationPeople" value="" />
+               <c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
+        	   		<input type="hidden" name="shopOrderMenu${status.index}" value="" />
+        	   		<input type="hidden" name="shopOrderMenuQuantity${status.index}" value="" />
+               </c:forEach>
             </form>
         </div>
+        </section>
     <script>
       function changeImage(element) {
 
          var main_prodcut_image = document.getElementById('main_product_image');
          main_prodcut_image.src = element.src; 
       }
+      
     </script>
+        
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+    <!-- iamport.payment.js -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script>
+        var IMP = window.IMP; 
+        IMP.init("imp44526465"); 
+
+        function requestPay() {
+            IMP.request_pay({
+                pg : 'html5_inicis',
+                pay_method : 'card',
+                merchant_uid: "57008833-33005", 
+                name : '당근 10kg',
+                amount : 1004,
+                buyer_email : 'Iamport@chai.finance',
+                buyer_name : '아임포트 기술지원팀',
+                buyer_tel : '010-1234-5678',
+                buyer_addr : '서울특별시 강남구 삼성동',
+                buyer_postcode : '123-456'
+            }, function (rsp) { // callback
+                if (rsp.success) {
+                    console.log(rsp);
+                } else {
+                    console.log(rsp);
+                }
+            });
+        }
+    </script>
+    <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 </body>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 </html>

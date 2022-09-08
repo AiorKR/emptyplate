@@ -78,12 +78,29 @@
             			<value>/user/NickUpdate</value>
             			<value>/user/EmailUpdate</value>
             			<value>/myPage/userDelete</value>
+            			<value>/kakao/pay</value>
+            			<value>/kakao/payReady</value>
+            			<value>/kakao/paySuccess</value>
+            			<value>/kakao/payFail</value>
+            			<value>/kakao/payCancel</value>
             			<value>/user/FileUpdate</value>
             			<value>/user/FileInsert</value>
             			<value>/user/signUpPopUp</value>
             			<value>/user/sendSms</value>
+            			<value>/user/sendSms2</value>
+            			<value>/user/sendSms3</value>
+            			<value>/user/sendSms4</value>
             			<value>/user/sendSmsOk</value>
             			<value>/user/PhoneUpdate</value>
+            			<value>/user/PwdUpdate</value>
+            			<value>/user/pwdSearch_popup</value>
+            			<value>/user/kakao_popup</value>
+            			<value>/user/kakaoSet</value>
+            			<value>/user/kakaoProc</value>
+            			<value>/user/kloginOk</value>
+            			<value>/user/phone_popup</value>
+            			<value>/user/bizNumPopup</value>
+            			<value>/user/regManProc</value>
             		</list>
             	</constructor-arg>
             </bean>
