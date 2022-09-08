@@ -72,15 +72,15 @@ $(document).ready(function(){
 		startDate: '0d',
 		endDate: '+1m'
     });
-    
+//데이트피커에서 선택시 시간 선택지 나오게 하는 함수
     $('.dptime').click(function(){
       $('.dptime').removeClass('select');
       $(this).addClass('select');
       $("#datepicker-ul").attr('style', "display:none;");
-      document.bbsForm.reservationDate.value = $('.datepicker').val().replaceAll(".", "");
+      document.bbsForm.reservationDate.value = $('.datepicker').val().replaceAll(".", "");//날짜에서 . 제거
       document.bbsForm.reservationTime.value = $(this).text();
-      document.bbsForm.reservationTime.value = $(this).text().replaceAll(":", "");
-	  $('.datepicker').val($('.datepicker').val()+ ' ' + $(this).text());
+      document.bbsForm.reservationTime.value = $(this).text().replaceAll(":", "");//시간에서 : 제거
+	  $('.datepicker').val($('.datepicker').val() + ' ' + $(this).text());
 	  document.bbsForm.action = "/reservation/list";
 	  document.bbsForm.submit();
     });
@@ -244,14 +244,14 @@ $(document).ready(function(){
             </div>
            </div>
       </div>
-          <form name="bbsForm" id="bbsForm" method="post">
-           <input type="hidden" name="shopUID" value=""/> 
+            <form name="bbsForm" id="bbsForm" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="shopUID" value=""/> 
             <input type="hidden" name="searchType" value="${searchType}"/>
             <input type="hidden" name="searchValue" value="${searchValue}" />
             <input type="hidden" name="curPage" value="${curPage}" />
             <input type="hidden" name="reservationDate" value="${reservationDate}" />
             <input type="hidden" name="reservationTime" value="${reservationTime}" />
-      </form>
+     		</form>
    </div>
 </section>
 

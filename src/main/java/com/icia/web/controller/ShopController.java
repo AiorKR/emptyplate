@@ -169,6 +169,7 @@ public class ShopController {
 		   String reservationDate = HttpUtil.get(request, "reservationDate");
 		   String reservationTime = HttpUtil.get(request, "reservationTime");
 		   
+		   int standardTime = 1700; //점심 저녁 나눌 기준 시간
 		   
 		   //현제페이지
 		   long curPage = HttpUtil.get(request, "curPage", (long)1);
@@ -199,6 +200,17 @@ public class ShopController {
 			   
 			   for(int i=0; i < shop.getShopTime().size(); i++ ) {
 				   logger.debug("시간 : " + shop.getShopTime().get(i).getShopOrderTime());
+				   
+				   if(Integer.parseInt(shop.getShopTime().get(i).getShopOrderTime().replaceAll(":", "")) >= standardTime) { //시간에서 :제거후 int형으로 변환해서 기준시간과 비교
+					   shop.getShopTime().get(i).setShopTimeType("D");
+					   logger.debug("저녁시간 : " + shop.getShopTime().get(i).getShopOrderTime());
+					   logger.debug("저녁시간 : " + shop.getShopTime().get(i).getShopTimeType());
+				   }
+				   else {
+					   shop.getShopTime().get(i).setShopTimeType("L"); //기준 시간  보다 작다면 점심시간
+					   logger.debug("점심시간 : " + shop.getShopTime().get(i).getShopOrderTime());
+					   logger.debug("점심시간 : " + shop.getShopTime().get(i).getShopTimeType());
+				   }
 			   }
 			   	   
 			   url = "/reservation/view";

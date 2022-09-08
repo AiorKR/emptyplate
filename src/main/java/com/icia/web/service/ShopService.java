@@ -122,7 +122,6 @@ public class ShopService {
 				
 				shopDao.shopFileInsert(shopFileList);
 			}
-			
 			return count;
 		}
 }
