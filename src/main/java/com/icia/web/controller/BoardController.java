@@ -275,6 +275,8 @@ public class BoardController
   		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		//해당 유저
         String userUID = HttpUtil.get(request, "userUID");
+		//해당 유저
+        String markUser = HttpUtil.get(request, "markUser");
 		//조회항목
 		String searchType = HttpUtil.get(request, "searchType");
 		//조회값
@@ -335,9 +337,10 @@ public class BoardController
 		/******추가******/
 		if(!StringUtil.isEmpty(cookieUserUID))
 	    {
-			user.setUserUID(userUID);
+			user.setUserUID(cookieUserUID);
 			//search.setUserUID(cookieUserUID);
-			user.setLoginUser(cookieUserUID);
+			user.setMarkUser(markUser);
+			
 			//유저 좋아요 여부
 	        if(userService.userMarkCheck(user) == 0)                 
 	        {
@@ -353,6 +356,7 @@ public class BoardController
 		model.addAttribute("userNick", user.getUserNick());
 		model.addAttribute("userList", userList);
 		model.addAttribute("userUID", userUID);
+		model.addAttribute("markUser", markUser);
 		model.addAttribute("bbsNo", search.getBbsNo());
 		model.addAttribute("searchType", searchType);
 		model.addAttribute("searchValue", searchValue);
@@ -376,18 +380,20 @@ public class BoardController
   		Response<Object> ajaxResponse = new Response<Object>();
   		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
   		//해당 유저
-        String userUID = HttpUtil.get(request, "userUID");
+        //String userUID = HttpUtil.get(request, "userUID");
+		//해당 유저
+        String markUser = HttpUtil.get(request, "markUser");
         
   		User user = new User();
-  		//Board board = new Board();
+  		Board board = new Board();
   		
   		if(!StringUtil.isEmpty(cookieUserUID))
   		{
    			try
   			{
-   				user.setUserUID(userUID);
+   				user.setUserUID(cookieUserUID);
    				//board.setUserUID(cookieUserUID);
-   				user.setLoginUser(cookieUserUID);
+   				user.setMarkUser(markUser);
    				
   				if(userService.userMarkCheck(user) == 0)  					
   				{

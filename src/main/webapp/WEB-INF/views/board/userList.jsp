@@ -49,6 +49,7 @@ $(document).ready(function() {
 	       url:"/board/userMark",
 	       data:{
 	    	   //userUID:<c:out value="${board.userUID}" />
+	    	   userUID: "${board.userUID}"
 		       },
 	       datatype:"JSON",
 	       beforeSend:function(xhr){

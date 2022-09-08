@@ -776,8 +776,8 @@ section {
   position: absolute;
   bottom: 0;
   top: 13.9%;
-  left: 11%;
-  right: 11%;
+  left: 5%;
+  right: 5%;
   border-radius: 20px;
 }
 
@@ -902,7 +902,7 @@ section {
 }
 
 #community .swiper-pagination {
-  margin-top: 30px;
+  margin-top: 10px;
   position: relative;
   bottom : 30px;
 }
