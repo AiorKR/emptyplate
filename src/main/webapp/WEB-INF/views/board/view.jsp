@@ -262,24 +262,33 @@ function fn_deleteComment(bbsSeqValue)
 function fn_reComment(bbsSeqValue)
 {
 	$.ajax({
-		type:"POST",
-		url:"/board/reComment",
-		datatype:"JSON",
-		data:{
-			bbsSeq:bbsSeqValue
-		},
-		beforeSend:function(xhr)
-		{
-		    xhr.setRequestHeader("AJAX", "true");
-		},
-		success:function()
-		{
-			$("#commentSection").load("/board/list #commentSection");
-		},
-		error:function(xhr, status, error){
+        url: "/board/reComment",
+        data: {
+        	bbsSeq:bbsSeqValue
+        },
+        method: "POST",
+        beforeSend:function(xhr){
+        	xhr.setRequestHeader("AJAX", "true");
+        },
+        success:function(response){
+        	 if(response.code == 0)
+             {
+              	alert("성공");
+             }
+        	 else
+       		 {
+       		 	alert("error");
+       		 }
+        },
+        error:function(xhr, status, error){
             icia.common.error(error);
+            alert("error2	");
+        },
+        complete:function(){
+        	alert("완료처리");
+            $('#commentSection').load(location.href+' #commentSection');
         }
-	})
+    });
 }
 
 </script>
@@ -398,7 +407,7 @@ function fn_reComment(bbsSeqValue)
 										<a>${board.regDate}</a>
 										<button type="submit" id="btnReport">신고</button>
 										<form name="reCommentForm" id="reCommentForm" method="post">
-											<button onclick="fn_reComment(${board.bbsSeq})" id="reComment" class="reComment">댓글달기</button>
+											<button type="button" onclick="fn_reComment(${board.bbsSeq})" id="reComment" class="reComment">댓글달기</button>
 											<input type="hidden" id="userNick" name="userNick" value="${board.userNick}"/>
 											<input type="hidden" id="commentGroup" name="commentGroup" value="${board.commentGroup}"/>
 											<input type="hidden" id="commentOrder" name="commentOrder" value="${board.commentOrder}"/>

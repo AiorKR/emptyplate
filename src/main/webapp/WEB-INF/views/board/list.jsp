@@ -53,6 +53,38 @@ $(document).ready(function() {
          document.bbsForm.action = "/board/list";
          document.bbsForm.submit();
       });
+   $(".btnSort").on("click", function(){
+	   
+	   
+	   $.ajax({
+	        url: "/board/sortProc",
+	        data: {
+	        	
+	        },
+	        method: "POST",
+	        beforeSend:function(xhr){
+	        	xhr.setRequestHeader("AJAX", "true");
+	        },
+	        success:function(response){
+	        	 if(response.code == 0)
+	             {
+	              	alert("성공");
+	             }
+	        	 else
+	       		 {
+	       		 	alert("error");
+	       		 }
+	        },
+	        error:function(xhr, status, error){
+	            icia.common.error(error);
+	            alert("error2	");
+	        },
+	        complete:function(){
+	        	alert("완료처리");
+	            $('#commentSection').load(location.href+' #commentSection');
+	        }
+	    });
+   });
 });
 
 function fn_view(bbsSeq)
@@ -99,9 +131,9 @@ function fn_list(curPage)
        <div class="d-flex flex-row justify-content-between">
          <div>
            <ul>
-             <li><button type="button" value="4" id="btnSort1" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=4'" class="btnSort">최신순</button></li>
-             <li><button type="button" value="5" id="btnSort2" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=5'" class="btnSort">좋아요순</button></li>
-             <li><button type="button" value="6" id="btnSort3" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=6'" class="btnSort">조회순</button></li>
+             <li><button type="button" value="4" id="btnSort1" class="btnSort" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=4'">최신순</button></li>
+             <li><button type="button" value="5" id="btnSort2" class="btnSort" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=5'">좋아요순</button></li>
+             <li><button type="button" value="6" id="btnSort3" class="btnSort" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=6'">조회순</button></li>
            </ul>
          </div>
          <div>

@@ -131,6 +131,19 @@ public class BoardController
 		return "/board/list";
 	}
 	
+	//정렬
+  	@RequestMapping(value="/board/sortProc", method=RequestMethod.POST)
+  	@ResponseBody
+  	public Response<Object> sortProc(HttpServletRequest request, HttpServletResponse response)
+  	{
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+  		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+  		
+  		Response<Object> ajaxResponse = new Response<Object>();
+  		
+  		return ajaxResponse;
+  	}
+	
 	//게시물 등록 form(글쓰기)
 	@RequestMapping(value="/board/writeForm")
 	public String writeForm(ModelMap model, HttpServletRequest request, HttpServletResponse response)
@@ -750,37 +763,17 @@ public class BoardController
   	{
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
   		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
-
   		Response<Object> ajaxResponse = new Response<Object>();
-  		if(bbsSeq > 0)
+  		try
   		{
-  			Board board = boardService.boardSelect(bbsSeq);
-  			if(board != null)
-  			{
-  				try
-				{
-  					logger.debug("#######################################################완료");
-  					logger.debug("#######################################################완료");
-  					logger.debug("#######################################################완료");
-  					logger.debug("#######################################################완료");
-  					board.setCommentIndent(board.getCommentIndent()+1);
-					ajaxResponse.setResponse(0, "Success");
-				}
-  				catch(Exception e)
-				{
-					logger.error("[BoardController] reComment Exception", e);
-					ajaxResponse.setResponse(500, "Internal server error");
-				}
-  			}
-  			else
-  			{	
-  				ajaxResponse.setResponse(404, "Not found");
-  			}
+  			ajaxResponse.setResponse(0, "Success");
   		}
-  		else
-		{	
-			ajaxResponse.setResponse(404, "Not found");
-		}
+  		catch(Exception e)
+  		{
+  			logger.error("[BoardController] reComment Exception", e);
+				ajaxResponse.setResponse(500, "Internal server error");
+  		}
+  		
   		return ajaxResponse;
   	}
 }
