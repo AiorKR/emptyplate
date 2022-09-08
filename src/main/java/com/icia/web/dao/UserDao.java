@@ -1,6 +1,6 @@
 /**
  * <pre>
- * 프로젝트명 : HiBoard
+ * 프로젝트명 : EmptyPlate
  * 패키지명   : com.icia.web.dao
  * 파일명     : UserDao.java
  * 작성일     : 2021. 1. 19.
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.icia.web.model.User;
 import com.icia.web.model.UserFile;
+
 
 /**
  * <pre>
@@ -38,8 +39,10 @@ public interface UserDao
 	 * @return  com.icia.web.model.User
 	 */
 	public User userSelect(String userId);
-
+	
 	public User userUIDSelect(String userUID);
+	
+	public User userPhoneSelect(String userPhone);
 	
 	//사용자 등록
 	public int userInsert(User user);
@@ -49,5 +52,23 @@ public interface UserDao
 
 	//프로필사진 등록
 	public int userFileInsert(UserFile userFile);
+	
+	//프로필사진 변경
+	public int userFileUpdate(UserFile userFile);
+	
+	public int userFileDelete(UserFile userFile);
+	
+	//사용자 탈퇴
+	public int userDelete(User user);
 
+	/******추가******/
+	//동일 유저 즐겨찾기 여부 확인
+	public int userMarkCheck(User user);
+		
+	//유저 즐겨찾기 추가
+	public int userMarkUpdate(User user);
+	
+	//유저 즐겨찾기 취소
+	public int userMarkDelete(User user);
+	/******추가끝******/
 }

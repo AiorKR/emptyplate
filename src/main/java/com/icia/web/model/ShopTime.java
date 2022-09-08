@@ -1,7 +1,6 @@
 package com.icia.web.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class ShopTime implements Serializable {
 
@@ -10,9 +9,12 @@ public class ShopTime implements Serializable {
 	private String shopUID;
 	private String shopOrderTime;
 	
+	private String shopTimeType;
+	
 	public ShopTime() {
 		shopUID = "";
 		shopOrderTime = "";
+		shopTimeType = ""; //런치면 L, 디너면 D 시간기준은 1700
 	}
 
 	public String getShopUID() {
@@ -31,4 +33,12 @@ public class ShopTime implements Serializable {
 		this.shopOrderTime = shopOrderTime;
 	}
 
+	public String getShopTimeType() {
+		return shopTimeType;
+	}
+
+	public void setShopTimeType(String shopTimeType) {
+		this.shopTimeType = shopTimeType;
+	}
+	
 }

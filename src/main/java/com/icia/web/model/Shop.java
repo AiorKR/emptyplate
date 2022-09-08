@@ -20,7 +20,7 @@ public class Shop implements Serializable{
 	private String shopAddress;		//매장상세 주소
 	private String shopTelephone;	//매장전화번호
 	private String shopIntro;		//매장한줄소개
-	private String shopContent;	//매장내용
+	private String shopContent;	 	//매장내용
 	private String shopRegDate;		//매장등록일
 	
 	
@@ -29,12 +29,21 @@ public class Shop implements Serializable{
 	
 	private String searchType;	//조회항목(0: 전체, 1: 파인다이닝. 2:오마카세)
 	private String searchValue;	//검색값
-	private ShopFile shopFile;
-	private List<ShopFile> shopFileList;
-	private List<ShopMenu> shopMenu;
-	private List<ShopTime> shopTime;
-	private List<ShopTotalTable> shopTotalTable;
-	private List<Order> order;
+	
+	private String reservationDate; //예약 날짜
+	private String reservationTime; //예약 시간
+	
+	private ShopFile shopFile; //가게사진
+	
+	private List<ShopFile> shopFileList; //매장사진 리스트
+	
+	private List<ShopMenu> shopMenu; //매장 메뉴 리스트
+
+	private List<ShopTime> shopTime; //매장 영업시간 리스트
+	
+	private List<ShopTotalTable> shopTotalTable; //매장 테이블 합계
+	
+	private List<Order> order; //매장 주문
 	
 	
 	public Shop() {
@@ -52,6 +61,9 @@ public class Shop implements Serializable{
 		shopIntro = "";
 		shopContent = "";
 		shopRegDate = "";
+		
+		reservationDate = "";
+		reservationTime = "";
 		
 		shopFile = null;
 		shopFileList = null;
@@ -299,5 +311,26 @@ public class Shop implements Serializable{
 
 	public void setShopFileList(List<ShopFile> shopFileList) {
 		this.shopFileList = shopFileList;
+	}
+
+
+	public String getReservationDate() {
+		return reservationDate;
+	}
+
+
+	public void setReservationDate(String reservationDate) {
+		this.reservationDate = reservationDate;
+	}
+
+
+	public String getReservationTime() {
+		return reservationTime;
+	}
+
+
+	public void setReservationTime(String reservationTime) {
+		this.reservationTime = reservationTime;
 	}	
+	
 }

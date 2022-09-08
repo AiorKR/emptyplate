@@ -153,19 +153,19 @@ public class AuthInterceptor extends HandlerInterceptorAdapter
 			// 인증 체크
 			if(CookieUtil.getCookie(request, AUTH_COOKIE_NAME) != null)
 			{
-				String cookieUserId = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+				String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 				
-				if(!StringUtil.isEmpty(cookieUserId))
+				if(!StringUtil.isEmpty(cookieUserUID))
 				{
 					if(logger.isDebugEnabled())
 					{
-						logger.debug("# [Cookie] : [" + cookieUserId + "]");
+						logger.debug("# [Cookie] : [" + cookieUserUID + "]");
 					}
 					
-					if(!StringUtil.isEmpty(cookieUserId))
+					if(!StringUtil.isEmpty(cookieUserUID))
 					{
 						
-						User user = userService.userSelect(cookieUserId);
+						User user = userService.userUIDSelect(cookieUserUID);
 						
 						if(user != null && StringUtil.equals(user.getStatus(), "Y"))
 						{
@@ -178,12 +178,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter
 							bFlag = false;
 						}
 						
-<<<<<<< HEAD
 						//임시 적용
 						bFlag = true;  
-=======
-					 
->>>>>>> User_
+
 					}
 					else
 					{

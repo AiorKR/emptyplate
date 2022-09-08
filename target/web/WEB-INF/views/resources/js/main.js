@@ -320,16 +320,4 @@
       mirror: false
     })
   });
-
-  /**
-   * login.html
-   */
-  document.querySelector('.img__btn').addEventListener('click', function() {
-  document.querySelector('.cont').classList.toggle('s--signup');
-  });  
-
- /**
-   * login.html 끝
-   */ 
-
 })()
