@@ -14,7 +14,6 @@
      <result column="REG_DATE" property="regDate" />
      <result column="BIZ_NUM" property="bizNum" />
      <result column="BIZ_NAME" property="bizName" />
-     <result column="BIZ_DATE" property="bizDate" />
      <result column="FILE_NAME" property="fileName" />
      <!-- ******추가****** -->
      <result column="LOGIN_USER" property="loginUser" />
@@ -41,8 +40,7 @@
           NVL(STATUS, '') STATUS,
           NVL(TO_CHAR(REG_DATE, 'YYYY.MM.DD HH24:MI:SS') , ''),
           NVL(BIZ_NUM, '') BIZ_NUM,
-          NVL(BIZ_NAME, '') BIZ_NAME,
-          NVL(TO_CHAR(BIZ_DATE, 'YYYY.MM.DD HH24:MI:SS') , '')
+          NVL(BIZ_NAME, '') BIZ_NAME
      FROM T_USER
      WHERE USER_ID = #{value}
  </select>
@@ -59,8 +57,7 @@
           NVL(U.STATUS, '') STATUS,
           NVL(TO_CHAR(U.REG_DATE, 'YYYY.MM.DD HH24:MI:SS') , ''),
           NVL(U.BIZ_NUM, '') BIZ_NUM,
-          NVL(U.BIZ_NAME, '') BIZ_NAME,
-          NVL(TO_CHAR(U.BIZ_DATE, 'YYYY.MM.DD HH24:MI:SS') , ''),
+          NVL(U.BIZ_NAME, '') BIZ_NAME
           NVL(F.FILE_NAME, '') AS FILE_NAME
      FROM T_USER U, T_USER_FILE F
      WHERE U.USER_UID = #{value}
@@ -79,8 +76,7 @@
           NVL(STATUS, '') STATUS,
           NVL(TO_CHAR(REG_DATE, 'YYYY.MM.DD HH24:MI:SS') , ''),
           NVL(BIZ_NUM, '') BIZ_NUM,
-          NVL(BIZ_NAME, '') BIZ_NAME,
-          NVL(TO_CHAR(BIZ_DATE, 'YYYY.MM.DD HH24:MI:SS') , '')
+          NVL(BIZ_NAME, '') BIZ_NAME
      FROM T_USER
      WHERE USER_PHONE = #{value}
  </select>
@@ -98,8 +94,7 @@
           STATUS,
           REG_DATE,
           BIZ_NUM,
-          BIZ_NAME,
-          BIZ_DATE) 
+          BIZ_NAME) 
  VALUES (#{userUID},
         #{userId},
            #{userPwd},
@@ -111,8 +106,7 @@
         #{status},
         SYSDATE,
         #{bizNum},
-        #{bizName},
-        #{bizDate})   
+        #{bizName})   
  </insert>
   
  <update id="userUpdate" parameterType="com.icia.web.model.User">

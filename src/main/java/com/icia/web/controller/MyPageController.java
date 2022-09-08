@@ -474,4 +474,77 @@ public class MyPageController {
     	}
     
     
+   //비밀번호 변경 팝업로드
+    @RequestMapping(value="/myPage/pwd_popup", method=RequestMethod.GET)
+    public String pwd_popup(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+    {  
+    	 String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+         User user = null;
+        
+        user = userService.userUIDSelect(userUID);
+                
+        model.addAttribute("user", user);
+        
+        return "/myPage/pwd_popup";
+    }
+    
+    //비밀번호 수정
+    @RequestMapping(value="/myPage/PwdUpdate", method=RequestMethod.POST)
+    @ResponseBody
+    public Response<Object> PwdUpdate(HttpServletRequest request, HttpServletResponse response)
+    {
+ 	   Response<Object> ajaxResponse = new Response<Object>();
+ 	   String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+ 	   String userPwd = HttpUtil.get(request, "userPwd");
+ 	   
+ 	   if(!StringUtil.isEmpty(userUID))
+ 	   {
+ 		   User user = userService.userUIDSelect(userUID);
+ 		   if(user != null)
+ 		   {
+ 			   String userPhone = user.getUserPhone();
+ 			   String userNick = user.getUserNick();
+ 			   String userName = user.getUserName();
+ 			   String userEmail = user.getUserEmail();
+ 			   if(StringUtil.equals(user.getStatus(), "Y"))
+ 			   {
+ 				   if(!StringUtil.isEmpty(userPhone))
+ 				   {  
+ 					   user.setUserPwd(userPwd);
+ 					   user.setUserPhone(userPhone);
+ 					   user.setUserName(userName);
+ 					   user.setUserEmail(userEmail);
+ 					   user.setUserNick(userNick);
+ 					   if(userService.userUpdate(user) > 0)
+ 					   {
+ 						   ajaxResponse.setResponse(0, "Success");
+ 					   }
+ 					   else
+ 					   {
+ 						   ajaxResponse.setResponse(500, "Internal server error");
+ 					   }
+ 				   }
+ 				   else
+ 				   {
+ 					   ajaxResponse.setResponse(400, "Bad Request");
+ 				   }
+ 			   }
+ 			   else
+ 			   {
+ 				   //정지된 사용자
+ 				   CookieUtil.deleteCookie(request, response, AUTH_COOKIE_NAME);
+ 				   ajaxResponse.setResponse(404, "Not Found");
+ 			   }
+ 		   }
+ 		   else
+ 		   {	
+ 			   //사용자 정보가 없을 때 쿠키 삭제
+ 			   CookieUtil.deleteCookie(request, response, AUTH_COOKIE_NAME);
+ 			   ajaxResponse.setResponse(404, "Not Found");
+ 		   }
+ 	
+ 	   }
+ 		   return ajaxResponse;   
+    	}
+    
 }
