@@ -53,6 +53,7 @@ $(document).ready(function() {
          document.bbsForm.action = "/board/list";
          document.bbsForm.submit();
       });
+   
 });
 
 function fn_view(bbsSeq)
@@ -70,6 +71,16 @@ function fn_list(curPage)
    document.bbsForm.submit();   
 }
 
+function fn_userList(userUID, userNick)
+{
+   document.bbsForm.userUID.value = userUID;
+   document.bbsForm.searchType.value = "1";
+   document.bbsForm.curPage.value = "1";
+   document.bbsForm.searchValue.value = userNick;
+   document.bbsForm.action = "/board/userList";
+   document.bbsForm.submit();
+}
+
 </script>
 </head>
 <body>
@@ -83,12 +94,27 @@ function fn_list(curPage)
              <div class="row community-item">
                <div class="col-lg-12">
                  <table class="col-lg-12">
-                   <c:if test="${!empty hotList}">
-                	<c:forEach var="board" items="${hotList}" varStatus="status">
+                  <div class="hotTitle">인기 많은 글 TOP4</div>
+                   <c:if test="${!empty hotLikeList}">
+                	<c:forEach var="board" items="${hotLikeList}" varStatus="status">
 	                    <td><img alt="" class="img-thumbnail" src="../resources/upload/board/${board.boardFile.fileName}" onclick="fn_view(${board.bbsSeq})"></td>
 	                </c:forEach>
 	           	  </c:if>
                   </table>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="row community-item">
+                <div class="col-lg-12">
+                 <table class="col-lg-12">
+                  <div class="hotTitle">많이 찾는 글 TOP4</div>
+                   <c:if test="${!empty hotReadList}">
+                	<c:forEach var="board" items="${hotReadList}" varStatus="status">
+	                    <td><img alt="" class="img-thumbnail" src="../resources/upload/board/${board.boardFile.fileName}" onclick="fn_view(${board.bbsSeq})"></td>
+	                </c:forEach>
+	           	  </c:if>
+                 </table>
                 </div>
               </div>
             </div>
@@ -136,7 +162,7 @@ function fn_list(curPage)
                  <td><ion-icon name="heart"></ion-icon>&nbsp;</td>
                  <td class="likeNum">${board.bbsLikeCnt}</td>
                  <td><a href="javascript:void(0)" onclick="fn_view(${board.bbsSeq})">${board.bbsTitle}</a></td>
-                 <td><a href="javascript:void(0)" onclick="fn_userList(${board.userUID})">${board.userNick}</a></td>
+                 <td><a href="javascript:void(0)" onclick="fn_userList('${board.userUID}', '${board.userNick}')">${board.userNick}</a></td>
                  <td>${board.bbsReadCnt}</td>
                  <td>${board.regDate}</td>
                </tr>
@@ -179,6 +205,7 @@ function fn_list(curPage)
 	 <input type="hidden" name="sortValue" value="${sortValue}" />
 	 <input type="hidden" name="curPage" value="${curPage}" />
 	 <input type="hidden" name="bbsNo" value="${bbsNo}" />
+	 <input type="hidden" name="userUID" value="${userUID}" />
 	</form>
    
    </div>

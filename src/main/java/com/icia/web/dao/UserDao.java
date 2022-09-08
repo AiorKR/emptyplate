@@ -61,6 +61,14 @@ public interface UserDao
 	//사용자 탈퇴
 	public int userDelete(User user);
 
+	/******추가******/
+	//동일 유저 즐겨찾기 여부 확인
+	public int userMarkCheck(User user);
+		
+	//유저 즐겨찾기 추가
+	public int userMarkUpdate(User user);
 	
-
+	//유저 즐겨찾기 취소
+	public int userMarkDelete(User user);
+	/******추가끝******/
 }
