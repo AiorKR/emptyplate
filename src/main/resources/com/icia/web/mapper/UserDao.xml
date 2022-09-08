@@ -173,9 +173,9 @@ WHERE  USER_UID = #{userUID}
 <!-- 동일 유저 즐겨찾기 여부 확인 -->
 <select id="userMarkCheck" parameterType="com.icia.web.model.User" resultType="int">
 SELECT COUNT(*)
-  FROM T_USER_MARK A, T_USER B
- WHERE A.USER_UID = B.USER_UID
-   AND A.MARK_USER = #{markUser}
+  FROM T_USER_MARK
+ WHERE USER_UID = #{userUID}
+   AND MARK_USER = #{markUser}
 </select>
 
 <!-- 유저 즐겨찾기 추가-->
