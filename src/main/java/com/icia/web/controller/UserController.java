@@ -216,6 +216,75 @@ public class UserController
          return ajaxResponse;
    }
 
+ //매장관리자회원가입
+   @RequestMapping(value="/user/regManProc", method=RequestMethod.POST)
+   @ResponseBody
+   public Response<Object> regManProc(HttpServletRequest request, HttpServletResponse response)
+   {
+      Response<Object> ajaxResponse = new Response<Object>();
+      String userUID = UUID.randomUUID().toString();  //uuid생성
+      String userId = HttpUtil.get(request, "userId");
+      String userPwd = HttpUtil.get(request, "userPwd");
+      String userName = HttpUtil.get(request, "userName");
+      String userEmail = HttpUtil.get(request, "userEmail");
+      String userNick = HttpUtil.get(request, "userNick");
+      String userPhone = (String) session.getAttribute("userPhone");
+      String bizNum = HttpUtil.get(request, "bizNum");
+      String bizName = HttpUtil.get(request, "bizName");
+      
+      if(!StringUtil.isEmpty(userId) && !StringUtil.isEmpty(userPwd) && !StringUtil.isEmpty(userName) && !StringUtil.isEmpty(userEmail) && !StringUtil.isEmpty(userPhone))
+      {
+         if(userService.userSelect(userUID) == null)
+         {    
+               User user = new User();
+      
+               user.setUserUID(userUID);   
+               user.setUserId(userId);
+               user.setUserPwd(userPwd);
+               user.setUserName(userName);
+	           user.setUserEmail(userEmail);
+	           user.setUserPhone(userPhone);
+	           user.setStatus("Y");
+	           user.setAdminStatus("Y");
+	           user.setUserNick(userNick);
+	           user.setBizNum(bizNum);
+	           user.setBizName(bizName);
+              
+               if(userService.userInsert(user) > 0)
+               {
+            	  session.removeAttribute("userPhone");
+                  ajaxResponse.setResponse(0, "Success");
+               }
+               else
+               {
+                  ajaxResponse.setResponse(500, "Internal Server Error");
+               }
+        } 
+        else
+        {
+           ajaxResponse.setResponse(100, "duplikcate id");
+        }
+     }
+     else
+     {
+        ajaxResponse.setResponse(400, "Bad Request");
+     }
+     
+         if(logger.isDebugEnabled())
+          {
+            logger.debug("[UserController] /user/userInsert response\n" + JsonUtil.toJsonPretty(ajaxResponse));
+          }
+         
+         return ajaxResponse;
+   }
+   
+   //사업자번호 상태조회 팝업
+   @RequestMapping(value="/user/bizNumPopup", method=RequestMethod.GET)
+	public String bizNumPopup(HttpServletRequest request, HttpServletResponse response)
+	{
+		return "/user/bizNumPopup";
+	}
+   
    //약관동의 팝업
    @RequestMapping(value="/user/signUpPopUp", method=RequestMethod.GET)
    public String signUpPopUp(HttpServletRequest request, HttpServletResponse response)

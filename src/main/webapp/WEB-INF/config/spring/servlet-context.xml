@@ -94,6 +94,8 @@
             			<value>/user/kakaoProc</value>
             			<value>/user/kloginOk</value>
             			<value>/user/phone_popup</value>
+            			<value>/user/bizNumPopup</value>
+            			<value>/user/regManProc</value>
             		</list>
             	</constructor-arg>
             </bean>

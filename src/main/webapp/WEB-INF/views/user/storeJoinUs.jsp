@@ -4,6 +4,9 @@
 
 <head>
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
+<script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="/resources/js/icia.common.js"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 	
@@ -121,6 +124,22 @@ $(document).ready(function() {
 		   }
 		   
 		   $("#userPwd2").val($("#userPwd3").val());
+		   
+		   if($.trim($("#bizNum").val()).length <= 0)
+		   {
+		      alert("사업자번호를 입력하세요.");
+		      $("#bizNum").val("");
+		      $("#bizNum").focus();
+		      return;
+		   }
+		   
+		   if($.trim($("#bizName").val()).length <= 0)
+		   {
+		      alert("매장 이름을 입력하세요.");
+		      $("#bizName").val("");
+		      $("#bizName").focus();
+		      return;
+		   }
 		   
 
 		   //아이디 중복체크 ajax
@@ -251,14 +270,16 @@ function fn_userReg()
 {	
 	$.ajax({
        type:"POST",
-       url:"/user/regProc",
+       url:"/user/regManProc",
        data:{
     	  userUId: $("#userUId").val(),
           userId: $("#userId2").val(),
           userPwd: $("#userPwd2").val(),
           userName: $("#userName").val(),
           userNick: $("#userNick").val(),
-          userEmail: $("#userEmail").val()
+          userEmail: $("#userEmail").val(),
+          bizNum: $("#bizNum").val(),
+          bizName: $("#bizName").val()
        },
        datatype:"JSON",
        beforeSend:function(xhr){
@@ -616,6 +637,27 @@ userPhone.value = "인증되었습니다"
 
 //전화번호 인증 끝
 
+var openWin;
+//사업자번호 상태조회 시작
+function bizNumPopup() { 
+   window.name = "storeJoinUs";
+   var popHeight = 130;                                      // 띄울 팝업창 높이   
+   var popWidth = 460;                                       // 띄울 팝업창 너비
+   var winHeight = document.body.clientHeight;                 // 현재창의 높이
+   var winWidth = document.body.clientWidth;                 // 현재창의 너비
+   var winX = window.screenLeft;                             // 현재창의 x좌표
+   var winY = window.screenTop;                             // 현재창의 y좌표
+   var popX = winX + (winWidth - popWidth)/2;
+   var popY = winY + (winHeight - popHeight)/2;
+   
+   openWin = window.open("/user/bizNumPopup", "pop", "top="+popY+", left="+popX+",width="+popWidth+",height="+popHeight+"resizable=yes"); 
+};
+function NumfOk() { 
+ openWin.document.getElementById("search").value = document.getElementById("bizNum").value;
+};
+
+//사업자번호 상태조회 끝
+
 </script>
  
 </head>
@@ -656,18 +698,19 @@ userPhone.value = "인증되었습니다"
               <input type="email" id="userEmail" name="userEmail" placeholder="이메일 주소를 입력하세요."/>
             </label>
             <label>
-              <span>전화번호</span>
-              <input type="text" id="userPhone" name="userPhone" placeholder="전화번호를 입력하세요." onclick="showPopupPhone()" />
-            </label>
+		     <span>전화번호</span>
+		     <input type="button" id="userPhone" name="userPhone" value="전화번호를 입력하세요." onclick="showPopupPhone()"/>
+		    </label>
             <label>
               <span>사업자번호</span>
-              <input type="text" id="bizNum" name="bizNum" placeholder="사업자번호를 입력하세요." onclick="bizNumPopup()"/>
+              
+              <input type="text" id="bizNum" name="bizNum" value="사업자번호를 입력하세요." maxlength="10" onclick="bizNumPopup()" readonly/>
             </label>
             <label>
               <span>매장명</span>
               <input type="text" id="bizName" name="bizName" placeholder="매장명을 입력하세요." />
             </label>
-            <button type="button" class="submit">회원가입</button><br />
+            <button type="button" id="btnReg" class="submit">회원가입</button><br />
           </div>
           <div class="sub-cont">
             <div class="img">
@@ -694,7 +737,7 @@ userPhone.value = "인증되었습니다"
               <span>비밀번호</span>
               <input type="password" id="userPwd" name="userPwd" placeholder="비밀번호"/>
             </label>
-            <button type="button"><p class="forgot-pass" style="font-family:'cafe24Dangdanghae';">비밀번호 찾기</p></button>
+            <button type="button" onclick="showPopupPwdSearch()"><p class="forgot-pass" style="font-family:'cafe24Dangdanghae';">비밀번호 찾기</p></button>
             <button type="button" id="btnLogin" class="submit">로그인</button>
             <button type="button" onclick="kakaoLogin()"><img src="/resources/images/kakao_login_medium_wide.png" style="margin:auto;" /></button><br />
               <p class="forgot-pass"><a href="#" style="color: #270d0d; text-decoration:underline;">매장가입</a></p>
