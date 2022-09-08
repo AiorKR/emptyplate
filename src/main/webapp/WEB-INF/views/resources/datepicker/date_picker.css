@@ -139,6 +139,7 @@
 }
 .reservation .dptime-disabled, .view .dptime-disabled {
   color: #616161 !important;
+  text-decoration:line-through
 }
 
 .view .datepicker {
