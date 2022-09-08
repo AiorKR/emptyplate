@@ -49,9 +49,16 @@ function fn_view(shopUID) {
 }
 //페이징
 function fn_list(curPage) {
-   document.bbsForm.curPage.value = curPage;
-   document.bbsForm.action = "/reservation/list";
-   document.bbsForm.submit();   
+	document.bbsForm.curPage.value = curPage;
+	document.bbsForm.action = "/reservation/list";
+	document.bbsForm.submit();   
+}
+//해시태그 클릭시 검색
+function fn_search(shopHashtag) {
+	event.stopPropagation();
+	document.bbsForm.searchValue.value = shopHashtag   ;
+	document.bbsForm.action = "/reservation/list";
+	document.bbsForm.submit();
 }
 //해시태그 클릭시 검색
 function fn_search(shopHashtag) {
@@ -93,13 +100,11 @@ $(document).ready(function(){
   
 <!-- ======= reservations Section ======= -->
 <section id="reservation" class="reservation">
-   <div class="reservation-container container" data-aos="fade-up">
-       <div class="reservation-slider swiper" data-aos="fade-up" data-aos-delay="100">
-           <container>
+	<div class="reservation-container container">
+		<div class="reservation-slider swiper">
+			<container style="color: #2536;">
                <hr class="hr-5">
-            </container>
                <h2 style="margin-left: 30px"><strong> 오늘의 추천식당 </strong></h2>
-            <container>
                <hr class="hr-5">
             </container>
                <div class="swiper-wrapper">
@@ -127,10 +132,9 @@ $(document).ready(function(){
                                    <c:forTokens items="${shop.shopHashtag}" delims = "#" var="shopHashtag">
                                        <span onclick="fn_search('${shopHashtag}')" style="cursor: pointer;">
                                              <i class="fa-solid fa-hashtag"><c:out value='${shopHashtag}'/></i>
-                                         </span>
+                                        </span>
                                   </c:forTokens>
-                                  
-                                    </span>
+                                  </span>
                                </div>
                             </div>
                        </c:forEach>  
@@ -156,24 +160,26 @@ $(document).ready(function(){
                                <!--datepicker-->
                         <div class="card">
                                    <div class="content">
-                                       <input type="text" class="datepicker" placeholder="날자를 선택해주세요" name="date" readonly>
+                                       <input type="text" class="datepicker" placeholder="날짜를 선택해주세요" name="date" readonly>
                                     </div>
-                                    <div class="box">
-                                       <ul id="datepicker-ul">
-                                           <li id="datepicker-li">
-                                    <div class="dptime-disabled">런치 타임</div>
-                                               <div class="dptime">12:00</div>
-                                               <div class="dptime">13:00</div>
-                                               <div class="dptime">14:00</div>
-                                               <div class="dptime-disabled">디너 타임</div>
-                                               <div class="dptime">18:00</div>
-                                               <div class="dptime">19:00</div>
-                                               <div class="dptime">20:00</div>
-                                               <div class="dptime">21:00</div>
-                                               <div class="dptime">22:00</div>
-                                           </li>
-                                       </ul>
-                                   </div>
+								   <div class="box">
+									<ul id="datepicker-ul">
+										<li id="datepicker-li">
+											<div class="dptime-disabled">런치 타임</div>
+											<div class="dptime">10:00</div>
+											<div class="dptime">11:00</div>
+											<div class="dptime">12:00</div>
+											<div class="dptime">13:00</div>
+											<div class="dptime">14:00</div>
+											<div class="dptime-disabled">디너 타임</div>
+											<div class="dptime">18:00</div>
+											<div class="dptime">19:00</div>
+											<div class="dptime">20:00</div>
+											<div class="dptime">21:00</div>
+											<div class="dptime">22:00</div>
+										</li>
+									</ul>
+								</div>
                         </div> 
                              
                                 <!--datepicker--> 
@@ -251,8 +257,8 @@ $(document).ready(function(){
             <input type="hidden" name="curPage" value="${curPage}" />
             <input type="hidden" name="reservationDate" value="${reservationDate}" />
             <input type="hidden" name="reservationTime" value="${reservationTime}" />
-     		</form>
-   </div>
+		</form>
+	</div>
 </section>
 
 <!-- End reservation Section -->

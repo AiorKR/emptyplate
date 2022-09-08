@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.icia.web.model.Board;
 import com.icia.web.model.BoardFile;
+import com.icia.web.model.BoardReport;
 
 @Repository("boardDao")
 public interface BoardDao 
@@ -18,9 +19,6 @@ public interface BoardDao
 	
 	//게시물 첨부파일 등록
 	public int boardFileInsert(BoardFile boardFile);
-		
-	//인기게시물 리스트
-	public List<Board> boardHotList(Board board);
 	
 	//게시물 리스트
 	public List<Board> boardList(Board board);
@@ -70,8 +68,14 @@ public interface BoardDao
 	//댓글 리스트
 	public List<Board> commentList(Board board);
 
-	//게시물 삭제
+	//댓글 삭제
 	public int commentDelete(long bbsSeq);
+	
+	//인기좋아요순 게시물 리스트
+	public List<Board> boardHotLikeList(Board board);
+	
+	//인기조회순 게시물 리스트
+	public List<Board> boardHotReadList(Board board);
 	
 	//동일 게시물 즐겨찾기 여부 확인
 	public int boardMarkCheck(Board board);
@@ -87,4 +91,13 @@ public interface BoardDao
 	
 	//게시물 즐겨찾기 총 게시물 수
 	public long markListCount(Board board);
+	
+	//유저 게시물 리스트
+	public List<Board> userList(Board board);
+	
+	//유저 총 게시물 수
+	public long userListCount(Board board);
+	
+	//게시물 신고
+	public long boardReport(BoardReport boardReport);
 }

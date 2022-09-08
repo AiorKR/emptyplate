@@ -126,6 +126,24 @@ function showPopupPhone() {
 //전화번호 변경 끝
 
 
+//비밀번호 변경 시작
+function showPopupPwd() {
+	
+   var popHeight = 130;                                      // 띄울 팝업창 높이   
+   var popWidth = 460;                                       // 띄울 팝업창 너비
+   var winHeight = document.body.clientHeight;                 // 현재창의 높이
+   var winWidth = document.body.clientWidth;                 // 현재창의 너비
+   var winX = window.screenLeft;                             // 현재창의 x좌표
+   var winY = window.screenTop;                             // 현재창의 y좌표
+   var popX = winX + (winWidth - popWidth)/2;
+   var popY = winY + (winHeight - popHeight)/2;
+   
+   window.open("./pwd_popup", "pop", "top="+popY+", left="+popX+",width="+popWidth+",height="+popHeight+"resizable=yes"); 
+  
+};
+//비밀번호 변경 끝
+
+
 function updateSuccess() {
    location.href = "/myPage/myProfile";
 }
@@ -209,7 +227,12 @@ function updateError(){
                   <hr>
                   <form style="margin-top: 20px;">전화번호 : <span><c:out value="${user.userPhone}" /></span>&nbsp;<button><i class="fa-solid fa-pen-to-square" onclick="showPopupPhone()"></i></button></form>
                   <hr>
-                  <form style="margin-top: 20px;"><button class="btn-password">비밀번호변경</button></form><br/><br/>
+                  <c:if test="${user.userPwd ne 'kaP'}">
+                  <form style="margin-top: 20px;"><button class="btn-password" onclick="showPopupPwd()">비밀번호변경</button></form><br/><br/>
+                  </c:if>
+                  <c:if test="${user.userPwd eq 'kaP'}">
+                  <form style="margin-top: 20px;"><button class="btn-password" onclick="alert('카카오 회원은 비밀번호 변경이 불가합니다.')">비밀번호변경</button></form><br/><br/>
+                  </c:if>
                    <form style="margin-top: 20px;"><button id="btnDelete" style="color: gray; text-decoration:underline; float: right;">회원탈퇴</button></form>
                 </div>                
             </div>

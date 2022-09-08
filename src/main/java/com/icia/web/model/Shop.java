@@ -20,7 +20,7 @@ public class Shop implements Serializable{
 	private String shopAddress;		//매장상세 주소
 	private String shopTelephone;	//매장전화번호
 	private String shopIntro;		//매장한줄소개
-	private String shopContent;	//매장내용
+	private String shopContent;	 	//매장내용
 	private String shopRegDate;		//매장등록일
 	
 	

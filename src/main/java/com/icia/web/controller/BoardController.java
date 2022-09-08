@@ -23,6 +23,7 @@ import com.icia.common.util.FileUtil;
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Board;
 import com.icia.web.model.BoardFile;
+import com.icia.web.model.BoardReport;
 import com.icia.web.model.Paging;
 import com.icia.web.model.Response;
 import com.icia.web.model.User;
@@ -74,21 +75,11 @@ public class BoardController
 		Board search = new Board();
 		//게시판 번호
 		search.setBbsNo(5);
-		
-		//인기게시물리스트 관련
-		/*********************
-	    hotListCount = 인기게시글 총 리스트;
-		List<Board> hotList = 인기게시글 리스트객체;
-		hot = 인기게시글 보드객체;
-		hotLCount = 인기게시글 리스트;
-		hotPCount = 인기게시글 페이지;
-		 *********************/
-		long hotListCount = 0;
-		List<Board> hotList = null;
+		//인기게시물리스트 
+		List<Board> hotLikeList = null;
+		List<Board> hotReadList = null;
 		Board hot = new Board();
 		hot.setBbsNo(5);
-		int hotLCount = 3;
-		int hotPCount = 2;
 		
 		if(!StringUtil.isEmpty(searchType) && !StringUtil.isEmpty(searchValue))
 		{
@@ -112,14 +103,16 @@ public class BoardController
 			search.setStartRow(paging.getStartRow());
 			search.setEndRow(paging.getEndRow());
 			hot.setStartRow(1);
-			hot.setEndRow(3);
+			hot.setEndRow(4);
 			
 			list = boardService.boardList(search);
-			hotList = boardService.boardHotList(hot);
+			hotLikeList = boardService.boardHotLikeList(hot);
+			hotReadList = boardService.boardHotReadList(hot);
 		}
 		
 		model.addAttribute("list", list);
-		model.addAttribute("hotList", hotList);
+		model.addAttribute("hotLikeList", hotLikeList);
+		model.addAttribute("hotReadList", hotReadList);
 		model.addAttribute("bbsNo", search.getBbsNo());
 		model.addAttribute("searchType", searchType);
 		model.addAttribute("searchValue", searchValue);
@@ -273,8 +266,154 @@ public class BoardController
 		model.addAttribute("paging", paging);
 		
 		return "/board/markList";
+	}	
+	
+	//유저 게시물 리스트
+	@RequestMapping(value="/board/userList")
+	public String userList(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+	{
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		//해당 유저
+        String userUID = HttpUtil.get(request, "userUID");
+		//조회항목
+		String searchType = HttpUtil.get(request, "searchType");
+		//조회값
+		String searchValue = HttpUtil.get(request, "searchValue", "");
+		//분류값
+	    long sortValue = HttpUtil.get(request, "sortValue", (long)4);
+		//현재페이지
+		long curPage = HttpUtil.get(request, "curPage", (long)1);
+		//총 게시물 수
+		long totalCount = 0;
+		//게시물 리스트
+		List<Board> userList = null;
+		//페이징 객체
+		Paging paging = null;
+		//조회 객체
+		Board search = new Board();
+		//조회 사용자
+		User user = new User();
+		//게시판 번호
+		search.setBbsNo(5);
+		
+		/******추가******/
+		//즐겨찾기 여부 체크
+		String userMarkActive = "N";
+		/******추가끝******/
+		
+		if(!StringUtil.isEmpty(userUID))
+		{
+			search.setUserUID(userUID);
+		}
+		
+		if(!StringUtil.isEmpty(searchType) && !StringUtil.isEmpty(searchValue))
+		{
+			search.setSearchType(searchType);
+			search.setSearchValue(searchValue);
+		}		
+		
+		search.setSortValue(sortValue);
+		totalCount = boardService.userListCount(search);
+
+		if(totalCount > 0)
+		{	
+			paging = new Paging("/board/userList", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
+			
+			paging.addParam("bbsNo", search.getBbsNo());
+			paging.addParam("searchType", searchType);
+			paging.addParam("searchValue", searchValue);
+			paging.addParam("sortValue", sortValue);
+			paging.addParam("curPage", curPage);
+			
+			search.setStartRow(paging.getStartRow());
+			search.setEndRow(paging.getEndRow());
+			
+			userList = boardService.userList(search);
+			user = userService.userUIDSelect(userUID);
+		}
+		
+		/******추가******/
+		if(!StringUtil.isEmpty(cookieUserUID))
+	    {
+			user.setUserUID(userUID);
+			//search.setUserUID(cookieUserUID);
+			user.setLoginUser(cookieUserUID);
+			//유저 좋아요 여부
+	        if(userService.userMarkCheck(user) == 0)                 
+	        {
+	        	userMarkActive = "N";
+	        }
+	        else
+	        {
+	        	userMarkActive = "Y";
+	        }
+	     }
+		/******추가끝******/
+		
+		model.addAttribute("userNick", user.getUserNick());
+		model.addAttribute("userList", userList);
+		model.addAttribute("userUID", userUID);
+		model.addAttribute("bbsNo", search.getBbsNo());
+		model.addAttribute("searchType", searchType);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("sortValue", sortValue);
+		model.addAttribute("curPage", curPage);
+		model.addAttribute("paging", paging);
+		
+		/******추가******/
+		model.addAttribute("userMarkActive", userMarkActive);
+		/******추가끝******/
+		
+		return "/board/userList";
 	}
 	
+	/******추가******/
+	//유저 즐겨찾기 추가(AJAX)
+  	@RequestMapping(value="/board/userMark", method=RequestMethod.POST)
+  	@ResponseBody
+  	public Response<Object> userMark(HttpServletRequest request, HttpServletResponse response)
+  	{
+  		Response<Object> ajaxResponse = new Response<Object>();
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+  		//해당 유저
+        String userUID = HttpUtil.get(request, "userUID");
+        
+  		User user = new User();
+  		//Board board = new Board();
+  		
+  		if(!StringUtil.isEmpty(cookieUserUID))
+  		{
+   			try
+  			{
+   				user.setUserUID(userUID);
+   				//board.setUserUID(cookieUserUID);
+   				user.setLoginUser(cookieUserUID);
+   				
+  				if(userService.userMarkCheck(user) == 0)  					
+  				{
+  					userService.userMarkUpdate(user);
+  					ajaxResponse.setResponse(0, "userMark insert success");
+  				}
+  				else
+  				{
+  					userService.userMarkDelete(user);
+  					ajaxResponse.setResponse(1, "userMark delete success");
+  				}
+  			}
+  			catch(Exception e)
+  			{
+  				logger.error("[BoardController] /board/userMark Exception", e);
+  				ajaxResponse.setResponse(500, "internal server error");
+  			}	
+  		}
+  		else
+  		{
+  			ajaxResponse.setResponse(400, "Bad Request");
+  		}
+  		
+  		return ajaxResponse;
+  	}
+  	/******추가끝******/
 	
 	//게시물 조회
     @RequestMapping(value="/board/view")
@@ -740,4 +879,73 @@ public class BoardController
   		
   		return ajaxResponse;
   	}
+  	
+  	
+  	//게시물 신고(AJAX)
+  	@RequestMapping(value="/board/reportProc", method=RequestMethod.POST)
+  	@ResponseBody
+  	public Response<Object> reportProc(HttpServletRequest request, HttpServletResponse response)
+  	{
+  		Response<Object> ajaxResponse = new Response<Object>();
+
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+  		
+  		String bbsSeqChk = HttpUtil.get(request, "bbsSeqChk", "");
+        //게시물 번호
+        long bbsSeq = 0;
+        
+        if(!StringUtil.isEmpty(bbsSeqChk) && StringUtil.equals(bbsSeqChk, "Y"))
+        {
+        	bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+        }
+        else
+        {
+        	bbsSeq = HttpUtil.get(request, "bbsSeqCom", (long)0);
+        }
+        
+        //신고사유
+  		String report1 = HttpUtil.get(request, "report1", "");
+  		String report2 = HttpUtil.get(request, "report2", "");
+  		String report3 = HttpUtil.get(request, "report3", "");
+  		String report4 = HttpUtil.get(request, "report4", "");
+  		String etcReport = HttpUtil.get(request, "etcReport", "");
+  		
+  		if(!StringUtil.isEmpty(cookieUserUID) && bbsSeq > 0)
+  		{
+  	       BoardReport boardReport = new BoardReport();
+
+	  	   boardReport.setUserUID(cookieUserUID);
+	  	   boardReport.setBbsSeq(bbsSeq);
+	  	   boardReport.setReport1(report1);
+	  	   boardReport.setReport2(report2);
+	  	   boardReport.setReport3(report3);
+	  	   boardReport.setReport4(report4);
+	  	   boardReport.setEtcReport(etcReport);
+	  	   
+		  	try
+	  		{
+	  			if(boardService.boardReport(boardReport) > 0)
+	  			{
+	  				ajaxResponse.setResponse(0, "success");
+	  			}
+				else
+				{
+					ajaxResponse.setResponse(500, "internal server error");
+				}
+			}
+			catch(Exception e)
+			{
+				logger.error("[BoardController] /board/reportProc Exception", e);
+				ajaxResponse.setResponse(500, "internal server error");
+			}	
+		}
+		else
+		{
+			ajaxResponse.setResponse(400, "Bad Request");
+		}
+		
+		return ajaxResponse;
+  	}
+  
+  	
 }

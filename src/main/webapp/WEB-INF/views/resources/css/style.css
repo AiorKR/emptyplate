@@ -775,9 +775,10 @@ section {
   opacity : 0.95;
   position: absolute;
   bottom: 0;
-  top: 15%;
-  left: 5%;
-  right: 5%;
+  top: 13.9%;
+  left: 11%;
+  right: 11%;
+  border-radius: 20px;
 }
 
 #community .section-title h2 {
@@ -875,17 +876,33 @@ section {
   margin-bottom: 0;
 }
 
+#community .community-item .hotTitle {
+  font-size: 20px;
+  color: #0c0b09;
+  display: flex;
+}
+
 /*이미지*/
+#community .community-item .hotTitle {
+  font-size: 30px;
+  color: #0c0b09;
+  display: flex;
+  justify-content: center;
+  margin-top:10px;
+}
+
 #community .community-item .img-thumbnail {
   width: 300px;
   height: 200px;
   display: flex;
   margin: auto;
-  margin-top: 30px;
+  margin-top: 5px;
+  margin-right: 15px;
+  margin-left: 15px;
 }
 
 #community .swiper-pagination {
-  margin-top: 10px;
+  margin-top: 30px;
   position: relative;
   bottom : 30px;
 }
@@ -903,14 +920,16 @@ section {
 
 /*--순*/
 
-#btnSort{
+#community .btnSort{
   border :none;
   background: none;
+  font-family: 'Cafe24Dangdanghae';
 }
-#btnSort:hover{
+#community .btnSort:hover{
   border :none;
   background: none;
   color: #c2a383;
+  font-family: 'Cafe24Dangdanghae';
 }
 #community .d-flex ul {
   margin-top: 5px;
@@ -921,6 +940,7 @@ section {
   margin: 0;
   color: #0c0b09;
   position: relative;
+  font-family: 'Cafe24Dangdanghae';
 }
 
 #community .d-flex ul li {
@@ -1063,7 +1083,7 @@ section {
 
 /*내가 즐겨찾기한 글보기 버튼*/
 #community .text-center2 button {
-  margin-top: 10px;
+  margin-top: 15px;
   background: rgba(225, 225, 225);
   border:3px solid #C2A383;
   padding: 5px 15px;
@@ -1093,7 +1113,7 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top:5px;
+  margin-top:10px;
   padding-left: 0px;
 }
 
@@ -1634,6 +1654,7 @@ section {
   font-family: 'Cafe24Dangdanghae';
   font-size: 17px;
   margin-right: 5px;
+  margin-left: 140px;
   float: center;
 }
 
@@ -1665,7 +1686,6 @@ section {
 }
 
 /*수정,삭제 버튼*/
-
 #communityView .board-innercontent .delete button {
   margin-top: 10px;
   background: #C2A383;
@@ -1736,6 +1756,88 @@ section {
   margin-left: 2px;
 }
 
+#communityView .board-service a{
+  background: rgba(225, 225, 225);
+  border:2px solid #A6A6A6;
+  padding: 1px 10px;
+  color: #595959;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 15px;
+  float:left;
+  margin-right: 2px;
+}
+
+/*신고 모달창*/
+#communityView .modal-content {
+  border: 7px solid #C2A383;
+}
+
+#communityView .modal h5{
+  font-size: 30px;
+  color: #0c0b09;
+}
+#communityView .modal h3{
+  font-size: 25px;
+  color: #0c0b09;
+}
+
+#communityView .modal ul {
+  list-style: none;
+  color: #0c0b09;
+  font-size: 20px;
+}
+
+#communityView .modal input[type=checkbox] {
+  zoom: 1.3;
+}
+
+#communityView .modal .reportCancle {
+  border:3px solid #C2A383;
+  padding: 3px 10px;
+  color: #0c0b09;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 20px;
+  float: center;
+}
+
+#communityView .modal .reportCancle:hover {
+  background: #C2A383;
+}
+
+#communityView .modal .reportBtn {
+  border:3px solid #C2A383;
+  padding: 3px 10px;
+  color: #0c0b09;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 20px;
+  float: center;
+}
+
+#communityView .modal .reportBtn:hover {
+  background: #C2A383;
+}
+
+#communityView .modal .reportBtn2 {
+  border:3px solid #C2A383;
+  padding: 3px 10px;
+  color: #0c0b09;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 20px;
+  float: center;
+}
+
+#communityView .modal .reportBtn2:hover {
+  background: #C2A383;
+}
+
 /*댓글작성칸*/
 #communityView .board-commentwrite {
   font-size: 20px;
@@ -1777,6 +1879,8 @@ section {
   color: #fff;
   transition: 0.3s;
   border: 1px solid #C2A383;
+  font-family: 'Cafe24Dangdanghae';
+  border-radius: 5px;
 }
 
 #communityView .board-commentwrite .submit button[type=submit]:hover {
@@ -2036,7 +2140,7 @@ section {
 }
 
 /*즐겨찾기 버튼*/
-#bookMark .boomarkButton button {
+#bookMark .bookmark button[type=button]{
   /*margin-top: 10px;*/
   background: rgba(225, 225, 225);
   border:3px solid #C2A383;
@@ -2046,15 +2150,15 @@ section {
   border-radius: 10px;
   font-family: 'Cafe24Dangdanghae';
   font-size: 17px;
-  /*margin-right: 5px;*/
+  margin-left: 5px;
   float: center;
 }
 
-#bookMark .boomarkButton button:hover {
+#bookMark .bookmark button[type=button]:hover {
   background: #C2A383;
 }
 
-#bookMark .boomarkButton ion-icon {
+#bookMark .bookmark ion-icon {
   color: #c78e54;
 }
 
@@ -2757,6 +2861,7 @@ section {
 }
 .reservation-container {
   margin-top: 100px;
+  
 }
 
 .reservation:before {
@@ -2779,10 +2884,21 @@ section {
   position: relative;
 }
 
+.reservation .container-fluid {
+  position: relative;
+  margin-bottom: 15px;
+}
+
 @media (min-width: 1024px) {
   .reservation {
     background-attachment: fixed;
   }
+}
+
+hr.hr-5 {
+  border: 0;
+  border-top: 3px double #8c8c8c;
+  border-color: #000;
 }
 
 .reservation .reservation-carousel {
@@ -2844,7 +2960,7 @@ section {
 }
 
 .reservation .swiper-pagination {
-  margin-top: 30px;
+  margin-top: 40px;
   position: relative;
 }
 
@@ -3332,6 +3448,7 @@ reservation 검색
   margin-top: 14px;
 }
 
+/*즐겨찾기*/
 .view .modal {
   margin-top: 15vh;
   color:black;
@@ -3555,17 +3672,14 @@ reservation 검색
 
 .today:before {
   content: "";
-  background: rgba(16, 16, 16);
+  background: rgba(225, 225, 225);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
-  top: 8%;
-  left: 5%;
-  right: 5%;
-}
-
-.today .section-title h2 {
-  color: #fff;
+  top: 15.5%;
+  left: 11%;
+  right: 11%;
+  border-radius: 20px;
 }
 
 .today .container {
@@ -3653,7 +3767,7 @@ reservation 검색
 }
 
 .today .card {
-  width: 25rem;
+  width: 100%;
 }
 
 .today .table tr {
@@ -3712,6 +3826,46 @@ today 검색
 
 .today .collapse .btn:hover {
   background: #d3af71;
+}
+
+/*페이징*/
+.today .page-wrap .page-nation li{ 
+  list-style: none;
+}
+
+.today .page-wrap {
+  text-align:center;
+  font-size:0;
+  padding-left: 0px;
+}
+
+.today .page-wrap .page-nation  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top:5px;
+  padding-left: 0px;
+}
+
+.today .page-wrap .page-nation a {
+  display:block;
+  margin:0 3px;
+  border:1px solid #C2A383;
+  border-radius: 10px;
+  width:28px;
+  height:28px;
+  line-height:28px;
+  text-align:center;
+  background-color:#C2A383;
+  font-size:13px;
+  color:#0c0b09;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+.today .page-wrap .page-nation a:hover{
+  background-color:gray;
+  color:white;
 }
 
 /*--------------------------------------------------------------
@@ -4063,7 +4217,7 @@ login.html시작
 }
 
 .mypage-title {
-  margin-top: 25px;
+  margin-top: 3px;
   font-family: 'cafe24Dangdanghae';
   font-size: 48px;
   color: #cda45e;
@@ -4104,7 +4258,7 @@ hr[role="tournament1"]::before {
   margin-top: 20px;
   margin: auto;
   width:550px;
-  height:600px;
+  height: 760px;
   border-radius :3%;
   overflow : hidden;
   background-color: white;
@@ -4212,10 +4366,13 @@ hr[role="tournament1"]::before {
 
 #help .row{
   width : 100%;
-  background-color:rgba(255, 255, 255, 0.8);
-  border-radius: 1em;
+  background-color:rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
   padding: 3vh 0;
-  margin: 5vh 0;
+  bottom: 0;
+  top: 13.9%;
+  left: 11%;
+  right: 11%;
   text-align: center;
 }
 
@@ -5288,4 +5445,102 @@ hr[role="tournament1"]::before {
   background-color: rgba(16, 16, 16);
   border-radius: 0%;
 
+}
+
+/*결제*/
+.pay-back {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 70%;
+  background: rgb(255, 255, 255);
+  margin: auto;
+}
+
+.pay-title {
+  margin-top: 25px;
+  font-family: 'cafe24Dangdanghae';
+  font-size: 48px;
+  color: #cda45e;
+  text-align: center;
+}
+
+.pay.user-edit {
+  width: 600px;
+  height: auto;
+  color:#cda45e;
+  font-size: 20pt;
+  font-family: 'cafe24Dangdanghae';
+  margin: auto;
+}
+
+hr[role="tournament1"] {
+  border: 0px solid;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(172, 131, 83, 0.75), rgba(0, 0, 0, 0));
+  margin: 0px 0px;
+  display: block;
+}
+hr[role="tournament1"]::before {
+  position: absolute;
+  background-color: #efefef;
+  border: 1px solid;
+  border-color: #AC8353;
+  border-left: 0px solid;
+  border-top: 0px solid;
+  padding: 10px;
+  transform: rotate(45deg);
+  left: 50%;
+  margin: -10px 0px 0px -22px;
+  content: "";
+}
+
+.pay-card {
+  margin-top: 20px;
+  margin: auto;
+  width:550px;
+  height:600px;
+  border-radius :3%;
+  overflow : hidden;
+  background-color: white;
+  box-shadow: 5px 5px 5px 5px gray;
+  }
+
+.pay-card-img {
+  margin-top: 20px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  }
+
+.pay-card-name {
+  text-align: center;
+  font-size : 20px;
+  color : black;
+  margin-top : 10px;
+  margin-left : 20px;
+  margin-right : 20px;
+  border-bottom : 0.5px solid gray;
+  padding-bottom: 10px;
+  }
+
+.pay-card-intro {
+  margin-left: 20px;
+  height:400px;
+  padding-right:25px;
+  padding-left:25px;
+  color: #000;
+  font-size: 13px;
+  }
+
+.pay-img-div { 
+  margin-bottom:15px;
+  text-align: center;
+  background-color: #cda45e;
+  }
+
+.pay-profile-btn {
+  
+  font-size: 11pt;
+  color: #28251f;
 }

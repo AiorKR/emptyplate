@@ -14,6 +14,7 @@ import com.icia.common.util.FileUtil;
 import com.icia.web.dao.BoardDao;
 import com.icia.web.model.Board;
 import com.icia.web.model.BoardFile;
+import com.icia.web.model.BoardReport;
 
 @Service("boardService")
 public class BoardService 
@@ -47,22 +48,6 @@ public class BoardService
 		}
 		
 		return count;
-	}
-	
-	//인기게시물 리스트
-	public List<Board> boardHotList(Board board)
-	{
-		List<Board> list = null;
-		
-		try
-		{
-			list = boardDao.boardHotList(board);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] boardList Exception", e);
-		}
-		return list;
 	}
 	
 	//게시물 리스트
@@ -354,7 +339,7 @@ public class BoardService
 		return list;
 	}
 	
-	//게시물 삭제(첨부파일 있으면 함께 삭제)
+	//댓글 삭제(첨부파일 있으면 함께 삭제)
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public int commentDelete(long bbsSeq) throws Exception
 	{
@@ -372,6 +357,38 @@ public class BoardService
 		return count;
 	}
 	
+	//인기좋아요순 리스트
+	public List<Board> boardHotLikeList(Board board)
+	{
+		List<Board> list = null;
+		
+		try
+		{
+			list = boardDao.boardHotLikeList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardHotLikeList Exception", e);
+		}
+		return list;
+	}
+	
+	//인기조회순 리스트
+	public List<Board> boardHotReadList(Board board)
+	{
+		List<Board> list = null;
+		
+		try
+		{
+			list = boardDao.boardHotReadList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardHotReadList Exception", e);
+		}
+		return list;
+	}
+		
 	//동일 게시물  즐겨찾기 여부 확인
 	public int boardMarkCheck(Board board)
 	{
@@ -453,6 +470,49 @@ public class BoardService
 		{
 			logger.error("[BoardService] markListCount Exception", e);
 		}
+		
+		return count;
+	}
+	
+	//유저 게시물 리스트
+	public List<Board> userList(Board board)
+	{
+		List<Board> userList = null;
+		
+		try
+		{
+			userList = boardDao.userList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] userList Exception", e);
+		}
+		
+		return userList;
+	}
+	
+	//유저 총 게시물 수 
+	public long userListCount(Board board)
+	{
+		long count = 0;
+		
+		try
+		{
+			count = boardDao.userListCount(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] userListCount Exception", e);
+		}
+		
+		return count;
+	}
+	
+	//게시물 신고
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public long boardReport(BoardReport boardReport)
+	{
+		long count = boardDao.boardReport(boardReport);		
 		
 		return count;
 	}
