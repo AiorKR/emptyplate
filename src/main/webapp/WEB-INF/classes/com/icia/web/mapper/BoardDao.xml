@@ -18,7 +18,8 @@
    <result column="COMMENT_GROUP" property="commentGroup" />
    <result column="COMMENT_ORDER" property="commentOrder" />
    <result column="COMMENT_INDENT" property="commentIndent" />
-   <result column="RNUM" property="rNum" />  
+   <result column="RNUM" property="rNum" /> 
+   <collection property="boardFile" resultMap="boardFileResultMap"/>
 </resultMap>
 
 <!-- 첨부파일 resultMap -->
@@ -32,13 +33,18 @@
    <result column="REG_DATE" property="regDate" />
 </resultMap>
 
+
+<!-- 시퀀스 선행처리-->
+<select id="beforeInsert" resultType="long">
+	SELECT BBS_SEQ.NEXTVAL FROM DUAL
+</select>
 <!-- 게시물 등록 -->
 <insert id="boardInsert" parameterType="com.icia.web.model.Board">
 
-<!-- 선행처리기(시퀀스 번호 생성) -->
-<selectKey resultType="int" keyProperty="bbsSeq" order="BEFORE">
+<!-- 선행처리기(시퀀스 번호 생성)
+<selectKey resultType="long" keyProperty="bbsSeq" order="BEFORE">
 	SELECT BBS_SEQ.NEXTVAL FROM DUAL
-</selectKey>
+</selectKey -->
 
 INSERT INTO T_BOARD (BBS_SEQ,
                      USER_UID,
@@ -63,7 +69,7 @@ VALUES (#{bbsSeq},
         SYSDATE,
         #{bbsComment},
         #{commentParent},
-        #{commentGroup},
+        #{bbsSeq},
         #{commentOrder},
         #{commentIndent})
 </insert>
@@ -106,7 +112,7 @@ SELECT RNUM,
                         BBS_TITLE,
                         BBS_CONTENT,
                         BBS_LIKE_CNT,
-                        BBS_READ_CNT,
+                        BBS_READ_CNT,	
                         REG_DATE
   FROM(SELECT BBS_SEQ,
               NVL(B.USER_UID, '') AS USER_UID,
@@ -116,35 +122,51 @@ SELECT RNUM,
               NVL(BBS_CONTENT, '') AS BBS_CONTENT,
               A.BBS_LIKE_CNT AS BBS_LIKE_CNT,
               NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
-              NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD HH24:MI:SS'), '') AS REG_DATE
+              NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD'), '') AS REG_DATE
          FROM T_BOARD A, T_USER B
         WHERE A.USER_UID = B.USER_UID
           AND A.BBS_NO = #{bbsNo}
+          AND A.BBS_TITLE IS NOT NULL
 <if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>   
-   <choose>
-      <when test='searchType == "1"'>   
-                   AND B.USER_NICK LIKE '%' || #{searchValue} || '%'
-      </when>
-      <when test='searchType == "2"'>
-                   AND A.BBS_TITLE LIKE '%' || #{searchValue} || '%'
-      </when>
-      <when test='searchType == "3"'>
-                   AND DBMS_LOB.INSTR(A.BBS_CONTENT, #{searchValue}) > 0
-      </when>
-   </choose>
-</if>  
-        ORDER BY A.BBS_SEQ DESC))
+  <choose>
+    <when test='searchType == "1"'>   
+          AND B.USER_NICK LIKE '%' || #{searchValue} || '%'
+    </when>
+    <when test='searchType == "2"'>
+          AND A.BBS_TITLE LIKE '%' || #{searchValue} || '%'
+    </when>
+    <when test='searchType == "3"'>
+          AND DBMS_LOB.INSTR(A.BBS_CONTENT, #{searchValue}) > 0
+    </when>
+  </choose>
+</if>
+
+  <choose>
+    <when test='sortValue == "5"'>
+        ORDER BY A.BBS_LIKE_CNT DESC
+    </when>
+    <when test='sortValue == "6"'>
+        ORDER BY A.BBS_READ_CNT DESC
+    </when>
+    <otherwise>   
+        ORDER BY A.BBS_SEQ DESC
+    </otherwise>
+  </choose>
+   ))
+
  WHERE RNUM <![CDATA[>=]]> #{startRow}
    AND RNUM <![CDATA[<=]]> #{endRow}
  ORDER BY RNUM ASC
 </select>
+
 
 <!-- 총 게시물 수 -->
 <select id="boardListCount" parameterType="com.icia.web.model.Board" resultType="long">
 SELECT COUNT(A.BBS_SEQ) AS CNT
   FROM T_BOARD A, T_USER B
  WHERE A.USER_UID = B.USER_UID
-<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>	<!-- searchType, searchValue가 있을 때 조회 -->      
+   AND A.BBS_TITLE IS NOT NULL
+<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>
 	<choose>
 		<when test='searchType == "1"'>   
                    AND B.USER_NICK LIKE '%' || #{searchValue} || '%'
@@ -167,12 +189,15 @@ SELECT A.BBS_SEQ,
        NVL(A.BBS_NO, 0) AS BBS_NO,
        NVL(BBS_TITLE, '') AS BBS_TITLE,
        NVL(BBS_CONTENT, '') AS BBS_CONTENT,
-       C.BBS_LIKE_CNT AS BBS_LIKE_CNT,
+       NVL(A.BBS_LIKE_CNT, 0) AS BBS_LIKE_CNT,
        NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
-       NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD HH24:MI:SS'), '') AS REG_DATE
-  FROM T_BOARD A, T_USER B, (SELECT COUNT(*) AS BBS_LIKE_CNT
-                               FROM T_BOARD_LIKE
-                              WHERE BBS_SEQ = #{value}) C
+       NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD HH24:MI:SS'), '') AS REG_DATE,
+       NVL(A.BBS_COMMENT, '') AS BBS_COMMENT,
+       NVL(COMMENT_PARENT, 0) AS COMMENT_PARENT,
+       NVL(COMMENT_GROUP, 0) AS COMMENT_GROUP,
+       NVL(COMMENT_ORDER, 0) AS COMMENT_ORDER,
+       NVL(COMMENT_INDENT, 0) AS COMMENT_INDENT
+  FROM T_BOARD A, T_USER B
  WHERE A.BBS_SEQ = #{value}
    AND A.USER_UID = B.USER_UID
 </select>
@@ -183,68 +208,6 @@ UPDATE T_BOARD
    SET BBS_READ_CNT = BBS_READ_CNT + 1
  WHERE BBS_SEQ = #{value}
 </update>
-
-<!-- **순 -->
-<select id="boardSort" parameterType="com.icia.web.model.Board" resultMap="boardResultMap">
-SELECT RNUM,
-       BBS_SEQ,
-       USER_UID,
-       USER_NICK, 
-       BBS_NO,
-       BBS_TITLE,
-       BBS_CONTENT,
-       BBS_LIKE_CNT,
-       BBS_READ_CNT,
-       REG_DATE
-  FROM(SELECT ROWNUM AS RNUM,
-                        BBS_SEQ,
-                        USER_UID,
-                        USER_NICK, 
-                        BBS_NO,
-                        BBS_TITLE,
-                        BBS_CONTENT,
-                        BBS_LIKE_CNT,
-                        BBS_READ_CNT,
-                        REG_DATE
-  FROM(SELECT BBS_SEQ,
-              NVL(B.USER_UID, '') AS USER_UID,
-              NVL(B.USER_NICK, '') AS USER_NICK, 
-              NVL(A.BBS_NO, 0) AS BBS_NO,
-              NVL(BBS_TITLE, '') AS BBS_TITLE,
-              NVL(BBS_CONTENT, '') AS BBS_CONTENT,
-              NVL(BBS_LIKE_CNT, 0) AS BBS_LIKE_CNT,
-              NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
-              NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD HH24:MI:SS'), '') AS REG_DATE
-  FROM T_BOARD A, T_USER B 
- WHERE A.USER_UID = B.USER_UID
-   AND A.BBS_NO = #{bbsNo}
-<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>	<!-- searchType, searchValue가 있을 때 조회 -->      
-	<choose>
-		<when test='searchType == "1"'>   
-                   AND B.USER_NICK LIKE '%' || #{searchValue} || '%'
-		</when>
-		<when test='searchType == "2"'>
-                   AND A.BBS_TITLE LIKE '%' || #{searchValue} || '%'
-		</when>
-		<when test='searchType == "3"'>
-                   AND DBMS_LOB.INSTR(A.BBS_CONTENT, #{searchValue}) > 0
-		</when>
-	</choose>
-</if>   
-<choose>
-<when test='sort == "dateCount"'>
-ORDER BY REG_DATE DESC))
-</when>
-<when test='sort == "likeCount"'>
-ORDER BY BBS_LIKE_CNT DESC))
-</when>
-<when test='sort == "readCount"'>
-ORDER BY BBS_READ_CNT DESC))
-</when>
-</choose>
- WHERE RNUM <![CDATA[>=]]> #{startRow}
-   AND RNUM <![CDATA[<=]]> #{endRow}
-</select>
 
 <!-- 첨부파일 조회 -->
 <select id="boardFileSelect" parameterType="long" resultMap="boardFileResultMap">
@@ -312,5 +275,389 @@ UPDATE T_BOARD A
  WHERE A.BBS_SEQ = #{bbsSeq}
 </update>
 
+<!-- 동일 게시물  즐겨찾기 여부 확인 -->
+<select id="boardMarkCheck" parameterType="com.icia.web.model.Board" resultType="int">
+SELECT COUNT(*)
+  FROM T_BOARD_MARK
+ WHERE BBS_SEQ = #{bbsSeq}
+   AND USER_UID = #{userUID}
+</select>
+
+<!-- 게시물 즐겨찾기 추가-->
+<insert id="boardMarkUpdate" parameterType="com.icia.web.model.Board">
+INSERT INTO T_BOARD_MARK (USER_UID,
+                          BBS_SEQ) 
+VALUES (#{userUID},
+        #{bbsSeq})
+</insert>
+
+<!-- 게시물 즐겨찾기 취소 -->
+<delete id="boardMarkDelete" parameterType="com.icia.web.model.Board">
+DELETE FROM T_BOARD_MARK
+ WHERE BBS_SEQ = #{bbsSeq}
+   AND USER_UID = #{userUID}
+</delete>
+
+<!-- 댓글 등록 -->
+<insert id="boardCommentInsert" parameterType="com.icia.web.model.Board">
+<!-- 선행처리기 -->
+<selectKey resultType="long" keyProperty="bbsSeq" order="BEFORE">
+	SELECT BBS_SEQ.NEXTVAL FROM DUAL
+</selectKey>
+
+INSERT INTO T_BOARD (BBS_SEQ,
+                     USER_UID,
+                     BBS_NO,
+                     BBS_TITLE,
+                     BBS_CONTENT,
+                     BBS_LIKE_CNT,
+                     BBS_READ_CNT,
+                     REG_DATE,
+                     BBS_COMMENT,
+                     COMMENT_PARENT,
+                     COMMENT_GROUP,
+                     COMMENT_ORDER,
+                     COMMENT_INDENT) 
+VALUES (#{bbsSeq},
+        #{userUID},
+        5,
+        NULL,
+        #{bbsContent},
+        0,
+        0,
+        SYSDATE,
+        NULL,
+        #{commentParent},
+        #{commentGroup},
+        #{commentOrder},
+        #{commentIndent})
+</insert>
+
+<!-- 댓글 그룹순서 변경 -->
+<update id="commentGroupOrderUpdate" parameterType="com.icia.web.model.Board">
+UPDATE T_BOARD
+   SET COMMENT_ORDER = COMMENT_ORDER + 1
+ WHERE COMMENT_GROUP = #{commentGroup}
+   AND COMMENT_ORDER <![CDATA[>=]]> #{commentOrder}
+</update>
+
+<!-- 댓글 리스트 -->
+<select id="commentList" parameterType="com.icia.web.model.Board" resultMap="boardResultMap">
+SELECT A.BBS_SEQ AS BBS_SEQ,
+	   A.COMMENT_PARENT AS COMMENT_PARENT,
+       B.USER_NICK AS USER_NICK,
+       A.BBS_CONTENT AS BBS_CONTENT,
+       A.REG_DATE AS REG_DATE,
+       A.COMMENT_GROUP AS COMMENT_GROUP,
+       A.COMMENT_ORDER AS COMMENT_ORDER,
+       A.COMMENT_INDENT AS COMMENT_INDENT
+  FROM T_BOARD A, T_USER B
+ WHERE A.USER_UID = B.USER_UID
+   AND A.COMMENT_PARENT = #{bbsSeq}
+ ORDER BY A.COMMENT_GROUP ASC, A.COMMENT_ORDER DESC
+</select>
+
+<!-- 댓글 삭제 -->
+<update id="commentDelete" parameterType="com.icia.web.model.Board">
+DELETE FROM T_BOARD
+ WHERE BBS_SEQ = #{bbsSeq}
+</update>
+
+<!-- 인기좋아요순 리스트 -->
+<select id="boardHotLikeList" parameterType="com.icia.web.model.Board" resultMap="boardResultMap">
+SELECT RNUM,
+       BBS_SEQ,
+       USER_UID,
+       USER_NICK, 
+       BBS_NO,
+       BBS_TITLE,
+       BBS_CONTENT,
+       BBS_LIKE_CNT,
+       BBS_READ_CNT,
+       REG_DATE,
+       FILE_NAME
+  FROM(SELECT ROWNUM AS RNUM,
+                        BBS_SEQ,
+                        USER_UID,
+                        USER_NICK, 
+                        BBS_NO,
+                        BBS_TITLE,
+                        BBS_CONTENT,
+                        BBS_LIKE_CNT,
+                        BBS_READ_CNT,	
+                        REG_DATE,
+                        FILE_NAME
+  FROM(SELECT A.BBS_SEQ,
+              NVL(B.USER_UID, '') AS USER_UID,
+              NVL(B.USER_NICK, '') AS USER_NICK, 
+              NVL(A.BBS_NO, 0) AS BBS_NO,
+              NVL(BBS_TITLE, '') AS BBS_TITLE,
+              NVL(BBS_CONTENT, '') AS BBS_CONTENT,
+              A.BBS_LIKE_CNT AS BBS_LIKE_CNT,
+              NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
+              NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD'), '') AS REG_DATE,
+              C.FILE_NAME AS FILE_NAME
+         FROM T_BOARD A, T_USER B, T_BOARD_FILE C
+        WHERE A.USER_UID = B.USER_UID
+          AND A.BBS_SEQ = C.BBS_SEQ
+          AND A.BBS_NO = #{bbsNo}
+          AND A.BBS_TITLE IS NOT NULL
+     ORDER BY A.BBS_LIKE_CNT DESC))
+ WHERE RNUM <![CDATA[>=]]> #{startRow}
+   AND RNUM <![CDATA[<=]]> #{endRow}
+ ORDER BY RNUM ASC
+</select>
+
+<!-- 인기조회순 리스트 -->
+<select id="boardHotReadList" parameterType="com.icia.web.model.Board" resultMap="boardResultMap">
+SELECT RNUM,
+       BBS_SEQ,
+       USER_UID,
+       USER_NICK, 
+       BBS_NO,
+       BBS_TITLE,
+       BBS_CONTENT,
+       BBS_LIKE_CNT,
+       BBS_READ_CNT,
+       REG_DATE,
+       FILE_NAME
+  FROM(SELECT ROWNUM AS RNUM,
+                        BBS_SEQ,
+                        USER_UID,
+                        USER_NICK, 
+                        BBS_NO,
+                        BBS_TITLE,
+                        BBS_CONTENT,
+                        BBS_LIKE_CNT,
+                        BBS_READ_CNT,	
+                        REG_DATE,
+                        FILE_NAME
+  FROM(SELECT A.BBS_SEQ,
+              NVL(B.USER_UID, '') AS USER_UID,
+              NVL(B.USER_NICK, '') AS USER_NICK, 
+              NVL(A.BBS_NO, 0) AS BBS_NO,
+              NVL(BBS_TITLE, '') AS BBS_TITLE,
+              NVL(BBS_CONTENT, '') AS BBS_CONTENT,
+              A.BBS_LIKE_CNT AS BBS_LIKE_CNT,
+              NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
+              NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD'), '') AS REG_DATE,
+              C.FILE_NAME AS FILE_NAME
+         FROM T_BOARD A, T_USER B, T_BOARD_FILE C
+        WHERE A.USER_UID = B.USER_UID
+          AND A.BBS_SEQ = C.BBS_SEQ
+          AND A.BBS_NO = #{bbsNo}
+          AND A.BBS_TITLE IS NOT NULL
+     ORDER BY A.BBS_READ_CNT DESC))
+ WHERE RNUM <![CDATA[>=]]> #{startRow}
+   AND RNUM <![CDATA[<=]]> #{endRow}
+ ORDER BY RNUM ASC
+</select>
+
+
+<!-- 게시물 즐겨찾기 리스트 -->
+<select id="markList" parameterType="com.icia.web.model.Board" resultMap="boardResultMap">
+SELECT RNUM,
+       BBS_SEQ,
+       USER_UID,
+       USER_NICK, 
+       BBS_NO,
+       BBS_TITLE,
+       BBS_CONTENT,
+       BBS_LIKE_CNT,
+       BBS_READ_CNT,
+       REG_DATE
+  FROM(SELECT ROWNUM AS RNUM,
+                        BBS_SEQ,
+                        USER_UID,
+                        USER_NICK, 
+                        BBS_NO,
+                        BBS_TITLE,
+                        BBS_CONTENT,
+                        BBS_LIKE_CNT,
+                        BBS_READ_CNT,	
+                        REG_DATE
+  FROM(SELECT C.BBS_SEQ,
+              NVL(C.USER_UID, '') AS USER_UID,
+              NVL(B.USER_NICK, '') AS USER_NICK, 
+              NVL(A.BBS_NO, 0) AS BBS_NO,
+              NVL(BBS_TITLE, '') AS BBS_TITLE,
+              NVL(BBS_CONTENT, '') AS BBS_CONTENT,
+              A.BBS_LIKE_CNT AS BBS_LIKE_CNT,
+              NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
+              NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD'), '') AS REG_DATE
+         FROM T_BOARD A, T_USER B, T_BOARD_MARK C
+        WHERE C.USER_UID = B.USER_UID
+          AND A.BBS_NO = #{bbsNo}
+          AND C.BBS_SEQ = A.BBS_SEQ
+          AND A.BBS_TITLE IS NOT NULL
+          AND C.USER_UID= #{userUID}
+<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>   
+  <choose>
+    <when test='searchType == "1"'>   
+          AND B.USER_NICK LIKE '%' || #{searchValue} || '%'
+    </when>
+    <when test='searchType == "2"'>
+          AND A.BBS_TITLE LIKE '%' || #{searchValue} || '%'
+    </when>
+    <when test='searchType == "3"'>
+          AND DBMS_LOB.INSTR(A.BBS_CONTENT, #{searchValue}) > 0
+    </when>
+  </choose>
+</if>
+
+  <choose>
+    <when test='sortValue == "5"'>
+        ORDER BY A.BBS_LIKE_CNT DESC
+    </when>
+    <when test='sortValue == "6"'>
+        ORDER BY A.BBS_READ_CNT DESC
+    </when>
+    <otherwise>   
+        ORDER BY C.BBS_SEQ DESC
+    </otherwise>
+  </choose>
+   ))
+
+ WHERE RNUM <![CDATA[>=]]> #{startRow}
+   AND RNUM <![CDATA[<=]]> #{endRow}
+ ORDER BY RNUM ASC
+</select>
+
+<!-- 게시물 즐겨찾기 총 게시물 수 -->
+<select id="markListCount" parameterType="com.icia.web.model.Board" resultType="long">
+SELECT COUNT(MARK.BBS_SEQ) AS CNT
+  FROM T_USER A, (SELECT BM.BBS_SEQ AS BBS_SEQ,
+                         BM.USER_UID AS USER_UID,
+                         B.BBS_TITLE AS BBS_TITLE,
+                         B.BBS_CONTENT AS BBS_CONTENT
+                    FROM T_BOARD B, T_BOARD_MARK BM
+                   WHERE B.BBS_SEQ = BM.BBS_SEQ) MARK
+ WHERE A.USER_UID = MARK.USER_UID
+   AND MARK.USER_UID = #{userUID}
+<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>
+	<choose>
+		<when test='searchType == "1"'>   
+                   AND A.USER_NICK LIKE '%' || #{searchValue} || '%'
+		</when>
+		<when test='searchType == "2"'>
+                   AND MARK.BBS_TITLE LIKE '%' || #{searchValue} || '%'
+		</when>
+		<when test='searchType == "3"'>
+                   AND DBMS_LOB.INSTR(MARK.BBS_CONTENT, #{searchValue}) > 0
+		</when>
+	</choose>
+</if>
+</select>
+
+<!-- 유저 게시물 리스트 -->
+<select id="userList" parameterType="com.icia.web.model.Board" resultMap="boardResultMap">
+SELECT RNUM,
+       BBS_SEQ,
+       USER_UID,
+       USER_NICK, 
+       BBS_NO,
+       BBS_TITLE,
+       BBS_CONTENT,
+       BBS_LIKE_CNT,
+       BBS_READ_CNT,
+       REG_DATE
+  FROM(SELECT ROWNUM AS RNUM,
+                        BBS_SEQ,
+                        USER_UID,
+                        USER_NICK, 
+                        BBS_NO,
+                        BBS_TITLE,
+                        BBS_CONTENT,
+                        BBS_LIKE_CNT,
+                        BBS_READ_CNT,	
+                        REG_DATE
+  FROM(SELECT A.BBS_SEQ,
+              NVL(B.USER_UID, '') AS USER_UID,
+              NVL(B.USER_NICK, '') AS USER_NICK, 
+              NVL(A.BBS_NO, 0) AS BBS_NO,
+              NVL(BBS_TITLE, '') AS BBS_TITLE,
+              NVL(BBS_CONTENT, '') AS BBS_CONTENT,
+              A.BBS_LIKE_CNT AS BBS_LIKE_CNT,
+              NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
+              NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD'), '') AS REG_DATE
+         FROM T_BOARD A, T_USER B
+        WHERE A.USER_UID = B.USER_UID
+          AND A.BBS_NO = #{bbsNo}
+          AND A.BBS_TITLE IS NOT NULL
+          AND A.USER_UID= #{userUID}
+<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>   
+  <choose>
+    <when test='searchType == "1"'>   
+          AND B.USER_NICK LIKE '%' || #{searchValue} || '%'
+    </when>
+    <when test='searchType == "2"'>
+          AND A.BBS_TITLE LIKE '%' || #{searchValue} || '%'
+    </when>
+    <when test='searchType == "3"'>
+          AND DBMS_LOB.INSTR(A.BBS_CONTENT, #{searchValue}) > 0
+    </when>
+  </choose>
+</if>
+
+  <choose>
+    <when test='sortValue == "5"'>
+        ORDER BY A.BBS_LIKE_CNT DESC
+    </when>
+    <when test='sortValue == "6"'>
+        ORDER BY A.BBS_READ_CNT DESC
+    </when>
+    <otherwise>   
+        ORDER BY A.BBS_SEQ DESC
+    </otherwise>
+  </choose>
+   ))
+
+ WHERE RNUM <![CDATA[>=]]> #{startRow}
+   AND RNUM <![CDATA[<=]]> #{endRow}
+ ORDER BY RNUM ASC
+</select>
+
+<!-- 유저 총 게시물 수 -->
+<select id="userListCount" parameterType="com.icia.web.model.Board" resultType="long">
+SELECT COUNT(A.BBS_SEQ) AS CNT
+  FROM T_BOARD A, T_USER B
+ WHERE A.USER_UID = B.USER_UID
+   AND A.BBS_TITLE IS NOT NULL
+   AND A.USER_UID= #{userUID}
+<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>
+	<choose>
+		<when test='searchType == "1"'>   
+                   AND B.USER_NICK LIKE '%' || #{searchValue} || '%'
+		</when>
+		<when test='searchType == "2"'>
+                   AND A.BBS_TITLE LIKE '%' || #{searchValue} || '%'
+		</when>
+		<when test='searchType == "3"'>
+                   AND DBMS_LOB.INSTR(A.BBS_CONTENT, #{searchValue}) > 0
+		</when>
+	</choose>
+</if>
+</select>
+
+
+<!-- 게시물 신고 -->
+<insert id="boardReport" parameterType="com.icia.web.model.BoardReport">
+INSERT INTO T_BOARD_REPORT (BBS_SEQ,
+					 USER_UID,
+					 REPORT1,
+					 REPORT2,
+					 REPORT3,
+					 REPORT4,
+					 ETC_REPORT,
+					 REG_DATE) 
+VALUES (#{bbsSeq},
+        #{userUID},
+        #{report1}, 
+        #{report2}, 
+        #{report3}, 
+        #{report4}, 
+        #{etcReport}, 
+        SYSDATE)
+</insert>
 
 </mapper>

@@ -11,7 +11,13 @@ $(document).ready(function() {
       document.bbsForm.action = "/board/writeForm";
       document.bbsForm.submit();
    });
-    //하이보드컨트롤러로 이동
+   
+   $("#btnMark").on("click", function() {     
+      document.bbsForm.bbsSeq.value = "";
+      document.bbsForm.action = "/board/markList";
+      document.bbsForm.submit();
+   });
+
    $("#btnSearch").on("click", function() { 
       document.bbsForm.bbsSeq.value = "";
       document.bbsForm.searchType.value = $("#_searchType").val();
@@ -20,14 +26,34 @@ $(document).ready(function() {
       document.bbsForm.action = "/board/list";
       document.bbsForm.submit();
    });
-   $("#btnSort").on("click", function() { 
-      document.bbsForm.bbsSeq.value = "";
-      document.bbsForm.searchType.value = $("#_searchType").val();
-      document.bbsForm.searchValue.value = $("#_searchValue").val();
-      document.bbsForm.curPage.value = "1";
-      document.bbsForm.action = "/board/list";
-      document.bbsForm.submit();
+   $("#btnSort1").on("click", function() { 
+	      document.bbsForm.bbsSeq.value = "";
+	      document.bbsForm.searchType.value = $("#_searchType").val();
+	      document.bbsForm.searchValue.value = $("#_searchValue").val();
+	      document.bbsForm.sortValue.value = "4";
+	      document.bbsForm.curPage.value = "1";
+	      document.bbsForm.action = "/board/list";
+	      document.bbsForm.submit();
    });
+   $("#btnSort2").on("click", function() { 
+         document.bbsForm.bbsSeq.value = "";
+         document.bbsForm.searchType.value = $("#_searchType").val();
+         document.bbsForm.searchValue.value = $("#_searchValue").val();
+         document.bbsForm.sortValue.value = "5";
+         document.bbsForm.curPage.value = "1";
+         document.bbsForm.action = "/board/list";
+         document.bbsForm.submit();
+      });
+   $("#btnSort3").on("click", function() { 
+         document.bbsForm.bbsSeq.value = "";
+         document.bbsForm.searchType.value = $("#_searchType").val();
+         document.bbsForm.searchValue.value = $("#_searchValue").val();
+         document.bbsForm.sortValue.value = "6";
+         document.bbsForm.curPage.value = "1";
+         document.bbsForm.action = "/board/list";
+         document.bbsForm.submit();
+      });
+   
 });
 
 function fn_view(bbsSeq)
@@ -45,6 +71,16 @@ function fn_list(curPage)
    document.bbsForm.submit();   
 }
 
+function fn_userList(userUID, userNick)
+{
+   document.bbsForm.userUID.value = userUID;
+   document.bbsForm.searchType.value = "1";
+   document.bbsForm.curPage.value = "1";
+   document.bbsForm.searchValue.value = userNick;
+   document.bbsForm.action = "/board/userList";
+   document.bbsForm.submit();
+}
+
 </script>
 </head>
 <body>
@@ -58,11 +94,12 @@ function fn_list(curPage)
              <div class="row community-item">
                <div class="col-lg-12">
                  <table class="col-lg-12">
-                   <tr>
-                    <td><img src="/resources/images/파인다이닝.jpg" class="img-thumbnail" alt=""></td>
-                    <td><img src="/resources/images/오마카세.jpg" class="img-thumbnail" alt=""></td>
-                    <td><img src="/resources/images/카페.jpg" class="img-thumbnail" alt=""></td>
-                   </tr>
+                  <div class="hotTitle">인기 많은 글 TOP4</div>
+                   <c:if test="${!empty hotLikeList}">
+                	<c:forEach var="board" items="${hotLikeList}" varStatus="status">
+	                    <td><img alt="" class="img-thumbnail" src="../resources/upload/board/${board.boardFile.fileName}" onclick="fn_view(${board.bbsSeq})"></td>
+	                </c:forEach>
+	           	  </c:if>
                   </table>
                 </div>
               </div>
@@ -71,11 +108,12 @@ function fn_list(curPage)
               <div class="row community-item">
                 <div class="col-lg-12">
                  <table class="col-lg-12">
-                   <tr>
-                     <td><img src="/resources/images/요리.jpg" class="img-thumbnail" alt=""></td>
-                     <td><img src="/resources/images/카페.jpg" class="img-thumbnail" alt=""></td>
-                     <td><img src="/resources/images/오마카세.jpg" class="img-thumbnail" alt=""></td>
-                   </tr>
+                  <div class="hotTitle">많이 찾는 글 TOP4</div>
+                   <c:if test="${!empty hotReadList}">
+                	<c:forEach var="board" items="${hotReadList}" varStatus="status">
+	                    <td><img alt="" class="img-thumbnail" src="../resources/upload/board/${board.boardFile.fileName}" onclick="fn_view(${board.bbsSeq})"></td>
+	                </c:forEach>
+	           	  </c:if>
                  </table>
                 </div>
               </div>
@@ -83,12 +121,13 @@ function fn_list(curPage)
           </div>
          <div class="swiper-pagination"></div>
        </div>
+       
        <div class="d-flex flex-row justify-content-between">
          <div>
            <ul>
-             <li><button type="button" value="dateCount" id="btnSort" onclick="location.href='/board/list?No=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sort=dateCount'" class="btn btn-outline-dark float-right" data-bs-toggle="button">최신순</button></li>
-             <li><button type="button" value="likeCount" id="btnSort" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sort=likeCount'" class="btn btn-outline-dark float-right">좋아요순</button></li>
-             <li><button type="button" value="readCount" id="btnSort" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sort=readCount'" class="btn btn-outline-dark float-right ">조회순</button></li>
+             <li><button type="button" value="4" id="btnSort1" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=4'" class="btnSort">최신순</button></li>
+             <li><button type="button" value="5" id="btnSort2" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=5'" class="btnSort">좋아요순</button></li>
+             <li><button type="button" value="6" id="btnSort3" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=6'" class="btnSort">조회순</button></li>
            </ul>
          </div>
          <div>
@@ -104,6 +143,7 @@ function fn_list(curPage)
     	  </div>
          </div>
        </div>
+       
        <div class="board-content">
          <table>
            <tr>
@@ -115,25 +155,27 @@ function fn_list(curPage)
              <th style="width:15%">날짜</th>
            </tr>
                 
-           	  <c:if test="${!empty list}">
-                <c:forEach var="board" items="${list}" varStatus="status">
-                  <tr>
-                    <td>${board.rNum}</td>
-                    <td><ion-icon name="heart"></ion-icon>&nbsp;</td>
-                    <td class="likeNum">${board.bbsLikeCnt}</td>
-                    <td><a href="javascript:void(0)" onclick="fn_view(${board.bbsSeq})">${board.bbsTitle}</a></td>
-                    <td><a href="#">${board.userNick}</a></td>
-                    <td>${board.bbsReadCnt}</td>
-                    <td>${board.regDate}</td>
-                  </tr>
-                </c:forEach>
-           	  </c:if>
+           <c:if test="${!empty list}">
+             <c:forEach var="board" items="${list}" varStatus="status">
+               <tr>
+                 <td>${board.rNum}</td>
+                 <td><ion-icon name="heart"></ion-icon>&nbsp;</td>
+                 <td class="likeNum">${board.bbsLikeCnt}</td>
+                 <td><a href="javascript:void(0)" onclick="fn_view(${board.bbsSeq})">${board.bbsTitle}</a></td>
+                 <td><a href="javascript:void(0)" onclick="fn_userList('${board.userUID}', '${board.userNick}')">${board.userNick}</a></td>
+                 <td>${board.bbsReadCnt}</td>
+                 <td>${board.regDate}</td>
+               </tr>
+             </c:forEach>
+           </c:if>
          </table>
        </div>
+       
        <div class="d-flex flex-row justify-content-between">
-         <div class="text-center2"><a href="./bookMark.html"><button>내가 즐겨찾기한 글보기</button></a></div>
+         <div class="text-center2"><button id="btnMark">내가 즐겨찾기한 글보기</button></div>
          <div class="text-center"><button id="btnWrite">글쓰기</button></div>
        </div>
+       
        <div class="page-wrap">
          <ul class="page-nation">
            <c:if test="${paging.prevBlockPage gt 0}">
@@ -156,18 +198,20 @@ function fn_list(curPage)
        </div>
      </div>
    
-   <form name="bbsForm" id="bbsForm" method="post">
-	<input type="hidden" name="bbsSeq" value="" />
-	<input type="hidden" name="searchType" value="${searchType}" />
-	<input type="hidden" name="searchValue" value="${searchValue}" />
-	<input type="hidden" name="curPage" value="${curPage}" />
-	<input type="hidden" name="bbsNo" value="${bbsNo}" />
-   </form>
+	<form name="bbsForm" id="bbsForm" method="post">
+	 <input type="hidden" name="bbsSeq" value="" />
+	 <input type="hidden" name="searchType" value="${searchType}" />
+	 <input type="hidden" name="searchValue" value="${searchValue}" />
+	 <input type="hidden" name="sortValue" value="${sortValue}" />
+	 <input type="hidden" name="curPage" value="${curPage}" />
+	 <input type="hidden" name="bbsNo" value="${bbsNo}" />
+	 <input type="hidden" name="userUID" value="${userUID}" />
+	</form>
    
    </div>
  </section>
    
-   <!-- ======= Footer ======= -->
-   <%@ include file="/WEB-INF/views/include/footer.jsp" %>
+ <!-- ======= Footer ======= -->
+ <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 </body>
 </html>

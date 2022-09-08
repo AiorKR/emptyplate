@@ -15,7 +15,19 @@
      <result column="BIZ_NUM" property="bizNum" />
      <result column="BIZ_NAME" property="bizName" />
      <result column="BIZ_DATE" property="bizDate" />
+     <result column="FILE_NAME" property="fileName" />
+     <!-- ******추가****** -->
+     <result column="LOGIN_USER" property="loginUser" />
+     <!-- ******추가끝****** -->
   </resultMap>
+ 
+ <resultMap id="userFileResultMap" type="com.icia.web.model.UserFile">
+	<id column="USER_UID" property="userUID" />
+	<id column="FILE_NAME" property="fileName" />
+	<id column="FILE_EXT" property="fileExt" />
+	<id column="FILE_SIZE" property="fileSize" />
+	<id column="REG_DATE" property="regDate" />
+</resultMap>
  
   <select id="userSelect" parameterType="String" resultMap="userResultMap">
    SELECT USER_UID,
@@ -25,8 +37,8 @@
           NVL(USER_NAME, '') USER_NAME,
           NVL(USER_NICK, '') USER_NICK,
           NVL(USER_EMAIL, '') USER_EMAIL,
-          NVL(ADMIN_STATUS, 'N') ADMIN_STATUS,
-          NVL(STATUS, 'N') STATUS,
+          NVL(ADMIN_STATUS, '') ADMIN_STATUS,
+          NVL(STATUS, '') STATUS,
           NVL(TO_CHAR(REG_DATE, 'YYYY.MM.DD HH24:MI:SS') , ''),
           NVL(BIZ_NUM, '') BIZ_NUM,
           NVL(BIZ_NAME, '') BIZ_NAME,
@@ -36,6 +48,26 @@
  </select>
 
 <select id="userUIDSelect" parameterType="String" resultMap="userResultMap">
+     SELECT U.USER_UID,
+          U.USER_ID,
+          NVL(U.USER_PWD,'') USER_PWD,
+          NVL(U.USER_PHONE, '') USER_PHONE,
+          NVL(U.USER_NAME, '') USER_NAME,
+          NVL(U.USER_NICK, '') USER_NICK,
+          NVL(U.USER_EMAIL, '') USER_EMAIL,
+          NVL(U.ADMIN_STATUS, '') ADMIN_STATUS,
+          NVL(U.STATUS, '') STATUS,
+          NVL(TO_CHAR(U.REG_DATE, 'YYYY.MM.DD HH24:MI:SS') , ''),
+          NVL(U.BIZ_NUM, '') BIZ_NUM,
+          NVL(U.BIZ_NAME, '') BIZ_NAME,
+          NVL(TO_CHAR(U.BIZ_DATE, 'YYYY.MM.DD HH24:MI:SS') , ''),
+          NVL(F.FILE_NAME, '') AS FILE_NAME
+     FROM T_USER U, T_USER_FILE F
+     WHERE U.USER_UID = #{value}
+       AND U.USER_UID = F.USER_UID(+)
+ </select>
+ 
+ <select id="userPhoneSelect" parameterType="String" resultMap="userResultMap">
    SELECT USER_UID,
           USER_ID,
           NVL(USER_PWD,'') USER_PWD,
@@ -43,14 +75,14 @@
           NVL(USER_NAME, '') USER_NAME,
           NVL(USER_NICK, '') USER_NICK,
           NVL(USER_EMAIL, '') USER_EMAIL,
-          NVL(ADMIN_STATUS, 'N') ADMIN_STATUS,
-          NVL(STATUS, 'N') STATUS,
+          NVL(ADMIN_STATUS, '') ADMIN_STATUS,
+          NVL(STATUS, '') STATUS,
           NVL(TO_CHAR(REG_DATE, 'YYYY.MM.DD HH24:MI:SS') , ''),
           NVL(BIZ_NUM, '') BIZ_NUM,
           NVL(BIZ_NAME, '') BIZ_NAME,
           NVL(TO_CHAR(BIZ_DATE, 'YYYY.MM.DD HH24:MI:SS') , '')
      FROM T_USER
-     WHERE USER_UID = #{value}
+     WHERE USER_PHONE = #{value}
  </select>
 
  <insert id="userInsert" parameterType="com.icia.web.model.User">
@@ -97,19 +129,72 @@
 UPDATE T_USER
 SET
 	USER_ID = NULL,
-	USER_PWD = NULL,
-	USER_PHONE = NULL,
-    USER_NAME = NULL,
-    USER_NICK = NULL,
-    USER_EMAIL = NULL,
-    ADMIN_STATUS = NULL,
-    STATUS = NULL,
-    REG_DATE = NULL,
-    BIZ_NUM = NULL,
-    BIZ_NAME = NULL,
-    BIZ_DATE = NULL
+    STATUS = 'N'
 WHERE 
 	USER_ID = #{userId}
 </update>
+
+
+<select id="userFileSelect" parameterType="long" resultMap="userFileResultMap">
+SELECT USER_UID,
+       NVL(FILE_NAME, '') FILE_NAME,
+       NVL(FILE_EXT, '') FILE_EXT,
+       NVL(FILE_SIZE, 0) FILE_SIZE,
+       NVL(TO_CHAR(REG_DATE, 'YYYY.MM.DD HH24:MI:SS'), '') REG_DATE
+  FROM T_USER_FILE
+ WHERE USER_UID = #{value}
+</select>
+
+<insert id="userFileInsert" parameterType="com.icia.web.model.UserFile">
+INSERT INTO T_USER_FILE (
+	USER_UID,
+    FILE_NAME,
+    FILE_EXT,
+    FILE_SIZE,
+    REG_DATE
+) VALUES (
+    #{userUID},
+    #{fileName},
+    #{fileExt},
+    #{fileSize},
+    SYSDATE
+)
+</insert>
+
+<update id="userFileUpdate" parameterType="com.icia.web.model.UserFile">
+ UPDATE T_USER_FILE
+   SET FILE_NAME = #{fileName},
+       FILE_EXT = #{fileExt},
+       FILE_SIZE = #{fileSize},
+       REG_DATE = SYSDATE
+ WHERE USER_UID = #{userUID}
+</update>
+
+<delete id="userFileDelete" parameterType="com.icia.web.model.UserFile">
+DELETE FROM T_USER_FILE
+WHERE  USER_UID = #{userUID}
+</delete>
+
+<!-- ******추가****** -->
+<!-- 동일 유저 즐겨찾기 여부 확인 -->
+<select id="userMarkCheck" parameterType="com.icia.web.model.User" resultType="int">
+SELECT COUNT(*)
+  FROM T_USER_MARK A, T_USER B
+ WHERE A.LOGIN_USER = B.USER_UID
+   AND A.USER_UID = #{userUID}
+</select>
+
+<!-- 유저 즐겨찾기 추가-->
+<insert id="userMarkUpdate" parameterType="com.icia.web.model.User">
+INSERT INTO T_USER_MARK (USER_UID, LOGIN_USER) 
+VALUES (#{userUID}, #{userUID})
+</insert>
+
+<!-- 유저 즐겨찾기 취소 -->
+<delete id="userMarkDelete" parameterType="com.icia.web.model.User">
+DELETE FROM T_USER_MARK
+ WHERE USER_UID = #{userUID}
+</delete>
+<!-- ******추가 끝****** -->
 
 </mapper>

@@ -4,13 +4,16 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -73,9 +76,16 @@ public class UserController
          {
             if(StringUtil.equals(user.getUserPwd(), userPwd))
             {
-               String userUID = user.getUserUID();
-               CookieUtil.addCookie(response, "/", -1, AUTH_COOKIE_NAME, CookieUtil.stringToHex(userUID));
-               ajaxResponse.setResponse(0, "Success");
+               if(StringUtil.equals(user.getStatus(), "Y"))
+	            {	
+            	   	String userUID = user.getUserUID();
+	               	CookieUtil.addCookie(response, "/", -1, AUTH_COOKIE_NAME, CookieUtil.stringToHex(userUID));
+	               	ajaxResponse.setResponse(0, "Success");
+            	}
+               else
+               {
+            	   ajaxResponse.setResponse(403, "Not Found");
+               }
             }
             else
             {
@@ -115,7 +125,7 @@ public class UserController
       return "redirect:/";
    }
    
- //아이디중복체크
+   //아이디
    @RequestMapping(value="/user/idCheck", method=RequestMethod.POST)
    @ResponseBody
    public Response<Object> idCheck(HttpServletRequest request, HttpServletResponse response)
@@ -126,12 +136,12 @@ public class UserController
       if(!StringUtil.isEmpty(userId))
       {
          if(userService.userSelect(userId) == null)
-         {
-            ajaxResponse.setResponse(0, "Success");
-         }
+         {        	       	 
+        		 ajaxResponse.setResponse(0, "Success");	
+         } 
          else
          {
-            ajaxResponse.setResponse(100, "Bad Request");
+        	 ajaxResponse.setResponse(100, "duplikcate Id");
          }
       }
       else
@@ -164,21 +174,19 @@ public class UserController
       if(!StringUtil.isEmpty(userId) && !StringUtil.isEmpty(userPwd) && !StringUtil.isEmpty(userName) && !StringUtil.isEmpty(userEmail) && !StringUtil.isEmpty(userPhone))
       {
          if(userService.userSelect(userUID) == null)
-         {
-            User user = new User();
-            
-            
-              
-            user.setUserUID(userUID);   
-            user.setUserId(userId);
-            user.setUserPwd(userPwd);
-            user.setUserName(userName);
-            user.setUserEmail(userEmail);
-            user.setUserPhone(userPhone);
-            user.setStatus("Y");
-            user.setAdminStatus("N");
-            user.setUserNick(userNick);
-              
+         {    
+               User user = new User();
+      
+               user.setUserUID(userUID);   
+               user.setUserId(userId);
+               user.setUserPwd(userPwd);
+               user.setUserName(userName);
+	           user.setUserEmail(userEmail);
+	           user.setUserPhone(userPhone);
+	           user.setStatus("Y");
+	           user.setAdminStatus("N");
+	           user.setUserNick(userNick);
+        	  
               
                if(userService.userInsert(user) > 0)
                {
@@ -188,17 +196,17 @@ public class UserController
                {
                   ajaxResponse.setResponse(500, "Internal Server Error");
                }
-            }
-            else
-            {
-               ajaxResponse.setResponse(100, "duplikcate id");
-            }
-         }
-         else
-         {
-            ajaxResponse.setResponse(400, "Bad Request");
-         }
-         
+        } 
+        else
+        {
+           ajaxResponse.setResponse(100, "duplikcate id");
+        }
+     }
+     else
+     {
+        ajaxResponse.setResponse(400, "Bad Request");
+     }
+     
          if(logger.isDebugEnabled())
           {
             logger.debug("[UserController] /user/userInsert response\n" + JsonUtil.toJsonPretty(ajaxResponse));
@@ -206,5 +214,80 @@ public class UserController
          
          return ajaxResponse;
    }
+
+   //약관동의 팝업
+   @RequestMapping(value="/user/signUpPopUp", method=RequestMethod.GET)
+   public String signUpPopUp(HttpServletRequest request, HttpServletResponse response)
+   {
+      return "/user/signUpPopUp";
+   }
+   
+   //문자인증
+   HttpSession session;
+   @ModelAttribute
+	void init(HttpServletRequest request, Model model) {
+		
+		this.session = request.getSession();
+	}
+   
+   @PostMapping("/user/sendSms")
+   @ResponseBody
+   public Response<Object> sendSms(HttpServletRequest request, HttpServletResponse response)
+   {
+	  String userPhone = HttpUtil.get(request, "tel");
+      Response<Object> ajaxResponse = new Response<Object>();
+      
+      if(!StringUtil.isEmpty(userPhone))
+      {
+         if(userService.userPhoneSelect(userPhone) == null)
+         {        	       	 
+        	 String code = userService.sendRandomMessage(userPhone);
+        	 session.setAttribute("numStr", code);	 
+        	 ajaxResponse.setResponse(0, "Success");	
+         } 
+         else
+         {
+        	 ajaxResponse.setResponse(100, "duplikcate phone");
+         }
+      }
+      else
+      {
+         ajaxResponse.setResponse(400, "Bad Request");
+      }
+      
+      if(logger.isDebugEnabled())
+          {
+             logger.debug("[UserController] /user/poneChk response\n" + JsonUtil.toJsonPretty(ajaxResponse));
+          }
+      
+      return ajaxResponse;
+   }
+   
+   
+   
+	@PostMapping("/user/sendSmsOk")
+   	@ResponseBody
+   	public Response<Object> sendSmsOk(HttpServletRequest request) {
+		Response<Object> ajaxResponse = new Response<Object>();
+		String code1 = (String) session.getAttribute("numStr");
+   	    String code = (String) request.getParameter("code");
+
+   	    System.out.println(code1 + " : " + code);
+
+   	    if (code1.equals(code)) {
+   	        session.removeAttribute("numStr");
+   	        ajaxResponse.setResponse(0, "Success");	
+   	    } 
+   	    else {
+   	    ajaxResponse.setResponse(100, "not equal phone");
+   	    }
+   	    return ajaxResponse;
+   	}
+   	
+   
+   
+   
+   
+   
 }   
    
