@@ -43,13 +43,12 @@ $(document).ready(function() {
     });
    /******추가******/
 	//유저 즐겨찾기
+	/*
     $("#btnMark").on("click", function(){
 	   $.ajax({
 	       type:"POST",
 	       url:"/board/userMark",
 	       data:{
-	    	   //userUID:<c:out value="${board.userUID}" />
-	    	   userUID: "${board.userUID}"
 		       },
 	       datatype:"JSON",
 	       beforeSend:function(xhr){
@@ -81,9 +80,47 @@ $(document).ready(function() {
 	       }
 	    });
    });
+	   */
     /******추가******/
 });
-
+function fn_mark(userUIDValue)
+{
+	 $.ajax({
+	       type:"POST",
+	       url:"/board/userMark",
+	       data:{
+	    	   markUserUID:userUIDValue
+		       },
+	       datatype:"JSON",
+	       beforeSend:function(xhr){
+	          xhr.setRequestHeader("AJAX", "true");
+	       },
+	       success:function(response){
+	          if(response.code == 0)
+	          {
+	             alert("즐겨찾기를 하셨습니다.");
+	             location.reload();
+	          }
+	          else if(response.code == 1)
+	          {
+	             alert("즐겨찾기를 취소하셨습니다.");
+	             location.reload();
+	          }
+	          else if(response.code == 400)
+	          {
+	             alert("로그인 후, 즐겨찾기 버튼을 사용하실 수 있습니다.");
+		         location.href = "/user/login";
+	          }
+	          else
+	          {
+	             alert("즐겨찾기 중 오류가 발생하였습니다.");
+	          }
+	       },
+	       error:function(xhr, status, error){
+	          icia.common.error(error);
+	       }
+	    });
+}
 function fn_view(bbsSeq)
 {
    document.bbsForm.bbsSeq.value = bbsSeq;
@@ -121,10 +158,10 @@ function fn_userList(userUID, userNick)
        	<!-- 추가 -->
        	<c:choose>
 			<c:when test="${userMarkActive eq 'Y'}">
-				<div class="bookmark"><button type="button" id="btnMark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
+				<div class="bookmark"><button type="button" id="btnMark" class="bookmark" onclick="fn_mark('${markUserUID}')"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
 			</c:when>
 			<c:when test="${userMarkActive eq 'N'}">
-				<div class="bookmark"><button type="button" id="btnMark" class="bookmark"><ion-icon name="star-outline"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
+				<div class="bookmark"><button type="button" id="btnMark" class="bookmark" onclick="fn_mark('${markUserUID}')"><ion-icon name="star-outline"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
 			</c:when>
 		</c:choose>
 		<!-- 추가끝 -->

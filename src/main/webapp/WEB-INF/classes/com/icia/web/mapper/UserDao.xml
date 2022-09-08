@@ -16,7 +16,7 @@
      <result column="BIZ_NAME" property="bizName" />
      <result column="FILE_NAME" property="fileName" />
      <!-- ******추가****** -->
-     <result column="MARK_USER" property="markUser" />
+     <result column="MARK_USER" property="markUserUID" />
      <!-- ******추가끝****** -->
   </resultMap>
  

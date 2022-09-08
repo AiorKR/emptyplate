@@ -357,6 +357,7 @@ public class BoardController
 		model.addAttribute("userList", userList);
 		model.addAttribute("userUID", userUID);
 		model.addAttribute("markUser", markUser);
+		model.addAttribute("markUserUID", userUID);
 		model.addAttribute("bbsNo", search.getBbsNo());
 		model.addAttribute("searchType", searchType);
 		model.addAttribute("searchValue", searchValue);
@@ -382,10 +383,13 @@ public class BoardController
   		//해당 유저
         //String userUID = HttpUtil.get(request, "userUID");
 		//해당 유저
-        String markUser = HttpUtil.get(request, "markUser");
+        String markUserUID = HttpUtil.get(request, "markUserUID");
         
   		User user = new User();
   		Board board = new Board();
+  		
+  		logger.debug("#@############################### 여기까지 완료");
+  		logger.debug("markUserUID  :" + markUserUID);
   		
   		if(!StringUtil.isEmpty(cookieUserUID))
   		{
@@ -393,7 +397,7 @@ public class BoardController
   			{
    				user.setUserUID(cookieUserUID);
    				//board.setUserUID(cookieUserUID);
-   				user.setMarkUser(markUser);
+   				user.setMarkUser(markUserUID);
    				
   				if(userService.userMarkCheck(user) == 0)  					
   				{
