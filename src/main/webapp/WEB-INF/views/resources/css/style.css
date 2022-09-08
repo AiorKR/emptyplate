@@ -901,7 +901,7 @@ section {
 }
 
 #community .swiper-pagination {
-  margin-top: 10px;
+  margin-top: 30px;
   position: relative;
   bottom : 30px;
 }
@@ -2824,6 +2824,7 @@ section {
   font-family: "Poppins", sans-serif;
 }
 
+
 /*--------------------------------------------------------------
 # Reservation start
 --------------------------------------------------------------*/
@@ -2854,6 +2855,9 @@ section {
   padding: 0;
 }
 
+.reservation h2{
+   color:#000
+}
 .reservation-container {
   margin-top: 100px;
 }
@@ -2897,7 +2901,7 @@ section {
   font-weight: 300;
   font-size: 40px;
   font-family: "Do Hyeon", sans-serif;
-  color: #cda45e;
+  color: #000;
 }
 
 .reservation .reservation-item .price {
@@ -3085,6 +3089,11 @@ reservation 검색
   color:#000;
 }
 
+.reservation .container-fluid {
+  position: relative;
+  margin-bottom: 14px;
+}
+
 /*--------------------------------------------------------------
 # Reservation End
 --------------------------------------------------------------*/
@@ -3115,6 +3124,7 @@ reservation 검색
   background: url("/resources/images/hero-bg.jpg") top center;
   background-size: cover;
   position: relative;
+  
   padding: 0;
 }
 
@@ -3127,7 +3137,9 @@ reservation 검색
   padding: 0;
 }
 
-
+.view p span{
+   font-family: 'Cafe24Dangdanghae';
+}
 .view:before{
   content: "";
   background: rgba(225, 225, 225);
@@ -3282,6 +3294,7 @@ reservation 검색
 
 .view p, .view ul, .view h3, .view span{
   color:#000;
+
 }
 
 .view .star:hover {
@@ -4177,7 +4190,7 @@ hr[role="tournament1"] {
   display: block;
 }
 hr[role="tournament1"]::before {
-  position: absolute;
+  position: absolute; 	
   background-color: #efefef;
   border: 1px solid;
   border-color: #AC8353;
