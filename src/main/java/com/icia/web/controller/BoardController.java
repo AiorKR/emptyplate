@@ -759,21 +759,40 @@ public class BoardController
   	//대댓글
 	@RequestMapping(value="/board/reComment", method=RequestMethod.POST)
   	@ResponseBody
-  	public Response<Object> reComment(HttpServletRequest request, HttpServletResponse response)
+  	public Response<Object> reComment(ModelMap model, HttpServletRequest request, HttpServletResponse response)
   	{
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
   		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
-  		Response<Object> ajaxResponse = new Response<Object>();
-  		try
-  		{
-  			ajaxResponse.setResponse(0, "Success");
-  		}
-  		catch(Exception e)
-  		{
-  			logger.error("[BoardController] reComment Exception", e);
-				ajaxResponse.setResponse(500, "Internal server error");
-  		}
   		
+		//총 게시물 수
+		long totalCount = 0;
+		//게시물 리스트
+		List<Board> list = null;
+		//조회 객체
+		Board search = new Board();
+		//게시판 번호
+		search.setBbsNo(5);
+		
+		Response<Object> ajaxResponse = new Response<Object>();
+		totalCount = boardService.boardListCount(search);
+		
+		if(totalCount > 0)
+		{
+			list = boardService.boardList(search);
+			try
+	  		{
+	  			ajaxResponse.setResponse(0, "Success");
+	  		}
+	  		catch(Exception e)
+	  		{
+	  			logger.error("[BoardController] reComment Exception", e);
+					ajaxResponse.setResponse(500, "Internal server error");
+	  		}
+		}
+		
+		model.addAttribute("list", list);
+		model.addAttribute("bbsNo", search.getBbsNo());
+		
   		return ajaxResponse;
   	}
 }
