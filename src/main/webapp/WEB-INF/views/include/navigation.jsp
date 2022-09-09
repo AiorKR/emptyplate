@@ -68,7 +68,7 @@
 	  <li class="dropdown"><a href="#">김땡땡 님<i class="bi bi-chevron-down"></i></a>
 		<ul>
 		  <li><a href="/myPage/myProfile">내 프로필</a></li>
-		  <li><a href="./reservationList.html">예약내역</a></li>
+		  <li><a href="/rList/rList">예약내역</a></li>
 		  <li><a href="#">고객센터</a></li>
 		  <li><a href="/user/loginOut">로그아웃</a></li>
 		</ul>

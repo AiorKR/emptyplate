@@ -101,6 +101,7 @@
             			<value>/user/phone_popup</value>
             			<value>/user/bizNumPopup</value>
             			<value>/user/regManProc</value>
+            			<value>/rList/rList</value>
             		</list>
             	</constructor-arg>
             </bean>

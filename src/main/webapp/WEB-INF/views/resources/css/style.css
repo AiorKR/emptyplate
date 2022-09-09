@@ -5099,7 +5099,7 @@ hr[role="tournament1"]::before {
 }
 
 .rlist-title {
-  margin-top: 25px;
+  margin-top: 60px;
   font-family: 'cafe24Dangdanghae';
   font-size: 48px;
   color: #cda45e;
@@ -5136,6 +5136,7 @@ hr[role="tournament1"]::before {
 }
 
 .rlist-card {
+  position:relative;
   margin-top: 20px;
   margin: auto;
   width:1100px;
@@ -5203,7 +5204,6 @@ hr[role="tournament1"]::before {
 .rlist-list {
   text-align: center;
   width: 1100px;
-  height: 80px;
 }
 .rlist-list-card {  
   text-transform: uppercase;
@@ -5262,7 +5262,7 @@ hr[role="tournament1"]::before {
    color :rgba(172, 131, 83, 0.75);
    width: 600px;
    margin: auto;
-   margin-top: 15px;
+   margin-top: 20px;
 }
 
 
@@ -5272,6 +5272,7 @@ hr[role="tournament1"]::before {
 }
 
 #rlist-page .page-wrap {
+  position:flex; bottom:0px; 
   text-align:center;
   font-size:0;
   padding-left: 0px;
@@ -5305,6 +5306,104 @@ hr[role="tournament1"]::before {
   background-color:gray;
   color:white;
 }
+
+.reqOne {  
+  background-color: 	#FFFFF0;
+  width: 950px;
+  height: 50px;
+  color: rgba(7, 0, 0, 0.493);  
+  box-shadow: 0 0 22px rgb(197, 192, 192);
+  border-style: solid;
+  border-radius: 9px;
+  border-color: #FFE4C4;
+  margin-left:70px;
+  margin-top: 5px;
+ }
+
+ .reqOneText {
+  background-color: #FFFFF0;
+  width: 600px;
+  height: 42px;
+  margin-left:42px; 
+  border-color: #0000; 
+  font-size: 23px;
+ }
+
+ .reqOneText:focus {
+  outline:none;
+}
+
+.reqOne-btn {
+  font-family: 'cafe24Dangdanghae'; 
+  border-radius: 10%;
+  color:#464545a6;
+}
+
+.reqOne-btn:hover {
+  box-shadow: 3px 3px 3px 3px rgba(128, 128, 128, 0.575) inset;
+}
+
+.reqOne-btn-section{
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+/*별*/
+.blind {
+  position: absolute;
+  overflow: hidden;
+  margin: -1px;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+  border: none;
+  clip: rect(0, 0, 0, 0);
+}
+
+.startRadio {
+  margin-top: 7px;
+  margin-left: 20px;
+  display: inline-block;
+  overflow: hidden;
+  height: 30px;
+}
+.startRadio:after {
+  content: "";
+  display: block;
+  position: relative;
+  z-index: 10;
+  height: 30px;
+  background: url("/resources/images/star.png") repeat-x 0 0;
+  background-size: contain;
+  pointer-events: none;
+}
+.startRadio__box {
+  position: relative;
+  z-index: 1;
+  float: left;
+  width: 15px;
+  height: 30px;
+  cursor: pointer;
+}
+.startRadio__box input {
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  position: absolute !important;
+}
+.startRadio__box input:checked + .startRadio__img {
+  background-color: 	#FF8C00;
+}
+.startRadio__img {
+  display: block;
+  position: absolute;
+  right: 0;
+  width: 375px;
+  height: 30px;
+  pointer-events: none;
+}
+/*별*/
+
 
 
 /*rlist.html CSS끝*/
