@@ -10,12 +10,13 @@
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
 <script type="text/javascript">
 $(document).ready(function() {
-
+   //목록
    $("#btnList").on("click", function() {
       document.bbsForm.action = "/board/list";
       document.bbsForm.submit();
    });   
-
+   
+   //게시물 수정
    $("#btnUpdate").on("click", function() {
       document.bbsForm.action = "/board/updateForm";
       document.bbsForm.submit();
@@ -380,13 +381,14 @@ $(document).ready(function() {
 	         }
 	      });
    });
-
 });
 
+//댓글 게시물번호
 function fn_Report(bbsSeq2){
 	$('#bbsSeqCom').val(bbsSeq2);
 }
 
+//댓글 삭제
 function fn_deleteComment(bbsSeqValue)
 {
     if(confirm("댓글을 삭제 하시겠습니까?") == true)
@@ -435,7 +437,6 @@ function fn_deleteComment(bbsSeqValue)
        });
     }
 }
-
 </script>
 </head>
 <body>
@@ -496,7 +497,7 @@ function fn_deleteComment(bbsSeqValue)
 	                              <div class="datecard">
 	                                 <h3 id="view-name">
 						                                 신고게시물 : ${board.bbsTitle}<br>
-                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;신고자 : ${board.userNick}<br>
+                           			   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;신고자 : ${board.userNick}<br>
 	                                 </h3>
 	                                 <div class="content">
 	                                    <ul>
@@ -525,7 +526,6 @@ function fn_deleteComment(bbsSeqValue)
 					  </c:if>   
 					</div>
 
-
 					<c:if test="${board.bbsComment eq 'Y'}">             
 						<form name="commentForm" id="commentForm" method="post" enctype="form-data">
 							<div class="board-commentwrite">
@@ -537,7 +537,7 @@ function fn_deleteComment(bbsSeqValue)
 								</div>
 							</div>
 						
-						<c:if test="${!empty list}">
+						  <c:if test="${!empty list}">
 							<c:forEach var="board" items="${list}" varStatus="status">
 								<div class="comment">
 									<div class="comment-write">
@@ -562,6 +562,7 @@ function fn_deleteComment(bbsSeqValue)
 	                              <h5 class="modal-title" id="m">댓글 신고하기</h5>
 	                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	                           </div>
+	                           
 	                           <div class="modal-body">
  			  					 <form name="reportFormCom" id="reportFormCom" method="post">	
 	                              <div class="datecard">
@@ -582,16 +583,14 @@ function fn_deleteComment(bbsSeqValue)
 	                                 </div>
 			     				    </form>
 	                              </div>
+	                              
 	                           </div>
-	                        </div>
-	                     </div>	
-	                     						                  
-						</c:if>
+	                         </div>
+							</div>		                  
+						  </c:if>
 						</form>
 					</c:if>
-					
 				</div>
-				
 			<form name="bbsForm" id="bbsForm" method="post">
 				<input type="hidden" name="bbsSeq" value="${bbsSeq}" />
 				<input type="hidden" name="searchType" value="${searchType}" />

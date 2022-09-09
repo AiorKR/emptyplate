@@ -217,7 +217,6 @@ public class UserService
 	    return numStr;
 	}
 
-	/************추가**********/
 	//동일 유저 즐겨찾기 여부 확인
 	public int userMarkCheck(User user)
 	{
@@ -268,5 +267,5 @@ public class UserService
 		
 		return count;
 	}
-	/************추가끝**********/
+
 }
