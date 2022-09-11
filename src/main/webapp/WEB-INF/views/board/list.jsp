@@ -101,7 +101,7 @@ function fn_userList(userUID, userNick)
        <div class="community-slider swiper" data-aos-delay="100">
          <div class="swiper-wrapper">
            <div class="swiper-slide">
-             <div class="row community-item">
+             <div class="community-item">
                <div class="col-lg-12">
                  <table class="col-lg-12">
                   <div class="hotTitle">인기 많은 글 TOP4</div>
@@ -115,7 +115,7 @@ function fn_userList(userUID, userNick)
               </div>
             </div>
             <div class="swiper-slide">
-              <div class="row community-item">
+              <div class="community-item">
                 <div class="col-lg-12">
                  <table class="col-lg-12">
                   <div class="hotTitle">많이 찾는 글 TOP4</div>

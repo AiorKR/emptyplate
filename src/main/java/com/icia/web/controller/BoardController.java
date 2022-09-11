@@ -236,26 +236,11 @@ public class BoardController
 		//게시판 번호
 		board.setBbsNo(5);
 		
-		//작성자 조회 객체
-		//User user = new User();
-  		//글 작성자
-  		//String userUID = HttpUtil.get(request, "userUID");
-        //게시물 번호
-        //long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
-		
 		if(!StringUtil.isEmpty(cookieUserUID))
 		{
 			board.setUserUID(cookieUserUID);
 		}
-		/*if(bbsSeq > 0)
-		{
-			logger.debug("==============================");
-			logger.debug("userUID222222222 : " + userUID);
-			logger.debug("==============================");
-			board.setBbsSeq(bbsSeq);
-			board.setUserUID(userUID);
-			//board.setUserUID(user.getUserUID());
-		}*/
+		
 		if(!StringUtil.isEmpty(searchType) && !StringUtil.isEmpty(searchValue))
 		{
 			board.setSearchType(searchType);
@@ -288,9 +273,6 @@ public class BoardController
 		model.addAttribute("sortValue", sortValue);
 		model.addAttribute("curPage", curPage);
 		model.addAttribute("paging", paging);
-		//model.addAttribute("bbsSeq", bbsSeq);
-		//model.addAttribute("userUID", userUID);
-		//model.addAttribute("userNick", user.getUserNick());
 		
 		return "/board/markList";
 	}	

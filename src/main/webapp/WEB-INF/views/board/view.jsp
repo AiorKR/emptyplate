@@ -529,10 +529,10 @@ function fn_deleteComment(bbsSeqValue)
 					<c:if test="${board.bbsComment eq 'Y'}">             
 						<form name="commentForm" id="commentForm" method="post" enctype="form-data">
 							<div class="board-commentwrite">
-								<col-lg-12><ion-icon name="chatbubbles"></ion-icon>댓글</col-lg-12>
+								<div><ion-icon name="chatbubbles"></ion-icon>댓글</div>
 								<div class="submit">
 									<input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
-									<input type="text" id="bbsContent" name="bbsContent" style="ime-mode:active;" class="form-control mt-4 mb-2"/>
+									<input type="text" id="bbsContent" name="bbsContent" style="ime-mode:active;" class="form-control"/>
 									<button type="submit" id="btnSearch">등 록</button>
 								</div>
 							</div>
