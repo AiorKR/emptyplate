@@ -187,4 +187,28 @@ DELETE FROM T_USER_MARK
  WHERE MARK_USER_UID = #{markUserUID}
 </delete>
 
+<!-- 사용자 탈퇴시 좋아요 삭제 -->
+<delete id="boardLikeDelete" parameterType="com.icia.web.model.User">
+DELETE FROM T_BOARD_LIKE
+ WHERE USER_UID IN (SELECT USER_UID 
+                      FROM T_USER
+                     WHERE STATUS = 'N')
+</delete>
+
+<!-- 사용자 탈퇴시 게시물 즐겨찾기 삭제 -->
+<delete id="boardMarkDelete" parameterType="com.icia.web.model.User">
+DELETE FROM T_BOARD_MARK
+ WHERE USER_UID IN (SELECT USER_UID 
+                      FROM T_USER
+                     WHERE STATUS = 'N')
+</delete>
+
+<!-- 사용자 탈퇴시 유저 즐겨찾기 삭제 -->
+<delete id="userLikeDelete" parameterType="com.icia.web.model.User">
+DELETE FROM T_USER_MARK
+ WHERE USER_UID IN (SELECT USER_UID 
+                      FROM T_USER
+                     WHERE STATUS = 'N')
+</delete>
+
 </mapper>

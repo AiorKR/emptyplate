@@ -69,5 +69,15 @@ public interface UserDao
 	
 	//유저 즐겨찾기 취소
 	public int userMarkDelete(User user);
+	
+	//사용자 탈퇴시 좋아요 삭제
+	public int boardLikeDelete(User user);
+	
+	//사용자 탈퇴시 게시물 즐겨찾기 삭제
+	public int boardMarkDelete(User user);
+	
+	//사용자 탈퇴시 유저 즐겨찾기 삭제
+	public int userLikeDelete(User user);
+	
 
 }

@@ -697,7 +697,7 @@ public class BoardController
   		//쿠키값
   		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
   		//게시물 번호
-  		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+  		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);  		
   		
   		if(!StringUtil.isEmpty(cookieUserUID) && bbsSeq > 0)
   		{
