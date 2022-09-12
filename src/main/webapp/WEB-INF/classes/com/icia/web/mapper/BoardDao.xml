@@ -337,7 +337,6 @@ UPDATE T_BOARD
 <!-- 댓글 리스트 -->
 <select id="commentList" parameterType="com.icia.web.model.Board" resultMap="boardResultMap">
 SELECT A.BBS_SEQ AS BBS_SEQ,
-<!-- 추가부분 (view에서 uid출력을 위해서 받아왔음) -->
 	   A.USER_UID AS USER_UID,
 	   A.COMMENT_PARENT AS COMMENT_PARENT,
        B.USER_NICK AS USER_NICK,
