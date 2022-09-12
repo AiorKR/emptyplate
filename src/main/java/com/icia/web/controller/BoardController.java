@@ -456,18 +456,37 @@ public class BoardController
        String bbsMarkActive = "N";
        //댓글허용체크
        String bbsComment = "";
+       //본인댓글 여부
+       String commentMe = "N";
+       //댓글 조회 객체
+       Board parentBoard = null;
        
        if(bbsSeq > 0)
        {
           board = boardService.boardView(bbsSeq);
           comment = boardService.commentList(board);
+          parentBoard = boardService.boardSelect(bbsSeq);
           
           //본인 게시물 여부
           if(board != null && StringUtil.equals(board.getUserUID(), cookieUserUID))
           {
              boardMe = "Y";
           }
-       
+          
+          if(parentBoard != null)
+          {
+        	  board.setUserUID(cookieUserUID);
+    		  board.setCommentGroup(parentBoard.getCommentGroup());
+    		  board.setCommentOrder(parentBoard.getCommentOrder() + 1);
+    	  	  board.setCommentIndent(parentBoard.getCommentIndent() + 1);
+    		  board.setCommentParent(bbsSeq);
+    		  
+	          //본인 댓글 여부
+	          if(board != null && StringUtil.equals(board.getUserUID(), cookieUserUID))
+	          {
+	        	  commentMe = "Y";
+	          }
+          }
 	      if(!StringUtil.isEmpty(cookieUserUID) && bbsSeq > 0)
 	      {
 	         board.setBbsSeq(bbsSeq);
@@ -497,6 +516,7 @@ public class BoardController
        model.addAttribute("bbsSeq", bbsSeq);
        model.addAttribute("board", board);
        model.addAttribute("boardMe", boardMe);
+       model.addAttribute("commentMe", commentMe);
        model.addAttribute("bbsComment", bbsComment);
        model.addAttribute("searchType", searchType);
        model.addAttribute("searchValue", searchValue);
@@ -882,15 +902,31 @@ public class BoardController
   		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
   		//댓글 번호
   		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
-  		
-  		if(bbsSeq > 0)
+  					
+  		/*if(bbsSeq > 0)
   		{			
   			Board board = boardService.boardSelect(bbsSeq);
   			
   			if(board != null)
   			{	  		  		
   				if(StringUtil.equals(board.getUserUID(), cookieUserUID))
-  				{	
+  				{*/	
+  		if(bbsSeq > 0)
+        {
+  			Board board = boardService.boardSelect(bbsSeq);
+            Board parentBoard = boardService.boardSelect(bbsSeq);
+  			
+            if(parentBoard != null)
+            {
+            	board.setUserUID(cookieUserUID);
+				//board.setBbsContent(bbsContent);
+				board.setCommentGroup(parentBoard.getCommentGroup());
+				board.setCommentOrder(parentBoard.getCommentOrder() + 1);
+     	  	  	board.setCommentIndent(parentBoard.getCommentIndent() + 1);
+     	  	  	board.setCommentParent(bbsSeq);	
+     	  	  	
+  				if(board != null && StringUtil.equals(board.getUserUID(), cookieUserUID))
+  				{
   					try
   					{
 						if(boardService.commentDelete(board.getBbsSeq()) > 0)

@@ -542,7 +542,7 @@ function fn_deleteComment(bbsSeqValue)
 								<div class="comment">
 									<div class="comment-write">
 										<col-lg-12><ion-icon name="person"></ion-icon> ${board.userNick}</col-lg-12>
-										<c:if test="${boardMe eq 'Y'}">
+										<c:if test="${commentMe eq 'Y'}">
 											<button onclick="fn_deleteComment(${board.bbsSeq})" id="btnCommentDelete" class="commentDelete">삭제</button>
 										</c:if>
 										<a>${board.regDate}</a>
