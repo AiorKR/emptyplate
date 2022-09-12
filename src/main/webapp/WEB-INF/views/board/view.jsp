@@ -388,40 +388,36 @@ function fn_Report(bbsSeq2){
 	$('#bbsSeqCom').val(bbsSeq2);
 }
 
-//대댓글 활성화
-$("#btnReply").on("click", function() {
-	      $.ajax({
-	         type:"POST",
-	         url:"/board/replyProc",
-	 		data : {
-	 			bbsSeq:$("#btnReply").val();
-			},
-			datatype : "JSON",
-			beforeSend : function(xhr){
-	            xhr.setRequestHeader("AJAX", "true");
+//댓글버튼
+function fn_reply(bbsSeqValue)
+{
+	 $.ajax({
+	        url: "/board/replyProc",
+	        data: {
+	        	bbsSeq : bbsSeqValue
 	        },
-	        success:function(response)
-	        {
-	           if(response.code == 0)
-	           {
-	               alert("성공");
-	           }
-	           else
-	           {
-	               alert("오류 발생");
-	           }
-	         },
-	         error:function(error)
-	         {
-	            icia.common.error(error);
-	            alert("오류가 발생하였습니다.");
-	         },
-	         complete: function() {
-	             // 리로드하고싶은 div 아이디값 적용 !! 
-	             $('#commentSection').load(location.href+' #commentSection');
-	         }
-	      });
-});
+	        method: "POST",
+	        success: function (retVal) {
+					if(retVal.code == "OK") { //controller에서 넘겨준 성공여부 코드
+                    
+                    values = retVal.list ; //java에서 정의한 ArrayList명을 적어준다.
+                    
+                    $.each(values, function( index, value ) {
+                       console.log( index + " : " + value.bbsSeq ); //Book.java 의 변수명을 써주면 된다.
+                    });
+                    
+                    alert("성공");
+                }
+                else {
+                    alert("실패");
+                }                    
+	        },
+	        complete: function() {
+	        	alert("새로고침");
+	            $('#commentSection').load(location.href+' commentSection');
+	        }
+	    });
+}
 
 //댓글 삭제
 function fn_deleteComment(bbsSeqValue)
@@ -560,6 +556,7 @@ function fn_deleteComment(bbsSeqValue)
 						<a href="/board/download?bbsSeq=${board.boardFile.bbsSeq}" style="float:right;">첨부이미지 다운로드</a>
 					  </c:if>   
 					</div>
+					
 <div id="commentSection">
 					<c:if test="${board.bbsComment eq 'Y'}">             
 						<form name="commentForm" id="commentForm" method="post" enctype="form-data">
@@ -583,7 +580,14 @@ function fn_deleteComment(bbsSeqValue)
 										</c:if>
 										<a>${board.regDate}</a>
 										<button type="button" data-bs-toggle="modal" data-bs-target="#reportModal2" id="btnReport${board.bbsSeq}" onclick="fn_Report(${board.bbsSeq})">신고</button>
-										<button type="button" id="btnReply" class="btnReply" value="${board.bbsSeq}">댓글달기</button>
+										<form name="replyForm" id="replyForm" method="post">
+											<button type="button" onclick="fn_reply(${board.bbsSeq})" id="reply" class="reply">댓글달기</button>
+											<input type="hidden" id="userNick" name="userNick" value="${board.userNick}"/>
+											<input type="hidden" id="commentGroup" name="commentGroup" value="${board.commentGroup}"/>
+											<input type="hidden" id="commentOrder" name="commentOrder" value="${board.commentOrder}"/>
+											<input type="hidden" id="commentIndent" name="commentIndent" value="${board.commentIndent}"/>
+										</form>
+										
 									</div>
 									<div class="comment-content">
 										<col-lg-12>${board.bbsContent}</col-lg-12>

@@ -1,7 +1,10 @@
 package com.icia.web.controller;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,9 +14,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -993,18 +998,21 @@ public class BoardController
 		
 		return ajaxResponse;
   	}
-  
+
   //대댓글
   	@RequestMapping(value="/board/replyProc", method=RequestMethod.POST)
-  	@ResponseBody
-  	public Response<Object> replyProc(HttpServletRequest request, HttpServletResponse response)
-  	{
-  		Response<Object> ajaxResponse = new Response<Object>();
-  	//쿠키값
-  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
-  		//
-  		long bbsSeq = 0;
-  		
-  		return ajaxResponse;
-  	}
+  	public Object replyProc(@RequestParam Map<String,Object> map, HttpServletRequest request) {
+  		System.out.println("ajax 시작 ");
+  		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+		List<Board> list = new ArrayList<Board>();
+		Board board = new Board();
+		board = boardService.boardView(bbsSeq);
+		list = boardService.commentList(board);
+		
+		        
+		Map<String, Object> retVal = new HashMap<String, Object>();
+		retVal.put("list", list);
+		
+		return retVal;
+	}
 }
