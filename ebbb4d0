@@ -1,0 +1,23 @@
+[33m489e364[m[33m ([m[1;36mHEAD -> [m[1;32m__Help[m[33m, [m[1;31morigin/__Help[m[33m)[m HEAD@{0}: checkout: moving from _Help to __Help
+[33m91650dc[m[33m ([m[1;32m_Help[m[33m)[m HEAD@{1}: checkout: moving from __Help to _Help
+[33m489e364[m[33m ([m[1;36mHEAD -> [m[1;32m__Help[m[33m, [m[1;31morigin/__Help[m[33m)[m HEAD@{2}: commit: 11
+[33m43cd4fb[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{3}: checkout: moving from master to __Help
+[33m43cd4fb[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{4}: checkout: moving from _Help to master
+[33m91650dc[m[33m ([m[1;32m_Help[m[33m)[m HEAD@{5}: checkout: moving from _Board to _Help
+[33mcf7c310[m HEAD@{6}: commit: 댓글삭제 오류 정정
+[33mf58b302[m HEAD@{7}: pull --ff --progress origin: Fast-forward
+[33mf4f1343[m HEAD@{8}: checkout: moving from master to _Board
+[33m4318aaa[m HEAD@{9}: checkout: moving from _Help to master
+[33mebbb4d0[m HEAD@{10}: reset: moving to HEAD
+[33mebbb4d0[m HEAD@{11}: checkout: moving from _Board to _Help
+[33m160bf5a[m HEAD@{12}: pull --ff --progress origin: Fast-forward
+[33m4979359[m HEAD@{13}: pull --ff --progress origin: Fast-forward
+[33m81f6244[m HEAD@{14}: checkout: moving from _Help to _Board
+[33mebbb4d0[m HEAD@{15}: commit: 11
+[33me970ea3[m HEAD@{16}: checkout: moving from _Board to _Help
+[33m46fe919[m HEAD@{17}: commit: Update list.jsp
+[33m9569733[m HEAD@{18}: commit: 즐겨찾기 닉네임 불러오기
+[33m9f00bbe[m HEAD@{19}: pull --ff --progress origin: Fast-forward
+[33m3068454[m HEAD@{20}: checkout: moving from _Help to _Board
+[33me970ea3[m HEAD@{21}: checkout: moving from master to _Help
+[33m312f916[m HEAD@{22}: clone: from https://github.com/AiorKR/emptyplate.git
