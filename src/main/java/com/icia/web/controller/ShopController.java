@@ -1,13 +1,8 @@
 package com.icia.web.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
