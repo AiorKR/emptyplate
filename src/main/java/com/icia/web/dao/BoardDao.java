@@ -14,20 +14,23 @@ public interface BoardDao
 	//시퀀스 선행처리
 	public long beforeInsert();
 	
-	//게시물 리스트
-	public List<Board> boardList(Board board);
-	
 	//게시물 등록
 	public int boardInsert(Board board);
 	
 	//게시물 첨부파일 등록
 	public int boardFileInsert(BoardFile boardFile);
 	
+	//게시물 리스트
+	public List<Board> boardList(Board board);		
+	
 	//총 게시물 수
 	public long boardListCount(Board board);
 	
-	//**순
-	public List<Board> boardSort(Board board);
+	//인기좋아요순 게시물 리스트
+	public List<Board> boardHotLikeList(Board board);
+	
+	//인기조회순 게시물 리스트
+	public List<Board> boardHotReadList(Board board);
 	
 	//유저 게시물 리스트
 	public List<Board> userList(Board board);
@@ -35,17 +38,17 @@ public interface BoardDao
 	//유저 총 게시물 수
 	public long userListCount(Board board);
 	
-	//게시물 즐겨찾기 리스트
-	public List<Board> markList(Board board);
-	
-	//게시물 즐겨찾기 총 게시물 수
-	public long markListCount(Board board);
+	//**순
+	public List<Board> boardSort(Board board);
 	
 	//게시물 조회
 	public Board boardSelect(long bbsSeq);
 	
 	//게시물 조회수 증가
 	public int boardReadCntPlus(long bbsSeq);
+	
+	//첨부파일 조회
+	public BoardFile boardFileSelect(long bbsSeq);
 	
 	//게시물 수정
 	public int boardUpdate(Board board);
@@ -77,11 +80,11 @@ public interface BoardDao
 	//게시물 즐겨찾기 취소
 	public int boardMarkDelete(Board board);
 	
-	//첨부파일 조회
-	public BoardFile boardFileSelect(long bbsSeq);
-
-	//댓글 리스트
-	public List<Board> commentList(Board board);
+	//게시물 즐겨찾기 리스트
+	public List<Board> markList(Board board);
+	
+	//게시물 즐겨찾기 총 게시물 수
+	public long markListCount(Board board);
 	
 	//댓글 등록
 	public int boardCommentInsert(Board board);
@@ -89,14 +92,11 @@ public interface BoardDao
 	//댓글 그룹 순서 변경
 	public int commentGroupOrderUpdate(Board board);
 
+	//댓글 리스트
+	public List<Board> commentList(Board board);
+
 	//댓글 삭제
 	public int commentDelete(long bbsSeq);
-	
-	//인기좋아요순 게시물 리스트
-	public List<Board> boardHotLikeList(Board board);
-	
-	//인기조회순 게시물 리스트
-	public List<Board> boardHotReadList(Board board);
 	
 	//게시물 신고
 	public long boardReport(BoardReport boardReport);
