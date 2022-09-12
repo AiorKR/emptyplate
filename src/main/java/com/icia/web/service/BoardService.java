@@ -28,6 +28,23 @@ public class BoardService
 	@Autowired
 	private BoardDao boardDao;
 		
+	//게시물 리스트
+	public List<Board> boardList(Board board)
+	{
+		List<Board> list = null;
+		
+		try
+		{
+			list = boardDao.boardList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardList Exception", e);
+		}
+		
+		return list;
+	}
+		
 	//게시물 등록
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public int boardInsert(Board board) throws Exception
@@ -48,23 +65,6 @@ public class BoardService
 		}
 		
 		return count;
-	}
-	
-	//게시물 리스트
-	public List<Board> boardList(Board board)
-	{
-		List<Board> list = null;
-		
-		try
-		{
-			list = boardDao.boardList(board);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] boardList Exception", e);
-		}
-		
-		return list;
 	}
 	
 	//총 게시물 수
@@ -99,6 +99,74 @@ public class BoardService
 		}
 		
 		return sort;
+	}
+	
+	//유저 게시물 리스트
+	public List<Board> userList(Board board)
+	{
+		List<Board> userList = null;
+		
+		try
+		{
+			userList = boardDao.userList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] userList Exception", e);
+		}
+		
+		return userList;
+	}
+	
+	//유저 총 게시물 수 
+	public long userListCount(Board board)
+	{
+		long count = 0;
+		
+		try
+		{
+			count = boardDao.userListCount(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] userListCount Exception", e);
+		}
+		
+		return count;
+	}
+	
+	//게시물 즐겨찾기 리스트
+	public List<Board> markList(Board board)
+	{
+		List<Board> marklist = null;
+		
+		try
+		{
+			marklist = boardDao.markList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] markList Exception", e);
+		}
+		
+		return marklist;
+	}
+	
+	//게시물 즐겨찾기 총 게시물 수
+	public long markListCount(Board board)
+	{
+		long count = 0;
+		
+		try
+		{
+			count = boardDao.markListCount(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] markListCount Exception", e);
+		}
+		
+		return count;
 	}
 	
 	//게시물 조회
@@ -225,23 +293,6 @@ public class BoardService
 		return count;
 	}
 	
-	//첨부파일 조회
-	public BoardFile boardFileSelect(long bbsSeq)
-	{
-		BoardFile boardFile = null;
-		
-		try
-		{
-			boardFile = boardDao.boardFileSelect(bbsSeq);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] boardFileSelect Exception", e);
-		}
-		
-		return boardFile;
-	}
-	
 	//동일 게시글 좋아요 여부 확인
 	public int boardLikeCheck(Board board)
 	{
@@ -310,6 +361,74 @@ public class BoardService
 		return count;
 	}
 	
+	//동일 게시물  즐겨찾기 여부 확인
+	public int boardMarkCheck(Board board)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = boardDao.boardMarkCheck(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardMarkCheck Exception", e);
+		}
+		
+		return count;
+	}
+	
+	//게시물 즐겨찾기 추가
+	public int boardMarkUpdate(Board board)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = boardDao.boardMarkUpdate(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardMarkUpdate Exception", e);
+		}
+		
+		return count;
+	}
+	
+	//게시물 즐겨찾기 취소
+	public int boardMarkDelete(Board board)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = boardDao.boardMarkDelete(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardMarkDelete Exception", e);
+		}
+		
+		return count;
+	}
+		
+	//첨부파일 조회
+	public BoardFile boardFileSelect(long bbsSeq)
+	{
+		BoardFile boardFile = null;
+		
+		try
+		{
+			boardFile = boardDao.boardFileSelect(bbsSeq);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardFileSelect Exception", e);
+		}
+		
+		return boardFile;
+	}
+	
 	//댓글 등록
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public int boardCommentInsert(Board board) throws Exception
@@ -326,7 +445,6 @@ public class BoardService
 	public List<Board> commentList(Board board)
 	{
 		List<Board> list = null;
-		
 		try
 		{
 			list = boardDao.commentList(board);
@@ -387,125 +505,6 @@ public class BoardService
 			logger.error("[BoardService] boardHotReadList Exception", e);
 		}
 		return list;
-	}
-		
-	//동일 게시물  즐겨찾기 여부 확인
-	public int boardMarkCheck(Board board)
-	{
-		int count = 0;
-		
-		try
-		{
-			count = boardDao.boardMarkCheck(board);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] boardMarkCheck Exception", e);
-		}
-		
-		return count;
-	}
-	
-	//게시물 즐겨찾기 추가
-	public int boardMarkUpdate(Board board)
-	{
-		int count = 0;
-		
-		try
-		{
-			count = boardDao.boardMarkUpdate(board);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] boardMarkUpdate Exception", e);
-		}
-		
-		return count;
-	}
-	
-	//게시물 즐겨찾기 취소
-	public int boardMarkDelete(Board board)
-	{
-		int count = 0;
-		
-		try
-		{
-			count = boardDao.boardMarkDelete(board);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] boardMarkDelete Exception", e);
-		}
-		
-		return count;
-	}
-	
-	//게시물 즐겨찾기 리스트
-	public List<Board> markList(Board board)
-	{
-		List<Board> marklist = null;
-		
-		try
-		{
-			marklist = boardDao.markList(board);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] markList Exception", e);
-		}
-		
-		return marklist;
-	}
-	
-	//게시물 즐겨찾기 총 게시물 수
-	public long markListCount(Board board)
-	{
-		long count = 0;
-		
-		try
-		{
-			count = boardDao.markListCount(board);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] markListCount Exception", e);
-		}
-		
-		return count;
-	}
-	
-	//유저 게시물 리스트
-	public List<Board> userList(Board board)
-	{
-		List<Board> userList = null;
-		
-		try
-		{
-			userList = boardDao.userList(board);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] userList Exception", e);
-		}
-		
-		return userList;
-	}
-	
-	//유저 총 게시물 수 
-	public long userListCount(Board board)
-	{
-		long count = 0;
-		
-		try
-		{
-			count = boardDao.userListCount(board);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] userListCount Exception", e);
-		}
-		
-		return count;
 	}
 	
 	//게시물 신고

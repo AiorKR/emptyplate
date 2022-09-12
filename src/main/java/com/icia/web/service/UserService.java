@@ -217,7 +217,6 @@ public class UserService
 	    return numStr;
 	}
 
-	/************추가**********/
 	//동일 유저 즐겨찾기 여부 확인
 	public int userMarkCheck(User user)
 	{
@@ -268,5 +267,55 @@ public class UserService
 		
 		return count;
 	}
-	/************추가끝**********/
+	
+	//사용자 탈퇴시 좋아요 삭제
+	public int boardLikeDelete(User user)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = userDao.boardLikeDelete(user);
+		}
+		catch(Exception e)
+		{
+			logger.error("[UserService] boardLikeDelete Exception", e);
+		}
+		
+		return count;
+	}
+	
+	//사용자 탈퇴시 게시물 즐겨찾기 삭제
+	public int boardMarkDelete(User user)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = userDao.boardMarkDelete(user);
+		}
+		catch(Exception e)
+		{
+			logger.error("[UserService] boardMarkDelete Exception", e);
+		}
+		
+		return count;
+	}
+	
+	//사용자 탈퇴시 유저 즐겨찾기 삭제
+	public int userLikeDelete(User user)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = userDao.userLikeDelete(user);
+		}
+		catch(Exception e)
+		{
+			logger.error("[UserService] userLikeDelete Exception", e);
+		}
+		
+		return count;
+	}
 }

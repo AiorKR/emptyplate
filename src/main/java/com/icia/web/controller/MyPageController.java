@@ -214,20 +214,26 @@ public class MyPageController {
  		   Response<Object> ajaxResponse = new Response<Object>();
  		   String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
  	       User user = null;
- 	      
  	       user = userService.userUIDSelect(userUID);
- 		   
+ 	      
  		   if(user != null)
  		   { 
  			   if(userService.userDelete(user) > 0)
  			   {
- 				  CookieUtil.deleteCookie(request, response, "/", AUTH_COOKIE_NAME);
+ 				   CookieUtil.deleteCookie(request, response, "/", AUTH_COOKIE_NAME);
+ 				   //사용자 탈퇴시 좋아요, 게시물 즐겨찾기, 유저 즐겨찾기 삭제
+ 				   userService.boardLikeDelete(user);
+ 				   userService.boardMarkDelete(user);
+ 				   userService.userLikeDelete(user);
+ 				   
  				   ajaxResponse.setResponse(0, "Success");
  			   }
+ 			   
  			   else
  			   {
  				   ajaxResponse.setResponse(500, "Internal server error");
- 			   }  				  
+ 			   }  
+
  		   }
  		   else
  		   {	
