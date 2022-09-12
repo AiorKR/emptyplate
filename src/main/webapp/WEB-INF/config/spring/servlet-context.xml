@@ -102,6 +102,7 @@
             			<value>/user/bizNumPopup</value>
             			<value>/user/regManProc</value>
             			<value>/rList/rList</value>
+            			<value>/myPage/myFavorites</value>
             		</list>
             	</constructor-arg>
             </bean>
