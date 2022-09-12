@@ -388,6 +388,41 @@ function fn_Report(bbsSeq2){
 	$('#bbsSeqCom').val(bbsSeq2);
 }
 
+//대댓글 활성화
+$("#btnReply").on("click", function() {
+	      $.ajax({
+	         type:"POST",
+	         url:"/board/replyProc",
+	 		data : {
+	 			bbsSeq:$("#btnReply").val();
+			},
+			datatype : "JSON",
+			beforeSend : function(xhr){
+	            xhr.setRequestHeader("AJAX", "true");
+	        },
+	        success:function(response)
+	        {
+	           if(response.code == 0)
+	           {
+	               alert("성공");
+	           }
+	           else
+	           {
+	               alert("오류 발생");
+	           }
+	         },
+	         error:function(error)
+	         {
+	            icia.common.error(error);
+	            alert("오류가 발생하였습니다.");
+	         },
+	         complete: function() {
+	             // 리로드하고싶은 div 아이디값 적용 !! 
+	             $('#commentSection').load(location.href+' #commentSection');
+	         }
+	      });
+});
+
 //댓글 삭제
 function fn_deleteComment(bbsSeqValue)
 {
@@ -525,7 +560,7 @@ function fn_deleteComment(bbsSeqValue)
 						<a href="/board/download?bbsSeq=${board.boardFile.bbsSeq}" style="float:right;">첨부이미지 다운로드</a>
 					  </c:if>   
 					</div>
-
+<div id="commentSection">
 					<c:if test="${board.bbsComment eq 'Y'}">             
 						<form name="commentForm" id="commentForm" method="post" enctype="form-data">
 							<div class="board-commentwrite">
@@ -548,7 +583,7 @@ function fn_deleteComment(bbsSeqValue)
 										</c:if>
 										<a>${board.regDate}</a>
 										<button type="button" data-bs-toggle="modal" data-bs-target="#reportModal2" id="btnReport${board.bbsSeq}" onclick="fn_Report(${board.bbsSeq})">신고</button>
-										<button onclick="fn_reComment(${board.bbsSeq})" id="btnReply" class="btnReply">댓글달기</button>
+										<button type="button" id="btnReply" class="btnReply" value="${board.bbsSeq}">댓글달기</button>
 									</div>
 									<div class="comment-content">
 										<col-lg-12>${board.bbsContent}</col-lg-12>
@@ -591,6 +626,7 @@ function fn_deleteComment(bbsSeqValue)
 						  </c:if>
 						</form>
 					</c:if>
+					</div>
 				</div>
 			<form name="bbsForm" id="bbsForm" method="post">
 				<input type="hidden" name="bbsSeq" value="${bbsSeq}" />

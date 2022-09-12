@@ -994,5 +994,17 @@ public class BoardController
 		return ajaxResponse;
   	}
   
-  	
+  //대댓글
+  	@RequestMapping(value="/board/replyProc", method=RequestMethod.POST)
+  	@ResponseBody
+  	public Response<Object> replyProc(HttpServletRequest request, HttpServletResponse response)
+  	{
+  		Response<Object> ajaxResponse = new Response<Object>();
+  	//쿠키값
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+  		//
+  		long bbsSeq = 0;
+  		
+  		return ajaxResponse;
+  	}
 }
