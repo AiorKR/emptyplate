@@ -466,7 +466,6 @@ public class BoardController
           board = boardService.boardView(bbsSeq);
           comment = boardService.commentList(board);
           parentBoard = boardService.boardSelect(bbsSeq);
-          
           //본인 게시물 여부
           if(board != null && StringUtil.equals(board.getUserUID(), cookieUserUID))
           {
@@ -480,8 +479,6 @@ public class BoardController
     		  board.setCommentOrder(parentBoard.getCommentOrder() + 1);
     	  	  board.setCommentIndent(parentBoard.getCommentIndent() + 1);
     		  board.setCommentParent(bbsSeq);
-    		  
-	          //본인 댓글 여부
 	          if(board != null && StringUtil.equals(board.getUserUID(), cookieUserUID))
 	          {
 	        	  commentMe = "Y";
@@ -516,6 +513,8 @@ public class BoardController
        model.addAttribute("bbsSeq", bbsSeq);
        model.addAttribute("board", board);
        model.addAttribute("boardMe", boardMe);
+       /*추가부분 (view에서 C:set를 위한 model추가)*/
+       model.addAttribute("cookieUserUID",cookieUserUID);
        model.addAttribute("commentMe", commentMe);
        model.addAttribute("bbsComment", bbsComment);
        model.addAttribute("searchType", searchType);

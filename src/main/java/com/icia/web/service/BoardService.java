@@ -445,7 +445,6 @@ public class BoardService
 	public List<Board> commentList(Board board)
 	{
 		List<Board> list = null;
-		
 		try
 		{
 			list = boardDao.commentList(board);

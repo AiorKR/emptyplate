@@ -537,12 +537,13 @@ function fn_deleteComment(bbsSeqValue)
 								</div>
 							</div>
 						
+						<c:set var="cookieUserUID" value="${cookieUserUID}"/>
 						  <c:if test="${!empty list}">
 							<c:forEach var="board" items="${list}" varStatus="status">
 								<div class="comment">
 									<div class="comment-write">
 										<col-lg-12><ion-icon name="person"></ion-icon> ${board.userNick}</col-lg-12>
-										<c:if test="${commentMe eq 'Y'}">
+										<c:if test="${board.userUID eq cookieUserUID}">
 											<button onclick="fn_deleteComment(${board.bbsSeq})" id="btnCommentDelete" class="commentDelete">삭제</button>
 										</c:if>
 										<a>${board.regDate}</a>
