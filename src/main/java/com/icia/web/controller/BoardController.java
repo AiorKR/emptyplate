@@ -461,6 +461,8 @@ public class BoardController
        String bbsMarkActive = "N";
        //댓글허용체크
        String bbsComment = "";
+       Board prevBbs = null;
+       Board nextBbs = null;
        
        if(bbsSeq > 0)
        {
@@ -510,7 +512,8 @@ public class BoardController
        model.addAttribute("list", comment);
        model.addAttribute("bbsLikeActive", bbsLikeActive);
        model.addAttribute("bbsMarkActive", bbsMarkActive);
-       
+       model.addAttribute("prevBbs", prevBbs);
+       model.addAttribute("nextBbs", nextBbs);
        return "/board/view";
     }
     
