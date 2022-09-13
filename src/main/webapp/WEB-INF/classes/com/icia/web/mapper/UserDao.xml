@@ -25,6 +25,12 @@
 	<id column="FILE_SIZE" property="fileSize" />
 	<id column="REG_DATE" property="regDate" />
 </resultMap>
+
+<!-- 게시물좋아요 resultMap -->
+<resultMap id="boardLikeResultMap" type="com.icia.web.model.BoardLike">
+   <result column="BBS_SEQ" property="bbsSeq" />
+   <result column="USER_UID" property="userUID" />
+</resultMap>
  
   <select id="userSelect" parameterType="String" resultMap="userResultMap">
    SELECT USER_UID,
@@ -186,29 +192,35 @@ VALUES (#{userUID}, #{markUserUID})
 DELETE FROM T_USER_MARK
  WHERE MARK_USER_UID = #{markUserUID}
 </delete>
-
 <!-- 사용자 탈퇴시 좋아요 삭제 -->
 <delete id="boardLikeDelete" parameterType="com.icia.web.model.User">
 DELETE FROM T_BOARD_LIKE
- WHERE USER_UID IN (SELECT USER_UID 
-                      FROM T_USER
-                     WHERE STATUS = 'N')
+ WHERE USER_UID = #{userUID}
 </delete>
+
+<!-- 탈퇴시 좋아요 수 체크 -->
+<select id="likeCnt" parameterType="com.icia.web.model.User" resultType="int">
+SELECT count(*)
+FROM t_board_like
+where user_uid= #{userUID}
+</select>
+
+<!-- 탈퇴시 좋아요 게시물 체크 -->
+<select id="likeList" parameterType="com.icia.web.model.User" resultMap="boardLikeResultMap">
+SELECT bbs_seq
+FROM t_board_like
+where user_uid= #{userUID}
+</select>
 
 <!-- 사용자 탈퇴시 게시물 즐겨찾기 삭제 -->
 <delete id="boardMarkDelete" parameterType="com.icia.web.model.User">
 DELETE FROM T_BOARD_MARK
- WHERE USER_UID IN (SELECT USER_UID 
-                      FROM T_USER
-                     WHERE STATUS = 'N')
+ WHERE USER_UID = #{userUID}
 </delete>
 
 <!-- 사용자 탈퇴시 유저 즐겨찾기 삭제 -->
 <delete id="userLikeDelete" parameterType="com.icia.web.model.User">
 DELETE FROM T_USER_MARK
- WHERE USER_UID IN (SELECT USER_UID 
-                      FROM T_USER
-                     WHERE STATUS = 'N')
+ WHERE USER_UID = #{userUID}
 </delete>
-
 </mapper>

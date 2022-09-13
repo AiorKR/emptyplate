@@ -114,7 +114,7 @@ function fn_userList(userUID, userNick)
              <th style="width:10%">번호</th>
              <th colspan="2" style="width:10%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;좋아요</th>
              <th style="width:45%">제목</th>
-             <!-- <th style="width:10%">작성자</th> -->
+             <th style="width:10%">작성자</th>
              <th style="width:10%">조회수</th>
              <th style="width:15%">날짜</th>
            </tr>
@@ -126,7 +126,7 @@ function fn_userList(userUID, userNick)
                  <td><ion-icon name="heart"></ion-icon>&nbsp;</td>
                  <td class="likeNum">${board.bbsLikeCnt}</td>
                  <td><a href="javascript:void(0)" onclick="fn_view(${board.bbsSeq})">${board.bbsTitle}</a></td>
-                 <!-- <td><a href="javascript:void(0)" onclick="fn_userList(${board.userNick})">${board.userNick}</a></td> -->
+                 <td><a href="javascript:void(0)" onclick="fn_userList(${board.userNick})">${board.userNick}</a></td>
                  <td>${board.bbsReadCnt}</td>
                  <td>${board.regDate}</td>
                </tr>

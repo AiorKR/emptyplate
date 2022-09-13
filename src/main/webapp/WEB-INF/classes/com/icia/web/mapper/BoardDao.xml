@@ -493,19 +493,19 @@ SELECT RNUM,
                         BBS_LIKE_CNT,
                         BBS_READ_CNT,	
                         REG_DATE
-  		 FROM(SELECT C.BBS_SEQ,
-             		 NVL(C.USER_UID, '') AS USER_UID,
+  		 FROM(SELECT A.BBS_SEQ AS BBS_SEQ,
+             		 NVL(A.USER_UID, '') AS USER_UID,
             		 NVL(B.USER_NICK, '') AS USER_NICK, 
               		 NVL(A.BBS_NO, 0) AS BBS_NO,
-              		 NVL(BBS_TITLE, '') AS BBS_TITLE,
-              		 NVL(BBS_CONTENT, '') AS BBS_CONTENT,
+              		 NVL(A.BBS_TITLE, '') AS BBS_TITLE,
+              		 NVL(A.BBS_CONTENT, '') AS BBS_CONTENT,
               		 A.BBS_LIKE_CNT AS BBS_LIKE_CNT,
-               		 NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
+               		 NVL(A.BBS_READ_CNT, 0) AS BBS_READ_CNT,
               		 NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD'), '') AS REG_DATE
          		FROM T_BOARD A, T_USER B, T_BOARD_MARK C
-               WHERE C.USER_UID = B.USER_UID
+               WHERE A.BBS_SEQ = C.BBS_SEQ
           		 AND A.BBS_NO = #{bbsNo}
-          		 AND C.BBS_SEQ = A.BBS_SEQ
+          		 AND A.USER_UID = B.USER_UID
          		 AND A.BBS_TITLE IS NOT NULL
           		 AND C.USER_UID= #{userUID}
 <if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>   
@@ -651,5 +651,4 @@ VALUES (#{bbsSeq},
         #{etcReport}, 
         SYSDATE)
 </insert>
-
 </mapper>
