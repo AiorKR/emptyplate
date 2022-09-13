@@ -76,9 +76,6 @@ public interface UserDao
 	//사용자 탈퇴시 좋아요 삭제
 	public int boardLikeDelete(User user);
 	
-	//탈퇴시 좋아요 수 체크 
-	public int likeCnt(User user);
-	
 	//탈퇴시 좋아요 게시물 체크
 	public List<BoardLike> likeList(User user);
 	

@@ -287,27 +287,11 @@ public class UserService
 		return count;
 	}
 	
-	//탈퇴시 좋아요 수 체크 
-	public int likeCnt(User user)
-	{
-		int count = 0;
-		
-		try
-		{
-			count = userDao.likeCnt(user);
-		}
-		catch(Exception e)
-		{
-			logger.error("[UserService] likeCnt Exception", e);
-		}
-		
-		return count;
-	}
-	
-	//탈퇴시 좋아요 게시물 체크
+	//탈퇴시 좋아요 수 업데이트
 	public List<BoardLike> likeList(User user)
 	{
 		List<BoardLike> likeList = null;
+		
 		try
 		{
 			likeList = userDao.likeList(user);

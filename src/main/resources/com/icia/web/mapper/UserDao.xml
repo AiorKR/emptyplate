@@ -192,20 +192,14 @@ VALUES (#{userUID}, #{markUserUID})
 DELETE FROM T_USER_MARK
  WHERE MARK_USER_UID = #{markUserUID}
 </delete>
+
 <!-- 사용자 탈퇴시 좋아요 삭제 -->
 <delete id="boardLikeDelete" parameterType="com.icia.web.model.User">
 DELETE FROM T_BOARD_LIKE
  WHERE USER_UID = #{userUID}
 </delete>
 
-<!-- 탈퇴시 좋아요 수 체크 -->
-<select id="likeCnt" parameterType="com.icia.web.model.User" resultType="int">
-SELECT count(*)
-FROM t_board_like
-where user_uid= #{userUID}
-</select>
-
-<!-- 탈퇴시 좋아요 게시물 체크 -->
+<!-- 탈퇴시 좋아요 수 업데이트 -->
 <select id="likeList" parameterType="com.icia.web.model.User" resultMap="boardLikeResultMap">
 SELECT bbs_seq
 FROM t_board_like

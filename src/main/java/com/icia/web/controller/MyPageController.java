@@ -223,6 +223,8 @@ public class MyPageController {
  		   String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
  	       User user = null;     
  	       user = userService.userUIDSelect(userUID);
+ 	       
+ 	       //사용자 탈퇴시 좋아요, 게시물 즐겨찾기, 유저 즐겨찾기 삭제
  	       Board board = new Board();
  	       List<BoardLike> likeList = userService.likeList(user);
  	      
@@ -232,13 +234,14 @@ public class MyPageController {
  			   {
  				   CookieUtil.deleteCookie(request, response, "/", AUTH_COOKIE_NAME);
  				   //사용자 탈퇴시 좋아요, 게시물 즐겨찾기, 유저 즐겨찾기 삭제
- 				  for(int i=0;i<likeList.size();i++)
+ 				   for(int i=0;i<likeList.size();i++)
  		 	       {
  		 	    	  long bbsSeq = likeList.get(i).getBbsSeq();
  		 	    	  userService.boardLikeDelete(user);
  		 	    	  board.setBbsSeq(bbsSeq);
  		 	    	  boardService.boardLikeCntUpdate(board);
  		 	       }
+ 				   
  				   userService.boardMarkDelete(user);
  				   userService.userLikeDelete(user);
  				   
