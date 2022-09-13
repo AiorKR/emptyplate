@@ -642,7 +642,7 @@ var openWin;
 function bizNumPopup() { 
    window.name = "storeJoinUs";
    var popHeight = 130;                                      // 띄울 팝업창 높이   
-   var popWidth = 460;                                       // 띄울 팝업창 너비
+   var popWidth = 300;                                       // 띄울 팝업창 너비
    var winHeight = document.body.clientHeight;                 // 현재창의 높이
    var winWidth = document.body.clientWidth;                 // 현재창의 너비
    var winX = window.screenLeft;                             // 현재창의 x좌표

@@ -9,8 +9,11 @@
  */
 package com.icia.web.dao;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
+import com.icia.web.model.BoardLike;
 import com.icia.web.model.User;
 import com.icia.web.model.UserFile;
 
@@ -60,8 +63,7 @@ public interface UserDao
 	
 	//사용자 탈퇴
 	public int userDelete(User user);
-
-	/******추가******/
+	
 	//동일 유저 즐겨찾기 여부 확인
 	public int userMarkCheck(User user);
 		
@@ -70,5 +72,18 @@ public interface UserDao
 	
 	//유저 즐겨찾기 취소
 	public int userMarkDelete(User user);
-	/******추가끝******/
+	
+	//사용자 탈퇴시 좋아요 삭제
+	public int boardLikeDelete(User user);
+	
+	//탈퇴시 좋아요 게시물 체크
+	public List<BoardLike> likeList(User user);
+	
+	//사용자 탈퇴시 게시물 즐겨찾기 삭제
+	public int boardMarkDelete(User user);
+	
+	//사용자 탈퇴시 유저 즐겨찾기 삭제
+	public int userLikeDelete(User user);
+	
+
 }

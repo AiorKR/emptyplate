@@ -3,4 +3,11 @@ $(document).ready(function(){
         $(".nav-link").removeClass("select");
         $(this).addClass("select");
     });    
+
+    
+
+    
+        
+        
+        
 });

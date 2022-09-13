@@ -15,9 +15,7 @@
      <result column="BIZ_NUM" property="bizNum" />
      <result column="BIZ_NAME" property="bizName" />
      <result column="FILE_NAME" property="fileName" />
-     <!-- ******추가****** -->
-     <result column="LOGIN_USER" property="loginUser" />
-     <!-- ******추가끝****** -->
+     <result column="MARK_USER_UID" property="markUserUID" />
   </resultMap>
  
  <resultMap id="userFileResultMap" type="com.icia.web.model.UserFile">
@@ -26,6 +24,12 @@
 	<id column="FILE_EXT" property="fileExt" />
 	<id column="FILE_SIZE" property="fileSize" />
 	<id column="REG_DATE" property="regDate" />
+</resultMap>
+
+<!-- 게시물좋아요 resultMap -->
+<resultMap id="boardLikeResultMap" type="com.icia.web.model.BoardLike">
+   <result column="BBS_SEQ" property="bbsSeq" />
+   <result column="USER_UID" property="userUID" />
 </resultMap>
  
   <select id="userSelect" parameterType="String" resultMap="userResultMap">
@@ -169,26 +173,49 @@ DELETE FROM T_USER_FILE
 WHERE  USER_UID = #{userUID}
 </delete>
 
-<!-- ******추가****** -->
 <!-- 동일 유저 즐겨찾기 여부 확인 -->
 <select id="userMarkCheck" parameterType="com.icia.web.model.User" resultType="int">
 SELECT COUNT(*)
-  FROM T_USER_MARK A, T_USER B
- WHERE A.LOGIN_USER = B.USER_UID
-   AND A.USER_UID = #{userUID}
+  FROM T_USER_MARK
+ WHERE USER_UID = #{userUID}
+   AND MARK_USER_UID = #{markUserUID}
 </select>
 
 <!-- 유저 즐겨찾기 추가-->
 <insert id="userMarkUpdate" parameterType="com.icia.web.model.User">
-INSERT INTO T_USER_MARK (USER_UID, LOGIN_USER) 
-VALUES (#{userUID}, #{userUID})
+INSERT INTO T_USER_MARK (USER_UID, MARK_USER_UID) 
+VALUES (#{userUID}, #{markUserUID})
 </insert>
 
 <!-- 유저 즐겨찾기 취소 -->
 <delete id="userMarkDelete" parameterType="com.icia.web.model.User">
 DELETE FROM T_USER_MARK
+ WHERE MARK_USER_UID = #{markUserUID}
+</delete>
+
+<!-- 사용자 탈퇴시 좋아요 삭제 -->
+<delete id="boardLikeDelete" parameterType="com.icia.web.model.User">
+DELETE FROM T_BOARD_LIKE
  WHERE USER_UID = #{userUID}
 </delete>
-<!-- ******추가 끝****** -->
+
+<!-- 탈퇴시 좋아요 수 업데이트 -->
+<select id="likeList" parameterType="com.icia.web.model.User" resultMap="boardLikeResultMap">
+SELECT bbs_seq
+FROM t_board_like
+where user_uid= #{userUID}
+</select>
+
+<!-- 사용자 탈퇴시 게시물 즐겨찾기 삭제 -->
+<delete id="boardMarkDelete" parameterType="com.icia.web.model.User">
+DELETE FROM T_BOARD_MARK
+ WHERE USER_UID = #{userUID}
+</delete>
+
+<!-- 사용자 탈퇴시 유저 즐겨찾기 삭제 -->
+<delete id="userLikeDelete" parameterType="com.icia.web.model.User">
+DELETE FROM T_USER_MARK
+ WHERE USER_UID = #{userUID}
+</delete>
 
 </mapper>
