@@ -217,4 +217,5 @@ DELETE FROM T_BOARD_MARK
 DELETE FROM T_USER_MARK
  WHERE USER_UID = #{userUID}
 </delete>
+
 </mapper>
