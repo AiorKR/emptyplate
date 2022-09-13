@@ -685,6 +685,5 @@ public class UserController
         return "/user/phone_popup";
     }
     
-   
 }   
    

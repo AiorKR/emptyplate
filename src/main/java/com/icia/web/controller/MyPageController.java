@@ -63,6 +63,20 @@ public class MyPageController {
       return "/myPage/myProfile";
    }
    
+   @RequestMapping(value="/myPage/myFavorites", method=RequestMethod.GET)
+   public String myFavorites(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+   {
+	  String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+      User user = null;
+      
+      user = userService.userUIDSelect(userUID);
+              
+      model.addAttribute("user", user);
+
+	   
+	   return "/myPage/myFavorites";
+   }
+   
    //닉네임 팝업로드
    @RequestMapping(value="/myPage/nick_popup", method=RequestMethod.GET)
    public String nick_popup(ModelMap model, HttpServletRequest request, HttpServletResponse response)
