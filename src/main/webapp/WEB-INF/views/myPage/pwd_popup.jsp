@@ -4,6 +4,7 @@
 <html>
 
 <head>
+<%@ include file="/WEB-INF/views/include/head.jsp" %>
 <script src="https://kit.fontawesome.com/842f2be68c.js" crossorigin="anonymous"></script>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
@@ -11,7 +12,7 @@
 <style>
 	.pwds{
 		width: 250px;
-		height: 22px;
+		height: 30px;
 }
 </style>
 <script type="text/javascript">
@@ -159,20 +160,29 @@ $("#btnUpdate").on("click", function() {
 </script>
 </head>
 
-<body>
+<body style="background-color:white; text-align: center;">
+<p style="font-family:Cafe24Dangdanghae; color:#d4af7a; margin-top:10px; font-size:20px;">비밀번호 변경</p>
 	<form>
 		<div>
 			<input type="tel" id="tel" name="tel" class="pwds" placeholder="전화번호(- 빼고 작성해주세요)" pattern="[0-9]{11}" required>
-			<button type="button" id="tel_btn">인증번호 전송</button>
+			<input type="button" id="tel_btn" value="인증번호 전송" />
 		</div>
-		<div>
+		<br />
+		<div style="margin-right:28px">
 			<input type="text" name="code" id="code" class="pwds" placeholder="전송받은 번호" pattern="[0-9]{6}" required>
-			<button type="button" id="code_btn" disabled>번호 확인</button>			
-		</div>
+			<input type="button" id="code_btn" value="번호 확인" disabled />			
+		</div >
+		<br />
+		<div style="margin-right:108px">
 		<input type="password" id="userPwd" name="userPwd" class="pwds" placeholder="변경하실 비밀번호를 입력해주세요." maxlength="12">
+		</div>
+		<br />
+		<div style="margin-right:60px">
 		<input type="password" id="userPwd2" name="userPwd2" class="pwds" placeholder="다시 한번 입력해주세요." maxlength="12">
-		<button type="button" id="btnUpdate" disabled>확인</button>
-		<input type="button" value="닫 기" onclick="self.close();" /> 
+		<input type="button" id="btnUpdate" value="확인" disabled />
+		</div>
+		<br /> 
+		<input type="button" value="닫 기" onclick="self.close();" />
 	</form>
 </body>
 

@@ -15,14 +15,34 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.js"></script>
-
 <!--end date and time picker-->
+
+<script src="https://js.tosspayments.com/v1"></script>
+
+
 <meta charset="UTF-8">
 
 <script type="text/javascript">
+$(document).ready(function(){
+	//리뷰로 변경 필요
+	$("#btnSearch").on("click", function(){
+		document.bbsForm.bbsSeq.value = "";
+		document.bbsForm.searchType.value = $("#_searchType").val();
+		document.bbsForm.searchValue.value = $("#_searchValue").val();
+		document.bbsForm.curPage.value = "1";
+		document.bbsForm.action = "/board/list";
+		document.bbsForm.submit();
+	});
+	
+	$("#btn-primary").on("click", function() { 
+	      document.bbsForm.bbsSeq.value = "";
+	      document.bbsForm.action = "/purchase/pay";
+	      document.bbsForm.submit();
+	   });
+});
 
 var type = "";
-var shopOrderMenuSumPrice = 0;
+var shopOrderMenuTotalAmount = 0;
 
 function fn_search(shopHashtag) { //해시태그 클릭시 검색
     document.bbsForm.searchValue.value = "#" + shopHashtag;
@@ -30,12 +50,14 @@ function fn_search(shopHashtag) { //해시태그 클릭시 검색
     document.bbsForm.submit();
 }
 
-function fn_MenuAdd(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid) { //메뉴 클릭시 메뉴 출력	
+function fn_MenuAdd(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid) { //메뉴 클릭시 메뉴 추가
 	if(type != "") {
 		if(type == shopMenuCode) {
 				$("#shopOrderMenu" + shopMenuid).text(shopOrderMenu + "x"); //메뉴 하나 선택시 추가
 				if($("#shopOrderMenuQuantity" + shopMenuid).text() == "") {
 					$("#shopOrderMenuQuantity" + shopMenuid).text(1);
+					
+					  $("input[name=shopOrderMenuQuantity" + shopMenuid + ']').attr('value', '1');
 				}
 				else {
 					var cnt = $("#shopOrderMenuQuantity" + shopMenuid).text();
@@ -43,10 +65,12 @@ function fn_MenuAdd(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 					if(cnt >= 10) {
 						return;
 					}
+					$("input[name=shopOrderMenuQuantity" + shopMenuid + ']').val(cnt);
 					$("#shopOrderMenuQuantity" + shopMenuid).text(cnt);
 				}
-			shopOrderMenuSumPrice += shopOrderMenuPrice;
-			$("#sumPrice").text(shopOrderMenuSumPrice);		
+			shopOrderMenuTotalAmount += shopOrderMenuPrice;
+			$("#totalAmount").text(shopOrderMenuTotalAmount);
+			$('input[name=totalAmount2]').val(shopOrderMenuTotalAmount);
 		}
 	}
 	else {
@@ -58,20 +82,19 @@ function fn_MenuSub(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 	if(type == shopMenuCode) {
 		var cnt = $("#shopOrderMenuQuantity" + shopMenuid).text();
 		if(cnt <= 0) {
-			console.log(cnt);
 			$("#shopOrderMenu" + shopMenuid).text("");
 			$("#shopOrderMenuQuantity" + shopMenuid).text("");
-			fn_Menudel();
-			return;
+			$("input[name=shopOrderMenuQuantity" + shopMenuid + ']').attr('value', '0');
 		}
-		$("#shopOrderMenu" + shopMenuid).text(shopOrderMenu + "x"); //메뉴 하나 선택시 추가
-		cnt--;
-		shopOrderMenuSumPrice -= shopOrderMenuPrice;
-		$("#sumPrice").text(shopOrderMenuSumPrice);		
-		$("#shopOrderMenuQuantity" + shopMenuid).text(cnt);
-	}
-	else {
-		alert("날짜와 시간을 먼저 선택해주세요");
+		else{
+			$("#shopOrderMenu" + shopMenuid).text(shopOrderMenu + "x"); //메뉴 하나 선택시 추가
+			cnt--;
+			shopOrderMenuTotalAmount -= shopOrderMenuPrice;
+			$("#totalAmount").text(shopOrderMenuTotalAmount);		
+			$("#shopOrderMenuQuantity" + shopMenuid).text(cnt);
+			$("input[name=shopOrderMenuQuantity" + shopMenuid + ']').attr('value', cnt);	
+			$('input[name=totalAmount2]').val(shopOrderMenuTotalAmount);
+		}
 	}
 }
 
@@ -82,12 +105,13 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 		
 		price = price * cnt;
 		
-		shopOrderMenuSumPrice -= price;
+		shopOrderMenuTotalAmount -= price;
 		
 		$("#shopOrderMenu" + shopMenuid).text("");
 		$("#shopOrderMenuQuantity" + shopMenuid).text("");
-		
-		$("#sumPrice").text(shopOrderMenuSumPrice);		
+		$("input[name=shopOrderMenuQuantity" + shopMenuid + ']').attr('value', '0');
+		$("#totalAmount").text(shopOrderMenuTotalAmount);
+		$('input[name=totalAmount2]').val(shopOrderMenuTotalAmount);
 	}
 }
 
@@ -102,7 +126,7 @@ $(document).ready(function(){
 		  $(this).addClass('select');
 			  $("#select-ul").attr('style', "display:none;");
 			  $(".personnel-selected-value").text($(this).text());
-			  document.bbsForm.reservationPeople.value = $(".personnel-selected-value").text();
+			  document.bbsForm.reservationPeople.value = $(".personnel-selected-value").text().replaceAll("명", "");;
 		});
 		
 		$(".datepicker").change(function(){
@@ -130,8 +154,8 @@ $(document).ready(function(){
 					if($(this).text() ==  '${shopTime.shopOrderTime}') {
 					 	type = '${shopTime.shopTimeType}';
 					 	$(".shopOrderMenu").text("");
-					 	$("#sumPrice").text(0);
-					 	shopOrderMenuSumPrice = 0;
+					 	$("#totalAmount").text(0);
+					 	shopOrderMenuTotalAmount = 0;
 					}
 				</c:forEach>
 	      	}
@@ -142,22 +166,59 @@ $(document).ready(function(){
 	    	});
 		});
 	
-	function reservationCheck() {
+	$("#pay").on("click", function() {
+		
+		var menuList = [];
+		
+		for(var i=0; i < ${shop.shopMenu.size()}; i++) {
+			if($("input[name=shopOrderMenuQuantity" + i + ']').val() != '0') {
+				var quantity = ($("input[name=shopOrderMenu" + i + ']').val()  + "," + $("input[name=shopOrderMenuQuantity" + i + ']').val());
+				
+				menuList[i] = quantity;
+			}
+			else {
+				menuList[i] = ($("input[name=shopOrderMenu" + i + ']').val()  + "," + '0');
+			}
+			
+			console.log("[i] : " + i + " menuList[i] : " + menuList[i]);
+		}
+		
+		console.log(menuList.length);
+		
 	      $.ajax({
-	          type:"GET",
-	          url:"/reservation/reservationCheckProc",
-	          data: {
-	         	 shopUID: $("#shopUID").val(),
-	         	 reservationDate: $("#reservationDate").val(),
-	         	 reservationTime: $("#reservationTime").val(),
-	         	 reservationPeople:$("#reservationPeople").val()
-	          },
+	    	  type:"POST",
+	    	  url:"/pay/orderMenu",
+	    	  data: {
+	    		  shopUID: $("#shopUID").val(),
+         	 	  reservationDate: $("#reservationDate").val(),
+		          reservationTime: $("#reservationTime").val(),
+		          reservationPeople:$("#reservationPeople").val(),
+		          totalAmount: $("#totalAmount2").val(),
+		          <c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
+		          orderMenu${status.index}: menuList[${status.index}],
+		          </c:forEach>
+	    	  },
 	          beforeSend:function(xhr) {
 	             xhr.setRequestHeader("AJAX", "true");
 	          },
 	          success:function(response) {
 	             if(response.code == 0) {
+	            	 if(response.data != null) {
+	            		 console.log(response.data);
 
+	            		 var clientKey = response.data.toss.tossClientKey;
+	            		 console.log(clientKey);
+	            		 tossPayments = TossPayments(clientKey);
+
+		     	          tossPayments.requestPayment('카드', {
+		     	        	  amount: response.data.totalAmount,
+		     	        	  orderId: response.data.orderUID,
+		     	        	  orderName: '예약',
+		     	        	  customerName: response.data.userName,
+		     	        	  successUrl: response.data.toss.tossSuccessUrl,
+		     	        	  failUrl: response.data.toss.tossFailUrl,
+		     	        }); 
+	            	 }
 	             }
 	             else if(response.code == 400) {
 	                alert("파라미터 값이 올바르지 않습니다.");
@@ -172,15 +233,56 @@ $(document).ready(function(){
 						location.href = "/user/login" ;
 	             }
 	             else {
-	                alert("예약 조회 중 오류가 발생하였습니다.");
+	                alert("결재 진행 중 오류가 발생했습니다.");
+	                location.href = "/reservation/list"
 	               }
 	          },
 	          error:function(error) {
 	             icia.common.error(error);
-	             alert("예약 조회 중 오류가 발생하였습니다.");
+	             alert("결재 진행 중 통신오류가 발생했습니다.");
 	          }
 	      });
-		}
+		});
+		
+		function reservationCheck() { //자리 확인
+		      $.ajax({
+		          type:"GET",
+		          url:"/reservation/reservationCheckProc",
+		          data: {
+		         	 shopUID: $("#shopUID").val(),
+		         	 reservationDate: $("#reservationDate").val(),
+		         	 reservationTime: $("#reservationTime").val(),
+		         	 reservationPeople:$("#reservationPeople").val()
+		          },
+		          beforeSend:function(xhr) {
+		             xhr.setRequestHeader("AJAX", "true");
+		          },
+		          success:function(response) {
+		             if(response.code == 0) {
+
+		             }
+		             else if(response.code == 400) {
+		                alert("파라미터 값이 올바르지 않습니다.");
+		             }
+		             else if(response.code == 404) {
+			                alert("매장을 찾을 수 없습니다.");
+							location.href = "/reservation/list"
+			          }
+		             
+		             else if(response.code == 403) {
+			                alert("로그인을 해주십시오.");
+							location.href = "/user/login" ;
+		             }
+		             else {
+		                alert("예약 조회 중 오류가 발생하였습니다.");
+		               }
+		          },
+		          error:function(error) {
+		             icia.common.error(error);
+		             alert("예약 조회 중 오류가 발생하였습니다.");
+		          }
+		      });
+			};
    });
 </script>
 </head>
@@ -333,9 +435,9 @@ $(document).ready(function(){
 															 ${shopMenu.shopMenuPrice} 원
 														</td>
 														<td>
-															<input type="button" value="+" onclick="fn_MenuAdd('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})" />
-															<input type="button" value="-" onclick="fn_MenuSub('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})" />
-															<input type="button" value="삭제" onclick="fn_Menudel('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})" />
+															<input type="button" value="+" onclick="fn_MenuAdd('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})"  class="btn btn-primary" style="height:30px;width:30px;"/>
+															<input type="button" value="-" onclick="fn_MenuSub('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})"  class="btn btn-primary" style="height:30px;width:30px;" />
+															<input type="button" value="삭제" onclick="fn_Menudel('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})" class="btn btn-primary" style="height:30px;width:60px;" />
 														</td>
 													</tr>
                         			  			</c:forEach>
@@ -350,15 +452,15 @@ $(document).ready(function(){
 	                                				<span id="shopOrderMenuQuantity${status.index}" class="shopOrderMenu"></span>
 	                                			</div>
 	                                		</c:forEach>
-	                                		<p style="border:1px solid blakc;">총 금액 : <span id="sumPrice">0</span></p>
+	                                		<p style="border:1px solid blakc;">총 금액 : <span id="totalAmount">0</span></p>
 	                                	</div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-primary" onclick="ㄱㄷ볃ㄴ셰묘">결제</button>
+                                   <div class="modal-footer">
+ 							  			<button class="btn btn-primary" style="border:none;" id="pay">결제</button>
+                             	  </div>
                                 </div>
                               </div>
-                            </div>
+                             </div>
                           </div>
                         <div class="search-option"><i class='bx bx-search-alt-2 first-search'></i>
                             <div class="inputs"> <input type="text" name=""> </div> <i class='bx bx-share-alt share'></i>
@@ -381,7 +483,7 @@ $(document).ready(function(){
             </ul>
           </div>
              <form name="bbsForm" id="bbsForm" method="post">
-              <input type="hidden" name="shopUID" id="shopUID" value="${shop.shopUID}"/> 
+              <input type="hidden" name="shopUID" id="shopUID"  value="${shop.shopUID}"/> 
                <input type="hidden" name="searchType"  value="${searchType}"/>
                <input type="hidden" name="searchValue" value="${searchValue}" />
                <input type="hidden" name="curPage" value="${curPage}" />
@@ -389,18 +491,19 @@ $(document).ready(function(){
                <input type="hidden" name="reservationTime" id="reservationTime" value="${reservationTime}" />
                <input type="hidden" name="reservationPeople" value="" />
                <c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
-        	   		<input type="hidden" name="shopOrderMenu${status.index}" value="" />
-        	   		<input type="hidden" name="shopOrderMenuQuantity${status.index}" value="" />
+        	   		<input type="hidden" name="shopOrderMenu${status.index}" value="${shopMenu.shopMenuName}" />
+        	   		<input type="hidden" name="shopOrderMenuQuantity${status.index}" value="0" />
                </c:forEach>
+               <input type="hidden" name="totalAmount2" id="totalAmount2" value="0">
             </form>
         </div>
+        </section>
     <script>
       function changeImage(element) {
-
          var main_prodcut_image = document.getElementById('main_product_image');
          main_prodcut_image.src = element.src; 
       }
     </script>
-</body>
-<%@ include file="/WEB-INF/views/include/footer.jsp" %>
+    <%@ include file="/WEB-INF/views/include/footer.jsp" %>
+</body>	
 </html>

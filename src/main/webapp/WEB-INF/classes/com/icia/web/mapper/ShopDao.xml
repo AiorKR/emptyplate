@@ -294,4 +294,8 @@ SELECT S.SHOP_UID AS SHOP_UID,
  WHERE AB.SHOP_UID = #{shopUID}
 </select>
 
+<select id="orderUIDcreate" resultType="long">
+	SELECT ORDER_SEQ.NEXTVAL FROM DUAL
+</select>
+
 </mapper>

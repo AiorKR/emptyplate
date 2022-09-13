@@ -22,4 +22,6 @@ public interface ShopDao {
 	public Shop shopViewSelect(String shopUID); //매장 view select
 	
 	public List<ShopTotalTable> shopReservationCheck(Shop shop); //예약 자리 있는지 select
+	
+	public long orderUIDcreate(); //주문번호 생성을 위한 시퀀스 조회
 }

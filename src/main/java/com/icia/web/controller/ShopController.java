@@ -1,9 +1,15 @@
 package com.icia.web.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,6 +31,7 @@ import com.icia.web.model.Response;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
 import com.icia.web.model.ShopTotalTable;
+import com.icia.web.model.User;
 import com.icia.web.service.ShopService;
 import com.icia.web.service.UserService;
 import com.icia.web.util.CookieUtil;
@@ -252,10 +259,8 @@ public class ShopController {
 		@RequestMapping(value="/reservation/reservationCheckProc", method=RequestMethod.GET) //매장 자리 조회
 		@ResponseBody
 		public Response<Object> reservationCheck(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-			Response<Object> ajax = new Response<Object>();
-			
-			String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
-			
+			Response<Object> ajax = new Response<Object>();		
+			String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);		
 			String shopUID = HttpUtil.get(request, "shopUID");
 			String reservationDate = HttpUtil.get(request, "reservationDate");
 			String reservationTime = HttpUtil.get(request, "reservationTime");
@@ -315,8 +320,6 @@ public class ShopController {
 			
 			return ajax;
 		}
-		
-		
 		
 		//임시 매장 정보 인서트
 		@RequestMapping(value="/reservation/shopInsert")
