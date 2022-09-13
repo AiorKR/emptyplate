@@ -250,7 +250,7 @@ $(document).ready(function(){
             </div>
            </div>
       </div>
-            <form name="bbsForm" id="bbsForm" method="post" enctype="multipart/form-data">
+            <form name="bbsForm" id="bbsForm" method="post">
             <input type="hidden" name="shopUID" value=""/> 
             <input type="hidden" name="searchType" value="${searchType}"/>
             <input type="hidden" name="searchValue" value="${searchValue}" />
