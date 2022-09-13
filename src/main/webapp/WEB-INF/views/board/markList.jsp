@@ -112,15 +112,15 @@ function fn_userList(userUID, userNick)
          <table>
            <tr>
              <th style="width:10%">번호</th>
-             <th colspan="2" style="width:10%">좋아요</th>
+             <th colspan="2" style="width:10%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;좋아요</th>
              <th style="width:45%">제목</th>
              <th style="width:10%">작성자</th>
              <th style="width:10%">조회수</th>
              <th style="width:15%">날짜</th>
            </tr>
                 
-           <c:if test="${!empty marklist}">
-             <c:forEach var="board" items="${marklist}" varStatus="status">
+           <c:if test="${!empty markList}">
+             <c:forEach var="board" items="${markList}" varStatus="status">
                <tr>
                  <td>${board.rNum}</td>
                  <td><ion-icon name="heart"></ion-icon>&nbsp;</td>
