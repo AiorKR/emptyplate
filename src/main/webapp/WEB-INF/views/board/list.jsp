@@ -5,19 +5,21 @@
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
 <script type="text/javascript">
 $(document).ready(function() {
-   
+   //글쓰기
    $("#btnWrite").on("click", function() {     
       document.bbsForm.bbsSeq.value = "";
       document.bbsForm.action = "/board/writeForm";
       document.bbsForm.submit();
    });
    
+   //내가 즐겨찾기한 글
    $("#btnMark").on("click", function() {     
       document.bbsForm.bbsSeq.value = "";
       document.bbsForm.action = "/board/markList";
       document.bbsForm.submit();
    });
 
+   //검색
    $("#btnSearch").on("click", function() { 
       document.bbsForm.bbsSeq.value = "";
       document.bbsForm.searchType.value = $("#_searchType").val();
@@ -26,6 +28,8 @@ $(document).ready(function() {
       document.bbsForm.action = "/board/list";
       document.bbsForm.submit();
    });
+   
+   //최신순
    $("#btnSort1").on("click", function() { 
 	      document.bbsForm.bbsSeq.value = "";
 	      document.bbsForm.searchType.value = $("#_searchType").val();
@@ -35,6 +39,8 @@ $(document).ready(function() {
 	      document.bbsForm.action = "/board/list";
 	      document.bbsForm.submit();
    });
+   
+   //좋아요순
    $("#btnSort2").on("click", function() { 
          document.bbsForm.bbsSeq.value = "";
          document.bbsForm.searchType.value = $("#_searchType").val();
@@ -44,6 +50,8 @@ $(document).ready(function() {
          document.bbsForm.action = "/board/list";
          document.bbsForm.submit();
       });
+   
+   //조회순
    $("#btnSort3").on("click", function() { 
          document.bbsForm.bbsSeq.value = "";
          document.bbsForm.searchType.value = $("#_searchType").val();
@@ -53,9 +61,9 @@ $(document).ready(function() {
          document.bbsForm.action = "/board/list";
          document.bbsForm.submit();
       });
-   
 });
 
+//상세 글 보기
 function fn_view(bbsSeq)
 {
    document.bbsForm.bbsSeq.value = bbsSeq;
@@ -63,6 +71,7 @@ function fn_view(bbsSeq)
    document.bbsForm.submit();
 }
 
+//목록
 function fn_list(curPage)
 {
    document.bbsForm.bbsSeq.value = "";
@@ -71,6 +80,7 @@ function fn_list(curPage)
    document.bbsForm.submit();   
 }
 
+//해당 작성자 게시글
 function fn_userList(userUID, userNick)
 {
    document.bbsForm.userUID.value = userUID;
@@ -80,9 +90,9 @@ function fn_userList(userUID, userNick)
    document.bbsForm.action = "/board/userList";
    document.bbsForm.submit();
 }
-
 </script>
 </head>
+
 <body>
 <%@ include file="/WEB-INF/views/include/navigation.jsp" %>
  <section id="community" class="community">
@@ -91,7 +101,7 @@ function fn_userList(userUID, userNick)
        <div class="community-slider swiper" data-aos-delay="100">
          <div class="swiper-wrapper">
            <div class="swiper-slide">
-             <div class="row community-item">
+             <div class="community-item">
                <div class="col-lg-12">
                  <table class="col-lg-12">
                   <div class="hotTitle">인기 많은 글 TOP4</div>
@@ -105,7 +115,7 @@ function fn_userList(userUID, userNick)
               </div>
             </div>
             <div class="swiper-slide">
-              <div class="row community-item">
+              <div class="community-item">
                 <div class="col-lg-12">
                  <table class="col-lg-12">
                   <div class="hotTitle">많이 찾는 글 TOP4</div>
@@ -125,9 +135,9 @@ function fn_userList(userUID, userNick)
        <div class="d-flex flex-row justify-content-between">
          <div>
            <ul>
-             <li><button type="button" value="4" id="btnSort1" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=4'" class="btnSort">최신순</button></li>
-             <li><button type="button" value="5" id="btnSort2" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=5'" class="btnSort">좋아요순</button></li>
-             <li><button type="button" value="6" id="btnSort3" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=6'" class="btnSort">조회순</button></li>
+             <li><button type="button" value="4" id="btnSort1" onclick="location.href='/board/list?bbsNo=${board.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=4'" class="btnSort">최신순</button></li>
+             <li><button type="button" value="5" id="btnSort2" onclick="location.href='/board/list?bbsNo=${board.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=5'" class="btnSort">좋아요순</button></li>
+             <li><button type="button" value="6" id="btnSort3" onclick="location.href='/board/list?bbsNo=${board.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=6'" class="btnSort">조회순</button></li>
            </ul>
          </div>
          <div>

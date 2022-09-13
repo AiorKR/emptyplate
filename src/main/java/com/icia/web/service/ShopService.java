@@ -91,7 +91,7 @@ public class ShopService {
 			return shop;
 		}
 		
-		public List<ShopTotalTable> shopReservationCheck(Shop shop) {
+		public List<ShopTotalTable> shopReservationCheck(Shop shop) {  //매장 빈자리 확인
 			List<ShopTotalTable> shopTotlaTable = null;
 			
 			try {
@@ -101,6 +101,19 @@ public class ShopService {
 				logger.error("[ShopService] shopReservationCheck", e);
 			}
 			return shopTotlaTable;
+		}
+		
+		public long orderUIDcreate() {
+			long count = 0;
+			
+			try {
+				count = shopDao.orderUIDcreate();
+			}
+			catch(Exception e) {
+				logger.debug("[Shopservice] orderUIDcreate", e);
+			}
+			
+			return count;
 		}
 		
 		@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
