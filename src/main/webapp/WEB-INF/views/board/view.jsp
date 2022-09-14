@@ -296,6 +296,13 @@ $(document).ready(function() {
 	      });
    });
    
+   function fn_view(bbsSeq)
+   {
+      document.bbsForm.bbsSeq.value = bbsSeq;
+      document.bbsForm.action = "/board/view";
+      document.bbsForm.submit();
+   }
+   
    //댓글 신고
    $("#reportBtn2").on("click", function() {	      
 	      var report11 = "";
@@ -556,20 +563,20 @@ function fn_deleteComment(bbsSeqValue)
 						<a href="/board/download?bbsSeq=${board.boardFile.bbsSeq}" style="float:right;">첨부이미지 다운로드</a>
 					  </c:if>   
 					</div>
-					<div class="PrevNextBbs">
 					<c:choose>
-						<c:when test="${empty prevBbs}">
+						<c:when test="${empty boardPrevList}">
 							<div class = "prevBbs" >이전글이 존재하지 않습니다.</div>
 						</c:when>
 						<c:otherwise>
-							<div class = "prevBbs" >이전글 : ${prevBbs}</div>
+							<div class = "prevBbs" >이전글 : <a href="javascript:void(0)" onclick="fn_view(${board.bbsSeq})">${board.bbsTitle}</a></div>
 						</c:otherwise>
-					</c:choose><c:choose>
-						<c:when test="${empty nextBbs}">
+					</c:choose>
+					<c:choose>
+						<c:when test="${empty boardNextList}">
 							<div class = "nextBbs" >다음글이 존재하지 않습니다.</div>
 						</c:when>
 						<c:otherwise>
-							<div class = "nextBbs" >이전글 : ${nextBbs}</div>
+							<div class = "nextBbs" >다음글 : <a href="javascript:void(0)" onclick="fn_view(${board.bbsSeq})">${board.bbsTitle}</a></div>
 						</c:otherwise>
 					</c:choose>
 					</div>

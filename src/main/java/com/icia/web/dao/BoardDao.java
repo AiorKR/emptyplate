@@ -80,6 +80,12 @@ public interface BoardDao
 	//첨부파일 조회
 	public BoardFile boardFileSelect(long bbsSeq);
 
+	//이전 게시물 조회
+	public List<Board> boardPrevList(Board board);
+	
+	//다음 게시물 조회
+	public List<Board> boardNextList(Board board);
+	
 	//댓글 리스트
 	public List<Board> commentList(Board board);
 	
@@ -100,5 +106,4 @@ public interface BoardDao
 	
 	//게시물 신고
 	public long boardReport(BoardReport boardReport);
-	
 }

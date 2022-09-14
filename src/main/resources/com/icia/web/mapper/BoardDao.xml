@@ -292,6 +292,86 @@ DELETE FROM T_BOARD_MARK
    AND USER_UID = #{userUID}
 </delete>
 
+<!-- 이전 게시물 조회-->
+<select id="boardPrevList" parameterType="com.icia.web.model.Board" resultMap="boardResultMap">
+SELECT RNUM,
+       BBS_SEQ,
+       USER_UID,
+       USER_NICK, 
+       BBS_NO,
+       BBS_TITLE,
+       BBS_CONTENT,
+       BBS_LIKE_CNT,
+       BBS_READ_CNT,
+       REG_DATE
+  FROM(SELECT ROWNUM AS RNUM,
+                        BBS_SEQ,
+                        USER_UID,
+                        USER_NICK, 
+                        BBS_NO,
+                        BBS_TITLE,
+                        BBS_CONTENT,
+                        BBS_LIKE_CNT,
+                        BBS_READ_CNT,	
+                        REG_DATE
+  FROM( SELECT BBS_SEQ,
+              NVL(B.USER_UID, '') AS USER_UID,
+              NVL(B.USER_NICK, '') AS USER_NICK, 
+              NVL(A.BBS_NO, 0) AS BBS_NO,
+              NVL(BBS_TITLE, '') AS BBS_TITLE,
+              NVL(BBS_CONTENT, '') AS BBS_CONTENT,
+              A.BBS_LIKE_CNT AS BBS_LIKE_CNT,
+              NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
+              NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD'), '') AS REG_DATE
+         FROM T_BOARD A, T_USER B
+        WHERE A.USER_UID = B.USER_UID
+          AND A.BBS_NO = #{bbsNo}
+          AND A.BBS_TITLE IS NOT NULL
+          AND A.BBS_SEQ <![CDATA[<]]> #{bbsSeq}
+          ORDER BY A.BBS_SEQ ASC))
+ WHERE RNUM = 1
+</select>
+
+<!-- 다음 게시물 조회 -->
+<select id="boardNextList" parameterType="com.icia.web.model.Board" resultMap="boardResultMap">
+SELECT RNUM,
+       BBS_SEQ,
+       USER_UID,
+       USER_NICK, 
+       BBS_NO,
+       BBS_TITLE,
+       BBS_CONTENT,
+       BBS_LIKE_CNT,
+       BBS_READ_CNT,
+       REG_DATE
+  FROM(SELECT ROWNUM AS RNUM,
+                        BBS_SEQ,
+                        USER_UID,
+                        USER_NICK, 
+                        BBS_NO,
+                        BBS_TITLE,
+                        BBS_CONTENT,
+                        BBS_LIKE_CNT,
+                        BBS_READ_CNT,	
+                        REG_DATE
+  FROM( SELECT BBS_SEQ,
+              NVL(B.USER_UID, '') AS USER_UID,
+              NVL(B.USER_NICK, '') AS USER_NICK, 
+              NVL(A.BBS_NO, 0) AS BBS_NO,
+              NVL(BBS_TITLE, '') AS BBS_TITLE,
+              NVL(BBS_CONTENT, '') AS BBS_CONTENT,
+              A.BBS_LIKE_CNT AS BBS_LIKE_CNT,
+              NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
+              NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD'), '') AS REG_DATE
+         FROM T_BOARD A, T_USER B
+        WHERE A.USER_UID = B.USER_UID
+          AND A.BBS_NO = #{bbsNo}
+          AND A.BBS_TITLE IS NOT NULL
+          AND A.BBS_SEQ <![CDATA[>]]> #{bbsSeq}
+          ORDER BY A.BBS_SEQ ASC))
+ WHERE RNUM = 1
+</select>
+
 <!-- 댓글 등록 -->
 <insert id="boardCommentInsert" parameterType="com.icia.web.model.Board">
 <!-- 선행처리기 -->

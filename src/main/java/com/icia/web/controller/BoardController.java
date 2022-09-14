@@ -83,6 +83,7 @@ public class BoardController
 		//인기게시물리스트 
 		List<Board> hotLikeList = null;
 		List<Board> hotReadList = null;
+		
 		Board hot = new Board();
 		hot.setBbsNo(5);
 		
@@ -461,13 +462,22 @@ public class BoardController
        String bbsMarkActive = "N";
        //댓글허용체크
        String bbsComment = "";
-       Board prevBbs = null;
-       Board nextBbs = null;
+       List<Board> boardPrevList = null;
+       List<Board> boardNextList = null;
        
        if(bbsSeq > 0)
        {
           board = boardService.boardView(bbsSeq);
           comment = boardService.commentList(board);
+          //
+          boardPrevList = boardService.boardPrevList(board);
+          boardNextList = boardService.boardNextList(board);
+          
+          logger.debug("###############################");
+          logger.debug("#Board : " + board);
+          logger.debug("#Prev : " + boardPrevList);
+          logger.debug("#Next : " + boardNextList);
+          logger.debug("###############################");
           
           //본인 게시물 여부
           if(board != null && StringUtil.equals(board.getUserUID(), cookieUserUID))
@@ -512,8 +522,9 @@ public class BoardController
        model.addAttribute("list", comment);
        model.addAttribute("bbsLikeActive", bbsLikeActive);
        model.addAttribute("bbsMarkActive", bbsMarkActive);
-       model.addAttribute("prevBbs", prevBbs);
-       model.addAttribute("nextBbs", nextBbs);
+       model.addAttribute("boardPrevList", boardPrevList);
+       model.addAttribute("boardNextList", boardNextList);
+       
        return "/board/view";
     }
     

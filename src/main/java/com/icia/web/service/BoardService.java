@@ -429,6 +429,42 @@ public class BoardService
 		return boardFile;
 	}
 	
+	//이전 게시물 조회
+	public List<Board> boardPrevList(Board board)
+	{
+		List<Board> boardPrevList = null;
+		
+		try
+		{
+			boardPrevList = boardDao.boardPrevList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardFileSelect Exception", e);
+		}
+		
+		return boardPrevList;
+	}
+	
+	//다음 게시물 조회
+	public List<Board> boardNextList(Board board)
+	{
+		List<Board> boardNextList = null;
+		
+		try
+		{
+			boardNextList = boardDao.boardNextList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardFileSelect Exception", e);
+		}
+		
+		return boardNextList;
+	}
+	
+	
+	
 	//댓글 등록
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public int boardCommentInsert(Board board) throws Exception
