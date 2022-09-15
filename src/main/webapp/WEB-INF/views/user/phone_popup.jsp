@@ -82,7 +82,7 @@ $("#code_btn").on("click", function(){
 </head>
 
 <body style="background-color:white; text-align: center;">
-<p style="font-family:Cafe24Dangdanghae; color:#d4af7a; margin-top:10px; font-size:20px;">전화번호 변경</p>
+<p style="font-family:Cafe24Dangdanghae; color:#d4af7a; margin-top:10px; font-size:20px;">전화번호 인증</p>
 	<form>
 		<div>
 			<input type="tel" id="tel" name="tel" class="phones" placeholder="전화번호(- 빼고 작성해주세요)" pattern="[0-9]{11}" required>
