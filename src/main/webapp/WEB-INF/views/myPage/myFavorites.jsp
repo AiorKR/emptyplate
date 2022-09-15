@@ -43,17 +43,76 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 <style>
+.myFavo-title-sec{
+	margin-top: 60px;
+	margin-bottom: 30px;
+}
+
+.myFavo-list {
+  width: 1300px;
+  height: auto;
+  color:#cda45e;
+  font-family: 'cafe24Dangdanghae';
+  margin: auto;
+}
+
+.myFavo-title {
+  font-family: 'cafe24Dangdanghae';
+  font-size: 48px;
+  color: #cda45e;
+  text-align: center;
+}
+
+.myFavo-card {
+  position:relative;
+  margin-top: 20px;
+  margin: auto;
+  width:1100px;
+  height:700px;
+  border-radius :3%;
+  overflow : hidden;
+  background-color: white;
+  box-shadow: 5px 5px 5px 5px rgba(128, 128, 128, 0.575);
+}
+
+.myFavo-profile-img-div { 
+  margin-bottom:15px;
+  text-align: left;
+  background-color: #cda45e;
+  }
+
+.myFavo-profile-card-img {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  }
+  
+ .myFavo-profile-card-name {
+  text-align: center;
+  font-size : 20px;
+  color : black;
+  margin-top : 10px;
+  margin-left : 10px;
+  margin-right : 20px;
+  border-bottom : 0.5px solid gray;
+  padding-bottom: 10px;
+  } 
+
 .userFavorites{
 	text-align:center;
 }
 
 .storeFavorites{
 	text-align:center;
+	margin-top:30px;
 }
 
 .favorites-profile-card-img{
-	width:150px;
-	height:150px;
+	width:130px;
+	height:130px;
 	border-radius:50%;
 }
 
@@ -65,12 +124,23 @@ document.addEventListener("DOMContentLoaded", function() {
 
 .swiper-slide{
 	width:150px;
-	height:150px;
+	height:200px;
 	border-radius:50%;
 	overflow:hidden;
 }
 
-.swiper-container {width:1000px;}
+.favorites-star{
+	width:30px;
+	height:30px;
+}
+
+.target-name{
+	margin:auto;
+	width:150px;
+	height:30px;
+}
+
+.swiper-container {width:1000px; margin-top: 30px;}
 .swiper-slide {opacity:0.4; transition:opacity 0.3s;}
 .swiper-slide-active,
 .swiper-slide-active + .swiper-slide,
@@ -83,45 +153,183 @@ document.addEventListener("DOMContentLoaded", function() {
 <%@ include file="/WEB-INF/views/include/navigation.jsp" %>
 
 <main id="main">
-<section class="rlist">
-<div class="rlist-title">즐겨찾기</div>         
-<hr role="tournament1"><br> 
-<div id="rlist" class="user-rlist">
-	<div class = "rlist-card">
-		<div class = "rlist-profile-img-div">
+<section class="myFavo">
+<div class="myFavo-title-sec">
+<div class="myFavo-title">즐겨찾기</div>         
+<hr role="tournament1">
+</div>
+<div class="myFavo-list">
+	<div class = "myFavo-card">
+		<div class = "myFavo-profile-img-div">
 			<c:if test="${user.fileName eq ''}">
-            	<img src="/resources/upload/user/userDefault.jpg" class = 'rlist-profile-card-img'>
+            	<img src="/resources/upload/user/userDefault.jpg" class = 'myFavo-profile-card-img'>
             </c:if>
             <c:if test="${user.fileName ne ''}">
-          		<img src="/resources/upload/user/${user.fileName}" class = 'rlist-profile-card-img'>
+          		<img src="/resources/upload/user/${user.fileName}" class = 'myFavo-profile-card-img'>
             </c:if>
-			<span class = "rlist-profile-card-name">${user.userNick} 님의 즐겨찾기</span>
-        </div><br />   
+			<span class = "myFavo-profile-card-name">${user.userNick} 님의 즐겨찾기</span>
+        </div>
         	<div class="userFavorites">
-				<h3>유저 즐겨찾기</h3><hr class="favorites-hr"><br />				
+				<h3>유저 즐겨찾기</h3><hr class="favorites-hr">				
 					<div class="swiper-container">
     					<div class="swiper-wrapper">
-					        <div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" href="/mypage/myProfile" class = 'favorites-profile-card-img'></div>	
-					        <div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>	
-					      	<div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>	
-					      	<div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>	
-					       	<div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>	
+					        
+					        <!-- 반복시작 -->
+					        <div class="swiper-slide">
+					        	<div>
+					        		<a href="/myPage/myProfile">
+					        			<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
+									</a>
+									<div class = 'target-name'>
+										미미미미미미미미미미미
+									</div>
+									<div>
+										<img src="/resources/images/star.png" class = 'favorites-star'>
+									</div>
+								</div>
+					        </div>	
+					        <!-- 반복 끝 -->
+					        
+					           <!-- 반복시작 -->
+					        <div class="swiper-slide">
+					        	<div>
+					        		<a href="/myPage/myProfile">
+					        			<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
+									</a>
+									<div class = 'target-name'>
+										미미미미미미미미미미미
+									</div>
+									<div>
+										<img src="/resources/images/star.png" class = 'favorites-star'>
+									</div>
+								</div>
+					        </div>	
+					        <!-- 반복 끝 -->
+					        
+					           <!-- 반복시작 -->
+					        <div class="swiper-slide">
+					        	<div>
+					        		<a href="/myPage/myProfile">
+					        			<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
+									</a>
+									<div class = 'target-name'>
+										미미미미미미미미미미미
+									</div>
+									<div>
+										<img src="/resources/images/star.png" class = 'favorites-star'>
+									</div>
+								</div>
+					        </div>	
+					        <!-- 반복 끝 -->
+					        
+					           <!-- 반복시작 -->
+					        <div class="swiper-slide">
+					        	<div>
+					        		<a href="/myPage/myProfile">
+					        			<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
+									</a>
+									<div class = 'target-name'>
+										미미미미미미미미미미미
+									</div>
+									<div>
+										<img src="/resources/images/star.png" class = 'favorites-star'>
+									</div>
+								</div>
+					        </div>	
+					        <!-- 반복 끝 -->
+					        
+					        
+					        
 					    </div>
    							 <div class="swiper-button-next"></div>
    							 <div class="swiper-button-prev"></div>
 					</div>
-				</div><br /><br /><br />
+				</div>
 			<div class="storeFavorites">
-				<h3>매장 즐겨찾기</h3><hr class="favorites-hr"><br />
+				<h3>매장 즐겨찾기</h3><hr class="favorites-hr">
 					<div class="swiper-container">
     					<div class="swiper-wrapper">
-					        <div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>
-					        <div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>
-					        <div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>
-					        <div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>
-					        <div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>
-					        <div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>
-					        <div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>
+					       
+					          <!-- 반복시작 -->
+					        <div class="swiper-slide">
+					        	<div>
+					        		<a href="/myPage/myProfile">
+					        			<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
+									</a>
+									<div class = 'target-name'>
+										미미미미미미미미미미미
+									</div>
+									<div>
+										<img src="/resources/images/star.png" class = 'favorites-star'>
+									</div>
+								</div>
+					        </div>	
+					        <!-- 반복 끝 -->
+					        
+					           <!-- 반복시작 -->
+					        <div class="swiper-slide">
+					        	<div>
+					        		<a href="/myPage/myProfile">
+					        			<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
+									</a>
+									<div class = 'target-name'>
+										미미미미미미미미미미미
+									</div>
+									<div>
+										<img src="/resources/images/star.png" class = 'favorites-star'>
+									</div>
+								</div>
+					        </div>	
+					        <!-- 반복 끝 -->
+					        
+					           <!-- 반복시작 -->
+					        <div class="swiper-slide">
+					        	<div>
+					        		<a href="/myPage/myProfile">
+					        			<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
+									</a>
+									<div class = 'target-name'>
+										미미미미미미미미미미미
+									</div>
+									<div>
+										<img src="/resources/images/star.png" class = 'favorites-star'>
+									</div>
+								</div>
+					        </div>	
+					        <!-- 반복 끝 -->
+					        
+					           <!-- 반복시작 -->
+					        <div class="swiper-slide">
+					        	<div>
+					        		<a href="/myPage/myProfile">
+					        			<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
+									</a>
+									<div class = 'target-name'>
+										미미미미미미미미미미미
+									</div>
+									<div>
+										<img src="/resources/images/star.png" class = 'favorites-star'>
+									</div>
+								</div>
+					        </div>	
+					        <!-- 반복 끝 -->
+					        
+					           <!-- 반복시작 -->
+					        <div class="swiper-slide">
+					        	<div>
+					        		<a href="/myPage/myProfile">
+					        			<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
+									</a>
+									<div class = 'target-name'>
+										미미미미미미미미미미미
+									</div>
+									<div>
+										<img src="/resources/images/star.png" class = 'favorites-star'>
+									</div>
+								</div>
+					        </div>	
+					        <!-- 반복 끝 -->
+					       
    						</div>
 						    <div class="swiper-button-next"></div>
 						    <div class="swiper-button-prev"></div>
