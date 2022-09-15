@@ -10,8 +10,37 @@ pageContext.setAttribute("newLine", "\n");
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
 <script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/icia.common.js"></script>
+<!-- Swiper -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
 <script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function() {
 
+    var mySwiper = new Swiper('.swiper-container', {
+        slidesPerView: 4,
+        slidesPerGroup: 1,
+        observer: true,
+        observeParents: true,
+        spaceBetween: 10,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+            1280: {
+                slidesPerView: 4,
+                slidesPerGroup: 4,
+            },
+            720: {
+                slidesPerView: 4,
+                slidesPerGroup: 1,
+            }
+        },
+        loopFillGroupWithBlank : true,
+        loop: false
+    });
+    
+});
 </script>
 <style>
 .userFavorites{
@@ -33,6 +62,20 @@ pageContext.setAttribute("newLine", "\n");
 	width:900px; 
 	margin:auto;
 }
+
+.swiper-slide{
+	width:150px;
+	height:150px;
+	border-radius:50%;
+	overflow:hidden;
+}
+
+.swiper-container {width:1000px;}
+.swiper-slide {opacity:0.4; transition:opacity 0.3s;}
+.swiper-slide-active,
+.swiper-slide-active + .swiper-slide,
+.swiper-slide-active + .swiper-slide + .swiper-slide,
+.swiper-slide-active + .swiper-slide + .swiper-slide + .swiper-slide {opacity:1}
 
 </style>
 </head>
@@ -56,93 +99,34 @@ pageContext.setAttribute("newLine", "\n");
         </div><br />   
         	<div class="userFavorites">
 				<h3>유저 즐겨찾기</h3><hr class="favorites-hr"><br />				
-					<div>
-						<!--프로필 1-->	
-						<a href="/myPage/myProfile">
-							<c:if test="${user.fileName eq ''}">
-            					<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>        
-           					</c:if>
-            				<c:if test="${user.fileName ne ''}">
-          						<img src="/resources/upload/user/${user.fileName}" class = 'favorites-profile-card-img'>
-            				</c:if>
-            			</a>
-            			
-            			&nbsp;&nbsp;&nbsp;
-						<!--프로필 2-->
-						<a>	
-							<c:if test="${user.fileName eq ''}">
-            					<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
-           					</c:if>
-            				<c:if test="${user.fileName ne ''}">
-          						<img src="/resources/upload/user/${user.fileName}" class = 'favorites-profile-card-img'>
-            				</c:if>
-            			</a>
-            			&nbsp;&nbsp;&nbsp;
-						<!--프로필 3-->
-						<a>
-							<c:if test="${user.fileName eq ''}">
-            					<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
-           					</c:if>
-            				<c:if test="${user.fileName ne ''}">
-          						<img src="/resources/upload/user/${user.fileName}" class = 'favorites-profile-card-img'>
-            				</c:if>
-            			</a>
-            			&nbsp;&nbsp;&nbsp;	
-            			<!--프로필 4-->
-            			<a>
-							<c:if test="${user.fileName eq ''}">
-            					<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
-           					</c:if>
-            				<c:if test="${user.fileName ne ''}">
-          						<img src="/resources/upload/user/${user.fileName}" class = 'favorites-profile-card-img'>
-            				</c:if>
-            			</a>
+					<div class="swiper-container">
+    					<div class="swiper-wrapper">
+					        <div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" href="/mypage/myProfile" class = 'favorites-profile-card-img'></div>	
+					        <div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>	
+					      	<div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>	
+					      	<div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>	
+					       	<div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>	
+					    </div>
+   							 <div class="swiper-button-next"></div>
+   							 <div class="swiper-button-prev"></div>
 					</div>
-			</div><br /><br /><br />
+				</div><br /><br /><br />
 			<div class="storeFavorites">
 				<h3>매장 즐겨찾기</h3><hr class="favorites-hr"><br />
-					<div>
-						<!--프로필 1-->	
-						<a href="/myPage/myProfile">
-							<c:if test="${user.fileName eq ''}">
-            					<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>        
-           					</c:if>
-            				<c:if test="${user.fileName ne ''}">
-          						<img src="/resources/upload/user/${user.fileName}" class = 'favorites-profile-card-img'>
-            				</c:if>
-            			</a>
-            			&nbsp;&nbsp;&nbsp;
-						<!--프로필 2-->
-						<a>	
-							<c:if test="${user.fileName eq ''}">
-            					<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
-           					</c:if>
-            				<c:if test="${user.fileName ne ''}">
-          						<img src="/resources/upload/user/${user.fileName}" class = 'favorites-profile-card-img'>
-            				</c:if>
-            			</a>
-            			&nbsp;&nbsp;&nbsp;
-						<!--프로필 3-->
-						<a>
-							<c:if test="${user.fileName eq ''}">
-            					<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
-           					</c:if>
-            				<c:if test="${user.fileName ne ''}">
-          						<img src="/resources/upload/user/${user.fileName}" class = 'favorites-profile-card-img'>
-            				</c:if>
-            			</a>
-            			&nbsp;&nbsp;&nbsp;	
-            			<!--프로필 4-->
-            			<a>
-							<c:if test="${user.fileName eq ''}">
-            					<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
-           					</c:if>
-            				<c:if test="${user.fileName ne ''}">
-          						<img src="/resources/upload/user/${user.fileName}" class = 'favorites-profile-card-img'>
-            				</c:if>
-            			</a>
+					<div class="swiper-container">
+    					<div class="swiper-wrapper">
+					        <div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>
+					        <div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>
+					        <div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>
+					        <div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>
+					        <div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>
+					        <div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>
+					        <div class="swiper-slide"><img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'></div>
+   						</div>
+						    <div class="swiper-button-next"></div>
+						    <div class="swiper-button-prev"></div>
 					</div>
-		</div>
+			</div>
 	</div>
 </div>             
 </section>
