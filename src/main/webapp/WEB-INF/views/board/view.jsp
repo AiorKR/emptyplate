@@ -563,24 +563,25 @@ function fn_deleteComment(bbsSeqValue)
 						<a href="/board/download?bbsSeq=${board.boardFile.bbsSeq}" style="float:right;">첨부이미지 다운로드</a>
 					  </c:if>   
 					</div>
-					<c:choose>
-						<c:when test="${empty boardPrevList}">
-							<div class = "prevBbs" >이전글이 존재하지 않습니다.</div>
-						</c:when>
-						<c:otherwise>
-							<div class = "prevBbs" >이전글 : <a href="javascript:void(0)" onclick="fn_view(${board.bbsSeq})">${board.bbsTitle}</a></div>
-						</c:otherwise>
-					</c:choose>
+					<div id="bbsList">
 					<c:choose>
 						<c:when test="${empty boardNextList}">
 							<div class = "nextBbs" >다음글이 존재하지 않습니다.</div>
 						</c:when>
 						<c:otherwise>
-							<div class = "nextBbs" >다음글 : <a href="javascript:void(0)" onclick="fn_view(${board.bbsSeq})">${board.bbsTitle}</a></div>
+							<div class = "nextBbs" >다음글 : <a href="/board/view?bbsSeq=${boardNext.bbsSeq}" onclick="fn_view()">${boardNext.bbsTitle}</a></div>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${empty boardPrevList}">
+							<div class = "prevBbs" >이전글이 존재하지 않습니다.</div>
+						</c:when>
+						<c:otherwise>
+							<div class = "prevBbs" >이전글 : <a href="/board/view?bbsSeq=${boardPrev.bbsSeq}" onclick="fn_view()">${boardPrev.bbsTitle}</a></div>
 						</c:otherwise>
 					</c:choose>
 					</div>
-<div id="commentSection">
+					<div id="commentSection">
 					<c:if test="${board.bbsComment eq 'Y'}">             
 						<form name="commentForm" id="commentForm" method="post" enctype="form-data">
 							<div class="board-commentwrite">

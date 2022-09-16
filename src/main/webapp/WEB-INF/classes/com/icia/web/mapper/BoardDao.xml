@@ -328,7 +328,7 @@ SELECT RNUM,
           AND A.BBS_NO = #{bbsNo}
           AND A.BBS_TITLE IS NOT NULL
           AND A.BBS_SEQ <![CDATA[<]]> #{bbsSeq}
-          ORDER BY A.BBS_SEQ ASC))
+          ORDER BY A.BBS_SEQ DESC))
  WHERE RNUM = 1
 </select>
 

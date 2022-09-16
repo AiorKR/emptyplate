@@ -463,22 +463,25 @@ public class BoardController
        //댓글허용체크
        String bbsComment = "";
        List<Board> boardPrevList = null;
+       Board boardPrev = null;
+       Board boardNext = null;
        List<Board> boardNextList = null;
        
        if(bbsSeq > 0)
        {
           board = boardService.boardView(bbsSeq);
           comment = boardService.commentList(board);
-          //
+          //이전글, 다음글 조회
           boardPrevList = boardService.boardPrevList(board);
           boardNextList = boardService.boardNextList(board);
-          
-          logger.debug("###############################");
-          logger.debug("#Board : " + board);
-          logger.debug("#Prev : " + boardPrevList);
-          logger.debug("#Next : " + boardNextList);
-          logger.debug("###############################");
-          
+          if(boardPrevList.size() !=0)
+          {
+        	  boardPrev = boardService.boardView(boardPrevList.get(boardPrevList.size()-1).getBbsSeq());        	  
+          }
+          if(boardNextList.size() !=0)
+          {
+        	  boardNext = boardService.boardView(boardNextList.get(boardNextList.size()-1).getBbsSeq());        	  
+          }
           //본인 게시물 여부
           if(board != null && StringUtil.equals(board.getUserUID(), cookieUserUID))
           {
@@ -513,6 +516,8 @@ public class BoardController
        }
        model.addAttribute("bbsSeq", bbsSeq);
        model.addAttribute("board", board);
+       model.addAttribute("boardPrev", boardPrev);
+       model.addAttribute("boardNext",boardNext);
        model.addAttribute("boardMe", boardMe);
        model.addAttribute("cookieUserUID",cookieUserUID);
        model.addAttribute("bbsComment", bbsComment);
@@ -1014,6 +1019,7 @@ public class BoardController
   	}
 
   //대댓글
+  	/*
   	@RequestMapping(value="/board/replyProc", method=RequestMethod.POST)
   	public Object replyProc(@RequestParam Map<String,Object> map, HttpServletRequest request) {
   		System.out.println("ajax 시작 ");
@@ -1022,11 +1028,19 @@ public class BoardController
 		Board board = new Board();
 		board = boardService.boardView(bbsSeq);
 		list = boardService.commentList(board);
-		
-		        
-		Map<String, Object> retVal = new HashMap<String, Object>();
-		retVal.put("list", list);
-		
-		return retVal;
+		if(list.size()>0)
+		{
+			for(int i=0;i<list.size();i++)
+			{
+				List<String> foo = new ArrayList<String>();
+			    foo.add(long.toString(list.get(i).getBbsSeq()));
+			    foo.add(list.get(i).getBbsSeq());
+			    foo.add(list.get(i).getBbsSeq());
+
+			    String json = new Gson().toJson(foo);
+			    System.out.println(json);
+			}
+		}
 	}
+  	 */
 }
