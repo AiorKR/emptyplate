@@ -1019,28 +1019,14 @@ public class BoardController
   	}
 
   //대댓글
-  	/*
   	@RequestMapping(value="/board/replyProc", method=RequestMethod.POST)
-  	public Object replyProc(@RequestParam Map<String,Object> map, HttpServletRequest request) {
-  		System.out.println("ajax 시작 ");
-  		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
-		List<Board> list = new ArrayList<Board>();
-		Board board = new Board();
-		board = boardService.boardView(bbsSeq);
-		list = boardService.commentList(board);
-		if(list.size()>0)
-		{
-			for(int i=0;i<list.size();i++)
-			{
-				List<String> foo = new ArrayList<String>();
-			    foo.add(long.toString(list.get(i).getBbsSeq()));
-			    foo.add(list.get(i).getBbsSeq());
-			    foo.add(list.get(i).getBbsSeq());
-
-			    String json = new Gson().toJson(foo);
-			    System.out.println(json);
-			}
-		}
-	}
-  	 */
+  	@ResponseBody
+  	public String replyProc(HttpServletRequest request, HttpServletResponse response)
+  	{
+  		long bbsSeq = HttpUtil.get(request, "bbsSeq", 0);
+  		Board board = boardService.boardView(bbsSeq);
+        List<Board> comment = boardService.commentList(board);
+  		
+  		return "";
+  	}
 }
