@@ -1,4 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+   // 개행문자 값을 저장한다.
+   pageContext.setAttribute("newLine", "\n");
+%>
 <!DOCTYPE html>
 <html lang="en">
 
