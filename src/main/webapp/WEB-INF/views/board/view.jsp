@@ -402,12 +402,13 @@ function fn_Report(bbsSeq2){
 }
 
 //댓글버튼
-function fn_reply(bbsSeqValue)
+function fn_reply(bbsSeqValue1, bbsSeqValue2)
 {
 	 $.ajax({
 	        url: "/board/replyProc",
 	        data: {
-	        	bbsSeq : bbsSeqValue
+	        	bbsSeq : bbsSeqValue1,
+	        	commentBbsSeq : bbsSeqValue2
 	        },
 	        method: "POST",
 	        success: function (jsonPlace) {
@@ -600,8 +601,9 @@ function fn_deleteComment(bbsSeqValue)
 							</div>
 						
 						<c:set var="cookieUserUID" value="${cookieUserUID}"/>
+						<c:set var="parentsBbsSeq" value="${board.BbsSeq}"/>
 						  <c:if test="${!empty list}">
-							<c:forEach var="commentboard" items="${list}" varStatus="status">
+							<c:forEach var="board" items="${list}" varStatus="status">
 								<div class="comment">
 									<div class="comment-write">
 										<col-lg-12><ion-icon name="person"></ion-icon> ${board.userNick}</col-lg-12>
@@ -611,7 +613,7 @@ function fn_deleteComment(bbsSeqValue)
 										<a>${board.regDate}</a>
 										<button type="button" data-bs-toggle="modal" data-bs-target="#reportModal2" id="btnReport${board.bbsSeq}" onclick="fn_Report(${board.bbsSeq})">신고</button>
 										<form name="replyForm" id="replyForm" method="post">
-											<button type="button" onclick="fn_reply(${board.bbsSeq})" id="reply" class="reply">댓글달기</button>
+											<button type="button" onclick="fn_reply(${board.bbsSeq}, ${board.bbsSeq})" id="reply" class="reply">댓글달기</button>
 											<input type="hidden" id="userNick" name="userNick" value="${board.userNick}"/>
 											<input type="hidden" id="commentGroup" name="commentGroup" value="${board.commentGroup}"/>
 											<input type="hidden" id="commentOrder" name="commentOrder" value="${board.commentOrder}"/>

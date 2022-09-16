@@ -1028,12 +1028,15 @@ public class BoardController
   	public Object replyProc(HttpServletRequest request, HttpServletResponse response)
   	{
   		long bbsSeq = HttpUtil.get(request, "bbsSeq", 0);
-  		Board board = new Board();
-  		board.setBbsSeq(bbsSeq);
+  		long commentBbsSeq = HttpUtil.get(request, "commentBbsSeq", 0);
+  		Board mainBoard = new Board();
+  		Board commentBoard = new Board();
+  		mainBoard.setBbsSeq(bbsSeq);
+  		commentBoard.setBbsSeq(commentBbsSeq);
   		logger.debug("##########################");
     	logger.debug("#@@@@@@@$$$$$$$$$" + bbsSeq);
     	logger.debug("##########################");
-        List<Board> comment = boardService.commentList(board);
+        List<Board> comment = boardService.commentList(commentBoard);
         
         JSONObject obj = new JSONObject();
         Gson gson = new Gson();
