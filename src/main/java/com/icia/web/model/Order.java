@@ -13,10 +13,14 @@ public class Order implements Serializable{
 	private String userUID;
 	private String reservationName;
 	private String reservationPhon;
-	private String reservationPeople;
+	private int reservationPeople;
 	private String orderStatus;
 	private String orderPayType;
 	private String orderRegDate;
+	private int totalAmount;
+	private String userName;
+	
+	private Toss toss;
 	
 	private List<OrderMenu> orderMenu;
 	private List<ShopReservationTable> shopReservationTable;
@@ -27,13 +31,17 @@ public class Order implements Serializable{
 		userUID = "";
 		reservationName = "";
 		reservationPhon = "";
-		reservationPeople = "";
+		reservationPeople = 0;
 		orderStatus = "";
 		orderPayType = "";
 		orderRegDate = "";
+		totalAmount = 0;
+		userName = "";
 		
 		orderMenu = null;
 		shopReservationTable = null;
+		
+		toss = null;
 	}
 
 	public String getOrderUID() {
@@ -76,11 +84,11 @@ public class Order implements Serializable{
 		this.reservationPhon = reservationPhon;
 	}
 
-	public String getReservationPeople() {
+	public int getReservationPeople() {
 		return reservationPeople;
 	}
 
-	public void setReservationPeople(String reservationPeople) {
+	public void setReservationPeople(int reservationPeople) {
 		this.reservationPeople = reservationPeople;
 	}
 
@@ -123,7 +131,30 @@ public class Order implements Serializable{
 	public void setShopReservationTable(List<ShopReservationTable> shopReservationTable) {
 		this.shopReservationTable = shopReservationTable;
 	}
-	
+
+	public Toss getToss() {
+		return toss;
+	}
+
+	public void setToss(Toss toss) {
+		this.toss = toss;
+	}
+
+	public int getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(int totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	
 	
 }

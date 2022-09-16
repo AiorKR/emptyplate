@@ -36,15 +36,15 @@ public class BoardService
 		board.setBbsSeq(bbsSeq);
 		int count = boardDao.boardInsert(board);
 		
-		//게시물 등록 후 첨부파일 있으면 등록
+		//첨부파일 등록
 		if(count > 0 && board.getBoardFile() != null)
 		{	
-			BoardFile boardFile = board.getBoardFile();	//같은 시작주소를 바라보게 함.
+			BoardFile boardFile = board.getBoardFile();
 			boardFile.setBbsSeq(board.getBbsSeq());
 			boardFile.setFileOrgName(Long.toString(bbsSeq) + "."+ boardFile.getFileExt());
 			boardFile.setFileSeq((short)1);
 			
-			boardDao.boardFileInsert(board.getBoardFile());	//여러개 첨부파일 적용시 for문 적용
+			boardDao.boardFileInsert(board.getBoardFile());
 		}
 		
 		return count;
@@ -79,6 +79,72 @@ public class BoardService
 		catch(Exception e)
 		{
 			logger.error("[BoardService] boardListCount Exception", e);
+		}
+		
+		return count;
+	}
+	
+	//인기좋아요순 리스트
+	public List<Board> boardHotLikeList(Board board)
+	{
+		List<Board> list = null;
+		
+		try
+		{
+			list = boardDao.boardHotLikeList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardHotLikeList Exception", e);
+		}
+		return list;
+	}
+	
+	//인기조회순 리스트
+	public List<Board> boardHotReadList(Board board)
+	{
+		List<Board> list = null;
+		
+		try
+		{
+			list = boardDao.boardHotReadList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardHotReadList Exception", e);
+		}
+		return list;
+	}
+	
+	//유저 게시물 리스트
+	public List<Board> userList(Board board)
+	{
+		List<Board> userList = null;
+		
+		try
+		{
+			userList = boardDao.userList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] userList Exception", e);
+		}
+		
+		return userList;
+	}
+	
+	//유저 총 게시물 수 
+	public long userListCount(Board board)
+	{
+		long count = 0;
+		
+		try
+		{
+			count = boardDao.userListCount(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] userListCount Exception", e);
 		}
 		
 		return count;
@@ -124,10 +190,13 @@ public class BoardService
 		try
 		{
 			board = boardDao.boardSelect(bbsSeq);
+			
 			if(board != null)
 			{
+				//게시물 조회수 증가
 				boardDao.boardReadCntPlus(bbsSeq);
 				
+				//첨부파일 조회
 				BoardFile boardFile = boardDao.boardFileSelect(bbsSeq);
 				
 				if(boardFile != null)
@@ -155,8 +224,8 @@ public class BoardService
 			
 			if(board != null)
 			{
-				//첨부파일 확인
-				BoardFile boardFile = boardDao.boardFileSelect(bbsSeq);	//hiBoard.를 작성해도 됨.
+				//첨부파일 조회
+				BoardFile boardFile = boardDao.boardFileSelect(bbsSeq);
 				
 				if(boardFile != null)
 				{
@@ -173,7 +242,7 @@ public class BoardService
 	}
 	
 	//게시물 수정
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)	//트랜잭션 정의
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public int boardUpdate(Board board) throws Exception
 	{
 		int count = boardDao.boardUpdate(board);	
@@ -182,25 +251,24 @@ public class BoardService
 		{
 			BoardFile delBoardFile = boardDao.boardFileSelect(board.getBbsSeq());	
 			
-			//기존파일 있으면 삭제
+			//기존 첨부파일 삭제
 			if(delBoardFile != null)
 			{
 				FileUtil.deleteFile(BOARD_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + delBoardFile.getFileName());
 				boardDao.boardFileDelete(board.getBbsSeq());
 			}
-			//후 새로운 파일 등록
+			//새로운 첨부파일 등록
 			board.getBoardFile().setBbsSeq(board.getBbsSeq());
 			board.getBoardFile().setFileOrgName(Long.toString(board.getBbsSeq()));
 			board.getBoardFile().setFileSeq((short)1);
 		
-			
 			boardDao.boardFileInsert(board.getBoardFile());
 		}	
 		
 		return count;
 	}
 	
-	//게시물 삭제(첨부파일 있으면 함께 삭제)
+	//게시물 삭제
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public int boardDelete(long bbsSeq) throws Exception
 	{
@@ -213,6 +281,7 @@ public class BoardService
 			
 			if(boardFile != null)
 			{	
+				//첨부파일 삭제
 				if(boardDao.boardFileDelete(bbsSeq) > 0)
 				{
 					FileUtil.deleteFile(BOARD_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + boardFile.getFileName());
@@ -223,23 +292,6 @@ public class BoardService
 		}
 		
 		return count;
-	}
-	
-	//첨부파일 조회
-	public BoardFile boardFileSelect(long bbsSeq)
-	{
-		BoardFile boardFile = null;
-		
-		try
-		{
-			boardFile = boardDao.boardFileSelect(bbsSeq);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] boardFileSelect Exception", e);
-		}
-		
-		return boardFile;
 	}
 	
 	//동일 게시글 좋아요 여부 확인
@@ -310,85 +362,6 @@ public class BoardService
 		return count;
 	}
 	
-	//댓글 등록
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
-	public int boardCommentInsert(Board board) throws Exception
-	{
-		int count = 0;
-		
-		boardDao.commentGroupOrderUpdate(board);
-		count = boardDao.boardCommentInsert(board);
-		
-		return count;
-	}
-	
-	//댓글 리스트
-	public List<Board> commentList(Board board)
-	{
-		List<Board> list = null;
-		
-		try
-		{
-			list = boardDao.commentList(board);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] boardList Exception", e);
-		}
-		
-		return list;
-	}
-	
-	//댓글 삭제(첨부파일 있으면 함께 삭제)
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
-	public int commentDelete(long bbsSeq) throws Exception
-	{
-		int count = 0;
-	      
-		try
-		{
-			count = boardDao.commentDelete(bbsSeq);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] commentDelete Exception", e);
-		}
-		
-		return count;
-	}
-	
-	//인기좋아요순 리스트
-	public List<Board> boardHotLikeList(Board board)
-	{
-		List<Board> list = null;
-		
-		try
-		{
-			list = boardDao.boardHotLikeList(board);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] boardHotLikeList Exception", e);
-		}
-		return list;
-	}
-	
-	//인기조회순 리스트
-	public List<Board> boardHotReadList(Board board)
-	{
-		List<Board> list = null;
-		
-		try
-		{
-			list = boardDao.boardHotReadList(board);
-		}
-		catch(Exception e)
-		{
-			logger.error("[BoardService] boardHotReadList Exception", e);
-		}
-		return list;
-	}
-		
 	//동일 게시물  즐겨찾기 여부 확인
 	public int boardMarkCheck(Board board)
 	{
@@ -473,36 +446,65 @@ public class BoardService
 		
 		return count;
 	}
-	
-	//유저 게시물 리스트
-	public List<Board> userList(Board board)
+		
+	//첨부파일 조회
+	public BoardFile boardFileSelect(long bbsSeq)
 	{
-		List<Board> userList = null;
+		BoardFile boardFile = null;
 		
 		try
 		{
-			userList = boardDao.userList(board);
+			boardFile = boardDao.boardFileSelect(bbsSeq);
 		}
 		catch(Exception e)
 		{
-			logger.error("[BoardService] userList Exception", e);
+			logger.error("[BoardService] boardFileSelect Exception", e);
 		}
 		
-		return userList;
+		return boardFile;
 	}
 	
-	//유저 총 게시물 수 
-	public long userListCount(Board board)
+	//댓글 등록
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public int boardCommentInsert(Board board) throws Exception
 	{
-		long count = 0;
+		int count = 0;
 		
+		boardDao.commentGroupOrderUpdate(board);
+		count = boardDao.boardCommentInsert(board);
+		
+		return count;
+	}
+	
+	//댓글 리스트
+	public List<Board> commentList(Board board)
+	{
+		List<Board> list = null;
 		try
 		{
-			count = boardDao.userListCount(board);
+			list = boardDao.commentList(board);
 		}
 		catch(Exception e)
 		{
-			logger.error("[BoardService] userListCount Exception", e);
+			logger.error("[BoardService] boardList Exception", e);
+		}
+		
+		return list;
+	}
+	
+	//댓글 삭제
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	public int commentDelete(long bbsSeq) throws Exception
+	{
+		int count = 0;
+	      
+		try
+		{
+			count = boardDao.commentDelete(bbsSeq);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] commentDelete Exception", e);
 		}
 		
 		return count;

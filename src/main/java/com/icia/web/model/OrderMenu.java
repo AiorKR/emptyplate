@@ -9,13 +9,13 @@ public class OrderMenu implements  Serializable{
 	
 	private String orderUID;
 	private String orderMenuName;
-	private String orderMenuPrice;
+	private int orderMenuPrice;
 	private int orderMenuQuantity;
 	
 	public OrderMenu() {
 		orderUID = "";
 		orderMenuName = "";
-		orderMenuPrice = "";
+		orderMenuPrice = 0;
 		orderMenuQuantity = 0;
 	}
 
@@ -35,12 +35,12 @@ public class OrderMenu implements  Serializable{
 		this.orderMenuName = orderMenuName;
 	}
 
-	public String getOrderMenuPrice() {
+	public int getOrderMenuPrice() {
 		return orderMenuPrice;
 	}
 
-	public void setOrderMenuPrice(String orderMenuPrice) {
-		this.orderMenuPrice = orderMenuPrice;
+	public void setOrderMenuPrice(int setOrderMenuPrice) {
+		this.orderMenuPrice = setOrderMenuPrice;
 	}
 
 	public int getOrderMenuQuantity() {

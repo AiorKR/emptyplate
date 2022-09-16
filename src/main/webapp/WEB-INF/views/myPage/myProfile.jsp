@@ -65,7 +65,7 @@ $(document).ready(function() {
 
 //닉네임 변경 시작
 function showPopupNick() { 
-   var popHeight = 130;                                      // 띄울 팝업창 높이   
+   var popHeight = 165;                                      // 띄울 팝업창 높이   
    var popWidth = 460;                                       // 띄울 팝업창 너비
    var winHeight = document.body.clientHeight;                 // 현재창의 높이
    var winWidth = document.body.clientWidth;                 // 현재창의 너비
@@ -81,7 +81,7 @@ function showPopupNick() {
 
 //이메일 변경 시작
 function showPopupEmail() { 
-   var popHeight = 130;                                      // 띄울 팝업창 높이   
+   var popHeight = 170;                                      // 띄울 팝업창 높이   
    var popWidth = 460;                                       // 띄울 팝업창 너비
    var winHeight = document.body.clientHeight;                 // 현재창의 높이
    var winWidth = document.body.clientWidth;                 // 현재창의 너비
@@ -96,7 +96,7 @@ function showPopupEmail() {
 
 //사진 변경 시작
 function showPopupFile() { 
-   var popHeight = 130;                                      // 띄울 팝업창 높이   
+   var popHeight = 200;                                      // 띄울 팝업창 높이   
    var popWidth = 460;                                       // 띄울 팝업창 너비
    var winHeight = document.body.clientHeight;                 // 현재창의 높이
    var winWidth = document.body.clientWidth;                 // 현재창의 너비
@@ -112,7 +112,7 @@ function showPopupFile() {
 
 //전화번호 변경 시작
 function showPopupPhone() { 
-   var popHeight = 130;                                      // 띄울 팝업창 높이   
+   var popHeight = 220;                                      // 띄울 팝업창 높이   
    var popWidth = 460;                                       // 띄울 팝업창 너비
    var winHeight = document.body.clientHeight;                 // 현재창의 높이
    var winWidth = document.body.clientWidth;                 // 현재창의 너비
@@ -129,7 +129,7 @@ function showPopupPhone() {
 //비밀번호 변경 시작
 function showPopupPwd() {
 	
-   var popHeight = 130;                                      // 띄울 팝업창 높이   
+   var popHeight = 350;                                      // 띄울 팝업창 높이   
    var popWidth = 460;                                       // 띄울 팝업창 너비
    var winHeight = document.body.clientHeight;                 // 현재창의 높이
    var winWidth = document.body.clientWidth;                 // 현재창의 너비

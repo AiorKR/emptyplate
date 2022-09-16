@@ -5,7 +5,7 @@
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
 <script type="text/javascript">
 $(document).ready(function() {
-
+   //검색
    $("#btnSearch").on("click", function() { 
       document.bbsForm.bbsSeq.value = "";
       document.bbsForm.searchType.value = $("#_searchType").val();
@@ -14,6 +14,8 @@ $(document).ready(function() {
       document.bbsForm.action = "/board/markList";
       document.bbsForm.submit();
    });
+   
+   //최신순
    $("#btnSort1").on("click", function() { 
 	      document.bbsForm.bbsSeq.value = "";
 	      document.bbsForm.searchType.value = $("#_searchType").val();
@@ -23,6 +25,8 @@ $(document).ready(function() {
 	      document.bbsForm.action = "/board/markList";
 	      document.bbsForm.submit();
    });
+   
+   //좋아요순
    $("#btnSort2").on("click", function() { 
          document.bbsForm.bbsSeq.value = "";
          document.bbsForm.searchType.value = $("#_searchType").val();
@@ -31,7 +35,9 @@ $(document).ready(function() {
          document.bbsForm.curPage.value = "1";
          document.bbsForm.action = "/board/markList";
          document.bbsForm.submit();
-      });
+   });
+   
+   //조회순
    $("#btnSort3").on("click", function() { 
          document.bbsForm.bbsSeq.value = "";
          document.bbsForm.searchType.value = $("#_searchType").val();
@@ -41,9 +47,9 @@ $(document).ready(function() {
          document.bbsForm.action = "/board/markList";
          document.bbsForm.submit();
       });
-
 });
 
+//상세 글 보기
 function fn_view(bbsSeq)
 {
    document.bbsForm.bbsSeq.value = bbsSeq;
@@ -51,6 +57,7 @@ function fn_view(bbsSeq)
    document.bbsForm.submit();
 }
 
+//목록
 function fn_list(curPage)
 {
    document.bbsForm.bbsSeq.value = "";
@@ -59,8 +66,19 @@ function fn_list(curPage)
    document.bbsForm.submit();   
 }
 
+//해당 작성자 게시글
+function fn_userList(userUID, userNick)
+{
+   document.bbsForm.userUID.value = userUID;
+   document.bbsForm.searchType.value = "1";
+   document.bbsForm.curPage.value = "1";
+   document.bbsForm.searchValue.value = userNick;
+   document.bbsForm.action = "/board/userList";
+   document.bbsForm.submit();
+}
 </script>
 </head>
+
 <body>
 <%@ include file="/WEB-INF/views/include/navigation.jsp" %>
   <section id="bookMark" class="bookMark">
@@ -71,9 +89,9 @@ function fn_list(curPage)
        <div class="d-flex flex-row justify-content-between">
          <div>
            <ul>
-             <li><button type="button" value="4" id="btnSort1" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=4'" class="btnSort">최신순</button></li>
-             <li><button type="button" value="5" id="btnSort2" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=5'" class="btnSort">좋아요순</button></li>
-             <li><button type="button" value="6" id="btnSort3" onclick="location.href='/board/list?bbsNo=${search.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=6'" class="btnSort">조회순</button></li>
+             <li><button type="button" value="4" id="btnSort1" onclick="location.href='/board/list?bbsNo=${board.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=4'" class="btnSort">최신순</button></li>
+             <li><button type="button" value="5" id="btnSort2" onclick="location.href='/board/list?bbsNo=${board.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=5'" class="btnSort">좋아요순</button></li>
+             <li><button type="button" value="6" id="btnSort3" onclick="location.href='/board/list?bbsNo=${board.bbsNo}&searchType=${searchType}&searchValue=${searchValue}&sortValue=6'" class="btnSort">조회순</button></li>
            </ul>
          </div>
          <div>
@@ -94,21 +112,21 @@ function fn_list(curPage)
          <table>
            <tr>
              <th style="width:10%">번호</th>
-             <th colspan="2" style="width:10%">좋아요</th>
+             <th colspan="2" style="width:10%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;좋아요</th>
              <th style="width:45%">제목</th>
              <th style="width:10%">작성자</th>
              <th style="width:10%">조회수</th>
              <th style="width:15%">날짜</th>
            </tr>
                 
-           <c:if test="${!empty marklist}">
-             <c:forEach var="board" items="${marklist}" varStatus="status">
+           <c:if test="${!empty markList}">
+             <c:forEach var="board" items="${markList}" varStatus="status">
                <tr>
                  <td>${board.rNum}</td>
                  <td><ion-icon name="heart"></ion-icon>&nbsp;</td>
                  <td class="likeNum">${board.bbsLikeCnt}</td>
                  <td><a href="javascript:void(0)" onclick="fn_view(${board.bbsSeq})">${board.bbsTitle}</a></td>
-                 <td>${board.userNick}</td>
+                 <td><a href="javascript:void(0)" onclick="fn_userList('${board.userUID}', '${board.userNick}')">${board.userNick}</a></td>
                  <td>${board.bbsReadCnt}</td>
                  <td>${board.regDate}</td>
                </tr>
@@ -146,6 +164,7 @@ function fn_list(curPage)
 	 <input type="hidden" name="sortValue" value="${sortValue}" />
 	 <input type="hidden" name="curPage" value="${curPage}" />
 	 <input type="hidden" name="bbsNo" value="${bbsNo}" />
+	 <input type="hidden" name="userUID" value="${userUID}" />
 	</form>
    
    </div>
