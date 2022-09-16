@@ -9,6 +9,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.icia.common.model.FileData;
 import com.icia.common.util.FileUtil;
 import com.icia.common.util.StringUtil;
@@ -1021,12 +1025,45 @@ public class BoardController
   //대댓글
   	@RequestMapping(value="/board/replyProc", method=RequestMethod.POST)
   	@ResponseBody
-  	public String replyProc(HttpServletRequest request, HttpServletResponse response)
+  	public Object replyProc(HttpServletRequest request, HttpServletResponse response)
   	{
   		long bbsSeq = HttpUtil.get(request, "bbsSeq", 0);
-  		Board board = boardService.boardView(bbsSeq);
+  		Board board = new Board();
+  		board.setBbsSeq(bbsSeq);
+  		logger.debug("##########################");
+    	logger.debug("#@@@@@@@$$$$$$$$$" + bbsSeq);
+    	logger.debug("##########################");
         List<Board> comment = boardService.commentList(board);
-  		
-  		return "";
+        
+        JSONObject obj = new JSONObject();
+        Gson gson = new Gson();
+    	String jsonPlace = gson.toJson(comment);
+        try {
+        	JSONArray jArray = new JSONArray();//배열이 필요할때
+        	for (int i = 0; i < comment.size(); i++)//배열 
+        		{
+        			JSONObject sObject = new JSONObject();//배열 내에 들어갈 json
+        			sObject.put("bbsSeq", comment.get(i).getBbsSeq());
+        			sObject.put("userNick", comment.get(i).getUserNick());
+        			sObject.put("bbsContent", comment.get(i).getBbsContent());
+        			sObject.put("regDate", comment.get(i).getRegDate());
+        			sObject.put("commentGroup", comment.get(i).getCommentGroup());
+        			sObject.put("commentOrder", comment.get(i).getCommentOrder());
+        			sObject.put("commentIndent", comment.get(i).getCommentIndent());
+        			jArray.put(sObject);
+        		}
+        	obj.put("planName", "planA");
+        	obj.put("id", "userID");
+        	obj.put("item", jArray);//배열을 넣음
+        	System.out.println(obj.toString());
+        	logger.debug("##########################");
+        	logger.debug("#@@@@@@@$$$$$$$$$" + jsonPlace);
+        	logger.debug("##########################");
+        }
+        catch(JSONException e)
+        {
+        	e.printStackTrace();
+        }
+  		return jsonPlace;
   	}
 }

@@ -410,11 +410,11 @@ function fn_reply(bbsSeqValue)
 	        	bbsSeq : bbsSeqValue
 	        },
 	        method: "POST",
-	        success: function (retVal) {
-					if(retVal.code == "OK") { //controller에서 넘겨준 성공여부 코드
+	        success: function (jsonPlace) {
+					if(jsonPlace.code == "OK") { //controller에서 넘겨준 성공여부 코드
                     
-                    values = retVal.list ; //java에서 정의한 ArrayList명을 적어준다.
-                    
+                    values = jsonPlace.list ; //java에서 정의한 ArrayList명을 적어준다.
+                    	
                     $.each(values, function( index, value ) {
                        console.log( index + " : " + value.bbsSeq ); //Book.java 의 변수명을 써주면 된다.
                     });
@@ -601,7 +601,7 @@ function fn_deleteComment(bbsSeqValue)
 						
 						<c:set var="cookieUserUID" value="${cookieUserUID}"/>
 						  <c:if test="${!empty list}">
-							<c:forEach var="board" items="${list}" varStatus="status">
+							<c:forEach var="commentboard" items="${list}" varStatus="status">
 								<div class="comment">
 									<div class="comment-write">
 										<col-lg-12><ion-icon name="person"></ion-icon> ${board.userNick}</col-lg-12>
