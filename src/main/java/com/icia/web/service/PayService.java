@@ -5,7 +5,6 @@ import java.net.URISyntaxException;
 import java.util.Base64;
 import java.util.HashMap;
 
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,10 +12,14 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import com.icia.common.util.StringUtil;
+import com.icia.web.model.Board;
+import com.icia.web.model.BoardFile;
 import com.icia.web.model.Order;
 import com.icia.web.model.Toss;
 
@@ -33,34 +36,13 @@ public class PayService {
 	@Value("#{env['toss.secret.key']}")
 	private String TOSS_SECRET_KEY;
 	
-	//브라우저 단에서 사용될 키
-	@Value("#{env['toss.client.key']}")
-	private String TOSS_CLIENT_KEY;
-	
-	//상점 아이디
-	@Value("#{env['toss.mid']}")
-	private String TOSS_MID;
-	
 	//결재승인 URL
 	@Value("#{env['toss.confirm.url']}")
 	private String TOSS_CONFIRM_URL;
-		
-	//결제 성공  URL
-	@Value("#{env['toss.success.url']}")
-	private String TOSS_SUCCESS_URL;
 	
-	//결재 취소 URL
-	@Value("#{env['toss.cancel.url']}")
-	private String TOSS_CANCEL_URL;
-
-	
-	//결재 실패 URL
-	@Value("#{env['toss.fail.url']}")
-	private String TOSS_FAIL_URL;
-
-	
-	public void toss(Order order) {      
-		if(order != null)
+	public Order toss(Order requestOrder) {   
+		Order order = null;
+		if(requestOrder != null)
 	      {
 	         RestTemplate restTemplate = new RestTemplate();
 	         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
@@ -81,20 +63,32 @@ public class PayService {
 	         //서버로 요청할 body
 	         HashMap<String,String> params = new HashMap<String, String>();
 	         
-	         params.put("amount", Integer.toString(order.getTotalAmount()));
-	         params.put("orderId", order.getOrderUID());
-	         params.put("paymentKey", order.getToss().getPaymentKey());
+	         params.put("amount", Integer.toString(requestOrder.getTotalAmount()));
+	         params.put("orderId", requestOrder.getOrderUID());
+	         params.put("paymentKey", requestOrder.getToss().getPaymentKey());
 	         
 	         HttpEntity<HashMap<String,String>> body = new HttpEntity<HashMap<String,String>>(params, headers);
 	         
 	         try
 	         {
-	        	 HashMap response = restTemplate.postForObject(new URI(TOSS_HOST + TOSS_CONFIRM_URL), body, HashMap.class);
-	            logger.debug(" response : " + response);
-	           
+	        	 @SuppressWarnings("unchecked")
+				HashMap<String,String> response = restTemplate.postForObject(new URI(TOSS_HOST + TOSS_CONFIRM_URL), body, HashMap.class);
+	
 	            if(response != null)
 	            {
-	               logger.debug("[PayService]toss : " + response);
+	            	logger.debug("결과 : " + response);
+	               order = new Order();
+	               if(StringUtil.equals(response.get("status"), "DONE")) { //토스에서 결제가 완료 되었는가  (DONE - 결제 완료됨)
+		               order.setOrderStatus("Y");
+			               order.setOrderUID(response.get("orderId")); //예약번호
+			               order.setOrderRegDate(response.get("approvedAt").substring(0, 10).replace("-", "")); //토스에서 결제 완료 된 시간 (yyyy-mm-dd 까지 남기고 자른 후 -를 "" 바꿈)
+			               order.getToss().setPaymentKey(requestOrder.getToss().getPaymentKey()); //토스에서 부여해주는 결제 건에 대한 고유한 키 값, 최대 길이 200
+			               order.setTotalAmount((requestOrder.getTotalAmount())); // 총합 금액
+
+	               }
+	               else {
+	            	   order = null;
+	               }
 	            }
 
 	         }
@@ -111,6 +105,29 @@ public class PayService {
 	      {
 	         logger.error("[PayService]toss order is null");
 	      }
+		return order;
 
 	}
+	
+	
+//	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class) //최종결제 및 DB에 정보 INSERT
+//	public int payResult(Order Order) throws Exception
+//	{
+//		long 
+//		
+//		int count = boardDao.boardInsert(board);
+//		
+//		//첨부파일 등록
+//		if(count > 0 && board.getBoardFile() != null)
+//		{	
+//			BoardFile boardFile = board.getBoardFile();
+//			boardFile.setBbsSeq(board.getBbsSeq());
+//			boardFile.setFileOrgName(Long.toString(bbsSeq) + "."+ boardFile.getFileExt());
+//			boardFile.setFileSeq((short)1);
+//			
+//			boardDao.boardFileInsert(board.getBoardFile());
+//		}
+//		
+//		return count;
+//	}
 }
