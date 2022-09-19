@@ -412,7 +412,9 @@ function fn_reply(bbsSeqValue1, bbsSeqValue2)
 	        },
 	        method: "GET",
 	        success: function (jsonPlace) {
-				    alert("성공");                    
+				    alert("성공");
+				    console.log(jsonPlace);
+				    htmlView;
 	        },
 	        complete: function() {
 	        	alert("새로고침");
@@ -420,6 +422,29 @@ function fn_reply(bbsSeqValue1, bbsSeqValue2)
 	        }
 	    });
 }
+
+function htmlView(data) {
+	var result = "<div class='comment'>";
+	result+="<div class='comment-write'>";
+	result+="<col-lg-12><ion-icon name='person'></ion-icon> ${board.userNick}</col-lg-12>";
+		result+="<c:if test='${board.userUID eq cookieUserUID}'>";
+		result+="<button onclick='fn_deleteComment(${board.bbsSeq})' id='btnCommentDelete' class='commentDelete'>삭제</button>";
+			result+="</c:if>";
+		result+="<a>${board.regDate}</a>";
+		result+="<button type='button' data-bs-toggle='modal' data-bs-target='#reportModal2' id='btnReport${board.bbsSeq}' onclick='fn_Report(${board.bbsSeq})'>신고</button>";
+		result+="<form name='replyForm' id='replyForm' method='post'>";
+		result+="<button type='button' onclick='fn_reply(${parentsBbsSeq}, ${board.bbsSeq})' id='reply' class='reply'>댓글달기</button>";
+			result+="<input type='hidden' id='userNick' name='userNick' value='${board.userNick}'/>";
+				result+="<input type='hidden' id='commentGroup' name='commentGroup' value='${board.commentGroup}'/>";
+				result+="<input type='hidden' id='commentOrder' name='commentOrder' value='${board.commentOrder}'/>";
+				result+="<input type='hidden' id='commentIndent' name='commentIndent' value='${board.commentIndent}'/>";
+				result+="</form>";
+		
+		result+="</div>";
+	result+="<div class='comment-content'>";
+	result+="<col-lg-12>${board.bbsContent}</col-lg-12>";
+		result+="</div>";
+	result+="</div>";
 
 //댓글 삭제
 function fn_deleteComment(bbsSeqValue)
