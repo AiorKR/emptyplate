@@ -558,8 +558,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
                     </div>
                 </div>
             </div>
-        </div>
-        <container>
+             <container>
            <hr class="hr-5">
         </container>
         <div class="review-container1">
@@ -572,6 +571,8 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
               <li><a href="#">Review text1</a></li>
             </ul>
           </div>
+        </div>
+
              <form name="bbsForm" id="bbsForm" method="post">
               <input type="hidden" name="shopUID" id="shopUID"  value="${shop.shopUID}"/> 
                <input type="hidden" name="searchType"  value="${searchType}"/>
