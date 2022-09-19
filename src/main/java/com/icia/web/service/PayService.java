@@ -265,6 +265,9 @@ public class PayService {
 							}
 						}
 					}
+					
+					result = "-999";
+					
 					if(StringUtil.equals("0, 예약가능", result)) {
 						if(shopDao.orderInsert(order) > 0) {
 							if(shopDao.orderMenuInsert(order.getOrderMenu()) > 0 && shopDao.reservationTableInser( order.getShopReservationTableList()) > 0) {
@@ -289,4 +292,59 @@ public class PayService {
 		}
 		return result;
 	}
+	
+	public String payCancel(String paymentKey, String cancelReason, int cancelAmount) { //환불
+		String result = "";
+		
+		if(!StringUtil.isEmpty(paymentKey) &&  StringUtil.isEmpty(cancelReason) && cancelAmount > 0) {
+			String cancelUrl = "/v1/payments/" + paymentKey + "/cancel";
+			String Amount = Integer.toString(cancelAmount);
+			RestTemplate restTemplate = new RestTemplate();
+			restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+			// 서버로 요청할 header
+			HttpHeaders headers = new HttpHeaders();
+
+			String secretKey = TOSS_SECRET_KEY + ":";
+
+			byte[] targetBytes = secretKey.getBytes();
+
+			String base64data = Base64.getEncoder().encodeToString(targetBytes);
+
+			headers.add("Authorization", "Basic " + base64data); // 시크릿키를 base64로 암호화 한 후에 넘김
+			headers.add("Content-type", "application/json");
+			// 서버로 요청할 body
+			HashMap<String, String> params = new HashMap<String, String>();
+	
+			params.put("cancelReason", cancelReason); //취소 이유
+			params.put("cancelAmount", Amount); //환불 금액
+
+			HttpEntity<HashMap<String, String>> body = new HttpEntity<HashMap<String, String>>(params, headers);
+
+			try {
+				@SuppressWarnings("unchecked")
+				HashMap<String, String> response = restTemplate.postForObject(new URI(TOSS_HOST + cancelUrl), body, HashMap.class);
+
+				if (response != null) {
+					result = "-998, 결제 취소됨";
+				} 
+				else {
+					result = "-997, 결제취소 실패";
+				}
+			}
+			catch (RestClientException e) {
+				logger.error("[PayService]toss RestClientException", e);
+			} 
+			catch (URISyntaxException e) {
+				logger.error("[PayService]toss URISyntaxException", e);
+			}
+		}
+		else {
+			result = "400, 필수 파라미터  부족";
+		}
+		
+		logger.debug("result : " + result);
+		
+		return result;
+	}
+
 }

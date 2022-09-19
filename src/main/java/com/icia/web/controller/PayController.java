@@ -276,6 +276,9 @@ public class PayController {
 							model.addAttribute("shop", shop);
 							model.addAttribute("shopFile", shopFile);
 						}
+						else { //예약실패 했을때 결제 취소건 처리
+							result = payService.payCancel(order.getToss().getPaymentKey(), "예약이 정상적으로 완료되지 않았습니다.", order.getTotalAmount());
+						}
 					}
 					catch(Exception e) {
 						logger.error("[payController]tossPaySuccess ", e);
@@ -305,7 +308,7 @@ public class PayController {
 	}
 	
 	//임시 매장 정보 인서트
-	@RequestMapping(value="/pay.fail")
+	@RequestMapping(value="/pay/fail")
 	public String shopInsert(HttpServletRequest request, HttpServletResponse response) {
 		
 		return "/pay/payResult";
