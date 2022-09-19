@@ -1,116 +1,42 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>footer</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair Display:wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i|Nanum+Brush+Script|Nanum+Gothic+Coding|Do+Hyeon&display=swap" rel="stylesheet">
-
-  <script src="https://kit.fontawesome.com/842f2be68c.js" crossorigin="anonymous"></script>
-
-
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: Restaurantly - v3.8.0
-  * Template URL: https://bootstrapmade.com/restaurantly-restaurant-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
-
-  
-
+<%@ include file="/WEB-INF/views/include/head.jsp" %>
 </head>
 
 <body>
-
- <!-- ======= Top Bar ======= -->
- <div id="topbar" class="d-flex align-items-center fixed-top">
-  <div class="container d-flex justify-content-center justify-content-md-between">
-    <div class="contact-info d-flex align-items-center">
-  </div>
-  <div class="log d-none d-md-flex align-items-center">
-    <ul>
-      <li><a href="./login.html">Login</a></li>
-      <li><a href="./joinUs.html">Join Us</a></li>
-    </ul>
-  </div>
-</div>
-</div>
-
-<!-- ======= Header ======= -->
-<header id="header" class="fixed-top d-flex align-items-cente">
-  <div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
-
-    <a href="index.html" class="logo me-auto me-lg-0"><img src="./assets/img/로고.png" width="80" height="60" alt="" class="img-fluid"></a>
-    <!--<h1 class="logo me-auto me-lg-0"><a href="index.html">Empty Plate</a></h1>-->
-    <!-- Uncomment below if you prefer to use an image logo -->
-    <nav id="navbar" class="navbar order-last order-lg-0">
-      <ul>
-        <li><a class="nav-link scrollto" href="./index.html">Home</a></li>
-        <li><a class="nav-link scrollto" href="./Reservation.html">Reservation</a></li>
-        <li><a class="nav-link scrollto" href="./today.html">Today</a></li> 
-        <li><a class="nav-link scrollto" href="./Community.html">Community</a></li>
-        <li><a class="nav-link scrollto" href="./help.html">Help</a></li>
-      </ul>
-      <i class="bi bi-list mobile-nav-toggle"></i>
-    </nav><!-- .navbar -->
-    <!--<a href="#book-a-table" class="book-a-table-btn scrollto d-none d-lg-flex">Book a table</a>-->
-    <nav id="navbar" class="navbar order-last order-lg-0">
-      <ul>
-        <li class="dropdown"><a href="#">김땡땡 님<i class="bi bi-chevron-down"></i></a>
-          <ul>
-            <li><a href="./myPage.html">내 프로필</a></li>
-            <li><a href="./reservationList.html">예약내역</a></li>
-            <li><a href="#">고객센터</a></li>
-            <li><a href="#">로그아웃</a></li>
-          </ul>
-        </li>
-      <i class="bi bi-list mobile-nav-toggle"></i>
-    </nav><!-- .navbar -->  
-    </header><!-- End Header -->
-
-  
-  <!-- ======= term Section ======= -->
+ <%@ include file="/WEB-INF/views/include/navigation.jsp" %>
+ 
+ <!-- ======= term Section ======= -->
     <section id="term3" class="term3">
         <div class="container"> <!--class="container"시작-->
             <div class="row" data-aos="fade-up" data-aos-delay="100"> <!--class="row"시작-->
               
                 <!--term 메뉴시작-->
-                <div class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
-                    <li class="nav-item" >
-                      <button class="nav-link" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" onclick="location.href='./term1.html'">개인정보처리방침</button>
-                    </li>
-                    <li class="nav-item">
-                      <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" onclick="location.href='./term2.html'">서비스 이용약관</button>
-                    </li>
-                    <li class="nav-item">
-                      <button class="nav-link active" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" onclick="location.href='./term3.html'">위치정보 이용약관</button>
-                    </li>
-                    <li class="nav-item">
-                      <button class="nav-link" id="pills-contact-tab2" data-bs-toggle="pill" data-bs-target="#pills-contact2" type="button" onclick="location.href='./term4.html'">입점문의</button>
-                    </li>
-                  </div>
+                <div class="nav nav-pills nav-justified" id="pills-tab" role="tablist">
+                  <li class="nav-item" >
+                  	<a href="/footer/resources">
+                    	<button class="nav-link" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button">개인정보 처리방침</button>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                  	<a href="/footer/resources2">
+                    	<button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button">서비스 이용약관</button>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                  	<a href="/footer/resources3">
+                    	<button class="nav-link active" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button">위치정보 이용약관</button>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                  	<a href="/footer/resources4">
+                    	<button class="nav-link" id="pills-contact-tab2" data-bs-toggle="pill" data-bs-target="#pills-contact2" type="button">입점문의</button>
+                    </a>
+                  </li>
+                </div>
                 <!--term 메뉴끝-->  
                                
                   
@@ -372,97 +298,10 @@
           </div> <!--class="row"끝--> 
         </div> <!--class="container"끝-->          
         
-  </section>        
-  <!-- ======= Footer ======= -->
-  <footer id="footer">
-    <div class="footer-top">
-      <div class="container">
-        <div class="row">
-
-          <div class="col-lg-3 col-md-6">
-            <div class="footer-info">
-              <h3>Empty Plate</h3>
-              <p>
-                인천광역시 미추홀구 <br>
-                매소홀로 488번길 6-32(학익동)<br><br>
-                <strong>Phone:</strong> +82 10 0429 0401<br>
-                <strong>Email:</strong> info@EmptyPlate.com<br>
-              </p>
-              <div class="social-links mt-3">
-                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-                <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Empty Plate</h4>
-            <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">About US</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Company</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Logo History</a></li>
-            </ul>
-          </div>
-
-          <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Our Services</h4>
-            <ul>
-                <li><i class="bx bx-chevron-right"></i> <a href="./Reservation.html">예약</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="./today.html">Today</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="./Community.html">커뮤니티</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="./help.html">고객지원</a></li>
-            </ul>
-          </div>
-
-          <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Resources</h4>
-            <ul>
-                <li><i class="bx bx-chevron-right"></i> <a href="./term1.html">개인정보 처리방침</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="./term2.html">서비스 이용약관</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="./term3.html">위치정보 이용약관</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="./term4.html">입점문의</a></li>
-            </ul>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="copyright">
-        &copy; Copyright 2022. <strong>Empty Plate</strong>. All Rights Reserved.
-      </div><!--
-      <div class="credits">
-          All the links in the footer should remain intact.
-        You can delete the links only if you purchased the pro version.
-        Licensing information: https://bootstrapmade.com/license/
-        Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/restaurantly-restaurant-template/
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>-->
-    </div>
-  </footer><!--End Footer-->
-
-  <div id="preloader"></div>
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-  <div class="container">
-
-  <!-- ionic.io-->
-  <!-- https://ionic.io/ionicons/usage -->
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  </section>
+ 
+ 
+<%@ include file="/WEB-INF/views/include/footer.jsp" %>
 </body>
 
-</html>
+</html> 
