@@ -441,7 +441,7 @@ public class BoardController
 	
   	
 	//게시물 조회
-    @RequestMapping(value="/board/view")
+    @RequestMapping(value="/board/view", method=RequestMethod.GET)
     public String view(ModelMap model, HttpServletRequest request, HttpServletResponse response)
     {
        //조회 객체
@@ -452,12 +452,6 @@ public class BoardController
        String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
        //게시물 번호
        long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
-       //조회항목(1:작성자, 2:제목, 3:내용)
-       String searchType = HttpUtil.get(request, "searchType");
-       //조회 값
-       String searchValue = HttpUtil.get(request, "searchValue", "");
-       //현재 페이지
-       long curPage = HttpUtil.get(request, "curPage", (long)1);
        //본인글 여부
        String boardMe = "N";
        //좋아요 여부 체크
@@ -525,9 +519,6 @@ public class BoardController
        model.addAttribute("boardMe", boardMe);
        model.addAttribute("cookieUserUID",cookieUserUID);
        model.addAttribute("bbsComment", bbsComment);
-       model.addAttribute("searchType", searchType);
-       model.addAttribute("searchValue", searchValue);
-       model.addAttribute("curPage", curPage);
        model.addAttribute("list", comment);
        model.addAttribute("bbsLikeActive", bbsLikeActive);
        model.addAttribute("bbsMarkActive", bbsMarkActive);
@@ -1032,33 +1023,13 @@ public class BoardController
   		Board mainBoard = new Board();
   		Board commentBoard = new Board();
   		mainBoard.setBbsSeq(bbsSeq);
-  		commentBoard.setBbsSeq(commentBbsSeq);
-  		logger.debug("##########################");
-    	logger.debug("#@@@@@@@$$$$$$$$$" + bbsSeq);
-    	logger.debug("##########################");
+  		commentBoard.setBbsSeq(bbsSeq);
         List<Board> comment = boardService.commentList(commentBoard);
         
         JSONObject obj = new JSONObject();
         Gson gson = new Gson();
-    	String jsonPlace = gson.toJson(comment);
+        String jsonPlace = gson.toJson(comment);
         try {
-        	JSONArray jArray = new JSONArray();//배열이 필요할때
-        	for (int i = 0; i < comment.size(); i++)//배열 
-        		{
-        			JSONObject sObject = new JSONObject();//배열 내에 들어갈 json
-        			sObject.put("bbsSeq", comment.get(i).getBbsSeq());
-        			sObject.put("userNick", comment.get(i).getUserNick());
-        			sObject.put("bbsContent", comment.get(i).getBbsContent());
-        			sObject.put("regDate", comment.get(i).getRegDate());
-        			sObject.put("commentGroup", comment.get(i).getCommentGroup());
-        			sObject.put("commentOrder", comment.get(i).getCommentOrder());
-        			sObject.put("commentIndent", comment.get(i).getCommentIndent());
-        			jArray.put(sObject);
-        		}
-        	obj.put("planName", "planA");
-        	obj.put("id", "userID");
-        	obj.put("item", jArray);//배열을 넣음
-        	System.out.println(obj.toString());
         	logger.debug("##########################");
         	logger.debug("#@@@@@@@$$$$$$$$$" + jsonPlace);
         	logger.debug("##########################");

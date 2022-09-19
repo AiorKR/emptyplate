@@ -412,19 +412,7 @@ function fn_reply(bbsSeqValue1, bbsSeqValue2)
 	        },
 	        method: "POST",
 	        success: function (jsonPlace) {
-					if(jsonPlace.code == "OK") { //controller에서 넘겨준 성공여부 코드
-                    
-                    values = jsonPlace.list ; //java에서 정의한 ArrayList명을 적어준다.
-                    	
-                    $.each(values, function( index, value ) {
-                       console.log( index + " : " + value.bbsSeq ); //Book.java 의 변수명을 써주면 된다.
-                    });
-                    
-                    alert("성공");
-                }
-                else {
-                    alert("실패");
-                }                    
+				    alert("성공");                    
 	        },
 	        complete: function() {
 	        	alert("새로고침");
@@ -488,6 +476,7 @@ function fn_deleteComment(bbsSeqValue)
 <%@ include file="/WEB-INF/views/include/navigation.jsp" %>
 	<section id="communityView" class="community">
 		<div class="container">
+
 			<div class = "row">
 				<div class="board-title">
 					<c:out value="${board.bbsTitle}" /><br/>
@@ -601,7 +590,7 @@ function fn_deleteComment(bbsSeqValue)
 							</div>
 						
 						<c:set var="cookieUserUID" value="${cookieUserUID}"/>
-						<c:set var="parentsBbsSeq" value="${board.BbsSeq}"/>
+						<c:set var="parentsBbsSeq" value="${board.bbsSeq}"/>
 						  <c:if test="${!empty list}">
 							<c:forEach var="board" items="${list}" varStatus="status">
 								<div class="comment">
@@ -613,7 +602,7 @@ function fn_deleteComment(bbsSeqValue)
 										<a>${board.regDate}</a>
 										<button type="button" data-bs-toggle="modal" data-bs-target="#reportModal2" id="btnReport${board.bbsSeq}" onclick="fn_Report(${board.bbsSeq})">신고</button>
 										<form name="replyForm" id="replyForm" method="post">
-											<button type="button" onclick="fn_reply(${board.bbsSeq}, ${board.bbsSeq})" id="reply" class="reply">댓글달기</button>
+											<button type="button" onclick="fn_reply(${parentsBbsSeq}, ${board.bbsSeq})" id="reply" class="reply">댓글달기</button>
 											<input type="hidden" id="userNick" name="userNick" value="${board.userNick}"/>
 											<input type="hidden" id="commentGroup" name="commentGroup" value="${board.commentGroup}"/>
 											<input type="hidden" id="commentOrder" name="commentOrder" value="${board.commentOrder}"/>

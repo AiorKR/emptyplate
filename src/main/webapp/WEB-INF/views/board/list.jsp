@@ -213,17 +213,15 @@ function fn_userList(userUID, userNick)
          </ul>
        </div>
      </div>
-   
-	<form name="bbsForm" id="bbsForm" method="post">
-	 <input type="hidden" name="bbsSeq" value="" />
+
+	<form name="bbsForm2" id="bbsForm" method="POST">
 	 <input type="hidden" name="searchType" value="${searchType}" />
 	 <input type="hidden" name="searchValue" value="${searchValue}" />
 	 <input type="hidden" name="sortValue" value="${sortValue}" />
 	 <input type="hidden" name="curPage" value="${curPage}" />
 	 <input type="hidden" name="bbsNo" value="${bbsNo}" />
 	 <input type="hidden" name="userUID" value="${userUID}" />
-	</form>
-   
+   	</form>
    </div>
  </section>
    
