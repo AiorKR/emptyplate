@@ -410,7 +410,7 @@ function fn_reply(bbsSeqValue1, bbsSeqValue2)
 	        	bbsSeq : bbsSeqValue1,
 	        	commentBbsSeq : bbsSeqValue2
 	        },
-	        method: "POST",
+	        method: "GET",
 	        success: function (jsonPlace) {
 				    alert("성공");                    
 	        },

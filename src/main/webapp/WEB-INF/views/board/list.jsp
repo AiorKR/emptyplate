@@ -72,9 +72,9 @@ $(document).ready(function() {
 //상세 글 보기
 function fn_view(bbsSeq)
 {
-   document.bbsForm.bbsSeq.value = bbsSeq;
-   document.bbsForm.action = "/board/view";
-   document.bbsForm.submit();
+   document.bbsForm2.bbsSeq.value = bbsSeq;
+   document.bbsForm2.action = "/board/view";
+   document.bbsForm2.submit();
 }
 
 //목록
@@ -213,8 +213,10 @@ function fn_userList(userUID, userNick)
          </ul>
        </div>
      </div>
-
-	<form name="bbsForm2" id="bbsForm" method="POST">
+	<form name="bbsForm2" id="bbsForm2" method="GET">
+	 <input type="hidden" name="bbsSeq" value="${bbsSeq}" />
+   	</form>
+	<form name="bbsForm" id="bbsForm" method="POST">
 	 <input type="hidden" name="searchType" value="${searchType}" />
 	 <input type="hidden" name="searchValue" value="${searchValue}" />
 	 <input type="hidden" name="sortValue" value="${sortValue}" />

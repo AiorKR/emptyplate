@@ -98,9 +98,9 @@ function fn_mark(userUIDValue)
 //상세 글 보기
 function fn_view(bbsSeq)
 {
-   document.bbsForm.bbsSeq.value = bbsSeq;
-   document.bbsForm.action = "/board/view";
-   document.bbsForm.submit();
+   document.bbsForm2.bbsSeq.value = bbsSeq;
+   document.bbsForm2.action = "/board/view";
+   document.bbsForm2.submit();
 }
 
 //목록
@@ -213,7 +213,9 @@ function fn_userList(userUID, userNick)
          </ul>
        </div>
      </div>
-   
+    <form name="bbsForm2" id="bbsForm2" method="GET">
+	 <input type="hidden" name="bbsSeq" value="${bbsSeq}" />
+   	</form>
 	<form name="bbsForm" id="bbsForm" method="post">
 	 <input type="hidden" name="bbsSeq" value="" />
 	 <input type="hidden" name="searchType" value="${searchType}" />

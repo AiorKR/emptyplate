@@ -1014,7 +1014,7 @@ public class BoardController
   	}
 
   //대댓글
-  	@RequestMapping(value="/board/replyProc", method=RequestMethod.POST)
+  	@RequestMapping(value="/board/replyProc", method=RequestMethod.GET)
   	@ResponseBody
   	public Object replyProc(HttpServletRequest request, HttpServletResponse response)
   	{
