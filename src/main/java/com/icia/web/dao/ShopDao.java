@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.icia.web.model.Order;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
 import com.icia.web.model.ShopTotalTable;
@@ -24,4 +25,8 @@ public interface ShopDao {
 	public List<ShopTotalTable> shopReservationCheck(Shop shop); //예약 자리 있는지 select
 	
 	public long orderUIDcreate(); //주문번호 생성을 위한 시퀀스 조회
+	
+	public List<Order> myOrderList(String userUID);
+
+	public long myOrderListCount(String userUID); 
 }

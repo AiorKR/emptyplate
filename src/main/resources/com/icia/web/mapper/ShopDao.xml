@@ -298,4 +298,79 @@ SELECT S.SHOP_UID AS SHOP_UID,
 	SELECT ORDER_SEQ.NEXTVAL FROM DUAL
 </select>
 
+
+
+
+<!-- 추가 -->
+	<resultMap id="orderMenuResultMap" type="com.icia.web.model.OrderMenu">
+	<result column="ORDER_UID" property="orderUID"/>
+	<result column="ORDER_MENU_NAME" property="orderMenuName"/>
+	<result column="ORDER_MENU_PRICE" property="orderMenuPrice"/>
+	<result column="ORDER_MENU_QUANTITY" property="orderMenuQuantity"/>
+	</resultMap>
+	
+	<resultMap id="myOrderResultMap" type="com.icia.web.model.Order">
+	<id column="ORDER_UID" property="orderUID"/>
+	<result column="USER_UID" property="userUID"/>
+	<result column="SHOP_UID" property="shopUID"/>
+	<result column="SHOP_NAME" property="shopName"/>
+	<result column="RESERVATION_PEOPLE" property="reservationPeople"/>
+	<result column="ORDER_STATUS" property="orderStatus"/>
+	<result column="TOTAL_AMOUNT" property="totalAmount"/>
+	<result column="R_DATE" property="rDate"/>
+	<result column="REG_DATE" property="regDate"/>	
+	<collection property="orderMenu" resultMap="orderMenuResultMap"/>
+	<collection property="shopReservationTable" resultMap="shopReservationTableResultMap"/>
+	</resultMap>
+	
+
+		
+	
+
+	<select id="myOrderList" parameterType="com.icia.web.model.Order" resultMap="myOrderResultMap">
+		SELECT RNUM,
+       		   SHOP_NAME,
+       		   RESERVATION_PEOPLE,
+       		   ORDER_STATUS,
+       		   TOTAL_AMOUNT,
+       		   SHOP_UID,
+       		   ORDER_MENU_NAME,
+               ORDER_MENU_QUANTITY,
+       		   R_DATE
+		  FROM(SELECT ROWNUM AS RNUM,
+             		  SHOP_NAME,
+            		  RESERVATION_PEOPLE,
+            		  ORDER_STATUS,	  
+            		  TOTAL_AMOUNT,
+            		  SHOP_UID,
+            		  ORDER_MENU_NAME,
+            		  ORDER_MENU_QUANTITY,
+            		  R_DATE
+      FROM(SELECT NVL(B.SHOP_NAME, '') AS SHOP_NAME,
+                 NVL(A.RESERVATION_PEOPLE, '') AS RESERVATION_PEOPLE,
+                 NVL(A.ORDER_STATUS, '') AS ORDER_STATUS,
+                 NVL(A.TOTAL_AMOUNT, '') AS TOTAL_AMOUNT,
+                 NVL(A.SHOP_UID, '') AS SHOP_UID,
+                 NVL(D.ORDER_MENU_NAME, '') AS ORDER_MENU_NAME,
+                 NVL(D.ORDER_MENU_QUANTITY, '') AS ORDER_MENU_QUANTITY,
+                 NVL(SUBSTR(C.RESERVATION_DATE,3,2)||'/'||SUBSTR(C.RESERVATION_DATE,5,2)||
+                '/'||SUBSTR(C.RESERVATION_DATE,7,2)||' '||SUBSTR(C.RESERVATION_TIME,1,2)||':'||SUBSTR(C.RESERVATION_TIME,3,2), '') AS R_DATE
+            FROM T_ORDER A, T_SHOP B, T_SHOP_RESERVATION_TABLE C, T_ORDER_MENU D
+            WHERE A.ORDER_UID = C.ORDER_UID
+            AND A.SHOP_UID = B.SHOP_UID
+            AND A.ORDER_UID = D.ORDER_UID
+            AND A.USER_UID = #{userUID}))
+       WHERE RNUM <![CDATA[>=]]> 1
+       AND RNUM <![CDATA[<=]]> 5
+       ORDER BY RNUM ASC
+	</select>
+	
+	<select id="myOrderListCount" parameterType="com.icia.web.model.Order" resultType="long">
+		SELECT COUNT(ORDER_UID) AS CNT
+  		  FROM T_ORDER
+ 		 WHERE USER_UID = #{userUID}
+	</select>
+
+
+
 </mapper>
