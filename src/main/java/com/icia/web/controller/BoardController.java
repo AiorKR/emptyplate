@@ -67,6 +67,9 @@ public class BoardController
 		
 		model.addAttribute("bbsNo", bbsNo);
 		model.addAttribute("user", user);
+		User user2 = new User();
+		user2 = userService.userUIDSelect(cookieUserUID);
+		model.addAttribute("cookieUserNick", user2.getUserNick());
 				
 		return "/board/writeForm";
 	}
@@ -144,6 +147,7 @@ public class BoardController
 	@RequestMapping(value="/board/list")
 	public String list(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	{
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		//조회 객체
 		Board board = new Board();
 		//조회항목
@@ -206,6 +210,9 @@ public class BoardController
 		model.addAttribute("sortValue", sortValue);
 		model.addAttribute("curPage", curPage);
 		model.addAttribute("paging", paging);
+		User user2 = new User();
+		user2 = userService.userUIDSelect(cookieUserUID);
+		model.addAttribute("cookieUserNick", user2.getUserNick());
 		
 		return "/board/list";
 	}
@@ -312,7 +319,9 @@ public class BoardController
 		model.addAttribute("markUserUID", userUID);
 	    model.addAttribute("boardMe", boardMe);
 		model.addAttribute("userMarkActive", userMarkActive);
-		
+		User user2 = new User();
+		user2 = userService.userUIDSelect(cookieUserUID);
+		model.addAttribute("cookieUserNick", user2.getUserNick());
 		return "/board/userList";
 	}
 	
@@ -438,7 +447,9 @@ public class BoardController
        model.addAttribute("list", comment);
        model.addAttribute("bbsLikeActive", bbsLikeActive);
        model.addAttribute("bbsMarkActive", bbsMarkActive);
-       
+		User user2 = new User();
+		user2 = userService.userUIDSelect(cookieUserUID);
+		model.addAttribute("cookieUserNick", user2.getUserNick());
        return "/board/view";
     }
     
@@ -517,7 +528,9 @@ public class BoardController
   		model.addAttribute("curPage", curPage);
   		model.addAttribute("board", board);
   		model.addAttribute("user", user);
-  		
+		User user2 = new User();
+		user2 = userService.userUIDSelect(cookieUserUID);
+		model.addAttribute("cookieUserNick", user2.getUserNick());
   		return "/board/updateForm";
   	}
   	
@@ -809,7 +822,9 @@ public class BoardController
 		model.addAttribute("sortValue", sortValue);
 		model.addAttribute("curPage", curPage);
 		model.addAttribute("paging", paging);
-		
+		User user2 = new User();
+		user2 = userService.userUIDSelect(cookieUserUID);
+		model.addAttribute("cookieUserNick", user2.getUserNick());
 		return "/board/markList";
 	}	
   
