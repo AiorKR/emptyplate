@@ -39,6 +39,44 @@ $(document).ready(function(){
 		console.log(document.bbsForm.counterSeatYN);
 	});
 	
+	//게시물 즐겨찾기
+   $("#btnMark").on("click", function(){
+	   $.ajax({
+	       type:"POST",
+	       url:"/shop/mark",
+	       data:{
+	          shopUID:'<c:out value="${shopUID}" />'
+	       },
+	       datatype:"JSON",
+	       beforeSend:function(xhr){
+	          xhr.setRequestHeader("AJAX", "true");
+	       },
+	       success:function(response){
+	          if(response.code == 0)
+	          {
+	             alert("즐겨찾기를 하셨습니다.");
+	             location.reload();
+	          }
+	          else if(response.code == 1)
+	          {
+	             alert("즐겨찾기를 취소하셨습니다.");
+	             location.reload();
+	          }
+	          else if(response.code == 400)
+	          {
+	             alert("로그인 후, 즐겨찾기 버튼을 사용하실 수 있습니다.");
+		         location.href = "/user/login";
+	          }
+	          else
+	          {
+	             alert("즐겨찾기 중 오류가 발생하였습니다.");
+	          }
+	       },
+	       error:function(xhr, status, error){
+	          icia.common.error(error);
+	       }
+	    });
+	});
 	
 	//리뷰로 변경 필요
 	$("#btnSearch").on("click", function(){
@@ -52,7 +90,7 @@ $(document).ready(function(){
 	
 	$("#btn-primary").on("click", function() { 
 	      document.bbsForm.bbsSeq.value = "";
-	      document.bbsForm.action = "/purchase/pay";
+	      document.bbsForm.action = "/purcx/hase/pay";
 	      document.bbsForm.submit();
 	   });
 	   
@@ -355,7 +393,15 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
                 <div class="col-md-6">
                     <div class="p-3 right-side">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h3>${shop.shopName}</h3><div class="bookmark"><button type="button" id="btnBoomark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
+                            <h3>${shop.shopName}</h3>
+                            <c:choose>
+								<c:when test="${shopMarkActive eq 'Y'}">
+									<div class="bookmark"><button type="button" id="btnMark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
+								</c:when>
+								<c:when test="${shopMarkActive eq 'N'}">
+									<div class="bookmark"><button type="button" id="btnMark" class="bookmark"><ion-icon name="star-outline"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
+								</c:when>
+							</c:choose>
                         </div>
                         <div class="mt-2 pr-3 content">
                             <p>${shop.shopIntro}</p>

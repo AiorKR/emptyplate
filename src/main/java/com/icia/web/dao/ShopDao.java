@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.icia.web.model.Board;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
 import com.icia.web.model.ShopTotalTable;
@@ -24,4 +25,19 @@ public interface ShopDao {
 	public List<ShopTotalTable> shopReservationCheck(Shop shop); //예약 자리 있는지 select
 	
 	public long orderUIDcreate(); //주문번호 생성을 위한 시퀀스 조회
+	
+	//동일 즐겨찾기 여부 확인
+	public int shopMarkCheck(Shop shop);
+		
+	//즐겨찾기 추가
+	public int shopMarkUpdate(Shop shop);
+	
+	//즐겨찾기 취소
+	public int shopMarkDelete(Shop shop);
+	
+	//즐겨찾기 리스트
+	public List<Shop> shopMarkList(Shop shop);
+	
+	//게시물 즐겨찾기 총 게시물 수
+	public long shopMarkListCount(Shop shop);
 }

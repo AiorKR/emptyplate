@@ -298,4 +298,65 @@ SELECT S.SHOP_UID AS SHOP_UID,
 	SELECT ORDER_SEQ.NEXTVAL FROM DUAL
 </select>
 
+<!-- 즐겨찾기 -->
+<!-- 동일 즐겨찾기 여부 확인 -->
+<select id="shopMarkCheck" parameterType="com.icia.web.model.Shop" resultType="int">
+SELECT COUNT(*)
+  FROM T_SHOP_BOOKMARK
+ WHERE SHOP_UID = #{shopUID}
+   AND USER_UID = #{userUID}
+</select>
+
+<!-- 즐겨찾기 추가-->
+<insert id="shopMarkUpdate" parameterType="com.icia.web.model.Shop">
+INSERT INTO T_SHOP_BOOKMARK (USER_UID,
+                          	SHOP_UID) 
+VALUES (#{userUID},
+        #{shopUID})
+</insert>
+
+<!-- 즐겨찾기 취소 -->
+<delete id="shopMarkDelete" parameterType="com.icia.web.model.Shop">
+DELETE FROM T_SHOP_BOOKMARK
+ WHERE SHOP_UID = #{shopUID}
+   AND USER_UID = #{userUID}
+</delete>
+
+<!-- 즐겨찾기 리스트 -->
+<select id="shopMarkList" parameterType="com.icia.web.model.Shop" resultMap="shopListResultMap">
+SELECT RNUM,
+       SHOP_UID,
+       USER_UID,
+	   SHOP_NAME,
+	   SHOP_CONTENT
+  FROM(SELECT ROWNUM AS RNUM,
+                        SHOP_UID,
+                        USER_UID,
+                        SHOP_NAME,
+                        SHOP_CONTENT
+  		 FROM(SELECT A.SHOP_UID AS SHOP_UID,
+             		 NVL(A.USER_UID, '') AS USER_UID,
+            		 NVL(A.SHOP_NAME, '') AS SHOP_NAME, 
+              		 NVL(A.SHOP_CONTENT, '') AS SHOP_CONTENT
+         		FROM T_SHOP A, T_USER B, T_SHOP_BOOKMARK C
+               WHERE A.SHOP_UID = C.SHOP_UID
+          		 AND A.USER_UID = B.USER_UID
+          		 AND C.USER_UID= #{userUID}
+<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>   
+  <choose>
+    <when test='searchType == "1"'>   
+          		 AND A.SHOP_NAME LIKE '%' || #{searchValue} || '%'
+    </when>
+    <when test='searchType == "3"'>
+          		 AND DBMS_LOB.INSTR(A.SHOP_CONTENT, #{searchValue}) > 0
+    </when>
+  </choose>
+</if>
+))
+
+ WHERE RNUM <![CDATA[>=]]> #{startRow}
+   AND RNUM <![CDATA[<=]]> #{endRow}
+ ORDER BY RNUM ASC
+</select>
+
 </mapper>

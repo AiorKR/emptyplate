@@ -3605,6 +3605,7 @@ reservation 검색
 	word-break:break-all;
 }
 
+/*즐겨찾기 버튼*/
 .view .bookmark button {
   /*margin-top: 10px;*/
   background: rgba(225, 225, 225);
@@ -3616,7 +3617,6 @@ reservation 검색
   font-family: 'Cafe24Dangdanghae';
   font-size: 17px;
   margin-left: 5px;
-  margin-top: -15px;
   float: center;
 }
 
