@@ -59,6 +59,9 @@ public class MyPageController {
       user = userService.userUIDSelect(userUID);
               
       model.addAttribute("user", user);
+      User user2 = new User();
+      user2 = userService.userUIDSelect(userUID);
+      model.addAttribute("cookieUserNick", user2.getUserNick());
       
       return "/myPage/myProfile";
    }
@@ -72,6 +75,9 @@ public class MyPageController {
       user = userService.userUIDSelect(userUID);
               
       model.addAttribute("user", user);
+      User user2 = new User();
+      user2 = userService.userUIDSelect(userUID);
+      model.addAttribute("cookieUserNick", user2.getUserNick());
 
 	   
 	   return "/myPage/myFavorites";
@@ -87,6 +93,9 @@ public class MyPageController {
       user = userService.userUIDSelect(userUID);
               
       model.addAttribute("user", user);
+      User user2 = new User();
+      user2 = userService.userUIDSelect(userUID);
+      model.addAttribute("cookieUserNick", user2.getUserNick());
       
       return "/myPage/nick_popup";
    }
@@ -246,7 +255,7 @@ public class MyPageController {
  		   { 
  			   if(userService.userDelete(user) > 0)
  			   {
- 				   CookieUtil.deleteCookie(request, response, "/", AUTH_COOKIE_NAME);
+ 				   
  				   //사용자 탈퇴시 좋아요, 게시물 즐겨찾기, 유저 즐겨찾기 삭제
  				   for(int i=0;i<likeList.size();i++)
  		 	       {
@@ -258,7 +267,7 @@ public class MyPageController {
  				   
  				   userService.boardMarkDelete(user);
  				   userService.userLikeDelete(user);
- 				   
+ 				   CookieUtil.deleteCookie(request, response, "/", AUTH_COOKIE_NAME);
  				   ajaxResponse.setResponse(0, "Success");
  			   }
  			   

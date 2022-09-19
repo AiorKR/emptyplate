@@ -669,7 +669,7 @@ userPhone.value = "인증되었습니다"
 		            </label>
 		             <label>
 		              <span>닉네임</span>
-		              <input type="text" id="userNick" name="userNick" placeholder="닉네임을 입력하세요." maxlength="12" />
+		              <input type="text" id="userNick" name="userNick" placeholder="닉네임을 입력하세요." maxlength="11" />
 		            </label>
 		            <label>
 		              <span>Email</span>

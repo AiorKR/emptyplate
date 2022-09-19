@@ -1,4 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	// 개행문자 값을 저장한다.
+	pageContext.setAttribute("newLine", "\n");
+	// Community 번호
+	request.setAttribute("No", 2);
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,6 +31,22 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
+	
+	$("#counterSeat").on("click", function() {
+		
+		console.log($("#counterSeat").is(":checked"));
+		
+		if($("#counterSeat").is(":checked")) {
+			document.bbsForm.counterSeatYN.value = "Y";
+		}
+		else {
+			document.bbsForm.counterSeatYN.value = "N";
+		}
+		
+		console.log(document.bbsForm.counterSeatYN);
+	});
+	
+	
 	//리뷰로 변경 필요
 	$("#btnSearch").on("click", function(){
 		document.bbsForm.bbsSeq.value = "";
@@ -39,84 +62,7 @@ $(document).ready(function(){
 	      document.bbsForm.action = "/purchase/pay";
 	      document.bbsForm.submit();
 	   });
-});
-
-var type = "";
-var shopOrderMenuTotalAmount = 0;
-
-function fn_search(shopHashtag) { //해시태그 클릭시 검색
-    document.bbsForm.searchValue.value = "#" + shopHashtag;
-    document.bbsForm.action = "/reservation/list";
-    document.bbsForm.submit();
-}
-
-function fn_MenuAdd(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid) { //메뉴 클릭시 메뉴 추가
-	if(type != "") {
-		if(type == shopMenuCode) {
-				$("#shopOrderMenu" + shopMenuid).text(shopOrderMenu + "x"); //메뉴 하나 선택시 추가
-				if($("#shopOrderMenuQuantity" + shopMenuid).text() == "") {
-					$("#shopOrderMenuQuantity" + shopMenuid).text(1);
-					
-					  $("input[name=shopOrderMenuQuantity" + shopMenuid + ']').attr('value', '1');
-				}
-				else {
-					var cnt = $("#shopOrderMenuQuantity" + shopMenuid).text();
-					cnt++;
-					if(cnt >= 10) {
-						return;
-					}
-					$("input[name=shopOrderMenuQuantity" + shopMenuid + ']').val(cnt);
-					$("#shopOrderMenuQuantity" + shopMenuid).text(cnt);
-				}
-			shopOrderMenuTotalAmount += shopOrderMenuPrice;
-			$("#totalAmount").text(shopOrderMenuTotalAmount);
-			$('input[name=totalAmount2]').val(shopOrderMenuTotalAmount);
-		}
-	}
-	else {
-		alert("날짜와 시간을 먼저 선택해주세요");
-	}
-}
-
-function fn_MenuSub(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid) { //메뉴 빼기
-	if(type == shopMenuCode) {
-		var cnt = $("#shopOrderMenuQuantity" + shopMenuid).text();
-		if(cnt <= 0) {
-			$("#shopOrderMenu" + shopMenuid).text("");
-			$("#shopOrderMenuQuantity" + shopMenuid).text("");
-			$("input[name=shopOrderMenuQuantity" + shopMenuid + ']').attr('value', '0');
-		}
-		else{
-			$("#shopOrderMenu" + shopMenuid).text(shopOrderMenu + "x"); //메뉴 하나 선택시 추가
-			cnt--;
-			shopOrderMenuTotalAmount -= shopOrderMenuPrice;
-			$("#totalAmount").text(shopOrderMenuTotalAmount);		
-			$("#shopOrderMenuQuantity" + shopMenuid).text(cnt);
-			$("input[name=shopOrderMenuQuantity" + shopMenuid + ']').attr('value', cnt);	
-			$('input[name=totalAmount2]').val(shopOrderMenuTotalAmount);
-		}
-	}
-}
-
-function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid) { //메뉴 삭제
-	if(type == shopMenuCode) {
-		var price = shopOrderMenuPrice;
-		var cnt = $("#shopOrderMenuQuantity" + shopMenuid).text();
-		
-		price = price * cnt;
-		
-		shopOrderMenuTotalAmount -= price;
-		
-		$("#shopOrderMenu" + shopMenuid).text("");
-		$("#shopOrderMenuQuantity" + shopMenuid).text("");
-		$("input[name=shopOrderMenuQuantity" + shopMenuid + ']').attr('value', '0');
-		$("#totalAmount").text(shopOrderMenuTotalAmount);
-		$('input[name=totalAmount2]').val(shopOrderMenuTotalAmount);
-	}
-}
-
-$(document).ready(function(){ 
-	
+	   
 	$(".personnel-selected-value").click(function(){
 		  $("#select-ul").attr('style', "display:inline-block;");
 		});
@@ -193,6 +139,7 @@ $(document).ready(function(){
          	 	  reservationDate: $("#reservationDate").val(),
 		          reservationTime: $("#reservationTime").val(),
 		          reservationPeople:$("#reservationPeople").val(),
+		          counterSeatYN: $("#counterSeatYN").val(),
 		          totalAmount: $("#totalAmount2").val(),
 		          <c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
 		          orderMenu${status.index}: menuList[${status.index}],
@@ -205,6 +152,16 @@ $(document).ready(function(){
 	             if(response.code == 0) {
 	            	 if(response.data != null) {
 	            		 console.log(response.data);
+	            		 var orderName= "";
+            			 if(response.data.orderMenu.length == 1) { //메뉴가 하나만 있는 경우
+								orderName = response.data.shopName + ", " + response.data.orderMenu[0].orderMenuName + " X" + response.data.orderMenu[0].orderMenuQuantity;
+	            			 }
+	            		 
+            			 else { //메뉴가 하나 이상일 경우
+            				 for(var i=0; i < response.data.orderMenu.length; i++) {
+            					 orderName = response.data.shopName +  ", " + response.data.orderMenu[0].orderMenuName + "외 " + (response.data.orderMenu.length -1) + "건";
+            				 }
+            			 }
 
 	            		 var clientKey = response.data.toss.tossClientKey;
 	            		 console.log(clientKey);
@@ -213,8 +170,8 @@ $(document).ready(function(){
 		     	          tossPayments.requestPayment('카드', {
 		     	        	  amount: response.data.totalAmount,
 		     	        	  orderId: response.data.orderUID,
-		     	        	  orderName: '예약',
-		     	        	  customerName: response.data.userName,
+		     	        	  orderName: orderName,
+		     	        	  customerName: response.data.reservationName,
 		     	        	  successUrl: response.data.toss.tossSuccessUrl,
 		     	        	  failUrl: response.data.toss.tossFailUrl,
 		     	        }); 
@@ -252,6 +209,7 @@ $(document).ready(function(){
 		         	 shopUID: $("#shopUID").val(),
 		         	 reservationDate: $("#reservationDate").val(),
 		         	 reservationTime: $("#reservationTime").val(),
+		         	 counterSeatYN: $("#counterSeatYN").val(),
 		         	 reservationPeople:$("#reservationPeople").val()
 		          },
 		          beforeSend:function(xhr) {
@@ -259,20 +217,34 @@ $(document).ready(function(){
 		          },
 		          success:function(response) {
 		             if(response.code == 0) {
-
+		            	 if($("#pay").is(":disabled")) { //disabled 처리 되있다면 풀어줌
+		            		 $("#pay").attr("disabled", false);
+		            	 }
 		             }
 		             else if(response.code == 400) {
-		                alert("파라미터 값이 올바르지 않습니다.");
+		            	$("#pay").attr("disabled", true);
+		                alert("인원을 선택해주세요");
 		             }
 		             else if(response.code == 404) {
-			                alert("매장을 찾을 수 없습니다.");
 							location.href = "/reservation/list"
 			          }
 		             
 		             else if(response.code == 403) {
-			                alert("로그인을 해주십시오.");
 							location.href = "/user/login" ;
 		             }
+		             else if(response.code == -1) {
+		            	 $("#pay").attr("disabled", true);
+		            	 alert("매장의 해당 시간은 예약이 모두 찼습니다.");
+		             }
+		             else if(response.code == -2) {
+		            	 $("#pay").attr("disabled", true);
+		            	 alert("예약을 원하시는 인원 수만큼 남은 자리가 없습니다.");
+		             }
+		             else if(response.code == -3) {
+		            	 $("#pay").attr("disabled", true);
+		            	 alert("해당 매장은 카운터석이 없습니다.");
+		             }
+		             
 		             else {
 		                alert("예약 조회 중 오류가 발생하였습니다.");
 		               }
@@ -284,6 +256,81 @@ $(document).ready(function(){
 		      });
 			};
    });
+   
+
+var type = "";
+var shopOrderMenuTotalAmount = 0;
+
+function fn_search(shopHashtag) { //해시태그 클릭시 검색
+    document.bbsForm.searchValue.value = "#" + shopHashtag;
+    document.bbsForm.action = "/reservation/list";
+    document.bbsForm.submit();
+}
+
+function fn_MenuAdd(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid) { //메뉴 클릭시 메뉴 추가
+	if(type != "") {
+		if(type == shopMenuCode) {
+				$("#shopOrderMenu" + shopMenuid).text(shopOrderMenu + "x"); //메뉴 하나 선택시 추가
+				if($("#shopOrderMenuQuantity" + shopMenuid).text() == "") {
+					$("#shopOrderMenuQuantity" + shopMenuid).text(1);
+					
+					  $("input[name=shopOrderMenuQuantity" + shopMenuid + ']').attr('value', '1');
+				}
+				else {
+					var cnt = $("#shopOrderMenuQuantity" + shopMenuid).text();
+					cnt++;
+					if(cnt >= 10) {
+						return;
+					}
+					$("input[name=shopOrderMenuQuantity" + shopMenuid + ']').val(cnt);
+					$("#shopOrderMenuQuantity" + shopMenuid).text(cnt);
+				}
+			shopOrderMenuTotalAmount += shopOrderMenuPrice;
+			$("#totalAmount").text(shopOrderMenuTotalAmount);
+			$('input[name=totalAmount2]').val(shopOrderMenuTotalAmount);
+		}
+	}
+	else {
+		alert("날짜와 시간을 먼저 선택해주세요");
+	}
+}
+
+function fn_MenuSub(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid) { //메뉴 빼기
+	if(type == shopMenuCode) {
+		var cnt = $("#shopOrderMenuQuantity" + shopMenuid).text();
+		if(cnt <= 0) {
+			$("#shopOrderMenu" + shopMenuid).text("");
+			$("#shopOrderMenuQuantity" + shopMenuid).text("");
+			$("input[name=shopOrderMenuQuantity" + shopMenuid + ']').attr('value', '0');
+		}
+		else{
+			$("#shopOrderMenu" + shopMenuid).text(shopOrderMenu + "x"); //메뉴 하나 선택시 추가
+			cnt--;
+			shopOrderMenuTotalAmount -= shopOrderMenuPrice;
+			$("#totalAmount").text(shopOrderMenuTotalAmount);		
+			$("#shopOrderMenuQuantity" + shopMenuid).text(cnt);
+			$("input[name=shopOrderMenuQuantity" + shopMenuid + ']').attr('value', cnt);	
+			$('input[name=totalAmount2]').val(shopOrderMenuTotalAmount);
+		}
+	}
+}
+
+function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid) { //메뉴 삭제
+	if(type == shopMenuCode) {
+		var price = shopOrderMenuPrice;
+		var cnt = $("#shopOrderMenuQuantity" + shopMenuid).text();
+		
+		price = price * cnt;
+		
+		shopOrderMenuTotalAmount -= price;
+		
+		$("#shopOrderMenu" + shopMenuid).text("");
+		$("#shopOrderMenuQuantity" + shopMenuid).text("");
+		$("input[name=shopOrderMenuQuantity" + shopMenuid + ']').attr('value', '0');
+		$("#totalAmount").text(shopOrderMenuTotalAmount);
+		$('input[name=totalAmount2]').val(shopOrderMenuTotalAmount);
+	}
+}  
 </script>
 </head>
 <body> 
@@ -418,7 +465,11 @@ $(document).ready(function(){
 	                                            </li>
 	                                        </ul>
 	                                    </div>
-                                  	</div>
+	                                    <c:if test="${shop.shopType eq 2}"> <!-- 오마카세일때 적용 -->
+	                                    	카운터석 : <input type="checkbox" id="counterSeat" class="counterSeat"/>
+	                                    	* 카운터석은 연속되게 앉을 수 없을 수도 있습니다. *
+                                  		</c:if>
+                                  	</div>	
                               		<div id="tableCheck">
 
 									</div>
@@ -489,12 +540,13 @@ $(document).ready(function(){
                <input type="hidden" name="curPage" value="${curPage}" />
                <input type="hidden" name="reservationDate" id="reservationDate" value="${reservationDate}" />
                <input type="hidden" name="reservationTime" id="reservationTime" value="${reservationTime}" />
-               <input type="hidden" name="reservationPeople" value="" />
+               <input type="hidden" name="reservationPeople" id="reservationPeople" value="" />
                <c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
         	   		<input type="hidden" name="shopOrderMenu${status.index}" value="${shopMenu.shopMenuName}" />
         	   		<input type="hidden" name="shopOrderMenuQuantity${status.index}" value="0" />
                </c:forEach>
                <input type="hidden" name="totalAmount2" id="totalAmount2" value="0">
+               <input type="hidden" name="counterSeatYN" id="" value="N"><!-- 카운터석으로 앉을지 여부 Y는 카운터석, N은 카운터석이 아닌자리 -->
             </form>
         </div>
         </section>

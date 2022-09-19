@@ -11,6 +11,7 @@ public class Order implements Serializable{
 	private String orderUID;
 	private String shopUID;
 	private String userUID;
+	private String shopName;
 	private String reservationName;
 	private String reservationPhon;
 	private int reservationPeople;
@@ -18,12 +19,12 @@ public class Order implements Serializable{
 	private String orderPayType;
 	private String orderRegDate;
 	private int totalAmount;
-	private String userName;
 	
 	private Toss toss;
 	
 	private List<OrderMenu> orderMenu;
-	private List<ShopReservationTable> shopReservationTable;
+	private List<ShopReservationTable> shopReservationTableList;
+	private ShopReservationTable shopReservationTable;
 	
 	public Order() {
 		orderUID = "";
@@ -36,9 +37,11 @@ public class Order implements Serializable{
 		orderPayType = "";
 		orderRegDate = "";
 		totalAmount = 0;
-		userName = "";
+		shopName = "";
+
 		
 		orderMenu = null;
+		shopReservationTableList = null;
 		shopReservationTable = null;
 		
 		toss = null;
@@ -124,14 +127,6 @@ public class Order implements Serializable{
 		this.orderMenu = orderMenu;
 	}
 
-	public List<ShopReservationTable> getShopReservationTable() {
-		return shopReservationTable;
-	}
-
-	public void setShopReservationTable(List<ShopReservationTable> shopReservationTable) {
-		this.shopReservationTable = shopReservationTable;
-	}
-
 	public Toss getToss() {
 		return toss;
 	}
@@ -148,12 +143,28 @@ public class Order implements Serializable{
 		this.totalAmount = totalAmount;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getShopName() {
+		return shopName;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
+	}
+
+	public List<ShopReservationTable> getShopReservationTableList() {
+		return shopReservationTableList;
+	}
+
+	public void setShopReservationTableList(List<ShopReservationTable> shopReservationTableList) {
+		this.shopReservationTableList = shopReservationTableList;
+	}
+
+	public ShopReservationTable getShopReservationTable() {
+		return shopReservationTable;
+	}
+
+	public void setShopReservationTable(ShopReservationTable shopReservationTable) {
+		this.shopReservationTable = shopReservationTable;
 	}
 	
 	
