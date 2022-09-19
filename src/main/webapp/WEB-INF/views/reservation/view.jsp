@@ -472,11 +472,11 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
                             <div class="modal-dialog">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title" id="m">예약</h5>
+                                  <h5 class="modal-title" id="m" >예약</h5>
                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                  	<div id="shopName">${shop.shopName}</div>
+                                  	<div id="shopName">${shop.shopName}</div><br />
                                   	<div id="selectcontent">
                                     	<div class="personnel-select">
                                         	<div class="personnel-selected">
@@ -507,7 +507,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 	                                    <c:if test="${shop.shopType eq 2}"> <!-- 오마카세일때 적용 -->
 	                                    	카운터석 : <input type="checkbox" id="counterSeat" class="counterSeat"/>
 	                                    	* 카운터석은 연속되게 앉을 수 없을 수도 있습니다. *
-                                  		</c:if>
+                                  		</c:if><br /><br />
                                   	</div>	
                               		<div id="tableCheck">
 
