@@ -131,7 +131,17 @@ public class ShopController {
 			String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 			User user2 = new User();
 			user2 = userService.userUIDSelect(cookieUserUID);
-			model.addAttribute("cookieUserNick", user2.getUserNick());
+			if(user2 != null)
+			{
+				try
+				{
+					model.addAttribute("cookieUserNick", user2.getUserNick());
+				}
+				catch(NullPointerException e)
+				{
+					logger.error("[ShopController] reservation/list NullPointerException", e);
+				}
+			}
 			return "/reservation/list";
 			
 		}
@@ -202,10 +212,19 @@ public class ShopController {
 		   model.addAttribute("curPage", curPage);
 		   model.addAttribute("reservationDate", reservationDate);
 		   model.addAttribute("reservationTime", reservationTime);
-		   
 			User user2 = new User();
 			user2 = userService.userUIDSelect(cookieUserUID);
-			model.addAttribute("cookieUserNick", user2.getUserNick());
+			if(user2 != null)
+			{
+				try
+				{
+					model.addAttribute("cookieUserNick", user2.getUserNick());
+				}
+				catch(NullPointerException e)
+				{
+					logger.error("[ShopController] url NullPointerException", e);
+				}
+			}
 		   return url;
 		}
 		

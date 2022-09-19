@@ -42,7 +42,17 @@ public class HelpController {
 		model.addAttribute("user", user);
 		User user2 = new User();
 		user2 = userService.userUIDSelect(cookieUserUID);
-		model.addAttribute("cookieUserNick", user2.getUserNick());
+		if(user2 != null)
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", user2.getUserNick());
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[HelpController] help/index NullPointerException", e);
+			}
+		}
 		
 		return "/help/index";
 	}

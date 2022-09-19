@@ -65,7 +65,23 @@ public class IndexController
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		User user2 = new User();
 		user2 = userService.userUIDSelect(cookieUserUID);
-		model.addAttribute("cookieUserNick", user2.getUserNick());
-		return "/index";
+		if(user2 == null)
+		{
+			return "/index";
+		}
+		else
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", user2.getUserNick());
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[IndexController] index Exception", e);
+			}
+			return "/index";
+		}
+		
+		
 	}
 }
