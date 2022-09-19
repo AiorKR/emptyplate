@@ -218,4 +218,23 @@ DELETE FROM T_USER_MARK
  WHERE USER_UID = #{userUID}
 </delete>
 
+
+<select id="markUserList" parameterType="String" resultMap="userResultMap">
+	SELECT RNUM,
+       MARK_USER_UID,
+       FILE_NAME,
+       USER_NICK
+FROM(SELECT ROWNUM AS RNUM,
+            MARK_USER_UID,
+            FILE_NAME,
+            USER_NICK
+       FROM(SELECT A.MARK_USER_UID AS MARK_USER_UID,
+                     B.USER_NICK,
+                     NVL(C.FILE_NAME, '') AS FILE_NAME
+                FROM T_USER_MARK A, T_USER B, T_USER_FILE C
+               WHERE A.USER_UID = #{userUID}
+                 AND A.MARK_USER_UID = B.USER_UID
+                 AND A.MARK_USER_UID = C.USER_UID(+)))
+</select>
+
 </mapper>
