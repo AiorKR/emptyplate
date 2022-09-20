@@ -38,12 +38,14 @@ $(document).ready(function(){
 		
 		if($("#counterSeat").is(":checked")) {
 			document.bbsForm.counterSeatYN.value = "Y";
+			if(document.bbsForm.reservationDate.value != "" && document.bbsForm.reservationTime.value != "") {
+				reservationCheck();
+			}
 		}
 		else {
 			document.bbsForm.counterSeatYN.value = "N";
 		}
 		
-		console.log(document.bbsForm.counterSeatYN);
 	});
 	
 	
@@ -73,6 +75,12 @@ $(document).ready(function(){
 			  $("#select-ul").attr('style', "display:none;");
 			  $(".personnel-selected-value").text($(this).text());
 			  document.bbsForm.reservationPeople.value = $(".personnel-selected-value").text().replaceAll("명", "");;
+			  if($("#pay").is(":disabled")) { //disabled 처리 되있다면 풀어줌
+         		 $("#pay").attr("disabled", false);
+     			 if(document.bbsForm.reservationDate.value != "" && document.bbsForm.reservationTime.value != "") {
+    				 reservationCheck();
+    			 }
+         	 }
 		});
 		
 		$(".datepicker").change(function(){
@@ -112,7 +120,7 @@ $(document).ready(function(){
 	    	});
 		});
 	
-	$("#pay").on("click", function() {
+	$("#pay").on("click", function fn_pay() {
 		
 		var menuList = [];
 		
@@ -128,8 +136,6 @@ $(document).ready(function(){
 			
 			console.log("[i] : " + i + " menuList[i] : " + menuList[i]);
 		}
-		
-		console.log(menuList.length);
 		
 	      $.ajax({
 	    	  type:"POST",
@@ -171,7 +177,7 @@ $(document).ready(function(){
 		     	        	  amount: response.data.totalAmount,
 		     	        	  orderId: response.data.orderUID,
 		     	        	  orderName: orderName,
-		     	        	  customerName: response.data.reservationName,
+		     	        	  customerName: response.data.userName,
 		     	        	  successUrl: response.data.toss.tossSuccessUrl,
 		     	        	  failUrl: response.data.toss.tossFailUrl,
 		     	        }); 
@@ -346,7 +352,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
                         <div class="main_image"> <img src="../resources/upload/shop/${shop.shopUID}/${shop.shopFileList.get(1).shopFileName}" id="main_product_image" height="400px" width="400px"> </div>
                         <div class="thumbnail_images">
                             <ul id="thumbnail">
-                           <c:forEach items="${shop.shopFileList}" var="shopFileList" varStatus="status">
+                           <c:forEach items="${shop.shopFileList}" var="shopFileList" varStatus="status" begin="1" end="5">
                                    <li><img onclick="changeImage(this)" src="../resources/upload/shop/${shop.shopUID}/${shopFileList.shopFileName}" width="100px" height="100px"></li>
                                </c:forEach>  
                             </ul>

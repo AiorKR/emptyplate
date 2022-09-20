@@ -3531,7 +3531,7 @@ reservation 검색
 }
 
 .view .modal-body {
-  height: 55vh;
+  height: 60vh;
   z-index: 0;
 }
 .view .modal-footer {
