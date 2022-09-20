@@ -139,25 +139,25 @@ public class ShopService {
 			}
 			return count;
 		}
-		  //내 주문내역 리스트
+		
+		//내 주문내역 리스트
 	      public List<Order> myOrderList(String userUID) {
-	         
-	         List<Order> list = null;
-	         
-	         try
-	         {   
-	            list = shopDao.myOrderList(userUID);
-	            
-	         }
-	         catch(Exception e)
-	         {
-	            logger.error("[ShopService] myOrderList Exception", e);
-	         }
-	         
-	         
-	         return list;
-	      }
-	      
+	          
+	          List<Order> list = null;
+	          
+	          try
+	          {   
+	             list = shopDao.myOrderList(userUID);
+	             
+	          }
+	          catch(Exception e)
+	          {
+	             logger.error("[ShopService] myOrderList Exception", e);
+	          }
+					
+			return list;
+		}
+		
 	      //주문내역 총 수
 	      public long myOrderListCount(String userUID)
 	      {
