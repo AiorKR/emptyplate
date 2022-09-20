@@ -5,8 +5,11 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.icia.web.model.Board;
+import com.icia.web.model.Order;
+import com.icia.web.model.OrderMenu;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
+import com.icia.web.model.ShopReservationTable;
 import com.icia.web.model.ShopTotalTable;
 
 @Repository("shopdDao")
@@ -40,4 +43,9 @@ public interface ShopDao {
 	
 	//게시물 즐겨찾기 총 게시물 수
 	public long shopMarkListCount(Shop shop);
+	public int orderInsert(Order order);
+	
+	public int orderMenuInsert(List<OrderMenu> list);
+	
+	public int reservationTableInser(List<ShopReservationTable> list);
 }
