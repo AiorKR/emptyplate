@@ -15,20 +15,34 @@ pageContext.setAttribute("newLine", "\n");
     display: none;
   }
 </style>
+<style>
+ .rlist-list-sec {
+ 	width: 1100px;
+ 	height: 550px;
+ }
+ 
+ .list-card-hr {
+ 	margin-bottom : 20px;
+ }
+</style>
 <script type="text/javascript">
 
-$(document).ready(function() {
-	const reqOne = document.getElementById("reqOne")
-	$("#cardDetailSection-button").on("click", function() {
+function reqOne(index) {
+	const reqOne = document.getElementById("reqOne" + index)
     if(reqOne.style.display === 'flex') {
        reqOne.style.display = 'none';
     } 
     else {
       reqOne.style.display = 'flex';
     }
-  })
-
-});
+}
+//메장 페리지
+function fn_view(shopUID)
+{
+   document.bbsForm.shopUID.value = shopUID;
+   document.bbsForm.action = "/reservation/view";
+   document.bbsForm.submit();
+}
 </script>
 
 </head>
@@ -50,22 +64,28 @@ $(document).ready(function() {
             </c:if>
 			<span class = "rlist-profile-card-name">${user.userNick} 님의 예약내역</span>
         </div>   
-                    
-        <table>
-        	<tbody>
-        	<tr>
-            <td>
-        	<div class="rlist-list"><!--caed1 section-->
-           		<a class="rlist-list-card" href="#">
-					<span class="cardDetailSection">19/09/18 18 : 00</span>
-    				<span class="cardDetailSection-store">정식당 소금밭로점</span>
-   					<span class="cardDetailSection-member">인원 : 41</span>       
-   					<span class="cardDetailSection">총금액 2000000원</span>        
+            
+
+            <div class="rlist-list-sec">      
+       		
+       		<c:if test="${!empty list}">
+             <c:forEach var="Order" items="${list}" varStatus="status">
+       		<!-- 반복 시작 -->
+        	<div class="rlist-list">
+           		<a class="rlist-list-card" href="javascript:void(0)" onclick="fn_view('${Order.shopUID}')">
+					<span class="cardDetailSection">${Order.RDate}</span>
+    				<span class="cardDetailSection-store">${Order.shopName}</span>
+   					<span class="cardDetailSection-member" >인원 : ${Order.reservationPeople}</span>       
+   					<span class="cardDetailSection">총금액 ${Order.totalAmount}원</span>        
 				</a>
-                <span class="cardDetailSection-status"><button id="cardDetailSection-button" class="cardDetailSection-button">한줄평 남기기</button></span>
-                <div class="rlist-list-detail">세부사항 : 런치A(1), 런치B(2), 추가항목</div>
+                <span class="cardDetailSection-status"><button id="cardDetailSection-button" class="cardDetailSection-button" onclick="reqOne(${status.index})">한줄평 남기기</button></span>
+                <div class="rlist-list-detail">세부사항 : 
+                	<c:forEach var="orderMenu" items="${Order.orderMenu}" varStatus="status">
+                		${orderMenu.orderMenuName}(${orderMenu.orderMenuQuantity})
+                	</c:forEach>
+                </div>
                 
-                <div class="reqOne" id="reqOne">
+                <div class="reqOne" id="reqOne${status.index}">
                 	<div class="reqOneText-section"> 
                     	<input class="reqOneText" type="text" placeholder="이곳에 입력해주세요-(최대 30자)" maxlength="30">
                    	</div> 
@@ -117,11 +137,11 @@ $(document).ready(function() {
               	</div>
                 <hr class="list-card-hr">
          	</div>
-            </td> 
-            </tr>
-            </tbody> 
-       	</table>          
-
+         	<!-- 반복 끝 -->        
+			 </c:forEach>
+           </c:if>
+			
+			</div> 
 		<div id="rlist-page">
         	<div class="page-wrap">
             	<ul class="page-nation">
@@ -135,8 +155,15 @@ $(document).ready(function() {
                 </ul>
          	 </div>
      	</div>
+     	
+     	
 	</div>
-</div>             
+</div>
+<form name="bbsForm" id="bbsForm" method="post">
+	 <input type="hidden" name="shopUID" value="" />
+	 <input type="hidden" name="curPage" value="${curPage}" />	
+	 <input type="hidden" name="userUID" value="${userUID}" />
+	</form>             
 </section>
 </main>
  

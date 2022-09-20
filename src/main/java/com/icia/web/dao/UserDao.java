@@ -84,6 +84,8 @@ public interface UserDao
 	
 	//사용자 탈퇴시 유저 즐겨찾기 삭제
 	public int userLikeDelete(User user);
+
+	public List<User> markUserList(String userUID);
 	
 
 }

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.icia.web.dao.ShopDao;
+import com.icia.web.model.Order;
 import com.icia.web.model.Board;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
@@ -139,6 +140,26 @@ public class ShopService {
 			return count;
 		}
 		
+		//내 주문내역 리스트
+		public List<Order> myOrderList(String userUID) {
+			
+			List<Order> list = null;
+			
+			try
+			{	
+				list = shopDao.myOrderList(userUID);
+				
+			}
+			catch(Exception e)
+				logger.error("[ShopService] myOrderList Exception", e);
+			}
+			
+			
+			return list;
+		}
+		
+		//주문내역 총 수
+		public long myOrderListCount(String userUID)
 		
 		//동일 즐겨찾기 여부 확인
 		public int shopMarkCheck(Shop shop)

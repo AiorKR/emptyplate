@@ -20,6 +20,8 @@ import com.icia.common.model.FileData;
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Board;
 import com.icia.web.model.BoardLike;
+import com.icia.web.model.Order;
+import com.icia.web.model.Paging;
 import com.icia.web.model.Response;
 import com.icia.web.model.User;
 import com.icia.web.model.UserFile;
@@ -594,5 +596,22 @@ public class MyPageController {
  	   }
  		   return ajaxResponse;   
     	}
+    
+    
+    @RequestMapping(value="/myPage/myFavorites", method=RequestMethod.GET)
+    public String myFavorites(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+    {
+    	//조회 객체
+    			User user = new User();
+    			String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+    			user = userService.userUIDSelect(userUID);
+    		    model.addAttribute("user", user);
+    		    
+    			List<User> list = null;
+    			list = userService.markUserList(userUID);			
+    			model.addAttribute("list", list);
+ 	   
+ 	   return "/myPage/myFavorites";
+    }
     
 }
