@@ -39,6 +39,9 @@ public class rListController
       user = userService.userUIDSelect(userUID);
               
       model.addAttribute("user", user);
+      User user2 = new User();
+      user2 = userService.userUIDSelect(userUID);
+      model.addAttribute("cookieUserNick", user2.getUserNick());
       
       return "/rList/rList";
    }

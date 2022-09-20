@@ -8,9 +8,6 @@
 
 <head>
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
-<script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
-<script type="text/javascript" src="/resources/js/icia.common.js"></script>
-
 <script type="text/javascript">
 $(document).ready(function() {
    $("#btnDelete").on("click", function(){
@@ -30,22 +27,22 @@ $(document).ready(function() {
                   if(response.code == 0)
                   {
                      alert("탈퇴가 완료되었습니다.");
-                     location.href = "/index";
+                     window.location = "/";
                   }
                   else if(response.code == 500)
                   {
                      alert("회원 정보를 찾을 수 없습니다. 메인 페이지로 돌아갑니다.");
-                     location.href = "/index";
+                     window.location = "/";
                   }
                   else if(response.code == 404)
                   {
                      alert("사용자가 아닙니다.");
-                     location.href = "/index";
+                     window.location = "/";
                   }
                   else
                   {
                      alert("회원 탈퇴 중 오류가 발생했습니다.");
-                     location.href = "/index";
+                     window.location = "/";
                   }
                },
                complete:function(data)
@@ -185,12 +182,12 @@ function updateError(){
   <main id="main">
    <section class="mypage">
         <!--마이페이지-->
-    </br></br>
+    <br /><br />
     <container class="mypage-cont">
      <div class="mypage-title">내 프로필</div>         
        <hr role="tournament1">
     </container>
-    </br>
+    <br />
 
         <div class="d-flex justify-content-between align-items-center">
           <div id="mypage" class="user-edit">

@@ -26,9 +26,9 @@
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Empty Plate</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">About US</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Company</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Logo History</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="/footer/aboutus">About US</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="/footer/company">Company</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="/footer/logohistory">Logo History</a></li>
             </ul>
           </div>
 
@@ -46,9 +46,9 @@
             <h4>Resources</h4>
             <ul>
               <li><i class="bx bx-chevron-right"></i> <a href="/footer/resources">개인정보 처리방침</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="/footer/resources">서비스 이용약관</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="/footer/resources">위치정보 이용약관</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="/footer/resources">입점문의</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="/footer/resources2">서비스 이용약관</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="/footer/resources3">위치정보 이용약관</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="/footer/resources4">입점문의</a></li>
             </ul>
           </div>
 

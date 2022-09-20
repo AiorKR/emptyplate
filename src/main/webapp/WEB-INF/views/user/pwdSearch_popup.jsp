@@ -46,7 +46,7 @@ $("#tel_btn").on("click", function() {
 				 $("#tel").focus();
 			} 
 			else {
-				alert('오류가 발생하였습니다.')
+				alert('계정정보와 일치하지 않는 번호입니다.')
 				$("#tel").focus();
 			}
 		}

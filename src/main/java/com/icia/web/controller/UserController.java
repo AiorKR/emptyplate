@@ -441,9 +441,9 @@ public class UserController
 		  String userId = HttpUtil.get(request, "userId");
 	      Response<Object> ajaxResponse = new Response<Object>();
 	      User user = userService.userSelect(userId);
-	      String phone = user.getUserPhone();
-	      if(!StringUtil.isEmpty(userPhone))
+	      if(!StringUtil.isEmpty(user))
 	      {
+	    	 String phone = user.getUserPhone();
 	         if(StringUtil.equals(phone, userPhone))
 	         {        	       	 
 	        	 String code = userService.sendRandomMessage(userPhone);

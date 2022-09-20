@@ -25,7 +25,9 @@ import com.icia.web.model.Response;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
 import com.icia.web.model.ShopTotalTable;
+import com.icia.web.model.User;
 import com.icia.web.service.ShopService;
+import com.icia.web.service.UserService;
 import com.icia.web.util.CookieUtil;
 import com.icia.web.util.HttpUtil;
 
@@ -42,6 +44,8 @@ public class ShopController {
 	@Value("#{env['shop.upload.save.dir']}")
 	private String SHOP_UPLOAD_DIR;
 	
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	private ShopService shopService;
@@ -124,7 +128,20 @@ public class ShopController {
 			model.addAttribute("searchValue", searchValue);
 			model.addAttribute("curPage", curPage);
 			model.addAttribute("paging", paging);
-			
+			String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+			User user2 = new User();
+			user2 = userService.userUIDSelect(cookieUserUID);
+			if(user2 != null)
+			{
+				try
+				{
+					model.addAttribute("cookieUserNick", user2.getUserNick());
+				}
+				catch(NullPointerException e)
+				{
+					logger.error("[ShopController] reservation/list NullPointerException", e);
+				}
+			}
 			return "/reservation/list";
 			
 		}
@@ -195,7 +212,19 @@ public class ShopController {
 		   model.addAttribute("curPage", curPage);
 		   model.addAttribute("reservationDate", reservationDate);
 		   model.addAttribute("reservationTime", reservationTime);
-		   
+			User user2 = new User();
+			user2 = userService.userUIDSelect(cookieUserUID);
+			if(user2 != null)
+			{
+				try
+				{
+					model.addAttribute("cookieUserNick", user2.getUserNick());
+				}
+				catch(NullPointerException e)
+				{
+					logger.error("[ShopController] url NullPointerException", e);
+				}
+			}
 		   return url;
 		}
 		
