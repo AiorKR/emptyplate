@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.JsonObject;
+import com.google.gson.Gson;
 import com.icia.common.model.FileData;
 import com.icia.common.util.FileUtil;
 import com.icia.common.util.StringUtil;
@@ -1061,5 +1063,58 @@ public class BoardController
 		return ajaxResponse;
   	}
   
+  	/*
+	@RequestMapping(value="/board/reCommentProc", method=RequestMethod.POST)
+	@ResponseBody
+	public Response<Object> reCommentProc(HttpServletRequest request, HttpServletResponse response)
+	{
+		Response<Object> ajaxResponse = new Response<Object>();
+		long bbsSeq = HttpUtil.get(request, "bbsSeq", 0);
+  		long commentBbsSeq = HttpUtil.get(request, "commentBbsSeq", 0);
+  		Board mainBoard = new Board();
+  		Board commentBoard = new Board();
+  		mainBoard.setBbsSeq(bbsSeq);
+  		commentBoard.setBbsSeq(bbsSeq);
+        List<Board> comment = boardService.commentList(commentBoard);
+        
+        JsonObject obj = new JsonObject();
+        Gson gson = new Gson();
+        String jsonPlace = gson.toJson(comment);
+        logger.debug("###################################");
+        logger.debug("bbsSeq : " + bbsSeq);
+        logger.debug("jsonPlace : " + jsonPlace);
+        logger.debug("###################################");
+		try
+		{
+			if(bbsSeq >0)
+			{
+				ajaxResponse.setResponse(0, "success", comment); // 성공
+			}
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardController] reCommentProc Exception", e);
+			ajaxResponse.setResponse(500, "Internal server error");
+		}
+		
+		return ajaxResponse;
+	}
+	*/
+  	
+  	@RequestMapping(value="/board/reCommentProc", method=RequestMethod.POST)
+	@ResponseBody
+	public String reCommentProc(HttpServletRequest request, HttpServletResponse response)
+	{
+  		long bbsSeq = HttpUtil.get(request, "bbsSeq", 0);
+  		long commentBbsSeq = HttpUtil.get(request, "commentBbsSeq", 0);
+  		Board mainBoard = new Board();
+  		Board commentBoard = new Board();
+  		mainBoard.setBbsSeq(bbsSeq);
+  		commentBoard.setBbsSeq(bbsSeq);
+  		List<Board> comment = boardService.commentList(commentBoard);
+  		
+  		return "/board/ajaxView";
+	}
+
   	
 }
