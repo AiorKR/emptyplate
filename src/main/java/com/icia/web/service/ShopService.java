@@ -141,25 +141,39 @@ public class ShopService {
 		}
 		
 		//내 주문내역 리스트
-		public List<Order> myOrderList(String userUID) {
-			
-			List<Order> list = null;
-			
-			try
-			{	
-				list = shopDao.myOrderList(userUID);
-				
-			}
-			catch(Exception e)
-				logger.error("[ShopService] myOrderList Exception", e);
-			}
-			
-			
+	      public List<Order> myOrderList(String userUID) {
+	          
+	          List<Order> list = null;
+	          
+	          try
+	          {   
+	             list = shopDao.myOrderList(userUID);
+	             
+	          }
+	          catch(Exception e)
+	          {
+	             logger.error("[ShopService] myOrderList Exception", e);
+	          }
+					
 			return list;
 		}
 		
-		//주문내역 총 수
-		public long myOrderListCount(String userUID)
+	      //주문내역 총 수
+	      public long myOrderListCount(String userUID)
+	      {
+	         long count = 0;
+	         
+	         try
+	         {
+	            count = shopDao.myOrderListCount(userUID);
+	         }
+	         catch(Exception e)
+	         {
+	            logger.error("[BoardService] userListCount Exception", e);
+	         }
+	         
+	         return count;
+	      }
 		
 		//동일 즐겨찾기 여부 확인
 		public int shopMarkCheck(Shop shop)

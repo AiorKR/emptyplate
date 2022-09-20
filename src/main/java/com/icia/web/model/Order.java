@@ -25,7 +25,6 @@ public class Order implements Serializable{
 	private long rNum;			
 	private long startRow;		
 	private long endRow;
-	private String shopName;
 	
 	private List<OrderMenu> orderMenu;
 	private List<ShopReservationTable> shopReservationTableList;
@@ -135,14 +134,6 @@ public class Order implements Serializable{
 
 	public void setTotalAmount(int totalAmount) {
 		this.totalAmount = totalAmount;
-	}
-
-	public String getShopName() {
-		return shopName;
-	}
-
-	public void setShopName(String shopName) {
-		this.shopName = shopName;
 	}
 
 	public List<ShopReservationTable> getShopReservationTableList() {
