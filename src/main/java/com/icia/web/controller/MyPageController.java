@@ -59,6 +59,9 @@ public class MyPageController {
       user = userService.userUIDSelect(userUID);
               
       model.addAttribute("user", user);
+      User user2 = new User();
+      user2 = userService.userUIDSelect(userUID);
+      model.addAttribute("cookieUserNick", user2.getUserNick());
       
       return "/myPage/myProfile";
    }
@@ -72,6 +75,9 @@ public class MyPageController {
       user = userService.userUIDSelect(userUID);
               
       model.addAttribute("user", user);
+      User user2 = new User();
+      user2 = userService.userUIDSelect(userUID);
+      model.addAttribute("cookieUserNick", user2.getUserNick());
 
 	   
 	   return "/myPage/myFavorites";
@@ -87,6 +93,9 @@ public class MyPageController {
       user = userService.userUIDSelect(userUID);
               
       model.addAttribute("user", user);
+      User user2 = new User();
+      user2 = userService.userUIDSelect(userUID);
+      model.addAttribute("cookieUserNick", user2.getUserNick());
       
       return "/myPage/nick_popup";
    }

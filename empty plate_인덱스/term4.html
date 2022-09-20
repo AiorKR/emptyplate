@@ -38,7 +38,48 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 
-  
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("#shopname").focus();
+
+      $("#inquiryBtn").on("click", function() {
+        var emptCheck = /\s/g;
+        var idPwCheck = /^[가-힣]{2,4}|[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
+        var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
+
+
+        if($.trim($("#shopname").val()).length <= 0)
+        {
+         alert("매장명을 입력하세요.");
+         $("#shopname").val("");
+         $("#shopname").focus();
+         return;
+        }        
+
+        if (!idPwCheck.test($("#customername").val())) 
+        {
+         alert("문의자이름은 2~10자의 영문 대소문자와 숫자로만 입력하세요");
+         $("#customername").focus();
+         return;
+        }
+
+        if($.trim($("#customername").val()).length <= 0)
+        {
+         alert("문의자이름을 입력하세요.");
+         $("#customername").val("");
+         $("#customername").focus();
+         return;
+        }
+
+        if (!regExp.test($("#customerphone").val())) 
+        {
+         alert("문의자번호를 맞게 입력하세요");
+         $("#customerphone").focus();
+         return;
+        }
+      }
+    })  
+  </script>
 
 </head>
 
@@ -160,15 +201,15 @@
                               <div class="storeblank">  
                                 <p>
                                     매장명:
-                                <input type="text" name="shop_name" id="shop_name" value="매장명을 입력하세요" size="30">
+                                <input type="text" name="shopname" id="shopname" value="" size="30">
                                 </p>
                                 <p>
                                     문의자 이름:
-                                <input type="text" name="customer_name" id="customer_name" value="문의자 이름을 입력하세요." size="30">
+                                <input type="text" name="customername" id="customername" value="" size="30">
                                 </p>
                                 <p>
                                 문의자 번호:
-                                <input type="tel" name="customer_phone" id="customer_phone" value="문의자 번호를 입력하세요." size="30">
+                                <input type="tel" name="customerphone" id="customerphone" value="" size="30">
                                 </p>
                               </div>
                                 
