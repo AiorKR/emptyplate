@@ -1,5 +1,7 @@
 package com.icia.web.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,9 +18,12 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.icia.common.model.FileData;
 import com.icia.common.util.StringUtil;
+import com.icia.web.model.Board;
+import com.icia.web.model.BoardLike;
 import com.icia.web.model.Response;
 import com.icia.web.model.User;
 import com.icia.web.model.UserFile;
+import com.icia.web.service.BoardService;
 import com.icia.web.service.UserService;
 import com.icia.web.util.CookieUtil;
 import com.icia.web.util.HttpUtil;
@@ -39,6 +44,9 @@ public class MyPageController {
    
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private BoardService boardService;
    
     
     //페이지로드
@@ -51,8 +59,28 @@ public class MyPageController {
       user = userService.userUIDSelect(userUID);
               
       model.addAttribute("user", user);
+      User user2 = new User();
+      user2 = userService.userUIDSelect(userUID);
+      model.addAttribute("cookieUserNick", user2.getUserNick());
       
       return "/myPage/myProfile";
+   }
+   
+   @RequestMapping(value="/myPage/myFavorites", method=RequestMethod.GET)
+   public String myFavorites(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+   {
+	  String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+      User user = null;
+      
+      user = userService.userUIDSelect(userUID);
+              
+      model.addAttribute("user", user);
+      User user2 = new User();
+      user2 = userService.userUIDSelect(userUID);
+      model.addAttribute("cookieUserNick", user2.getUserNick());
+
+	   
+	   return "/myPage/myFavorites";
    }
    
    //닉네임 팝업로드
@@ -65,6 +93,9 @@ public class MyPageController {
       user = userService.userUIDSelect(userUID);
               
       model.addAttribute("user", user);
+      User user2 = new User();
+      user2 = userService.userUIDSelect(userUID);
+      model.addAttribute("cookieUserNick", user2.getUserNick());
       
       return "/myPage/nick_popup";
    }
@@ -213,19 +244,30 @@ public class MyPageController {
  	   {
  		   Response<Object> ajaxResponse = new Response<Object>();
  		   String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
- 	       User user = null;
+ 	       User user = null;     
  	       user = userService.userUIDSelect(userUID);
+ 	       
+ 	       //사용자 탈퇴시 좋아요, 게시물 즐겨찾기, 유저 즐겨찾기 삭제
+ 	       Board board = new Board();
+ 	       List<BoardLike> likeList = userService.likeList(user);
  	      
  		   if(user != null)
  		   { 
  			   if(userService.userDelete(user) > 0)
  			   {
- 				   CookieUtil.deleteCookie(request, response, "/", AUTH_COOKIE_NAME);
+ 				   
  				   //사용자 탈퇴시 좋아요, 게시물 즐겨찾기, 유저 즐겨찾기 삭제
- 				   userService.boardLikeDelete(user);
+ 				   for(int i=0;i<likeList.size();i++)
+ 		 	       {
+ 		 	    	  long bbsSeq = likeList.get(i).getBbsSeq();
+ 		 	    	  userService.boardLikeDelete(user);
+ 		 	    	  board.setBbsSeq(bbsSeq);
+ 		 	    	  boardService.boardLikeCntUpdate(board);
+ 		 	       }
+ 				   
  				   userService.boardMarkDelete(user);
  				   userService.userLikeDelete(user);
- 				   
+ 				   CookieUtil.deleteCookie(request, response, "/", AUTH_COOKIE_NAME);
  				   ajaxResponse.setResponse(0, "Success");
  			   }
  			   

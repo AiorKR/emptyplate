@@ -14,11 +14,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.icia.web.model.User;
+import com.icia.web.service.UserService;
 import com.icia.web.util.CookieUtil;
+
+
 
 /**
  * <pre>
@@ -32,6 +39,13 @@ import com.icia.web.util.CookieUtil;
 @Controller("indexController")
 public class IndexController
 {
+	@Autowired
+	private UserService userService;
+	
+	//쿠키명 지정
+	@Value("#{env['auth.cookie.name']}")
+	private String AUTH_COOKIE_NAME;
+	
 	private static Logger logger = LoggerFactory.getLogger(IndexController.class);
 
 	/**
@@ -46,8 +60,28 @@ public class IndexController
 	 * @return String
 	 */
 	@RequestMapping(value = "/index", method=RequestMethod.GET)
-	public String index(HttpServletRequest request, HttpServletResponse response)
+	public String index(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	{
-		return "/index";
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		User user2 = new User();
+		user2 = userService.userUIDSelect(cookieUserUID);
+		if(user2 == null)
+		{
+			return "/index";
+		}
+		else
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", user2.getUserNick());
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[IndexController] index Exception", e);
+			}
+			return "/index";
+		}
+		
+		
 	}
 }

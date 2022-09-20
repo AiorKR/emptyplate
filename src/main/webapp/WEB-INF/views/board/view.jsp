@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	// Community 번호
-	request.setAttribute("No", 4);
 	// 개행문자 값을 저장한다.
 	pageContext.setAttribute("newLine", "\n");
+	// Community 번호
+	request.setAttribute("No", 4);
+
 %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <%
-   //개행문자 값을 저장한다.
+   //개행문자 값 저장
    pageContext.setAttribute("newLine", "\n");
 %>
 <!DOCTYPE html>
@@ -302,13 +303,6 @@ $(document).ready(function() {
 	      });
    });
    
-   function fn_view(bbsSeq)
-   {
-      document.bbsForm.bbsSeq.value = bbsSeq;
-      document.bbsForm.action = "/board/view";
-      document.bbsForm.submit();
-   }
-   
    //댓글 신고
    $("#reportBtn2").on("click", function() {	      
 	      var report11 = "";
@@ -401,51 +395,6 @@ function fn_Report(bbsSeq2){
 	$('#bbsSeqCom').val(bbsSeq2);
 }
 
-//댓글버튼
-function fn_reply(bbsSeqValue1, bbsSeqValue2)
-{
-	 $.ajax({
-	        url: "/board/replyProc",
-	        data: {
-	        	bbsSeq : bbsSeqValue1,
-	        	commentBbsSeq : bbsSeqValue2
-	        },
-	        method: "GET",
-	        success: function (jsonPlace) {
-				    alert("성공");
-				    console.log(jsonPlace);
-				    htmlView;
-	        },
-	        complete: function() {
-	        	alert("새로고침");
-	            $('#commentSection').load(location.href+' commentSection');
-	        }
-	    });
-}
-
-function htmlView(data) {
-	var result = "<div class='comment'>";
-	result+="<div class='comment-write'>";
-	result+="<col-lg-12><ion-icon name='person'></ion-icon> ${board.userNick}</col-lg-12>";
-		result+="<c:if test='${board.userUID eq cookieUserUID}'>";
-		result+="<button onclick='fn_deleteComment(${board.bbsSeq})' id='btnCommentDelete' class='commentDelete'>삭제</button>";
-			result+="</c:if>";
-		result+="<a>${board.regDate}</a>";
-		result+="<button type='button' data-bs-toggle='modal' data-bs-target='#reportModal2' id='btnReport${board.bbsSeq}' onclick='fn_Report(${board.bbsSeq})'>신고</button>";
-		result+="<form name='replyForm' id='replyForm' method='post'>";
-		result+="<button type='button' onclick='fn_reply(${parentsBbsSeq}, ${board.bbsSeq})' id='reply' class='reply'>댓글달기</button>";
-			result+="<input type='hidden' id='userNick' name='userNick' value='${board.userNick}'/>";
-				result+="<input type='hidden' id='commentGroup' name='commentGroup' value='${board.commentGroup}'/>";
-				result+="<input type='hidden' id='commentOrder' name='commentOrder' value='${board.commentOrder}'/>";
-				result+="<input type='hidden' id='commentIndent' name='commentIndent' value='${board.commentIndent}'/>";
-				result+="</form>";
-		
-		result+="</div>";
-	result+="<div class='comment-content'>";
-	result+="<col-lg-12>${board.bbsContent}</col-lg-12>";
-		result+="</div>";
-	result+="</div>";
-
 //댓글 삭제
 function fn_deleteComment(bbsSeqValue)
 {
@@ -501,7 +450,6 @@ function fn_deleteComment(bbsSeqValue)
 <%@ include file="/WEB-INF/views/include/navigation.jsp" %>
 	<section id="communityView" class="community">
 		<div class="container">
-
 			<div class = "row">
 				<div class="board-title">
 					<c:out value="${board.bbsTitle}" /><br/>
@@ -509,7 +457,7 @@ function fn_deleteComment(bbsSeqValue)
 				<div class="board-writer">
 					<ion-icon name="person"></ion-icon> ${board.userNick} &nbsp;
 					<ion-icon name="calendar"></ion-icon> ${board.regDate} &nbsp;
-					<ion-icon name="eye"></ion-icon> ${board.bbsReadCnt}
+					<ion-icon name="eye"></ion-icon><fmt:formatNumber type="number" maxFractionDigits="3" value="${board.bbsReadCnt}"/>
 				</div>
 				<div class="board-innercontent">
 					<col-lg-12>${board.bbsContent}</col-lg-12>
@@ -584,25 +532,7 @@ function fn_deleteComment(bbsSeqValue)
 						<a href="/board/download?bbsSeq=${board.boardFile.bbsSeq}" style="float:right;">첨부이미지 다운로드</a>
 					  </c:if>   
 					</div>
-					<div id="bbsList">
-					<c:choose>
-						<c:when test="${empty boardNextList}">
-							<div class = "nextBbs" >다음글이 존재하지 않습니다.</div>
-						</c:when>
-						<c:otherwise>
-							<div class = "nextBbs" >다음글 : <a href="/board/view?bbsSeq=${boardNext.bbsSeq}" onclick="fn_view()">${boardNext.bbsTitle}</a></div>
-						</c:otherwise>
-					</c:choose>
-					<c:choose>
-						<c:when test="${empty boardPrevList}">
-							<div class = "prevBbs" >이전글이 존재하지 않습니다.</div>
-						</c:when>
-						<c:otherwise>
-							<div class = "prevBbs" >이전글 : <a href="/board/view?bbsSeq=${boardPrev.bbsSeq}" onclick="fn_view()">${boardPrev.bbsTitle}</a></div>
-						</c:otherwise>
-					</c:choose>
-					</div>
-					<div id="commentSection">
+
 					<c:if test="${board.bbsComment eq 'Y'}">             
 						<form name="commentForm" id="commentForm" method="post" enctype="form-data">
 							<div class="board-commentwrite">
@@ -615,7 +545,6 @@ function fn_deleteComment(bbsSeqValue)
 							</div>
 						
 						<c:set var="cookieUserUID" value="${cookieUserUID}"/>
-						<c:set var="parentsBbsSeq" value="${board.bbsSeq}"/>
 						  <c:if test="${!empty list}">
 							<c:forEach var="board" items="${list}" varStatus="status">
 								<div class="comment">
@@ -626,14 +555,7 @@ function fn_deleteComment(bbsSeqValue)
 										</c:if>
 										<a>${board.regDate}</a>
 										<button type="button" data-bs-toggle="modal" data-bs-target="#reportModal2" id="btnReport${board.bbsSeq}" onclick="fn_Report(${board.bbsSeq})">신고</button>
-										<form name="replyForm" id="replyForm" method="post">
-											<button type="button" onclick="fn_reply(${parentsBbsSeq}, ${board.bbsSeq})" id="reply" class="reply">댓글달기</button>
-											<input type="hidden" id="userNick" name="userNick" value="${board.userNick}"/>
-											<input type="hidden" id="commentGroup" name="commentGroup" value="${board.commentGroup}"/>
-											<input type="hidden" id="commentOrder" name="commentOrder" value="${board.commentOrder}"/>
-											<input type="hidden" id="commentIndent" name="commentIndent" value="${board.commentIndent}"/>
-										</form>
-										
+										<button onclick="fn_reComment(${board.bbsSeq})" id="btnReply" class="btnReply">댓글달기</button>
 									</div>
 									<div class="comment-content">
 										<col-lg-12>${board.bbsContent}</col-lg-12>
@@ -676,7 +598,6 @@ function fn_deleteComment(bbsSeqValue)
 						  </c:if>
 						</form>
 					</c:if>
-					</div>
 				</div>
 			<form name="bbsForm" id="bbsForm" method="post">
 				<input type="hidden" name="bbsSeq" value="${bbsSeq}" />

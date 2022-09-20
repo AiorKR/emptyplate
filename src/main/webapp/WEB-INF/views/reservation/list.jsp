@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	//Reservation 번호
-	request.setAttribute("No", 2);
 	// 개행문자 값을 저장한다.
 	pageContext.setAttribute("newLine", "\n");
+	// Community 번호
+	request.setAttribute("No", 2);
+
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -256,7 +257,7 @@ $(document).ready(function(){
             </div>
            </div>
       </div>
-            <form name="bbsForm" id="bbsForm" method="post" enctype="multipart/form-data">
+            <form name="bbsForm" id="bbsForm" method="post">
             <input type="hidden" name="shopUID" value=""/> 
             <input type="hidden" name="searchType" value="${searchType}"/>
             <input type="hidden" name="searchValue" value="${searchValue}" />

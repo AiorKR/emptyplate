@@ -1,32 +1,23 @@
 package com.icia.web.controller;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
 import com.icia.common.model.FileData;
 import com.icia.common.util.FileUtil;
 import com.icia.common.util.StringUtil;
@@ -62,78 +53,6 @@ public class BoardController
 	private static final int LIST_COUNT = 5;	//게시물 수
 	private static final int PAGE_COUNT = 5;	//페이징 수
 	
-	//게시판 리스트
-	@RequestMapping(value="/board/list")
-	public String list(ModelMap model, HttpServletRequest request, HttpServletResponse response)
-	{
-		//조회 객체
-		Board board = new Board();
-		//조회항목
-		String searchType = HttpUtil.get(request, "searchType");
-		//조회값
-		String searchValue = HttpUtil.get(request, "searchValue", "");
-		//분류값
-	    long sortValue = HttpUtil.get(request, "sortValue", (long)4);
-		//현재페이지
-		long curPage = HttpUtil.get(request, "curPage", (long)1);
-		//총 게시물 수
-		long totalCount = 0;
-		//게시물 리스트
-		List<Board> list = null;
-		//페이징 객체
-		Paging paging = null;
-		//게시판 번호
-		board.setBbsNo(5);
-		//인기게시물리스트 
-		List<Board> hotLikeList = null;
-		List<Board> hotReadList = null;
-		
-		Board hot = new Board();
-		hot.setBbsNo(5);
-		
-		if(!StringUtil.isEmpty(searchType) && !StringUtil.isEmpty(searchValue))
-		{
-			board.setSearchType(searchType);
-			board.setSearchValue(searchValue);
-		}
-		
-		board.setSortValue(sortValue);
-		totalCount = boardService.boardListCount(board);
-		
-		if(totalCount > 0)
-		{
-			paging = new Paging("/board/list", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
-			
-			paging.addParam("bbsNo", board.getBbsNo());
-			paging.addParam("searchType", searchType);
-			paging.addParam("searchValue", searchValue);
-			paging.addParam("sortValue", sortValue);
-			paging.addParam("curPage", curPage);
-			
-			board.setStartRow(paging.getStartRow());
-			board.setEndRow(paging.getEndRow());
-			hot.setStartRow(1);
-			hot.setEndRow(4);
-			
-			list = boardService.boardList(board);
-			hotLikeList = boardService.boardHotLikeList(hot);
-			hotReadList = boardService.boardHotReadList(hot);
-		}
-		
-		model.addAttribute("list", list);
-		model.addAttribute("hotLikeList", hotLikeList);
-		model.addAttribute("hotReadList", hotReadList);
-		model.addAttribute("bbsNo", board.getBbsNo());
-		model.addAttribute("searchType", searchType);
-		model.addAttribute("searchValue", searchValue);
-		model.addAttribute("sortValue", sortValue);
-		model.addAttribute("curPage", curPage);
-		model.addAttribute("paging", paging);
-		
-		
-		return "/board/list";
-	}
-	
 	
 	//게시물 등록 form(글쓰기)
 	@RequestMapping(value="/board/writeForm")
@@ -148,12 +67,18 @@ public class BoardController
 		
 		model.addAttribute("bbsNo", bbsNo);
 		model.addAttribute("user", user);
+		if(cookieUserUID != null)
+		{
+			User user2 = new User();
+			user2 = userService.userUIDSelect(cookieUserUID);
+			model.addAttribute("cookieUserNick", user2.getUserNick());			
+		}
 				
 		return "/board/writeForm";
 	}
 	
 	
-	//게시물 등록(AJAX)
+	//게시물 등록
 	@RequestMapping(value="/board/writeProc", method=RequestMethod.POST)
 	@ResponseBody
 	public Response<Object> writeProc(MultipartHttpServletRequest request, HttpServletResponse response)
@@ -220,15 +145,14 @@ public class BoardController
 		return ajaxResponse;
 	}
 	
-	
-	//게시물 즐겨찾기 리스트
-	@RequestMapping(value="/board/markList")
-	public String markList(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+
+	//게시판 리스트
+	@RequestMapping(value="/board/list")
+	public String list(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	{
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		//조회 객체
 		Board board = new Board();
-		//쿠키값
-        String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);  
 		//조회항목
 		String searchType = HttpUtil.get(request, "searchType");
 		//조회값
@@ -240,16 +164,16 @@ public class BoardController
 		//총 게시물 수
 		long totalCount = 0;
 		//게시물 리스트
-		List<Board> marklist = null;
+		List<Board> list = null;
 		//페이징 객체
 		Paging paging = null;
 		//게시판 번호
 		board.setBbsNo(5);
-		
-		if(!StringUtil.isEmpty(cookieUserUID))
-		{
-			board.setUserUID(cookieUserUID);
-		}
+		//인기게시물리스트 
+		List<Board> hotLikeList = null;
+		List<Board> hotReadList = null;
+		Board hot = new Board();
+		hot.setBbsNo(5);
 		
 		if(!StringUtil.isEmpty(searchType) && !StringUtil.isEmpty(searchValue))
 		{
@@ -258,11 +182,11 @@ public class BoardController
 		}
 		
 		board.setSortValue(sortValue);
-		totalCount = boardService.markListCount(board);
+		totalCount = boardService.boardListCount(board);
 		
 		if(totalCount > 0)
-		{	
-			paging = new Paging("/board/markList", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
+		{
+			paging = new Paging("/board/list", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
 			
 			paging.addParam("bbsNo", board.getBbsNo());
 			paging.addParam("searchType", searchType);
@@ -272,20 +196,38 @@ public class BoardController
 			
 			board.setStartRow(paging.getStartRow());
 			board.setEndRow(paging.getEndRow());
+			hot.setStartRow(1);
+			hot.setEndRow(4);
 			
-			marklist = boardService.markList(board);
+			list = boardService.boardList(board);
+			hotLikeList = boardService.boardHotLikeList(hot);
+			hotReadList = boardService.boardHotReadList(hot);
 		}
 		
-		model.addAttribute("marklist", marklist);
+		model.addAttribute("list", list);
+		model.addAttribute("hotLikeList", hotLikeList);
+		model.addAttribute("hotReadList", hotReadList);
 		model.addAttribute("bbsNo", board.getBbsNo());
 		model.addAttribute("searchType", searchType);
 		model.addAttribute("searchValue", searchValue);
 		model.addAttribute("sortValue", sortValue);
 		model.addAttribute("curPage", curPage);
 		model.addAttribute("paging", paging);
-		
-		return "/board/markList";
-	}	
+		User user2 = new User();
+		user2 = userService.userUIDSelect(cookieUserUID);
+		if(user2 != null)
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", user2.getUserNick());
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[BoardController] board/list NullPointerException", e);
+			}
+		}
+		return "/board/list";
+	}
 	
 	
 	//유저 게시물 리스트
@@ -389,12 +331,24 @@ public class BoardController
 		model.addAttribute("markUserUID", userUID);
 	    model.addAttribute("boardMe", boardMe);
 		model.addAttribute("userMarkActive", userMarkActive);
-		
+		User user2 = new User();
+		user2 = userService.userUIDSelect(cookieUserUID);
+		if(user2 != null)
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", user2.getUserNick());
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[BoardController] board/userList NullPointerException", e);
+			}
+		}
 		return "/board/userList";
 	}
 	
 	
-	//유저 즐겨찾기 추가(AJAX)
+	//유저 즐겨찾기 추가
   	@RequestMapping(value="/board/userMark", method=RequestMethod.POST)
   	@ResponseBody
   	public Response<Object> userMark(HttpServletRequest request, HttpServletResponse response)
@@ -441,7 +395,7 @@ public class BoardController
 	
   	
 	//게시물 조회
-    @RequestMapping(value="/board/view", method=RequestMethod.GET)
+    @RequestMapping(value="/board/view")
     public String view(ModelMap model, HttpServletRequest request, HttpServletResponse response)
     {
        //조회 객체
@@ -452,6 +406,12 @@ public class BoardController
        String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
        //게시물 번호
        long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+       //조회항목(1:작성자, 2:제목, 3:내용)
+       String searchType = HttpUtil.get(request, "searchType");
+       //조회 값
+       String searchValue = HttpUtil.get(request, "searchValue", "");
+       //현재 페이지
+       long curPage = HttpUtil.get(request, "curPage", (long)1);
        //본인글 여부
        String boardMe = "N";
        //좋아요 여부 체크
@@ -460,26 +420,12 @@ public class BoardController
        String bbsMarkActive = "N";
        //댓글허용체크
        String bbsComment = "";
-       List<Board> boardPrevList = null;
-       Board boardPrev = null;
-       Board boardNext = null;
-       List<Board> boardNextList = null;
        
        if(bbsSeq > 0)
        {
           board = boardService.boardView(bbsSeq);
           comment = boardService.commentList(board);
-          //이전글, 다음글 조회
-          boardPrevList = boardService.boardPrevList(board);
-          boardNextList = boardService.boardNextList(board);
-          if(boardPrevList.size() !=0)
-          {
-        	  boardPrev = boardService.boardView(boardPrevList.get(boardPrevList.size()-1).getBbsSeq());        	  
-          }
-          if(boardNextList.size() !=0)
-          {
-        	  boardNext = boardService.boardView(boardNextList.get(boardNextList.size()-1).getBbsSeq());        	  
-          }
+          
           //본인 게시물 여부
           if(board != null && StringUtil.equals(board.getUserUID(), cookieUserUID))
           {
@@ -514,20 +460,64 @@ public class BoardController
        }
        model.addAttribute("bbsSeq", bbsSeq);
        model.addAttribute("board", board);
-       model.addAttribute("boardPrev", boardPrev);
-       model.addAttribute("boardNext",boardNext);
        model.addAttribute("boardMe", boardMe);
        model.addAttribute("cookieUserUID",cookieUserUID);
        model.addAttribute("bbsComment", bbsComment);
+       model.addAttribute("searchType", searchType);
+       model.addAttribute("searchValue", searchValue);
+       model.addAttribute("curPage", curPage);
        model.addAttribute("list", comment);
        model.addAttribute("bbsLikeActive", bbsLikeActive);
        model.addAttribute("bbsMarkActive", bbsMarkActive);
-       model.addAttribute("boardPrevList", boardPrevList);
-       model.addAttribute("boardNextList", boardNextList);
-       
+       User user2 = new User();
+		user2 = userService.userUIDSelect(cookieUserUID);
+		if(user2 != null)
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", user2.getUserNick());
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[BoardController] board/view NullPointerException", e);
+			}
+		}
        return "/board/view";
     }
     
+    
+    //첨부파일 다운로드
+  	@RequestMapping(value="/board/download")
+  	public ModelAndView download(HttpServletRequest request, HttpServletResponse response)
+  	{
+  		ModelAndView modelAndView = null;
+  		//게시물 번호
+  		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+  		
+  		if(bbsSeq > 0)
+  		{
+  			BoardFile boardFile = boardService.boardFileSelect(bbsSeq);
+  			
+  			if(boardFile != null)
+  			{
+  				File file = new File(BOARD_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + boardFile.getFileName());
+  				
+  				if(FileUtil.isFile(file))
+  				{
+  					modelAndView = new ModelAndView();
+
+  					modelAndView.setViewName("fileDownloadView");
+  					modelAndView.addObject("file", file);
+  					modelAndView.addObject("fileName", boardFile.getFileOrgName());
+  					
+  					return modelAndView;
+  				}
+  			}
+  		}
+  		
+  		return modelAndView;
+  	}
+  	
     
     //게시물 수정 form
    	@RequestMapping(value="/board/updateForm")
@@ -570,7 +560,19 @@ public class BoardController
   		model.addAttribute("curPage", curPage);
   		model.addAttribute("board", board);
   		model.addAttribute("user", user);
-  		
+  		User user2 = new User();
+		user2 = userService.userUIDSelect(cookieUserUID);
+		if(user2 != null)
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", user2.getUserNick());
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[BoardController] board/updateForm NullPointerException", e);
+			}
+		}
   		return "/board/updateForm";
   	}
   	
@@ -800,38 +802,84 @@ public class BoardController
   	}
   	
   	
-	//첨부파일 다운로드
-  	@RequestMapping(value="/board/download")
-  	public ModelAndView download(HttpServletRequest request, HttpServletResponse response)
-  	{
-  		ModelAndView modelAndView = null;
-  		//게시물 번호
-  		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
-  		
-  		if(bbsSeq > 0)
-  		{
-  			BoardFile boardFile = boardService.boardFileSelect(bbsSeq);
-  			
-  			if(boardFile != null)
-  			{
-  				File file = new File(BOARD_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + boardFile.getFileName());
-  				
-  				if(FileUtil.isFile(file))
-  				{
-  					modelAndView = new ModelAndView();
-
-  					modelAndView.setViewName("fileDownloadView");
-  					modelAndView.addObject("file", file);
-  					modelAndView.addObject("fileName", boardFile.getFileOrgName());
-  					
-  					return modelAndView;
-  				}
-  			}
-  		}
-  		
-  		return modelAndView;
-  	}
-  	
+	//게시물 즐겨찾기 리스트
+	@RequestMapping(value="/board/markList")
+	public String markList(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+	{
+		//조회 객체
+		Board board = new Board();
+		//쿠키값
+        String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);  
+		//조회항목
+		String searchType = HttpUtil.get(request, "searchType");
+		//조회값
+		String searchValue = HttpUtil.get(request, "searchValue", "");
+		//분류값
+	    long sortValue = HttpUtil.get(request, "sortValue", (long)4);
+		//현재페이지
+		long curPage = HttpUtil.get(request, "curPage", (long)1);
+		//총 게시물 수
+		long totalCount = 0;
+		//게시물 리스트
+		List<Board> markList = null;
+		//페이징 객체
+		Paging paging = null;
+		//게시판 번호
+		board.setBbsNo(5);
+		
+		if(!StringUtil.isEmpty(cookieUserUID))
+		{
+			board.setUserUID(cookieUserUID);
+		}
+		
+		if(!StringUtil.isEmpty(searchType) && !StringUtil.isEmpty(searchValue))
+		{
+			board.setSearchType(searchType);
+			board.setSearchValue(searchValue);
+		}
+		
+		board.setSortValue(sortValue);
+		totalCount = boardService.markListCount(board);
+		
+		if(totalCount > 0)
+		{	
+			paging = new Paging("/board/markList", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
+			
+			paging.addParam("bbsNo", board.getBbsNo());
+			paging.addParam("searchType", searchType);
+			paging.addParam("searchValue", searchValue);
+			paging.addParam("sortValue", sortValue);
+			paging.addParam("curPage", curPage);
+			
+			board.setStartRow(paging.getStartRow());
+			board.setEndRow(paging.getEndRow());
+			
+			markList = boardService.markList(board);
+		}
+		
+		model.addAttribute("markList", markList);
+		model.addAttribute("bbsNo", board.getBbsNo());
+		model.addAttribute("searchType", searchType);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("sortValue", sortValue);
+		model.addAttribute("curPage", curPage);
+		model.addAttribute("paging", paging);
+		User user2 = new User();
+		user2 = userService.userUIDSelect(cookieUserUID);
+		if(user2 != null)
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", user2.getUserNick());
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[BoardController] board/markList NullPointerException", e);
+			}
+		}
+		return "/board/markList";
+	}	
+  
   	
   	//댓글등록
   	@RequestMapping(value="/board/commentProc", method=RequestMethod.POST)
@@ -947,7 +995,7 @@ public class BoardController
   	}
   	
   	
-  	//게시물 신고(AJAX)
+  	//게시물 신고
   	@RequestMapping(value="/board/reportProc", method=RequestMethod.POST)
   	@ResponseBody
   	public Response<Object> reportProc(HttpServletRequest request, HttpServletResponse response)
@@ -1012,32 +1060,6 @@ public class BoardController
 		
 		return ajaxResponse;
   	}
-
-  //대댓글
-  	@RequestMapping(value="/board/replyProc", method=RequestMethod.GET)
-  	@ResponseBody
-  	public Object replyProc(HttpServletRequest request, HttpServletResponse response)
-  	{
-  		long bbsSeq = HttpUtil.get(request, "bbsSeq", 0);
-  		long commentBbsSeq = HttpUtil.get(request, "commentBbsSeq", 0);
-  		Board mainBoard = new Board();
-  		Board commentBoard = new Board();
-  		mainBoard.setBbsSeq(bbsSeq);
-  		commentBoard.setBbsSeq(bbsSeq);
-        List<Board> comment = boardService.commentList(commentBoard);
-        
-        JSONObject obj = new JSONObject();
-        Gson gson = new Gson();
-        String jsonPlace = gson.toJson(comment);
-        try {
-        	logger.debug("##########################");
-        	logger.debug("#@@@@@@@$$$$$$$$$" + jsonPlace);
-        	logger.debug("##########################");
-        }
-        catch(JSONException e)
-        {
-        	e.printStackTrace();
-        }
-  		return jsonPlace;
-  	}
+  
+  	
 }

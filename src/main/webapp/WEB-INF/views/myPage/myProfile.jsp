@@ -1,16 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	// 개행문자 값을 저장한다.
-	pageContext.setAttribute("newLine", "\n");
+   // 개행문자 값을 저장한다.
+   pageContext.setAttribute("newLine", "\n");
 %>
 <!DOCTYPE html>
 <html>
 
 <head>
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
-<script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
-<script type="text/javascript" src="/resources/js/icia.common.js"></script>
-
 <script type="text/javascript">
 $(document).ready(function() {
    $("#btnDelete").on("click", function(){
@@ -30,22 +27,22 @@ $(document).ready(function() {
                   if(response.code == 0)
                   {
                      alert("탈퇴가 완료되었습니다.");
-                     location.href = "/index";
+                     window.location = "/";
                   }
                   else if(response.code == 500)
                   {
                      alert("회원 정보를 찾을 수 없습니다. 메인 페이지로 돌아갑니다.");
-                     location.href = "/index";
+                     window.location = "/";
                   }
                   else if(response.code == 404)
                   {
                      alert("사용자가 아닙니다.");
-                     location.href = "/index";
+                     window.location = "/";
                   }
                   else
                   {
                      alert("회원 탈퇴 중 오류가 발생했습니다.");
-                     location.href = "/index";
+                     window.location = "/";
                   }
                },
                complete:function(data)
@@ -65,7 +62,7 @@ $(document).ready(function() {
 
 //닉네임 변경 시작
 function showPopupNick() { 
-   var popHeight = 130;                                      // 띄울 팝업창 높이   
+   var popHeight = 165;                                      // 띄울 팝업창 높이   
    var popWidth = 460;                                       // 띄울 팝업창 너비
    var winHeight = document.body.clientHeight;                 // 현재창의 높이
    var winWidth = document.body.clientWidth;                 // 현재창의 너비
@@ -81,7 +78,7 @@ function showPopupNick() {
 
 //이메일 변경 시작
 function showPopupEmail() { 
-   var popHeight = 130;                                      // 띄울 팝업창 높이   
+   var popHeight = 170;                                      // 띄울 팝업창 높이   
    var popWidth = 460;                                       // 띄울 팝업창 너비
    var winHeight = document.body.clientHeight;                 // 현재창의 높이
    var winWidth = document.body.clientWidth;                 // 현재창의 너비
@@ -96,7 +93,7 @@ function showPopupEmail() {
 
 //사진 변경 시작
 function showPopupFile() { 
-   var popHeight = 130;                                      // 띄울 팝업창 높이   
+   var popHeight = 200;                                      // 띄울 팝업창 높이   
    var popWidth = 460;                                       // 띄울 팝업창 너비
    var winHeight = document.body.clientHeight;                 // 현재창의 높이
    var winWidth = document.body.clientWidth;                 // 현재창의 너비
@@ -112,7 +109,7 @@ function showPopupFile() {
 
 //전화번호 변경 시작
 function showPopupPhone() { 
-   var popHeight = 130;                                      // 띄울 팝업창 높이   
+   var popHeight = 220;                                      // 띄울 팝업창 높이   
    var popWidth = 460;                                       // 띄울 팝업창 너비
    var winHeight = document.body.clientHeight;                 // 현재창의 높이
    var winWidth = document.body.clientWidth;                 // 현재창의 너비
@@ -129,7 +126,7 @@ function showPopupPhone() {
 //비밀번호 변경 시작
 function showPopupPwd() {
 	
-   var popHeight = 130;                                      // 띄울 팝업창 높이   
+   var popHeight = 350;                                      // 띄울 팝업창 높이   
    var popWidth = 460;                                       // 띄울 팝업창 너비
    var winHeight = document.body.clientHeight;                 // 현재창의 높이
    var winWidth = document.body.clientWidth;                 // 현재창의 너비
@@ -185,12 +182,12 @@ function updateError(){
   <main id="main">
    <section class="mypage">
         <!--마이페이지-->
-    </br></br>
+    <br /><br />
     <container class="mypage-cont">
      <div class="mypage-title">내 프로필</div>         
        <hr role="tournament1">
     </container>
-    </br>
+    <br />
 
         <div class="d-flex justify-content-between align-items-center">
           <div id="mypage" class="user-edit">

@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	// Community 번호
-	request.setAttribute("No", 4);
 	// 개행문자 값을 저장한다.
 	pageContext.setAttribute("newLine", "\n");
+	// Community 번호
+	request.setAttribute("No", 4);
+
 %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <!DOCTYPE html>
@@ -117,7 +118,7 @@ $(document).ready(function() {
       <div class="notice">
         <p>Community 글 작성시 유의사항</p>
           <ul>- 홍보/비방/욕설/기타 특성에 맞지 않는 등의 글은 관리자가 내용 확인 후 임의로 삭제할 수 있습니다.<br/>
-              - 파일첨부란에 반드시 이미지를 첨부해야 하며, 등록된 이미지는 대표이미지로 적용됩니다.<br/>
+              - 작성 시 반드시 하나의 파일을 첨부해야 하며, 등록된 이미지는 추후 대표 이미지로 적용될 수 있습니다.<br/>
               - 회원 탈퇴하여도 게시물 내용은 삭제되지 않습니다.
           </ul>
       </div>
@@ -216,8 +217,10 @@ $(document).ready(function() {
     <input type="hidden" name="searchValue" value="${searchValue}" />
     <input type="hidden" name="curPage" value="${curPage}" />
    </form>
-      
   </div>
  </section> 
+ 
+ <!-- ======= Footer ======= -->
+ <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 </body>
 </html>

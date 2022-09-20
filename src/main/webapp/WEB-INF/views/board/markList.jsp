@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	// Community 번호
-	request.setAttribute("No", 4);
 	// 개행문자 값을 저장한다.
 	pageContext.setAttribute("newLine", "\n");
+	// Community 번호
+	request.setAttribute("No", 4);
+
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,11 +57,11 @@ $(document).ready(function() {
 });
 
 //상세 글 보기
-function fn_view2(bbsSeq)
+function fn_view(bbsSeq)
 {
-   document.bbsForm2.bbsSeq.value = bbsSeq;
-   document.bbsForm2.action = "/board/view";
-   document.bbsForm2.submit();
+   document.bbsForm.bbsSeq.value = bbsSeq;
+   document.bbsForm.action = "/board/view";
+   document.bbsForm.submit();
 }
 
 //목록
@@ -118,21 +119,21 @@ function fn_userList(userUID, userNick)
          <table>
            <tr>
              <th style="width:10%">번호</th>
-             <th colspan="2" style="width:10%">좋아요</th>
+             <th colspan="2" style="width:10%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;좋아요</th>
              <th style="width:45%">제목</th>
              <th style="width:10%">작성자</th>
              <th style="width:10%">조회수</th>
              <th style="width:15%">날짜</th>
            </tr>
                 
-           <c:if test="${!empty marklist}">
-             <c:forEach var="board" items="${marklist}" varStatus="status">
+           <c:if test="${!empty markList}">
+             <c:forEach var="board" items="${markList}" varStatus="status">
                <tr>
                  <td>${board.rNum}</td>
                  <td><ion-icon name="heart"></ion-icon>&nbsp;</td>
                  <td class="likeNum">${board.bbsLikeCnt}</td>
                  <td><a href="javascript:void(0)" onclick="fn_view(${board.bbsSeq})">${board.bbsTitle}</a></td>
-                 <td><a href="javascript:void(0)" onclick="fn_userList(${board.userNick})">${board.userNick}</a></td>
+                 <td><a href="javascript:void(0)" onclick="fn_userList('${board.userUID}', '${board.userNick}')">${board.userNick}</a></td>
                  <td>${board.bbsReadCnt}</td>
                  <td>${board.regDate}</td>
                </tr>
@@ -163,9 +164,6 @@ function fn_userList(userUID, userNick)
        </div>
      </div>
    
-   	<form name="bbsForm2" id="bbsForm2" method="GET">
-	 <input type="hidden" name="bbsSeq" value="${bbsSeq}" />
-   	</form>
 	<form name="bbsForm" id="bbsForm" method="post">
 	 <input type="hidden" name="bbsSeq" value="" />
 	 <input type="hidden" name="searchType" value="${searchType}" />

@@ -1,13 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%
-   // 개행문자 값을 저장한다.
-   pageContext.setAttribute("newLine", "\n");
-%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <!DOCTYPE html>
 <html>
 
 <head>
+<%@ include file="/WEB-INF/views/include/head.jsp" %>
 <script src="https://kit.fontawesome.com/842f2be68c.js" crossorigin="anonymous"></script>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
@@ -91,11 +88,11 @@ function fn_validateEmail(value)
 </script>
 </head>
 
-<body>
-<form>
-	
+<body style="background-color:white; text-align: center;">
+<p style="font-family:Cafe24Dangdanghae; color:#d4af7a; margin-top:10px; font-size:20px;">이메일 주소변경</p>
+<form>	
 	<input type="text" id="userEmail" name="userEmail" class="userEmail" placeholder="변경하실 이메일을 입력해주세요" maxlength="20">
-	<button type="button" id="btnUpdate">확인</button> 
+	<input type="button" id="btnUpdate" value="확인" style="font-family:Cafe24Dangdanghae;" /><br /><br />
 	<input type="button" value="닫 기" onclick="self.close();" />       
 </form>
 </body>

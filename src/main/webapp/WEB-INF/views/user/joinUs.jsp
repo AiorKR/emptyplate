@@ -516,7 +516,7 @@ function signUpPopUp() {
 //비밀번호 찾기 시작
 function showPopupPwdSearch() {
 	
-   var popHeight = 160;                                      // 띄울 팝업창 높이   
+   var popHeight = 400;                                      // 띄울 팝업창 높이   
    var popWidth = 460;                                       // 띄울 팝업창 너비
    var winHeight = document.body.clientHeight;                 // 현재창의 높이
    var winWidth = document.body.clientWidth;                 // 현재창의 너비
@@ -532,7 +532,7 @@ function showPopupPwdSearch() {
 
 //카카오 전화번호 시작
 function showPopupKakao() { 
-   var popHeight = 130;                                      // 띄울 팝업창 높이   
+   var popHeight = 320;                                      // 띄울 팝업창 높이   
    var popWidth = 500;                                       // 띄울 팝업창 너비
    var winHeight = document.body.clientHeight;                 // 현재창의 높이
    var winWidth = document.body.clientWidth;                 // 현재창의 너비
@@ -614,7 +614,7 @@ function updateSuccess() {
 
 //전화번호 인증 시작
 function showPopupPhone() { 
-   var popHeight = 130;                                      // 띄울 팝업창 높이   
+   var popHeight = 230;                                      // 띄울 팝업창 높이   
    var popWidth = 460;                                       // 띄울 팝업창 너비
    var winHeight = document.body.clientHeight;                 // 현재창의 높이
    var winWidth = document.body.clientWidth;                 // 현재창의 너비
@@ -669,7 +669,7 @@ userPhone.value = "인증되었습니다"
 		            </label>
 		             <label>
 		              <span>닉네임</span>
-		              <input type="text" id="userNick" name="userNick" placeholder="닉네임을 입력하세요." maxlength="12" />
+		              <input type="text" id="userNick" name="userNick" placeholder="닉네임을 입력하세요." maxlength="11" />
 		            </label>
 		            <label>
 		              <span>Email</span>

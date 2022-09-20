@@ -5,6 +5,7 @@
 <html>
 
 <head>
+<%@ include file="/WEB-INF/views/include/head.jsp" %>
 <script src="https://kit.fontawesome.com/842f2be68c.js" crossorigin="anonymous"></script>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
@@ -64,17 +65,19 @@ $(document).ready(function() {
 });
 </script>
 
+<style>
+
+</style>
 </head>
 
-<body>
+<body style="background-color:white;">
 <div class="container text-center">
   <div class="row">
-    <div class="col">
-      <input type="text" id="search" name="search" placeholder="-빼고 입력해주세요." maxlength="10">
-    </div>
-    <div class="col" style="width:128px; height:30px">
-     <button type="button" id="btnSearch">사업자번호조회</button>
-     
+    <div class="col" style="text-align: center;">
+    <p style="font-family:Cafe24Dangdanghae; color:#d4af7a; margin-top:20px; font-size:20px;">사업자번호 상태조회</p>
+    <hr style="color:black;">
+      <input type="text" id="search" name="search" placeholder="-빼고 입력해주세요." maxlength="10" style="font-size:14px">
+     <button type="button" id="btnSearch" style="background-color:#d4af7a; font-family:Cafe24Dangdanghae;" >사업자번호조회</button>  
     </div>
   </div>
   </div>

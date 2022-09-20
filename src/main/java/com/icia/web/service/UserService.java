@@ -9,6 +9,7 @@
  */
 package com.icia.web.service;
 
+import java.util.List;
 import java.util.Random;
 
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.icia.web.dao.UserDao;
+import com.icia.web.model.BoardLike;
 import com.icia.web.model.User;
 import com.icia.web.model.UserFile;
 import com.icia.web.util.SmsMessage;
@@ -283,6 +285,23 @@ public class UserService
 		}
 		
 		return count;
+	}
+	
+	//탈퇴시 좋아요 수 업데이트
+	public List<BoardLike> likeList(User user)
+	{
+		List<BoardLike> likeList = null;
+		
+		try
+		{
+			likeList = userDao.likeList(user);
+		}
+		catch(Exception e)
+		{
+			logger.error("[userService] likeList Exception", e);
+		}
+		
+		return likeList;
 	}
 	
 	//사용자 탈퇴시 게시물 즐겨찾기 삭제

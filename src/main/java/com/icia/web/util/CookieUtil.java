@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.icia.common.util.StringUtil;
+import com.icia.web.model.Order;
 
 /**
  * <pre>
@@ -96,6 +97,7 @@ public final class CookieUtil
 		
 		return bFlag;
 	}
+
 	
 	/**
 	 * <pre>
