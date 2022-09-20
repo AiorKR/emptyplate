@@ -259,7 +259,7 @@ public class BoardService
 			}
 			//새로운 첨부파일 등록
 			board.getBoardFile().setBbsSeq(board.getBbsSeq());
-			board.getBoardFile().setFileOrgName(Long.toString(board.getBbsSeq()));
+			//board.getBoardFile().setFileOrgName(Long.toString(board.getBbsSeq()));
 			board.getBoardFile().setFileSeq((short)1);
 		
 			boardDao.boardFileInsert(board.getBoardFile());
