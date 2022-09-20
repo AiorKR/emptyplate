@@ -48,6 +48,44 @@ $(document).ready(function(){
 		
 	});
 	
+	//게시물 즐겨찾기
+   $("#btnMark").on("click", function(){
+	   $.ajax({
+	       type:"POST",
+	       url:"/shop/mark",
+	       data:{
+	          shopUID:'<c:out value="${shopUID}" />'
+	       },
+	       datatype:"JSON",
+	       beforeSend:function(xhr){
+	          xhr.setRequestHeader("AJAX", "true");
+	       },
+	       success:function(response){
+	          if(response.code == 0)
+	          {
+	             alert("즐겨찾기를 하셨습니다.");
+	             location.reload();
+	          }
+	          else if(response.code == 1)
+	          {
+	             alert("즐겨찾기를 취소하셨습니다.");
+	             location.reload();
+	          }
+	          else if(response.code == 400)
+	          {
+	             alert("로그인 후, 즐겨찾기 버튼을 사용하실 수 있습니다.");
+		         location.href = "/user/login";
+	          }
+	          else
+	          {
+	             alert("즐겨찾기 중 오류가 발생하였습니다.");
+	          }
+	       },
+	       error:function(xhr, status, error){
+	          icia.common.error(error);
+	       }
+	    });
+	});
 	
 	//리뷰로 변경 필요
 	$("#btnSearch").on("click", function(){
@@ -61,7 +99,7 @@ $(document).ready(function(){
 	
 	$("#btn-primary").on("click", function() { 
 	      document.bbsForm.bbsSeq.value = "";
-	      document.bbsForm.action = "/purchase/pay";
+	      document.bbsForm.action = "/purcx/hase/pay";
 	      document.bbsForm.submit();
 	   });
 	   
@@ -368,7 +406,15 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
                 <div class="col-md-6">
                     <div class="p-3 right-side">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h3>${shop.shopName}</h3><div class="bookmark"><button type="button" id="btnBoomark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
+                            <h3>${shop.shopName}</h3>
+                            <c:choose>
+								<c:when test="${shopMarkActive eq 'Y'}">
+									<div class="bookmark"><button type="button" id="btnMark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
+								</c:when>
+								<c:when test="${shopMarkActive eq 'N'}">
+									<div class="bookmark"><button type="button" id="btnMark" class="bookmark"><ion-icon name="star-outline"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
+								</c:when>
+							</c:choose>
                         </div>
                         <div class="mt-2 pr-3 content">
                             <p>${shop.shopIntro}</p>
@@ -439,11 +485,11 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
                             <div class="modal-dialog">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title" id="m">예약</h5>
+                                  <h5 class="modal-title" id="m" >예약</h5>
                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                  	<div id="shopName">${shop.shopName}</div>
+                                  	<div id="shopName">${shop.shopName}</div><br />
                                   	<div id="selectcontent">
                                     	<div class="personnel-select">
                                         	<div class="personnel-selected">
@@ -474,7 +520,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 	                                    <c:if test="${shop.shopType eq 2}"> <!-- 오마카세일때 적용 -->
 	                                    	카운터석 : <input type="checkbox" id="counterSeat" class="counterSeat"/>
 	                                    	* 카운터석은 연속되게 앉을 수 없을 수도 있습니다. *
-                                  		</c:if>
+                                  		</c:if><br /><br />
                                   	</div>	
                               		<div id="tableCheck">
 
@@ -525,8 +571,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
                     </div>
                 </div>
             </div>
-        </div>
-        <container>
+             <container>
            <hr class="hr-5">
         </container>
         <div class="review-container1">
@@ -539,6 +584,8 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
               <li><a href="#">Review text1</a></li>
             </ul>
           </div>
+        </div>
+
              <form name="bbsForm" id="bbsForm" method="post">
               <input type="hidden" name="shopUID" id="shopUID"  value="${shop.shopUID}"/> 
                <input type="hidden" name="searchType"  value="${searchType}"/>
