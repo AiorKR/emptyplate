@@ -44,7 +44,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 //마크 유져 페이지
 
-
+//해당 작성자 게시글
+function fn_userList(userUID, userNick)
+{
+   document.bbsForm.userUID.value = userUID;
+   document.bbsForm.action = "/board/userList";
+   document.bbsForm.submit();
+}
 </script>
 <style>
 .myFavo-title-sec{
@@ -184,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function() {
 					        <!-- 반복시작 -->
 					        <div class="swiper-slide">
 					        	<div>
-					        		<a href=#>
+					        		<a href="javascript:void(0)" onclick="fn_userList('${list.markUserUID}')">
 					        			<c:if test="${list.fileName eq ''}">
 							            	<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
 							            </c:if>
@@ -300,8 +306,14 @@ document.addEventListener("DOMContentLoaded", function() {
 					</div>
 			</div>
 	</div>
-</div>
-       
+	
+<form name="bbsForm" id="bbsForm" method="post">
+	 <input type="hidden" name="shopUID" value="" />
+	 <input type="hidden" name="curPage" value="${curPage}" />	
+	 <input type="hidden" name="userUID" value="${userUID}" />
+	</form> 
+	
+</div>       
 </section>
 </main>
  
