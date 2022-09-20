@@ -162,16 +162,7 @@ public class PayService {
 												shopReservationTable.setShopTableStatus("Y");
 												shopReservationTable.setOrderUID(order.getOrderUID());
 												shopReservationTableList.add(shopReservationTable);
-												
-												
-												logger.debug("짝수 : -------------------------------------------------------------------------------------------");
-												logger.debug("j : " + j + ", size : " + shopReservationTableList.size());
-												logger.debug("shopReservationTableList tableUID : " + shopReservationTableList.get(j).getShopTableUID());
-												logger.debug("shopReservationTableList date : " + shopReservationTableList.get(j).getShopReservationDate());
-												logger.debug("shopReservationTableList time : " + shopReservationTableList.get(j).getShopReservationDate());
-												logger.debug("shopReservationTableList status : " + shopReservationTableList.get(j).getShopTableStatus());
-												logger.debug("shopReservationTableList orderUID : " + shopReservationTableList.get(j).getOrderUID());
-												logger.debug("-------------------------------------------------------------------------------------------");
+
 												if ((j + 1 ) == quantity) break;
 											}
 										}
@@ -200,15 +191,6 @@ public class PayService {
 													shopReservationTable.setOrderUID(order.getOrderUID());
 													shopReservationTableList.add(shopReservationTable);
 													
-													
-													logger.debug("홀수 : -------------------------------------------------------------------------------------------");
-													logger.debug("j : " + j + ", size : " + shopReservationTableList.size());
-													logger.debug("shopReservationTableList tableUID : " + shopReservationTableList.get(j).getShopTableUID());
-													logger.debug("shopReservationTableList date : " + shopReservationTableList.get(j).getShopReservationDate());
-													logger.debug("shopReservationTableList time : " + shopReservationTableList.get(j).getShopReservationDate());
-													logger.debug("shopReservationTableList status : " + shopReservationTableList.get(j).getShopTableStatus());
-													logger.debug("shopReservationTableList orderUID : " + shopReservationTableList.get(j).getOrderUID());
-													logger.debug("-------------------------------------------------------------------------------------------");
 													if ((j + 1 ) == quantity) break;
 												}
 											}
@@ -266,8 +248,6 @@ public class PayService {
 						}
 					}
 					
-					result = "-999";
-					
 					if(StringUtil.equals("0, 예약가능", result)) {
 						if(shopDao.orderInsert(order) > 0) {
 							if(shopDao.orderMenuInsert(order.getOrderMenu()) > 0 && shopDao.reservationTableInser( order.getShopReservationTableList()) > 0) {
@@ -296,7 +276,7 @@ public class PayService {
 	public String payCancel(String paymentKey, String cancelReason, int cancelAmount) { //환불
 		String result = "";
 		
-		if(!StringUtil.isEmpty(paymentKey) &&  StringUtil.isEmpty(cancelReason) && cancelAmount > 0) {
+		if(!StringUtil.isEmpty(paymentKey) &&  !StringUtil.isEmpty(cancelReason) && cancelAmount > 0) {
 			String cancelUrl = "/v1/payments/" + paymentKey + "/cancel";
 			String Amount = Integer.toString(cancelAmount);
 			RestTemplate restTemplate = new RestTemplate();
