@@ -23,9 +23,9 @@ import com.icia.web.util.CookieUtil;
 import com.icia.web.util.HttpUtil;
 
 @Controller("rListController")
-public class RListController
+public class rListController
 {
-	private static Logger logger = LoggerFactory.getLogger(RListController.class);
+	private static Logger logger = LoggerFactory.getLogger(rListController.class);
 	//쿠키명 지정
 	@Value("#{env['auth.cookie.name']}")
 	private String AUTH_COOKIE_NAME;
@@ -73,7 +73,10 @@ public class RListController
 			
 			list = shopService.myOrderList(userUID);
 		}
-		logger.debug("list size() : " + list.size());
+		if(list != null)
+		{
+			logger.debug("list size() : " + list.size());
+	
 		for(int i=0; i < list.size(); i++)
 		{
 			logger.debug("list.MenuSize size() : " + list.get(i).getOrderMenu().size());
@@ -84,7 +87,7 @@ public class RListController
 				logger.debug("수량 : " + list.get(i).getOrderMenu().get(j).getOrderMenuQuantity());
 			}
 		}
-		
+
 		
 		for(int i=0; i < list.size(); i++)
 		{
@@ -99,7 +102,7 @@ public class RListController
 			logger.debug("여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기 : " + list.get(i).getShopName());
 		}
 		
-	
+		}
 		
 		
 		model.addAttribute("list", list);
