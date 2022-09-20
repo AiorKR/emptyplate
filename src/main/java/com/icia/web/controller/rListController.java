@@ -104,6 +104,10 @@ public class rListController
 		
 		}
 		
+		//닉넴띄우기
+		User user2 = new User();
+		user2 = userService.userUIDSelect(userUID);
+		model.addAttribute("cookieUserNick", user2.getUserNick());
 		
 		model.addAttribute("list", list);
 		model.addAttribute("curPage", curPage);

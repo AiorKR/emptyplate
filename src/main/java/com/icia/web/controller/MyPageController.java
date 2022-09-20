@@ -585,7 +585,7 @@ public class MyPageController {
     @RequestMapping(value="/myPage/myFavorites", method=RequestMethod.GET)
     public String myFavorites(ModelMap model, HttpServletRequest request, HttpServletResponse response)
     {
-    	//조회 객체
+    	//조회 객체(사용자)
 		User user = new User();
 		String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		user = userService.userUIDSelect(userUID);
@@ -594,9 +594,11 @@ public class MyPageController {
 		List<User> list = null;
 		list = userService.markUserList(userUID);			
 		model.addAttribute("list", list);
-	 User user2 = new User();
-     user2 = userService.userUIDSelect(userUID);
-     model.addAttribute("cookieUserNick", user2.getUserNick());
+		
+		//닉넴띄우기
+		User user2 = new User();
+		user2 = userService.userUIDSelect(userUID);
+		model.addAttribute("cookieUserNick", user2.getUserNick());
  	   
  	   return "/myPage/myFavorites";
     }
