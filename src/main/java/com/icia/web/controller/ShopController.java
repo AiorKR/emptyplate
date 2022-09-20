@@ -1,15 +1,9 @@
 package com.icia.web.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -62,7 +56,7 @@ public class ShopController {
 	
 	//게시판 리스트
 		@RequestMapping(value="/reservation/list")
-		public String list(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws Exception
+		public String list(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 		{
 			//조회항목
 			String searchType = HttpUtil.get(request, "searchType");
@@ -88,13 +82,8 @@ public class ShopController {
 			//데이터피커에서 선택한 예약시간
 			String reservationTime = HttpUtil.get(request, "reservationTime");
 			
-			logger.debug("datepicker [day] : " + reservationDate);
-			
-			logger.debug("datepicker [time] : " + reservationTime);
-			
 			//조회 객체
 			Shop search = new Shop();
-			
 			
 			if(StringUtil.equals(searchType, "1") || StringUtil.equals(searchType, "2")) { // 1: 파인다이닝 2:오마카세
 				
@@ -116,8 +105,6 @@ public class ShopController {
 			
 			totalCount = shopService.shopListCount(search); //총 매장 수를 확인
 			
-			logger.debug("totalCount : " + totalCount);
-			
 			if(totalCount > 0)
 			{
 				paging = new Paging("/reservation/list", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
@@ -131,9 +118,6 @@ public class ShopController {
 				search.setStartRow(paging.getStartRow());
 				search.setEndRow(paging.getEndRow());
 				
-				logger.debug("starRow : " + search.getStartRow());
-				logger.debug("endRow : " + search.getEndRow());
-				
 				list = shopService.shopList(search);
 			}
 			
@@ -144,7 +128,20 @@ public class ShopController {
 			model.addAttribute("searchValue", searchValue);
 			model.addAttribute("curPage", curPage);
 			model.addAttribute("paging", paging);
-			
+			String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+			User user2 = new User();
+			user2 = userService.userUIDSelect(cookieUserUID);
+			if(user2 != null)
+			{
+				try
+				{
+					model.addAttribute("cookieUserNick", user2.getUserNick());
+				}
+				catch(NullPointerException e)
+				{
+					logger.error("[ShopController] reservation/list NullPointerException", e);
+				}
+			}
 			return "/reservation/list";
 			
 		}
@@ -161,8 +158,6 @@ public class ShopController {
 		   
 		   String address = "";
 		   
-		   logger.debug("shopUID : " + shopUID);
-		   
 		   //조회항목(0 모두 1 파인다이닝 2오마카세)
 		   String searchType = HttpUtil.get(request, "searchType", "0");
 		   String searchValue = HttpUtil.get(request, "searchValue", "");
@@ -170,6 +165,9 @@ public class ShopController {
 		   //예약일 예약시간
 		   String reservationDate = HttpUtil.get(request, "reservationDate");
 		   String reservationTime = HttpUtil.get(request, "reservationTime");
+		   
+	       //즐겨찾기 여부 체크
+	       String shopMarkActive = "N";
 		   
 		   int standardTime = 1700; //점심 저녁 나눌 기준 시간
 		   
@@ -186,139 +184,184 @@ public class ShopController {
 		   if(!StringUtil.isEmpty(shopUID) && !StringUtil.equals(shopUID, "")) {
 			   shop = shopService.shopViewSelect(shopUID);
 			   
-			   logger.debug("파일 사이즈 : " + shop.getShopFileList().size());	
 			   
-			   logger.debug("메뉴 사이즈 : " + shop.getShopMenu().size());
-			   
-			   logger.debug("시간 사이즈 : " + shop.getShopTime().size());
-			   
-			   for(int i=0; i < shop.getShopFileList().size(); i++ ) {
-				   logger.debug("파일 이름 : " + shop.getShopFileList().get(i).getShopFileOrgName());
-			   }
-			   
-			   for(int i=0; i < shop.getShopMenu().size(); i++ ) {
-				   logger.debug("메뉴 이름 : " + shop.getShopMenu().get(i).getShopMenuName());
-			   }
-			   
-			   for(int i=0; i < shop.getShopTime().size(); i++ ) {
-				   logger.debug("시간 : " + shop.getShopTime().get(i).getShopOrderTime());
-				   
+			   for(int i=0; i < shop.getShopTime().size(); i++ ) {	   
 				   if(Integer.parseInt(shop.getShopTime().get(i).getShopOrderTime().replaceAll(":", "")) >= standardTime) { //시간에서 :제거후 int형으로 변환해서 기준시간과 비교
 					   shop.getShopTime().get(i).setShopTimeType("D");
-					   logger.debug("저녁시간 : " + shop.getShopTime().get(i).getShopOrderTime());
-					   logger.debug("저녁시간 : " + shop.getShopTime().get(i).getShopTimeType());
 				   }
 				   else {
 					   shop.getShopTime().get(i).setShopTimeType("L"); //기준 시간  보다 작다면 점심시간
-					   logger.debug("점심시간 : " + shop.getShopTime().get(i).getShopOrderTime());
-					   logger.debug("점심시간 : " + shop.getShopTime().get(i).getShopTimeType());
 				   }
 			   }
 			   	   
 			   url = "/reservation/view";
-			   
-			   if(shop != null && StringUtil.equals(shop.getShopUID(), cookieUserUID)) {
-				   ManagerMe = "Y";
-				   
-				   url = "/"; //관리자 페이지로 이동
-			   }
 		   }
 		   else {
 			  url =  "/reservation/list";
 		   }
 		   if(shop.getShopLocation1() != null && !StringUtil.equals("", shop.getShopLocation1())) { //도 가 있는 지역이라면
-			   address = shop.getShopLocation1(); //도
-			   address += " ";
-			   address += shop.getShopLocation2(); //시 군
-			   address += " ";
-			   address += shop.getShopLocation3(); // 구
-			   address += " ";
-			   address += shop.getShopAddress(); //상세주소
+			   address = shop.getShopLocation1() + " " + shop.getShopLocation2() + " " +shop.getShopLocation3() +" " + shop.getShopAddress();
 		   }
 		   
 		   else { //도가 없는 지역이라면
-			   address += shop.getShopLocation2();
-			   address += " ";
-			   address += shop.getShopLocation3();
-			   address += " ";
-			   address += shop.getShopAddress();
+			   address = shop.getShopLocation2() + " " + shop.getShopLocation3() + " " + shop.getShopAddress();
 		   }
+		   
+		   if(!StringUtil.isEmpty(cookieUserUID) && shopUID != "")
+		    {
+				shop.setUserUID(cookieUserUID);
+				shop.setShopUID(shopUID);
+				
+				if(shopService.shopMarkCheck(shop) == 0)                 
+		         {
+		        	 shopMarkActive = "N";
+		         }
+		         else
+		         {
+		        	 shopMarkActive = "Y";
+		         }
+		        
+		     }
 		   			
 		   model.addAttribute("address", address);		   
 		   model.addAttribute("shop", shop);
+		   model.addAttribute("shopUID", shopUID);
 		   model.addAttribute("boardMe", ManagerMe);
 		   model.addAttribute("searchType", searchType);
 		   model.addAttribute("searchValue", searchValue);
 		   model.addAttribute("curPage", curPage);
 		   model.addAttribute("reservationDate", reservationDate);
 		   model.addAttribute("reservationTime", reservationTime);
+		   model.addAttribute("shopMarkActive", shopMarkActive);
 		   
+			User user2 = new User();
+			user2 = userService.userUIDSelect(cookieUserUID);
+			if(user2 != null)
+			{
+				try
+				{
+					model.addAttribute("cookieUserNick", user2.getUserNick());
+				}
+				catch(NullPointerException e)
+				{
+					logger.error("[ShopController] url NullPointerException", e);
+				}
+			}
 		   return url;
 		}
 		
-		@RequestMapping(value="/reservation/reservationCheckProc", method=RequestMethod.GET) //매장 자리 조회
+		@RequestMapping(value = "/reservation/reservationCheckProc", method = RequestMethod.GET) // 매장 자리 조회
 		@ResponseBody
-		public Response<Object> reservationCheck(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-			Response<Object> ajax = new Response<Object>();		
-			String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);		
+		public Response<Object> reservationCheck(ModelMap model, HttpServletRequest request,
+				HttpServletResponse response) {
+			Response<Object> ajax = new Response<Object>();
+			String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 			String shopUID = HttpUtil.get(request, "shopUID");
 			String reservationDate = HttpUtil.get(request, "reservationDate");
 			String reservationTime = HttpUtil.get(request, "reservationTime");
-			String reservationPeople = HttpUtil.get(request, "reservationPeople");
-			
+			int reservationPeople = Integer.parseInt(HttpUtil.get(request, "reservationPeople", "0"));
+			String counterSeatYN = HttpUtil.get(request, "counterSeatYN", "N"); // 카운터석으로 예약할건지 여부
+
 			int count = 0;
-			
-			logger.debug("매장 번호 : " + shopUID);
-			logger.debug("예약일 : " + reservationDate);
-			logger.debug("예약시간" + reservationTime);
-			logger.debug("예약인원" + reservationPeople);
-			
-			
-			if(!StringUtil.isEmpty(shopUID)) {
+			int count2 = 0;
+
+			if (!StringUtil.isEmpty(shopUID)) {
 				Shop shop = new Shop();
-				
+
 				shop.setShopUID(shopUID);
 				shop.setReservationDate(reservationDate);
 				shop.setReservationTime(reservationTime);
-				
-				if(!StringUtil.isEmpty(cookieUserUID) && cookieUserUID != null) {
+
+				if (!StringUtil.isEmpty(cookieUserUID) && cookieUserUID != null) {
 					List<ShopTotalTable> shopTotalTable = shopService.shopReservationCheck(shop);
-					
-					if(shopTotalTable != null) {
-						logger.debug(" 매장 테이블 사이즈  : " + shopTotalTable.size());
-						
-						for(int i=0; i < shopTotalTable.size(); i++ ) {
-							logger.debug("" + shopTotalTable.get(i).getShopTotalTableUID());
-							for(int j=0; j < shopTotalTable.get(i).getShopTable().size(); j++) {
-								if(StringUtil.equals(shopTotalTable.get(i).getShopTable().get(j).getShopReservationTable().getShopTableStatus(), "Y")) {
+					if (reservationPeople > 0) {
+						for (int i = 0; i < shopTotalTable.size(); i++) {
+							for (int j = 0; j < shopTotalTable.get(i).getShopTable().size(); j++) {
+								if (StringUtil.equals(shopTotalTable.get(i).getShopTable().get(j).getShopReservationTable().getShopTableStatus(), "Y")) {
 									count++;
-									logger.debug("count : " + count);
 								}
 							}
-							if(shopTotalTable.get(i).getShopTotalTable() == count) { //예약된 테이블 갯수가 식당의 있는 테이블 수량과 같다면
-								logger.debug("자리 꽉참 : " + count);
-								shopTotalTable.get(i).setShopTotalTableStatus("Y"); //예약이 다 차있다면 Y를 세팅함. 디폴트값 N
+							if (shopTotalTable.get(i).getShopTotalTable() == count) { // 예약된 테이블 갯수가 식당의 있는 테이블 수량과 같다면
+								shopTotalTable.get(i).setShopTotalTableStatus("Y"); // 예약이 다 차있다면 Y를 세팅함. 디폴트값 N
+								if (StringUtil.equals("Y", shopTotalTable.get(i).getShopTotalTableStatus())) {
+									count2++;
+								}
+							} else {
+								shopTotalTable.get(i).setShopTotalTableRmains(shopTotalTable.get(i).getShopTotalTable() - count); // 남아있는 자리 세팅
 							}
-							else {
-								shopTotalTable.get(i).setShopTotalTableRmains(shopTotalTable.get(i).getShopTotalTable() - count); //남아있는 자리 파악
-								logger.debug("총합 테이블 수량 : " + shopTotalTable.get(i).getShopTotalTable());
-								logger.debug("남아있는 테이블 : " + shopTotalTable.get(i).getShopTotalTableRmains());
-							}
-							count = 0; //카운트 초기화 (j가 다 돌고 나면 첨부터 다시 카운트를 세야하므로 초기화)
+							count = 0; // 카운트 초기화 (j가 다 돌고 나면 첨부터 다시 카운트를 세야하므로 초기화)
 						}
-						ajax.setResponse(0, "셀렉트 성공", shopTotalTable);
-						model.addAttribute("shopTotalTable", shopTotalTable);
-					}		
+						if (count2 == shopTotalTable.size()) {
+							ajax.setResponse(-1, "예약을 더 받을 수 없음");
+						}
+						else if (shopTotalTable != null && StringUtil.equals(counterSeatYN, "N")) { // 모든 자리를 카운터석으로만 예약할게 아니라면 모든 자리 조회, 예약인원이 1명 이상일 경우
+							for (int i = 0; i < shopTotalTable.size(); i++) {
+								if (reservationPeople % 2 == 0) { // 예약인원이 짝수 일때
+									if (StringUtil.equals(shopTotalTable.get(i).getShopTotalTableStatus(), "N")) { // 자리가  있는 테이블  종류 확인
+										if (shopTotalTable.get(i).getShopTotalTableRmains() >= (reservationPeople % shopTotalTable.get(i).getShopTotalTableCapacity())) {
+											ajax.setResponse(0, "예약 가능");
+											break;
+										} 
+										else {
+											ajax.setResponse(-2, "남은 테이블이 예약인원보다 적음");
+										}
+									}
+								} 
+								else { // 예약인원이 홀수 일때
+									reservationPeople = reservationPeople + 1; // 1명 추가해서 짝수로 만들어 계산
+
+									if (StringUtil.equals(shopTotalTable.get(i).getShopTotalTableStatus(), "N")) { // 자리가  있는  테이블 종류  확인
+										if (shopTotalTable.get(i).getShopTotalTableRmains() >= (reservationPeople % shopTotalTable.get(i).getShopTotalTableCapacity())) {
+											ajax.setResponse(0, "예약 가능");
+											break;
+										} 
+										else {
+											ajax.setResponse(-2, "남은 테이블이 예약인원보다 적음");
+										}
+									}
+								}
+							}
+						} 
+						else { // 카운터석만 조회
+							for (int i = 0; i < shopTotalTable.size(); i++) {
+								if (shopTotalTable.get(i).getShopTotalTableCapacity() == 1) { // 카운터석만 확인
+									for (int j = 0; j < shopTotalTable.get(i).getShopTable().size(); j++) {
+										if (StringUtil.equals(shopTotalTable.get(i).getShopTable().get(j).getShopReservationTable().getShopTableStatus(), "Y")) { // 자리 조회 중
+											count++;
+										}
+									}
+									if (shopTotalTable.get(i).getShopTotalTable() == count) { // 예약된 테이블 갯수가 식당의 있는 테이블 수량과 같다면
+										shopTotalTable.get(i).setShopTotalTableStatus("Y"); // 예약이 다 차있다면 Y를 세팅함. 디폴트값 N
+										ajax.setResponse(-2, "카운터석 예약 최대로 예약되있음");
+									} 
+									else {
+										shopTotalTable.get(i).setShopTotalTableRmains(shopTotalTable.get(i).getShopTotalTable() - count); // 남아있는 자리 숫자 세팅
+										if (reservationPeople > shop.getShopTotalTable().get(i).getShopTotalTableRmains()) { // 1인테이블이므로 예약인원보다 남은 자리가 적으면 안됨
+											ajax.setResponse(-2, "남은 테이블이 예약인원보다 적음");
+										} 
+										else {
+											ajax.setResponse(0, "카운터석 자리 있음");
+										}
+									}
+								} 
+								else {
+									ajax.setResponse(-3, "카운터석이 존재하지 않음");
+								}
+							}
+						}
+					}
+					else {
+						ajax.setResponse(400, "예약인원이 0명임");
+					}
 				}
 				else {
-					ajax.setResponse(403, "로그인이 되어있지 않음");
+					ajax.setResponse(403, "매장 고유번호가 없음");
 				}
 			}
 			else {
 				ajax.setResponse(404, "매장 고유번호가 없음");
 			}
-			
-			return ajax;
+		return ajax;
 		}
 		
 		//임시 매장 정보 인서트
@@ -328,7 +371,7 @@ public class ShopController {
 		}
 		
 		
-		@RequestMapping(value="/reservation/shopInsertProc")
+		@RequestMapping(value="/reservation/shopInsertProc") //아직 루트나, 수정을 덜 했으므로 많이 바꾸어야함.
 		@ResponseBody
 		public Response<Object> shopInsertProc(MultipartHttpServletRequest request, HttpServletResponse response) {
 			Response<Object> ajax = new Response<Object>();
@@ -487,5 +530,107 @@ public class ShopController {
 		         }
 		         
 			return ajax;
+		}
+		
+		//즐겨찾기 추가
+	  	@RequestMapping(value="/shop/mark", method=RequestMethod.POST)
+	  	@ResponseBody
+	  	public Response<Object> shopMark(HttpServletRequest request, HttpServletResponse response)
+	  	{
+	  		Response<Object> ajaxResponse = new Response<Object>();
+	  		//조회객체
+	  		Shop shop = new Shop();
+	  		//쿠키값
+	  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+	  		//게시물 번호
+	  		String shopUID = HttpUtil.get(request, "shopUID", "");
+	  		
+	  		if(!StringUtil.isEmpty(cookieUserUID) && shopUID != "")
+	  		{
+	   			try
+	  			{
+	   				shop.setShopUID(shopUID);
+	   				shop.setUserUID(cookieUserUID);
+	   				
+	  				if(shopService.shopMarkCheck(shop) == 0)  					
+	  				{
+	  					shopService.shopMarkUpdate(shop);
+	  					ajaxResponse.setResponse(0, "shopmark insert success");
+	  				}
+	  				else
+	  				{
+	  					shopService.shopMarkDelete(shop);
+	  					ajaxResponse.setResponse(1, "shopmark delete success");
+	  				}
+	  			}
+	  			catch(Exception e)
+	  			{
+	  				logger.error("[ShopController] /shop/mark Exception", e);
+	  				ajaxResponse.setResponse(500, "internal server error");
+	  			}	
+	  		}
+	  		else
+	  		{
+	  			ajaxResponse.setResponse(400, "Bad Request");
+	  		}
+	  		
+	  		return ajaxResponse;
+	  	}
+	  	
+	  	
+		//게시물 즐겨찾기 리스트
+		@RequestMapping(value="/shop/shopMarkList")
+		public String shopMarkList(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+		{
+			//조회 객체
+			Shop shop = new Shop();
+			//쿠키값
+	        String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);  
+			//조회항목
+			String searchType = HttpUtil.get(request, "searchType");
+			//조회값
+			String searchValue = HttpUtil.get(request, "searchValue", "");
+			//현재페이지
+			long curPage = HttpUtil.get(request, "curPage", (long)1);
+			//총 게시물 수
+			long totalCount = 0;
+			//게시물 리스트
+			List<Shop> shopMarkList = null;
+			//페이징 객체
+			Paging paging = null;
+			
+			if(!StringUtil.isEmpty(cookieUserUID))
+			{
+				shop.setUserUID(cookieUserUID);
+			}
+			
+			if(!StringUtil.isEmpty(searchType) && !StringUtil.isEmpty(searchValue))
+			{
+				shop.setSearchType(searchType);
+				shop.setSearchValue(searchValue);
+			}
+			
+			totalCount = shopService.shopMarkListCount(shop);
+			
+			if(totalCount > 0)
+			{	
+				paging = new Paging("/shop/shopMarkList", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
+				paging.addParam("searchType", searchType);
+				paging.addParam("searchValue", searchValue);
+				paging.addParam("curPage", curPage);
+				
+				shop.setStartRow(paging.getStartRow());
+				shop.setEndRow(paging.getEndRow());
+				
+				shopMarkList = shopService.shopMarkList(shop);
+			}
+			
+			model.addAttribute("shopMarkList", shopMarkList);
+			model.addAttribute("searchType", searchType);
+			model.addAttribute("searchValue", searchValue);
+			model.addAttribute("curPage", curPage);
+			model.addAttribute("paging", paging);
+			
+			return "/shop/shopMarkList";
 		}
 }

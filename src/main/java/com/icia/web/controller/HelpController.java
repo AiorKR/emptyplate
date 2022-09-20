@@ -34,12 +34,25 @@ public class HelpController {
 	@RequestMapping(value="/help/index")
 	public String helpIndex(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	{
-		String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
-	       User user = null;
-	      
-	      user = userService.userUIDSelect(userUID);
-	              
-	      model.addAttribute("user", user);
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		User user = null;
+		  
+		user = userService.userUIDSelect(cookieUserUID);
+		          
+		model.addAttribute("user", user);
+		User user2 = new User();
+		user2 = userService.userUIDSelect(cookieUserUID);
+		if(user2 != null)
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", user2.getUserNick());
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[HelpController] help/index NullPointerException", e);
+			}
+		}
 		
 		return "/help/index";
 	}

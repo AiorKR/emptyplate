@@ -1,4 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	// 개행문자 값을 저장한다.
+	pageContext.setAttribute("newLine", "\n");
+	// Community 번호
+	request.setAttribute("No", 4);
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -173,7 +179,7 @@ function fn_userList(userUID, userNick)
                  <td class="likeNum">${board.bbsLikeCnt}</td>
                  <td><a href="javascript:void(0)" onclick="fn_view(${board.bbsSeq})">${board.bbsTitle}</a></td>
                  <td><a href="javascript:void(0)" onclick="fn_userList('${board.userUID}', '${board.userNick}')">${board.userNick}</a></td>
-                 <td>${board.bbsReadCnt}</td>
+                 <td><fmt:formatNumber type="number" maxFractionDigits="3" value="${board.bbsReadCnt}"/></td>
                  <td>${board.regDate}</td>
                </tr>
              </c:forEach>

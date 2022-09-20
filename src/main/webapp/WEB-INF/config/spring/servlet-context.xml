@@ -74,7 +74,13 @@
             			<value>/reservation/reservationCheck</value>
             			<value>/today/list</value>
             			<value>/help/index</value>
+            			<value>/footer/aboutus</value>
+            			<value>/footer/company</value>
+            			<value>/footer/logohistory</value>
      			        <value>/footer/resources</value>
+     			        <value>/footer/resources2</value>
+     			        <value>/footer/resources3</value>
+     			        <value>/footer/resources4</value>
             			<value>/user/NickUpdate</value>
             			<value>/user/EmailUpdate</value>
             			<value>/myPage/userDelete</value>

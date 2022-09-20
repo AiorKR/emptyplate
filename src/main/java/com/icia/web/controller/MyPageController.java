@@ -61,8 +61,28 @@ public class MyPageController {
       user = userService.userUIDSelect(userUID);
               
       model.addAttribute("user", user);
+      User user2 = new User();
+      user2 = userService.userUIDSelect(userUID);
+      model.addAttribute("cookieUserNick", user2.getUserNick());
       
       return "/myPage/myProfile";
+   }
+   
+   @RequestMapping(value="/myPage/myFavorites", method=RequestMethod.GET)
+   public String myFavorites(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+   {
+	  String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+      User user = null;
+      
+      user = userService.userUIDSelect(userUID);
+              
+      model.addAttribute("user", user);
+      User user2 = new User();
+      user2 = userService.userUIDSelect(userUID);
+      model.addAttribute("cookieUserNick", user2.getUserNick());
+
+	   
+	   return "/myPage/myFavorites";
    }
    
    //닉네임 팝업로드
@@ -75,6 +95,9 @@ public class MyPageController {
       user = userService.userUIDSelect(userUID);
               
       model.addAttribute("user", user);
+      User user2 = new User();
+      user2 = userService.userUIDSelect(userUID);
+      model.addAttribute("cookieUserNick", user2.getUserNick());
       
       return "/myPage/nick_popup";
    }
