@@ -518,4 +518,24 @@ public class BoardService
 		return count;
 	}
 	
+	/***************************
+	 * help
+	 ***************************/
+	//총 게시물 수
+	public long helpListCount(Board board)
+	{
+		long count = 0;
+		
+		try
+		{
+			count = boardDao.helpListCount(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] helpListCount Exception", e);
+		}
+		
+		return count;
+	}
+	
 }

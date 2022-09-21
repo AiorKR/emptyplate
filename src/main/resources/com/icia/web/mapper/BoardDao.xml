@@ -651,4 +651,27 @@ VALUES (#{bbsSeq},
         #{etcReport}, 
         SYSDATE)
 </insert>
+
+<!-- HELP -->
+<!-- 총 게시물 수 -->
+<select id="helpListCount" parameterType="com.icia.web.model.Board" resultType="long">
+SELECT COUNT(A.BBS_SEQ) AS CNT
+  FROM T_BOARD A, T_USER B
+ WHERE A.USER_UID = B.USER_UID
+   AND A.BBS_TITLE IS NOT NULL
+   AND A.BBS_NO = #{bbsNo}
+<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>
+ <choose>
+  <when test='searchType == "1"'>   
+   AND B.USER_NICK LIKE '%' || #{searchValue} || '%'
+  </when>
+  <when test='searchType == "2"'>
+   AND A.BBS_TITLE LIKE '%' || #{searchValue} || '%'
+  </when>
+  <when test='searchType == "3"'>
+   AND DBMS_LOB.INSTR(A.BBS_CONTENT, #{searchValue}) > 0
+  </when>
+ </choose>
+</if>
+</select>
 </mapper>
