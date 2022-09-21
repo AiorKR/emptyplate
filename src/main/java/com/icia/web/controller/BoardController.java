@@ -331,6 +331,7 @@ public class BoardController
 		model.addAttribute("markUserUID", userUID);
 	    model.addAttribute("boardMe", boardMe);
 		model.addAttribute("userMarkActive", userMarkActive);
+		
 		User user2 = new User();
 		user2 = userService.userUIDSelect(cookieUserUID);
 		if(user2 != null)
