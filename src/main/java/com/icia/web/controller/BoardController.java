@@ -895,7 +895,9 @@ public class BoardController
   		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
 		//댓글 내용
   		String bbsContent = HttpUtil.get(request, "bbsContent", "");  		
-		
+  		logger.debug("##################################");
+  		logger.debug("#"+bbsSeq);
+  		logger.debug("##################################");
 		if(bbsSeq > 0 && !StringUtil.isEmpty(bbsContent))
 		{
 	  		Board parentBoard = boardService.boardSelect(bbsSeq);
@@ -1063,7 +1065,7 @@ public class BoardController
 		return ajaxResponse;
   	}
   
-  	/*
+  	
 	@RequestMapping(value="/board/reCommentProc", method=RequestMethod.POST)
 	@ResponseBody
 	public Response<Object> reCommentProc(HttpServletRequest request, HttpServletResponse response)
@@ -1099,22 +1101,4 @@ public class BoardController
 		
 		return ajaxResponse;
 	}
-	*/
-  	
-  	@RequestMapping(value="/board/reCommentProc", method=RequestMethod.POST)
-	@ResponseBody
-	public String reCommentProc(HttpServletRequest request, HttpServletResponse response)
-	{
-  		long bbsSeq = HttpUtil.get(request, "bbsSeq", 0);
-  		long commentBbsSeq = HttpUtil.get(request, "commentBbsSeq", 0);
-  		Board mainBoard = new Board();
-  		Board commentBoard = new Board();
-  		mainBoard.setBbsSeq(bbsSeq);
-  		commentBoard.setBbsSeq(bbsSeq);
-  		List<Board> comment = boardService.commentList(commentBoard);
-  		
-  		return "/board/ajaxView";
-	}
-
-  	
 }

@@ -389,87 +389,6 @@ $(document).ready(function() {
 	      });
    });
 });
-/*
-
-function fn_reComment(bbsSeqValue1, bbsSeqValue2){
-	if(bbsSeqValue1 !=null)
-	{
-	$.ajax({
-        type:"POST",
-        url:"/board/reCommentProc",
-		data : {
-			bbsSeq:bbsSeqValue2,
-			commentBbsSeq:bbsSeqValue1
-		},
-		datatype : "JSON",
-		beforeSend : function(xhr){
-           xhr.setRequestHeader("AJAX", "true");
-       },
-       success:function(response)
-       {
-          if(response.code == 0)
-          {
-              alert("성공");
-              console.log(response.data);
-              var arr = response.data;
-              var result = '';
-              $.each(arr, function(index, item){
-            	  
-            	  result += '<p>' + item.bbsContent + ':' + item.bbsSeq + "<p></br>" 
-
-              })
-              console.log(result);
-              $('#commentSection').text(result);
-          	$('#commentSection').load(location.href+' #commentSection');
-          }
-          else
-          {
-              alert("실패");
-          }
-        },
-        error:function(error)
-        {
-           icia.common.error(error);
-           alert("실패");
-        },
-        complete: function() {
-        	
-        }
-     });
-	}
-}
- */
- 
- function fn_reComment(bbsSeqValue1, bbsSeqValue2){
-		if(bbsSeqValue1 !=null)
-		{
-		$.ajax({
-	        type:"POST",
-	        url:"/board/reCommentProc",
-			data : {
-				bbsSeq:bbsSeqValue2,
-				commentBbsSeq:bbsSeqValue1
-			},
-			datatype : "JSON",
-			beforeSend : function(xhr){
-	           xhr.setRequestHeader("AJAX", "true");
-	       },
-	       success:function(result)
-	       {
-	    	   console.log(result);
-	    	   $("#commentSection").html(result)
-	       },
-	        error:function(error)
-	        {
-	           icia.common.error(error);
-	           alert("실패");
-	        },
-	        complete: function() {
-	        	
-	        }
-	     });
-		}
-	}
 
 //댓글 게시물번호
 function fn_Report(bbsSeq2){
@@ -613,9 +532,8 @@ function fn_deleteComment(bbsSeqValue)
 						<a href="/board/download?bbsSeq=${board.boardFile.bbsSeq}" style="float:right;">첨부이미지 다운로드</a>
 					  </c:if>   
 					</div>
-	
+
 					<c:if test="${board.bbsComment eq 'Y'}">             
-				<div id = commentSection>
 						<form name="commentForm" id="commentForm" method="post" enctype="form-data">
 							<div class="board-commentwrite">
 								<div><ion-icon name="chatbubbles"></ion-icon>댓글</div>
@@ -627,7 +545,6 @@ function fn_deleteComment(bbsSeqValue)
 							</div>
 						
 						<c:set var="cookieUserUID" value="${cookieUserUID}"/>
-						<c:set var="parentsBbsSeq" value="${board.bbsSeq}"/>
 						  <c:if test="${!empty list}">
 							<c:forEach var="board" items="${list}" varStatus="status">
 								<div class="comment">
@@ -638,12 +555,20 @@ function fn_deleteComment(bbsSeqValue)
 										</c:if>
 										<a>${board.regDate}</a>
 										<button type="button" data-bs-toggle="modal" data-bs-target="#reportModal2" id="btnReport${board.bbsSeq}" onclick="fn_Report(${board.bbsSeq})">신고</button>
-										<button type="button" onclick="fn_reComment(${board.bbsSeq}, ${parentsBbsSeq})" id="btnReply" class="btnReply">댓글달기</button>
+										<button onclick="fn_reComment(${board.bbsSeq})" id="btnReply" class="btnReply">댓글달기</button>
 									</div>
 									<div class="comment-content">
 										<col-lg-12>${board.bbsContent}</col-lg-12>
 									</div>
 								</div>
+							<div class="board-commentwrite">
+								<div><ion-icon name="chatbubbles"></ion-icon>댓글</div>
+								<div class="submit">
+									<input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
+									<input type="text" id="bbsContent" name="bbsContent" style="ime-mode:active;" class="form-control"/>
+									<button type="submit" id="btnSearch">등 록</button>
+								</div>
+							</div>
 							</c:forEach>	
 							   
 							<div class="modal fade" id="reportModal2" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
@@ -680,7 +605,6 @@ function fn_deleteComment(bbsSeqValue)
 							</div>		                  
 						  </c:if>
 						</form>
-					</div>
 					</c:if>
 				</div>
 			<form name="bbsForm" id="bbsForm" method="post">

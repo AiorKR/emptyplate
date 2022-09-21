@@ -1882,6 +1882,63 @@ section {
   background: #d3af71;
 }
 
+
+
+/*댓글작성칸*/
+#communityView .collapse, #communityView .collapsing {
+  font-size: 20px;
+  color: #0c0b09;
+  border-bottom : 2px solid #C2A383;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+#communityView .collapse ion-icon,
+#communityView .collapsing ion-icon {
+  font-size: 25px;
+  color: #6c6c6c;
+  margin-right: 5px;
+}
+
+#communityView .collapse .submit,
+#communityView .collapsing .submit {
+  background: rgba(225, 225, 225);
+  position: relative;
+}
+
+#communityView .collapse .submit input[type=text],
+#communityView .collapsing .submit input[type=text]
+ {
+  /*padding: 1px;*/
+  width: calc(100% - 10%);
+  height: 80px;
+  background: rgba(225, 225, 225);
+  border: 1px solid #0c0b09;
+}
+
+/*댓글등록버튼*/
+#communityView .collapse .submit button[type=submit],
+#communityView .collapsing .submit button[type=submit] {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  border: 0;
+  font-size: 20px;
+  padding: 0 40px 0 40px;
+  background: #C2A383;
+  color: #fff;
+  transition: 0.3s;
+  border: 1px solid #C2A383;
+  font-family: 'Cafe24Dangdanghae';
+  border-radius: 5px;
+}
+
+#communityView .collapse .submit button[type=submit]:hover,
+#communityView .collapsing .submit button[type=submit]:hover {
+  background: #d3af71;
+}
+
 /*댓글*/
 #communityView .comment {
   padding-bottom: 10px;
