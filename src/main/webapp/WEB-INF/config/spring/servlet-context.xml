@@ -74,6 +74,8 @@
             			<value>/reservation/reservationCheck</value>
             			<value>/today/list</value>
             			<value>/help/index</value>
+            			<value>/help/helpView</value>
+            			<value>/help/helpList</value>
             			<value>/footer/aboutus</value>
             			<value>/footer/company</value>
             			<value>/footer/logohistory</value>
