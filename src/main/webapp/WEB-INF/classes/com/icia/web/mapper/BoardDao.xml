@@ -166,6 +166,7 @@ SELECT RNUM,
 SELECT COUNT(A.BBS_SEQ) AS CNT
   FROM T_BOARD A, T_USER B
  WHERE A.USER_UID = B.USER_UID
+   AND A.BBS_NO = #{bbsNo}
    AND A.BBS_TITLE IS NOT NULL
    AND A.STATUS = 'N'
 <if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>

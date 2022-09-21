@@ -23,11 +23,11 @@ function fn_helpList(bbsNo)
    document.helpListForm.submit();
 }
 //게시물 불러오기
-function fn_helpView(bbsTitle)
+function fn_view(bbsSeq)
 {
-   document.helpIndexForm.bbsTitle.value = bbsTitle;
-   document.helpIndexForm.action = "/help/helpView";
-   document.helpIndexForm.submit();
+	document.helpViewForm.bbsSeq.value = bbsSeq;
+	document.helpViewForm.action = "/help/helpView";
+	document.helpViewForm.submit();
 }
 
 </script>
@@ -47,7 +47,7 @@ function fn_helpView(bbsTitle)
     		        <c:if test="${!empty list1}">
     		        	<c:forEach var="board" items="${list1}" varStatus="status">
 			              <ul id="soloTable">
-			                <a href="/help/helpView">
+			                <a href="javascript:void(0)" class="page-link" onclick="fn_view(${board.bbsSeq})">
 			                <c:choose>
 			                	<c:when test="${board.rNum eq '1'}">
 			                		<c:choose>
@@ -88,7 +88,7 @@ function fn_helpView(bbsTitle)
               <c:if test="${!empty list2}">
     		        	<c:forEach var="board" items="${list2}" varStatus="status">
 			              <ul id="soloTable">
-			                <a href="/help/helpView">
+			                <a href="javascript:void(0)" class="page-link" onclick="fn_view(${board.bbsSeq})">
 			                <c:choose>
 			                	<c:when test="${board.rNum eq '1'}">
 			                		<c:choose>
@@ -129,7 +129,7 @@ function fn_helpView(bbsTitle)
               <c:if test="${!empty list3}">
     		        	<c:forEach var="board" items="${list3}" varStatus="status">
 			              <ul id="soloTable">
-			                <a href="/help/helpView">
+			                <a href="javascript:void(0)" class="page-link" onclick="fn_view(${board.bbsSeq})">
 			                <c:choose>
 			                	<c:when test="${board.rNum eq '1'}">
 			                		<c:choose>
@@ -168,7 +168,7 @@ function fn_helpView(bbsTitle)
               <c:if test="${!empty list1}">
     		        	<c:forEach var="board" items="${list4}" varStatus="status">
 			              <ul id="soloTable">
-			                <a href="/help/helpView">
+			                <a href="javascript:void(0)" class="page-link" onclick="fn_view(${board.bbsSeq})">
 			                <c:choose>
 			                	<c:when test="${board.rNum eq '1'}">
 			                		<c:choose>
@@ -204,6 +204,9 @@ function fn_helpView(bbsTitle)
       </div>
 		<form name="helpListForm" id="helpListForm" method="GET">
 			<input type="hidden" name="bbsNo" value="" />
+		</form>
+		<form name="helpViewForm" id="helpViewForm" method="GET">
+			<input type="hidden" name="bbsSeq" value="" />
 		</form>
     </div>
   </section><!-- End help -->
