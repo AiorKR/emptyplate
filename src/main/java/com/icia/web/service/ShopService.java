@@ -244,13 +244,13 @@ public class ShopService {
 		}
 		
 		//즐겨찾기 리스트
-		public List<Shop> shopMarkList(Shop shop)
+		public List<Shop> shopMarkList(String shopUID)
 		{
 			List<Shop> shopMarklist = null;
 			
 			try
 			{
-				shopMarklist = shopDao.shopMarkList(shop);
+				shopMarklist = shopDao.shopMarkList(shopUID);
 			}
 			catch(Exception e)
 			{

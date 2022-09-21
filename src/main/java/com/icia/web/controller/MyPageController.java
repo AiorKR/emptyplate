@@ -20,12 +20,12 @@ import com.icia.common.model.FileData;
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Board;
 import com.icia.web.model.BoardLike;
-import com.icia.web.model.Order;
-import com.icia.web.model.Paging;
 import com.icia.web.model.Response;
+import com.icia.web.model.Shop;
 import com.icia.web.model.User;
 import com.icia.web.model.UserFile;
 import com.icia.web.service.BoardService;
+import com.icia.web.service.ShopService;
 import com.icia.web.service.UserService;
 import com.icia.web.util.CookieUtil;
 import com.icia.web.util.HttpUtil;
@@ -49,6 +49,9 @@ public class MyPageController {
     
     @Autowired
     private BoardService boardService;
+    
+    @Autowired
+    private ShopService shopService;
    
     
     //페이지로드
@@ -595,6 +598,39 @@ public class MyPageController {
 		list = userService.markUserList(userUID);			
 		model.addAttribute("list", list);
 		
+		for(int i=0; i < list.size(); i++)
+	      {
+	         String userNick = list.get(i).getUserNick();
+	         if(userNick.length() > 9)
+	         {
+	            String dot = "..";
+	            String subShopName = userNick.substring(0, 7);
+	            String shopName2 = subShopName += dot;
+	            list.get(i).setUserNick(shopName2);
+	         }
+	         logger.debug("+++++++++++++++++++++++++++++++++++++" + list.get(i).getUserNick());
+	      }
+		
+		//조회 객체(매장)
+		List<Shop> list2 = null;
+		String shopUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		list2 = shopService.shopMarkList(shopUID);
+		
+		for(int i=0; i < list2.size(); i++)
+	      {
+	         String shopName = list2.get(i).getShopName();
+	         if(shopName.length() > 9)
+	         {
+	            String dot = "..";
+	            String subShopName = shopName.substring(0, 9);
+	            String shopName2 = subShopName += dot;
+	            list2.get(i).setShopName(shopName2);
+	         }
+	         logger.debug("+++++++++++++++++++++++++++++++++++++" + list2.get(i).getShopName());
+	      }
+		
+		model.addAttribute("list2", list2);
+		
 		//닉넴띄우기
 		User user2 = new User();
 		user2 = userService.userUIDSelect(userUID);
@@ -602,7 +638,5 @@ public class MyPageController {
  	   
  	   return "/myPage/myFavorites";
     }
-    
-    
     
 }

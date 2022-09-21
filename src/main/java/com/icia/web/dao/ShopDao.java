@@ -41,7 +41,7 @@ public interface ShopDao {
 	public int shopMarkDelete(Shop shop);
 	
 	//즐겨찾기 리스트
-	public List<Shop> shopMarkList(Shop shop);
+	public List<Shop> shopMarkList(String shopUID);
 	
 	//게시물 즐겨찾기 총 게시물 수
 	public long shopMarkListCount(Shop shop);
