@@ -47,6 +47,7 @@ public class HelpController {
 	public String helpIndex(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	{
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
 		User user = null;
 		  
 		user = userService.userUIDSelect(cookieUserUID);
@@ -105,7 +106,7 @@ public class HelpController {
 				logger.error("[HelpController] help/index NullPointerException", e);
 			}
 		}
-		
+		model.addAttribute("bbsSeq", bbsSeq);
 		return "/help/index";
 	}
 	
@@ -192,10 +193,11 @@ public class HelpController {
 	{
 		 //조회 객체
 	       Board board = null;
-	       //댓글 리스트
-	       List<Board> comment = null;
+	       
 	       //쿠키 값
 	       String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+	       User user2 = new User();
+	       user2 = userService.userUIDSelect(cookieUserUID);
 	       //게시물 번호
 	       long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
 	       //조회항목(1:작성자, 2:제목, 3:내용)
@@ -204,25 +206,10 @@ public class HelpController {
 	       String searchValue = HttpUtil.get(request, "searchValue", "");
 	       //현재 페이지
 	       long curPage = HttpUtil.get(request, "curPage", (long)1);
-	       //본인글 여부
-	       String boardMe = "N";
-	       //좋아요 여부 체크
-	       String bbsLikeActive = "N";
-	       //즐겨찾기 여부 체크
-	       String bbsMarkActive = "N";
-	       //댓글허용체크
-	       String bbsComment = "";
-	       
+	      
 	       if(bbsSeq > 0)
 	       {
 	          board = boardService.boardView(bbsSeq);
-	          comment = boardService.commentList(board);
-	          
-	          //본인 게시물 여부
-	          if(board != null && StringUtil.equals(board.getUserUID(), cookieUserUID))
-	          {
-	             boardMe = "Y";
-	          }
 	          
 		      if(!StringUtil.isEmpty(cookieUserUID) && bbsSeq > 0)
 		      {
@@ -233,13 +220,11 @@ public class HelpController {
 	       model.addAttribute("bbsSeq", bbsSeq);
 	       model.addAttribute("board", board);
 	       model.addAttribute("cookieUserUID",cookieUserUID);
-	       model.addAttribute("bbsComment", bbsComment);
+	       model.addAttribute("admin", user2.getAdminStatus());
 	       model.addAttribute("searchType", searchType);
 	       model.addAttribute("searchValue", searchValue);
 	       model.addAttribute("curPage", curPage);
-	       model.addAttribute("list", comment);
-	       User user2 = new User();
-			user2 = userService.userUIDSelect(cookieUserUID);
+	      
 			if(user2 != null)
 			{
 				try
