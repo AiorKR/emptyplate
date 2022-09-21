@@ -401,35 +401,25 @@ SELECT RNUM,
        SHOP_UID,
        USER_UID,
 	   SHOP_NAME,
-	   SHOP_CONTENT
+       FILE_NAME,
+       FILE_ORG_NAME
   FROM(SELECT ROWNUM AS RNUM,
                         SHOP_UID,
                         USER_UID,
                         SHOP_NAME,
-                        SHOP_CONTENT
-  		 FROM(SELECT A.SHOP_UID AS SHOP_UID,
-             		 NVL(A.USER_UID, '') AS USER_UID,
-            		 NVL(A.SHOP_NAME, '') AS SHOP_NAME, 
-              		 NVL(A.SHOP_CONTENT, '') AS SHOP_CONTENT
-         		FROM T_SHOP A, T_USER B, T_SHOP_BOOKMARK C
+                        FILE_NAME,
+                        FILE_ORG_NAME
+  		 FROM(SELECT C.SHOP_UID AS SHOP_UID,
+             		 NVL(C.USER_UID, '') AS USER_UID,
+            		 NVL(A.SHOP_NAME, '') AS SHOP_NAME,
+                     NVL(D.FILE_NAME, '') AS FILE_NAME,
+                     NVL(D.FILE_ORG_NAME, '') AS FILE_ORG_NAME
+         		FROM T_SHOP A, T_USER B, T_SHOP_BOOKMARK C, T_SHOP_FILE D
                WHERE A.SHOP_UID = C.SHOP_UID
-          		 AND A.USER_UID = B.USER_UID
-          		 AND C.USER_UID= #{userUID}
-<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>   
-  <choose>
-    <when test='searchType == "1"'>   
-          		 AND A.SHOP_NAME LIKE '%' || #{searchValue} || '%'
-    </when>
-    <when test='searchType == "3"'>
-          		 AND DBMS_LOB.INSTR(A.SHOP_CONTENT, #{searchValue}) > 0
-    </when>
-  </choose>
-</if>
-))
-
- WHERE RNUM <![CDATA[>=]]> #{startRow}
-   AND RNUM <![CDATA[<=]]> #{endRow}
- ORDER BY RNUM ASC
+          		 AND B.USER_UID = C.USER_UID
+                 AND C.SHOP_UID = D.SHOP_UID
+                 AND D.FILE_ORG_NAME LIKE '%'|| 'Shop_' ||'%'
+          		 AND C.USER_UID = #{userUID}))
 </select>
 <insert id="orderInsert" parameterType="com.icia.web.model.Order">
 	INSERT INTO T_ORDER (
