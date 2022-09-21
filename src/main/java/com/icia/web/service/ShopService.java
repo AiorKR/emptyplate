@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.icia.web.dao.ShopDao;
 import com.icia.web.model.Order;
-import com.icia.web.model.Board;
+import com.icia.web.model.OrderMenu;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
 import com.icia.web.model.ShopTotalTable;
@@ -141,18 +141,35 @@ public class ShopService {
 		}
 		
 		//내 주문내역 리스트
-	      public List<Order> myOrderList(String userUID) {
+	      public List<Order> myOrderList(Order order) {
 	          
 	          List<Order> list = null;
 	          
 	          try
 	          {   
-	             list = shopDao.myOrderList(userUID);
+	             list = shopDao.myOrderList(order);
 	             
 	          }
 	          catch(Exception e)
 	          {
 	             logger.error("[ShopService] myOrderList Exception", e);
+	          }
+					
+			return list;
+		}
+	      
+        //내 주문 매뉴
+		public List<OrderMenu> myOrderMenu(String orderUID) {
+			List<OrderMenu> list = null;
+	          
+	          try
+	          {   
+	             list = shopDao.myOrderMenu(orderUID);
+	             
+	          }
+	          catch(Exception e)
+	          {
+	             logger.error("[ShopService] myOrderMenu Exception", e);
 	          }
 					
 			return list;
@@ -258,4 +275,5 @@ public class ShopService {
 			
 			return count;
 		}
+
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 import com.icia.web.model.Order;
+import com.icia.web.model.OrderMenu;
 import com.icia.web.model.Paging;
 import com.icia.web.model.User;
 import com.icia.web.service.ShopService;
@@ -57,6 +58,7 @@ public class rListController
 		long totalCount = 0;
 		//게시물 리스트
 		List<Order> list = null;
+		List<OrderMenu> list2 = null;
 		//페이징 객체
 		Paging paging = null;
 		
@@ -69,38 +71,46 @@ public class rListController
 			
 			order.setStartRow(paging.getStartRow());
 			order.setEndRow(paging.getEndRow());
-
+			order.setUserUID(userUID);
 			
-			list = shopService.myOrderList(userUID);
+			list = shopService.myOrderList(order);
 		}
 		if(list != null)
 		{
 			logger.debug("list size() : " + list.size());
 	
-		for(int i=0; i < list.size(); i++)
-		{
-			logger.debug("list.MenuSize size() : " + list.get(i).getOrderMenu().size());
+			for(int i=0; i < list.size(); i++)
+			{	
+				String orderUID = "";
+				String om = "";
+				String oq = "";
+				String finalMenu = "";
+				orderUID = list.get(i).getOrderUID();
+				logger.debug("orderUID : " + orderUID);
+				list2 = shopService.myOrderMenu(orderUID);
+				for(int j=0; j < list2.size(); j++)
+				{
+					om = list2.get(j).getOrderMenuName();
+					oq = Integer.toString(list2.get(j).getOrderMenuQuantity());;
+					finalMenu += om + "(" + oq + ")" + " ";
+					
+				}
+				list.get(i).setFinalMenu(finalMenu); 
+			}
+	
 			
-			for(int j=0; j < list.get(i).getOrderMenu().size(); j++)
+			for(int i=0; i < list.size(); i++)
 			{
-				logger.debug("이름 : " + list.get(i).getOrderMenu().get(j).getOrderMenuName());
-				logger.debug("수량 : " + list.get(i).getOrderMenu().get(j).getOrderMenuQuantity());
+				String shopName = list.get(i).getShopName();
+				if(shopName.length() > 9)
+				{
+					String dot = "..";
+					String subShopName = shopName.substring(0, 9);
+					String shopName2 = subShopName += dot;
+					list.get(i).setShopName(shopName2);
+				}
+				logger.debug("여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기 : " + list.get(i).getShopName());
 			}
-		}
-
-		
-		for(int i=0; i < list.size(); i++)
-		{
-			String shopName = list.get(i).getShopName();
-			if(shopName.length() > 9)
-			{
-				String dot = "..";
-				String subShopName = shopName.substring(1, 9);
-				String shopName2 = subShopName += dot;
-				list.get(i).setShopName(shopName2);
-			}
-			logger.debug("여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기여기 : " + list.get(i).getShopName());
-		}
 		
 		}
 		
