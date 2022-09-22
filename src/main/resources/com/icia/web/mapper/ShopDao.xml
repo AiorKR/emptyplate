@@ -264,9 +264,8 @@ SELECT S.SHOP_UID AS SHOP_UID,
    AND S.SHOP_UID = ST.SHOP_UID 
    AND S.SHOP_UID = SM.SHOP_UID
    AND S.SHOP_UID = SF.SHOP_UID
-   AND SF.FILE_ORG_NAME NOT LIKE '%Shop_%'
-   AND SF.FILE_SEQ <![CDATA[>=]]>  1
-   AND SF.FILE_SEQ <![CDATA[<=]]>  5
+   AND SF.FILE_SEQ <![CDATA[>=]]>  0
+   AND SF.FILE_SEQ <![CDATA[<=]]>  6
 </select>
 
 <select id="shopReservationCheck" parameterType="com.icia.web.model.Shop" resultMap="shopTotalTableResultMap"> <!--선택한 날에 대하여  예약이 가능한지 조회-->
@@ -358,5 +357,64 @@ SELECT RNUM,
    AND RNUM <![CDATA[<=]]> #{endRow}
  ORDER BY RNUM ASC
 </select>
+<insert id="orderInsert" parameterType="com.icia.web.model.Order">
+	INSERT INTO T_ORDER (
+    ORDER_UID,
+    SHOP_UID,
+    USER_UID,
+    RESERVATION_PEOPLE,
+    ORDER_STATUS,
+    PAY_TYPE,
+    REG_DATE,
+    TOTAL_AMOUNT,
+    PAYMENT_KEY
+) VALUES (
+    #{orderUID},
+    #{shopUID},
+    #{userUID},
+    #{reservationPeople},
+    #{orderStatus},
+    #{orderPayType},
+    #{orderRegDate},
+    #{totalAmount},
+    #{toss.paymentKey}
+)
+</insert>
+
+<insert id="orderMenuInsert" parameterType="com.icia.web.model.OrderMenu">
+   <foreach  collection="list" item="list" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+	INTO T_ORDER_MENU (
+    	ORDER_UID,
+    	ORDER_MENU_NAME,
+    	ORDER_MENU_PRICE,
+    	ORDER_MENU_QUANTITY
+    )
+	VALUES (
+	     #{list.orderUID},
+         #{list.orderMenuName},
+         #{list.orderMenuPrice},
+         #{list.orderMenuQuantity}
+    )
+   </foreach>
+</insert>
+
+<insert id="reservationTableInser" parameterType="com.icia.web.model.ShopReservationTable">
+   <foreach  collection="list" item="list" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+	INTO T_SHOP_RESERVATION_TABLE (
+	    TABLE_UID,
+	    TABLE_STATUS,
+	    RESERVATION_DATE,
+	    RESERVATION_TIME,
+	    ORDER_UID
+	)
+	VALUES (
+		 #{list.shopTableUID},
+         #{list.shopTableStatus},
+         #{list.shopReservationDate},
+         #{list.shopReservationTime},
+         #{list.orderUID}
+    )
+   </foreach>
+</insert>
 
 </mapper>

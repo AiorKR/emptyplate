@@ -25,7 +25,9 @@ import com.icia.web.model.Response;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
 import com.icia.web.model.ShopTotalTable;
+import com.icia.web.model.User;
 import com.icia.web.service.ShopService;
+import com.icia.web.service.UserService;
 import com.icia.web.util.CookieUtil;
 import com.icia.web.util.HttpUtil;
 
@@ -42,6 +44,8 @@ public class ShopController {
 	@Value("#{env['shop.upload.save.dir']}")
 	private String SHOP_UPLOAD_DIR;
 	
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	private ShopService shopService;
@@ -124,7 +128,20 @@ public class ShopController {
 			model.addAttribute("searchValue", searchValue);
 			model.addAttribute("curPage", curPage);
 			model.addAttribute("paging", paging);
-			
+			String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+			User user2 = new User();
+			user2 = userService.userUIDSelect(cookieUserUID);
+			if(user2 != null)
+			{
+				try
+				{
+					model.addAttribute("cookieUserNick", user2.getUserNick());
+				}
+				catch(NullPointerException e)
+				{
+					logger.error("[ShopController] reservation/list NullPointerException", e);
+				}
+			}
 			return "/reservation/list";
 			
 		}
@@ -217,105 +234,116 @@ public class ShopController {
 		   model.addAttribute("reservationTime", reservationTime);
 		   model.addAttribute("shopMarkActive", shopMarkActive);
 		   
+			User user2 = new User();
+			user2 = userService.userUIDSelect(cookieUserUID);
+			if(user2 != null)
+			{
+				try
+				{
+					model.addAttribute("cookieUserNick", user2.getUserNick());
+				}
+				catch(NullPointerException e)
+				{
+					logger.error("[ShopController] url NullPointerException", e);
+				}
+			}
 		   return url;
 		}
 		
-		@RequestMapping(value="/reservation/reservationCheckProc", method=RequestMethod.GET) //매장 자리 조회
+		@RequestMapping(value = "/reservation/reservationCheckProc", method = RequestMethod.GET) // 매장 자리 조회
 		@ResponseBody
-		public Response<Object> reservationCheck(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-			Response<Object> ajax = new Response<Object>();		
-			String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);		
+		public Response<Object> reservationCheck(ModelMap model, HttpServletRequest request,
+				HttpServletResponse response) {
+			Response<Object> ajax = new Response<Object>();
+			String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 			String shopUID = HttpUtil.get(request, "shopUID");
 			String reservationDate = HttpUtil.get(request, "reservationDate");
 			String reservationTime = HttpUtil.get(request, "reservationTime");
 			int reservationPeople = Integer.parseInt(HttpUtil.get(request, "reservationPeople", "0"));
-			String counterSeatYN = HttpUtil.get(request, "counterSeatYN", "N"); //카운터석으로 예약할건지 여부
-			
+			String counterSeatYN = HttpUtil.get(request, "counterSeatYN", "N"); // 카운터석으로 예약할건지 여부
+
 			int count = 0;
 			int count2 = 0;
-			
-			if(!StringUtil.isEmpty(shopUID)) {
+
+			if (!StringUtil.isEmpty(shopUID)) {
 				Shop shop = new Shop();
-				
+
 				shop.setShopUID(shopUID);
 				shop.setReservationDate(reservationDate);
 				shop.setReservationTime(reservationTime);
-				
-				if(!StringUtil.isEmpty(cookieUserUID) && cookieUserUID != null) {
+
+				if (!StringUtil.isEmpty(cookieUserUID) && cookieUserUID != null) {
 					List<ShopTotalTable> shopTotalTable = shopService.shopReservationCheck(shop);
-					if(reservationPeople > 0) {
-						if(shopTotalTable != null && StringUtil.equals(counterSeatYN, "N")) { //모든 자리를 카운터석으로만 예약할게 아니라면 모든 자리 조회, 예약인원이 1명 이상일 경우					
-							for(int i=0; i < shopTotalTable.size(); i++ ) {
-								for(int j=0; j < shopTotalTable.get(i).getShopTable().size(); j++) {
-									if(StringUtil.equals(shopTotalTable.get(i).getShopTable().get(j).getShopReservationTable().getShopTableStatus(), "Y")) {
-										count++;
-									}
-								}
-								if(shopTotalTable.get(i).getShopTotalTable() == count) { //예약된 테이블 갯수가 식당의 있는 테이블 수량과 같다면
-									shopTotalTable.get(i).setShopTotalTableStatus("Y"); //예약이 다 차있다면 Y를 세팅함. 디폴트값 N
-									if(StringUtil.equals("Y", shopTotalTable.get(i).getShopTotalTableStatus())) {
-										count2++;
-									}
-								}
-								else {
-									shopTotalTable.get(i).setShopTotalTableRmains(shopTotalTable.get(i).getShopTotalTable() - count); //남아있는 자리 숫자 세팅
-								}
-								count = 0; //카운트 초기화 (j가 다 돌고 나면 첨부터 다시 카운트를 세야하므로 초기화)
-							}
-							if(count2 == shopTotalTable.size()) {
-								ajax.setResponse(-1, "해당 시간에 예약이 꽉 찼음");
-							}
-							else {
-								for(int i=0; i < shopTotalTable.size(); i++ ) {
-									if(reservationPeople % 2 == 0) { //예약인원이 짝수 일때
-										if(StringUtil.equals(shopTotalTable.get(i).getShopTotalTableStatus(), "N")) { //자리가 있는 테이블 종류 확인
-											if(shopTotalTable.get(i).getShopTotalTableRmains() >= (reservationPeople % shopTotalTable.get(i).getShopTotalTableCapacity())) {
-												ajax.setResponse(0, "예약 가능");
-												break;
-											}
-											else {
-												ajax.setResponse(-2, "남은 테이블이 예약인원보다 적음");
-											}
-										}
-									}
-									else { //예약인원이 홀수 일때
-										reservationPeople = reservationPeople + 1; //1명 추가해서 짝수로 만들어 계산
-										
-										if(StringUtil.equals(shopTotalTable.get(i).getShopTotalTableStatus(), "N")) { //자리가 있는 테이블 종류 확인
-											if(shopTotalTable.get(i).getShopTotalTableRmains() >= (reservationPeople % shopTotalTable.get(i).getShopTotalTableCapacity())) {
-												ajax.setResponse(0, "예약 가능");
-												break;
-											}
-											else {
-												ajax.setResponse(-2, "남은 테이블이 예약인원보다 적음");
-											}
-										}
-									}
+					if (reservationPeople > 0) {
+						for (int i = 0; i < shopTotalTable.size(); i++) {
+							for (int j = 0; j < shopTotalTable.get(i).getShopTable().size(); j++) {
+								if (StringUtil.equals(shopTotalTable.get(i).getShopTable().get(j).getShopReservationTable().getShopTableStatus(), "Y")) {
+									count++;
 								}
 							}
+							if (shopTotalTable.get(i).getShopTotalTable() == count) { // 예약된 테이블 갯수가 식당의 있는 테이블 수량과 같다면
+								shopTotalTable.get(i).setShopTotalTableStatus("Y"); // 예약이 다 차있다면 Y를 세팅함. 디폴트값 N
+								if (StringUtil.equals("Y", shopTotalTable.get(i).getShopTotalTableStatus())) {
+									count2++;
+								}
+							} else {
+								shopTotalTable.get(i).setShopTotalTableRmains(shopTotalTable.get(i).getShopTotalTable() - count); // 남아있는 자리 세팅
+							}
+							count = 0; // 카운트 초기화 (j가 다 돌고 나면 첨부터 다시 카운트를 세야하므로 초기화)
 						}
-						else {  //카운터석만 조회
-							for(int i=0; i < shopTotalTable.size(); i++) {
-								if(shopTotalTable.get(i).getShopTotalTableCapacity() == 1) { //카운터석만 확인
-									for(int j=0; j < shopTotalTable.get(i).getShopTable().size(); j++) { 
-										if(StringUtil.equals(shopTotalTable.get(i).getShopTable().get(j).getShopReservationTable().getShopTableStatus(), "Y")) { //자리 조회 중
-											count++;
-										}
-									}	
-									if(shopTotalTable.get(i).getShopTotalTable() == count) { //예약된 테이블 갯수가 식당의 있는 테이블 수량과 같다면
-										shopTotalTable.get(i).setShopTotalTableStatus("Y"); //예약이 다 차있다면 Y를 세팅함. 디폴트값 N
-										ajax.setResponse(-2, "카운터석 예약 최대로 예약되있음");
-									}
-									else {
-										shopTotalTable.get(i).setShopTotalTableRmains(shopTotalTable.get(i).getShopTotalTable() - count); //남아있는 자리 숫자 세팅
-										if(reservationPeople > shop.getShopTotalTable().get(i).getShopTotalTableRmains()) { //1인테이블이므로 예약인원보다 남은 자리가 적으면 안됨
+						if (count2 == shopTotalTable.size()) {
+							ajax.setResponse(-1, "예약을 더 받을 수 없음");
+						}
+						else if (shopTotalTable != null && StringUtil.equals(counterSeatYN, "N")) { // 모든 자리를 카운터석으로만 예약할게 아니라면 모든 자리 조회, 예약인원이 1명 이상일 경우
+							for (int i = 0; i < shopTotalTable.size(); i++) {
+								if (reservationPeople % 2 == 0) { // 예약인원이 짝수 일때
+									if (StringUtil.equals(shopTotalTable.get(i).getShopTotalTableStatus(), "N")) { // 자리가  있는 테이블  종류 확인
+										if (shopTotalTable.get(i).getShopTotalTableRmains() >= (reservationPeople % shopTotalTable.get(i).getShopTotalTableCapacity())) {
+											ajax.setResponse(0, "예약 가능");
+											break;
+										} 
+										else {
 											ajax.setResponse(-2, "남은 테이블이 예약인원보다 적음");
 										}
+									}
+								} 
+								else { // 예약인원이 홀수 일때
+									reservationPeople = reservationPeople + 1; // 1명 추가해서 짝수로 만들어 계산
+
+									if (StringUtil.equals(shopTotalTable.get(i).getShopTotalTableStatus(), "N")) { // 자리가  있는  테이블 종류  확인
+										if (shopTotalTable.get(i).getShopTotalTableRmains() >= (reservationPeople % shopTotalTable.get(i).getShopTotalTableCapacity())) {
+											ajax.setResponse(0, "예약 가능");
+											break;
+										} 
+										else {
+											ajax.setResponse(-2, "남은 테이블이 예약인원보다 적음");
+										}
+									}
+								}
+							}
+						} 
+						else { // 카운터석만 조회
+							for (int i = 0; i < shopTotalTable.size(); i++) {
+								if (shopTotalTable.get(i).getShopTotalTableCapacity() == 1) { // 카운터석만 확인
+									for (int j = 0; j < shopTotalTable.get(i).getShopTable().size(); j++) {
+										if (StringUtil.equals(shopTotalTable.get(i).getShopTable().get(j).getShopReservationTable().getShopTableStatus(), "Y")) { // 자리 조회 중
+											count++;
+										}
+									}
+									if (shopTotalTable.get(i).getShopTotalTable() == count) { // 예약된 테이블 갯수가 식당의 있는 테이블 수량과 같다면
+										shopTotalTable.get(i).setShopTotalTableStatus("Y"); // 예약이 다 차있다면 Y를 세팅함. 디폴트값 N
+										ajax.setResponse(-2, "카운터석 예약 최대로 예약되있음");
+									} 
+									else {
+										shopTotalTable.get(i).setShopTotalTableRmains(shopTotalTable.get(i).getShopTotalTable() - count); // 남아있는 자리 숫자 세팅
+										if (reservationPeople > shop.getShopTotalTable().get(i).getShopTotalTableRmains()) { // 1인테이블이므로 예약인원보다 남은 자리가 적으면 안됨
+											ajax.setResponse(-2, "남은 테이블이 예약인원보다 적음");
+										} 
 										else {
 											ajax.setResponse(0, "카운터석 자리 있음");
 										}
 									}
-								}
+								} 
 								else {
 									ajax.setResponse(-3, "카운터석이 존재하지 않음");
 								}
@@ -323,19 +351,17 @@ public class ShopController {
 						}
 					}
 					else {
-						ajax.setResponse(400, "요청된 예약인원 0명");
+						ajax.setResponse(400, "예약인원이 0명임");
 					}
 				}
-
 				else {
-					ajax.setResponse(403, "로그인이 되어있지 않음");
+					ajax.setResponse(403, "매장 고유번호가 없음");
 				}
 			}
 			else {
 				ajax.setResponse(404, "매장 고유번호가 없음");
 			}
-			
-			return ajax;
+		return ajax;
 		}
 		
 		//임시 매장 정보 인서트

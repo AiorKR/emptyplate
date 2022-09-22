@@ -11,15 +11,14 @@ public class Order implements Serializable{
 	private String orderUID;
 	private String shopUID;
 	private String userUID;
+	private String userName;
 	private String shopName;
-	private String reservationName;
-	private String reservationPhon;
 	private int reservationPeople;
 	private String orderStatus;
 	private String orderPayType;
 	private String orderRegDate;
 	private int totalAmount;
-	
+	private String counterSeatYN;
 	private Toss toss;
 	
 	private List<OrderMenu> orderMenu;
@@ -30,15 +29,14 @@ public class Order implements Serializable{
 		orderUID = "";
 		shopUID = "";
 		userUID = "";
-		reservationName = "";
-		reservationPhon = "";
 		reservationPeople = 0;
 		orderStatus = "";
 		orderPayType = "";
 		orderRegDate = "";
 		totalAmount = 0;
 		shopName = "";
-
+		counterSeatYN = "";
+		userName = "";
 		
 		orderMenu = null;
 		shopReservationTableList = null;
@@ -70,23 +68,7 @@ public class Order implements Serializable{
 	public void setUserUID(String userUID) {
 		this.userUID = userUID;
 	}
-
-	public String getReservationName() {
-		return reservationName;
-	}
-
-	public void setReservationName(String reservationName) {
-		this.reservationName = reservationName;
-	}
-
-	public String getReservationPhon() {
-		return reservationPhon;
-	}
-
-	public void setReservationPhon(String reservationPhon) {
-		this.reservationPhon = reservationPhon;
-	}
-
+	
 	public int getReservationPeople() {
 		return reservationPeople;
 	}
@@ -165,6 +147,22 @@ public class Order implements Serializable{
 
 	public void setShopReservationTable(ShopReservationTable shopReservationTable) {
 		this.shopReservationTable = shopReservationTable;
+	}
+
+	public String getCounterSeatYN() {
+		return counterSeatYN;
+	}
+
+	public void setCounterSeatYN(String counterSeatYN) {
+		this.counterSeatYN = counterSeatYN;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 	
