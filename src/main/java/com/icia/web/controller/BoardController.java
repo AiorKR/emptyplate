@@ -787,7 +787,7 @@ public class BoardController
 		totalCount = boardService.markListCount(board);
 		
 		if(totalCount > 0)
-		{	
+		{
 			paging = new Paging("/board/markList", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
 			
 			paging.addParam("bbsNo", board.getBbsNo());

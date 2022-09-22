@@ -478,7 +478,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
                                 <div class="modal-body">
                                   	<div id="shopName">${shop.shopName}</div><br />
                                   	<div id="selectcontent">
-                                    	<div class="personnel-select">
+                                    	<div class="personnel-select" style="margin-left: 55px;">
                                         	<div class="personnel-selected">
                                           		<div class="personnel-selected-value">인원을 선택해주세요</div>
                                         	</div>
