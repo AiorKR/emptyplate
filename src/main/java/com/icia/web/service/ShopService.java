@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.icia.web.dao.ShopDao;
+import com.icia.web.model.Order;
+import com.icia.web.model.Board;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
 import com.icia.web.model.ShopTotalTable;
@@ -135,6 +137,125 @@ public class ShopService {
 				
 				shopDao.shopFileInsert(shopFileList);
 			}
+			return count;
+		}
+		
+		//내 주문내역 리스트
+	      public List<Order> myOrderList(String userUID) {
+	          
+	          List<Order> list = null;
+	          
+	          try
+	          {   
+	             list = shopDao.myOrderList(userUID);
+	             
+	          }
+	          catch(Exception e)
+	          {
+	             logger.error("[ShopService] myOrderList Exception", e);
+	          }
+					
+			return list;
+		}
+		
+	      //주문내역 총 수
+	      public long myOrderListCount(String userUID)
+	      {
+	         long count = 0;
+	         
+	         try
+	         {
+	            count = shopDao.myOrderListCount(userUID);
+	         }
+	         catch(Exception e)
+	         {
+	            logger.error("[BoardService] userListCount Exception", e);
+	         }
+	         
+	         return count;
+	      }
+		
+		//동일 즐겨찾기 여부 확인
+		public int shopMarkCheck(Shop shop)
+		{
+			int count = 0;
+			
+			try
+			{
+				count = shopDao.shopMarkCheck(shop);
+			}
+			catch(Exception e)
+			{
+				logger.error("[ShopService] shopMarkCheck Exception", e);
+			}
+			
+			return count;
+		}
+		
+		//즐겨찾기 추가
+		public int shopMarkUpdate(Shop shop)
+		{
+			int count = 0;
+			
+			try
+			{
+				count = shopDao.shopMarkUpdate(shop);
+			}
+			catch(Exception e)
+			{
+				logger.error("[ShopService] shopMarkUpdate Exception", e);
+			}
+			
+			return count;
+		}
+		
+		//즐겨찾기 취소
+		public int shopMarkDelete(Shop shop)
+		{
+			int count = 0;
+			
+			try
+			{
+				count = shopDao.shopMarkDelete(shop);
+			}
+			catch(Exception e)
+			{
+				logger.error("[ShopService] shopMarkDelete Exception", e);
+			}
+			
+			return count;
+		}
+		
+		//즐겨찾기 리스트
+		public List<Shop> shopMarkList(Shop shop)
+		{
+			List<Shop> shopMarklist = null;
+			
+			try
+			{
+				shopMarklist = shopDao.shopMarkList(shop);
+			}
+			catch(Exception e)
+			{
+				logger.error("[ShopService] shopMarkList Exception", e);
+			}
+			
+			return shopMarklist;
+		}
+		
+		public long shopMarkListCount(Shop shop)
+		{
+			long count = 0;
+			
+			try
+			{
+				count = shopDao.shopMarkListCount(shop);
+			}
+			catch(Exception e)
+			{
+				logger.error("[ShopService] shopMarkListCount Exception", e);
+			}
+			
 			return count;
 		}
 }

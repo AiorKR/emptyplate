@@ -38,14 +38,54 @@ $(document).ready(function(){
 		
 		if($("#counterSeat").is(":checked")) {
 			document.bbsForm.counterSeatYN.value = "Y";
+			if(document.bbsForm.reservationDate.value != "" && document.bbsForm.reservationTime.value != "") {
+				reservationCheck();
+			}
 		}
 		else {
 			document.bbsForm.counterSeatYN.value = "N";
 		}
 		
-		console.log(document.bbsForm.counterSeatYN);
 	});
 	
+	//게시물 즐겨찾기
+   $("#btnMark").on("click", function(){
+	   $.ajax({
+	       type:"POST",
+	       url:"/shop/mark",
+	       data:{
+	          shopUID:'<c:out value="${shopUID}" />'
+	       },
+	       datatype:"JSON",
+	       beforeSend:function(xhr){
+	          xhr.setRequestHeader("AJAX", "true");
+	       },
+	       success:function(response){
+	          if(response.code == 0)
+	          {
+	             alert("즐겨찾기를 하셨습니다.");
+	             location.reload();
+	          }
+	          else if(response.code == 1)
+	          {
+	             alert("즐겨찾기를 취소하셨습니다.");
+	             location.reload();
+	          }
+	          else if(response.code == 400)
+	          {
+	             alert("로그인 후, 즐겨찾기 버튼을 사용하실 수 있습니다.");
+		         location.href = "/user/login";
+	          }
+	          else
+	          {
+	             alert("즐겨찾기 중 오류가 발생하였습니다.");
+	          }
+	       },
+	       error:function(xhr, status, error){
+	          icia.common.error(error);
+	       }
+	    });
+	});
 	
 	//리뷰로 변경 필요
 	$("#btnSearch").on("click", function(){
@@ -59,7 +99,7 @@ $(document).ready(function(){
 	
 	$("#btn-primary").on("click", function() { 
 	      document.bbsForm.bbsSeq.value = "";
-	      document.bbsForm.action = "/purchase/pay";
+	      document.bbsForm.action = "/purcx/hase/pay";
 	      document.bbsForm.submit();
 	   });
 	   
@@ -73,6 +113,12 @@ $(document).ready(function(){
 			  $("#select-ul").attr('style', "display:none;");
 			  $(".personnel-selected-value").text($(this).text());
 			  document.bbsForm.reservationPeople.value = $(".personnel-selected-value").text().replaceAll("명", "");;
+			  if($("#pay").is(":disabled")) { //disabled 처리 되있다면 풀어줌
+         		 $("#pay").attr("disabled", false);
+     			 if(document.bbsForm.reservationDate.value != "" && document.bbsForm.reservationTime.value != "") {
+    				 reservationCheck();
+    			 }
+         	 }
 		});
 		
 		$(".datepicker").change(function(){
@@ -112,7 +158,7 @@ $(document).ready(function(){
 	    	});
 		});
 	
-	$("#pay").on("click", function() {
+	$("#pay").on("click", function fn_pay() {
 		
 		var menuList = [];
 		
@@ -128,8 +174,6 @@ $(document).ready(function(){
 			
 			console.log("[i] : " + i + " menuList[i] : " + menuList[i]);
 		}
-		
-		console.log(menuList.length);
 		
 	      $.ajax({
 	    	  type:"POST",
@@ -171,7 +215,7 @@ $(document).ready(function(){
 		     	        	  amount: response.data.totalAmount,
 		     	        	  orderId: response.data.orderUID,
 		     	        	  orderName: orderName,
-		     	        	  customerName: response.data.reservationName,
+		     	        	  customerName: response.data.userName,
 		     	        	  successUrl: response.data.toss.tossSuccessUrl,
 		     	        	  failUrl: response.data.toss.tossFailUrl,
 		     	        }); 
@@ -346,7 +390,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
                         <div class="main_image"> <img src="../resources/upload/shop/${shop.shopUID}/${shop.shopFileList.get(1).shopFileName}" id="main_product_image" height="400px" width="400px"> </div>
                         <div class="thumbnail_images">
                             <ul id="thumbnail">
-                           <c:forEach items="${shop.shopFileList}" var="shopFileList" varStatus="status">
+                           <c:forEach items="${shop.shopFileList}" var="shopFileList" varStatus="status" begin="1" end="5">
                                    <li><img onclick="changeImage(this)" src="../resources/upload/shop/${shop.shopUID}/${shopFileList.shopFileName}" width="100px" height="100px"></li>
                                </c:forEach>  
                             </ul>
@@ -362,7 +406,15 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
                 <div class="col-md-6">
                     <div class="p-3 right-side">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h3>${shop.shopName}</h3><div class="bookmark"><button type="button" id="btnBoomark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
+                            <h3>${shop.shopName}</h3>
+                            <c:choose>
+								<c:when test="${shopMarkActive eq 'Y'}">
+									<div class="bookmark"><button type="button" id="btnMark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
+								</c:when>
+								<c:when test="${shopMarkActive eq 'N'}">
+									<div class="bookmark"><button type="button" id="btnMark" class="bookmark"><ion-icon name="star-outline"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
+								</c:when>
+							</c:choose>
                         </div>
                         <div class="mt-2 pr-3 content">
                             <p>${shop.shopIntro}</p>
@@ -433,11 +485,11 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
                             <div class="modal-dialog">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title" id="m">예약</h5>
+                                  <h5 class="modal-title" id="m" >예약</h5>
                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                  	<div id="shopName">${shop.shopName}</div>
+                                  	<div id="shopName">${shop.shopName}</div><br />
                                   	<div id="selectcontent">
                                     	<div class="personnel-select">
                                         	<div class="personnel-selected">
@@ -468,7 +520,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 	                                    <c:if test="${shop.shopType eq 2}"> <!-- 오마카세일때 적용 -->
 	                                    	카운터석 : <input type="checkbox" id="counterSeat" class="counterSeat"/>
 	                                    	* 카운터석은 연속되게 앉을 수 없을 수도 있습니다. *
-                                  		</c:if>
+                                  		</c:if><br /><br />
                                   	</div>	
                               		<div id="tableCheck">
 
@@ -519,8 +571,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
                     </div>
                 </div>
             </div>
-        </div>
-        <container>
+             <container>
            <hr class="hr-5">
         </container>
         <div class="review-container1">
@@ -533,6 +584,8 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
               <li><a href="#">Review text1</a></li>
             </ul>
           </div>
+        </div>
+
              <form name="bbsForm" id="bbsForm" method="post">
               <input type="hidden" name="shopUID" id="shopUID"  value="${shop.shopUID}"/> 
                <input type="hidden" name="searchType"  value="${searchType}"/>

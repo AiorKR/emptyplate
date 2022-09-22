@@ -264,9 +264,8 @@ SELECT S.SHOP_UID AS SHOP_UID,
    AND S.SHOP_UID = ST.SHOP_UID 
    AND S.SHOP_UID = SM.SHOP_UID
    AND S.SHOP_UID = SF.SHOP_UID
-   AND SF.FILE_ORG_NAME NOT LIKE '%Shop_%'
-   AND SF.FILE_SEQ <![CDATA[>=]]>  1
-   AND SF.FILE_SEQ <![CDATA[<=]]>  5
+   AND SF.FILE_SEQ <![CDATA[>=]]>  0
+   AND SF.FILE_SEQ <![CDATA[<=]]>  6
 </select>
 
 <select id="shopReservationCheck" parameterType="com.icia.web.model.Shop" resultMap="shopTotalTableResultMap"> <!--선택한 날에 대하여  예약이 가능한지 조회-->
@@ -297,5 +296,199 @@ SELECT S.SHOP_UID AS SHOP_UID,
 <select id="orderUIDcreate" resultType="long">
 	SELECT ORDER_SEQ.NEXTVAL FROM DUAL
 </select>
+
+
+
+
+<!-- 추가 -->
+	<resultMap id="orderMenuResultMap" type="com.icia.web.model.OrderMenu">
+	<result column="ORDER_UID" property="orderUID"/>
+	<result column="ORDER_MENU_NAME" property="orderMenuName"/>
+	<result column="ORDER_MENU_PRICE" property="orderMenuPrice"/>
+	<result column="ORDER_MENU_QUANTITY" property="orderMenuQuantity"/>
+	</resultMap>
+	
+	<resultMap id="myOrderResultMap" type="com.icia.web.model.Order">
+	<id column="ORDER_UID" property="orderUID"/>
+	<result column="USER_UID" property="userUID"/>
+	<result column="SHOP_UID" property="shopUID"/>
+	<result column="SHOP_NAME" property="shopName"/>
+	<result column="RESERVATION_PEOPLE" property="reservationPeople"/>
+	<result column="ORDER_STATUS" property="orderStatus"/>
+	<result column="TOTAL_AMOUNT" property="totalAmount"/>
+	<result column="R_DATE" property="rDate"/>
+	<result column="REG_DATE" property="regDate"/>	
+	<collection property="orderMenu" resultMap="orderMenuResultMap"/>
+	<collection property="shopReservationTable" resultMap="shopReservationTableResultMap"/>
+	</resultMap>
+	
+
+		
+	
+
+	<select id="myOrderList" parameterType="com.icia.web.model.Order" resultMap="myOrderResultMap">
+		SELECT RNUM,
+       		   SHOP_NAME,
+       		   RESERVATION_PEOPLE,
+       		   ORDER_STATUS,
+       		   TOTAL_AMOUNT,
+       		   SHOP_UID,
+       		   ORDER_MENU_NAME,
+               ORDER_MENU_QUANTITY,
+       		   R_DATE
+		  FROM(SELECT ROWNUM AS RNUM,
+             		  SHOP_NAME,
+            		  RESERVATION_PEOPLE,
+            		  ORDER_STATUS,	  
+            		  TOTAL_AMOUNT,
+            		  SHOP_UID,
+            		  ORDER_MENU_NAME,
+            		  ORDER_MENU_QUANTITY,
+            		  R_DATE
+      FROM(SELECT NVL(B.SHOP_NAME, '') AS SHOP_NAME,
+                 NVL(A.RESERVATION_PEOPLE, '') AS RESERVATION_PEOPLE,
+                 NVL(A.ORDER_STATUS, '') AS ORDER_STATUS,
+                 NVL(A.TOTAL_AMOUNT, '') AS TOTAL_AMOUNT,
+                 NVL(A.SHOP_UID, '') AS SHOP_UID,
+                 NVL(D.ORDER_MENU_NAME, '') AS ORDER_MENU_NAME,
+                 NVL(D.ORDER_MENU_QUANTITY, '') AS ORDER_MENU_QUANTITY,
+                 NVL(SUBSTR(C.RESERVATION_DATE,3,2)||'/'||SUBSTR(C.RESERVATION_DATE,5,2)||
+                '/'||SUBSTR(C.RESERVATION_DATE,7,2)||' '||SUBSTR(C.RESERVATION_TIME,1,2)||':'||SUBSTR(C.RESERVATION_TIME,3,2), '') AS R_DATE
+            FROM T_ORDER A, T_SHOP B, T_SHOP_RESERVATION_TABLE C, T_ORDER_MENU D
+            WHERE A.ORDER_UID = C.ORDER_UID
+            AND A.SHOP_UID = B.SHOP_UID
+            AND A.ORDER_UID = D.ORDER_UID
+            AND A.USER_UID = #{userUID}))
+       WHERE RNUM <![CDATA[>=]]> 1
+       AND RNUM <![CDATA[<=]]> 5
+       ORDER BY RNUM ASC
+	</select>
+	
+	<select id="myOrderListCount" parameterType="com.icia.web.model.Order" resultType="long">
+		SELECT COUNT(ORDER_UID) AS CNT
+  		  FROM T_ORDER
+ 		 WHERE USER_UID = #{userUID}
+	</select>
+
+
+<!-- 즐겨찾기 -->
+<!-- 동일 즐겨찾기 여부 확인 -->
+<select id="shopMarkCheck" parameterType="com.icia.web.model.Shop" resultType="int">
+SELECT COUNT(*)
+  FROM T_SHOP_BOOKMARK
+ WHERE SHOP_UID = #{shopUID}
+   AND USER_UID = #{userUID}
+</select>
+
+<!-- 즐겨찾기 추가-->
+<insert id="shopMarkUpdate" parameterType="com.icia.web.model.Shop">
+INSERT INTO T_SHOP_BOOKMARK (USER_UID,
+                          	SHOP_UID) 
+VALUES (#{userUID},
+        #{shopUID})
+</insert>
+
+<!-- 즐겨찾기 취소 -->
+<delete id="shopMarkDelete" parameterType="com.icia.web.model.Shop">
+DELETE FROM T_SHOP_BOOKMARK
+ WHERE SHOP_UID = #{shopUID}
+   AND USER_UID = #{userUID}
+</delete>
+
+<!-- 즐겨찾기 리스트 -->
+<select id="shopMarkList" parameterType="com.icia.web.model.Shop" resultMap="shopListResultMap">
+SELECT RNUM,
+       SHOP_UID,
+       USER_UID,
+	   SHOP_NAME,
+	   SHOP_CONTENT
+  FROM(SELECT ROWNUM AS RNUM,
+                        SHOP_UID,
+                        USER_UID,
+                        SHOP_NAME,
+                        SHOP_CONTENT
+  		 FROM(SELECT A.SHOP_UID AS SHOP_UID,
+             		 NVL(A.USER_UID, '') AS USER_UID,
+            		 NVL(A.SHOP_NAME, '') AS SHOP_NAME, 
+              		 NVL(A.SHOP_CONTENT, '') AS SHOP_CONTENT
+         		FROM T_SHOP A, T_USER B, T_SHOP_BOOKMARK C
+               WHERE A.SHOP_UID = C.SHOP_UID
+          		 AND A.USER_UID = B.USER_UID
+          		 AND C.USER_UID= #{userUID}
+<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>   
+  <choose>
+    <when test='searchType == "1"'>   
+          		 AND A.SHOP_NAME LIKE '%' || #{searchValue} || '%'
+    </when>
+    <when test='searchType == "3"'>
+          		 AND DBMS_LOB.INSTR(A.SHOP_CONTENT, #{searchValue}) > 0
+    </when>
+  </choose>
+</if>
+))
+
+ WHERE RNUM <![CDATA[>=]]> #{startRow}
+   AND RNUM <![CDATA[<=]]> #{endRow}
+ ORDER BY RNUM ASC
+</select>
+<insert id="orderInsert" parameterType="com.icia.web.model.Order">
+	INSERT INTO T_ORDER (
+    ORDER_UID,
+    SHOP_UID,
+    USER_UID,
+    RESERVATION_PEOPLE,
+    ORDER_STATUS,
+    PAY_TYPE,
+    REG_DATE,
+    TOTAL_AMOUNT,
+    PAYMENT_KEY
+) VALUES (
+    #{orderUID},
+    #{shopUID},
+    #{userUID},
+    #{reservationPeople},
+    #{orderStatus},
+    #{orderPayType},
+    #{orderRegDate},
+    #{totalAmount},
+    #{toss.paymentKey}
+)
+</insert>
+
+<insert id="orderMenuInsert" parameterType="com.icia.web.model.OrderMenu">
+   <foreach  collection="list" item="list" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+	INTO T_ORDER_MENU (
+    	ORDER_UID,
+    	ORDER_MENU_NAME,
+    	ORDER_MENU_PRICE,
+    	ORDER_MENU_QUANTITY
+    )
+	VALUES (
+	     #{list.orderUID},
+         #{list.orderMenuName},
+         #{list.orderMenuPrice},
+         #{list.orderMenuQuantity}
+    )
+   </foreach>
+</insert>
+
+<insert id="reservationTableInser" parameterType="com.icia.web.model.ShopReservationTable">
+   <foreach  collection="list" item="list" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+	INTO T_SHOP_RESERVATION_TABLE (
+	    TABLE_UID,
+	    TABLE_STATUS,
+	    RESERVATION_DATE,
+	    RESERVATION_TIME,
+	    ORDER_UID
+	)
+	VALUES (
+		 #{list.shopTableUID},
+         #{list.shopTableStatus},
+         #{list.shopReservationDate},
+         #{list.shopReservationTime},
+         #{list.orderUID}
+    )
+   </foreach>
+</insert>
 
 </mapper>

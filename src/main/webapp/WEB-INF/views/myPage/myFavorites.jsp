@@ -41,6 +41,16 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     
 });
+
+//마크 유져 페이지
+
+//해당 작성자 게시글
+function fn_userList(userUID, userNick)
+{
+   document.bbsForm.userUID.value = userUID;
+   document.bbsForm.action = "/board/userList";
+   document.bbsForm.submit();
+}
 </script>
 <style>
 .myFavo-title-sec{
@@ -114,6 +124,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	width:130px;
 	height:130px;
 	border-radius:50%;
+	border: 5px solid;	
 }
 
 .favorites-hr{
@@ -174,71 +185,30 @@ document.addEventListener("DOMContentLoaded", function() {
 					<div class="swiper-container">
     					<div class="swiper-wrapper">
 					        
+					      <c:if test="${!empty list}">
+             			  <c:forEach var="list" items="${list}" varStatus="status">  
 					        <!-- 반복시작 -->
 					        <div class="swiper-slide">
 					        	<div>
-					        		<a href="/myPage/myProfile">
-					        			<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
+					        		<a href="javascript:void(0)" onclick="fn_userList('${list.markUserUID}')">
+					        			<c:if test="${list.fileName eq ''}">
+							            	<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
+							            </c:if>
+							            <c:if test="${list.fileName ne ''}">
+							          		<img src="/resources/upload/user/${list.fileName}" class = 'favorites-profile-card-img'>
+							            </c:if>			        			
 									</a>
 									<div class = 'target-name'>
-										미미미미미미미미미미미
+										${list.userNick}
 									</div>
 									<div>
 										<img src="/resources/images/star.png" class = 'favorites-star'>
 									</div>
 								</div>
 					        </div>	
-					        <!-- 반복 끝 -->
-					        
-					           <!-- 반복시작 -->
-					        <div class="swiper-slide">
-					        	<div>
-					        		<a href="/myPage/myProfile">
-					        			<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
-									</a>
-									<div class = 'target-name'>
-										미미미미미미미미미미미
-									</div>
-									<div>
-										<img src="/resources/images/star.png" class = 'favorites-star'>
-									</div>
-								</div>
-					        </div>	
-					        <!-- 반복 끝 -->
-					        
-					           <!-- 반복시작 -->
-					        <div class="swiper-slide">
-					        	<div>
-					        		<a href="/myPage/myProfile">
-					        			<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
-									</a>
-									<div class = 'target-name'>
-										미미미미미미미미미미미
-									</div>
-									<div>
-										<img src="/resources/images/star.png" class = 'favorites-star'>
-									</div>
-								</div>
-					        </div>	
-					        <!-- 반복 끝 -->
-					        
-					           <!-- 반복시작 -->
-					        <div class="swiper-slide">
-					        	<div>
-					        		<a href="/myPage/myProfile">
-					        			<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
-									</a>
-									<div class = 'target-name'>
-										미미미미미미미미미미미
-									</div>
-									<div>
-										<img src="/resources/images/star.png" class = 'favorites-star'>
-									</div>
-								</div>
-					        </div>	
-					        <!-- 반복 끝 -->
-					        
-					        
+					        <!-- 반복 끝 -->					        
+					    </c:forEach>
+           				</c:if>
 					        
 					    </div>
    							 <div class="swiper-button-next"></div>
@@ -336,7 +306,14 @@ document.addEventListener("DOMContentLoaded", function() {
 					</div>
 			</div>
 	</div>
-</div>             
+	
+<form name="bbsForm" id="bbsForm" method="post">
+	 <input type="hidden" name="shopUID" value="" />
+	 <input type="hidden" name="curPage" value="${curPage}" />	
+	 <input type="hidden" name="userUID" value="${userUID}" />
+	</form> 
+	
+</div>       
 </section>
 </main>
  

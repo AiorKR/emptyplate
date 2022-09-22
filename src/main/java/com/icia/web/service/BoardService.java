@@ -258,8 +258,7 @@ public class BoardService
 				boardDao.boardFileDelete(board.getBbsSeq());
 			}
 			//새로운 첨부파일 등록
-			board.getBoardFile().setBbsSeq(board.getBbsSeq());
-			//board.getBoardFile().setFileOrgName(Long.toString(board.getBbsSeq()));
+			board.getBoardFile().setBbsSeq(board.getBbsSeq());			
 			board.getBoardFile().setFileSeq((short)1);
 		
 			boardDao.boardFileInsert(board.getBoardFile());
@@ -515,6 +514,26 @@ public class BoardService
 	public long boardReport(BoardReport boardReport)
 	{
 		long count = boardDao.boardReport(boardReport);		
+		
+		return count;
+	}
+	
+	/***************************
+	 * help
+	 ***************************/
+	//총 게시물 수
+	public long helpListCount(Board board)
+	{
+		long count = 0;
+		
+		try
+		{
+			count = boardDao.helpListCount(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] helpListCount Exception", e);
+		}
 		
 		return count;
 	}

@@ -4757,6 +4757,7 @@ hr[role="tournament1"]::before {
   background-size: cover;
   position: relative;
   padding: 0;
+  color:#0c0b09;
   
 }
 
@@ -4767,6 +4768,7 @@ hr[role="tournament1"]::before {
   background-size: cover;
   position: relative;
   padding: 0;
+  color:#0c0b09;
   
 }
 
@@ -4777,6 +4779,7 @@ hr[role="tournament1"]::before {
   background-size: cover;
   position: relative;
   padding: 0;
+  color:#0c0b09;
   
 }
 
@@ -4787,6 +4790,7 @@ hr[role="tournament1"]::before {
   background-size: cover;
   position: relative;
   padding: 0;
+  color:#0c0b09;
   
 }
 
@@ -4808,7 +4812,7 @@ hr[role="tournament1"]::before {
 
 #term1:before {
   content: "";
-  background: rgba(16, 16, 16);
+  background: rgba(225, 225, 225);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
@@ -4819,7 +4823,7 @@ hr[role="tournament1"]::before {
 
 #term2:before {
   content: "";
-  background: rgba(16, 16, 16);
+  background: rgba(225, 225, 225);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
@@ -4830,7 +4834,7 @@ hr[role="tournament1"]::before {
 
 #term3:before {
   content: "";
-  background: rgba(16, 16, 16);
+  background: rgba(225, 225, 225);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
@@ -4841,7 +4845,7 @@ hr[role="tournament1"]::before {
 
 #term4:before {
   content: "";
-  background: rgba(16, 16, 16);
+  background: rgba(225, 225, 225);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
@@ -4895,53 +4899,12 @@ hr[role="tournament1"]::before {
 }
 
 
-
-#term1 .footer-info {
-  text-align: left;
-  width: 100vh;
-}
-
-#term2 .footer-info {
-  text-align: left;
-  width: 100vh;
-}
-
-#term3 .footer-info {
-  text-align: left;
-  width: 100vh;
-}
-
-#term4 .footer-info {
-  text-align: left;
-  width: 100vh;
-}
-
-#term1 .select {
-  color: white;
-  background-color: #c78e54;  
-}
-
-#term2 .select {
-  color: white;
-  background-color: #c78e54;  
-}
-
-#term3 .select {
-  color: white;
-  background-color: #c78e54;  
-}
-
-#term4 .select {
-  color: white;
-  background-color: #c78e54;  
-}
-
 #term1 .nav-item button{
   margin-top: -30px;
-    background: #C2A383;
+    background: #cda45e;
     border: 0;
     padding: 4px 20px;
-    color: #fff;
+    color: #0c0b09;
     transition: 0.4s;
     border-radius: 10px;
     font-family: 'Cafe24Dangdanghae';
@@ -4952,10 +4915,10 @@ hr[role="tournament1"]::before {
 
 #term2 .nav-item button{
   margin-top: -30px;
-    background: #C2A383;
+    background: #cda45e;
     border: 0;
     padding: 4px 20px;
-    color: #fff;
+    color: #0c0b09;
     transition: 0.4s;
     border-radius: 10px;
     font-family: 'Cafe24Dangdanghae';
@@ -4966,10 +4929,10 @@ hr[role="tournament1"]::before {
 
 #term3 .nav-item button{
   margin-top: -30px;
-    background: #C2A383;
+    background: #cda45e;
     border: 0;
     padding: 4px 20px;
-    color: #fff;
+    color: #0c0b09;
     transition: 0.4s;
     border-radius: 10px;
     font-family: 'Cafe24Dangdanghae';
@@ -4980,10 +4943,10 @@ hr[role="tournament1"]::before {
 
 #term4 .nav-item button{
   margin-top: -30px;
-    background: #C2A383;
+    background: #cda45e;
     border: 0;
     padding: 4px 20px;
-    color: #fff;
+    color: #0c0b09;
     transition: 0.4s;
     border-radius: 10px;
     font-family: 'Cafe24Dangdanghae';
@@ -4993,29 +4956,29 @@ hr[role="tournament1"]::before {
 }
 
 #term1 #pills-tab .active {
-  color: white;
-  background-color: rgba(16, 16, 16);
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
   border-radius: 0%;
 
 }
 
 #term2 #pills-tab .active {
-  color: white;
-  background-color: rgba(16, 16, 16);
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
   border-radius: 0%;
 
 }
 
 #term3 #pills-tab .active {
-  color: white;
-  background-color: rgba(16, 16, 16);
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
   border-radius: 0%;
 
 }
 
 #term4 #pills-tab .active {
-  color: white;
-  background-color: rgba(16, 16, 16);
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
   border-radius: 0%;
 
 }
@@ -5041,10 +5004,10 @@ hr[role="tournament1"]::before {
 
 #term4 .container .row #inquiryBtn{
   margin-top: 10px;
-  background: #C2A383;
+  background: #cda45e;
   border: 0;
   padding: 4px 20px;
-  color: #fff;
+  color: #0c0b09;
   transition: 0.4s;
   border-radius: 10px;
   font-family: 'Cafe24Dangdanghae';
@@ -5063,6 +5026,7 @@ hr[role="tournament1"]::before {
   background-size: cover;
   position: relative;
   padding: 0;
+  color:#0c0b09;
 }
 
 .aboutus2 {
@@ -5072,6 +5036,7 @@ hr[role="tournament1"]::before {
   background-size: cover;
   position: relative;
   padding: 0;
+  color:#0c0b09;
 }
 
 .aboutus3 {
@@ -5081,6 +5046,7 @@ hr[role="tournament1"]::before {
   background-size: cover;
   position: relative;
   padding: 0;
+  color:#0c0b09;
 }
 
 .aboutus1 .container {
@@ -5100,7 +5066,7 @@ hr[role="tournament1"]::before {
 
 .aboutus1:before {
   content: "";
-  background: rgba(16, 16, 16);
+  background: rgba(225, 225, 225);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
@@ -5111,7 +5077,7 @@ hr[role="tournament1"]::before {
 
 .aboutus2:before {
   content: "";
-  background: rgba(16, 16, 16);
+  background: rgba(225, 225, 225);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
@@ -5122,7 +5088,7 @@ hr[role="tournament1"]::before {
 
 .aboutus3:before {
   content: "";
-  background: rgba(16, 16, 16);
+  background: rgba(225, 225, 225);
   opacity : 0.95;
   position: absolute;
   bottom: 0;
@@ -5134,10 +5100,10 @@ hr[role="tournament1"]::before {
 
 .aboutus1 .nav-item button{
   margin-top: 10px;
-    background: #C2A383;
+    background: #cda45e;
     border: 0;
     padding: 4px 20px;
-    color: #fff;
+    color: #0c0b09;
     transition: 0.4s;
     border-radius: 10px;
     font-family: 'Cafe24Dangdanghae';
@@ -5148,10 +5114,10 @@ hr[role="tournament1"]::before {
 
 .aboutus2 .nav-item button{
   margin-top: 10px;
-    background: #C2A383;
+    background: #cda45e;
     border: 0;
     padding: 4px 20px;
-    color: #fff;
+    color: #0c0b09;
     transition: 0.4s;
     border-radius: 10px;
     font-family: 'Cafe24Dangdanghae';
@@ -5162,10 +5128,10 @@ hr[role="tournament1"]::before {
 
 .aboutus3 .nav-item button{
   margin-top: 10px;
-    background: #C2A383;
+    background: #cda45e;
     border: 0;
     padding: 4px 20px;
-    color: #fff;
+    color: #0c0b09;
     transition: 0.4s;
     border-radius: 10px;
     font-family: 'Cafe24Dangdanghae';
@@ -5175,52 +5141,42 @@ hr[role="tournament1"]::before {
 }
 
 .aboutus1 #pills-tab .active {
-  color: white;
-  background-color: rgba(16, 16, 16);
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
   border-radius: 0%;
 
 }
 
 .aboutus2 #pills-tab .active {
-  color: white;
-  background-color: rgba(16, 16, 16);
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
   border-radius: 0%;
 
 }
 
 .aboutus3 #pills-tab .active {
-  color: white;
-  background-color: rgba(16, 16, 16);
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
   border-radius: 0%;
 
 }
 
-.aboutus3 .content .current-logo {
+.aboutus3 .current-logo {
   text-align:center;
+  padding: 50px 30px;
 }
 
-.aboutus3 .logo-list {
+.aboutus3 .logo-list {  
+  text-align:center;
+  margin:auto;
+  float:left;
   
-  text-align:center;
-}
-
-
-.reservation .section-title h2 {
-  color: #fff;
 }
 
 
 
-.aboutus .card-list li{
- padding:24px;
- flex-basis: 520px;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    border-radius: 13px;
-    background: var(--gray0);
+/*footer요소페이지끝 */
 
-}
 @media (min-width: 1024px) {
   .reservation {
     background-attachment: fixed;
