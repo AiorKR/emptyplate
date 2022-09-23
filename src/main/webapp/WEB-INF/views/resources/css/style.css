@@ -3408,7 +3408,7 @@ reservation 검색
   border: 1px solid rgba(255, 255, 255, 0.2);
   height: 50px;
   width: 150px;
-  border-radius: 0px !important
+  border-radius: 10px !important
 }
 
 .view .buttons .btn:hover {
@@ -3422,7 +3422,7 @@ reservation 검색
 
 /* view product slider */
 
-.view #view-notice {
+.view  #view-notice {
   color:#cda45e;
 }
 .view .review-container {
@@ -3604,6 +3604,7 @@ reservation 검색
 	word-break:break-all;
 }
 
+/*즐겨찾기 버튼*/
 .view .bookmark button {
   /*margin-top: 10px;*/
   background: rgba(225, 225, 225);
@@ -3615,7 +3616,6 @@ reservation 검색
   font-family: 'Cafe24Dangdanghae';
   font-size: 17px;
   margin-left: 5px;
-  margin-top: -15px;
   float: center;
 }
 
@@ -4411,6 +4411,7 @@ hr[role="tournament1"]::before {
   width: 80%;
 }
 #personal, #enterprise{
+  vertical-align: top;
   display: inline-block;
   width: 40%;
 }
@@ -4419,8 +4420,8 @@ hr[role="tournament1"]::before {
   border-top-right-radius: 1em;
 }
 #tableLast{
-  border-bottom-left-radius: 1em;
-  border-bottom-right-radius: 1em;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
 }
 #soloTableBorder{
   width: 100%;
@@ -4469,26 +4470,27 @@ hr[role="tournament1"]::before {
   padding-top: 110px;
   text-align: center;
   }
+  
+  #helpList .row{
+    padding: 1% 1%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width : 100%;                               
+    background-color:rgba(255, 255, 255, 0.8);   
+    border-radius: 1em;                         
+    display: inline-block;
+    position: relative;                       
+  }
 
-#helpList .row{
-  padding: 2% 1%;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  width : 100%;                               
-  background-color:rgba(255, 255, 255, 0.8);   
-  border-radius: 1em;                         
-  display: inline-block;                      
-}
-
-#helpList:before {
-  content: "";
-  background: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  right: 0;
-}
+  #helpList:before {
+    content: "";
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
 
 @media (max-width: 992px) {
   #community .container {

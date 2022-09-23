@@ -101,4 +101,10 @@ public interface BoardDao
 	//게시물 신고
 	public long boardReport(BoardReport boardReport);
 	
+	/*********************
+	 * HELP
+	 *********************/
+	//총 게시물 수
+	public long helpListCount(Board board);
+	
 }

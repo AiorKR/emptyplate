@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.icia.web.dao.UserDao;
 import com.icia.web.model.BoardLike;
+import com.icia.web.model.Order;
 import com.icia.web.model.User;
 import com.icia.web.model.UserFile;
 import com.icia.web.util.SmsMessage;
@@ -336,5 +337,23 @@ public class UserService
 		}
 		
 		return count;
+	}
+
+
+	public List<User> markUserList(String userUID) {
+		List<User> list = null;
+		
+		try
+		{	
+			list = userDao.markUserList(userUID);
+			
+		}
+		catch(Exception e)
+		{
+			logger.error("[UserService] markUserList Exception", e);
+		}
+		
+		
+		return list;
 	}
 }

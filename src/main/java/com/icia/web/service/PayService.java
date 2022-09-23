@@ -161,6 +161,7 @@ public class PayService {
 									if (shop.getShopTotalTable().get(i).getShopTotalTableRmains() >= quantity) {
 										for (int j = 0; j < shop.getShopTotalTable().get(i).getShopTable().size(); j++) {
 											if (!StringUtil.equals(shop.getShopTotalTable().get(i).getShopTable().get(j).getShopReservationTable().getShopTableStatus(), "Y")) {
+												
 												ShopReservationTable shopReservationTable = new ShopReservationTable();
 												shopReservationTable.setShopTableUID(shop.getShopTotalTable().get(i).getShopTable().get(j).getShopTableUID());
 												shopReservationTable.setShopReservationDate(shop.getReservationDate());
@@ -189,6 +190,7 @@ public class PayService {
 										if (shop.getShopTotalTable().get(i).getShopTotalTableRmains() >= quantity) {
 											for (int j = 0; j < shop.getShopTotalTable().get(i).getShopTable().size(); j++) {
 												if (!StringUtil.equals(shop.getShopTotalTable().get(i).getShopTable().get(j).getShopReservationTable().getShopTableStatus(), "Y")) {
+													
 													ShopReservationTable shopReservationTable = new ShopReservationTable();
 													shopReservationTable.setShopTableUID(shop.getShopTotalTable().get(i).getShopTable().get(j).getShopTableUID());
 													shopReservationTable.setShopReservationDate(shop.getReservationDate());
@@ -251,6 +253,7 @@ public class PayService {
 									else {
 										for (int j = 0; j < shop.getShopTotalTable().get(i).getShopTable().size(); j++) {
 											if (!StringUtil.equals(shop.getShopTotalTable().get(i).getShopTable().get(j).getShopReservationTable().getShopTableStatus(), "Y")) {
+												
 												ShopReservationTable shopReservationTable = new ShopReservationTable();
 												shopReservationTable.setShopTableUID(shop.getShopTotalTable().get(i).getShopTable().get(j).getShopTableUID());
 												shopReservationTable.setShopReservationDate(shop.getReservationDate());
