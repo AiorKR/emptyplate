@@ -7,15 +7,16 @@
 <script type="text/javascript">
   
     $(document).ready(function() {
-      $("#shopname").focus();
+      $("#shopName").focus();
 
       $("#inquiryBtn").on("click", function() {
         var emptCheck = /\s/g;
         var idPwCheck = /^[가-힣]{2,4}|[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
-        var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
+        var regExp = /^\d{3}\d{3,4}\d{4}$/;
+       	var 
 
 
-        if($.trim($("#shopname").val()).length <= 0)
+        if($.trim($("#shopName").val()).length <= 0)
         {
          alert("매장명을 입력하세요.");
          $("#shopname").val("");
@@ -23,29 +24,95 @@
          return;
         }        
 
-        if (!idPwCheck.test($("#customername").val())) 
-        {
-         alert("문의자이름은 2~10자의 영문 대소문자와 숫자로만 입력하세요");
-         $("#customername").focus();
-         return;
-        }
-
-        if($.trim($("#customername").val()).length <= 0)
+        if($.trim($("#userName").val()).length <= 0)
         {
          alert("문의자이름을 입력하세요.");
-         $("#customername").val("");
-         $("#customername").focus();
+         $("#username").val("");
+         $("#username").focus();
          return;
         }
+        
+        if (!idPwCheck.test($("#userName").val())) 
+        {
+         alert("문의자이름은 2~10자의 영문 대소문자와 숫자로만 입력하세요");
+         $("#username").focus();
+         return;
+        }        
 
-        if (!regExp.test($("#customerphone").val())) 
+        if (!regExp.test($("#userPhone").val())) 
         {
          alert("문의자전화번호를 맞게 입력하세요");
-         $("#customerphone").focus();
+         $("#userPhone").focus();
          return;
         }
+        
+        if($.trim($("#userPhone").val()).length <= 0)
+        {
+         alert("문의자전화번호를 입력하세요.");
+         $("#userPhone").val("");
+         $("#userPhone").focus();
+         return;
+        }
+        
+        if(!fn_validateEmail($("#userEmail").val()))
+		{
+			alert("사용자 이메일 형식이 올바르지 않습니다.");
+			$("#userEmail").focus();
+			return;	
+		}
+        
+      }) 
       
     })  
+function fn_entryReg()
+{
+	$.ajax({
+		type:"POST",
+		url:"/footer/entryForm",
+		data:{
+			userId:$("#shopName").val(),
+			userName:$("#userName").val(),
+			userPhone:$("#userPhone").val(),
+			
+			userEmail:$("#userEmail").val()
+		},
+		datatype:"JSON",
+		beforeSend:function(xhr){
+			xhr.setRequestHeader("AJAX", "true");
+		},
+		success:function(response){
+			if(response.code == 0)
+			{
+				alert("입점문의등록 되었습니다.");
+				location.href = "/";  //"/board/list";
+			}	
+			else if(response.code == 100)
+			{
+				alert("회원 아이디가 중복 되었습니다.");
+				$("#userId").focus();
+			}
+			else if(response.code == 400)
+			{
+				alert("파라미터 값이 올바르지 않습니다.");
+				$("#userId").focus();
+			}	
+			else if(response.code == 500)	
+			{
+				alert("회원 가입 중 오류가 발생하였습니다.");
+				$("#userId").focus();
+			}
+			else
+			{
+				alert("회원 가입 중 오류가 발생하였습니다.");
+				$("#userId").focus();
+			}
+		},
+		error:function(xhr, status, error)
+		{
+			icia.common.error(error);
+		}
+	});
+}    
   </script>
 
 </head>
@@ -130,15 +197,19 @@
                               <div class="storeblank">  
                                 <p>
                                     매장명&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-                                <input type="text" name="shopname" id="shopname" placeholder="매장명을 입력하세요" size="30">
+                                <input type="text" name="shopName" id="shopName" placeholder="매장명을 입력하세요" size="30">
                                 </p>
                                 <p>
                                     문의자 이름&nbsp;:
-                                <input type="text" name="customername" id="customername" placeholder="문의자이름을 입력하세요" size="30">
+                                <input type="text" name="userName" id="userName" placeholder="문의자이름을 입력하세요" size="30">
                                 </p>
                                 <p>
                                 문의자 전화번호&nbsp;:
-                                <input type="tel" name="customerphone" id="customerphone" placeholder="문의자전화번호를 입력하세요" size="30">
+                                <input type="tel" name="userPhone" id="userPhone" placeholder="문의자전화번호를 입력하세요" size="30">
+                                </p>                                                                
+                                <p>
+                                문의자 이메일&nbsp;:
+                                <input type="tel" name="userEmail" id="userEmail" placeholder="문의자이메일을 입력하세요" size="30">
                                 </p>
                               </div>
                                 

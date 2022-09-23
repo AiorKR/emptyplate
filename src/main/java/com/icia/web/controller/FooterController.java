@@ -5,14 +5,28 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.icia.common.util.StringUtil;
+import com.icia.web.model.Entry;
+import com.icia.web.model.Response;
+import com.icia.web.service.EntryService;
+import com.icia.web.service.UserService;
+import com.icia.web.util.HttpUtil;
+import com.icia.web.util.JsonUtil;
 
 @Controller("footerController")
 public class FooterController {
 
 	private static Logger logger = LoggerFactory.getLogger(FooterController.class);
+	
+	@Autowired
+	private EntryService entryService;
 	
 	@RequestMapping(value="/footer/resources")
 	public String resources(HttpServletRequest request, HttpServletResponse response)
@@ -63,5 +77,59 @@ public class FooterController {
 		return "/footer/logohistory";
 	}
 	
-	
+	@RequestMapping(value="/footer/entryForm", method=RequestMethod.POST)
+	@ResponseBody
+	public Response<Object> entryForm(HttpServletRequest request, HttpServletResponse response)
+	{
+		Response<Object> ajaxResponse = new Response<Object>();
+		
+		String shopName = HttpUtil.get(request, "shopName");
+		String userName = HttpUtil.get(request, "userName");
+		String userPhone = HttpUtil.get(request, "userPhone");
+		String userEmail = HttpUtil.get(request, "userEmail");
+		
+		if(!StringUtil.isEmpty(shopName) && 
+				!StringUtil.isEmpty(userName) &&
+				!StringUtil.isEmpty(userPhone) && 
+				!StringUtil.isEmpty(userEmail))
+		{
+			if(entryService.entrySelect(userPhone) == null)
+			{
+				Entry entry = new Entry();
+				
+				entry.setShopName(shopName);
+				entry.setUserName(userName);
+				entry.setUserPhone(userPhone);
+				entry.setUserEmail(userEmail);
+				
+				
+				if(entryService.entryInsert(entry) > 0)
+				{
+					ajaxResponse.setResponse(0, "Success");
+				}
+				else
+				{
+					ajaxResponse.setResponse(500, "Internal Server Error");
+				}
+			}
+			else
+			{
+				ajaxResponse.setResponse(100, "duplicate id");
+			}
+		}
+		else
+		{
+			ajaxResponse.setResponse(400, "Bad Request");
+		}
+		
+		if(logger.isDebugEnabled())
+		{
+			logger.debug("[UserController] /user/userInsert response\n" + JsonUtil.toJsonPretty(ajaxResponse));
+		}
+		
+		
+		
+				
+		return ajaxResponse;
+	}
 }
