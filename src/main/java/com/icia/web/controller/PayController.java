@@ -76,7 +76,7 @@ public class PayController {
 		order.setShopUID(HttpUtil.get(request, "shopUID")); //shopUID
 		String reservationDate = HttpUtil.get(request, "reservationDate"); //예약일
 		String reservationTime = HttpUtil.get(request, "reservationTime"); //예약시간
-		int reservationPeople = Integer.parseInt((HttpUtil.get(request, "reservationPeople"))); //예약인원
+		int reservationPeople = Integer.parseInt((HttpUtil.get(request, "reservationPeople", "0"))); //예약인원
 		ShopReservationTable shopReservationTable = new ShopReservationTable();
 		String counterSeatYN = HttpUtil.get(request, "counterSeatYN", "N");
 		logger.debug("counterSeatYN orderMenu메소드 값 : " + counterSeatYN);
@@ -270,8 +270,6 @@ public class PayController {
 									shopFile = shop.getShopFileList().get(i).getShopFileName();
 								}
 							}
-							
-							logger.debug("shopFile : " + shopFile);
 							
 							model.addAttribute("shop", shop);
 							model.addAttribute("shopFile", shopFile);

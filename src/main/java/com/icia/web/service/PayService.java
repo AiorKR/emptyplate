@@ -84,9 +84,8 @@ public class PayService {
 				if (response != null) {
 					order = new Order();
 					if (StringUtil.equals(response.get("status"), "DONE")) { // 토스에서 결제가 완료 되었는가 (DONE - 결제 완료됨)
-						order.setOrderStatus("Y");
+						order.setOrderStatus("R");
 						order.setOrderUID(response.get("orderId")); // 예약번호
-						order.setOrderRegDate(response.get("approvedAt").substring(0, 10).replace("-", ""));
 						toss.setPaymentKey(response.get("paymentKey")); // 토스에서 부여해주는 결제 건에 대한 고유한 키 값, 최대 길이 200
 						order.setToss(toss);
 						order.setTotalAmount((requestOrder.getTotalAmount())); // 총합 금액
@@ -114,18 +113,23 @@ public class PayService {
 
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class) // 최종결제 및 DB에 정보 INSERT
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class) // 최종결제 및 DB에 정보 INSERT 
 	public String payResult(Shop shop, Order order) throws Exception {
 
 		int count = 0;
 		int count2 = 0;
+		int quantity = 0;
+		double tmp2 = 0;
+		int tmp = 0;
 		String result = "";
-		List<ShopReservationTable> shopReservationTableList = new ArrayList<ShopReservationTable>();
-
+		
+		List<List<ShopReservationTable>> list = new ArrayList<List<ShopReservationTable>>();
+		
 		if (shop != null && order != null) { // 예약 자리가 있는지 다시 조회 및 자리 설정 여기서 실패하면 fail url return 할것
 			if (!StringUtil.isEmpty(order.getUserUID())) {
 				if (order.getReservationPeople() > 0) {
 					for (int i = 0; i < shop.getShopTotalTable().size(); i++) {
+						
 						for (int j = 0; j < shop.getShopTotalTable().get(i).getShopTable().size(); j++) {
 							if (StringUtil.equals(shop.getShopTotalTable().get(i).getShopTable().get(j).getShopReservationTable().getShopTableStatus(), "Y")) {
 								count++;
@@ -147,37 +151,29 @@ public class PayService {
 					}
 					else if (shop.getShopTotalTable() != null && StringUtil.equals(order.getCounterSeatYN(), "N")) { //모든 자리 조회
 						for (int i = 0; i < shop.getShopTotalTable().size(); i++) {
-							
-							if (order.getReservationPeople() / 2 == 0) { // 예약인원이 짝수 일때
-								int quantity = order.getReservationPeople() % shop.getShopTotalTable().get(i).getShopTotalTableCapacity();
+							List<ShopReservationTable> shopReservationTableList = new ArrayList<ShopReservationTable>();	
+							if (order.getReservationPeople() % 2 == 0) { // 예약인원이 짝수 일때 
+								tmp2 = order.getReservationPeople() / shop.getShopTotalTable().get(i).getShopTotalTableCapacity(); //소수점으로 나올거에 대비하여 tmp2라는 double 변수에 담음
+								logger.debug("tmp2 : " + tmp2);
+								quantity = (int)Math.ceil(tmp2); //올림처리함
 								logger.debug("짝수 수량 : " + quantity);
 								if (StringUtil.equals(shop.getShopTotalTable().get(i).getShopTotalTableStatus(), "N")) { // 자리가 있는 테이블 종류 확인
 									if (shop.getShopTotalTable().get(i).getShopTotalTableRmains() >= quantity) {
 										for (int j = 0; j < shop.getShopTotalTable().get(i).getShopTable().size(); j++) {
 											if (!StringUtil.equals(shop.getShopTotalTable().get(i).getShopTable().get(j).getShopReservationTable().getShopTableStatus(), "Y")) {
+												
 												ShopReservationTable shopReservationTable = new ShopReservationTable();
 												shopReservationTable.setShopTableUID(shop.getShopTotalTable().get(i).getShopTable().get(j).getShopTableUID());
 												shopReservationTable.setShopReservationDate(shop.getReservationDate());
 												shopReservationTable.setShopReservationTime(shop.getReservationTime());
 												shopReservationTable.setShopTableStatus("Y");
 												shopReservationTable.setOrderUID(order.getOrderUID());
+												shopReservationTable.setShopTotalTableCapacity(shop.getShopTotalTable().get(i).getShopTotalTableCapacity());
 												shopReservationTableList.add(shopReservationTable);
-												
-												
-												logger.debug("짝수 : -------------------------------------------------------------------------------------------");
-												logger.debug("j : " + j + ", size : " + shopReservationTableList.size());
-												logger.debug("shopReservationTableList tableUID : " + shopReservationTableList.get(j).getShopTableUID());
-												logger.debug("shopReservationTableList date : " + shopReservationTableList.get(j).getShopReservationDate());
-												logger.debug("shopReservationTableList time : " + shopReservationTableList.get(j).getShopReservationDate());
-												logger.debug("shopReservationTableList status : " + shopReservationTableList.get(j).getShopTableStatus());
-												logger.debug("shopReservationTableList orderUID : " + shopReservationTableList.get(j).getOrderUID());
-												logger.debug("-------------------------------------------------------------------------------------------");
-												if ((j + 1 ) == quantity) break;
+												if((j+1) == quantity) break;
 											}
 										}
-										order.setShopReservationTableList(shopReservationTableList);
 										result = "0, 예약가능";
-										break;
 									} 
 									else {
 										result = "-2, 예약인원이 남은 테이블 수량보다 큼";
@@ -185,72 +181,88 @@ public class PayService {
 								}
 							} 
 							else { // 예약인원이 홀수 일때
-								int tmp = order.getReservationPeople() + 1;  // 1명 추가해서 짝수로 만들어 계산
-								int quantity = tmp / shop.getShopTotalTable().get(i).getShopTotalTableCapacity();
+								tmp = order.getReservationPeople() + 1;  // 1명 추가해서 짝수로 만들어 계산
+								tmp2 = (double)tmp / (double)shop.getShopTotalTable().get(i).getShopTotalTableCapacity(); //소수가 될 것을 대비하여 double변수에 담음
+								logger.debug("tmp2 : " + tmp2);
+								quantity = (int)Math.ceil(tmp2); //올림해서 변수에 담음
 								logger.debug("홀수 수량 : " + quantity);
 									if (StringUtil.equals(shop.getShopTotalTable().get(i).getShopTotalTableStatus(),"N")) { // 자리가 있는 테이블 종류 확인
 										if (shop.getShopTotalTable().get(i).getShopTotalTableRmains() >= quantity) {
 											for (int j = 0; j < shop.getShopTotalTable().get(i).getShopTable().size(); j++) {
 												if (!StringUtil.equals(shop.getShopTotalTable().get(i).getShopTable().get(j).getShopReservationTable().getShopTableStatus(), "Y")) {
+													
 													ShopReservationTable shopReservationTable = new ShopReservationTable();
 													shopReservationTable.setShopTableUID(shop.getShopTotalTable().get(i).getShopTable().get(j).getShopTableUID());
 													shopReservationTable.setShopReservationDate(shop.getReservationDate());
 													shopReservationTable.setShopReservationTime(shop.getReservationTime());
 													shopReservationTable.setShopTableStatus("Y");
 													shopReservationTable.setOrderUID(order.getOrderUID());
+													shopReservationTable.setShopTotalTableCapacity(shop.getShopTotalTable().get(i).getShopTotalTableCapacity());
 													shopReservationTableList.add(shopReservationTable);
-													
-													
-													logger.debug("홀수 : -------------------------------------------------------------------------------------------");
-													logger.debug("j : " + j + ", size : " + shopReservationTableList.size());
-													logger.debug("shopReservationTableList tableUID : " + shopReservationTableList.get(j).getShopTableUID());
-													logger.debug("shopReservationTableList date : " + shopReservationTableList.get(j).getShopReservationDate());
-													logger.debug("shopReservationTableList time : " + shopReservationTableList.get(j).getShopReservationDate());
-													logger.debug("shopReservationTableList status : " + shopReservationTableList.get(j).getShopTableStatus());
-													logger.debug("shopReservationTableList orderUID : " + shopReservationTableList.get(j).getOrderUID());
-													logger.debug("-------------------------------------------------------------------------------------------");
-													if ((j + 1 ) == quantity) break;
+													if((j+1) == quantity) break;
 												}
 											}
-											order.setShopReservationTableList(shopReservationTableList);
 											result = "0, 예약가능";
-											break;
 										} 
 										else {
 											result = "-2, 예약인원이 남은 테이블 수량보다 큼";
 										}
 									}
 							}
+							if(StringUtil.equals(result, "0, 예약가능")) {
+								list.add(shopReservationTableList);
+							}
+						}
+						if(list != null) {
+							for(int i=0; i < list.size(); i++) {
+								for(int j=0; j < list.get(i).size(); j++) {									
+									if(order.getReservationPeople() <= list.get(i).get(j).getShopTotalTableCapacity()) {
+										order.setShopReservationTableList(list.get(i));
+										break;
+									}
+									if(order.getShopReservationTableList() != null) break;
+								}
+							}
+							if(order.getShopReservationTableList() == null) {
+								for(int i=(list.size()-1); i >= 1; i--) {
+									for(int j=0; j < list.get(i).size(); j++) {
+										if(order.getReservationPeople() >= list.get(i).get(j).getShopTotalTableCapacity()) {
+											order.setShopReservationTableList(list.get(i));
+											break;
+										}
+									}
+									if(order.getShopReservationTableList() != null) break;
+								}
+							}
 						}
 					}
 					else { // 카운터석만 조회
 						for (int i = 0; i < shop.getShopTotalTable().size(); i++) {
+							
+							List<ShopReservationTable> shopReservationTableList = new ArrayList<ShopReservationTable>();
+							
 							if (shop.getShopTotalTable().get(i).getShopTotalTableCapacity() == 1) { // 카운터석만 확인
-								for (int j = 0; j < shop.getShopTotalTable().get(i).getShopTable().size(); j++) {
-									if (StringUtil.equals(shop.getShopTotalTable().get(i).getShopTable().get(j).getShopReservationTable().getShopTableStatus(), "Y")) { // 자리 조회 중
-										count++;
-									}
-								}
-								if (shop.getShopTotalTable().get(i).getShopTotalTable() == count) { // 예약된 테이블 갯수가 식당의  테이블 수량과 같다면
-									shop.getShopTotalTable().get(i).setShopTotalTableStatus("Y"); // 예약이 다 차있다면 Y를 세팅함. (디폴트값 N)
-									result = "-2, 예약인원이 남은 테이블 수량보다 큼";
+
+								if (StringUtil.equals(shop.getShopTotalTable().get(i).getShopTotalTableStatus(), "Y")) { // 예약된 테이블 갯수가 식당의  테이블 수량과 같다면
+									result = "-2, 카운터석 예약 최대로 예약되있음";
 								} 
 								else {
-									shop.getShopTotalTable().get(i).setShopTotalTableRmains(
-									shop.getShopTotalTable().get(i).getShopTotalTable() - count); // 남아있는 자리 숫자 세팅
 									if (order.getReservationPeople() > shop.getShopTotalTable().get(i).getShopTotalTableRmains()) { // 1인테이블이므로 예약인원보다 남은 자리가 적으면 안됨
 										result = "-2, 예약인원이 남은 테이블 수량보다 큼";
 									} 
 									else {
 										for (int j = 0; j < shop.getShopTotalTable().get(i).getShopTable().size(); j++) {
 											if (!StringUtil.equals(shop.getShopTotalTable().get(i).getShopTable().get(j).getShopReservationTable().getShopTableStatus(), "Y")) {
+												
 												ShopReservationTable shopReservationTable = new ShopReservationTable();
-												shopReservationTable.setShopTableUID(shop.getShopTotalTable().get(i).getShopTable().get(i).getShopTableUID());
+												shopReservationTable.setShopTableUID(shop.getShopTotalTable().get(i).getShopTable().get(j).getShopTableUID());
 												shopReservationTable.setShopReservationDate(shop.getReservationDate());
 												shopReservationTable.setShopReservationTime(shop.getReservationTime());
 												shopReservationTable.setShopTableStatus("Y");
 												shopReservationTable.setOrderUID(order.getOrderUID());
-												shopReservationTableList.add((shopReservationTable));
+												shopReservationTable.setShopTotalTableCapacity(shop.getShopTotalTable().get(i).getShopTotalTableCapacity());
+												shopReservationTableList.add(shopReservationTable);
+												
 												if ((j + 1 ) == order.getReservationPeople()) break;
 											}
 										}
@@ -265,8 +277,6 @@ public class PayService {
 							}
 						}
 					}
-					
-					result = "-999";
 					
 					if(StringUtil.equals("0, 예약가능", result)) {
 						if(shopDao.orderInsert(order) > 0) {
@@ -296,7 +306,7 @@ public class PayService {
 	public String payCancel(String paymentKey, String cancelReason, int cancelAmount) { //환불
 		String result = "";
 		
-		if(!StringUtil.isEmpty(paymentKey) &&  StringUtil.isEmpty(cancelReason) && cancelAmount > 0) {
+		if(!StringUtil.isEmpty(paymentKey) &&  !StringUtil.isEmpty(cancelReason) && cancelAmount > 0) {
 			String cancelUrl = "/v1/payments/" + paymentKey + "/cancel";
 			String Amount = Integer.toString(cancelAmount);
 			RestTemplate restTemplate = new RestTemplate();

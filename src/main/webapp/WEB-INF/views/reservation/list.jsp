@@ -32,6 +32,11 @@ request.setAttribute("No", 2);
 
 <script type="text/javascript">
 $(document).ready(function() {
+	if('${reservationDate}' != "") { // 값이 있다면 datepicker에 보여줌
+		$(".datepicker").val('${reservationDate}');
+	}
+	
+	
    $(".select").change(function() { 
       document.bbsForm.curPage.value = "1";
        document.bbsForm.searchType.value = $(".select").val();
@@ -82,7 +87,7 @@ function fn_search(shopHashtag) {
 }
 
 $(document).ready(function(){
-	$(".datepicker").change(function(){
+	$(".datepicker").change(function() {
 		$("#datepicker-ul").attr('style', "display:inline;");
 	});
 	
@@ -110,7 +115,6 @@ $(document).ready(function(){
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/include/navigation.jsp"%>
-
 	<!-- ======= reservations Section ======= -->
 	<section id="reservation" class="reservation">
 		<div class="reservation-container container">
@@ -140,15 +144,13 @@ $(document).ready(function(){
 												${shop.shopLocation3} ${shop.shopAddress}</li>
 											<li><i class="fa-regular fa-star"></i> 별점 4.3 (500)</li>
 										</ul>
-										<p class="fa-solid fa-pen"
-											style="color: #cda45e; font-size: 19px;">
+										<p class="fa-solid fa-pen" style="color: #cda45e; font-size: 19px;">
 											${shop.shopIntro}</p>
 										<br /> <c:forTokens items="${shop.shopHashtag}" delims="#"
 											var="shopHashtag">
 											<span onclick="fn_search('${shopHashtag}')"
 												style="cursor: pointer;"> <i
-												class="fa-solid fa-hashtag"><c:out
-														value='${shopHashtag}' /></i>
+												class="fa-solid fa-hashtag"><c:out value='${shopHashtag}' /></i>
 											</span>
 										</c:forTokens>
 									</span>
@@ -177,23 +179,19 @@ $(document).ready(function(){
 										<span class="navbar-toggler-icon"></span>
 									</button>
 									<form>
-
 										<!--datepicker-->
 										<div class="card">
 											<div class="content">
-												<input type="text" class="datepicker"
-													placeholder="날짜를 선택해주세요" name="date" readonly>
+												<input type="text" class="datepicker" placeholder="날짜를 선택해주세요" name="date" readonly>
 											</div>
 											<div class="box">
 												<ul id="datepicker-ul">
 													<li id="datepicker-li">
-														<div class="dptime-disabled">런치 타임</div>
 														<div class="dptime">10:00</div>
 														<div class="dptime">11:00</div>
 														<div class="dptime">12:00</div>
 														<div class="dptime">13:00</div>
 														<div class="dptime">14:00</div>
-														<div class="dptime-disabled">디너 타임</div>
 														<div class="dptime">18:00</div>
 														<div class="dptime">19:00</div>
 														<div class="dptime">20:00</div>
@@ -203,14 +201,11 @@ $(document).ready(function(){
 												</ul>
 											</div>
 										</div>
-
 										<!--datepicker-->
 										&nbsp;&nbsp;&nbsp;
-										<div class="collapse navbar-collapse"
-											id="navbarSupportedContent">
+										<div class="collapse navbar-collapse" id="navbarSupportedContent">
 											<ul class="navbar-nav me-auto ">
-												<select class="select" aria-label="Default select example"
-													style="width: 150px; height: 35px; cursor: pointer;">
+												<select class="select" aria-label="Default select example" style="width: 150px; height: 35px; cursor: pointer;">
 													<option value="0" selected
 														style="width: 150px; height: 35px; cursor: pointer;"
 														selected <c:if test="${searchType eq '0'}">selected</c:if>>전체</option>
@@ -245,22 +240,14 @@ $(document).ready(function(){
 												</h2>
 												<br /> <c:forTokens items="${shop.shopHashtag}" delims="#"
 													var="shopHashtag">
-													<span onclick="fn_search('${shopHashtag}')"
-														style="cursor: pointer;"> <i
-														class="fa-solid fa-hashtag"
-														style="font-size: 18px; color: #FF7F50;"><c:out
-																value='${shopHashtag}' /></i>
+													<span onclick="fn_search('${shopHashtag}')" style="cursor: pointer;"> <i class="fa-solid fa-hashtag" style="font-size: 18px; color: #FF7F50;"><c:out value='${shopHashtag}' /></i>
 													</span>
 												</c:forTokens><br />
 											<br /> <i class="fa-solid fa-map-location-dot"
-												style="font-size: 18px;"> <c:out
-														value="${shop.shopLocation1}" /> <c:out
-														value="${shop.shopLocation2}" /> <c:out
-														value="${shop.shopLocation3}" />
+												style="font-size: 18px;"> <c:out value="${shop.shopLocation1}" /> <c:out value="${shop.shopLocation2}" /> <c:out value="${shop.shopLocation3}" />
 											</i><br />
 											<br /> <i class="fa-solid fa-pen"
-												style="color: #cda45e; font-size: 19px;"> <c:out
-														value="${shop.shopIntro}" />
+												style="color: #cda45e; font-size: 19px;"> <c:out value="${shop.shopIntro}" />
 											</i>
 											</td>
 										</tr>
@@ -289,9 +276,7 @@ $(document).ready(function(){
 									</c:choose>
 								</c:forEach>
 								<c:if test="${paging.nextBlockPage gt 0}">
-									<li class="page-item"><a class="page-link"
-										href="javascript:void(0)"
-										onclick="fn_list(${paging.nextBlockPage})"> > </a></li>
+									<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="fn_list(${paging.nextBlockPage})"> > </a></li>
 								</c:if>
 							</ul>
 						</div>
@@ -299,12 +284,12 @@ $(document).ready(function(){
 				</div>
 			</div>
 			<form name="bbsForm" id="bbsForm" method="post">
-				<input type="hidden" name="shopUID" value="" /> <input type="hidden"
-					name="searchType" value="${searchType}" /> <input type="hidden"
-					name="searchValue" value="${searchValue}" /> <input type="hidden"
-					name="curPage" value="${curPage}" /> <input type="hidden"
-					name="reservationDate" value="${reservationDate}" /> <input
-					type="hidden" name="reservationTime" value="${reservationTime}" />
+				<input type="hidden" name="shopUID" value="" /> 
+				<input type="hidden" name="searchType" value="${searchType}" /> 
+				<input type="hidden" name="searchValue" value="${searchValue}" /> 
+				<input type="hidden" name="curPage" value="${curPage}" /> 
+				<input type="hidden" name="reservationDate" value="${reservationDate}" /> 
+				<input type="hidden" name="reservationTime" value="${reservationTime}" />
 			</form>
 		</div>
 	</section>

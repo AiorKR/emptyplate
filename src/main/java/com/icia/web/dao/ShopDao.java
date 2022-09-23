@@ -29,6 +29,9 @@ public interface ShopDao {
 	
 	public long orderUIDcreate(); //주문번호 생성을 위한 시퀀스 조회
 	
+	public List<Order> myOrderList(String userUID);
+
+	public long myOrderListCount(String userUID); 
 	//동일 즐겨찾기 여부 확인
 	public int shopMarkCheck(Shop shop);
 		
