@@ -3,7 +3,7 @@
 	// 개행문자 값을 저장한다.
 	pageContext.setAttribute("newLine", "\n");
 	// Community 번호
-	request.setAttribute("No", 4);
+	request.setAttribute("No", 5);
 %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <!DOCTYPE html>
@@ -67,27 +67,9 @@ $(document).ready(function() {
          return;
       }
       
-      if($.trim($("#bbsFile").val()).length <= 0)
-      {
-         alert("파일을 첨부하세요.");
-         $("#bbsFile").val("");
-         
-         $("#btnWrite").prop("disabled", false);
-         
-         return;
-      }
-      
       var comment = document.getElementById('bbsComment1');
-
-      var resultValue = comment.checked;
-      if(resultValue == true)
-      {
-         $('#bbsComment').val("Y");
-      }
-      else
-      {
-         $('#bbsComment').val("N");
-      }
+      
+      $('#bbsComment').val("N");
       
       var form = $("#writeForm")[0];
       var formData = new FormData(form);
@@ -95,7 +77,7 @@ $(document).ready(function() {
       $.ajax({
          type:"POST",
          enctype:'multipart/form-data',
-         url:"/board/writeProc",
+         url:"/help/helpWriteProc",
          data:formData,
          processData:false,
          contentType:false,
@@ -134,7 +116,7 @@ $(document).ready(function() {
    
    //목록
    $("#btnList").on("click", function() {
-      document.bbsForm.action = "/board/list";
+      document.bbsForm.action = "/help/helpList";
       document.bbsForm.submit();
    });
 });
@@ -163,11 +145,9 @@ $(document).ready(function() {
           <td class="title">제목</td>
           <td class="title-text">
             <input type="text" id="bbsTitle" name="bbsTitle" placeholder="제목을 입력해주세요.">
-			<div class="comment">댓글허용 <input type="checkbox" id="bbsComment1" name="bbsComment1" checked="checked"/></div>
-				<input type="hidden" id="bbsComment" name="bbsComment" value="" />
           </td>
         </tr>
-        
+        <input type="hidden" id="bbsComment" name="bbsComment" value="" />
         <tr>
           <td class="content">내용</td>
           <td class="content-text">

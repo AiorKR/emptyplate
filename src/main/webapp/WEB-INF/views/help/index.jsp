@@ -25,9 +25,9 @@ function fn_helpList(bbsNo)
 //게시물 불러오기
 function fn_view(bbsSeq)
 {
-	document.helpViewForm.bbsSeq.value = bbsSeq;
-	document.helpViewForm.action = "/help/helpView";
-	document.helpViewForm.submit();
+	document.helpListForm.bbsSeq.value = bbsSeq;
+	document.helpListForm.action = "/help/helpView";
+	document.helpListForm.submit();
 }
 
 </script>
@@ -202,10 +202,8 @@ function fn_view(bbsSeq)
           </div>
         </div>
       </div>
-		<form name="helpListForm" id="helpListForm" method="GET">
+		<form name="helpListForm" id="helpListForm" method="POST">
 			<input type="hidden" name="bbsNo" value="" />
-		</form>
-		<form name="helpViewForm" id="helpViewForm" method="GET">
 			<input type="hidden" name="bbsSeq" value="" />
 		</form>
     </div>

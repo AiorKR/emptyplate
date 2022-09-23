@@ -213,6 +213,8 @@ public class BoardController
 		model.addAttribute("sortValue", sortValue);
 		model.addAttribute("curPage", curPage);
 		model.addAttribute("paging", paging);
+		
+		
 		User user2 = new User();
 		user2 = userService.userUIDSelect(cookieUserUID);
 		if(user2 != null)
