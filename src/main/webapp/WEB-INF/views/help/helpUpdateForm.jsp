@@ -4,6 +4,7 @@
 	pageContext.setAttribute("newLine", "\n");
 	// Community 번호
 	request.setAttribute("No", 5);
+
 %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <!DOCTYPE html>
@@ -12,47 +13,18 @@
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
 <script type="text/javascript">
 $(document).ready(function() {
-    
+
    $("#bbsTitle").focus();
    
-   //이미지 파일 첨부 확장자, 사이즈 체크
-   $("input[type='file']").on("change", function(e){
- 		let formData = new FormData();
- 		let fileInput = $('input[name="bbsFile"]');
- 		let fileList = fileInput[0].files;
- 		let fileObj = fileList[0];
- 		if(!fileCheck(fileObj.name, fileObj.size)){
- 			return false;
- 		}
- 		formData.append("bbsFile", fileObj);
- 	});
-	let regex = new RegExp("(.*?)\.(jpg|png|jpeg|gif)$", "i");
- 	let maxSize = 1048576; //1MB	
-	
-	function fileCheck(fileName, fileSize){
-		if(fileSize >= maxSize){
-			alert("파일 사이즈 초과");
-			return false;
-		}
-		if(!regex.test(fileName)){
-			alert("해당 종류의 파일은 업로드할 수 없습니다.");
-			return false;
-		}
-		return true;
-	}
-   
-   $("#btnWrite").on("click", function() {
+   $("#btnUpdate").on("click", function() {
       
-      $("#btnWrite").prop("disabled", true);
+      $("#btnUpdate").prop("disabled", true);
       
       if($.trim($("#bbsTitle").val()).length <= 0)
       {
          alert("제목을 입력하세요.");
          $("#bbsTitle").val("");
-         $("#bBbsTitle").focus();
-         
-         $("#btnWrite").prop("disabled", false);
-         
+         $("#bbsTitle").focus();
          return;
       }
       
@@ -61,28 +33,32 @@ $(document).ready(function() {
          alert("내용을 입력하세요.");
          $("#bbsContent").val("");
          $("#bbsContent").focus();
-         
-         $("#btnWrite").prop("disabled", false);
-         
          return;
       }
       
+      //댓글허용
       var comment = document.getElementById('bbsComment1');
+      var resultValue = comment.checked;
+      if(resultValue == true)
+      {
+         $('#bbsComment').val("Y");
+      }
+      else
+      {
+         $('#bbsComment').val("N");
+      }
       
-      $('#bbsComment').val("N");
-      
-      var form = $("#writeForm")[0];
+      var form = $("#updateForm")[0];
       var formData = new FormData(form);
       
       $.ajax({
          type:"POST",
          enctype:'multipart/form-data',
-         url:"/help/helpWriteProc",
+         url:"/help/helpUpdateProc",
          data:formData,
          processData:false,
          contentType:false,
          cache:false,
-         timeout:600000,
          beforeSend:function(xhr)
          {
             xhr.setRequestHeader("AJAX", "true");
@@ -91,34 +67,44 @@ $(document).ready(function() {
          {
             if(response.code == 0)
               {
-               alert("게시물이 등록되었습니다.");
+               alert("게시물이 수정되었습니다.");
                document.bbsForm.bbsNo = response.data;
                document.bbsForm.action = "/help/helpList";
-               document.bbsForm.submit();
+               document.bbsForm.submit();            
               }
             else if(response.code == 400)
-              {
+           {
                alert("파라미터 값이 올바르지 않습니다.");
-               $("#btnWrite").prop("disabled", false);
+               $("#btnUpdate").prop("disabled", false);
+           }
+            else if(response.code == 403)
+              {
+               alert("본인 게시물이 아닙니다.");
+               $("#btnUpdate").prop("disabled", false);
+              }
+            else if(response.code == 404)
+              {
+               alert("게시물을 찾을 수 없습니다.");
+               location.href = "/help/helpList";
               }
             else
               {
-               alert("게시물 등록 중 오류가 발생.");
-               $("#btnWrite").prop("disabled", false);
+               alert("게시물 수정 중 오류가 발생하였습니다.");
+               $("#btnUpdate").prop("disabled", false);
               }
          },
          error:function(error)
          {
             icia.common.error(error);
-            alert("게시물 등록 중 오류가 발생하였습니다.");
-            $("#btnWrite").prop("disabled", false);
+            alert("게시물 수정 중 오류가 발생하였습니다.");
+            $("#btnUpdate").prop("disabled", false);
          }
-      });
+     });
    });
    
    //목록
    $("#btnList").on("click", function() {
-      document.bbsForm.action = "/help/helpList";
+      document.bbsForm.action = "/board/list";
       document.bbsForm.submit();
    });
 });
@@ -127,23 +113,22 @@ $(document).ready(function() {
 
 <body>
 <%@ include file="/WEB-INF/views/include/navigation.jsp" %>
- <section id="communityWriteForm" class="community">
+ <section id="communityUpdateForm" class="community">
   <div class="container">
    <div class = "row">
-      <form name="writeForm" id="writeForm" method="post" enctype="multipart/form-data">
-      <input type="hidden" name="bbsNo" value="${bbsNo}" />
+    <form name="updateForm" id="updateForm" method="post" enctype="multipart/form-data">
       <table>
         <tr>
           <td class="title">제목</td>
           <td class="title-text">
-            <input type="text" id="bbsTitle" name="bbsTitle" placeholder="제목을 입력해주세요.">
+            <input type="text" id="bbsTitle" name="bbsTitle" value="${board.bbsTitle}" maxlength="30" placeholder="제목을 입력해주세요.">
           </td>
         </tr>
-        <input type="hidden" id="bbsComment" name="bbsComment" value="" />
+        
         <tr>
           <td class="content">내용</td>
           <td class="content-text">
-            <textarea class="summernote" id="bbsContent" name="bbsContent" placeholder="내용을 입력해주세요."></textarea> 
+            <textarea class="summernote" id="bbsContent" name="bbsContent" placeholder="내용을 입력해주세요.">${board.bbsContent}</textarea> 
             <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
             <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
             <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
@@ -193,22 +178,36 @@ $(document).ready(function() {
         
         <tr>
           <td class="file">이미지 첨부</td>
-          <td><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요."/></td>
+          <td><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요." required /></td>
         </tr>
+        
+        <c:if test="${!empty board.boardFile}">
+			<tr>
+			   <td class="file-check">등록파일</td>
+			     <td><div class="file-check-content">[등록한 첨부파일 : ${board.boardFile.fileOrgName}]</div>
+			</tr>
+        </c:if>
       </table>
       
-      <div class="d-flex flex-row justify-content-center">
-        <div class="submit"><button type="button" id="btnWrite" class="submit" title="등록">등록</button></div>
-        <div class="cancle"><button type="button" id="btnList" class="cancle" title="취소">취소</button></div>
-      </div> 
+      <input type="hidden" id="bbsComment" name="bbsComment" value="" />
+      <input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
+      <input type="hidden" name="searchType" value="${searchType}" />
+      <input type="hidden" name="searchValue" value="${searchValue}" />
+      <input type="hidden" name="curPage" value="${curPage}" />
     </form>
+    
+      <div class="d-flex flex-row justify-content-center">
+        <div class="update"><button type="button" id="btnUpdate" class="update" title="수정">수정</button></div>
+        <div class="cancle"><button type="button" id="btnList" class="cancle" title="취소">취소</button></div>
+      </div>
    </div>
-
+  
    <form name="bbsForm" id="bbsForm" method="post">
-    <input type="hidden" id="bbsNo" name="bbsNo" value="${bbsNo}" />
-    <input type="hidden" name="searchType" value="" />
-    <input type="hidden" name="searchValue" value="" />
-    <input type="hidden" name="curPage" value="" />
+    <input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
+    <input type="hidden" name="bbsSeq" value="${bbsNo}" />
+    <input type="hidden" name="searchType" value="${searchType}" />
+    <input type="hidden" name="searchValue" value="${searchValue}" />
+    <input type="hidden" name="curPage" value="${curPage}" />
    </form>
   </div>
  </section> 
