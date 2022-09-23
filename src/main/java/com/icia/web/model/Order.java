@@ -25,6 +25,7 @@ public class Order implements Serializable{
 	private long rNum;			
 	private long startRow;		
 	private long endRow;
+	private String finalMenu;
 	
 	private List<OrderMenu> orderMenu;
 	private List<ShopReservationTable> shopReservationTableList;
@@ -34,10 +35,10 @@ public class Order implements Serializable{
 		orderUID = "";
 		shopUID = "";
 		userUID = "";
-		reservationPeople = 0;
-		orderStatus = "";
+		reservationPeople = 0; 
+		orderStatus = ""; 
 		orderPayType = "";
-		orderRegDate = "";
+		orderRegDate = ""; 
 		totalAmount = 0;
 		shopName = "";
 		counterSeatYN = "";
@@ -54,6 +55,7 @@ public class Order implements Serializable{
 	    shopName = "";
 		startRow = 0;
 		endRow = 0;
+		finalMenu = "";
 	}
 
 	public String getOrderUID() {
@@ -213,6 +215,14 @@ public class Order implements Serializable{
 
 	public void setShopName(String shopName) {
 		this.shopName = shopName;
+	}
+	
+	public String getFinalMenu() {
+		return finalMenu;
+	}
+
+	public void setFinalMenu(String finalMenu) {
+		this.finalMenu = finalMenu;
 	}
 	
 }

@@ -121,9 +121,6 @@ $(document).ready(function() {
 		      return;
 		   }
 		   
-		   $("#userPwd2").val($("#userPwd3").val());
-		   
-
 		   //아이디, 닉네임중복체크 ajax
 		   $.ajax({
 		     type:"POST",
@@ -510,6 +507,8 @@ function signUpPopUp() {
 	var popY = winY + (winHeight - popHeight)/2;
 	
 	var signUpPopUp = window.open("./signUpPopUp", "pop", "top="+popY+", left="+popX+",width="+popWidth+",height="+popHeight+"resizable=yes"); 
+	
+	var parentValue = opener.document.getElementById("parentId").value;
 };
 //약관동의 끝
 
@@ -643,7 +642,7 @@ userPhone.value = "인증되었습니다"
   <!-- ======= Login Section ======= -->
   <section id="log" class="d-flex align-items-center">
     <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100" style="margin-top: 150px;">
-      <div class="row">
+      <div class="row" style="margin-bottom:40px; margin-top:40px;">
         <!--로그인-->
         <div class="cont" style="margin:auto;">
           <div class="form sign-in">
@@ -709,7 +708,7 @@ userPhone.value = "인증되었습니다"
 		            </label>
               <label class="Membership-Terms">
               	<p>회원약관에 동의하시겠습니까?</p>
-                <input class="Membership-Terms" type="checkbox" onclick="signUpPopUp()" style="color: #C2A383;" />
+                <input class="Membership-Terms" type="checkbox" onclick="signUpPopUp()" id="agree" style="color: #C2A383;" />
                 <button type="button" id="btnReg" class="submit">회원가입</button>
                 <button type="button" onclick="kakaoLogin()"><img src="/resources/images/kakao_login_medium_wide.png" style="margin:auto;" /></button></label>
             </div>

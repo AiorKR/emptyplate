@@ -44,13 +44,94 @@ document.addEventListener("DOMContentLoaded", function() {
 
 //마크 유져 페이지
 
-//해당 작성자 게시글
+//즐겨찾기 해당 작성자 게시글
 function fn_userList(userUID, userNick)
 {
    document.bbsForm.userUID.value = userUID;
    document.bbsForm.action = "/board/userList";
    document.bbsForm.submit();
 }
+
+//즐겨찾기 매장 페이지 
+function fn_shopList(shopUID)
+{
+   document.bbsForm.shopUID.value = shopUID;
+   document.bbsForm.action = "/reservation/view";
+   document.bbsForm.submit();
+}
+
+function fn_userMarkDelete(markUserUID)
+{
+	var user = markUserUID;
+	$.ajax({
+		type:"POST",
+		url:"/myPage/userMarkDelete",
+		data:{
+			markUserUID:user
+			},
+		datatype:"JSON",
+		beforeSend:function(xhr){
+			xhr.setRequestHeader("AJAX", "true");
+		},
+		success:function(response){
+			if(response.code == 0)
+			{
+				alert("즐겨찾기를 취소하셨습니다.");
+				location.reload();
+			}
+			else if(response.code == -1)
+			{
+				alert("즐겨찾기 내역이 없습니다.");
+				location.reload();
+			}
+			else
+			{
+				alert("로그인이 되어있지 않습니다.");
+				location.reload();
+			}				
+		},
+		error:function(xhr, status, error){
+	          icia.common.error(error);
+	    }
+	});
+}
+
+function fn_shopMarkDelete(shopUID)
+{
+	var shop = shopUID;
+	$.ajax({
+		type:"POST",
+		url:"/myPage/shopMarkDelete",
+		data:{
+			shopUID:shop
+			},
+		datatype:"JSON",
+		beforeSend:function(xhr){
+			xhr.setRequestHeader("AJAX", "true");
+		},
+		success:function(response){
+			if(response.code == 0)
+			{
+				alert("즐겨찾기를 취소하셨습니다.");
+				location.reload();
+			}
+			else if(response.code == -1)
+			{
+				alert("즐겨찾기 내역이 없습니다.");
+				location.reload();
+			}
+			else
+			{
+				alert("로그인이 되어있지 않습니다.");
+				location.reload();
+			}				
+		},
+		error:function(xhr, status, error){
+	          icia.common.error(error);
+	    }
+	});
+}
+
 </script>
 <style>
 .myFavo-title-sec{
@@ -146,11 +227,18 @@ function fn_userList(userUID, userNick)
 }
 
 .target-name{
-	margin:auto;
+	font-size:20px;
+	margin-left:45px;	
 	width:150px;
 	height:30px;
 }
 
+.nothing{
+	color:black;
+	margin:auto;
+	padding-top:10px;
+	font-size:20px;
+}
 .swiper-container {width:1000px; margin-top: 30px;}
 .swiper-slide {opacity:0.4; transition:opacity 0.3s;}
 .swiper-slide-active,
@@ -184,7 +272,7 @@ function fn_userList(userUID, userNick)
 				<h3>유저 즐겨찾기</h3><hr class="favorites-hr">				
 					<div class="swiper-container">
     					<div class="swiper-wrapper">
-					        
+					      <c:if test="${empty list}"><span class="nothing">즐겨찾기 내역이 없습니다.</span></c:if>  
 					      <c:if test="${!empty list}">
              			  <c:forEach var="list" items="${list}" varStatus="status">  
 					        <!-- 반복시작 -->
@@ -201,10 +289,10 @@ function fn_userList(userUID, userNick)
 									<div class = 'target-name'>
 										${list.userNick}
 									</div>
-									<div>
-										<img src="/resources/images/star.png" class = 'favorites-star'>
-									</div>
 								</div>
+									<div>
+                              			<button type="button" onclick="fn_userMarkDelete('${list.markUserUID}')"><img src="/resources/images/fullstar.png" class = 'favorites-star'></button>
+                           			</div>  
 					        </div>	
 					        <!-- 반복 끝 -->					        
 					    </c:forEach>
@@ -219,87 +307,27 @@ function fn_userList(userUID, userNick)
 				<h3>매장 즐겨찾기</h3><hr class="favorites-hr">
 					<div class="swiper-container">
     					<div class="swiper-wrapper">
-					       
-					          <!-- 반복시작 -->
+					    <c:if test="${empty list2}"><span class="nothing">즐겨찾기 내역이 없습니다.</span></c:if>
+					    <c:if test="${!empty list2}">
+             			  <c:forEach var="list2" items="${list2}" varStatus="status">  
+					        <!-- 반복시작 -->
 					        <div class="swiper-slide">
 					        	<div>
-					        		<a href="/myPage/myProfile">
-					        			<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
+					        		<a href="javascript:void(0)" onclick="fn_shopList('${list2.shopUID}')">
+							          	<img src="/resources/upload/shop/${list2.shopUID}/${list2.shopFile.shopFileName}" class = 'favorites-profile-card-img'>		        			
 									</a>
 									<div class = 'target-name'>
-										미미미미미미미미미미미
-									</div>
-									<div>
-										<img src="/resources/images/star.png" class = 'favorites-star'>
+										${list2.shopName}
 									</div>
 								</div>
-					        </div>	
-					        <!-- 반복 끝 -->
-					        
-					           <!-- 반복시작 -->
-					        <div class="swiper-slide">
-					        	<div>
-					        		<a href="/myPage/myProfile">
-					        			<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
-									</a>
-									<div class = 'target-name'>
-										미미미미미미미미미미미
-									</div>
 									<div>
-										<img src="/resources/images/star.png" class = 'favorites-star'>
-									</div>
-								</div>
+                              			<button type="button" onclick="fn_shopMarkDelete('${list2.shopUID}')"><img src="/resources/images/fullstar.png" class = 'favorites-star'></button>
+                           			</div>  
 					        </div>	
-					        <!-- 반복 끝 -->
-					        
-					           <!-- 반복시작 -->
-					        <div class="swiper-slide">
-					        	<div>
-					        		<a href="/myPage/myProfile">
-					        			<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
-									</a>
-									<div class = 'target-name'>
-										미미미미미미미미미미미
-									</div>
-									<div>
-										<img src="/resources/images/star.png" class = 'favorites-star'>
-									</div>
-								</div>
-					        </div>	
-					        <!-- 반복 끝 -->
-					        
-					           <!-- 반복시작 -->
-					        <div class="swiper-slide">
-					        	<div>
-					        		<a href="/myPage/myProfile">
-					        			<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
-									</a>
-									<div class = 'target-name'>
-										미미미미미미미미미미미
-									</div>
-									<div>
-										<img src="/resources/images/star.png" class = 'favorites-star'>
-									</div>
-								</div>
-					        </div>	
-					        <!-- 반복 끝 -->
-					        
-					           <!-- 반복시작 -->
-					        <div class="swiper-slide">
-					        	<div>
-					        		<a href="/myPage/myProfile">
-					        			<img src="/resources/upload/user/userDefault.jpg" class = 'favorites-profile-card-img'>
-									</a>
-									<div class = 'target-name'>
-										미미미미미미미미미미미
-									</div>
-									<div>
-										<img src="/resources/images/star.png" class = 'favorites-star'>
-									</div>
-								</div>
-					        </div>	
-					        <!-- 반복 끝 -->
-					       
+					        <!-- 반복 끝 -->					        
+					    </c:forEach>
+           				</c:if>   
+					   	     
    						</div>
 						    <div class="swiper-button-next"></div>
 						    <div class="swiper-button-prev"></div>
@@ -307,8 +335,8 @@ function fn_userList(userUID, userNick)
 			</div>
 	</div>
 	
-<form name="bbsForm" id="bbsForm" method="post">
-	 <input type="hidden" name="shopUID" value="" />
+	<form name="bbsForm" id="bbsForm" method="post">
+	 <input type="hidden" name="shopUID" value="${shopUID}" />
 	 <input type="hidden" name="curPage" value="${curPage}" />	
 	 <input type="hidden" name="userUID" value="${userUID}" />
 	</form> 

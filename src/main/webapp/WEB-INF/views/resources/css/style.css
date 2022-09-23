@@ -164,8 +164,9 @@ ion-icon{
 # Top Bar
 --------------------------------------------------------------*/
 #topbar {
+  margin-top:10px;
   height: 40px;
-  font-size: 14px;
+  font-size: 18px;
   transition: all 0.5s;
   z-index: 996;
 }
@@ -219,6 +220,7 @@ ion-icon{
 # Header
 --------------------------------------------------------------*/
 #header {
+  margin-top:10px;
   background: rgba(12, 11, 9, 0.6);
   border-bottom: 1px solid rgba(12, 11, 9, 0.6);
   transition: all 0.5s;
@@ -287,7 +289,7 @@ ion-icon{
   color: #fff;
   white-space: nowrap;
   transition: 0.3s;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 300;
 }
 
@@ -410,7 +412,7 @@ ion-icon{
   right: 15px;
 }
 
-.navbar-mobile ul {
+.navbar-mobile ul {nam
   display: block;
   position: absolute;
   top: 55px;
@@ -753,8 +755,8 @@ section {
 
 #community .row{
   padding: 1% 1%;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 40px;
+  margin-bottom: 40px;
   width : 100%;                               
   background-color:rgba(255, 255, 255, 0.8);   
   border-radius: 1em;                         
@@ -1017,7 +1019,7 @@ section {
 #community .board-content table td {
   border-top: 1px solid #C2A383;
   padding: 7px;
-  font-size: 15px;
+  font-size: 20px;
   color: #0c0b09;
 }
 
@@ -1032,7 +1034,7 @@ section {
 
 /*글쓰기 버튼*/
 #community .text-center button {
-  margin-top: 0px;
+  margin-top: 20px;
   background: #C2A383;
   border: 0;
   padding: 8px 20px;
@@ -2688,7 +2690,7 @@ section {
 }
 
 #footer .footer-top .footer-info h3 {
-  font-size: 24px;
+  font-size: 28px;
   margin: 0 0 20px 0;
   padding: 2px 0 2px 0;
   line-height: 1;
@@ -2697,7 +2699,7 @@ section {
 }
 
 #footer .footer-top .footer-info p {
-  font-size: 14px;
+  font-size: 18px;
   line-height: 24px;
   margin-bottom: 0;
   color: #fff;
@@ -2764,6 +2766,7 @@ section {
   transition: 0.3s;
   display: inline-block;
   line-height: 1;
+  font-size:20px;
 }
 
 #footer .footer-top .footer-links ul a:hover {
@@ -2820,6 +2823,9 @@ section {
   font-family: "Poppins", sans-serif;
 }
 
+#footer .footer-list {
+	margin-bottom:20px;
+}
 
 /*--------------------------------------------------------------
 # Reservation start
@@ -4021,7 +4027,7 @@ login.html시작
   height: 40px;
   border-radius: 5px;
   color: #fff;
-  font-size: 15px;
+  font-size: 17px;
   cursor: pointer;
   
 }
@@ -4075,7 +4081,7 @@ login.html시작
   font-weight: normal;
 }
 #log .img__text p {
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.5;
 }
 #log .cont.s--signup .img__text.m--up {
@@ -4123,6 +4129,7 @@ login.html시작
   width: 100%;
   height: 100%;
   transition: transform 1.2s;
+  font-size:15px;
 }
 #log .img__btn span.m--in {
   transform: translateY(-72px);
@@ -4135,6 +4142,7 @@ login.html시작
 }
 
 #log h2 {
+  margin-top:20px;
   width: 100%;
   font-size: 26px;
   text-align: center;
@@ -4147,7 +4155,7 @@ login.html시작
   text-align: center;
 }
 #log label span {
-  font-size: 12px;
+  font-size: 20px;
   color: #999595;
   text-transform: uppercase;
 }
@@ -4157,7 +4165,7 @@ login.html시작
   width: 100%;
   margin-top: 5px;
   padding-bottom: 5px;
-  font-size: 11px;
+  font-size: 15px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.4);
   text-align: center;
 }
@@ -4165,7 +4173,6 @@ login.html시작
 #log .forgot-pass {
   margin-top: 15px;
   text-align: center;
-  font-size: 12px;
   color: #cfcfcf;
 }
 
@@ -4217,7 +4224,7 @@ login.html시작
 }
 
 .Membership-Terms {
-  font-size: 13px;
+  font-size: 20px;
   color:#999595;
 }
 
@@ -4291,7 +4298,6 @@ hr[role="tournament1"]::before {
 
 .profile-card-name {
   text-align: center;
-  font-size : 20px;
   color : black;
   margin-top : 10px;
   margin-left : 20px;
@@ -4306,7 +4312,7 @@ hr[role="tournament1"]::before {
   padding-right:25px;
   padding-left:25px;
   color: #000;
-  font-size: 13px;
+  font-size: 17px;
   }
 
 .profile-img-div { 
@@ -4317,7 +4323,7 @@ hr[role="tournament1"]::before {
 
 .mypage-profile-btn {
   
-  font-size: 11pt;
+  font-size: 15pt;
   color: #28251f;
 }
 .btn-password {
@@ -4391,11 +4397,13 @@ hr[role="tournament1"]::before {
   left: 11%;
   right: 11%;
   text-align: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 
 #help h3{
   font-family : 'Cafe24Dangdanghae';
-  font-size: 20px;
+  font-size: 25px;
   font-weight: 100;
 }
 #help h4{
@@ -4432,6 +4440,7 @@ hr[role="tournament1"]::before {
 #notice, #faq{
   display: inline-block;
   width: 80%;
+  margin-bottom:20px;
 }
 #personal, #enterprise{
   vertical-align: top;
@@ -4463,6 +4472,7 @@ hr[role="tournament1"]::before {
   margin-left: -15px;
   height: 4em;
   border : 2px solid #000;
+  font-size:18px;
 }
 #soloTable li:hover{
   background: #C2A383;
