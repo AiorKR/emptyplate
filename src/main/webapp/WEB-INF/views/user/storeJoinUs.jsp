@@ -702,13 +702,17 @@ function NumfOk() {
 		     <input type="button" id="userPhone" name="userPhone" value="전화번호를 입력하세요." onclick="showPopupPhone()"/>
 		    </label>
             <label>
-              <span>사업자번호</span>
-              
+              <span>사업자번호</span>        
               <input type="text" id="bizNum" name="bizNum" value="사업자번호를 입력하세요." maxlength="10" onclick="bizNumPopup()" readonly/>
             </label>
             <label>
               <span>매장명</span>
               <input type="text" id="bizName" name="bizName" placeholder="매장명을 입력하세요." />
+            </label>
+            <label>
+              <span>매장가입 인증번호</span><br />
+              <span>(고객센터에 문의하세요.)</span>        
+              <input type="text" id="bizNum" name="bizNum" value="매장가입 인증번호를 입력하세요." maxlength="10"/>
             </label>
             <button type="button" id="btnReg" class="submit">회원가입</button><br />
           </div>

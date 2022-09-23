@@ -484,4 +484,49 @@ SELECT RNUM,
    </foreach>
 </insert>
 
+<!-- 한줄평 resultMap -->
+<resultMap id="shopReviewResultMap" type="com.icia.web.model.ShopReview"> <!--매장 태이블 상태-->
+   <result column="REVIEW_SCORE" property="shopScore"/>
+   <result column="REVIEW_CONTENT" property="shopReviewContent"/>
+   <result column="USER_UID" property="userUID"/>
+   <result column="ORDER_UID" property="orderUID"/>
+   <result column="SHOP_UID" property="shopUID"/>
+   <result column="REG_DATE" property="regDate"/>
+</resultMap>
+
+<insert id="regReqOne" parameterType="com.icia.web.model.ShopReview">
+   INSERT INTO T_SHOP_REVIEW (
+           ORDER_UID,
+           USER_UID,
+           SHOP_UID,
+           REVIEW_CONTENT,
+           REVIEW_SCORE,
+           REG_DATE
+) VALUES ( 
+    #{orderUID},
+    #{userUID},
+    #{shopUID},
+    #{shopReviewContent},
+    #{shopScore},
+    SYSDATE
+)
+</insert>
+
+<update id="updateReqOne" parameterType="com.icia.web.model.ShopReview">
+   UPDATE T_SHOP_REVIEW
+   SET REVIEW_CONTENT = #{shopReviewContent},
+       REVIEW_SCORE = #{shopScore},
+       REG_DATE = SYSDATE
+ WHERE USER_UID = #{userUID}
+   AND SHOP_UID = #{shopUID}
+   AND ORDER_UID = #{orderUID}
+</update>
+
+<select id="countReqOne" parameterType="com.icia.web.model.ShopReview" resultType="int">   
+    SELECT COUNT(*)
+      FROM T_SHOP_REVIEW
+     WHERE USER_UID = #{userUID}
+       AND SHOP_UID = #{shopUID}
+       AND ORDER_UID = #{orderUID}
+</select>
 </mapper>

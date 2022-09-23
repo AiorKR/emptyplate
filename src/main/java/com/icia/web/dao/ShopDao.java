@@ -9,6 +9,7 @@ import com.icia.web.model.OrderMenu;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
 import com.icia.web.model.ShopReservationTable;
+import com.icia.web.model.ShopReview;
 import com.icia.web.model.ShopTotalTable;
 
 @Repository("shopdDao")
@@ -52,4 +53,10 @@ public interface ShopDao {
 	public int reservationTableInser(List<ShopReservationTable> list);
 
 	public List<OrderMenu> myOrderMenu(String orderUID);
+	
+	public int regReqOne(ShopReview shopReview);
+
+	public int countReqOne(ShopReview shopReview);
+
+	public int updateReqOne(ShopReview shopReview);
 }
