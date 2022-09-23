@@ -121,11 +121,11 @@ ion-icon{
   position: fixed;
   visibility: hidden;
   opacity: 0;
-  right: 15px;
-  bottom: 15px;
+  right: 26px;
+  bottom: 100px;
   z-index: 996;
-  width: 44px;
-  height: 44px;
+  width: 55px;
+  height: 55px;
   border-radius: 50px;
   transition: all 0.4s;
   border: 2px solid #cda45e;
@@ -2948,6 +2948,14 @@ hr.hr-5 {
 
 .reservation .reservation-item ul li {
   padding-bottom: 10px;
+  
+}
+
+/*예약 리스트 강조 라인*/
+.reservation .table tr:hover {
+  padding-bottom: 10px;
+  border : solid 2px #cda45e;
+  
 }
 
 .reservation .reservation-item ul i {
@@ -3453,10 +3461,11 @@ reservation 검색
 .view .modal {
   margin-top: 15vh;
   color:black;
+  font-size: 18px;
 }
 
-.view .modal-header {
-  border-bottom: 2px solid rgba(127, 137, 161, 0.25);
+.view .modal-content{
+	border: solid 3px #d3af71;
 }
 
 .view #modal-btn:hover {
@@ -3492,6 +3501,19 @@ reservation 검색
   position: relative;
   bottom: 10px;
   height: 38px;
+  border-radius: 25px;
+}
+
+.view .datepicker {
+  float: left; width: 50%;
+  display: inline-block;
+  width: 176.8px;
+  border: 1px solid #999;
+  cursor: pointer;
+  position: relative;
+  bottom: 10px;
+  height: 38px;
+  border-radius: 25px;
 }
 
 .view .personnel-select:hover {
@@ -3539,6 +3561,7 @@ reservation 검색
 .view .modal-body {
   height: 60vh;
   z-index: 0;
+  border-top: solid 3px #d3af71;
 }
 .view .modal-footer {
   display: flex;
@@ -3607,7 +3630,6 @@ reservation 검색
 	height:50px;
 	position: relative;
 	margin: auto;
-	z-index: 500;
 	word-break:break-all;
 }
 
@@ -4421,6 +4443,7 @@ hr[role="tournament1"]::before {
   margin-bottom:20px;
 }
 #personal, #enterprise{
+  vertical-align: top;
   display: inline-block;
   width: 40%;
 }
@@ -4429,8 +4452,8 @@ hr[role="tournament1"]::before {
   border-top-right-radius: 1em;
 }
 #tableLast{
-  border-bottom-left-radius: 1em;
-  border-bottom-right-radius: 1em;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
 }
 #soloTableBorder{
   width: 100%;
@@ -4480,26 +4503,27 @@ hr[role="tournament1"]::before {
   padding-top: 110px;
   text-align: center;
   }
+  
+  #helpList .row{
+    padding: 1% 1%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width : 100%;                               
+    background-color:rgba(255, 255, 255, 0.8);   
+    border-radius: 1em;                         
+    display: inline-block;
+    position: relative;                       
+  }
 
-#helpList .row{
-  padding: 2% 1%;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  width : 100%;                               
-  background-color:rgba(255, 255, 255, 0.8);   
-  border-radius: 1em;                         
-  display: inline-block;                      
-}
-
-#helpList:before {
-  content: "";
-  background: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  right: 0;
-}
+  #helpList:before {
+    content: "";
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
 
 @media (max-width: 992px) {
   #community .container {

@@ -1,5 +1,8 @@
 package com.icia.web.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Paging;
 import com.icia.web.model.Shop;
+import com.icia.web.model.User;
 import com.icia.web.service.ShopService;
 import com.icia.web.service.UserService;
+import com.icia.web.util.CookieUtil;
 import com.icia.web.util.HttpUtil;
 
 @Controller("todayController")
@@ -37,34 +42,38 @@ public class TodayController {
 	@Autowired
 	private ShopService shopService;
 	
-	private static final int LIST_COUNT = 3;	//게시물 수
-	private static final int PAGE_COUNT = 9;	//페이징 수
+	private static final int LIST_COUNT = 9;	//게시물 수
+	private static final int PAGE_COUNT = 5;	//페이징 수
 	
 	@RequestMapping(value="/today/list")
-	public String todayList(ModelMap model, HttpServletRequest request, HttpServletResponse response)
-	{
+	public String todayList(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		//조회항목
 		String searchType = HttpUtil.get(request, "searchType");
 		
-		String searchValue = HttpUtil.get(request, "searchValue");
+		//조회값
+		String searchValue = HttpUtil.get(request, "searchValue", "");
 		
+		//현재페이지
 		long curPage = HttpUtil.get(request, "curPage", (long)1);
 		
+		//총 게시물 수
 		long totalCount = 0;
 		
+		//게시물 리스트
 		List<Shop> list = null;
 		
+		//페이징 객체
 		Paging paging = null;
 		
-		String reservationDate = HttpUtil.get(request, "reservationDate");
-		
-		String reservationTime = HttpUtil.get(request, "reservationTime");
-		
+		//조회 객체
 		Shop search = new Shop();
 		
-		if(StringUtil.equals(searchType, "1") || StringUtil.equals(searchType, "2")) {
+
+		if(StringUtil.equals(searchType, "1") || StringUtil.equals(searchType, "2")) { // 1: 파인다이닝 2:오마카세
+			
 			search.setSearchType(searchType);
 		}
-		else {
+		else { //searchType을 선택 안했거나 또는 값이 이상한 경우는 무족건 0: 전체 로 고정
 			search.setSearchType("0");
 		}
 		
@@ -72,32 +81,41 @@ public class TodayController {
 			search.setSearchValue(searchValue);
 		}
 		
-		totalCount = shopService.shopListCount(search);
+		totalCount = shopService.shopListCount(search); //총 매장 수를 확인
 		
 		if(totalCount > 0)
 		{
-			paging = new Paging("/today/list", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
+			paging = new Paging("/reservation/list", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
 			
 			paging.addParam("searchType", searchType);
 			paging.addParam("searchValue", searchValue);
 			paging.addParam("curPage", curPage);
-			paging.addParam("reservationDate", reservationDate);
-			paging.addParam("reservationTime", reservationTime);
 			
 			search.setStartRow(paging.getStartRow());
 			search.setEndRow(paging.getEndRow());
 			
-			logger.debug("starRow : " + search.getStartRow());
-			logger.debug("endRow : " + search.getEndRow());
-			
 			list = shopService.shopList(search);
 		}
-		
+
 		model.addAttribute("list", list);
 		model.addAttribute("searchType", searchType);
 		model.addAttribute("searchValue", searchValue);
 		model.addAttribute("curPage", curPage);
 		model.addAttribute("paging", paging);
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		User user2 = new User();
+		user2 = userService.userUIDSelect(cookieUserUID);
+		if(user2 != null)
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", user2.getUserNick());
+			}
+			catch(NullPointerException e2)
+			{
+				logger.error("[ShopController] reservation/list NullPointerException", e2);
+			}
+		}
 		
 		return "/today/list";
 	}

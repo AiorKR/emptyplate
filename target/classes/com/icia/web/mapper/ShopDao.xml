@@ -291,6 +291,7 @@ SELECT S.SHOP_UID AS SHOP_UID,
    AND C.RESERVATION_DATE = #{reservationDate}
    AND C.RESERVATION_TIME = #{reservationTime}
  WHERE AB.SHOP_UID = #{shopUID}
+ ORDER BY TOTAL_TABLE_CAPACITY ASC
 </select>
 
 <select id="orderUIDcreate" resultType="long">
@@ -441,7 +442,7 @@ SELECT RNUM,
     #{reservationPeople},
     #{orderStatus},
     #{orderPayType},
-    #{orderRegDate},
+    SYSDATE,
     #{totalAmount},
     #{toss.paymentKey}
 )
