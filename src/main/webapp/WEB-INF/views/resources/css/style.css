@@ -2942,6 +2942,14 @@ hr.hr-5 {
 
 .reservation .reservation-item ul li {
   padding-bottom: 10px;
+  
+}
+
+/*예약 리스트 강조 라인*/
+.reservation .table tr:hover {
+  padding-bottom: 10px;
+  border : solid 2px #cda45e;
+  
 }
 
 .reservation .reservation-item ul i {
@@ -3447,10 +3455,11 @@ reservation 검색
 .view .modal {
   margin-top: 15vh;
   color:black;
+  font-size: 18px;
 }
 
-.view .modal-header {
-  border-bottom: 2px solid rgba(127, 137, 161, 0.25);
+.view .modal-content{
+	border: solid 3px #d3af71;
 }
 
 .view #modal-btn:hover {
@@ -3486,6 +3495,19 @@ reservation 검색
   position: relative;
   bottom: 10px;
   height: 38px;
+  border-radius: 25px;
+}
+
+.view .datepicker {
+  float: left; width: 50%;
+  display: inline-block;
+  width: 176.8px;
+  border: 1px solid #999;
+  cursor: pointer;
+  position: relative;
+  bottom: 10px;
+  height: 38px;
+  border-radius: 25px;
 }
 
 .view .personnel-select:hover {
@@ -3533,6 +3555,7 @@ reservation 검색
 .view .modal-body {
   height: 60vh;
   z-index: 0;
+  border-top: solid 3px #d3af71;
 }
 .view .modal-footer {
   display: flex;
