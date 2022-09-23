@@ -1,27 +1,33 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%
 	// 개행문자 값을 저장한다.
-	pageContext.setAttribute("newLine", "\n");
-	// Community 번호
-	request.setAttribute("No", 2);
-
+pageContext.setAttribute("newLine", "\n");
+// Community 번호
+request.setAttribute("No", 2);
 %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <!--date and time picker-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
 <link rel="stylesheet" href="/resources/datepicker/date_picker.css">
-<!--end date and time picker-->  
-     
-<%@ include file="/WEB-INF/views/include/head.jsp" %>
+<!--end date and time picker-->
+
+<%@ include file="/WEB-INF/views/include/head.jsp"%>
 
 <!--date and time picker-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.js"></script>
 <!--end date and time picker-->
 
 <script src="https://js.tosspayments.com/v1"></script>
@@ -360,6 +366,7 @@ function fn_MenuAdd(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 					}
 					$("input[name=shopOrderMenuQuantity" + shopMenuid + ']').val(cnt);
 					$("#shopOrderMenuQuantity" + shopMenuid).text(cnt);
+					$("#quantity" + shopMenuid).text(cnt);
 				}
 			shopOrderMenuTotalAmount += shopOrderMenuPrice;
 			$("#totalAmount").text(shopOrderMenuTotalAmount);
@@ -385,7 +392,8 @@ function fn_MenuSub(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 			shopOrderMenuTotalAmount -= shopOrderMenuPrice;
 			$("#totalAmount").text(shopOrderMenuTotalAmount);		
 			$("#shopOrderMenuQuantity" + shopMenuid).text(cnt);
-			$("input[name=shopOrderMenuQuantity" + shopMenuid + ']').attr('value', cnt);	
+			$("input[name=shopOrderMenuQuantity" + shopMenuid + ']').attr('value', cnt);
+			$("#quantity" + shopMenuid).text(cnt);
 			$('input[name=totalAmount2]').val(shopOrderMenuTotalAmount);
 		}
 	}
@@ -397,74 +405,99 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 		var cnt = $("#shopOrderMenuQuantity" + shopMenuid).text();
 		
 		price = price * cnt;
-		
+			
 		shopOrderMenuTotalAmount -= price;
 		
 		$("#shopOrderMenu" + shopMenuid).text("");
 		$("#shopOrderMenuQuantity" + shopMenuid).text("");
 		$("input[name=shopOrderMenuQuantity" + shopMenuid + ']').attr('value', '0');
+		$("#quantity" + shopMenuid).text(cnt);
 		$("#totalAmount").text(shopOrderMenuTotalAmount);
 		$('input[name=totalAmount2]').val(shopOrderMenuTotalAmount);
 	}
 }  
 </script>
 </head>
-<body> 
-<%@ include file="/WEB-INF/views/include/navigation.jsp" %> 
-  <!-- ======= reservations Section ======= -->
-  <section id="view" class="view">
-      <!-- Product Slider -->
-      <div class="container">
-        <div class="card">
-            <div class="row g-0">
-                <div class="col-md-6" style="border-right:2px solid #C2A383;">
-                    <div class="d-flex flex-column justify-content-center">
-                        <div class="main_image"> <img src="../resources/upload/shop/${shop.shopUID}/${shop.shopFileList.get(1).shopFileName}" id="main_product_image" height="400px" width="400px"> </div>
-                        <div class="thumbnail_images">
-                            <ul id="thumbnail">
-                           <c:forEach items="${shop.shopFileList}" var="shopFileList" varStatus="status" begin="1" end="5">
-                                   <li><img onclick="changeImage(this)" src="../resources/upload/shop/${shop.shopUID}/${shopFileList.shopFileName}" width="100px" height="100px"></li>
-                               </c:forEach>  
-                            </ul>
-                        </div>
-                        <div class="view-text" style="margin-left: 10px; border-top:2px solid #C2A383;">
-                          <p id="title" style="font-size:20px"> 공지사항 </p>
-                          <p class="view-content">
-                            ${shop.shopContent}
-                          </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="p-3 right-side">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h3>${shop.shopName}</h3>
-                            <c:choose>
-								<c:when test="${shopMarkActive eq 'Y'}">
-									<div class="bookmark"><button type="button" id="btnMark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
-								</c:when>
-								<c:when test="${shopMarkActive eq 'N'}">
-									<div class="bookmark"><button type="button" id="btnMark" class="bookmark"><ion-icon name="star-outline"></ion-icon>&nbsp;&nbsp;즐겨찾기</button></div>
-								</c:when>
-							</c:choose>
-                        </div>
-                        <div class="mt-2 pr-3 content">
-                            <p>${shop.shopIntro}</p>
-                        </div>
-                        <ul>
-                          <li><i class="fa-solid fa-map-location-dot" style="color:#C2A383"></i> ${address} </li>
-                          <li><i class="fa-regular fa-star" style="color:#C2A383"></i> 별점 4.5 (100)</li>
-                          <li><i class="fa fa-phone" aria-hidden="true"  style="color:#C2A383">${shop.shopTelephone}</i></li>
-                        </ul>
-                       	<c:forTokens items="${shop.shopHashtag}" delims = "#" var="shopHashtag">
-                            <span onclick="fn_search('${shopHashtag}')" style="cursor: pointer; ">
-                            	<i class="fa-solid fa-hashtag" style="font-size:18px; color:#FF7F50;"><c:out value='${shopHashtag}'/></i>
-                        	</span>
-                        </c:forTokens>
-                        <div id="map" style="width:100%; height:350px; margin-top: 15px;"></div>
+<body>
+	<%@ include file="/WEB-INF/views/include/navigation.jsp"%>
+	<!-- ======= reservations Section ======= -->
+	<section id="view" class="view">
+		<!-- Product Slider -->
+		<div class="container">
+			<div class="card">
+				<div class="row g-0">
+					<div class="col-md-6" style="border-right: 2px solid #C2A383;">
+						<div class="d-flex flex-column justify-content-center">
+							<div class="main_image">
+								<img
+									src="../resources/upload/shop/${shop.shopUID}/${shop.shopFileList.get(1).shopFileName}"
+									id="main_product_image" height="400px" width="400px">
+							</div>
+							<div class="thumbnail_images">
+								<ul id="thumbnail">
+									<c:forEach items="${shop.shopFileList}" var="shopFileList"
+										varStatus="status" begin="1" end="5">
+										<li><img onclick="changeImage(this)"
+											src="../resources/upload/shop/${shop.shopUID}/${shopFileList.shopFileName}"
+											width="100px" height="100px"></li>
+									</c:forEach>
+								</ul>
+							</div>
+							<div class="view-text"
+								style="margin-left: 10px; border-top: 2px solid #C2A383;">
+								<p id="title" style="font-size: 20px">공지사항</p>
+								<p class="view-content">${shop.shopContent}</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="p-3 right-side">
+							<div class="d-flex justify-content-between align-items-center">
+								<h3>${shop.shopName}</h3>
+								<c:choose>
+									<c:when test="${shopMarkActive eq 'Y'}">
+										<div class="bookmark">
+											<button type="button" id="btnMark" class="bookmark">
+												<ion-icon name="star"></ion-icon>
+												&nbsp;&nbsp;즐겨찾기
+											</button>
+										</div>
+									</c:when>
+									<c:when test="${shopMarkActive eq 'N'}">
+										<div class="bookmark">
+											<button type="button" id="btnMark" class="bookmark">
+												<ion-icon name="star-outline"></ion-icon>
+												&nbsp;&nbsp;즐겨찾기
+											</button>
+										</div>
+									</c:when>
+								</c:choose>
+							</div>
+							<div class="mt-2 pr-3 content">
+								<p>${shop.shopIntro}</p>
+							</div>
+							<ul>
+								<li><i class="fa-solid fa-map-location-dot"
+									style="color: #C2A383"></i> ${address}</li>
+								<li><i class="fa-regular fa-star" style="color: #C2A383"></i>
+									별점 4.5 (100)</li>
+								<li><i class="fa fa-phone" aria-hidden="true"
+									style="color: #C2A383">${shop.shopTelephone}</i></li>
+							</ul>
+							<c:forTokens items="${shop.shopHashtag}" delims="#"
+								var="shopHashtag">
+								<span onclick="fn_search('${shopHashtag}')"
+									style="cursor: pointer;"> <i class="fa-solid fa-hashtag"
+									style="font-size: 18px; color: #FF7F50;"><c:out
+											value='${shopHashtag}' /></i>
+								</span>
+							</c:forTokens>
+							<div id="map"
+								style="width: 100%; height: 350px; margin-top: 15px;"></div>
 
-                  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c114849a120d4c8456de73d6e0e3b3a0&libraries=services"></script>
-                  <script>
+							<script type="text/javascript"
+								src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c114849a120d4c8456de73d6e0e3b3a0&libraries=services"></script>
+							<script>
                   var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
                       mapOption = {
                           center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -504,119 +537,142 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
                       } 
                   });  
                   </script>
-                  </div>
-                        <div class="buttons d-flex flex-row mt-2 gap-3" style="margin-left: 15px;">
-                           <button class="btn btn-outline-dark"><a href="" style="color: white;">Today 확인</a></button>
-                           <!-- Button trigger modal -->
-                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="modal-btn"  style="color:#ffff;">
-                               	예약
-                          </button>
+						</div>
+						<div class="buttons d-flex flex-row mt-2 gap-3"
+							style="margin-left: 15px;">
+							<button class="btn btn-outline-dark">
+								<a href="" style="color: white;">Today 확인</a>
+							</button>
+							<!-- Button trigger modal -->
+							<button type="button" class="btn btn-primary"
+								data-bs-toggle="modal" data-bs-target="#exampleModal"
+								id="modal-btn" style="color: #ffff;">예약</button>
 
-                          <!-- Modal -->
-                          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="m" >예약</h5>
-                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                  	<div id="shopName">${shop.shopName}</div><br />
-                                  	<div id="selectcontent">
-                                    	<div class="personnel-select">
-                                        	<div class="personnel-selected">
-                                          		<div class="personnel-selected-value">인원을 선택해주세요</div>
-                                        	</div>
-                                        	<ul id="select-ul">
-                                          		<li class="option">1명</li>
-                                          		<li class="option">2명</li>
-                                          		<li class="option">3명</li>
-                                          		<li class="option">4명</li>
-                                          		<li class="option">5명</li>
-                                          		<li class="option">6명</li>
-                                          		<li class="option">7명</li>
-                                          		<li class="option">8명</li>
-                                         		<li class="option">9명</li>
-                                       		</ul>
-                                    	</div>
-	                                    <input type="text" class="datepicker" placeholder="날자를 선택해주세요" name="date" readonly>
-	                                    <div class="box">
-	                                        <ul id="datepicker-ul">
-	                                            <li id="datepicker-li">
-	                                            	<c:forEach items="${shop.shopTime}" var="shopTime" varStatus="status">
-														<div class="dptime" id="shopTime${status.index}">${shopTime.shopOrderTime}</div>
-	                               					</c:forEach>  
-	                                            </li>
-	                                        </ul>
-	                                    </div>
-	                                    <c:if test="${shop.shopType eq 2}"> <!-- 오마카세일때 적용 -->
-	                                    	카운터석 : <input type="checkbox" id="counterSeat" class="counterSeat"/>
+							<!-- Modal -->
+							<div class="modal fade" id="exampleModal" tabindex="-1"
+								aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="m">예약</h5>
+											<button type="button" class="btn-close"
+												data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											<div id="shopName" style="font-size:35px;">${shop.shopName}</div>
+											<br />
+											<div id="selectcontent">
+												<div class="personnel-select" style="margin-left: 55px;">
+													<div class="personnel-selected">
+														<div class="personnel-selected-value">인원을 선택해주세요</div>
+													</div>
+													<ul id="select-ul">
+														<li class="option">1명</li>
+														<li class="option">2명</li>
+														<li class="option">3명</li>
+														<li class="option">4명</li>
+														<li class="option">5명</li>
+														<li class="option">6명</li>
+														<li class="option">7명</li>
+														<li class="option">8명</li>
+														<li class="option">9명</li>
+													</ul>
+												</div>
+												<input type="text" class="datepicker"
+													placeholder="날자를 선택해주세요" name="date" readonly>
+												<div class="box">
+													<ul id="datepicker-ul">
+														<li id="datepicker-li"><c:forEach
+																items="${shop.shopTime}" var="shopTime"
+																varStatus="status">
+																<div class="dptime" id="shopTime${status.index}">${shopTime.shopOrderTime}</div>
+															</c:forEach></li>
+													</ul>
+												</div><br /><br/>
+												<c:if test="${shop.shopType eq 2}">
+													<!-- 오마카세일때 적용 -->
+	                                    	카운터석 : <input type="checkbox"
+														id="counterSeat" class="counterSeat" />
 	                                    	* 카운터석은 연속되게 앉을 수 없을 수도 있습니다. *
-                                  		</c:if><br /><br />
-                                  	</div>	
-                              		<div id="tableCheck">
+                                  		</c:if>
+												<br />
+												<br />
+											</div>
+											<div id="tableCheck"></div>
+											<div class="menuQuantity">
+												<ul class="menuQuantity">
+													<table>
+														<c:forEach items="${shop.shopMenu}" var="shopMenu"
+															varStatus="status">
+															<tr id="shopMenu${status.index}" style="font-size: 26px;">
+																<td>${shopMenu.shopMenuName}</td>
 
+																<td>${shopMenu.shopMenuPrice} 원</td>
+																<td><input type="button" value="+"
+																	onclick="fn_MenuAdd('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})"
+																	class="btn btn-primary"
+																	style="height: 30px; width: 30px;" /> <span id="quantity${status.index }"> </span> <input
+																	type="button" value="-"
+																	onclick="fn_MenuSub('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})"
+																	class="btn btn-primary"
+																	style="height: 30px; width: 30px;" /> <input
+																	type="button" value="삭제"
+																	onclick="fn_Menudel('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})"
+																	class="btn btn-primary"
+																	style="height: 30px; width: 60px;" /></td>
+															</tr>
+														</c:forEach>
+													</table>
+												</ul>
+											</div>
+											<div style="border: 3px solid #d3af71; border-radius: 10px; font-size: 28px;">
+												<p>주문 메뉴</p>
+												<c:forEach items="${shop.shopMenu}" var="shopMenu"
+													varStatus="status">
+													<div>
+														<span id="shopOrderMenu${status.index}"
+															class="shopOrderMenu"></span> <span
+															id="shopOrderMenuQuantity${status.index}"
+															class="shopOrderMenu"></span>
+													</div>
+												</c:forEach>
+												<p style="border: 1px solid blakc;">
+													총 금액 : <span id="totalAmount">0</span>
+												</p>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button class="btn btn-primary" style="border: none;"
+												id="pay">결제</button>
+										</div>
 									</div>
-                                    <div class="menuQuantity">
-                                   		<ul class="menuQuantity">
-                                   			<table>
-                                       			<c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
-													<tr id="shopMenu${status.index}">
-														<td>
-															${shopMenu.shopMenuName}
-														</td>
-														
-														<td>
-															 ${shopMenu.shopMenuPrice} 원
-														</td>
-														<td>
-															<input type="button" value="+" onclick="fn_MenuAdd('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})"  class="btn btn-primary" style="height:30px;width:30px;"/>
-															<input type="button" value="-" onclick="fn_MenuSub('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})"  class="btn btn-primary" style="height:30px;width:30px;" />
-															<input type="button" value="삭제" onclick="fn_Menudel('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})" class="btn btn-primary" style="height:30px;width:60px;" />
-														</td>
-													</tr>
-                        			  			</c:forEach>
-                        			  		</table>
-                                      	</ul>
-                                	</div>
-	                                	<div style="border:1px solid black;">
-	                                		<p>주문 메뉴</p>
-	                                		<c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
-	                                			<div>
-	                              	  				<span id="shopOrderMenu${status.index}" class="shopOrderMenu"></span>
-	                                				<span id="shopOrderMenuQuantity${status.index}" class="shopOrderMenu"></span>
-	                                			</div>
-	                                		</c:forEach>
-	                                		<p style="border:1px solid blakc;">총 금액 : <span id="totalAmount">0</span></p>
-	                                	</div>
-                                    </div>
-                                   <div class="modal-footer">
- 							  			<button class="btn btn-primary" style="border:none;" id="pay">결제</button>
-                             	  </div>
-                                </div>
-                              </div>
-                             </div>
-                          </div>
-                        <div class="search-option"><i class='bx bx-search-alt-2 first-search'></i>
-                            <div class="inputs"> <input type="text" name=""> </div> <i class='bx bx-share-alt share'></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-             <container>
-           <hr class="hr-5">
-        </container>
-        <div class="review-container1">
-          <h5 style="color:#FF7F50; text-align:center;">Review</h5>
-        <container>
-           <hr class="hr-5">
-        </container>
-          <div class="review">
-            <ul style="border-bottom:1px solid #C2A383">
-              <li><a href="#">Review text1</a></li>
-            </ul>
-          </div>
-        </div>
+								</div>
+							</div>
+						</div>
+						<div class="search-option">
+							<i class='bx bx-search-alt-2 first-search'></i>
+							<div class="inputs">
+								<input type="text" name="">
+							</div>
+							<i class='bx bx-share-alt share'></i>
+						</div>
+					</div>
+				</div>
+			</div>
+			<container>
+			<hr class="hr-5">
+			</container>
+			<div class="review-container1">
+				<h5 style="color: #FF7F50; text-align: center;">Review</h5>
+				<container>
+				<hr class="hr-5">
+				</container>
+				<div class="review">
+					<ul style="border-bottom: 1px solid #C2A383">
+						<li><a href="#">Review text1</a></li>
+					</ul>
+				</div>
+			</div>
 
              <form name="bbsForm" id="bbsForm" method="post">
               <input type="hidden" name="shopUID" id="shopUID"  value="${shop.shopUID}"/> 
@@ -641,6 +697,6 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
          main_prodcut_image.src = element.src; 
       }
     </script>
-    <%@ include file="/WEB-INF/views/include/footer.jsp" %>
-</body>	
+	<%@ include file="/WEB-INF/views/include/footer.jsp"%>
+</body>
 </html>
