@@ -450,6 +450,8 @@ public class HelpController {
   		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
   		//게시물 번호
   		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+  		
+  		long bbsNo = HttpUtil.get(request, "bbsNo", (long)0);
   		//제목
   		String bbsTitle = HttpUtil.get(request, "bbsTitle", "");
   		//내용
@@ -485,6 +487,7 @@ public class HelpController {
   						if(boardService.boardUpdate(board) > 0)
   						{
   							ajaxResponse.setResponse(0, "Success");
+  							ajaxResponse.setData(bbsNo);
   						}
   						else
   						{
@@ -526,7 +529,7 @@ public class HelpController {
   		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
   		//게시물 번호
   		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
-
+  		long bbsNo = HttpUtil.get(request, "bbsNo", (long) 0);
   		if(bbsSeq > 0)
   		{			
   			Board board = boardService.boardSelect(bbsSeq);
@@ -540,6 +543,7 @@ public class HelpController {
 						if(boardService.boardDelete(board.getBbsSeq()) > 0)
 						{
 							ajaxResponse.setResponse(0, "Success");
+							ajaxResponse.setData(bbsNo);
 						}
 						else
 						{
