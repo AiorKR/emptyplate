@@ -373,7 +373,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 		var cnt = $("#shopOrderMenuQuantity" + shopMenuid).text();
 		
 		price = price * cnt;
-		
+			
 		shopOrderMenuTotalAmount -= price;
 		
 		$("#shopOrderMenu" + shopMenuid).text("");
