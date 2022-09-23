@@ -1,8 +1,13 @@
 package com.icia.web.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,8 +61,7 @@ public class ShopController {
 	
 	//게시판 리스트
 		@RequestMapping(value="/reservation/list")
-		public String list(ModelMap model, HttpServletRequest request, HttpServletResponse response)
-		{
+		public String list(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 			//조회항목
 			String searchType = HttpUtil.get(request, "searchType");
 			
@@ -84,6 +88,9 @@ public class ShopController {
 			
 			//조회 객체
 			Shop search = new Shop();
+			
+			//데이트 피커에 보여줄 날짜 + 시간
+			String rDate = "";
 			
 			if(StringUtil.equals(searchType, "1") || StringUtil.equals(searchType, "2")) { // 1: 파인다이닝 2:오마카세
 				
@@ -120,9 +127,23 @@ public class ShopController {
 				
 				list = shopService.shopList(search);
 			}
-			
-			model.addAttribute("reservationDate", reservationDate);
-			model.addAttribute("reservationTime", reservationTime);
+				if(!StringUtil.isEmpty(reservationDate) && !StringUtil.isEmpty(reservationTime)) {
+					try {
+						String tmp = reservationDate + reservationTime;
+						SimpleDateFormat input = new SimpleDateFormat("yyyyMMddHHmm");  //dt와 형식을 맞추어 준다.
+						SimpleDateFormat output = new SimpleDateFormat("yyyy.MM.dd HH:mm"); //변환할 형식
+						Date newdt;
+						newdt = input.parse(tmp);
+						rDate = output.format(newdt);
+						
+						logger.debug(" rdate : " + rDate);
+					} 
+					catch (ParseException e1) {
+						logger.error("[ShopController] dateformat error", e1);
+					}
+				}
+
+			model.addAttribute("reservationDate", rDate);
 			model.addAttribute("list", list);
 			model.addAttribute("searchType", searchType);
 			model.addAttribute("searchValue", searchValue);
@@ -137,15 +158,15 @@ public class ShopController {
 				{
 					model.addAttribute("cookieUserNick", user2.getUserNick());
 				}
-				catch(NullPointerException e)
+				catch(NullPointerException e2)
 				{
-					logger.error("[ShopController] reservation/list NullPointerException", e);
+					logger.error("[ShopController] reservation/list NullPointerException", e2);
 				}
 			}
 			return "/reservation/list";
 			
 		}
-		
+				
 		//매장 상세정보 페이지
 		@RequestMapping(value="/reservation/view")
 		public String shopView(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
@@ -203,7 +224,7 @@ public class ShopController {
 		   else { //도가 없는 지역이라면
 			   address = shop.getShopLocation2() + " " + shop.getShopLocation3() + " " + shop.getShopAddress();
 		   }
-		   			
+		   
 		   model.addAttribute("address", address);		   
 		   model.addAttribute("shop", shop);
 		   model.addAttribute("boardMe", ManagerMe);
@@ -220,9 +241,9 @@ public class ShopController {
 				{
 					model.addAttribute("cookieUserNick", user2.getUserNick());
 				}
-				catch(NullPointerException e)
+				catch(NullPointerException e2)
 				{
-					logger.error("[ShopController] url NullPointerException", e);
+					logger.error("[ShopController] url NullPointerException", e2);
 				}
 			}
 		   return url;
@@ -264,8 +285,11 @@ public class ShopController {
 								if (StringUtil.equals("Y", shopTotalTable.get(i).getShopTotalTableStatus())) {
 									count2++;
 								}
-							} else {
+							} 
+							else {
 								shopTotalTable.get(i).setShopTotalTableRmains(shopTotalTable.get(i).getShopTotalTable() - count); // 남아있는 자리 세팅
+								logger.debug("shopTotalTable.get(i).getShopTotalTableUID() : " + shopTotalTable.get(i).getShopTotalTableUID());
+								logger.debug("shopTotalTable.get(i).getShopTotalTableRmains() : " + shopTotalTable.get(i).getShopTotalTableRmains());
 							}
 							count = 0; // 카운트 초기화 (j가 다 돌고 나면 첨부터 다시 카운트를 세야하므로 초기화)
 						}
@@ -276,7 +300,8 @@ public class ShopController {
 							for (int i = 0; i < shopTotalTable.size(); i++) {
 								if (reservationPeople % 2 == 0) { // 예약인원이 짝수 일때
 									if (StringUtil.equals(shopTotalTable.get(i).getShopTotalTableStatus(), "N")) { // 자리가  있는 테이블  종류 확인
-										if (shopTotalTable.get(i).getShopTotalTableRmains() >= (reservationPeople % shopTotalTable.get(i).getShopTotalTableCapacity())) {
+										
+										if (shopTotalTable.get(i).getShopTotalTableRmains() >= (reservationPeople / shopTotalTable.get(i).getShopTotalTableCapacity())) {
 											ajax.setResponse(0, "예약 가능");
 											break;
 										} 
@@ -289,7 +314,8 @@ public class ShopController {
 									reservationPeople = reservationPeople + 1; // 1명 추가해서 짝수로 만들어 계산
 
 									if (StringUtil.equals(shopTotalTable.get(i).getShopTotalTableStatus(), "N")) { // 자리가  있는  테이블 종류  확인
-										if (shopTotalTable.get(i).getShopTotalTableRmains() >= (reservationPeople % shopTotalTable.get(i).getShopTotalTableCapacity())) {
+										
+										if (shopTotalTable.get(i).getShopTotalTableRmains() >= (reservationPeople / shopTotalTable.get(i).getShopTotalTableCapacity())) {
 											ajax.setResponse(0, "예약 가능");
 											break;
 										} 
@@ -303,18 +329,14 @@ public class ShopController {
 						else { // 카운터석만 조회
 							for (int i = 0; i < shopTotalTable.size(); i++) {
 								if (shopTotalTable.get(i).getShopTotalTableCapacity() == 1) { // 카운터석만 확인
-									for (int j = 0; j < shopTotalTable.get(i).getShopTable().size(); j++) {
-										if (StringUtil.equals(shopTotalTable.get(i).getShopTable().get(j).getShopReservationTable().getShopTableStatus(), "Y")) { // 자리 조회 중
-											count++;
-										}
-									}
-									if (shopTotalTable.get(i).getShopTotalTable() == count) { // 예약된 테이블 갯수가 식당의 있는 테이블 수량과 같다면
-										shopTotalTable.get(i).setShopTotalTableStatus("Y"); // 예약이 다 차있다면 Y를 세팅함. 디폴트값 N
+									
+									if (StringUtil.equals(shopTotalTable.get(i).getShopTotalTableStatus(), "Y")) { // 예약된 테이블 갯수가 식당의 있는 테이블 수량과 같다면
 										ajax.setResponse(-2, "카운터석 예약 최대로 예약되있음");
 									} 
 									else {
 										shopTotalTable.get(i).setShopTotalTableRmains(shopTotalTable.get(i).getShopTotalTable() - count); // 남아있는 자리 숫자 세팅
-										if (reservationPeople > shop.getShopTotalTable().get(i).getShopTotalTableRmains()) { // 1인테이블이므로 예약인원보다 남은 자리가 적으면 안됨
+										
+										if (reservationPeople > shopTotalTable.get(i).getShopTotalTableRmains()) { // 1인테이블이므로 예약인원보다 남은 자리가 적으면 안됨
 											ajax.setResponse(-2, "남은 테이블이 예약인원보다 적음");
 										} 
 										else {
@@ -322,9 +344,6 @@ public class ShopController {
 										}
 									}
 								} 
-								else {
-									ajax.setResponse(-3, "카운터석이 존재하지 않음");
-								}
 							}
 						}
 					}

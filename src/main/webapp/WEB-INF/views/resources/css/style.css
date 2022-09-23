@@ -3601,7 +3601,6 @@ reservation 검색
 	height:50px;
 	position: relative;
 	margin: auto;
-	z-index: 500;
 	word-break:break-all;
 }
 
