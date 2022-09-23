@@ -201,73 +201,20 @@ public class ShopController {
 		   String url = "";
 		   
 		   
-		   if(!StringUtil.isEmpty(shopUID) && !StringUtil.equals(shopUID, "")) {
+		   if(!StringUtil.isEmpty(shopUID) && !StringUtil.equals(shopUID, ""))
+		   {
 			   shop = shopService.shopViewSelect(shopUID);
-			   
-			   
-			   for(int i=0; i < shop.getShopTime().size(); i++ ) {	   
-				   if(Integer.parseInt(shop.getShopTime().get(i).getShopOrderTime().replaceAll(":", "")) >= standardTime) { //시간에서 :제거후 int형으로 변환해서 기준시간과 비교
+			   for(int i=0; i < shop.getShopTime().size(); i++ )
+			   {	   
+				   if(Integer.parseInt(shop.getShopTime().get(i).getShopOrderTime().replaceAll(":", "")) >= standardTime)
+				   { //시간에서 :제거후 int형으로 변환해서 기준시간과 비교
 					   shop.getShopTime().get(i).setShopTimeType("D");
 				   }
-				   else {
+				   else
+				   {
 					   shop.getShopTime().get(i).setShopTimeType("L"); //기준 시간  보다 작다면 점심시간
 				   }
 			   }
-			   	   
-			   url = "/reservation/view";
-		   }
-		   else {
-			  url =  "/reservation/list";
-		   }
-		   if(shop.getShopLocation1() != null && !StringUtil.equals("", shop.getShopLocation1())) { //도 가 있는 지역이라면
-			   address = shop.getShopLocation1() + " " + shop.getShopLocation2() + " " +shop.getShopLocation3() +" " + shop.getShopAddress();
-		   }
-		   
-		   else { //도가 없는 지역이라면
-			   address = shop.getShopLocation2() + " " + shop.getShopLocation3() + " " + shop.getShopAddress();
-		   }
-		   
-		   if(!StringUtil.isEmpty(cookieUserUID) && shopUID != "")
-		    {
-				shop.setUserUID(cookieUserUID);
-				shop.setShopUID(shopUID);
-				
-				if(shopService.shopMarkCheck(shop) == 0)                 
-		         {
-		        	 shopMarkActive = "N";
-		         }
-		         else
-		         {
-		        	 shopMarkActive = "Y";
-		         }
-		        
-		     }
-		   			
-		   model.addAttribute("address", address);		   
-		   model.addAttribute("shop", shop);
-		   model.addAttribute("shopUID", shopUID);
-		   model.addAttribute("boardMe", ManagerMe);
-		   model.addAttribute("searchType", searchType);
-		   model.addAttribute("searchValue", searchValue);
-		   model.addAttribute("curPage", curPage);
-		   model.addAttribute("reservationDate", reservationDate);
-		   model.addAttribute("reservationTime", reservationTime);
-		   model.addAttribute("shopMarkActive", shopMarkActive);
-		   
-			User user2 = new User();
-			user2 = userService.userUIDSelect(cookieUserUID);
-			if(user2 != null)
-			{
-				try
-				{
-					model.addAttribute("cookieUserNick", user2.getUserNick());
-				}
-				catch(NullPointerException e2)
-				{
-					logger.error("[ShopController] url NullPointerException", e2);
-				}
-			}
-
 			url = "/reservation/view";
 		} else {
 			url = "/reservation/list";
@@ -687,57 +634,5 @@ public class ShopController {
 		}
 
 		return ajaxResponse;
-	}
-
-	// 게시물 즐겨찾기 리스트
-	@RequestMapping(value = "/shop/shopMarkList")
-	public String shopMarkList(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-		// 조회 객체
-		Shop shop = new Shop();
-		// 쿠키값
-		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
-		// 조회항목
-		String searchType = HttpUtil.get(request, "searchType");
-		// 조회값
-		String searchValue = HttpUtil.get(request, "searchValue", "");
-		// 현재페이지
-		long curPage = HttpUtil.get(request, "curPage", (long) 1);
-		// 총 게시물 수
-		long totalCount = 0;
-		// 게시물 리스트
-		List<Shop> shopMarkList = null;
-		// 페이징 객체
-		Paging paging = null;
-
-		if (!StringUtil.isEmpty(cookieUserUID)) {
-			shop.setUserUID(cookieUserUID);
-		}
-
-		if (!StringUtil.isEmpty(searchType) && !StringUtil.isEmpty(searchValue)) {
-			shop.setSearchType(searchType);
-			shop.setSearchValue(searchValue);
-		}
-
-		totalCount = shopService.shopMarkListCount(shop);
-
-		if (totalCount > 0) {
-			paging = new Paging("/shop/shopMarkList", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
-			paging.addParam("searchType", searchType);
-			paging.addParam("searchValue", searchValue);
-			paging.addParam("curPage", curPage);
-
-			shop.setStartRow(paging.getStartRow());
-			shop.setEndRow(paging.getEndRow());
-
-			shopMarkList = shopService.shopMarkList(shop);
-		}
-
-		model.addAttribute("shopMarkList", shopMarkList);
-		model.addAttribute("searchType", searchType);
-		model.addAttribute("searchValue", searchValue);
-		model.addAttribute("curPage", curPage);
-		model.addAttribute("paging", paging);
-
-		return "/shop/shopMarkList";
 	}
 }
