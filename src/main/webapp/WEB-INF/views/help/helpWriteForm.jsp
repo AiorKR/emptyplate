@@ -3,7 +3,7 @@
 	// 개행문자 값을 저장한다.
 	pageContext.setAttribute("newLine", "\n");
 	// Community 번호
-	request.setAttribute("No", 4);
+	request.setAttribute("No", 5);
 %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <!DOCTYPE html>
@@ -67,27 +67,9 @@ $(document).ready(function() {
          return;
       }
       
-      if($.trim($("#bbsFile").val()).length <= 0)
-      {
-         alert("파일을 첨부하세요.");
-         $("#bbsFile").val("");
-         
-         $("#btnWrite").prop("disabled", false);
-         
-         return;
-      }
-      
       var comment = document.getElementById('bbsComment1');
-
-      var resultValue = comment.checked;
-      if(resultValue == true)
-      {
-         $('#bbsComment').val("Y");
-      }
-      else
-      {
-         $('#bbsComment').val("N");
-      }
+      
+      $('#bbsComment').val("N");
       
       var form = $("#writeForm")[0];
       var formData = new FormData(form);
@@ -95,7 +77,7 @@ $(document).ready(function() {
       $.ajax({
          type:"POST",
          enctype:'multipart/form-data',
-         url:"/board/writeProc",
+         url:"/help/helpWriteProc",
          data:formData,
          processData:false,
          contentType:false,
@@ -110,7 +92,7 @@ $(document).ready(function() {
             if(response.code == 0)
               {
                alert("게시물이 등록되었습니다.");
-               location.href = "/help/helpList";
+          	   location.href="/help/helpList";
               }
             else if(response.code == 400)
               {
@@ -134,7 +116,7 @@ $(document).ready(function() {
    
    //목록
    $("#btnList").on("click", function() {
-      document.bbsForm.action = "/board/list";
+      document.bbsForm.action = "/help/helpList";
       document.bbsForm.submit();
    });
 });
@@ -146,28 +128,16 @@ $(document).ready(function() {
  <section id="communityWriteForm" class="community">
   <div class="container">
    <div class = "row">
-    <div class="d-flex flex-row justify-content-center">
-      <div class="notice">
-        <p>Community 글 작성시 유의사항</p>
-          <ul>- 홍보/비방/욕설/기타 특성에 맞지 않는 등의 글은 관리자가 내용 확인 후 임의로 삭제할 수 있습니다.<br/>
-              - 작성 시 반드시 하나의 파일을 첨부해야 하며, 등록된 이미지는 추후 대표 이미지로 적용될 수 있습니다.<br/>
-              - 회원 탈퇴하여도 게시물 내용은 삭제되지 않습니다.
-          </ul>
-      </div>
-    </div>
-
-    <form name="writeForm" id="writeForm" method="post" enctype="multipart/form-data">
+      <form name="writeForm" id="writeForm" method="post" enctype="multipart/form-data">
       <input type="hidden" name="bbsNo" value="${bbsNo}" />
       <table>
         <tr>
           <td class="title">제목</td>
           <td class="title-text">
-            <input type="text" id="bbsTitle" name="bbsTitle" maxlength="30" placeholder="제목을 입력해주세요.">
-			<div class="comment">댓글허용 <input type="checkbox" id="bbsComment1" name="bbsComment1" checked="checked"/></div>
-				<input type="hidden" id="bbsComment" name="bbsComment" value="" />
+            <input type="text" id="bbsTitle" name="bbsTitle" placeholder="제목을 입력해주세요.">
           </td>
         </tr>
-        
+        <input type="hidden" id="bbsComment" name="bbsComment" value="" />
         <tr>
           <td class="content">내용</td>
           <td class="content-text">
@@ -233,7 +203,7 @@ $(document).ready(function() {
    </div>
 
    <form name="bbsForm" id="bbsForm" method="post">
-    <input type="hidden" name="bbsNo" value="${bbsNo}" />
+    <input type="hidden" id="bbsNo" name="bbsNo" value="${bbsNo}" />
     <input type="hidden" name="searchType" value="" />
     <input type="hidden" name="searchValue" value="" />
     <input type="hidden" name="curPage" value="" />

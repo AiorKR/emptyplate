@@ -17,16 +17,15 @@
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
 <script type="text/javascript">
 $(document).ready(function() {
-   //목록
-   $("#btnList").on("click", function() {
-	  document.bbsForm.bbsNo = bbsNo;
-      document.bbsForm.action = "/help/helpList";
-      document.bbsForm.submit();
-   });   
+	   //목록
+	   $("#btnList").on("click", function() {
+	      document.bbsForm.action = "/help/helpList";
+	      document.bbsForm.submit();
+	   });  
    
    //게시물 수정
    $("#btnUpdate").on("click", function() {
-      document.bbsForm.action = "/board/updateForm";
+      document.bbsForm.action = "/help/helpUpdateForm";
       document.bbsForm.submit();
    });
    
@@ -48,7 +47,7 @@ $(document).ready(function() {
                if(response.code == 0)
                {
                   alert("게시물이 삭제되었습니다.");
-                  location.href = "/board/list";
+                  location.href = "/help/helpList";
                }
                else if(response.code == 400)
                {
@@ -61,7 +60,7 @@ $(document).ready(function() {
                else if(response.code == 404)
                {
                   alert("게시물을 찾을 수 없습니다.");
-                  location.href = "/board/list";                  
+                  location.href = "/help/helpList";                  
                }
                else
                {
@@ -72,9 +71,10 @@ $(document).ready(function() {
                icia.common.error(error);
             }
          });
+      }
       });
 
-}
+});
 </script>
 </head>
 <body>
@@ -82,7 +82,6 @@ $(document).ready(function() {
 	<section id="communityView" class="community">
 		<div class="container">
 			<div class = "row">
-			<c:set var="bbsNo" value="${board.bbsNo}" />
 				<div class="board-title">
 					<c:out value="${board.bbsTitle}" /><br/>
 				</div>
@@ -110,7 +109,7 @@ $(document).ready(function() {
 				<input type="hidden" name="searchType" value="${searchType}" />
 				<input type="hidden" name="searchValue" value="${searchValue}" />
 				<input type="hidden" name="curPage" value="${curPage}" />
-				<input type="hidden" name="bbsNo" value="${bbsNo}" />
+				<input type="hidden" name="bbsNo" value="${board.bbsNo}" />
 			</form>
 		</div> 
 	</section>
