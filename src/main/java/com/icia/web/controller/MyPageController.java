@@ -639,4 +639,75 @@ public class MyPageController {
  	   return "/myPage/myFavorites";
     }
     
+    //유저 즐겨찾기 취소
+    @RequestMapping(value="/myPage/userMarkDelete", method=RequestMethod.POST)
+    @ResponseBody
+    public Response<Object> userMarkDelete(HttpServletRequest request, HttpServletResponse response)
+    {
+    	Response<Object> ajaxResponse = new Response<Object>();
+    	
+    	String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+    	String markUserUID = HttpUtil.get(request, "markUserUID");
+    	
+    	User user = new User();
+    	
+    	if(!StringUtil.isEmpty(cookieUserUID))
+  		{
+   		
+   				user.setUserUID(cookieUserUID);
+   				user.setMarkUserUID(markUserUID);
+   				
+  				if(userService.userMarkCheck(user) == 1)  					
+  				{
+  					userService.userMarkDelete(user);
+  					ajaxResponse.setResponse(0, "userMark insert success");
+  				}
+  				else
+  				{  					
+  					ajaxResponse.setResponse(1, "userMark delete success");
+  				} 		
+  		}
+  		else
+  		{
+  			ajaxResponse.setResponse(400, "Bad Request");
+  		}
+  		
+  		return ajaxResponse;
+  	}
+    
+    //매장 즐겨찾기 취소
+    @RequestMapping(value="/myPage/shopMarkDelete", method=RequestMethod.POST)
+    @ResponseBody
+    public Response<Object> shopMarkDelete(HttpServletRequest request, HttpServletResponse response)
+    {
+    	Response<Object> ajaxResponse = new Response<Object>();
+    	
+    	String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+    	String shopUID = HttpUtil.get(request, "shopUID", "");
+    	Shop shop = new Shop();
+    	
+    	if(!StringUtil.isEmpty(cookieUserUID) && shopUID != "")
+  		{
+   		
+   				shop.setUserUID(cookieUserUID);
+   				shop.setShopUID(shopUID);
+   				
+  				if(shopService.shopMarkCheck(shop) == 1)  					
+  				{
+  					shopService.shopMarkDelete(shop);
+  					ajaxResponse.setResponse(0, "shopMark delete success");
+  				}
+  				else
+  				{  					
+  					ajaxResponse.setResponse(1, "do not mark");
+  				} 		
+  		}
+  		else
+  		{
+  			ajaxResponse.setResponse(400, "Bad Request");
+  		}
+  		
+  		return ajaxResponse;
+  	}
+
 }

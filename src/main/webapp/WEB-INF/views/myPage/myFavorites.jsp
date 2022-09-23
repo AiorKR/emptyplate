@@ -60,6 +60,77 @@ function fn_shopList(shopUID)
    document.bbsForm.submit();
 }
 
+function fn_userMarkDelete(markUserUID)
+{
+	var user = markUserUID;
+	$.ajax({
+		type:"POST",
+		url:"/myPage/userMarkDelete",
+		data:{
+			markUserUID:user
+			},
+		datatype:"JSON",
+		beforeSend:function(xhr){
+			xhr.setRequestHeader("AJAX", "true");
+		},
+		success:function(response){
+			if(response.code == 0)
+			{
+				alert("즐겨찾기를 취소하셨습니다.");
+				location.reload();
+			}
+			else if(response.code == -1)
+			{
+				alert("즐겨찾기 내역이 없습니다.");
+				location.reload();
+			}
+			else
+			{
+				alert("로그인이 되어있지 않습니다.");
+				location.reload();
+			}				
+		},
+		error:function(xhr, status, error){
+	          icia.common.error(error);
+	    }
+	});
+}
+
+function fn_shopMarkDelete(shopUID)
+{
+	var shop = shopUID;
+	$.ajax({
+		type:"POST",
+		url:"/myPage/shopMarkDelete",
+		data:{
+			shopUID:shop
+			},
+		datatype:"JSON",
+		beforeSend:function(xhr){
+			xhr.setRequestHeader("AJAX", "true");
+		},
+		success:function(response){
+			if(response.code == 0)
+			{
+				alert("즐겨찾기를 취소하셨습니다.");
+				location.reload();
+			}
+			else if(response.code == -1)
+			{
+				alert("즐겨찾기 내역이 없습니다.");
+				location.reload();
+			}
+			else
+			{
+				alert("로그인이 되어있지 않습니다.");
+				location.reload();
+			}				
+		},
+		error:function(xhr, status, error){
+	          icia.common.error(error);
+	    }
+	});
+}
 
 </script>
 <style>
@@ -220,7 +291,7 @@ function fn_shopList(shopUID)
 									</div>
 								</div>
 									<div>
-                              			<img src="/resources/images/fullstar.png" class = 'favorites-star'>
+                              			<button type="button" onclick="fn_userMarkDelete('${list.markUserUID}')"><img src="/resources/images/fullstar.png" class = 'favorites-star'></button>
                            			</div>  
 					        </div>	
 					        <!-- 반복 끝 -->					        
@@ -250,7 +321,7 @@ function fn_shopList(shopUID)
 									</div>
 								</div>
 									<div>
-                              			<button type="button" id="btnMark2"><img src="/resources/images/fullstar.png" class = 'favorites-star'></button>
+                              			<button type="button" onclick="fn_shopMarkDelete('${list2.shopUID}')"><img src="/resources/images/fullstar.png" class = 'favorites-star'></button>
                            			</div>  
 					        </div>	
 					        <!-- 반복 끝 -->					        
@@ -264,7 +335,7 @@ function fn_shopList(shopUID)
 			</div>
 	</div>
 	
-<form name="bbsForm" id="bbsForm" method="post">
+	<form name="bbsForm" id="bbsForm" method="post">
 	 <input type="hidden" name="shopUID" value="${shopUID}" />
 	 <input type="hidden" name="curPage" value="${curPage}" />	
 	 <input type="hidden" name="userUID" value="${userUID}" />

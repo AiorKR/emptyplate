@@ -201,6 +201,7 @@ VALUES (#{userUID}, #{markUserUID})
 <delete id="userMarkDelete" parameterType="com.icia.web.model.User">
 DELETE FROM T_USER_MARK
  WHERE MARK_USER_UID = #{markUserUID}
+   AND USER_UID = #{userUID}
 </delete>
 
 <!-- 사용자 탈퇴시 좋아요 삭제 -->
