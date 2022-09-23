@@ -107,7 +107,6 @@
   display: none;
   overflow:hidden;
   position: relative;
-  z-index: 1;
 }
 .reservation #datepicker-ul {
   position: relative;
@@ -129,7 +128,6 @@
   position: relative;
   margin: 0%;
   padding: 0;
-  z-index: 1;
 }
 
 .reservation #datepicker-li, .view #datepicker-li {

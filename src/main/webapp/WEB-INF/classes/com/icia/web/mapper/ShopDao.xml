@@ -291,6 +291,7 @@ SELECT S.SHOP_UID AS SHOP_UID,
    AND C.RESERVATION_DATE = #{reservationDate}
    AND C.RESERVATION_TIME = #{reservationTime}
  WHERE AB.SHOP_UID = #{shopUID}
+ ORDER BY TOTAL_TABLE_CAPACITY ASC
 </select>
 
 <select id="orderUIDcreate" resultType="long">
@@ -321,48 +322,50 @@ SELECT S.SHOP_UID AS SHOP_UID,
 	<collection property="orderMenu" resultMap="orderMenuResultMap"/>
 	<collection property="shopReservationTable" resultMap="shopReservationTableResultMap"/>
 	</resultMap>
-	
-
-		
-	
 
 	<select id="myOrderList" parameterType="com.icia.web.model.Order" resultMap="myOrderResultMap">
 		SELECT RNUM,
        		   SHOP_NAME,
+       		   ORDER_UID,
        		   RESERVATION_PEOPLE,
        		   ORDER_STATUS,
        		   TOTAL_AMOUNT,
        		   SHOP_UID,
-       		   ORDER_MENU_NAME,
-               ORDER_MENU_QUANTITY,
        		   R_DATE
 		  FROM(SELECT ROWNUM AS RNUM,
              		  SHOP_NAME,
+             		  ORDER_UID,
             		  RESERVATION_PEOPLE,
             		  ORDER_STATUS,	  
             		  TOTAL_AMOUNT,
             		  SHOP_UID,
-            		  ORDER_MENU_NAME,
-            		  ORDER_MENU_QUANTITY,
             		  R_DATE
-      FROM(SELECT NVL(B.SHOP_NAME, '') AS SHOP_NAME,
+      FROM(SELECT DISTINCT NVL(B.SHOP_NAME, '') AS SHOP_NAME,
+      			 NVL(A.ORDER_UID, '') AS ORDER_UID,
                  NVL(A.RESERVATION_PEOPLE, '') AS RESERVATION_PEOPLE,
                  NVL(A.ORDER_STATUS, '') AS ORDER_STATUS,
                  NVL(A.TOTAL_AMOUNT, '') AS TOTAL_AMOUNT,
-                 NVL(A.SHOP_UID, '') AS SHOP_UID,
-                 NVL(D.ORDER_MENU_NAME, '') AS ORDER_MENU_NAME,
-                 NVL(D.ORDER_MENU_QUANTITY, '') AS ORDER_MENU_QUANTITY,
+                 NVL(A.SHOP_UID, '') AS SHOP_UID,           
                  NVL(SUBSTR(C.RESERVATION_DATE,3,2)||'/'||SUBSTR(C.RESERVATION_DATE,5,2)||
                 '/'||SUBSTR(C.RESERVATION_DATE,7,2)||' '||SUBSTR(C.RESERVATION_TIME,1,2)||':'||SUBSTR(C.RESERVATION_TIME,3,2), '') AS R_DATE
-            FROM T_ORDER A, T_SHOP B, T_SHOP_RESERVATION_TABLE C, T_ORDER_MENU D
+            FROM T_ORDER A, T_SHOP B, T_SHOP_RESERVATION_TABLE C
             WHERE A.ORDER_UID = C.ORDER_UID
             AND A.SHOP_UID = B.SHOP_UID
-            AND A.ORDER_UID = D.ORDER_UID
             AND A.USER_UID = #{userUID}))
-       WHERE RNUM <![CDATA[>=]]> 1
-       AND RNUM <![CDATA[<=]]> 5
-       ORDER BY RNUM ASC
+       WHERE RNUM <![CDATA[>=]]>  #{startRow}
+       AND RNUM <![CDATA[<=]]>  #{endRow}
+       ORDER BY RNUM DESC
 	</select>
+	
+	
+	<select id="myOrderMenu" parameterType="com.icia.web.model.OrderMenu" resultMap="orderMenuResultMap">
+		SELECT DISTINCT
+       		   ORDER_MENU_NAME,
+               ORDER_MENU_QUANTITY
+          FROM T_ORDER_MENU
+         WHERE ORDER_UID =  #{orderUID}
+	</select>
+	
 	
 	<select id="myOrderListCount" parameterType="com.icia.web.model.Order" resultType="long">
 		SELECT COUNT(ORDER_UID) AS CNT
@@ -401,35 +404,25 @@ SELECT RNUM,
        SHOP_UID,
        USER_UID,
 	   SHOP_NAME,
-	   SHOP_CONTENT
+       FILE_NAME,
+       FILE_ORG_NAME
   FROM(SELECT ROWNUM AS RNUM,
                         SHOP_UID,
                         USER_UID,
                         SHOP_NAME,
-                        SHOP_CONTENT
-  		 FROM(SELECT A.SHOP_UID AS SHOP_UID,
-             		 NVL(A.USER_UID, '') AS USER_UID,
-            		 NVL(A.SHOP_NAME, '') AS SHOP_NAME, 
-              		 NVL(A.SHOP_CONTENT, '') AS SHOP_CONTENT
-         		FROM T_SHOP A, T_USER B, T_SHOP_BOOKMARK C
+                        FILE_NAME,
+                        FILE_ORG_NAME
+  		 FROM(SELECT C.SHOP_UID AS SHOP_UID,
+             		 NVL(C.USER_UID, '') AS USER_UID,
+            		 NVL(A.SHOP_NAME, '') AS SHOP_NAME,
+                     NVL(D.FILE_NAME, '') AS FILE_NAME,
+                     NVL(D.FILE_ORG_NAME, '') AS FILE_ORG_NAME
+         		FROM T_SHOP A, T_USER B, T_SHOP_BOOKMARK C, T_SHOP_FILE D
                WHERE A.SHOP_UID = C.SHOP_UID
-          		 AND A.USER_UID = B.USER_UID
-          		 AND C.USER_UID= #{userUID}
-<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>   
-  <choose>
-    <when test='searchType == "1"'>   
-          		 AND A.SHOP_NAME LIKE '%' || #{searchValue} || '%'
-    </when>
-    <when test='searchType == "3"'>
-          		 AND DBMS_LOB.INSTR(A.SHOP_CONTENT, #{searchValue}) > 0
-    </when>
-  </choose>
-</if>
-))
-
- WHERE RNUM <![CDATA[>=]]> #{startRow}
-   AND RNUM <![CDATA[<=]]> #{endRow}
- ORDER BY RNUM ASC
+          		 AND B.USER_UID = C.USER_UID
+                 AND C.SHOP_UID = D.SHOP_UID
+                 AND D.FILE_ORG_NAME LIKE '%'|| 'Shop_' ||'%'
+          		 AND C.USER_UID = #{userUID}))
 </select>
 <insert id="orderInsert" parameterType="com.icia.web.model.Order">
 	INSERT INTO T_ORDER (
@@ -449,7 +442,7 @@ SELECT RNUM,
     #{reservationPeople},
     #{orderStatus},
     #{orderPayType},
-    #{orderRegDate},
+    SYSDATE,
     #{totalAmount},
     #{toss.paymentKey}
 )

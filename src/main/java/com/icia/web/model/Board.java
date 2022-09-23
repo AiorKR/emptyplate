@@ -19,6 +19,7 @@ public class Board implements Serializable
 	private long commentGroup;	//댓글 그룹번호
 	private int commentOrder;	//댓글 그룹내순서
 	private int commentIndent;	//댓글 들여쓰기
+	private String status;     	//게시물 상태(N:게시물 활성화, Y:게시물 삭제)
 	
 	private String userNick;	//사용자 닉네임
 	
@@ -50,6 +51,7 @@ public class Board implements Serializable
 		commentGroup = 0;
 		commentOrder = 0;
 		commentIndent = 0;
+		status = "";
 		
 		userNick = "";
 		
@@ -197,6 +199,16 @@ public class Board implements Serializable
 	}
 
 
+	public String getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
 	public String getUserNick() {
 		return userNick;
 	}
@@ -257,6 +269,16 @@ public class Board implements Serializable
 	}
 
 
+	public long getSortValue() {
+		return sortValue;
+	}
+
+
+	public void setSortValue(long sortValue) {
+		this.sortValue = sortValue;
+	}
+
+
 	public BoardFile getBoardFile() {
 		return boardFile;
 	}
@@ -265,14 +287,5 @@ public class Board implements Serializable
 	public void setBoardFile(BoardFile boardFile) {
 		this.boardFile = boardFile;
 	}
-	
-	public long getSortValue() {
-	      return sortValue;
-	}
 
-
-   public void setSortValue(long sortValue) {
-      this.sortValue = sortValue;
-   }
-	
 }

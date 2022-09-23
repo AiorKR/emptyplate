@@ -20,12 +20,12 @@ import com.icia.common.model.FileData;
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Board;
 import com.icia.web.model.BoardLike;
-import com.icia.web.model.Order;
-import com.icia.web.model.Paging;
 import com.icia.web.model.Response;
+import com.icia.web.model.Shop;
 import com.icia.web.model.User;
 import com.icia.web.model.UserFile;
 import com.icia.web.service.BoardService;
+import com.icia.web.service.ShopService;
 import com.icia.web.service.UserService;
 import com.icia.web.util.CookieUtil;
 import com.icia.web.util.HttpUtil;
@@ -49,6 +49,9 @@ public class MyPageController {
     
     @Autowired
     private BoardService boardService;
+    
+    @Autowired
+    private ShopService shopService;
    
     
     //페이지로드
@@ -585,7 +588,7 @@ public class MyPageController {
     @RequestMapping(value="/myPage/myFavorites", method=RequestMethod.GET)
     public String myFavorites(ModelMap model, HttpServletRequest request, HttpServletResponse response)
     {
-    	//조회 객체
+    	//조회 객체(사용자)
 		User user = new User();
 		String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		user = userService.userUIDSelect(userUID);
@@ -594,13 +597,117 @@ public class MyPageController {
 		List<User> list = null;
 		list = userService.markUserList(userUID);			
 		model.addAttribute("list", list);
-	 User user2 = new User();
-     user2 = userService.userUIDSelect(userUID);
-     model.addAttribute("cookieUserNick", user2.getUserNick());
+		
+		for(int i=0; i < list.size(); i++)
+	      {
+	         String userNick = list.get(i).getUserNick();
+	         if(userNick.length() > 9)
+	         {
+	            String dot = "..";
+	            String subShopName = userNick.substring(0, 7);
+	            String shopName2 = subShopName += dot;
+	            list.get(i).setUserNick(shopName2);
+	         }
+	         logger.debug("+++++++++++++++++++++++++++++++++++++" + list.get(i).getUserNick());
+	      }
+		
+		//조회 객체(매장)
+		List<Shop> list2 = null;
+		String shopUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		list2 = shopService.shopMarkList(shopUID);
+		
+		for(int i=0; i < list2.size(); i++)
+	      {
+	         String shopName = list2.get(i).getShopName();
+	         if(shopName.length() > 9)
+	         {
+	            String dot = "..";
+	            String subShopName = shopName.substring(0, 9);
+	            String shopName2 = subShopName += dot;
+	            list2.get(i).setShopName(shopName2);
+	         }
+	         logger.debug("+++++++++++++++++++++++++++++++++++++" + list2.get(i).getShopName());
+	      }
+		
+		model.addAttribute("list2", list2);
+		
+		//닉넴띄우기
+		User user2 = new User();
+		user2 = userService.userUIDSelect(userUID);
+		model.addAttribute("cookieUserNick", user2.getUserNick());
  	   
  	   return "/myPage/myFavorites";
     }
     
+    //유저 즐겨찾기 취소
+    @RequestMapping(value="/myPage/userMarkDelete", method=RequestMethod.POST)
+    @ResponseBody
+    public Response<Object> userMarkDelete(HttpServletRequest request, HttpServletResponse response)
+    {
+    	Response<Object> ajaxResponse = new Response<Object>();
+    	
+    	String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+    	String markUserUID = HttpUtil.get(request, "markUserUID");
+    	
+    	User user = new User();
+    	
+    	if(!StringUtil.isEmpty(cookieUserUID))
+  		{
+   		
+   				user.setUserUID(cookieUserUID);
+   				user.setMarkUserUID(markUserUID);
+   				
+  				if(userService.userMarkCheck(user) == 1)  					
+  				{
+  					userService.userMarkDelete(user);
+  					ajaxResponse.setResponse(0, "userMark insert success");
+  				}
+  				else
+  				{  					
+  					ajaxResponse.setResponse(1, "userMark delete success");
+  				} 		
+  		}
+  		else
+  		{
+  			ajaxResponse.setResponse(400, "Bad Request");
+  		}
+  		
+  		return ajaxResponse;
+  	}
     
-    
+    //매장 즐겨찾기 취소
+    @RequestMapping(value="/myPage/shopMarkDelete", method=RequestMethod.POST)
+    @ResponseBody
+    public Response<Object> shopMarkDelete(HttpServletRequest request, HttpServletResponse response)
+    {
+    	Response<Object> ajaxResponse = new Response<Object>();
+    	
+    	String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+    	String shopUID = HttpUtil.get(request, "shopUID", "");
+    	Shop shop = new Shop();
+    	
+    	if(!StringUtil.isEmpty(cookieUserUID) && shopUID != "")
+  		{
+   		
+   				shop.setUserUID(cookieUserUID);
+   				shop.setShopUID(shopUID);
+   				
+  				if(shopService.shopMarkCheck(shop) == 1)  					
+  				{
+  					shopService.shopMarkDelete(shop);
+  					ajaxResponse.setResponse(0, "shopMark delete success");
+  				}
+  				else
+  				{  					
+  					ajaxResponse.setResponse(1, "do not mark");
+  				} 		
+  		}
+  		else
+  		{
+  			ajaxResponse.setResponse(400, "Bad Request");
+  		}
+  		
+  		return ajaxResponse;
+  	}
+
 }

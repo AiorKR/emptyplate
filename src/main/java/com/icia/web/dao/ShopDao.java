@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.icia.web.model.Board;
 import com.icia.web.model.Order;
 import com.icia.web.model.OrderMenu;
 import com.icia.web.model.Shop;
@@ -29,7 +28,7 @@ public interface ShopDao {
 	
 	public long orderUIDcreate(); //주문번호 생성을 위한 시퀀스 조회
 	
-	public List<Order> myOrderList(String userUID);
+	public List<Order> myOrderList(Order order);
 
 	public long myOrderListCount(String userUID); 
 	//동일 즐겨찾기 여부 확인
@@ -42,7 +41,7 @@ public interface ShopDao {
 	public int shopMarkDelete(Shop shop);
 	
 	//즐겨찾기 리스트
-	public List<Shop> shopMarkList(Shop shop);
+	public List<Shop> shopMarkList(String shopUID);
 	
 	//게시물 즐겨찾기 총 게시물 수
 	public long shopMarkListCount(Shop shop);
@@ -51,4 +50,6 @@ public interface ShopDao {
 	public int orderMenuInsert(List<OrderMenu> list);
 	
 	public int reservationTableInser(List<ShopReservationTable> list);
+
+	public List<OrderMenu> myOrderMenu(String orderUID);
 }

@@ -41,8 +41,30 @@ window.onload = function () {
 	      })
 	}
 	 }
-	 
-
+	
+function agree_chk(){	
+	if($("#agree1").is(":checked") == true){
+		console.log("체크된상태");
+		if($("#agree2").is(":checked") == true){
+			console.log("체크된상태");
+			
+			
+			
+			self.close();
+			}
+		else
+		{
+			console.log("체크안된상태");
+			alert("필수약관에 동의해주세요.");
+			retrun;
+		}	
+	}
+	else{
+		console.log("체크안된상태");
+		alert("필수약관에 동의해주세요.");
+		retrun;
+	}	
+}
 </script>
 
 <style>
@@ -135,7 +157,7 @@ ul.join_box{border: 1px solid #ddd;background-color: #fff;}
                 <ul class="clearfix">
                     <li>이용약관 동의(필수)</li>
                     <li class="checkBtn">
-                        <input type="checkbox" name="chk" class="chk"> 
+                        <input type="checkbox" name="chk" class="chk" id="agree1"> 
                     </li>
                 </ul>
                 <textarea name="" id="">여러분을 환영합니다.
@@ -146,7 +168,7 @@ ul.join_box{border: 1px solid #ddd;background-color: #fff;}
                 <ul class="clearfix">
                     <li>개인정보 수집 및 이용에 대한 안내(필수)</li>
                     <li class="checkBtn">
-                        <input type="checkbox" name="chk" class="chk">
+                        <input type="checkbox" name="chk" class="chk" id="agree2">
                     </li>
                 </ul>
 
@@ -168,7 +190,7 @@ ul.join_box{border: 1px solid #ddd;background-color: #fff;}
             </li>
             <li class="checkBox check04">
                 <ul class="clearfix">
-                    <li>이벤트 등 프로모션 알림 메일 수신(선택</li>
+                    <li>이벤트 등 프로모션 알림 메일 수신(선택)</li>
                     <li class="checkBtn">
                         <input type="checkbox" name="chk" class="chk">
                     </li>
@@ -178,7 +200,7 @@ ul.join_box{border: 1px solid #ddd;background-color: #fff;}
         </ul>
         <ul class="footBtwrap clearfix">
             <li><button class="fpmgBt1">비동의</button></li>
-            <li><button class="fpmgBt2" onclick="self.close()">동의</button></li>
+            <li><button class="fpmgBt2" onclick="agree_chk()">동의</button></li>
         </ul>
     </form>
 </body>

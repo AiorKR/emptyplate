@@ -642,7 +642,7 @@ userPhone.value = "인증되었습니다"
    <!-- ======= Login Section ======= -->
   <section id="log" class="d-flex align-items-center">
     <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100" style="margin-top: 150px;">
-      <div class="row">
+      <div class="row" style="margin-bottom:40px; margin-top:40px;">
         <!--로그인-->
         
         

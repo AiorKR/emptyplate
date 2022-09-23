@@ -668,7 +668,7 @@ function NumfOk() {
    <!-- ======= Login Section ======= -->
   <section id="log" class="d-flex align-items-center">
     <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100" style="margin-top: 150px;">
-      <div class="row">
+      <div class="row" style="margin-bottom:40px; margin-top:40px;">
         <!--로그인-->
         <div class="cont" style="margin:auto;">
           <div class="form sign-in">
