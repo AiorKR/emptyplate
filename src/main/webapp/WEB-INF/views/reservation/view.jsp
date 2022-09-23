@@ -35,7 +35,7 @@ $(document).ready(function(){
 	$("#counterSeat").on("click", function() {
 		
 		console.log($("#counterSeat").is(":checked"));
-		
+																																																																																													
 		if($("#counterSeat").is(":checked")) {
 			document.bbsForm.counterSeatYN.value = "Y";
 			if(document.bbsForm.reservationDate.value != "" && document.bbsForm.reservationTime.value != "") {
@@ -119,9 +119,29 @@ $(document).ready(function(){
     				 reservationCheck();
     			 }
          	 }
-		});
-		
-		$(".datepicker").change(function(){
+		}); 
+		$(".datepicker").change(function() {
+			
+			var tDate = new Date();
+			var month = (tDate.getMonth() + 1);month = month >= 10 ? month : '0' + month;
+			today = tDate.getFullYear() + "." + month + "." + tDate.getDate();
+			var curHours = (tDate.getHours() + 3); curHours = curHours >= 10 ? curHours : '0' + curHours + 3;
+			var curTime = curHours + "00";
+			
+			console.log("todat : " +today);
+			console.log(' $(".datepicker").val()' + $(".datepicker").val());
+			
+			if($(".datepicker").val() == today) {
+				console.log("오늘임");
+				console.log("curTime : " + curTime);
+				<c:forEach items="${shop.shopTime}" var="shopTime" varStatus="status">
+				var orderTime = ('${shopTime.shopOrderTime}').replace(":", "");
+				console.log("orderTime : " + orderTime);
+				if(orderTime <= curTime) {
+					$("#shopTime${status.index}").attr('style', "display:none;");
+				}
+				</c:forEach>
+			}
 			$("#datepicker-ul").attr('style', "display:inline;");
 		});
 
@@ -145,6 +165,18 @@ $(document).ready(function(){
 				<c:forEach items="${shop.shopTime}" var="shopTime" varStatus="status">
 					if($(this).text() ==  '${shopTime.shopOrderTime}') {
 					 	type = '${shopTime.shopTimeType}';
+					 	<c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status2">
+						if(type != '${shopMenu.shopMenuCode}'){
+							console.log("type : " + type);
+							console.log("type : " + type);
+					 		$("#shopMenu${status2.index}").attr('style', "display:none;");
+					 	}
+						if(type == '${shopMenu.shopMenuCode}'){
+							console.log("type : " + type);
+							console.log("type : " + type);
+					 		$("#shopMenu${status2.index}").attr('style', "display:inline;");
+					 	} 
+						</c:forEach>
 					 	$(".shopOrderMenu").text("");
 					 	$("#totalAmount").text(0);
 					 	shopOrderMenuTotalAmount = 0;
@@ -183,7 +215,7 @@ $(document).ready(function(){
          	 	  reservationDate: $("#reservationDate").val(),
 		          reservationTime: $("#reservationTime").val(),
 		          reservationPeople:$("#reservationPeople").val(),
-		          counterSeatYN: $("#counterSeatYN").val(),
+		          counterSeatYN: $("#counterSeatYN ").val(),
 		          totalAmount: $("#totalAmount2").val(),
 		          <c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
 		          orderMenu${status.index}: menuList[${status.index}],
@@ -599,7 +631,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
         	   		<input type="hidden" name="shopOrderMenuQuantity${status.index}" value="0" />
                </c:forEach>
                <input type="hidden" name="totalAmount2" id="totalAmount2" value="0">
-               <input type="hidden" name="counterSeatYN" id="" value="N"><!-- 카운터석으로 앉을지 여부 Y는 카운터석, N은 카운터석이 아닌자리 -->
+               <input type="hidden" name="counterSeatYN" id="counterSeatYN" value="N"><!-- 카운터석으로 앉을지 여부 Y는 카운터석, N은 카운터석이 아닌자리 -->
             </form>
         </div>
         </section>
