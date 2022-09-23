@@ -92,7 +92,7 @@ $(document).ready(function() {
             if(response.code == 0)
               {
                alert("게시물이 등록되었습니다.");
-               location.href = "/help/helpList";
+          	   location.href="/help/helpList";
               }
             else if(response.code == 400)
               {
@@ -128,17 +128,7 @@ $(document).ready(function() {
  <section id="communityWriteForm" class="community">
   <div class="container">
    <div class = "row">
-    <div class="d-flex flex-row justify-content-center">
-      <div class="notice">
-        <p>Community 글 작성시 유의사항</p>
-          <ul>- 홍보/비방/욕설/기타 특성에 맞지 않는 등의 글은 관리자가 내용 확인 후 임의로 삭제할 수 있습니다.<br/>
-              - 작성 시 반드시 하나의 파일을 첨부해야 하며, 등록된 이미지는 추후 대표 이미지로 적용될 수 있습니다.<br/>
-              - 회원 탈퇴하여도 게시물 내용은 삭제되지 않습니다.
-          </ul>
-      </div>
-    </div>
-
-    <form name="writeForm" id="writeForm" method="post" enctype="multipart/form-data">
+      <form name="writeForm" id="writeForm" method="post" enctype="multipart/form-data">
       <input type="hidden" name="bbsNo" value="${bbsNo}" />
       <table>
         <tr>
@@ -213,7 +203,7 @@ $(document).ready(function() {
    </div>
 
    <form name="bbsForm" id="bbsForm" method="post">
-    <input type="hidden" name="bbsNo" value="${bbsNo}" />
+    <input type="hidden" id="bbsNo" name="bbsNo" value="${bbsNo}" />
     <input type="hidden" name="searchType" value="" />
     <input type="hidden" name="searchValue" value="" />
     <input type="hidden" name="curPage" value="" />

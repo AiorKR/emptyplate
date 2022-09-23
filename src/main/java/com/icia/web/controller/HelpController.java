@@ -361,6 +361,7 @@ public class HelpController {
 				if(boardService.boardInsert(board) > 0)
 				{
 					ajaxResponse.setResponse(0, "success");
+					ajaxResponse.setData(bbsNo);
 				}
 				else
 				{
