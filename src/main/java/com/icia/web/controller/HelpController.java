@@ -137,7 +137,7 @@ public class HelpController {
 		//페이징 객체
 		Paging paging = null;
 		//게시판 번호
-		int bbsNo = Integer.parseInt(HttpUtil.get(request, "bbsNo"));
+		int bbsNo = HttpUtil.get(request, "bbsNo", (int) 0);
 		board.setBbsNo(bbsNo);
 		
 		User user = null;
