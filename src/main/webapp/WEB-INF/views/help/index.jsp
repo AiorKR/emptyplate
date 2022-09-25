@@ -79,8 +79,7 @@ function fn_view(bbsSeq)
 		        	</c:if>
             </div>
           </div>
-        </div>
-        <div class="col-lg-12">
+          
           <div id = "faq">
             <h3>FAQ</h3>
             <h4 id ="_bbsNo" name="_bbsNo" value="2"><a class="page-link" onclick="fn_helpList(2)">FAQ 모두보기<ion-icon name="arrow-forward-outline"></ion-icon></a></h4>

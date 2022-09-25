@@ -137,23 +137,21 @@ $(document).ready(function(){
 									<img alt=""
 										src="../resources/upload/shop/${shop.shopUID}/${shop.shopFile.shopFileName}"
 										style="height: 300px; width: 300px; position: relative; left: 150px; top: 25px;">
-									<span style="position: relative; bottom: 220px; left: 600px;">
+									<span style="position: relative; bottom: 250px; left: 600px;">
 										<h3>${shop.shopName}</h3>
 										<ul>
 											<li><i class="fa-solid fa-map-location-dot"></i>
 												${shop.shopLocation1} ${shop.shopLocation2}
 												${shop.shopLocation3} ${shop.shopAddress}</li>
 											<li><i class="fa-regular fa-star"></i> 별점 4.3 (500)</li>
+											<li><ion-icon name="information-circle-outline"></ion-icon> ${shop.shopIntro}</li>
+											<c:forTokens items="${shop.shopHashtag}" delims="#"	var="shopHashtag">
+												<span onclick="fn_search('${shopHashtag}')" class="hashtag"> 
+												<i class="fa-solid fa-hashtag"><c:out value='${shopHashtag}' /></i>
+												</span>
+											</c:forTokens>
 										</ul>
-										<p class="fa-solid fa-pen" style="color: #cda45e; font-size: 19px;">
-											${shop.shopIntro}</p>
-										<br /> <c:forTokens items="${shop.shopHashtag}" delims="#"
-											var="shopHashtag">
-											<span onclick="fn_search('${shopHashtag}')"
-												style="cursor: pointer;"> <i
-												class="fa-solid fa-hashtag"><c:out value='${shopHashtag}' /></i>
-											</span>
-										</c:forTokens>
+										
 									</span>
 								</div>
 							</div>
