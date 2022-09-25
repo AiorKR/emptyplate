@@ -123,6 +123,16 @@ $(document).ready(function() {
 		   
 		   $("#userPwd2").val($("#userPwd3").val());
 		   
+		   if($("#agree").is(":checked") == true) {
+				console.log("체크된상태");
+		   }
+		   else
+		   {
+				console.log("체크안된상태");
+				alert("약관에 동의해주세요.");
+				return;
+		   }	
+		   
 
 		   //아이디 중복체크 ajax
 		   $.ajax({
@@ -642,7 +652,7 @@ userPhone.value = "인증되었습니다"
    <!-- ======= Login Section ======= -->
   <section id="log" class="d-flex align-items-center">
     <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100" style="margin-top: 150px;">
-      <div class="row">
+      <div class="row" style="margin-bottom:40px; margin-top:40px;">
         <!--로그인-->
         
         
@@ -681,7 +691,7 @@ userPhone.value = "인증되었습니다"
 		            </label>
 		                <label class="Membership-Terms">
 		                           	<p>회원약관에 동의하시겠습니까?</p>
-               		 <input class="Membership-Terms" type="checkbox" onclick="signUpPopUp()" style="color: #C2A383;" />
+               		 <input class="Membership-Terms" type="checkbox" onclick="signUpPopUp()" id="agree" style="color: #C2A383;" />
                    
 		            <button type="button" id="btnReg" class="submit">회원가입</button>
 		    	</form> 

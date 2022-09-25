@@ -123,6 +123,15 @@ $(document).ready(function() {
 		   
 		   $("#userPwd2").val($("#userPwd3").val());
 		   
+		   if($("#agree").is(":checked") == true) {
+				console.log("체크된상태");
+		   }
+		   else
+		   {
+				console.log("체크안된상태");
+				alert("약관에 동의해주세요.");
+				return;
+		   }	
 
 		   //아이디, 닉네임중복체크 ajax
 		   $.ajax({
@@ -299,7 +308,6 @@ function fn_userReg()
       }
   });
 }
-
 
 Kakao.init('37cdbda3af5494984233ca8e8d7d9f7b'); //발급받은 키 중 javascript키를 사용해준다.
 console.log(Kakao.isInitialized()); // sdk초기화여부판단
@@ -511,7 +519,10 @@ function signUpPopUp() {
 	
 	var signUpPopUp = window.open("./signUpPopUp", "pop", "top="+popY+", left="+popX+",width="+popWidth+",height="+popHeight+"resizable=yes"); 
 };
+
+
 //약관동의 끝
+
 
 
 //비밀번호 찾기 시작
@@ -643,7 +654,7 @@ userPhone.value = "인증되었습니다"
   <!-- ======= Login Section ======= -->
   <section id="log" class="d-flex align-items-center">
     <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100" style="margin-top: 150px;">
-      <div class="row">
+      <div class="row" style="margin-bottom:40px; margin-top:40px;">
         <!--로그인-->
         <div class="cont" style="margin:auto;">
           <div class="form sign-in">
@@ -709,7 +720,7 @@ userPhone.value = "인증되었습니다"
 		            </label>
               <label class="Membership-Terms">
               	<p>회원약관에 동의하시겠습니까?</p>
-                <input class="Membership-Terms" type="checkbox" onclick="signUpPopUp()" style="color: #C2A383;" />
+                <input class="Membership-Terms" type="checkbox" onclick="signUpPopUp()" id="agree" style="color: #C2A383;" />
                 <button type="button" id="btnReg" class="submit">회원가입</button>
                 <button type="button" onclick="kakaoLogin()"><img src="/resources/images/kakao_login_medium_wide.png" style="margin:auto;" /></button></label>
             </div>

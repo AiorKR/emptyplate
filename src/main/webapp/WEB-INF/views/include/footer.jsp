@@ -24,7 +24,7 @@
           </div>
 
           <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Empty Plate</h4>
+            <h3 class="footer-list">Empty Plate</h3>
             <ul>
               <li><i class="bx bx-chevron-right"></i> <a href="/footer/aboutus">About US</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="/footer/company">Company</a></li>
@@ -33,7 +33,7 @@
           </div>
 
           <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Our Services</h4>
+            <h3 class="footer-list">Our Services</h3>
             <ul>
               <li><i class="bx bx-chevron-right"></i> <a href="reservation/list">예약</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="/today/list">Today</a></li>
@@ -43,7 +43,7 @@
           </div>
 
           <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Resources</h4>
+            <h3 class="footer-list">Resources</h3>
             <ul>
               <li><i class="bx bx-chevron-right"></i> <a href="/footer/resources">개인정보 처리방침</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="/footer/resources2">서비스 이용약관</a></li>
@@ -60,8 +60,7 @@
     </div>
   </footer><!--End Footer-->
   
-<div id="preloader"></div>
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
 
 <!-- Vendor JS Files -->
 <script src="/resources/vendor/aos/aos.js"></script>

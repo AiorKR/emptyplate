@@ -86,6 +86,5 @@ public interface UserDao
 	public int userLikeDelete(User user);
 
 	public List<User> markUserList(String userUID);
-	
 
 }

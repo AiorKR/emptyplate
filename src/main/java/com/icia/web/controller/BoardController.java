@@ -213,6 +213,8 @@ public class BoardController
 		model.addAttribute("sortValue", sortValue);
 		model.addAttribute("curPage", curPage);
 		model.addAttribute("paging", paging);
+		
+		
 		User user2 = new User();
 		user2 = userService.userUIDSelect(cookieUserUID);
 		if(user2 != null)
@@ -843,7 +845,7 @@ public class BoardController
 		totalCount = boardService.markListCount(board);
 		
 		if(totalCount > 0)
-		{	
+		{
 			paging = new Paging("/board/markList", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
 			
 			paging.addParam("bbsNo", board.getBbsNo());

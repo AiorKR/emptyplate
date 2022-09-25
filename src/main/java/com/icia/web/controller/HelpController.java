@@ -12,10 +12,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.icia.common.model.FileData;
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Board;
+import com.icia.web.model.BoardFile;
 import com.icia.web.model.Paging;
+import com.icia.web.model.Response;
 import com.icia.web.model.User;
 import com.icia.web.service.BoardService;
 import com.icia.web.service.UserService;
@@ -131,8 +137,8 @@ public class HelpController {
 		//페이징 객체
 		Paging paging = null;
 		//게시판 번호
-		String bbsNo = HttpUtil.get(request, "bbsNo");
-		board.setBbsNo(Integer.parseInt(bbsNo));
+		int bbsNo = HttpUtil.get(request, "bbsNo", (int) 0);
+		board.setBbsNo(bbsNo);
 		
 		User user = null;
 		user = userService.userUIDSelect(cookieUserUID);
@@ -149,7 +155,11 @@ public class HelpController {
 		if(totalCount > 0)
 		{
 			paging = new Paging("/help/helpList", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
-			
+			logger.debug("################################");
+			logger.debug("################################");
+			logger.debug("totalCount : " + totalCount);
+			logger.debug("################################");
+			logger.debug("################################");
 			paging.addParam("bbsNo", bbsNo);
 			paging.addParam("searchType", searchType);
 			paging.addParam("searchValue", searchValue);
@@ -170,7 +180,6 @@ public class HelpController {
 		model.addAttribute("sortValue", sortValue);
 		model.addAttribute("curPage", curPage);
 		model.addAttribute("paging", paging);
-		
 		User user2 = new User();
 		user2 = userService.userUIDSelect(cookieUserUID);
 		if(user2 != null)
@@ -184,11 +193,12 @@ public class HelpController {
 				logger.error("[HelpController] help/helpList NullPointerException", e);
 			}
 		}
+		model.addAttribute("admin", user2.getAdminStatus());
 		
 		return "/help/helpList";
 	}
 	
-	@RequestMapping(value="/help/helpView")
+	@RequestMapping(value="/help/helpView", method=RequestMethod.POST)
 	public String helpView(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	{
 		 //조회 객체
@@ -206,6 +216,9 @@ public class HelpController {
 	       String searchValue = HttpUtil.get(request, "searchValue", "");
 	       //현재 페이지
 	       long curPage = HttpUtil.get(request, "curPage", (long)1);
+	       logger.debug("#################################");
+	       logger.debug("#curPage" + curPage);
+	       logger.debug("#################################");
 	      
 	       if(bbsSeq > 0)
 	       {
@@ -238,4 +251,326 @@ public class HelpController {
 			}
 	       return "/help/helpView";
 	}
+	@RequestMapping(value="/help/helpWriteForm", method=RequestMethod.POST)
+	public String helpWriteForm(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+	{	
+		//조회 객체
+		Board board = null;
+		//쿠키값
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		//게시판 번호
+		int bbsNo = HttpUtil.get(request, "bbsNo", 0);
+		User user = userService.userSelect(cookieUserUID);
+		User user2 = new User();
+		user2 = userService.userUIDSelect(cookieUserUID);
+		//게시물 번호
+		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+		//조회항목(1:작성자, 2:제목, 3:내용)
+		String searchType = HttpUtil.get(request, "searchType");
+		//조회 값
+		String searchValue = HttpUtil.get(request, "searchValue", "");
+		//현재 페이지
+		long curPage = HttpUtil.get(request, "curPage", (long)1);
+	   logger.debug("#################################");
+	   logger.debug("#curPage" + curPage);
+	   logger.debug("#################################");
+		      
+	       if(bbsSeq > 0)
+	       {
+	          board = boardService.boardView(bbsSeq);
+	          
+		      if(!StringUtil.isEmpty(cookieUserUID) && bbsSeq > 0)
+		      {
+		         board.setBbsSeq(bbsSeq);
+		         board.setUserUID(cookieUserUID);
+		      }
+	       }
+	       model.addAttribute("bbsSeq", bbsSeq);
+	       model.addAttribute("board", board);
+	       model.addAttribute("cookieUserUID",cookieUserUID);
+	       model.addAttribute("user", user);
+	       model.addAttribute("admin", user2.getAdminStatus());
+	       model.addAttribute("searchType", searchType);
+	       model.addAttribute("searchValue", searchValue);
+	       model.addAttribute("curPage", curPage);
+	       model.addAttribute("bbsNo", bbsNo);
+	      
+			if(user2 != null)
+			{
+				try
+				{
+					model.addAttribute("cookieUserNick", user2.getUserNick());
+				}
+				catch(NullPointerException e)
+				{
+					logger.error("[helpController] /help/helpWriteFrom NullPointerException", e);
+				}
+			}
+			
+	       return "/help/helpWriteForm";
+	}
+	//게시물 등록
+	@RequestMapping(value="/help/helpWriteProc", method=RequestMethod.POST)
+	@ResponseBody
+	public Response<Object> helpWriteProc(MultipartHttpServletRequest request, HttpServletResponse response)
+	{
+		Response<Object> ajaxResponse = new Response<Object>();
+		//쿠키값
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		//제목
+		String bbsTitle = HttpUtil.get(request, "bbsTitle", "");
+		//내용
+		String bbsContent = HttpUtil.get(request, "bbsContent", "");
+		//첨부파일
+		FileData fileData = HttpUtil.getFile(request, "bbsFile", BOARD_UPLOAD_SAVE_DIR);
+		//게시판 번호
+		int bbsNo = HttpUtil.get(request, "bbsNo", 0);
+		logger.debug("#################################");
+		logger.debug("#################################");
+		logger.debug("#helpWriteProc bbsNo :" + bbsNo);
+		logger.debug("#################################");
+		logger.debug("#################################");
+		//댓글
+		String bbsComment = HttpUtil.get(request, "bbsComment", "");
+
+		if(!StringUtil.isEmpty(bbsTitle) && !StringUtil.isEmpty(bbsContent) && !StringUtil.isEmpty(bbsComment))
+		{
+	        Board board = new Board();
+	         
+	        board.setBbsNo(bbsNo);
+	        board.setUserUID(cookieUserUID);
+	        board.setBbsTitle(bbsTitle);
+	        board.setBbsContent(bbsContent);
+	        board.setBbsComment(bbsComment);
+			
+	        //첨부파일이 있을 때
+		    if(fileData != null && fileData.getFileSize() > 0)
+		    {
+				BoardFile boardFile = new BoardFile();	
+				
+				boardFile.setFileName(fileData.getFileName());
+				boardFile.setFileOrgName(fileData.getFileOrgName());
+				boardFile.setFileExt(fileData.getFileExt());
+				boardFile.setFileSize(fileData.getFileSize());
+				
+				board.setBoardFile(boardFile);	
+		    }
+
+		    try
+			{
+				if(boardService.boardInsert(board) > 0)
+				{
+					ajaxResponse.setResponse(0, "success");
+					ajaxResponse.setData(bbsNo);
+				}
+				else
+				{
+					ajaxResponse.setResponse(500, "internal server error");
+				}
+			}
+			catch(Exception e)
+			{
+				logger.error("[helpController] /help/helpWriteProc Exception", e);
+				ajaxResponse.setResponse(500, "internal server error");
+			}	
+		}
+		else
+		{
+			ajaxResponse.setResponse(400, "Bad Request");
+		}
+		
+		return ajaxResponse;
+	}
+	
+	 //게시물 수정 form
+   	@RequestMapping(value="/help/helpUpdateForm")
+  	public String helpUpdateForm(ModelMap model, HttpServletRequest request, HttpServletResponse rseponse)
+  	{
+   		//조회 객체
+  		Board board = null;
+  		//조회 유저 객체
+  		User user = null;
+   		//쿠키값
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+  		//게시물 번호
+  		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+  		//조회항목(1:작성자, 2:제목, 3:내용)
+  		String searchType = HttpUtil.get(request, "searchType", "");
+  		//조회값
+  		String searchValue = HttpUtil.get(request, "searchValue", "");
+  		//현재페이지
+  		long curPage = HttpUtil.get(request, "curPage", (long)1);
+  		
+  		if(bbsSeq > 0)
+  		{
+  			board = boardService.boardViewUpdate(bbsSeq);
+  			
+  			if(board != null)
+  			{
+  				if(StringUtil.equals(board.getUserUID(), cookieUserUID))
+  				{
+  					user = userService.userSelect(cookieUserUID);
+  				}
+  				else
+  				{
+  					board = null;
+  				}
+  			}
+  		}
+  		
+  		model.addAttribute("searchType", searchType);
+  		model.addAttribute("searchValue", searchValue);
+  		model.addAttribute("curPage", curPage);
+  		model.addAttribute("board", board);
+  		model.addAttribute("user", user);
+  		User user2 = new User();
+		user2 = userService.userUIDSelect(cookieUserUID);
+		if(user2 != null)
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", user2.getUserNick());
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[BoardController] board/updateForm NullPointerException", e);
+			}
+		}
+  		return "/help/helpUpdateForm";
+  	}
+  	
+   	
+  	//게시물 수정
+  	@RequestMapping(value="/help/helpUpdateProc", method=RequestMethod.POST)
+  	@ResponseBody
+  	public Response<Object> helpUpdateProc(MultipartHttpServletRequest request, HttpServletResponse response)
+  	{
+  		Response<Object> ajaxResponse = new Response<Object>();
+  		//쿠키값
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+  		//게시물 번호
+  		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+  		
+  		long bbsNo = HttpUtil.get(request, "bbsNo", (long)0);
+  		//제목
+  		String bbsTitle = HttpUtil.get(request, "bbsTitle", "");
+  		//내용
+  		String bbsContent = HttpUtil.get(request, "bbsContent", "");
+  		//첨부파일
+  		FileData fileData = HttpUtil.getFile(request, "bbsFile", BOARD_UPLOAD_SAVE_DIR);
+  		
+  		if(bbsSeq > 0 && !StringUtil.isEmpty(bbsTitle) && !StringUtil.isEmpty(bbsContent))
+  		{
+  			Board board = boardService.boardSelect(bbsSeq);
+  			
+  			if(board != null)
+  			{	
+  				if(StringUtil.equals(board.getUserUID(), cookieUserUID))
+  				{	
+  					board.setBbsTitle(bbsTitle);
+  					board.setBbsContent(bbsContent);
+  					
+  					//첨부파일 여부
+  					if(fileData != null && fileData.getFileSize() > 0)
+  					{	
+  						BoardFile boardFile = new BoardFile();
+  						boardFile.setFileName(fileData.getFileName());
+  						boardFile.setFileOrgName(fileData.getFileOrgName());
+  						boardFile.setFileExt(fileData.getFileExt());
+  						boardFile.setFileSize(fileData.getFileSize());
+  						
+  						board.setBoardFile(boardFile);
+  					}
+  					
+  					try
+  					{
+  						if(boardService.boardUpdate(board) > 0)
+  						{
+  							ajaxResponse.setResponse(0, "Success");
+  							ajaxResponse.setData(bbsNo);
+  						}
+  						else
+  						{
+  							ajaxResponse.setResponse(500, "Internal server error");
+  						}
+  					}
+  					catch(Exception e)
+  					{
+  						logger.error("[BoardController] updateProc Exception", e);
+  						ajaxResponse.setResponse(500, "Internal server error");
+  					}
+  				}
+  				else
+  				{
+  					ajaxResponse.setResponse(403, "Server error");
+  				}
+  			}
+  			else
+  			{
+  				ajaxResponse.setResponse(404, "Not found");
+  			}
+  		}
+  		else
+  		{
+  			ajaxResponse.setResponse(400, "Bad request");
+  		}
+  		
+  		return ajaxResponse;
+  	}
+  	
+  	
+  	//게시물 삭제
+  	@RequestMapping(value="/help/helpDelete", method=RequestMethod.POST)
+  	@ResponseBody
+  	public Response<Object> helpDelete(HttpServletRequest request, HttpServletResponse response)
+  	{
+  		Response<Object> ajaxResponse = new Response<Object>();
+  		//쿠키값
+  		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+  		//게시물 번호
+  		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
+  		long bbsNo = HttpUtil.get(request, "bbsNo", (long) 0);
+  		if(bbsSeq > 0)
+  		{			
+  			Board board = boardService.boardSelect(bbsSeq);
+  			
+  			if(board != null)
+  			{	
+  				if(StringUtil.equals(board.getUserUID(), cookieUserUID))
+  				{	
+  					try
+  					{
+						if(boardService.boardDelete(board.getBbsSeq()) > 0)
+						{
+							ajaxResponse.setResponse(0, "Success");
+							ajaxResponse.setData(bbsNo);
+						}
+						else
+						{
+							ajaxResponse.setResponse(500, "Internal server error");
+						}
+  					}
+  					catch(Exception e)
+  					{
+  						logger.error("[BoardController] delete Exception", e);
+  						ajaxResponse.setResponse(500, "Internal server error");
+  					}
+  				}
+  				else
+  				{	
+  					ajaxResponse.setResponse(403, "Server error");
+  				}
+  			}
+  			else
+  			{	
+  				ajaxResponse.setResponse(404, "Not found");
+  			}
+  		}
+  		else
+  		{
+  			ajaxResponse.setResponse(400, "Bad request");
+  		}
+  		
+  		return ajaxResponse;
+  	}
 }
