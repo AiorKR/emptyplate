@@ -121,6 +121,18 @@ $(document).ready(function() {
 		      return;
 		   }
 		   
+		   $("#userPwd2").val($("#userPwd3").val());
+		   
+		   if($("#agree").is(":checked") == true) {
+				console.log("체크된상태");
+		   }
+		   else
+		   {
+				console.log("체크안된상태");
+				alert("약관에 동의해주세요.");
+				return;
+		   }	
+
 		   //아이디, 닉네임중복체크 ajax
 		   $.ajax({
 		     type:"POST",
@@ -296,7 +308,6 @@ function fn_userReg()
       }
   });
 }
-
 
 Kakao.init('37cdbda3af5494984233ca8e8d7d9f7b'); //발급받은 키 중 javascript키를 사용해준다.
 console.log(Kakao.isInitialized()); // sdk초기화여부판단
@@ -507,10 +518,11 @@ function signUpPopUp() {
 	var popY = winY + (winHeight - popHeight)/2;
 	
 	var signUpPopUp = window.open("./signUpPopUp", "pop", "top="+popY+", left="+popX+",width="+popWidth+",height="+popHeight+"resizable=yes"); 
-	
-	var parentValue = opener.document.getElementById("parentId").value;
 };
+
+
 //약관동의 끝
+
 
 
 //비밀번호 찾기 시작

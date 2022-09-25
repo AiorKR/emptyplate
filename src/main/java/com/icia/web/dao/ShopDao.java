@@ -9,10 +9,14 @@ import com.icia.web.model.OrderMenu;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
 import com.icia.web.model.ShopReservationTable;
+import com.icia.web.model.ShopReview;
 import com.icia.web.model.ShopTotalTable;
 
 @Repository("shopdDao")
 public interface ShopDao {
+	
+	//인덱스 매장 리스트
+	public List<Shop> indexShopList(Shop shop);
 	
 	public long shopListTotlaCount(Shop shop); //매장 카운트
 	
@@ -52,4 +56,10 @@ public interface ShopDao {
 	public int reservationTableInser(List<ShopReservationTable> list);
 
 	public List<OrderMenu> myOrderMenu(String orderUID);
+	
+	public int regReqOne(ShopReview shopReview);
+
+	public int countReqOne(ShopReview shopReview);
+
+	public int updateReqOne(ShopReview shopReview);
 }

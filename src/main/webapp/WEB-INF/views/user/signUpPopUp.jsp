@@ -47,22 +47,19 @@ function agree_chk(){
 		console.log("체크된상태");
 		if($("#agree2").is(":checked") == true){
 			console.log("체크된상태");
-			
-			
-			
 			self.close();
 			}
 		else
 		{
 			console.log("체크안된상태");
 			alert("필수약관에 동의해주세요.");
-			retrun;
+			return;
 		}	
 	}
 	else{
 		console.log("체크안된상태");
 		alert("필수약관에 동의해주세요.");
-		retrun;
+		return;
 	}	
 }
 </script>
@@ -200,7 +197,7 @@ ul.join_box{border: 1px solid #ddd;background-color: #fff;}
         </ul>
         <ul class="footBtwrap clearfix">
             <li><button class="fpmgBt1">비동의</button></li>
-            <li><button class="fpmgBt2" onclick="agree_chk()">동의</button></li>
+            <li><button class="fpmgBt2" onclick="agree_chk()" id="agree">동의</button></li>
         </ul>
     </form>
 </body>
