@@ -318,5 +318,19 @@ public class ShopService {
 		            }
 		            return count;
 		      }
+
+			public int delReqOne(ShopReview shopReview) {
+				int count = 0;
+	            
+	            try
+	            {
+	               count = shopDao.delReqOne(shopReview);
+	            }
+	            catch(Exception e)
+	            {
+	               logger.error("[ShopService]delReqOne Exception", e);
+	            }
+	            return count;
+			}
 		
 }

@@ -59,4 +59,6 @@ public interface ShopDao {
 	public int countReqOne(ShopReview shopReview);
 
 	public int updateReqOne(ShopReview shopReview);
+
+	public int delReqOne(ShopReview shopReview);
 }

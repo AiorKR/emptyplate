@@ -318,7 +318,9 @@ SELECT S.SHOP_UID AS SHOP_UID,
 	<result column="ORDER_STATUS" property="orderStatus"/>
 	<result column="TOTAL_AMOUNT" property="totalAmount"/>
 	<result column="R_DATE" property="rDate"/>
-	<result column="REG_DATE" property="regDate"/>	
+	<result column="REG_DATE" property="regDate"/>
+	<result column="REVIEW_SCORE" property="shopScore"/>
+    <result column="REVIEW_CONTENT" property="shopReviewContent"/>	
 	<collection property="orderMenu" resultMap="orderMenuResultMap"/>
 	<collection property="shopReservationTable" resultMap="shopReservationTableResultMap"/>
 	</resultMap>
@@ -331,7 +333,9 @@ SELECT S.SHOP_UID AS SHOP_UID,
        		   ORDER_STATUS,
        		   TOTAL_AMOUNT,
        		   SHOP_UID,
-       		   R_DATE
+       		   R_DATE,
+               REVIEW_CONTENT,
+               REVIEW_SCORE
 		  FROM(SELECT ROWNUM AS RNUM,
              		  SHOP_NAME,
              		  ORDER_UID,
@@ -339,7 +343,9 @@ SELECT S.SHOP_UID AS SHOP_UID,
             		  ORDER_STATUS,	  
             		  TOTAL_AMOUNT,
             		  SHOP_UID,
-            		  R_DATE
+            		  R_DATE,
+                      REVIEW_CONTENT,
+                      REVIEW_SCORE
       FROM(SELECT DISTINCT NVL(B.SHOP_NAME, '') AS SHOP_NAME,
       			 NVL(A.ORDER_UID, '') AS ORDER_UID,
                  NVL(A.RESERVATION_PEOPLE, '') AS RESERVATION_PEOPLE,
@@ -347,11 +353,14 @@ SELECT S.SHOP_UID AS SHOP_UID,
                  NVL(A.TOTAL_AMOUNT, '') AS TOTAL_AMOUNT,
                  NVL(A.SHOP_UID, '') AS SHOP_UID,           
                  NVL(SUBSTR(C.RESERVATION_DATE,3,2)||'/'||SUBSTR(C.RESERVATION_DATE,5,2)||
-                '/'||SUBSTR(C.RESERVATION_DATE,7,2)||' '||SUBSTR(C.RESERVATION_TIME,1,2)||':'||SUBSTR(C.RESERVATION_TIME,3,2), '') AS R_DATE
-            FROM T_ORDER A, T_SHOP B, T_SHOP_RESERVATION_TABLE C
+                '/'||SUBSTR(C.RESERVATION_DATE,7,2)||' '||SUBSTR(C.RESERVATION_TIME,1,2)||':'||SUBSTR(C.RESERVATION_TIME,3,2), '') AS R_DATE,
+                 NVL(D.REVIEW_CONTENT, '') AS REVIEW_CONTENT,
+                 NVL(D.REVIEW_SCORE, '') AS REVIEW_SCORE
+            FROM T_ORDER A, T_SHOP B, T_SHOP_RESERVATION_TABLE C, T_SHOP_REVIEW D
             WHERE A.ORDER_UID = C.ORDER_UID
             AND A.SHOP_UID = B.SHOP_UID
-            AND A.USER_UID = #{userUID}))
+            AND A.USER_UID = #{userUID}
+            AND A.ORDER_UID = D.ORDER_UID(+)))
        WHERE RNUM <![CDATA[>=]]>  #{startRow}
        AND RNUM <![CDATA[<=]]>  #{endRow}
        ORDER BY RNUM DESC
@@ -529,4 +538,10 @@ SELECT RNUM,
        AND SHOP_UID = #{shopUID}
        AND ORDER_UID = #{orderUID}
 </select>
+
+<delete id="delReqOne" parameterType="com.icia.web.model.ShopReview">
+	DELETE FROM T_SHOP_REVIEW
+WHERE ORDER_UID = #{orderUID}
+  AND USER_UID = #{userUID}
+</delete>
 </mapper>
