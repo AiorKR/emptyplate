@@ -2,7 +2,7 @@
 <%
 	// 개행문자 값을 저장한다.
 	pageContext.setAttribute("newLine", "\n");
-	// Community 번호
+	// help 번호
 	request.setAttribute("No", 5);
 
 %>

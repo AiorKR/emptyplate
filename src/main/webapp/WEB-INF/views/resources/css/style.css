@@ -2990,7 +2990,7 @@ reservation 검색
 
 .reservation .collapse .btn {
   background: #C2A383;
-  color: rgba(225, 225, 225);
+  color: white;
   padding: 1px 20px;
   position: relative;
   border: 1px solid #C2A383;
@@ -3004,7 +3004,6 @@ reservation 검색
   border: 0;
   padding: 1px;
   width: calc(100% - 50px);
-  background: rgba(225, 225, 225);
   height: 38px;
   width: 190px;
   /*color: #0c0b09;*/
@@ -3116,63 +3115,48 @@ reservation 검색
 /*--------------------------------------------------------------
 # view
 --------------------------------------------------------------*/
-/*.view {
-  background: url(/resources/images/hero-bg.jpg) center center no-repeat;
-  background-size: cover;
-  width: 100%;
-}*/
-/*
-.view::before {
-  content: "";
-  background :rgba(16, 16, 16);
-  opacity: 0.95;
-  position: relative;
-  top: 15%;
-  right: 5%;
-  left: 5%;
-  bottom: 0%;
-}*/
-
 .view {
   width: 100%;
   height: 100%;
   background: url("/resources/images/hero-bg.jpg") top center;
   background-size: cover;
   position: relative;
-  
   padding: 0;
 }
 
-.view .container {
-  width: 100%;
-  height: 100%;
-  margin-top: 120px;
-  background-size: cover;
-  position: relative;
-  padding: 0;
+.view .container{
+  padding-top: 110px;
+}
+
+.view .row{
+  padding: 1% 1%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: inline-block;     
+  position: relative;                 
+}
+
+.view:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .view p span{
    font-family: 'Cafe24Dangdanghae';
 }
-.view:before{
-  content: "";
-  background: rgba(225, 225, 225);
-  opacity : 0.95;
-  position: absolute;
-  bottom: 0;
-  top: 12%;
-  left: 11%;
-  right: 11%;
-  border-radius: 20px;
-}
+
 .view .section-title h2 {
   color: #000;
 }
 
-.view .container {
-  position: relative;
-}
 
 @media (min-width: 1024px) {
   .view {
@@ -3340,7 +3324,7 @@ reservation 검색
 }
 
 .view .right-side {
-  position: relative
+  position: relative;
 }
 .view .search-option {
   position: absolute;
@@ -3415,7 +3399,7 @@ reservation 검색
   border: 1px solid rgba(255, 255, 255, 0.2);
   height: 50px;
   width: 150px;
-  border-radius: 10px !important
+  border-radius: 10px !important;
 }
 
 .view .buttons .btn:hover {
@@ -3423,6 +3407,23 @@ reservation 검색
   background-color: #d3af71;
 }
 
+.view .buttons .btn2 {
+  color: #000;
+  background-color: #C2A383;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  height: 50px;
+  width: 150px;
+  border-radius: 10px !important;
+  display:table-cell;
+  vertical-align:middle;
+  text-align:center;
+  font-size:15px;
+}
+
+.view .buttons .btn2:hover {
+  color:#fff;
+  background-color: #d3af71;
+}
 .view .thumbnail_images {
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -3432,6 +3433,9 @@ reservation 검색
 .view  #view-notice {
   color:#cda45e;
 }
+.view  .hr-5 {
+  margin-top: 20px;
+}
 .view .review-container {
   margin-top: 10px;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
@@ -3439,6 +3443,16 @@ reservation 검색
 .view #review-title {
   text-align: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+.view .review li{
+  list-style: none;
+  text-align: left;
+  color:#000;
+}
+.view .review a{
+  list-style: none;
+  text-align: left;
+  color:#000;
 }
 
 .view .review ul{
@@ -3478,6 +3492,7 @@ reservation 검색
   list-style: none; 
   display: none;
   border: 1px solid #999;
+  margin-top: 5px;
 }
 
 .view .option:hover {
@@ -3495,6 +3510,8 @@ reservation 검색
   bottom: 10px;
   height: 38px;
   border-radius: 25px;
+  margin-left: 50px;
+  margin-right: 2px;
 }
 
 .view .datepicker {
@@ -3508,6 +3525,7 @@ reservation 검색
   height: 38px;
   border-radius: 25px;
   color: #c78e54;
+  margin-left: 2px;
 }
 
 .view .personnel-select:hover {
@@ -3528,6 +3546,7 @@ reservation 검색
   color: #cda45e;
   text-align: center;
   z-index: 1;
+  line-height:20px;
 }
 
 .view .option {
@@ -3552,9 +3571,10 @@ reservation 검색
   left: 50%;
 }
 .view .modal-body {
-  height: 60vh;
+  /*height: 60vh;*/
   z-index: 0;
   border-top: solid 3px #d3af71;
+  border-bottom: solid 3px #d3af71;
 }
 .view .modal-footer {
   display: flex;
@@ -3598,7 +3618,6 @@ reservation 검색
   text-align: center;
   z-index: 0;
 }
-
 .view .menu {
   position: relative;
   height: 30px;
@@ -3623,16 +3642,21 @@ reservation 검색
 	text-align: center;
 }
 
-.view .selectcontent {
+.view #selectcontent {
 	height:50px;
 	position: relative;
 	margin: auto;
 	word-break:break-all;
 }
+.view .order{
+	border: 3px solid #d3af71; 
+	border-radius: 8px; 
+	font-size: 28px;	
+	position: relative;
+}
 
 /*즐겨찾기 버튼*/
 .view .bookmark button {
-  /*margin-top: 10px;*/
   background: rgba(225, 225, 225);
   border:3px solid #C2A383;
   padding: 3px 15px;
@@ -3642,7 +3666,8 @@ reservation 검색
   font-family: 'Cafe24Dangdanghae';
   font-size: 17px;
   margin-left: 5px;
-  float: center;
+  /*float: center;
+  position: relative;*/
 }
 
 .view .bookmark button:hover {
@@ -3661,25 +3686,10 @@ reservation 검색
 /*--------------------------------------------------------------
 #today Start
 --------------------------------------------------------------*/
-/*.today {
-  background: url(/resources/images/hero-bg.jpg) center center no-repeat;
-  background-size: cover;
-  width: 100%;
-}*/
+/*
 .today-container {
   margin-top: 100px;
 }
-/*
-.today::before {
-  content: "";
-  background :rgba(16, 16, 16);
-  opacity: 0.95;
-  position: relative;
-  top: 15%;
-  right: 5%;
-  left: 5%;
-  bottom: 0%;
-}*/
 
 .today {
   width: 100%;
@@ -3704,6 +3714,40 @@ reservation 검색
 
 .today .container {
   position: relative;
+}*/
+
+.today {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+}
+
+.today .container{
+  padding-top: 110px;
+}
+
+.today .row{
+  padding: 1% 1%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: inline-block;     
+  position: relative;                 
+}
+
+.today:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 @media (min-width: 1024px) {
@@ -3790,10 +3834,6 @@ reservation 검색
   width: 100%;
 }
 
-.today .table tr {
-  border: none;
-}
-
 /*
 today 검색
 */
@@ -3809,7 +3849,7 @@ today 검색
 
 .today .collapse .btn {
   background: #C2A383;
-  color: rgb(255, 255, 255);
+  color: white;
   padding: 1px 20px;
   position: relative;
   border: 1px solid #C2A383;
@@ -3823,7 +3863,6 @@ today 검색
   border: 0;
   padding: 1px;
   width: calc(100% - 50px);
-  background: rgba(225, 225, 225);
   height: 38px;
   width: 190px;
   /*color: #0c0b09;*/
@@ -4478,6 +4517,11 @@ hr[role="tournament1"]::before {
 #soloTable li span{
   margin-left: 20px;
   color:#000;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 800px;
 }
 #soloTitle, #solocontent{
   margin-left: 10px;
