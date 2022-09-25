@@ -29,6 +29,24 @@ public class ShopService {
 	
 	@Autowired
 	private ShopDao shopDao;
+		
+		public List<Shop> indexShopList(Shop shop)
+		{
+			List<Shop> list = null;
+			
+			try
+			{	
+				list = shopDao.indexShopList(shop);
+				
+			}
+			catch(Exception e)
+			{
+				logger.error("[ShopService] indexShopList Exception", e);
+			}
+			
+			
+			return list;
+		}
 	
 		public long shopListCount(Shop shop) //매장 총 갯수
 		{

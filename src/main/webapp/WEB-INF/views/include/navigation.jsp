@@ -53,7 +53,6 @@
 		<li><a class="nav-link scrollto <c:if test="${No == 3}"> active</c:if>" href="/today/list">Today</a></li> 
 		<li><a class="nav-link scrollto <c:if test="${No == 4}"> active</c:if>" href="/board/list">Community</a></li>
 		<li><a class="nav-link scrollto <c:if test="${No == 5}"> active</c:if>" href="/help/index">Help</a></li>
-		<li><a class="nav-link scrollto <c:if test="${No == 6}"> active</c:if>" href="/kakao/pay">pay</a></li>
 	  </ul>
 	  <i class="bi bi-list mobile-nav-toggle"></i>
 	</nav><!-- .navbar -->

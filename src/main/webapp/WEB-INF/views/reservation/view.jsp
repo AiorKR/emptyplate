@@ -424,6 +424,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 	<section id="view" class="view">
 		<!-- Product Slider -->
 		<div class="container">
+		  <div class="row">
 			<div class="card">
 				<div class="row g-0">
 					<div class="col-md-6" style="border-right: 2px solid #C2A383;">
@@ -564,7 +565,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 											<div id="selectcontent">
 												<div class="personnel-select" style="margin-left: 55px;">
 													<div class="personnel-selected">
-														<div class="personnel-selected-value">인원을 선택해주세요</div>
+														<div class="personnel-selected-value" style="line-height:20px;">인원을 선택해주세요</div>
 													</div>
 													<ul id="select-ul">
 														<li class="option">1명</li>
@@ -579,7 +580,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 													</ul>
 												</div>
 												<input type="text" class="datepicker"
-													placeholder="날자를 선택해주세요" name="date" readonly>
+													placeholder="날짜를 선택해주세요" name="date" readonly>
 												<div class="box">
 													<ul id="datepicker-ul">
 														<li id="datepicker-li"><c:forEach
@@ -591,9 +592,10 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 												</div><br /><br/>
 												<c:if test="${shop.shopType eq 2}">
 													<!-- 오마카세일때 적용 -->
-	                                    	카운터석 : <input type="checkbox"
-														id="counterSeat" class="counterSeat" />
-	                                    	* 카운터석은 연속되게 앉을 수 없을 수도 있습니다. *
+													<div style="text-align:center;">
+	                                    	*카운터석은 연속되게 앉을 수 없을 수도 있습니다.&nbsp;&nbsp;<input type="checkbox"
+														id="counterSeat" class="counterSeat" style="" />
+	                                    	</div>
                                   		</c:if>
 												<br />
 												<br />
@@ -607,7 +609,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 															<tr id="shopMenu${status.index}" style="font-size: 26px;">
 																<td>${shopMenu.shopMenuName}</td>
 
-																<td>${shopMenu.shopMenuPrice} 원</td>
+																<td>${shopMenu.shopMenuPrice} 원 &nbsp;&nbsp;</td>
 																<td><input type="button" value="+"
 																	onclick="fn_MenuAdd('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})"
 																	class="btn btn-primary"
@@ -672,6 +674,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 						<li><a href="#">Review text1</a></li>
 					</ul>
 				</div>
+			 </div>
 			</div>
 
              <form name="bbsForm" id="bbsForm" method="post">
