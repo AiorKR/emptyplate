@@ -36,18 +36,8 @@ $(document).ready(function() {
          return;
       }
       
-      //댓글허용
-      var comment = document.getElementById('bbsComment1');
-      var resultValue = comment.checked;
-      if(resultValue == true)
-      {
-         $('#bbsComment').val("Y");
-      }
-      else
-      {
+
          $('#bbsComment').val("N");
-      }
-      
       var form = $("#updateForm")[0];
       var formData = new FormData(form);
       
@@ -85,7 +75,9 @@ $(document).ready(function() {
             else if(response.code == 404)
               {
                alert("게시물을 찾을 수 없습니다.");
-               location.href = "/help/helpList";
+               document.bbsForm.bbsNo = response.data;
+               document.bbsForm.action = "/help/helpList";
+               document.bbsForm.submit();
               }
             else
               {
@@ -104,7 +96,7 @@ $(document).ready(function() {
    
    //목록
    $("#btnList").on("click", function() {
-      document.bbsForm.action = "/board/list";
+      document.bbsForm.action = "/help/helpList";
       document.bbsForm.submit();
    });
 });

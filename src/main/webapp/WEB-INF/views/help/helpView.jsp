@@ -35,7 +35,7 @@ $(document).ready(function() {
       {
          $.ajax({
             type:"POST",
-            url:"/board/delete",
+            url:"/help/helpDelete",
             data:{
                bbsSeq:<c:out value="${board.bbsSeq}" />
             },
@@ -47,7 +47,9 @@ $(document).ready(function() {
                if(response.code == 0)
                {
                   alert("게시물이 삭제되었습니다.");
-                  location.href = "/help/helpList";
+                  document.bbsForm.bbsNo = response.data;
+                  document.bbsForm.action = "/help/helpList";
+                  document.bbsForm.submit();
                }
                else if(response.code == 400)
                {
