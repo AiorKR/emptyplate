@@ -14,6 +14,9 @@ import com.icia.web.model.ShopTotalTable;
 @Repository("shopdDao")
 public interface ShopDao {
 	
+	//인덱스 매장 리스트
+	public List<Shop> indexShopList(Shop shop);
+	
 	public long shopListTotlaCount(Shop shop); //매장 카운트
 	
 	public List<Shop> shopList(Shop shop); //매장 리스트
