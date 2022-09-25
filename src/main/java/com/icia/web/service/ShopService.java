@@ -15,6 +15,7 @@ import com.icia.web.model.Order;
 import com.icia.web.model.OrderMenu;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
+import com.icia.web.model.ShopReview;
 import com.icia.web.model.ShopTotalTable;
 
 @Service("shopService")
@@ -293,5 +294,47 @@ public class ShopService {
 			
 			return count;
 		}
+		
+		   public int regReqOne(ShopReview shopReview) {
+		         int count = 0;
+		            
+		            try
+		            {
+		               count = shopDao.regReqOne(shopReview);
+		            }
+		            catch(Exception e)
+		            {
+		               logger.error("[ShopService]regOne Exception", e);
+		            }
+		            return count;
+		      }
 
+		      public int countReqOne(ShopReview shopReview) {
+		         int count = 0;
+		            
+		            try
+		            {
+		               count = shopDao.countReqOne(shopReview);
+		            }
+		            catch(Exception e)
+		            {
+		               logger.error("[ShopService]countReqOne Exception", e);
+		            }
+		            return count;
+		      }
+
+		      public int updateReqOne(ShopReview shopReview) {
+		         int count = 0;
+		            
+		            try
+		            {
+		               count = shopDao.updateReqOne(shopReview);
+		            }
+		            catch(Exception e)
+		            {
+		               logger.error("[ShopService]updateReqOne Exception", e);
+		            }
+		            return count;
+		      }
+		
 }
