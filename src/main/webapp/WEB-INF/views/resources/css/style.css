@@ -412,7 +412,7 @@ ion-icon{
   right: 15px;
 }
 
-.navbar-mobile ul {nam
+.navbar-mobile ul {
   display: block;
   position: absolute;
   top: 55px;
@@ -1580,8 +1580,8 @@ section {
 
 #communityView .row{
   padding: 1% 1%;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 30px;
+  margin-bottom: 30px;
   width : 100%;                               
   background-color:rgba(255, 255, 255, 0.8);   
   border-radius: 1em;                         
@@ -2830,24 +2830,6 @@ section {
 /*--------------------------------------------------------------
 # Reservation start
 --------------------------------------------------------------*/
-/*.reservation {
-  background: url(/resources/images/hero-bg.jpg) center center no-repeat;
-  background-size: cover;
-  width: 100%;
-}*/
-
-/*
-.reservation::before {
-  content: "";
-  background :rgba(16, 16, 16);
-  opacity: 0.95;
-  position: relative;
-  top: 15%;
-  right: 5%;
-  left: 5%;
-  bottom: 0%;
-}*/
-
 .reservation {
   width: 100%;
   height: 100%;
@@ -2860,21 +2842,31 @@ section {
 .reservation h2{
    color:#000
 }
+
 .reservation-container {
-  margin-top: 100px;
+  margin-top: 110px;
   
+}
+
+.reservation .row{
+  padding: 1% 1%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: inline-block;     
+  position: relative;                 
 }
 
 .reservation:before {
   content: "";
-  background: rgba(225, 225, 225);
-  opacity : 0.95;
+  background: rgba(0, 0, 0, 0.5);
   position: absolute;
   bottom: 0;
-  top: 6%;
-  left: 11%;
-  right: 11%;
-  border-radius: 20px;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .reservation .section-title h2 {
@@ -2998,7 +2990,7 @@ reservation 검색
 
 .reservation .collapse .btn {
   background: #C2A383;
-  color: rgb(16, 16, 16);
+  color: rgba(225, 225, 225);
   padding: 1px 20px;
   position: relative;
   border: 1px solid #C2A383;
@@ -3030,6 +3022,7 @@ reservation 검색
   background: #C2A383;
   color: #000;
   transition: 0.3s;
+  font-color: 
   /*border-radius: 50px;*/
 }
 
@@ -3459,7 +3452,7 @@ reservation 검색
 
 /*즐겨찾기*/
 .view .modal {
-  margin-top: 15vh;
+  margin-top: 5vh;
   color:black;
   font-size: 18px;
 }
@@ -3514,6 +3507,7 @@ reservation 검색
   bottom: 10px;
   height: 38px;
   border-radius: 25px;
+  color: #c78e54;
 }
 
 .view .personnel-select:hover {
@@ -3531,7 +3525,7 @@ reservation 검색
 
 .view  .personnel-selected-value {
   width: 176.8px;
-  color: #c78e54;
+  color: #cda45e;
   text-align: center;
   z-index: 1;
 }
@@ -3557,7 +3551,6 @@ reservation 검색
   position: relative;
   left: 50%;
 }
-
 .view .modal-body {
   height: 60vh;
   z-index: 0;
@@ -3568,7 +3561,10 @@ reservation 검색
   justify-content: center;
   text-align: center;
 }
-
+.view .modal-body input[type=checkbox] {
+  width: 20px;
+  height: 20px;
+}
 
 .view .view-container {
   display: inline-block;
@@ -3610,7 +3606,8 @@ reservation 검색
 }
 
 .view .modal-title, .view #view-name {
-  color: #c78e54
+  color: rgba(0,0,0);
+  font-size:25px;
 }
 
 .view .menu-print {
@@ -4375,12 +4372,12 @@ hr[role="tournament1"]::before {
   color:black;
   background: url("/resources/images/hero-bg.jpg") top center;
   background-size: cover;
+  position: relative;
   padding: 0;
 }
 
 #help .container {
   padding-top: 110px;
-  
 }
 #help a{
   color: #0051ffe5;
@@ -4388,17 +4385,25 @@ hr[role="tournament1"]::before {
 }
 
 #help .row{
-  width : 100%;
-  background-color:rgba(255, 255, 255, 0.95);
-  border-radius: 20px;
-  padding: 3vh 0;
-  bottom: 0;
-  top: 13.9%;
-  left: 11%;
-  right: 11%;
-  text-align: center;
+  padding: 1% 1%;
   margin-top: 40px;
   margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: inline-block;     
+  position: relative;  
+  text-align: center;               
+}
+
+#help:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 #help h3{
@@ -4417,15 +4422,6 @@ hr[role="tournament1"]::before {
   font-family : 'Cafe24Dangdanghae';
   font-size: 16px;
   font-weight: 100;
-}
-#help:before {
-  content: "";
-  background: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  right: 0;
 }
 #help .col-lg-12 h3,
 #help .col-lg-12 h4,
@@ -4475,9 +4471,9 @@ hr[role="tournament1"]::before {
   font-size:18px;
 }
 #soloTable li:hover{
-  background: #C2A383;
+  /*background: #C2A383;*/
   text-decoration: none;
-  border:#C2A383 2px solid;
+  border:#C2A383 4px solid;
 }
 #soloTable li span{
   margin-left: 20px;
@@ -4498,7 +4494,9 @@ hr[role="tournament1"]::before {
   position: relative;
   padding: 0;
 }
-
+#helpList h3 {
+  font-size: 40px;
+}
 #helpList .container{
   padding-top: 110px;
   text-align: center;
@@ -4506,8 +4504,8 @@ hr[role="tournament1"]::before {
   
   #helpList .row{
     padding: 1% 1%;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 30px;
+    margin-bottom: 30px;
     width : 100%;                               
     background-color:rgba(255, 255, 255, 0.8);   
     border-radius: 1em;                         
@@ -4738,7 +4736,7 @@ hr[role="tournament1"]::before {
   color:white;
 }
 /*--------------------------------------------------------------
-# Community_View Section (게시물 화면)
+# helpView Section (게시물 화면)
 --------------------------------------------------------------*/
 #helpView {
   width: 100%;

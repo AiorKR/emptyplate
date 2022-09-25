@@ -16,6 +16,7 @@
 	<result column="SHOP_TELEPHONE" property="shopTelephone"/>
 	<result column="SHOP_INTRO" property="shopIntro"/>
 	<result column="SHOP_CONTENT" property="shopContent"/>
+	<result column="SHOP_STARSCORE" property="shopStarScore"/>
 	<result column="REG_DATE" property="shopRegDate"/>
 	<collection property="shopFile" resultMap="shopFileResultMap"/>
 	<collection property="shopTime" resultMap="shopTimeResultMap"/>
@@ -35,6 +36,7 @@
 	<result column="SHOP_TELEPHONE" property="shopTelephone"/>
 	<result column="SHOP_INTRO" property="shopIntro"/>
 	<result column="SHOP_CONTENT" property="shopContent"/>
+	<result column="SHOP_STARSCORE" property="shopStarScore"/>
 	<result column="REG_DATE" property="shopRegDate"/>
 	<collection property="shopFileList" resultMap="shopFileResultMap"/>
 	<collection property="shopMenu" resultMap="shopMenuResultMap"/>
@@ -84,6 +86,52 @@
 	<result column="RESERVATION_TIME" property="shopReservationTime"/>
 	<result column="ORDER_UID" property="orderUID"/>
 	</resultMap>
+
+	<!-- 인덱스 매장 리스트 -->
+	<select id="indexShopList" parameterType="com.icia.web.model.Shop" resultMap="shopListResultMap">
+	SELECT *
+      FROM (SELECT ROWNUM AS RNUM2,
+                   RNUM,
+                   SHOP_UID,
+                   USER_UID,
+                   SHOP_NAME,
+                   SHOP_TYPE,
+                   SHOP_HOLIDAY,
+                   SHOP_HASHTAG,
+                   SHOP_LOCATION1,
+                   SHOP_LOCATION2,
+                   SHOP_LOCATION3,
+                   SHOP_ADDRESS,
+                   SHOP_TELEPHONE,
+                   SHOP_INTRO,
+                   SHOP_CONTENT,
+                   SHOP_STARSCORE,
+                   REG_DATE
+              FROM (SELECT ROWNUM AS RNUM,
+                           SHOP_UID,
+                           USER_UID,
+                	       SHOP_NAME,
+                           SHOP_TYPE,
+                           SHOP_HOLIDAY,
+                           SHOP_HASHTAG,
+	                       SHOP_LOCATION1,
+	                       SHOP_LOCATION2,
+	                       SHOP_LOCATION3,
+	                       SHOP_ADDRESS,
+	                       SHOP_TELEPHONE,
+	                       SHOP_INTRO,
+	                       SHOP_CONTENT,
+	                       SHOP_STARSCORE,
+	                       REG_DATE
+                      FROM (SELECT *
+                              FROM T_SHOP
+                             ORDER BY SHOP_STARSCORE DESC)
+                     ORDER BY DBMS_RANDOM.RANDOM)
+             WHERE RNUM <![CDATA[<=]]> 10)
+	WHERE RNUM2 <![CDATA[<=]]> 3
+	ORDER BY SHOP_STARSCORE DESC
+	</select>
+	
 	
 	<select id="shopListTotlaCount" resultType="long" parameterType="com.icia.web.model.Shop">
 		SELECT COUNT(A.SHOP_UID) AS CNT

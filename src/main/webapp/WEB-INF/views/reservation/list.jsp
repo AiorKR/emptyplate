@@ -118,6 +118,7 @@ $(document).ready(function(){
 	<!-- ======= reservations Section ======= -->
 	<section id="reservation" class="reservation">
 		<div class="reservation-container container">
+		  <div class="row">
 			<div class="reservation-slider swiper">
 				<container style="color: #2536;">
 				<hr class="hr-5">
@@ -205,7 +206,7 @@ $(document).ready(function(){
 										&nbsp;&nbsp;&nbsp;
 										<div class="collapse navbar-collapse" id="navbarSupportedContent">
 											<ul class="navbar-nav me-auto ">
-												<select class="select" aria-label="Default select example" style="width: 150px; height: 35px; cursor: pointer;">
+												<select class="select" aria-label="Default select example" style="width: 150px; height: 38px; cursor: pointer;">
 													<option value="0" selected
 														style="width: 150px; height: 35px; cursor: pointer;"
 														selected <c:if test="${searchType eq '0'}">selected</c:if>>전체</option>
@@ -221,7 +222,7 @@ $(document).ready(function(){
 									<div style="border: 1px solid #C2A384">
 										<input type="text" name="text" id="search"
 											<c:if test="${searchValue ne null and searchValue ne ''}">value="${searchValue}"</c:if>>
-										<button class="btn" type="submit" id="searchBtn">검색</button>
+										<button class="btn" type="submit" id="searchBtn">검 색</button>
 									</div>
 								</div>
 							</nav>
@@ -282,6 +283,7 @@ $(document).ready(function(){
 						</div>
 					</div>
 				</div>
+			  </div>
 			</div>
 			<form name="bbsForm" id="bbsForm" method="post">
 				<input type="hidden" name="shopUID" value="" /> 

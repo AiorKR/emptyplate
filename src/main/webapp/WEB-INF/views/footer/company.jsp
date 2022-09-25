@@ -9,8 +9,8 @@
 <body>
  <%@ include file="/WEB-INF/views/include/navigation.jsp" %>
  <section id="aboutus2" class="aboutus2">
-    <div class="container" data-aos="fade-up">
-        <div class="row" data-aos="fade-up">
+    <div class="container">
+        <div class="row">
             <div class="nav nav-pills nav-justified" id="pills-tab" role="tablist">
                 <li class="nav-item" >
                   <a href="/footer/aboutus">
