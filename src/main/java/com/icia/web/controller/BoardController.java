@@ -461,6 +461,9 @@ public class BoardController
 	         }
 	      }
        }
+       logger.debug("#########################");
+       logger.debug("#" + board.getModDate());
+       logger.debug("#########################");
        model.addAttribute("bbsSeq", bbsSeq);
        model.addAttribute("board", board);
        model.addAttribute("boardMe", boardMe);

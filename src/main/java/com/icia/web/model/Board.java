@@ -140,21 +140,18 @@ public class Board implements Serializable
 		this.bbsReadCnt = bbsReadCnt;
 	}
 
-
-	public String getRegDate() {
-		return regDate;
-	}
-
-		
 	public String getModDate() {
 		return modDate;
 	}
-
-
+	
+	
 	public void setModDate(String modDate) {
 		this.modDate = modDate;
 	}
 
+	public String getRegDate() {
+		return regDate;
+	}
 
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
