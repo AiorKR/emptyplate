@@ -4426,7 +4426,7 @@ hr[role="tournament1"]::before {
   text-decoration: none;
   border:#C2A383 4px solid;
 }
-#soloTable li span{
+#soloTitle{
   margin-left: 20px;
   color:#000;
   display: inline-block;
@@ -4435,6 +4435,17 @@ hr[role="tournament1"]::before {
   overflow: hidden;
   width: 500px;
 }
+
+#solocontent{
+  width: 500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  color:black;
+}
+  
 #soloTitle, #solocontent{
   margin-left: 10px;
 }
