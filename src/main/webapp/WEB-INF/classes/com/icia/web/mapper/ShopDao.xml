@@ -16,7 +16,6 @@
 	<result column="SHOP_TELEPHONE" property="shopTelephone"/>
 	<result column="SHOP_INTRO" property="shopIntro"/>
 	<result column="SHOP_CONTENT" property="shopContent"/>
-	<result column="SHOP_STARSCORE" property="shopStarScore"/>
 	<result column="REG_DATE" property="shopRegDate"/>
 	<collection property="shopFile" resultMap="shopFileResultMap"/>
 	<collection property="shopTime" resultMap="shopTimeResultMap"/>
@@ -36,7 +35,6 @@
 	<result column="SHOP_TELEPHONE" property="shopTelephone"/>
 	<result column="SHOP_INTRO" property="shopIntro"/>
 	<result column="SHOP_CONTENT" property="shopContent"/>
-	<result column="SHOP_STARSCORE" property="shopStarScore"/>
 	<result column="REG_DATE" property="shopRegDate"/>
 	<collection property="shopFileList" resultMap="shopFileResultMap"/>
 	<collection property="shopMenu" resultMap="shopMenuResultMap"/>
@@ -105,7 +103,7 @@
                    SHOP_TELEPHONE,
                    SHOP_INTRO,
                    SHOP_CONTENT,
-                   SHOP_STARSCORE,
+                   review_score,
                    REG_DATE,
                    FILE_NAME
               FROM (SELECT ROWNUM AS RNUM,
@@ -122,18 +120,18 @@
 	                       A.SHOP_TELEPHONE AS SHOP_TELEPHONE,
 	                       A.SHOP_INTRO AS SHOP_INTRO,
 	                       A.SHOP_CONTENT AS SHOP_CONTENT,
-	                       A.SHOP_STARSCORE AS SHOP_STARSCORE,
+	                       A.review_score AS review_score,
 	                       A.REG_DATE AS REG_DATE,
                            B.FILE_NAME AS FILE_NAME
                       FROM (SELECT *
                               FROM T_SHOP
-                             ORDER BY SHOP_STARSCORE DESC)A, T_SHOP_FILE B
+                             ORDER BY review_score DESC)A, T_SHOP_FILE B
                       WHERE A.SHOP_UID = B.SHOP_UID
                         AND B.FILE_SEQ=0
                      ORDER BY DBMS_RANDOM.RANDOM)
              WHERE RNUM <![CDATA[<=]]> 10)
 	WHERE RNUM2 <![CDATA[<=]]> 3
-	ORDER BY SHOP_STARSCORE DESC
+	ORDER BY review_score DESC
 	</select>
 	
 	
