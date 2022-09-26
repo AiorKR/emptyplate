@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.icia.web.dao.ShopDao;
 import com.icia.web.model.Order;
-import com.icia.web.model.Board;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
 import com.icia.web.model.ShopTime;

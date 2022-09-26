@@ -43,7 +43,7 @@ public class Order implements Serializable{
 		shopName = "";
 		counterSeatYN = "";
 		userName = "";
-		
+		shop = null;
 		orderMenu = null;
 		shopReservationTableList = null;
 		shopReservationTable = null;
@@ -168,60 +168,6 @@ public class Order implements Serializable{
 
 	public void setUserName(String userName) {
 		this.userName = userName;
-	}
-	
-	public String getRDate() {
-		return rDate;
-	}
-
-	public void setRDate(String rDate) {
-		this.rDate = rDate;
-	}
-	
-	public long getrNum() {
-		return rNum;
-	}
-
-
-	public void setrNum(long rNum) {
-		this.rNum = rNum;
-	}
-
-
-	public long getStartRow() {
-		return startRow;
-	}
-
-
-	public void setStartRow(long startRow) {
-		this.startRow = startRow;
-	}
-
-
-	public long getEndRow() {
-		return endRow;
-	}
-
-
-	public void setEndRow(long endRow) {
-		this.endRow = endRow;
-	}
-	
-	public String getShopName() {
-		return shopName;
-	}
-
-
-	public void setShopName(String shopName) {
-		this.shopName = shopName;
-	}
-
-	public String getrDate() {
-		return rDate;
-	}
-
-	public void setrDate(String rDate) {
-		this.rDate = rDate;
 	}
 
 	public Shop getShop() {

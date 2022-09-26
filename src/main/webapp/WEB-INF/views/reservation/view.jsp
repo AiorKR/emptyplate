@@ -150,10 +150,10 @@ $(document).ready(function(){
 			  document.bbsForm.reservationPeople.value = $(".personnel-selected-value").text().replaceAll("명", "");;
 			  if($("#pay").is(":disabled")) { //disabled 처리 되있다면 풀어줌
          		 $("#pay").attr("disabled", false);
-     			 if(document.bbsForm.reservationDate.value != "" && document.bbsForm.reservationTime.value != "") {
-    				 reservationCheck();
-    			 }
          	 }
+  			 if(document.bbsForm.reservationDate.value != "" && document.bbsForm.reservationTime.value != "") {
+				 reservationCheck();
+			 }
 		}); 
 		$(".datepicker").change(function() {
 			
