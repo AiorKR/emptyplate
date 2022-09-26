@@ -44,7 +44,7 @@ $(document).ready(function() {
 	      document.helpPageForm.bbsSeq.value = "";
 	      document.helpPageForm.searchType.value = $("#_searchType").val();
 	      document.helpPageForm.searchValue.value = $("#_searchValue").val();
-	      document.helpPageForm.sortValue.value = "4";
+	      document.helpPageForm.sortValue.value = $("#btnSort1").val();
 	      document.helpPageForm.curPage.value = "1";
 	      document.helpPageForm.action = "/help/helpList";
 	      document.helpPageForm.submit();
@@ -186,6 +186,7 @@ function fn_list(curPage)
 				<input type="hidden" name="bbsSeq" value=""/>
 				<input type="hidden" name="searchType" value="${searchType}" />
 				<input type="hidden" name="searchValue" value="${searchValue}" />
+				<input type="hidden" name="sortValue" value="${sortValue}" />
 				<input type="hidden" name="bbsNo" value="${bbsNo}" />
 				<input type="hidden" name="curPage" value="${curPage}" />
 			</form>

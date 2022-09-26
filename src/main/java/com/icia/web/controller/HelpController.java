@@ -187,13 +187,14 @@ public class HelpController {
 			try
 			{
 				model.addAttribute("cookieUserNick", user2.getUserNick());
+				model.addAttribute("admin", user2.getAdminStatus());
 			}
 			catch(NullPointerException e)
 			{
 				logger.error("[HelpController] help/helpList NullPointerException", e);
 			}
 		}
-		model.addAttribute("admin", user2.getAdminStatus());
+
 		
 		return "/help/helpList";
 	}
