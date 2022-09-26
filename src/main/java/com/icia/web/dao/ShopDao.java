@@ -11,6 +11,7 @@ import com.icia.web.model.ShopFile;
 import com.icia.web.model.ShopReservationTable;
 import com.icia.web.model.ShopReview;
 import com.icia.web.model.ShopTotalTable;
+import com.icia.web.model.User;
 
 @Repository("shopdDao")
 public interface ShopDao {
@@ -64,4 +65,10 @@ public interface ShopDao {
 	public int updateReqOne(ShopReview shopReview);
 
 	public int delReqOne(ShopReview shopReview);
+	
+	//SHOP UID SELECT
+	public Shop shopUIDSelect(String shopUID);
+	
+	//Shop테이블 userUID컬럼에 매장가입자(userUID)추가
+	public int updateStoreUserUID(Shop shop);
 }
