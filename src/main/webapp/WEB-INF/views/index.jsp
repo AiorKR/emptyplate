@@ -11,21 +11,16 @@
 
 <head>
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
-<script>
-$(document).ready(function() {
-	
-	$("#btnReserve").on("click", function() {
-		fn_view(shopUID);
-	});
-	
-	function fn_view(shopUID)
-	{
-	   document.bbsForm.shopUID.value = shopUID;
-	   document.bbsForm.action = "/board/view";
-	   document.bbsForm.submit();
-	}
-});
-</script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			
+			$("#btnReserve").on("click", function(){
+				document.bbsForm.shopUID.value = $("#btnReserve").val();
+				document.bbsForm.action = "/reservation/view";
+				document.bbsForm.submit();
+			   });
+		});
+	</script>
 </head>
 
 <body>
@@ -69,7 +64,7 @@ $(document).ready(function() {
 			<div class="swiper-slide">
 					<div class="row recommend-item">
 						<div class="col-lg-6">
-							<img src="../resources/upload/shop/${shop.shopUID}/${shop.shopFile.shopFileName}" class="img-fluid" alt="">
+							<img alt="" src="/resources/upload/shop/${shop.shopUID}/${shop.shopFile.shopFileName}" class="img-fluid" alt="">
 						</div>
 						<div class="col-lg-6 pt-4 pt-lg-0 content">
 							<h3>${shop.shopName}</h3>
@@ -82,7 +77,7 @@ $(document).ready(function() {
 								<i class="fa-brands fa-instagram"></i> ${shop.shopHashtag}
 							</p>
 							<div class="btns">
-								<button type="button" id="btnReserve" class="btn-book animated fadeInUp scrollto" onclick="fn_view(${shop.shopUID})">예약</button>
+								<button type="button" id="btnReserve" class="btn-book animated fadeInUp scrollto" value="${shop.shopUID}">예약</button>
 							</div>
 						</div>
 					</div>
@@ -139,10 +134,11 @@ $(document).ready(function() {
               <h6>★ 4.6</h6>
             </div>
           </div>
-								 <form name="bbsForm" id="bbsForm" method="post">
-									<input type="hidden" name="shopUID" value=""/> 
-	  							 </form>
+								 
       </div>
+      <form name="bbsForm" id="bbsForm" method="post">
+		<input type="hidden" name="shopUID" value=""/> 
+	 </form>
     </section><!-- End About Section -->
   </main><!-- End #main -->
 
