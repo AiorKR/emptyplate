@@ -503,6 +503,7 @@ public class HelpController {
   			else
   			{
   				ajaxResponse.setResponse(404, "Not found");
+  				ajaxResponse.setData(bbsNo);
   			}
   		}
   		else

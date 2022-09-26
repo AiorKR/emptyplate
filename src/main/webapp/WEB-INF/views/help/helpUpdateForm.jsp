@@ -96,7 +96,7 @@ $(document).ready(function() {
    
    //목록
    $("#btnList").on("click", function() {
-      document.bbsForm.action = "/help/helpList";
+      document.bbsForm.action = "/help/helpView";
       document.bbsForm.submit();
    });
 });
@@ -196,7 +196,7 @@ $(document).ready(function() {
   
    <form name="bbsForm" id="bbsForm" method="post">
     <input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
-    <input type="hidden" name="bbsSeq" value="${bbsNo}" />
+    <input type="hidden" name="bbsNo" value="${board.bbsNo}" />
     <input type="hidden" name="searchType" value="${searchType}" />
     <input type="hidden" name="searchValue" value="${searchValue}" />
     <input type="hidden" name="curPage" value="${curPage}" />
