@@ -93,9 +93,11 @@ $(document).ready(function() {
 					<c:out value="${board.bbsTitle}" /><br/>
 				</div>
 				<div class="board-writer">
-					<ion-icon name="person"></ion-icon> ${board.userNick} &nbsp;
+					<ion-icon name="eye"></ion-icon><fmt:formatNumber type="number" maxFractionDigits="3" value="${board.bbsReadCnt}"/>&nbsp;
 					<ion-icon name="calendar"></ion-icon> ${board.regDate} &nbsp;
-					<ion-icon name="eye"></ion-icon><fmt:formatNumber type="number" maxFractionDigits="3" value="${board.bbsReadCnt}"/>
+					<c:if test="${!empty board.modDate}">
+						<ion-icon name="calendar"></ion-icon> ${board.modDate}(최종수정) &nbsp;
+					</c:if>
 				</div>
 				<div class="board-innercontent">
 					<col-lg-12>${board.bbsContent}

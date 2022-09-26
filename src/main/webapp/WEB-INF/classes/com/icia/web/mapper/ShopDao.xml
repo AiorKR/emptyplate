@@ -106,26 +106,30 @@
                    SHOP_INTRO,
                    SHOP_CONTENT,
                    SHOP_STARSCORE,
-                   REG_DATE
+                   REG_DATE,
+                   FILE_NAME
               FROM (SELECT ROWNUM AS RNUM,
-                           SHOP_UID,
-                           USER_UID,
-                	       SHOP_NAME,
-                           SHOP_TYPE,
-                           SHOP_HOLIDAY,
-                           SHOP_HASHTAG,
-	                       SHOP_LOCATION1,
-	                       SHOP_LOCATION2,
-	                       SHOP_LOCATION3,
-	                       SHOP_ADDRESS,
-	                       SHOP_TELEPHONE,
-	                       SHOP_INTRO,
-	                       SHOP_CONTENT,
-	                       SHOP_STARSCORE,
-	                       REG_DATE
+                           A.SHOP_UID AS SHOP_UID,
+                           A.USER_UID AS USER_UID,
+                	       A.SHOP_NAME AS SHOP_NAME,
+                           A.SHOP_TYPE AS SHOP_TYPE,
+                           A.SHOP_HOLIDAY AS SHOP_HOLIDAY,
+                           A.SHOP_HASHTAG AS SHOP_HASHTAG,
+	                       A.SHOP_LOCATION1 AS SHOP_LOCATION1,
+	                       A.SHOP_LOCATION2 AS SHOP_LOCATION2,
+	                       A.SHOP_LOCATION3 AS SHOP_LOCATION3,
+	                       A.SHOP_ADDRESS AS SHOP_ADDRESS,
+	                       A.SHOP_TELEPHONE AS SHOP_TELEPHONE,
+	                       A.SHOP_INTRO AS SHOP_INTRO,
+	                       A.SHOP_CONTENT AS SHOP_CONTENT,
+	                       A.SHOP_STARSCORE AS SHOP_STARSCORE,
+	                       A.REG_DATE AS REG_DATE,
+                           B.FILE_NAME AS FILE_NAME
                       FROM (SELECT *
                               FROM T_SHOP
-                             ORDER BY SHOP_STARSCORE DESC)
+                             ORDER BY SHOP_STARSCORE DESC)A, T_SHOP_FILE B
+                      WHERE A.SHOP_UID = B.SHOP_UID
+                        AND B.FILE_SEQ=0
                      ORDER BY DBMS_RANDOM.RANDOM)
              WHERE RNUM <![CDATA[<=]]> 10)
 	WHERE RNUM2 <![CDATA[<=]]> 3

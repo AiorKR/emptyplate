@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.icia.web.model.Shop;
+import com.icia.web.model.ShopFile;
 import com.icia.web.model.User;
 import com.icia.web.service.ShopService;
 import com.icia.web.service.UserService;
@@ -71,11 +72,19 @@ public class IndexController
 	{
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		Shop shop = new Shop();
-		List<Shop> recommand= shopService.indexShopList(shop); 
+		ShopFile shopFile = new ShopFile();
+		List<Shop> recommand= shopService.indexShopList(shop);
 		User user2 = new User();
 		user2 = userService.userUIDSelect(cookieUserUID);
-		model.addAttribute("recommand", recommand);
+		shopFile.setShopFileSeq(0);
+		logger.debug("####################");
+		logger.debug("#" + recommand.get(0).getShopFile().getShopFileExt());
+		logger.debug("#" + recommand.get(0).getShopFile().getShopFileName());
+		logger.debug("#" + recommand.get(0).getShopFile().getShopFileOrgName());
+		logger.debug("#" + recommand.get(0).getShopFile().getShopFileRegDate());
+		logger.debug("####################");
 		
+		model.addAttribute("recommand", recommand);
 		if(user2 == null)
 		{
 			return "/index";
