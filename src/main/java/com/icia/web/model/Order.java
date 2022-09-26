@@ -30,6 +30,8 @@ public class Order implements Serializable{
 	private List<OrderMenu> orderMenu;
 	private List<ShopReservationTable> shopReservationTableList;
 	private ShopReservationTable shopReservationTable;
+	private String shopReviewContent;
+	private double shopScore;
 	
 	public Order() {
 		orderUID = "";
@@ -56,6 +58,8 @@ public class Order implements Serializable{
 		startRow = 0;
 		endRow = 0;
 		finalMenu = "";
+		shopReviewContent = "";
+		shopScore = 0;
 	}
 
 	public String getOrderUID() {
@@ -223,6 +227,22 @@ public class Order implements Serializable{
 
 	public void setFinalMenu(String finalMenu) {
 		this.finalMenu = finalMenu;
+	}
+	
+	public String getShopReviewContent() {
+		return shopReviewContent;
+	}
+
+	public void setShopReviewContent(String shopReviewContent) {
+		this.shopReviewContent = shopReviewContent;
+	}
+
+	public double getShopScore() {
+		return shopScore;
+	}
+
+	public void setShopScore(double shopScore) {
+		this.shopScore = shopScore;
 	}
 	
 }
