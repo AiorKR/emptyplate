@@ -13,6 +13,7 @@
    <result column="BBS_LIKE_CNT" property="bbsLikeCnt" />
    <result column="BBS_READ_CNT" property="bbsReadCnt" />
    <result column="REG_DATE" property="regDate" />
+   <result column="MOD_DATE" property="modDate" />
    <result column="BBS_COMMENT" property="bbsComment" />
    <result column="COMMENT_PARENT" property="commentParent" />
    <result column="COMMENT_GROUP" property="commentGroup" />
@@ -422,7 +423,8 @@ SELECT BBS_SEQ,
 <update id="boardUpdate" parameterType="com.icia.web.model.Board">
 UPDATE T_BOARD
    SET BBS_TITLE = #{bbsTitle},
-       BBS_CONTENT = #{bbsContent}
+       BBS_CONTENT = #{bbsContent},
+       MOD_DATE = SYSDATE
  WHERE BBS_SEQ = #{bbsSeq}
 </update>
  

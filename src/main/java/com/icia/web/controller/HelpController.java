@@ -325,11 +325,6 @@ public class HelpController {
 		FileData fileData = HttpUtil.getFile(request, "bbsFile", BOARD_UPLOAD_SAVE_DIR);
 		//게시판 번호
 		int bbsNo = HttpUtil.get(request, "bbsNo", 0);
-		logger.debug("#################################");
-		logger.debug("#################################");
-		logger.debug("#helpWriteProc bbsNo :" + bbsNo);
-		logger.debug("#################################");
-		logger.debug("#################################");
 		//댓글
 		String bbsComment = HttpUtil.get(request, "bbsComment", "");
 
@@ -508,6 +503,7 @@ public class HelpController {
   			else
   			{
   				ajaxResponse.setResponse(404, "Not found");
+  				ajaxResponse.setData(bbsNo);
   			}
   		}
   		else

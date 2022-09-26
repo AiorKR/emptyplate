@@ -17,11 +17,16 @@
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
 <script type="text/javascript">
 $(document).ready(function() {
-	   //목록
+	//인덱스
+	   $("#btnIndex").on("click", function() {
+	      document.bbsForm.action = "/help/index";
+	      document.bbsForm.submit();
+	   }); 
+	 //목록
 	   $("#btnList").on("click", function() {
 	      document.bbsForm.action = "/help/helpList";
 	      document.bbsForm.submit();
-	   });  
+	   }); 
    
    //게시물 수정
    $("#btnUpdate").on("click", function() {
@@ -35,7 +40,7 @@ $(document).ready(function() {
       {
          $.ajax({
             type:"POST",
-            url:"/board/delete",
+            url:"/help/helpDelete",
             data:{
                bbsSeq:<c:out value="${board.bbsSeq}" />
             },
@@ -47,7 +52,9 @@ $(document).ready(function() {
                if(response.code == 0)
                {
                   alert("게시물이 삭제되었습니다.");
-                  location.href = "/help/helpList";
+                  document.bbsForm.bbsNo = response.data;
+                  document.bbsForm.action = "/help/helpList";
+                  document.bbsForm.submit();
                }
                else if(response.code == 400)
                {
@@ -102,6 +109,7 @@ $(document).ready(function() {
 				</div>
 
 				<div class="board-service">
+				  <div class="board-list"><button type="button" id="btnIndex" class="board-list"><ion-icon name="reader"></ion-icon>&nbsp;메인</button></div>
 				  <div class="board-list"><button type="button" id="btnList" class="board-list"><ion-icon name="reader"></ion-icon>&nbsp;목록</button></div>
 				</div>
 			<form name="bbsForm" id="bbsForm" method="post">
