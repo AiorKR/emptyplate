@@ -9,6 +9,8 @@
  */
 package com.icia.web.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,7 +23,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.icia.web.model.Shop;
+import com.icia.web.model.ShopFile;
 import com.icia.web.model.User;
+import com.icia.web.service.ShopService;
 import com.icia.web.service.UserService;
 import com.icia.web.util.CookieUtil;
 
@@ -41,6 +46,9 @@ public class IndexController
 {
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private ShopService shopService;
 	
 	//쿠키명 지정
 	@Value("#{env['auth.cookie.name']}")
@@ -63,8 +71,20 @@ public class IndexController
 	public String index(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	{
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		Shop shop = new Shop();
+		ShopFile shopFile = new ShopFile();
+		List<Shop> recommand= shopService.indexShopList(shop);
 		User user2 = new User();
 		user2 = userService.userUIDSelect(cookieUserUID);
+		shopFile.setShopFileSeq(0);
+		logger.debug("####################");
+		logger.debug("#" + recommand.get(0).getShopFile().getShopFileExt());
+		logger.debug("#" + recommand.get(0).getShopFile().getShopFileName());
+		logger.debug("#" + recommand.get(0).getShopFile().getShopFileOrgName());
+		logger.debug("#" + recommand.get(0).getShopFile().getShopFileRegDate());
+		logger.debug("####################");
+		
+		model.addAttribute("recommand", recommand);
 		if(user2 == null)
 		{
 			return "/index";

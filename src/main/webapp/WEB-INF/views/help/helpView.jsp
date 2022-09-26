@@ -17,16 +17,20 @@
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
 <script type="text/javascript">
 $(document).ready(function() {
-   //목록
-   $("#btnList").on("click", function() {
-	  document.bbsForm.bbsNo = bbsNo;
-      document.bbsForm.action = "/help/helpList";
-      document.bbsForm.submit();
-   });   
+	//인덱스
+	   $("#btnIndex").on("click", function() {
+	      document.bbsForm.action = "/help/index";
+	      document.bbsForm.submit();
+	   }); 
+	 //목록
+	   $("#btnList").on("click", function() {
+	      document.bbsForm.action = "/help/helpList";
+	      document.bbsForm.submit();
+	   }); 
    
    //게시물 수정
    $("#btnUpdate").on("click", function() {
-      document.bbsForm.action = "/board/updateForm";
+      document.bbsForm.action = "/help/helpUpdateForm";
       document.bbsForm.submit();
    });
    
@@ -36,7 +40,7 @@ $(document).ready(function() {
       {
          $.ajax({
             type:"POST",
-            url:"/board/delete",
+            url:"/help/helpDelete",
             data:{
                bbsSeq:<c:out value="${board.bbsSeq}" />
             },
@@ -48,7 +52,9 @@ $(document).ready(function() {
                if(response.code == 0)
                {
                   alert("게시물이 삭제되었습니다.");
-                  location.href = "/board/list";
+                  document.bbsForm.bbsNo = response.data;
+                  document.bbsForm.action = "/help/helpList";
+                  document.bbsForm.submit();
                }
                else if(response.code == 400)
                {
@@ -61,7 +67,7 @@ $(document).ready(function() {
                else if(response.code == 404)
                {
                   alert("게시물을 찾을 수 없습니다.");
-                  location.href = "/board/list";                  
+                  location.href = "/help/helpList";                  
                }
                else
                {
@@ -72,9 +78,10 @@ $(document).ready(function() {
                icia.common.error(error);
             }
          });
+      }
       });
 
-}
+});
 </script>
 </head>
 <body>
@@ -82,14 +89,15 @@ $(document).ready(function() {
 	<section id="communityView" class="community">
 		<div class="container">
 			<div class = "row">
-			<c:set var="bbsNo" value="${board.bbsNo}" />
 				<div class="board-title">
 					<c:out value="${board.bbsTitle}" /><br/>
 				</div>
 				<div class="board-writer">
-					<ion-icon name="person"></ion-icon> ${board.userNick} &nbsp;
+					<ion-icon name="eye"></ion-icon><fmt:formatNumber type="number" maxFractionDigits="3" value="${board.bbsReadCnt}"/>&nbsp;
 					<ion-icon name="calendar"></ion-icon> ${board.regDate} &nbsp;
-					<ion-icon name="eye"></ion-icon><fmt:formatNumber type="number" maxFractionDigits="3" value="${board.bbsReadCnt}"/>
+					<c:if test="${!empty board.modDate}">
+						<ion-icon name="calendar"></ion-icon> ${board.modDate}(최종수정) &nbsp;
+					</c:if>
 				</div>
 				<div class="board-innercontent">
 					<col-lg-12>${board.bbsContent}
@@ -103,6 +111,7 @@ $(document).ready(function() {
 				</div>
 
 				<div class="board-service">
+				  <div class="board-list"><button type="button" id="btnIndex" class="board-list"><ion-icon name="reader"></ion-icon>&nbsp;메인</button></div>
 				  <div class="board-list"><button type="button" id="btnList" class="board-list"><ion-icon name="reader"></ion-icon>&nbsp;목록</button></div>
 				</div>
 			<form name="bbsForm" id="bbsForm" method="post">
@@ -110,7 +119,7 @@ $(document).ready(function() {
 				<input type="hidden" name="searchType" value="${searchType}" />
 				<input type="hidden" name="searchValue" value="${searchValue}" />
 				<input type="hidden" name="curPage" value="${curPage}" />
-				<input type="hidden" name="bbsNo" value="${bbsNo}" />
+				<input type="hidden" name="bbsNo" value="${board.bbsNo}" />
 			</form>
 		</div> 
 	</section>

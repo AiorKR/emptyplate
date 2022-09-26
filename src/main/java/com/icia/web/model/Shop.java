@@ -23,7 +23,6 @@ public class Shop implements Serializable{
 	private String shopContent;	 	//매장내용
 	private String shopRegDate;		//매장등록일
 	
-	
 	private long startRow;		//시작 rownum
 	private long endRow;		//끝 rownum
 	private double reviewScore;
@@ -208,8 +207,7 @@ public class Shop implements Serializable{
 	public void setShopContent(String shopContent) {
 		this.shopContent = shopContent;
 	}
-
-
+	
 	public String getShopRegDate() {
 		return shopRegDate;
 	}

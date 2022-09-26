@@ -13,6 +13,7 @@
    <result column="BBS_LIKE_CNT" property="bbsLikeCnt" />
    <result column="BBS_READ_CNT" property="bbsReadCnt" />
    <result column="REG_DATE" property="regDate" />
+   <result column="MOD_DATE" property="modDate" />
    <result column="BBS_COMMENT" property="bbsComment" />
    <result column="COMMENT_PARENT" property="commentParent" />
    <result column="COMMENT_GROUP" property="commentGroup" />
@@ -387,6 +388,7 @@ SELECT A.BBS_SEQ,
        NVL(A.BBS_LIKE_CNT, 0) AS BBS_LIKE_CNT,
        NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
        NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD HH24:MI:SS'), '') AS REG_DATE,
+       NVL(TO_CHAR(A.MOD_DATE, 'YYYY-MM-DD HH24:MI:SS'), '') AS MOD_DATE,
        NVL(A.BBS_COMMENT, '') AS BBS_COMMENT,
        NVL(COMMENT_PARENT, 0) AS COMMENT_PARENT,
        NVL(COMMENT_GROUP, 0) AS COMMENT_GROUP,
@@ -422,7 +424,8 @@ SELECT BBS_SEQ,
 <update id="boardUpdate" parameterType="com.icia.web.model.Board">
 UPDATE T_BOARD
    SET BBS_TITLE = #{bbsTitle},
-       BBS_CONTENT = #{bbsContent}
+       BBS_CONTENT = #{bbsContent},
+       MOD_DATE = SYSDATE
  WHERE BBS_SEQ = #{bbsSeq}
 </update>
  
@@ -645,6 +648,7 @@ SELECT A.BBS_SEQ AS BBS_SEQ,
        B.USER_NICK AS USER_NICK,
        A.BBS_CONTENT AS BBS_CONTENT,
        A.REG_DATE AS REG_DATE,
+       A.MOD_DATE AS MOD_DATE,
        A.COMMENT_GROUP AS COMMENT_GROUP,
        A.COMMENT_ORDER AS COMMENT_ORDER,
        A.COMMENT_INDENT AS COMMENT_INDENT,

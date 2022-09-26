@@ -89,6 +89,56 @@
 	<result column="RESERVATION_TIME" property="shopReservationTime"/>
 	<result column="ORDER_UID" property="orderUID"/>
 	</resultMap>
+
+	<!-- 인덱스 매장 리스트 -->
+	<select id="indexShopList" parameterType="com.icia.web.model.Shop" resultMap="shopListResultMap">
+	SELECT *
+      FROM (SELECT ROWNUM AS RNUM2,
+                   RNUM,
+                   SHOP_UID,
+                   USER_UID,
+                   SHOP_NAME,
+                   SHOP_TYPE,
+                   SHOP_HOLIDAY,
+                   SHOP_HASHTAG,
+                   SHOP_LOCATION1,
+                   SHOP_LOCATION2,
+                   SHOP_LOCATION3,
+                   SHOP_ADDRESS,
+                   SHOP_TELEPHONE,
+                   SHOP_INTRO,
+                   SHOP_CONTENT,
+                   REVIEW_SCORE,
+                   REG_DATE,
+                   FILE_NAME
+              FROM (SELECT ROWNUM AS RNUM,
+                           A.SHOP_UID AS SHOP_UID,
+                           A.USER_UID AS USER_UID,
+                	       A.SHOP_NAME AS SHOP_NAME,
+                           A.SHOP_TYPE AS SHOP_TYPE,
+                           A.SHOP_HOLIDAY AS SHOP_HOLIDAY,
+                           A.SHOP_HASHTAG AS SHOP_HASHTAG,
+	                       A.SHOP_LOCATION1 AS SHOP_LOCATION1,
+	                       A.SHOP_LOCATION2 AS SHOP_LOCATION2,
+	                       A.SHOP_LOCATION3 AS SHOP_LOCATION3,
+	                       A.SHOP_ADDRESS AS SHOP_ADDRESS,
+	                       A.SHOP_TELEPHONE AS SHOP_TELEPHONE,
+	                       A.SHOP_INTRO AS SHOP_INTRO,
+	                       A.SHOP_CONTENT AS SHOP_CONTENT,
+	                       A.REVIEW_SCORE AS REVIEW_SCORE,
+	                       A.REG_DATE AS REG_DATE,
+                           B.FILE_NAME AS FILE_NAME
+                      FROM (SELECT *
+                              FROM T_SHOP
+                             ORDER BY REVIEW_SCORE DESC)A, T_SHOP_FILE B
+                      WHERE A.SHOP_UID = B.SHOP_UID
+                        AND B.FILE_SEQ=0
+                     ORDER BY DBMS_RANDOM.RANDOM)
+             WHERE RNUM <![CDATA[<=]]> 10)
+	WHERE RNUM2 <![CDATA[<=]]> 3
+	ORDER BY REVIEW_SCORE DESC
+	</select>
+	
 	
    <resultMap id="todayListResultMap" type="com.icia.web.model.Order">
    <id column="ORDER_UID" property="orderUID"/>
@@ -375,52 +425,63 @@ SELECT S.SHOP_UID AS SHOP_UID,
 	<result column="ORDER_STATUS" property="orderStatus"/>
 	<result column="TOTAL_AMOUNT" property="totalAmount"/>
 	<result column="R_DATE" property="rDate"/>
-	<result column="REG_DATE" property="regDate"/>	
+	<result column="REG_DATE" property="regDate"/>
+	<result column="REVIEW_SCORE" property="shopScore"/>
+    <result column="REVIEW_CONTENT" property="shopReviewContent"/>	
 	<collection property="orderMenu" resultMap="orderMenuResultMap"/>
 	<collection property="shopReservationTable" resultMap="shopReservationTableResultMap"/>
 	</resultMap>
-	
-
-		
-	
 
 	<select id="myOrderList" parameterType="com.icia.web.model.Order" resultMap="myOrderResultMap">
 		SELECT RNUM,
        		   SHOP_NAME,
+       		   ORDER_UID,
        		   RESERVATION_PEOPLE,
        		   ORDER_STATUS,
        		   TOTAL_AMOUNT,
        		   SHOP_UID,
-       		   ORDER_MENU_NAME,
-               ORDER_MENU_QUANTITY,
-       		   R_DATE
+       		   R_DATE,
+               REVIEW_CONTENT,
+               REVIEW_SCORE
 		  FROM(SELECT ROWNUM AS RNUM,
              		  SHOP_NAME,
+             		  ORDER_UID,
             		  RESERVATION_PEOPLE,
             		  ORDER_STATUS,	  
             		  TOTAL_AMOUNT,
             		  SHOP_UID,
-            		  ORDER_MENU_NAME,
-            		  ORDER_MENU_QUANTITY,
-            		  R_DATE
-      FROM(SELECT NVL(B.SHOP_NAME, '') AS SHOP_NAME,
+            		  R_DATE,
+                      REVIEW_CONTENT,
+                      REVIEW_SCORE
+      FROM(SELECT DISTINCT NVL(B.SHOP_NAME, '') AS SHOP_NAME,
+      			 NVL(A.ORDER_UID, '') AS ORDER_UID,
                  NVL(A.RESERVATION_PEOPLE, '') AS RESERVATION_PEOPLE,
                  NVL(A.ORDER_STATUS, '') AS ORDER_STATUS,
                  NVL(A.TOTAL_AMOUNT, '') AS TOTAL_AMOUNT,
-                 NVL(A.SHOP_UID, '') AS SHOP_UID,
-                 NVL(D.ORDER_MENU_NAME, '') AS ORDER_MENU_NAME,
-                 NVL(D.ORDER_MENU_QUANTITY, '') AS ORDER_MENU_QUANTITY,
+                 NVL(A.SHOP_UID, '') AS SHOP_UID,           
                  NVL(SUBSTR(C.RESERVATION_DATE,3,2)||'/'||SUBSTR(C.RESERVATION_DATE,5,2)||
-                '/'||SUBSTR(C.RESERVATION_DATE,7,2)||' '||SUBSTR(C.RESERVATION_TIME,1,2)||':'||SUBSTR(C.RESERVATION_TIME,3,2), '') AS R_DATE
-            FROM T_ORDER A, T_SHOP B, T_SHOP_RESERVATION_TABLE C, T_ORDER_MENU D
+                '/'||SUBSTR(C.RESERVATION_DATE,7,2)||' '||SUBSTR(C.RESERVATION_TIME,1,2)||':'||SUBSTR(C.RESERVATION_TIME,3,2), '') AS R_DATE,
+                 NVL(D.REVIEW_CONTENT, '') AS REVIEW_CONTENT,
+                 NVL(D.REVIEW_SCORE, '') AS REVIEW_SCORE
+            FROM T_ORDER A, T_SHOP B, T_SHOP_RESERVATION_TABLE C, T_SHOP_REVIEW D
             WHERE A.ORDER_UID = C.ORDER_UID
             AND A.SHOP_UID = B.SHOP_UID
-            AND A.ORDER_UID = D.ORDER_UID
-            AND A.USER_UID = #{userUID}))
-       WHERE RNUM <![CDATA[>=]]> 1
-       AND RNUM <![CDATA[<=]]> 5
-       ORDER BY RNUM ASC
+            AND A.USER_UID = #{userUID}
+            AND A.ORDER_UID = D.ORDER_UID(+)))
+       WHERE RNUM <![CDATA[>=]]>  #{startRow}
+       AND RNUM <![CDATA[<=]]>  #{endRow}
+       ORDER BY RNUM DESC
 	</select>
+	
+	
+	<select id="myOrderMenu" parameterType="com.icia.web.model.OrderMenu" resultMap="orderMenuResultMap">
+		SELECT DISTINCT
+       		   ORDER_MENU_NAME,
+               ORDER_MENU_QUANTITY
+          FROM T_ORDER_MENU
+         WHERE ORDER_UID =  #{orderUID}
+	</select>
+	
 	
 	<select id="myOrderListCount" parameterType="com.icia.web.model.Order" resultType="long">
 		SELECT COUNT(ORDER_UID) AS CNT
@@ -459,35 +520,25 @@ SELECT RNUM,
        SHOP_UID,
        USER_UID,
 	   SHOP_NAME,
-	   SHOP_CONTENT
+       FILE_NAME,
+       FILE_ORG_NAME
   FROM(SELECT ROWNUM AS RNUM,
                         SHOP_UID,
                         USER_UID,
                         SHOP_NAME,
-                        SHOP_CONTENT
-  		 FROM(SELECT A.SHOP_UID AS SHOP_UID,
-             		 NVL(A.USER_UID, '') AS USER_UID,
-            		 NVL(A.SHOP_NAME, '') AS SHOP_NAME, 
-              		 NVL(A.SHOP_CONTENT, '') AS SHOP_CONTENT
-         		FROM T_SHOP A, T_USER B, T_SHOP_BOOKMARK C
+                        FILE_NAME,
+                        FILE_ORG_NAME
+  		 FROM(SELECT C.SHOP_UID AS SHOP_UID,
+             		 NVL(C.USER_UID, '') AS USER_UID,
+            		 NVL(A.SHOP_NAME, '') AS SHOP_NAME,
+                     NVL(D.FILE_NAME, '') AS FILE_NAME,
+                     NVL(D.FILE_ORG_NAME, '') AS FILE_ORG_NAME
+         		FROM T_SHOP A, T_USER B, T_SHOP_BOOKMARK C, T_SHOP_FILE D
                WHERE A.SHOP_UID = C.SHOP_UID
-          		 AND A.USER_UID = B.USER_UID
-          		 AND C.USER_UID= #{userUID}
-<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>   
-  <choose>
-    <when test='searchType == "1"'>   
-          		 AND A.SHOP_NAME LIKE '%' || #{searchValue} || '%'
-    </when>
-    <when test='searchType == "3"'>
-          		 AND DBMS_LOB.INSTR(A.SHOP_CONTENT, #{searchValue}) > 0
-    </when>
-  </choose>
-</if>
-))
-
- WHERE RNUM <![CDATA[>=]]> #{startRow}
-   AND RNUM <![CDATA[<=]]> #{endRow}
- ORDER BY RNUM ASC
+          		 AND B.USER_UID = C.USER_UID
+                 AND C.SHOP_UID = D.SHOP_UID
+                 AND D.FILE_ORG_NAME LIKE '%'|| 'Shop_' ||'%'
+          		 AND C.USER_UID = #{userUID}))
 </select>
 <insert id="orderInsert" parameterType="com.icia.web.model.Order">
 	INSERT INTO T_ORDER (
@@ -600,4 +651,55 @@ SELECT DISTINCT ORDER_TIME
  ORDER BY ORDER_TIME ASC
 </select>
 
+<!-- 한줄평 resultMap -->
+<resultMap id="shopReviewResultMap" type="com.icia.web.model.ShopReview"> <!--매장 태이블 상태-->
+   <result column="REVIEW_SCORE" property="shopScore"/>
+   <result column="REVIEW_CONTENT" property="shopReviewContent"/>
+   <result column="USER_UID" property="userUID"/>
+   <result column="ORDER_UID" property="orderUID"/>
+   <result column="SHOP_UID" property="shopUID"/>
+   <result column="REG_DATE" property="regDate"/>
+</resultMap>
+
+<insert id="regReqOne" parameterType="com.icia.web.model.ShopReview">
+   INSERT INTO T_SHOP_REVIEW (
+           ORDER_UID,
+           USER_UID,
+           SHOP_UID,
+           REVIEW_CONTENT,
+           REVIEW_SCORE,
+           REG_DATE
+) VALUES ( 
+    #{orderUID},
+    #{userUID},
+    #{shopUID},
+    #{shopReviewContent},
+    #{shopScore},
+    SYSDATE
+)
+</insert>
+
+<update id="updateReqOne" parameterType="com.icia.web.model.ShopReview">
+   UPDATE T_SHOP_REVIEW
+   SET REVIEW_CONTENT = #{shopReviewContent},
+       REVIEW_SCORE = #{shopScore},
+       REG_DATE = SYSDATE
+ WHERE USER_UID = #{userUID}
+   AND SHOP_UID = #{shopUID}
+   AND ORDER_UID = #{orderUID}
+</update>
+
+<select id="countReqOne" parameterType="com.icia.web.model.ShopReview" resultType="int">   
+    SELECT COUNT(*)
+      FROM T_SHOP_REVIEW
+     WHERE USER_UID = #{userUID}
+       AND SHOP_UID = #{shopUID}
+       AND ORDER_UID = #{orderUID}
+</select>
+
+<delete id="delReqOne" parameterType="com.icia.web.model.ShopReview">
+	DELETE FROM T_SHOP_REVIEW
+WHERE ORDER_UID = #{orderUID}
+  AND USER_UID = #{userUID}
+</delete>
 </mapper>

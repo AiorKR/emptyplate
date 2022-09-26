@@ -25,20 +25,23 @@ public class Order implements Serializable{
 	private long rNum;			
 	private long startRow;		
 	private long endRow;
+	private String finalMenu;
 	
 	private Shop shop;
 	private List<OrderMenu> orderMenu;
 	private List<ShopReservationTable> shopReservationTableList;
 	private ShopReservationTable shopReservationTable;
+	private String shopReviewContent;
+	private double shopScore;
 	
 	public Order() {
 		orderUID = "";
 		shopUID = "";
 		userUID = "";
-		reservationPeople = 0;
-		orderStatus = "";
+		reservationPeople = 0; 
+		orderStatus = ""; 
 		orderPayType = "";
-		orderRegDate = "";
+		orderRegDate = ""; 
 		totalAmount = 0;
 		shopName = "";
 		counterSeatYN = "";
@@ -55,6 +58,9 @@ public class Order implements Serializable{
 	    shopName = "";
 		startRow = 0;
 		endRow = 0;
+		finalMenu = "";
+		shopReviewContent = "";
+		shopScore = 0;
 	}
 
 	public String getOrderUID() {
@@ -176,6 +182,30 @@ public class Order implements Serializable{
 
 	public void setShop(Shop shop) {
 		this.shop = shop;
+	}
+	
+	public String getFinalMenu() {
+		return finalMenu;
+	}
+
+	public void setFinalMenu(String finalMenu) {
+		this.finalMenu = finalMenu;
+	}
+	
+	public String getShopReviewContent() {
+		return shopReviewContent;
+	}
+
+	public void setShopReviewContent(String shopReviewContent) {
+		this.shopReviewContent = shopReviewContent;
+	}
+
+	public double getShopScore() {
+		return shopScore;
+	}
+
+	public void setShopScore(double shopScore) {
+		this.shopScore = shopScore;
 	}
 	
 }

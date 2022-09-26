@@ -113,125 +113,121 @@ function remaindTime() {
 </head>
 
 <body>
-	<%@ include file="/WEB-INF/views/include/navigation.jsp"%>
+<%@ include file="/WEB-INF/views/include/navigation.jsp"%>
 
-	<!-- ======= Today Section ======= -->
-	<section id="today" class="today">
-		<div class="today-container container">
-			<div class="today-slider swiper">
-				<container>
-				<hr class="hr-5">
-				</container>
-				<h2 style="color: #000; margin-left: 30px;">
-					<strong>Today 마감</strong>
-				</h2>
-				<container>
-				<hr class="hr-5">
-				</container>
+<!-- ======= Today Section ======= -->
+<section id="today" class="today">
+	<div class="today-container container">
+	  <div class="row">
+		<div class="today-slider swiper">
+			<container>
+			<hr class="hr-5">
+			</container>
+			<h2 style="color: #000; margin-left: 30px;">
+				<strong>Today 마감</strong>
+			</h2>
+			<container>
+			<hr class="hr-5">
+			</container>
 
-				<!--메뉴-->
-				<div class="row">
-					<div class="col-12">
-						<table class="table table-image">
-							<nav class="navbar navbar-expand-lg navbar-light bg-translucent">
-								<div class="container-fluid">
-									<button class="navbar-toggler" type="button"
-										data-bs-toggle="collapse"
-										data-bs-target="#navbarSupportedContent"
-										aria-controls="navbarSupportedContent" aria-expanded="false"
-										aria-label="Toggle navigation">
-										<span class="navbar-toggler-icon"></span>
-									</button>
-									<form>
-										&nbsp;&nbsp;&nbsp;
-										<div class="collapse navbar-collapse" id="navbarSupportedContent">
-											<ul class="navbar-nav me-auto ">
-												<select class="select" aria-label="Default select example" style="width: 150px; height: 35px;">
-													<option value="0" selected
-														style="width: 150px; height: 35px;"
-														<c:if test="${searchType eq '0'}">selected</c:if>>전체</option>
-													<option value="1" style="width: 150px; height: 35px;"
-														<c:if test="${searchType eq '1'}">selected</c:if>>오마카세</option>
-													<option value="2" style="width: 150px; height: 35px;"
-														<c:if test="${searchType eq '2'}">selected</c:if>>파인다이닝</option>
-												</select>
-											</ul>
-									</form>
-									<div style="border: 1px solid #C2A384; margin-bottom: 14px;">
-										<input type="text" name="text" id="search"
-											<c:if test="${searchValue ne null and searchValue ne ''}">value="${searchValue}"</c:if>>
-										<button class="btn" type="submit" id="searchBtn">검색</button>
-									</div>
+			<!--메뉴-->
+			<div class="row2">
+				<div class="col-12">
+					<table class="table table-image">
+						<nav class="navbar navbar-expand-lg navbar-light bg-translucent">
+							<div class="container-fluid">
+								<button class="navbar-toggler" type="button"
+									data-bs-toggle="collapse"
+									data-bs-target="#navbarSupportedContent"
+									aria-controls="navbarSupportedContent" aria-expanded="false"
+									aria-label="Toggle navigation">
+									<span class="navbar-toggler-icon"></span>
+								</button>
+								<form>
+									&nbsp;&nbsp;&nbsp;
+									<div class="collapse navbar-collapse"
+										id="navbarSupportedContent">
+										<ul class="navbar-nav me-auto ">
+											<select class="select" aria-label="Default select example"
+												style="width: 150px; height: 35px;">
+												<option value="0" selected
+													style="width: 150px; height: 35px;"
+													<c:if test="${searchType eq '0'}">selected</c:if>>전체</option>
+												<option value="1" style="width: 150px; height: 35px;"
+													<c:if test="${searchType eq '1'}">selected</c:if>>오마카세</option>
+												<option value="2" style="width: 150px; height: 35px;"
+													<c:if test="${searchType eq '2'}">selected</c:if>>파인다이닝</option>
+											</select>
+										</ul>
+								</form>
+								<div style="border: 1px solid #C2A384; margin-bottom: 14px;">
+									<input type="text" name="text" id="search"
+										<c:if test="${searchValue ne null and searchValue ne ''}">value="${searchValue}"</c:if>>
+									<button class="btn" type="submit" id="searchBtn">검 색</button>
 								</div>
-							</nav>
-							<tbody class="menutable">
-								<c:if test="${!empty list}">
-									<c:forEach var="i" begin="0" end="6" step="3">
-										<tr>
-											<c:forEach var="j" begin="0" end="2">
-											 <c:if  test="${!empty list[i+j]}">
-											<th scope="row"> 
-												<td>
-													<div class="card" onClick="fn_view('${list[i + j].shopUID}')"
-													 data-bs-toggle="modal" data-bs-target="#exampleModal" id="modal-btn"
-														style="cursor: pointer;">
-														<img src='../resources/upload/shop/${list[i + j].shop.shopFile.shopFileName}' class="img-fluid img-thumbnail" style="height: 300px; width: 300px;">
-															<div class="card-body-right">
-															<h5 class="card-title">${list[i + j].shop.shopName}</h5>
-															<p> 예약 가능 인원 : ${list[i + j].reservationPeople}</p>
-															<p> ${list[i + j].shop.shopLocation1} ${list[i + j].shop.shopLocation2} ${list[i + j].shop.shopLocation3} ${list[i + j].shop.shopAddress}</p>
-															<div class="sec7-text-box">
-																<p class="font15 time-end${i+j}">예약시간</p>
-																<p class="font15 time-title${i+j}">Today 마감까지</p>
-																<div class="time font20">
-																	<span class="hours${i + j}"></span> <span class="col">:</span>
-																	<span class="minutes${i + j}"></span> <span class="col">:</span>
-																	<span class="seconds${i + j}"></span>
-																</div>
+							</div>
+						</nav>
+						<tbody class="menutable">
+							<c:if test="${!empty list}">
+								<c:forEach var="i" begin="0" end="6" step="3">
+									<tr>
+										<c:forEach var="j" begin="0" end="2">
+										<c:if test="${!empty list[i+j]}">
+										<th scope="row"> 
+											<td>
+												<div class="card" onClick="fn_view('${list[i + j].shopUID}')"
+													style="cursor: pointer; text-align:center;">
+													<img
+														src='../resources/upload/shop/${list[i + j].shopFile.shopFileName}'
+														class="img-fluid img-thumbnail"
+														style="height: 300px; width: 300px; display: block; margin: 0px auto;">
+														<div class="card-body-right">
+														<h5 class="card-title">${list[i + j].shopName}</h5>
+														<div class="sec7-text-box">
+															<p class="font15 time-end1">예약시간</p>
+															<p class="font15 time-title1">Today 마감까지</p>
+															<div class="time font20">
+																<span class="hours"></span> <span class="col">:</span>
+																<span class="minutes"></span> <span class="col">:</span>
+																<span class="seconds"></span>
 															</div>
 														</div>
 													</div>
-												</td>
-											 </c:if>
-
-											</c:forEach>
-										</tr>
-									</c:forEach>
-								</c:if>
-								<c:if test="${empty list}">
-									<th scope="row"> 
-										today가 존재하지 않습니다
-									</th>
-								</c:if>
-							</tbody>
-						</table>
-						<div class="page-wrap">
-							<ul class="page-nation">
-								<c:if test="${paging.prevBlockPage gt 0}">
-									<li class="page-item"><a class="page-link"
-										href="javascript:void(0)"
-										onclick="fn_list(${paging.prevBlockPage})"> < </a></li>
-								</c:if>
-								<c:forEach var="i" begin="${paging.startPage}"
-									end="${paging.endPage}">
-									<c:choose>
-										<c:when test="${i ne curpage}">
-											<li class="page-item"><a class="page-link"
-												href="javascript:void(0)" onclick="fn_list(${i})">${i}</a></li>
-										</c:when>
-										<c:otherwise>
-											<li class="page-item"><a class="page-link"
-												href="javascript:void(0)" style="cursor: default;">${i}</a></li>
-										</c:otherwise>
-									</c:choose>
+												</div>
+											</td>
+										 </c:if>
+										</c:forEach>
+									</tr>
 								</c:forEach>
-								<c:if test="${paging.nextBlockPage gt 0}">
-									<li class="page-item"><a class="page-link"
-										href="javascript:void(0)"
-										onclick="fn_list(${paging.nextBlockPage})"> > </a></li>
-								</c:if>
-							</ul>
-						</div>
+							</c:if>
+						</tbody>
+					</table>
+					<div class="page-wrap">
+						<ul class="page-nation">
+							<c:if test="${paging.prevBlockPage gt 0}">
+								<li class="page-item"><a class="page-link"
+									href="javascript:void(0)"
+									onclick="fn_list(${paging.prevBlockPage})"> < </a></li>
+							</c:if>
+							<c:forEach var="i" begin="${paging.startPage}"
+								end="${paging.endPage}">
+								<c:choose>
+									<c:when test="${i ne curpage}">
+										<li class="page-item"><a class="page-link"
+											href="javascript:void(0)" onclick="fn_list(${i})">${i}</a></li>
+									</c:when>
+									<c:otherwise>
+										<li class="page-item"><a class="page-link"
+											href="javascript:void(0)" style="cursor: default;">${i}</a></li>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+							<c:if test="${paging.nextBlockPage gt 0}">
+								<li class="page-item"><a class="page-link"
+									href="javascript:void(0)"
+									onclick="fn_list(${paging.nextBlockPage})"> > </a></li>
+							</c:if>
+						</ul>
 					</div>
 				</div>
 			</div>
@@ -244,8 +240,19 @@ function remaindTime() {
 				<input type="hidden" name="reservationTime" value="${reservationTime}" />
 			</form>
 		</div>
-	</section>
-	<!-- End today Section -->
+		<form name="bbsForm" id="bbsForm" method="post">
+			<input type="hidden" name="shopUID" value="" /> <input
+				type="hidden" name="searchType" value="${searchType}" /> <input
+				type="hidden" name="searchValue" value="${searchValue}" /> <input
+				type="hidden" name="curPage" value="${curPage}" /> <input
+				type="hidden" name="reservationDate" value="${reservationDate}" />
+			<input type="hidden" name="reservationTime"
+				value="${reservationTime}" />
+		</form>
+		</div>
+	</div>
+</section>
+<!-- End today Section -->
 
 	<!--footer-->
 	<%@ include file="/WEB-INF/views/include/footer.jsp"%>

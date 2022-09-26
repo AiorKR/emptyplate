@@ -1,27 +1,33 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%
 	// 개행문자 값을 저장한다.
-	pageContext.setAttribute("newLine", "\n");
-	// Community 번호
-	request.setAttribute("No", 2);
-
+pageContext.setAttribute("newLine", "\n");
+// Community 번호
+request.setAttribute("No", 2);
 %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <!--date and time picker-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
 <link rel="stylesheet" href="/resources/datepicker/date_picker.css">
-<!--end date and time picker-->  
-     
-<%@ include file="/WEB-INF/views/include/head.jsp" %>
+<!--end date and time picker-->
+
+<%@ include file="/WEB-INF/views/include/head.jsp"%>
 
 <!--date and time picker-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.js"></script>
 <!--end date and time picker-->
 
 <script type="text/javascript">
@@ -91,8 +97,7 @@ $(document).ready(function(){
 		startDate: '0d',
 		endDate: '+1m'
     });
-    
-//데이트피커에서 선택시 시간 선택지 나오게 하는 함수
+	//데이트피커에서 선택시 시간 선택지 나오게 하는 함수
     $('.dptime').click(function(){
       $('.dptime').removeClass('select');
       $(this).addClass('select');
@@ -113,6 +118,7 @@ $(document).ready(function(){
 	<!-- ======= reservations Section ======= -->
 	<section id="reservation" class="reservation">
 		<div class="reservation-container container">
+		  <div class="row">
 			<div class="reservation-slider swiper">
 				<container style="color: #2536;">
 				<hr class="hr-5">
@@ -131,23 +137,21 @@ $(document).ready(function(){
 									<img alt=""
 										src="../resources/upload/shop/${shop.shopUID}/${shop.shopFile.shopFileName}"
 										style="height: 300px; width: 300px; position: relative; left: 150px; top: 25px;">
-									<span style="position: relative; bottom: 220px; left: 600px;">
+									<span style="position: relative; bottom: 250px; left: 600px;">
 										<h3>${shop.shopName}</h3>
 										<ul>
 											<li><i class="fa-solid fa-map-location-dot"></i>
 												${shop.shopLocation1} ${shop.shopLocation2}
 												${shop.shopLocation3} ${shop.shopAddress}</li>
 											<li><i class="fa-regular fa-star"></i> 별점 4.3 (500)</li>
+											<li><ion-icon name="information-circle-outline"></ion-icon> ${shop.shopIntro}</li>
+											<c:forTokens items="${shop.shopHashtag}" delims="#"	var="shopHashtag">
+												<span onclick="fn_search('${shopHashtag}')" class="hashtag"> 
+												<i class="fa-solid fa-hashtag"><c:out value='${shopHashtag}' /></i>
+												</span>
+											</c:forTokens>
 										</ul>
-										<p class="fa-solid fa-pen" style="color: #cda45e; font-size: 19px;">
-											${shop.shopIntro}</p>
-										<br /> <c:forTokens items="${shop.shopHashtag}" delims="#"
-											var="shopHashtag">
-											<span onclick="fn_search('${shopHashtag}')"
-												style="cursor: pointer;"> <i
-												class="fa-solid fa-hashtag"><c:out value='${shopHashtag}' /></i>
-											</span>
-										</c:forTokens>
+										
 									</span>
 								</div>
 							</div>
@@ -193,7 +197,7 @@ $(document).ready(function(){
 										&nbsp;&nbsp;&nbsp;
 										<div class="collapse navbar-collapse" id="navbarSupportedContent">
 											<ul class="navbar-nav me-auto ">
-												<select class="select" aria-label="Default select example" style="width: 150px; height: 35px; cursor: pointer;">
+												<select class="select" aria-label="Default select example" style="width: 150px; height: 38px; cursor: pointer;">
 													<option value="0" selected
 														style="width: 150px; height: 35px; cursor: pointer;"
 														selected <c:if test="${searchType eq '0'}">selected</c:if>>전체</option>
@@ -209,7 +213,7 @@ $(document).ready(function(){
 									<div style="border: 1px solid #C2A384">
 										<input type="text" name="text" id="search"
 											<c:if test="${searchValue ne null and searchValue ne ''}">value="${searchValue}"</c:if>>
-										<button class="btn" type="submit" id="searchBtn">검색</button>
+										<button class="btn" type="submit" id="searchBtn">검 색</button>
 									</div>
 								</div>
 							</nav>
@@ -361,6 +365,7 @@ $(document).ready(function(){
 						</div>
 					</div>
 				</div>
+			  </div>
 			</div>
 			<form name="bbsForm" id="bbsForm" method="post">
 				<input type="hidden" name="shopUID" value="" /> 

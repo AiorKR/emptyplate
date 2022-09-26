@@ -14,29 +14,77 @@
 $(document).ready(function() {
     //하이보드컨트롤러로 이동
    $("#btnSearch").on("click", function() { 
-      document.bbsForm.bbsSeq.value = "";
-      document.bbsForm.searchType.value = $("#_searchType").val();
-      document.bbsForm.searchValue.value = $("#_searchValue").val();
-      document.bbsForm.curPage.value = "1";
-      document.bbsForm.action = "/help/helpList";
-      document.bbsForm.submit();
+      document.helpPageForm.bbsSeq.value = "";
+      document.helpPageForm.searchType.value = $("#_searchType").val();
+      document.helpPageForm.searchValue.value = $("#_searchValue").val();
+      document.helpPageForm.curPage.value = "1";
+      document.helpPageForm.action = "/help/helpList";
+      document.helpPageForm.submit();
    });
+ //글쓰기
+   $("#btnWrite").on("click", function() {     
+      document.helpPageForm.bbsSeq.value = "";
+      document.helpPageForm.action = "/help/helpWriteForm";
+      document.helpPageForm.submit();
+   });
+ 
+   //검색
+   $("#btnSearch").on("click", function() { 
+      document.helpPageForm.bbsSeq.value = "";
+      document.helpPageForm.bbsNo.value=$("#btnSearch").val();
+      document.helpPageForm.searchType.value = $("#_searchType").val();
+      document.helpPageForm.searchValue.value = $("#_searchValue").val();
+      document.helpPageForm.curPage.value = "1";
+      document.helpPageForm.action = "/help/helpList";
+      document.helpPageForm.submit();
+   });
+   
+   //최신순
+   $("#btnSort1").on("click", function() { 
+	      document.helpPageForm.bbsSeq.value = "";
+	      document.helpPageForm.searchType.value = $("#_searchType").val();
+	      document.helpPageForm.searchValue.value = $("#_searchValue").val();
+	      document.helpPageForm.sortValue.value = $("#btnSort1").val();
+	      document.helpPageForm.curPage.value = "1";
+	      document.helpPageForm.action = "/help/helpList";
+	      document.helpPageForm.submit();
+   });
+   
+   //조회순
+   $("#btnSort3").on("click", function() { 
+         document.helpPageForm.bbsSeq.value = "";
+         document.helpPageForm.searchType.value = $("#_searchType").val();
+         document.helpPageForm.searchValue.value = $("#_searchValue").val();
+         document.helpPageForm.sortValue.value = "6";
+         document.helpPageForm.curPage.value = "1";
+         document.helpPageForm.action = "/help/helpList";
+         document.helpPageForm.submit();
+      });
+   
+ //인덱스
+   $("#btnIndex").on("click", function() {
+      document.helpPageForm.action = "/help/index";
+      document.helpPageForm.submit();
+   });
+
 });
 
 function fn_view(bbsSeq)
 {
-	document.helpListForm.bbsSeq.value = bbsSeq;
-	document.helpListForm.action = "/help/helpView";
-	document.helpListForm.submit();
+	document.helpPageForm.bbsSeq.value = bbsSeq;
+	document.helpPageForm.action = "/help/helpView";
+	document.helpPageForm.submit();
 }
 
 function fn_list(curPage)
 {
-   document.helpListForm.bbsSeq.value = "";
-   document.helpListForm.curPage.value = curPage;
-   document.helpListForm.action = "/help/helpList";
-   document.helpListForm.submit();   
+	document.helpPageForm.bbsSeq.value = "";
+   	document.helpPageForm.curPage.value = curPage;
+   	document.helpPageForm.action = "/help/helpList";
+   	document.helpPageForm.submit();   
 }
+
+
 </script>
 </head>
 
@@ -64,18 +112,21 @@ function fn_list(curPage)
         </div>
           <div class="d-flex flex-row justify-content-between">
           <ul>
-            <li><a href="#">최신글순</a></li>
-            <li><a href="#">조회순</a></li>
+            <li><button type="button" value="4" id="btnSort1" class="btnSort">최신순</button></li>
+			<li><button type="button" value="6" id="btnSort3" class="btnSort">조회순</button></li>
           </ul>
           
           <div>
-            <select class="select" aria-label="Default select example">
-              <option value="0" selected>제목</option>
-              <option value="1">내용</option>
-            </select>
-            <form action="" method="post">
-              <input type="text" name="text"><input type="submit" value="검색">
-            </form>
+            <select class="select" id="_searchType" aria-label="Default select example">
+				<option value="">검색항목</option>
+				<option value="1" <c:if test="${searchType eq '1'}">selected</c:if>>작성자</option>
+				<option value="2" <c:if test="${searchType eq '2'}">selected</c:if>>제목</option>
+				<option value="3" <c:if test="${searchType eq '3'}">selected</c:if>>내용</option>
+			</select>
+			<div class="search">
+				<input type="text" name="_searchValue" id="_searchValue" value="${searchValue}" />
+				<button type="button" id="btnSearch" value="${bbsNo}">검색</button>
+			</div>
           </div>
         </div>
         
@@ -98,7 +149,14 @@ function fn_list(curPage)
                 </c:forEach>
            	  </c:if>
           </table>
-        </div>        
+        </div>
+        
+			<div class="d-flex flex-row justify-content-between">
+				<button type="button" id="btnIndex" class="board-list"><ion-icon name="reader"></ion-icon>&nbsp;메인</button>
+				  
+				<c:if test="${admin eq 'Y'}"><button id="btnWrite">글쓰기</button>
+				</c:if>
+			</div>        
         <div class="page-wrap">
          <ul class="page-nation">
            <c:if test="${paging.prevBlockPage gt 0}">
@@ -119,16 +177,22 @@ function fn_list(curPage)
            </c:if>
          </ul>
        </div>
-     </div>
       </div>
-	<form name="helpListForm" id="helpListForm" method="GET">
-		<input type="hidden" name="bbsSeq" value="" />
-		<input type="hidden" name="searchType" value="${searchType}" />
-		<input type="hidden" name="searchValue" value="${searchValue}" />
-		<input type="hidden" name="curPage" value="${curPage}" />
-	</form>
+			<!-- form name="helpViewForm" id="helpViewForm" method="GET">
+				<input type="hidden" name="bbsSeq" value="" />
+			</form -->
+			<form name="helpPageForm" id="helpPageForm" method="POST">
+				<input type="hidden" name="bbsSeq" value=""/>
+				<input type="hidden" name="searchType" value="${searchType}" />
+				<input type="hidden" name="searchValue" value="${searchValue}" />
+				<input type="hidden" name="sortValue" value="${sortValue}" />
+				<input type="hidden" name="bbsNo" value="${bbsNo}" />
+				<input type="hidden" name="curPage" value="${curPage}" />
+			</form>
+    	</div>
     </div>
-  </section><!-- Community Hero -->
+  </section>
+  <!-- Community Hero -->
 
   <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 </body>

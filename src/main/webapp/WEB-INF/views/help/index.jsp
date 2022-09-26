@@ -2,7 +2,7 @@
 <%
 	// 개행문자 값을 저장한다.
 	pageContext.setAttribute("newLine", "\n");
-	// Community 번호
+	// help 번호
 	request.setAttribute("No", 5);
 
 %>
@@ -25,9 +25,9 @@ function fn_helpList(bbsNo)
 //게시물 불러오기
 function fn_view(bbsSeq)
 {
-	document.helpViewForm.bbsSeq.value = bbsSeq;
-	document.helpViewForm.action = "/help/helpView";
-	document.helpViewForm.submit();
+	document.helpListForm.bbsSeq.value = bbsSeq;
+	document.helpListForm.action = "/help/helpView";
+	document.helpListForm.submit();
 }
 
 </script>
@@ -79,8 +79,7 @@ function fn_view(bbsSeq)
 		        	</c:if>
             </div>
           </div>
-        </div>
-        <div class="col-lg-12">
+          
           <div id = "faq">
             <h3>FAQ</h3>
             <h4 id ="_bbsNo" name="_bbsNo" value="2"><a class="page-link" onclick="fn_helpList(2)">FAQ 모두보기<ion-icon name="arrow-forward-outline"></ion-icon></a></h4>
@@ -202,10 +201,8 @@ function fn_view(bbsSeq)
           </div>
         </div>
       </div>
-		<form name="helpListForm" id="helpListForm" method="GET">
+		<form name="helpListForm" id="helpListForm" method="POST">
 			<input type="hidden" name="bbsNo" value="" />
-		</form>
-		<form name="helpViewForm" id="helpViewForm" method="GET">
 			<input type="hidden" name="bbsSeq" value="" />
 		</form>
     </div>
