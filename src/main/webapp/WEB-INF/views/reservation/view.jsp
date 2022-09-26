@@ -38,10 +38,7 @@ request.setAttribute("No", 2);
 <script type="text/javascript">
 $(document).ready(function(){
 	
-	$("#counterSeat").on("click", function() {
-		
-		console.log($("#counterSeat").is(":checked"));
-																																																																																													
+	$("#counterSeat").on("click", function() {																																																																																								
 		if($("#counterSeat").is(":checked")) {
 			document.bbsForm.counterSeatYN.value = "Y";
 			if(document.bbsForm.reservationDate.value != "" && document.bbsForm.reservationTime.value != "") {
@@ -52,6 +49,44 @@ $(document).ready(function(){
 			document.bbsForm.counterSeatYN.value = "N";
 		}
 		
+	});
+	
+	$("#today-btn").on("click", function() {
+		$.ajax({
+		       type:"get",
+		       url:"/today/viewProc",
+		       data:{
+		          shopUID:'<c:out value="${shopUID}" />'
+		       },
+		       datatype:"JSON",
+		       beforeSend:function(xhr){
+		          xhr.setRequestHeader("AJAX", "true");
+		       },
+		       success:function(response){
+	           	  if(response.code == 0) {
+	            	if(response.data != null) {
+	            		console.log(response.data);
+	            	}
+	            	else {
+	            		alter("list 조회 중 오류가 발생했습니다.");
+	            	}
+	              }
+	              else if(response.code == 404) {
+				  	location.href = "/reservation/list"
+		          }
+	              else if(response.code == 403) {
+					location.href = "/user/login" ;
+	              }
+		          else
+		          {
+		        	 console.log(response.code);
+		             alert("today list 조회 중 오류가 발생하였습니다.");
+		          }
+		       },
+		       error:function(xhr, status, error){
+		          icia.common.error(error);
+		       }
+		    });
 	});
 	
 	//게시물 즐겨찾기
@@ -121,10 +156,10 @@ $(document).ready(function(){
 			  document.bbsForm.reservationPeople.value = $(".personnel-selected-value").text().replaceAll("명", "");;
 			  if($("#pay").is(":disabled")) { //disabled 처리 되있다면 풀어줌
          		 $("#pay").attr("disabled", false);
-     			 if(document.bbsForm.reservationDate.value != "" && document.bbsForm.reservationTime.value != "") {
-    				 reservationCheck();
-    			 }
          	 }
+  			 if(document.bbsForm.reservationDate.value != "" && document.bbsForm.reservationTime.value != "") {
+				 reservationCheck();
+			 }
 		}); 
 		$(".datepicker").change(function() {
 			
@@ -134,8 +169,8 @@ $(document).ready(function(){
 			var curHours = (tDate.getHours() + 3); curHours = curHours >= 10 ? curHours : '0' + curHours + 3;
 			var curTime = curHours + "00";
 			
-			console.log("todat : " +today);
-			console.log(' $(".datepicker").val()' + $(".datepicker").val());
+			console.log("today : " +today);
+			console.log(' $(".datepicker").val() : ' + $(".datepicker").val());
 			
 			if($(".datepicker").val() == today) {
 				console.log("오늘임");
@@ -150,7 +185,7 @@ $(document).ready(function(){
 			}
 			$("#datepicker-ul").attr('style', "display:inline;");
 		});
-
+		
 		$(document).ready(function(){
 		    $('.datepicker').datepicker({
 				format: 'yyyy.mm.dd',
@@ -161,40 +196,40 @@ $(document).ready(function(){
 				immediateUpdates: true
 		    });
 		    
-	    $('.dptime').click(function(){
-	    	$('.dptime').removeClass('select');
-	      	$(this).addClass('select');
-	      	$("#datepicker-ul").attr('style', "display:none;");
-	      	document.bbsForm.reservationDate.value = $('.datepicker').val().replaceAll(".", "");
-	      	document.bbsForm.reservationTime.value = $(this).text();
-	      	if($(this).text() != "" && $(this).text() != null) {
-				<c:forEach items="${shop.shopTime}" var="shopTime" varStatus="status">
-					if($(this).text() ==  '${shopTime.shopOrderTime}') {
-					 	type = '${shopTime.shopTimeType}';
-					 	<c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status2">
-						if(type != '${shopMenu.shopMenuCode}'){
-							console.log("type : " + type);
-							console.log("type : " + type);
-					 		$("#shopMenu${status2.index}").attr('style', "display:none;");
-					 	}
-						if(type == '${shopMenu.shopMenuCode}'){
-							console.log("type : " + type);
-							console.log("type : " + type);
-					 		$("#shopMenu${status2.index}").attr('style', "display:inline;");
-					 	} 
-						</c:forEach>
-					 	$(".shopOrderMenu").text("");
-					 	$("#totalAmount").text(0);
-					 	shopOrderMenuTotalAmount = 0;
-					}
-				</c:forEach>
-	      	}
-	      	document.bbsForm.reservationTime.value = $(this).text().replaceAll(":", "");
-		  	$('.datepicker').val($('.datepicker').val()+ ' ' + $(this).text());
-		  	$("#tableCheck").text("");
-		  	reservationCheck();	
-	    	});
-		});
+		    $('.dptime').click(function(){
+		    	$('.dptime').removeClass('select');
+		      	$(this).addClass('select');
+		      	$("#datepicker-ul").attr('style', "display:none;");
+		      	document.bbsForm.reservationDate.value = $('.datepicker').val().replaceAll(".", "");
+		      	document.bbsForm.reservationTime.value = $(this).text();
+		      	if($(this).text() != "" && $(this).text() != null) {
+					<c:forEach items="${shop.shopTime}" var="shopTime" varStatus="status">
+						if($(this).text() ==  '${shopTime.shopOrderTime}') {
+						 	type = '${shopTime.shopTimeType}';
+						 	<c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status2">
+							if(type != '${shopMenu.shopMenuCode}'){
+								console.log("type : " + type);
+								console.log("type : " + type);
+						 		$("#shopMenu${status2.index}").attr('style', "display:none;");
+						 	}
+							if(type == '${shopMenu.shopMenuCode}'){
+								console.log("type : " + type);
+								console.log("type : " + type);
+						 		$("#shopMenu${status2.index}").attr('style', "display:inline;");
+						 	} 
+							</c:forEach>
+						 	$(".shopOrderMenu").text("");
+						 	$("#totalAmount").text(0);
+						 	shopOrderMenuTotalAmount = 0;
+						}
+					</c:forEach>
+		      	}
+		      	document.bbsForm.reservationTime.value = $(this).text().replaceAll(":", "");
+			  	$('.datepicker').val($('.datepicker').val()+ ' ' + $(this).text());
+			  	$("#tableCheck").text("");
+			  	reservationCheck();	
+		    	});
+			});
 	
 	$("#pay").on("click", function fn_pay() {
 		
@@ -643,31 +678,183 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
     </div>
   </div>
 
-   <form name="bbsForm" id="bbsForm" method="post">
-    <input type="hidden" name="shopUID" id="shopUID"  value="${shop.shopUID}"/> 
-     <input type="hidden" name="searchType"  value="${searchType}"/>
-     <input type="hidden" name="searchValue" value="${searchValue}" />
-     <input type="hidden" name="curPage" value="${curPage}" />
-     <input type="hidden" name="reservationDate" id="reservationDate" value="${reservationDate}" />
-     <input type="hidden" name="reservationTime" id="reservationTime" value="${reservationTime}" />
-     <input type="hidden" name="reservationPeople" id="reservationPeople" value="" />
-     <c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
-  		<input type="hidden" name="shopOrderMenu${status.index}" value="${shopMenu.shopMenuName}" />
-  		<input type="hidden" name="shopOrderMenuQuantity${status.index}" value="0" />
-     </c:forEach>
-     <input type="hidden" name="totalAmount2" id="totalAmount2" value="0">
-     <input type="hidden" name="counterSeatYN" id="counterSeatYN" value="N"><!-- 카운터석으로 앉을지 여부 Y는 카운터석, N은 카운터석이 아닌자리 -->
-  </form>
- </div>
-</section>
+                  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c114849a120d4c8456de73d6e0e3b3a0&libraries=services"></script>
+                  <script>
+                  var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                      mapOption = {
+                          center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                          level: 2 // 지도의 확대 레벨
+                      };  
+                  
+                  // 지도를 생성합니다    
+                  var map = new kakao.maps.Map(mapContainer, mapOption); 
+                  
+                  // 주소-좌표 변환 객체를 생성합니다
+                  var geocoder = new kakao.maps.services.Geocoder();
+                  
+                  // 주소로 좌표를 검색합니다
+                  geocoder.addressSearch('${address}', function(result, status) {
+                  
+                      // 정상적으로 검색이 완료됐으면 
+                       if (status === kakao.maps.services.Status.OK) {
+                  
+                          var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                  
+                          // 결과값으로 받은 위치를 마커로 표시합니다
+                          var marker = new kakao.maps.Marker({
+                              map: map,
+                              position: coords
+                          });
+                  
+                          // 인포윈도우로 장소에 대한 설명을 표시합니다
+                          var infowindow = new kakao.maps.InfoWindow({
+                              content: '<div style="width:150px;text-align:center;padding:6px 0;color:black;">${shop.shopName}</div>'
+                          });
+                          infowindow.open(map, marker);
+                  
+                          // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                          map.setCenter(coords);
+                          map.setDraggable(false); //드래그 막기
+                          map.setZoomable(false);  //휠로 줌 막기
+                      } 
+                  });  
+                  </script>
+                  </div>           
+                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2" id="modal-btn2"  style="color:#ffff;" >
+                               	예약
+                          </button>
 
-<script>
-  function changeImage(element) {
-     var main_prodcut_image = document.getElementById('main_product_image');
-     main_prodcut_image.src = element.src; 
-  }
-</script>
+                          <!-- Modal -->
+                          <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="m">예약</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  	<div id="shopName">${shop.shopName}</div>
+                                  	<div id="selectcontent" style="position: relative;z-index: 1500;">
+                                    	<div class="personnel-select">
+                                        	<div class="personnel-selected">
+                                          		<div class="personnel-selected-value">인원을 선택해주세요</div>
+                                        	</div>
+                                        	<ul id="select-ul">
+                                          		<li class="option">1명</li>
+                                          		<li class="option">2명</li>
+                                          		<li class="option">3명</li>
+                                          		<li class="option">4명</li>
+                                          		<li class="option">5명</li>
+                                          		<li class="option">6명</li>
+                                          		<li class="option">7명</li>
+                                          		<li class="option">8명</li>
+                                         		<li class="option">9명</li>
+                                       		</ul>
+                                    	</div>
+	                                    <input type="text" class="datepicker" placeholder="날자를 선택해주세요" name="date" readonly>
+	                                    <div class="box">
+	                                        <ul id="datepicker-ul">
+	                                            <li id="datepicker-li" style="display: none;">
+	                                            	<c:forEach items="${shop.shopTime}" var="shopTime" varStatus="status">
+														<div class="dptime" id="shopTime${status.index}">${shopTime.shopOrderTime}</div>
+	                               					</c:forEach>  
+	                                            </li>
+	                                        </ul>
+	                                    </div>
+	                                    <c:if test="${shop.shopType eq 2}"> <!-- 오마카세일때 적용 -->
+	                                    	카운터석 : <input type="checkbox" id="counterSeat" class="counterSeat"/>
+	                                    	* 카운터석은 연속되게 앉을 수 없을 수도 있습니다. *
+                                  		</c:if>
+                                  	</div>	
+                              		<div id="tableCheck">
 
-<%@ include file="/WEB-INF/views/include/footer.jsp"%>
-</body>
+									</div>
+                                    <div class="menuQuantity">
+                                   		<ul class="menuQuantity">
+                                   			<table>
+                                       			<c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
+													<tr id="shopMenu${status.index}">
+														<td>
+															${shopMenu.shopMenuName}
+														</td>
+														
+														<td>
+															 ${shopMenu.shopMenuPrice} 원
+														</td>
+														<td>
+															<input type="button" value="+" onclick="fn_MenuAdd('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})"  class="btn btn-primary" style="height:30px;width:30px;"/>
+															<input type="button" value="-" onclick="fn_MenuSub('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})"  class="btn btn-primary" style="height:30px;width:30px;" />
+															<input type="button" value="삭제" onclick="fn_Menudel('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})" class="btn btn-primary" style="height:30px;width:60px;" />
+														</td>
+													</tr>
+                        			  			</c:forEach>
+                        			  		</table>
+                                      	</ul>
+                                	</div>
+	                                	<div style="border:1px solid black;">
+	                                		<p>주문 메뉴</p>
+	                                		<c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
+	                                			<div>
+	                              	  				<span id="shopOrderMenu${status.index}" class="shopOrderMenu"></span>
+	                                				<span id="shopOrderMenuQuantity${status.index}" class="shopOrderMenu"></span>
+	                                			</div>
+	                                		</c:forEach>
+	                                		<p style="border:1px solid blakc;">총 금액 : <span id="totalAmount">0</span></p>
+	                                	</div>
+                                    </div>
+                                   <div class="modal-footer">
+ 							  			<button class="btn btn-primary" style="border:none;" id="pay">결제</button>
+                             	  </div>
+                                </div>
+                              </div>
+                             </div>
+                          </div>
+                        <div class="search-option"><i class='bx bx-search-alt-2 first-search'></i>
+                            <div class="inputs"> <input type="text" name=""> </div> <i class='bx bx-share-alt share'></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <container>
+           <hr class="hr-5">
+        </container>
+        <div class="review-container1">
+          <h5 style="color:#FF7F50; text-align:center;">Review</h5>
+        <container>
+           <hr class="hr-5">
+        </container>
+          <div class="review">
+            <ul style="border-bottom:1px solid #C2A383">
+              <c:forEach items="${shop.reviewList}" var="reviewList" varStatus="status">
+              	<li>${reviewList.userName} : ${reviewList.shopReviewContent} ${reviewList.shopScore}  / ${reviewList.shopReviewRegDate}</li>
+              </c:forEach>
+            </ul>
+          </div>
+        </div>
+
+             <form name="bbsForm" id="bbsForm" method="post">
+              <input type="hidden" name="shopUID" id="shopUID"  value="${shop.shopUID}"/> 
+               <input type="hidden" name="searchType"  value="${searchType}"/>
+               <input type="hidden" name="searchValue" value="${searchValue}" />
+               <input type="hidden" name="curPage" value="${curPage}" />
+               <input type="hidden" name="reservationDate" id="reservationDate" value="${reservationDate}" />
+               <input type="hidden" name="reservationTime" id="reservationTime" value="${reservationTime}" />
+               <input type="hidden" name="reservationPeople" id="reservationPeople" value="" />
+               <c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
+        	   		<input type="hidden" name="shopOrderMenu${status.index}" value="${shopMenu.shopMenuName}" />
+        	   		<input type="hidden" name="shopOrderMenuQuantity${status.index}" value="0" />
+               </c:forEach>
+               <input type="hidden" name="totalAmount2" id="totalAmount2" value="0">
+               <input type="hidden" name="counterSeatYN" id="counterSeatYN" value="N"><!-- 카운터석으로 앉을지 여부 Y는 카운터석, N은 카운터석이 아닌자리 -->
+            </form>
+        </div>
+        </section>
+    <script>
+      function changeImage(element) {
+         var main_prodcut_image = document.getElementById('main_product_image');
+         main_prodcut_image.src = element.src; 
+      }
+    </script>
+    <%@ include file="/WEB-INF/views/include/footer.jsp" %>
+</body>	
 </html>

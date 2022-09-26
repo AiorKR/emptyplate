@@ -1,4 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	// 개행문자 값을 저장한다.
+	pageContext.setAttribute("newLine", "\n");
+	// Community 번호
+	request.setAttribute("No", 2);
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,6 +27,8 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
+	remaindTime();
+	
 	$(".select").change(function() { 
     	document.bbsForm.curPage.value = "1";
         document.bbsForm.searchType.value = $(".select").val();
@@ -58,6 +67,47 @@ function fn_search(shopHashtag) {
 	document.bbsForm.searchValue.value = shopHashtag	;
 	document.bbsForm.action = "/today/list";
 	document.bbsForm.submit();
+}
+
+function remaindTime() {
+	var now = new Date();
+
+	<c:forEach items="${list}" var="list" varStatus="status">
+	    var yyyy = '${list.shopReservationTableList[0].shopReservationDate}'.substring (0, 4);   
+	    var mm = '${list.shopReservationTableList[0].shopReservationDate}'.substring (4, 6);    
+	    var dd = '${list.shopReservationTableList[0].shopReservationDate}'.substring (6, 8);
+	    
+	    var hh = '${list.shopReservationTableList[0].shopReservationTime}'.substring (0, 2);    
+	    var mi = '${list.shopReservationTableList[0].shopReservationTime}'.substring (2, 4);
+	    
+	    var endcheck = yyyy + '년 ' + mm + '월 ' + dd + '일 ' + hh + '시' + mi + '분';
+	    
+	    var end = new Date(yyyy, mm-1, dd, hh, mi);
+	
+	    var nt = now.getTime();
+	    var et = end.getTime();
+	  
+	   if(nt<et){
+	     $(".time").fadeIn();
+	     $(".time-title${status.index}").html("Today 마감까지");
+	     $(".time-end${status.index}").html(endcheck);
+	     sec = parseInt(et - nt) / 1000; 
+	     day  = parseInt(sec/60/60/24);
+	     sec = (sec - (day * 60 * 60 * 24));
+	     hour = parseInt(sec/60/60);
+	     sec = (sec - (hour*60*60));
+	     min = parseInt(sec/60);
+	     sec = parseInt(sec-(min*60));
+	     if(hour<10){hour="0"+hour;}
+	     if(min<10){min="0"+min;}
+	     if(sec<10){sec="0"+sec;}
+	      $(".hours${status.index}").html(hour);
+	      $(".minutes${status.index}").html(min);
+	      $(".seconds${status.index}").html(sec);
+	      
+	      setInterval(remaindTime,1000);
+	    }
+    </c:forEach>
 }
 </script>
 </head>
@@ -181,6 +231,14 @@ function fn_search(shopHashtag) {
 					</div>
 				</div>
 			</div>
+			<form name="bbsForm" id="bbsForm" method="post">
+				<input type="hidden" name="shopUID" value="" /> <input
+					type="hidden" name="searchType" value="${searchType}" /> <input
+					type="hidden" name="searchValue" value="${searchValue}" /> <input
+					type="hidden" name="curPage" value="${curPage}" /> <input
+					type="hidden" name="reservationDate" value="${reservationDate}" />
+				<input type="hidden" name="reservationTime" value="${reservationTime}" />
+			</form>
 		</div>
 		<form name="bbsForm" id="bbsForm" method="post">
 			<input type="hidden" name="shopUID" value="" /> <input
@@ -196,12 +254,8 @@ function fn_search(shopHashtag) {
 </section>
 <!-- End today Section -->
 
-<!--count down-->
-<script src="./assets/countdown/countdown.js"></script>
-<!--count down-->
-
-<!--footer-->
-<%@ include file="/WEB-INF/views/include/footer.jsp"%>
+	<!--footer-->
+	<%@ include file="/WEB-INF/views/include/footer.jsp"%>
 
 </body>
 </html>

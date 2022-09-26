@@ -21,11 +21,12 @@ public class Shop implements Serializable{
 	private String shopTelephone;	//매장전화번호
 	private String shopIntro;		//매장한줄소개
 	private String shopContent;	 	//매장내용
-	private double shopStarScore;	//매장 별점
 	private String shopRegDate;		//매장등록일
 	
 	private long startRow;		//시작 rownum
 	private long endRow;		//끝 rownum
+	private double reviewScore;
+	private int reviewCount;
 	
 	private String searchType;	//조회항목(0: 전체, 1: 파인다이닝. 2:오마카세)
 	private String searchValue;	//검색값
@@ -45,6 +46,8 @@ public class Shop implements Serializable{
 	
 	private List<Order> order; //매장 주문
 	
+	private List<ShopReview> reviewList;
+	
 	
 	public Shop() {
 		shopUID = "";
@@ -60,12 +63,12 @@ public class Shop implements Serializable{
 		shopTelephone = "";
 		shopIntro = "";
 		shopContent = "";
-		shopStarScore = 0;
 		shopRegDate = "";
-		
+		reviewScore = 0;
+		reviewCount = 0;
 		reservationDate = "";
 		reservationTime = "";
-		
+		reviewList = null;
 		shopFile = null;
 		shopFileList = null;
 		shopMenu = null;
@@ -205,17 +208,6 @@ public class Shop implements Serializable{
 		this.shopContent = shopContent;
 	}
 	
-	
-	public double getShopStarScore() {
-		return shopStarScore;
-	}
-	
-	
-	public void setShopStarScore(double shopStarScore) {
-		this.shopStarScore = shopStarScore;
-	}	
-
-
 	public String getShopRegDate() {
 		return shopRegDate;
 	}
@@ -344,7 +336,35 @@ public class Shop implements Serializable{
 		this.reservationTime = reservationTime;
 	}
 
-	
+
+	public double getReviewScore() {
+		return reviewScore;
+	}
+
+
+	public void setReviewScore(double reviewScore) {
+		this.reviewScore = reviewScore;
+	}
+
+
+	public int getReviewCount() {
+		return reviewCount;
+	}
+
+
+	public void setReviewCount(int reviewCount) {
+		this.reviewCount = reviewCount;
+	}
+
+
+	public List<ShopReview> getReviewList() {
+		return reviewList;
+	}
+
+
+	public void setReviewList(List<ShopReview> reviewList) {
+		this.reviewList = reviewList;
+	}
 	
 	
 }

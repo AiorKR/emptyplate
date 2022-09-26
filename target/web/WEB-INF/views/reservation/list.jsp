@@ -138,18 +138,9 @@ function fn_search(shopHashtag) {
                                  <div class="box">
                                      <ul id="datepicker-ul">
                                          <li id="datepicker-li">
-                                           <div class="dptime-disabled">런치 타임</div>
-                                           <div class="dptime">10:00</div>
-                                           <div class="dptime">11:00</div>
-                                           <div class="dptime">12:00</div>
-                                           <div class="dptime">13:00</div>
-                                           <div class="dptime">14:00</div>
-                                           <div class="dptime-disabled">디너 타임</div>
-                                           <div class="dptime">18:00</div>
-                                           <div class="dptime">19:00</div>
-                                           <div class="dptime">20:00</div>
-                                           <div class="dptime">21:00</div>
-                                           <div class="dptime">22:00</div>
+	                                        <c:forEach items="${timeList}" var="timeList" varStatus="status">
+												<div class="dptime" id="shopTime">${timeList.shopOrderTime}</div>
+	                               			</c:forEach>  
                                          </li>
                                      </ul>
                                  </div>
