@@ -152,10 +152,9 @@ function fn_list(curPage)
         </div>
         
 			<div class="d-flex flex-row justify-content-between">
-				<div class="board-list"><button type="button" id="btnIndex" class="board-list"><ion-icon name="reader"></ion-icon>&nbsp;메인</button></div>
+				<button type="button" id="btnIndex" class="board-list"><ion-icon name="reader"></ion-icon>&nbsp;메인</button>
 				  
-				<c:if test="${admin eq 'Y'}">
-					<div class="text-center"><button id="btnWrite">글쓰기</button></div>
+				<c:if test="${admin eq 'Y'}"><button id="btnWrite">글쓰기</button>
 				</c:if>
 			</div>        
         <div class="page-wrap">
