@@ -376,18 +376,7 @@ SELECT S.SHOP_UID AS SHOP_UID,
 	<collection property="orderMenu" resultMap="orderMenuResultMap"/>
 	<collection property="shopReservationTable" resultMap="shopReservationTableResultMap"/>
 	</resultMap>
-	
-	<resultMap id="todayListResultMap" type="com.icia.web.model.Order">
-	<id column="ORDER_UID" property="orderUID"/>
-	<result column="SHOP_UID" property="shopUID"/>
-	<result column="RESERVATION_PEOPLE" property="reservationPeople"/>
-	<result column="ORDER_STATUS" property="orderStatus"/>
-	<result column="TOTAL_AMOUNT" property="totalAmount"/>
-	<collection property="orderMenu" resultMap="orderMenuResultMap"/>
-	<collection property="shopReservationTableList" resultMap="shopReservationTableResultMap"/>
-	<collection property="shop" resultMap="shopListResultMap"/>
-	</resultMap>
-		
+
 	<select id="myOrderList" parameterType="com.icia.web.model.Order" resultMap="myOrderResultMap">
 		SELECT RNUM,
        		   SHOP_NAME,
