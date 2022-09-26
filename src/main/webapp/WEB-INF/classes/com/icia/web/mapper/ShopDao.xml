@@ -16,8 +16,7 @@
 	<result column="SHOP_TELEPHONE" property="shopTelephone"/>
 	<result column="SHOP_INTRO" property="shopIntro"/>
 	<result column="SHOP_CONTENT" property="shopContent"/>
-	<result column="REVIEW_SCORE" property="reviewScore"/>
-	<result column="REVIEW_SCORE_COUNT" property="reviewCount"/>
+	<result column="SHOP_STARSCORE" property="shopStarScore"/>
 	<result column="REG_DATE" property="shopRegDate"/>
 	<collection property="shopFile" resultMap="shopFileResultMap"/>
 	<collection property="shopTime" resultMap="shopTimeResultMap"/>
@@ -37,13 +36,11 @@
 	<result column="SHOP_TELEPHONE" property="shopTelephone"/>
 	<result column="SHOP_INTRO" property="shopIntro"/>
 	<result column="SHOP_CONTENT" property="shopContent"/>
+	<result column="SHOP_STARSCORE" property="shopStarScore"/>
 	<result column="REG_DATE" property="shopRegDate"/>
-	<result column="REVIEW_SCORE" property="reviewScore"/>
-	<result column="REVIEW_SCORE_COUNT" property="reviewCount"/>
 	<collection property="shopFileList" resultMap="shopFileResultMap"/>
 	<collection property="shopMenu" resultMap="shopMenuResultMap"/>
 	<collection property="shopTime" resultMap="shopTimeResultMap"/>
-	<collection property="reviewList" resultMap="shopReviewResultMap"/>	
 	</resultMap>
 	
 	<resultMap id="shopFileResultMap" type="com.icia.web.model.ShopFile"> <!--매장파일-->
@@ -108,7 +105,7 @@
                    SHOP_TELEPHONE,
                    SHOP_INTRO,
                    SHOP_CONTENT,
-                   REVIEW_SCORE,
+                   SHOP_STARSCORE,
                    REG_DATE,
                    FILE_NAME
               FROM (SELECT ROWNUM AS RNUM,
@@ -125,41 +122,20 @@
 	                       A.SHOP_TELEPHONE AS SHOP_TELEPHONE,
 	                       A.SHOP_INTRO AS SHOP_INTRO,
 	                       A.SHOP_CONTENT AS SHOP_CONTENT,
-	                       A.REVIEW_SCORE AS REVIEW_SCORE,
+	                       A.SHOP_STARSCORE AS SHOP_STARSCORE,
 	                       A.REG_DATE AS REG_DATE,
                            B.FILE_NAME AS FILE_NAME
                       FROM (SELECT *
                               FROM T_SHOP
-                             ORDER BY REVIEW_SCORE DESC)A, T_SHOP_FILE B
+                             ORDER BY SHOP_STARSCORE DESC)A, T_SHOP_FILE B
                       WHERE A.SHOP_UID = B.SHOP_UID
                         AND B.FILE_SEQ=0
                      ORDER BY DBMS_RANDOM.RANDOM)
              WHERE RNUM <![CDATA[<=]]> 10)
 	WHERE RNUM2 <![CDATA[<=]]> 3
-	ORDER BY REVIEW_SCORE DESC
+	ORDER BY SHOP_STARSCORE DESC
 	</select>
 	
-	
-   <resultMap id="todayListResultMap" type="com.icia.web.model.Order">
-   <id column="ORDER_UID" property="orderUID"/>
-   <result column="SHOP_UID" property="shopUID"/>
-   <result column="RESERVATION_PEOPLE" property="reservationPeople"/>
-   <result column="ORDER_STATUS" property="orderStatus"/>
-   <result column="TOTAL_AMOUNT" property="totalAmount"/>
-   <collection property="orderMenu" resultMap="orderMenuResultMap"/>
-   <collection property="shopReservationTableList" resultMap="shopReservationTableResultMap"/>
-   <collection property="shop" resultMap="shopListResultMap"/>
-   </resultMap>
-   
-   	<resultMap id="shopReviewResultMap" type="com.icia.web.model.ShopReview"> <!--매장 태이블 상태-->
-	<result column="ORDER_UID" property="orderUID"/>
-	<result column="USER_UID" property="userUID"/>
-	<result column="SHOP_UID" property="shopUID"/>
-	<result column="USER_NAME" property="userName"/>
-	<result column="REVIEW_CONTENT" property="shopReviewContent"/>
-	<result column="REVIEW_SCORE" property="shopScore"/>
-	<result column="REG_DATE" property="shopReviewRegDate"/>
-	</resultMap>
 	
 	<select id="shopListTotlaCount" resultType="long" parameterType="com.icia.web.model.Shop">
 		SELECT COUNT(A.SHOP_UID) AS CNT
@@ -217,26 +193,17 @@
 	                NVL(B.FILE_ORG_NAME, '') AS FILE_ORG_NAME,
 	                NVL(B.FILE_NAME, '') AS FILE_NAME,
 	                NVL(B.FILE_EXT, '') AS FILE_EXT,
-	                NVL(B.FILE_SIZE, 0) AS FILE_SIZE,
-                    NVL(REVIEW_SCORE.REVIEW_SCORE, 0) AS REVIEW_SCORE,
-                    NVL(REVIEW_SCORE.REVIEW_SCORE_COUNT, 0) AS REVIEW_SCORE_COUNT
-	           FROM T_SHOP A, T_SHOP_FILE B, (
-                                               SELECT AVG(REVIEW_SCORE) REVIEW_SCORE,
-                                                      COUNT(REVIEW_SCORE) AS  REVIEW_SCORE_COUNT,
-                                                      SHOP_UID AS SHOP_UID
-                                               FROM T_SHOP_REVIEW
-                                               GROUP BY SHOP_UID
-                                              )REVIEW_SCORE
-											          	  <if test='reservationTime != null and reservationTime != "" '>
-											                 ,(SELECT  C.SHOP_UID,
-										                               C.ORDER_TIME
-										                          FROM T_SHOP_TIME C
-										                         WHERE ORDER_TIME = #{reservationTime}) D
-										      			  
-										      			  </if>
+	                NVL(B.FILE_SIZE, 0) AS FILE_SIZE
+	           FROM T_SHOP A, T_SHOP_FILE B
+							          	  <if test='reservationTime != null and reservationTime != "" '>
+							                 ,(SELECT  C.SHOP_UID,
+						                               C.ORDER_TIME
+						                          FROM T_SHOP_TIME C
+						                         WHERE ORDER_TIME = #{reservationTime}) D
+						      			  
+						      			  </if>
 	          WHERE A.SHOP_UID = B.SHOP_UID
-	            AND A.SHOP_UID = REVIEW_SCORE.SHOP_UID(+)
-	            AND B.FILE_ORG_NAME LIKE '%'|| A.SHOP_UID ||'%'
+	            AND B.FILE_ORG_NAME LIKE '%'|| 'Shop_' ||'%'
         <if test='searchType != null and searchType != "0" '>
 			<choose>
 				<when test='searchType == "1"'>   
@@ -333,7 +300,6 @@ SELECT S.SHOP_UID AS SHOP_UID,
        NVL(S.SHOP_LOCATION3, '') AS SHOP_LOCATION3,
        NVL(S.SHOP_ADDRESS, '') AS SHOP_ADDRESS,
        NVL(S.SHOP_HOLIDAY, '') AS SHOP_HOLIDAY,
-       NVL(REVIEW_SCORE.REVIEW_SCORE, 0) AS REVIEW_SCORE,
        NVL(TO_CHAR(TO_DATE(ST.ORDER_TIME, 'HH24MI'), 'HH24:MI'), '') AS ORDER_TIME,
        NVL(SM.MENU_CODE, '') AS MENU_CODE,
        NVL(SM.MENU_NAME, '') AS MENU_NAME,
@@ -344,33 +310,12 @@ SELECT S.SHOP_UID AS SHOP_UID,
        NVL(S.SHOP_CONTENT, '') AS SHOP_CONTENT,
        NVL(SF.FILE_SEQ, 0) AS FILE_SEQ,
        NVL(SF.FILE_ORG_NAME, '') AS FILE_ORG_NAME,
-       NVL(SF.FILE_NAME, '') AS FILE_NAME,
-       NVL(REVIEW_SCORE.REVIEW_SCORE, 0) AS REVIEW_SCORE,
-       NVL(REVIEW_SCORE.REVIEW_SCORE_COUNT, 0) AS REVIEW_SCORE_COUNT,
-       NVL(SR.REG_DATE, '') AS REG_DATE,
-       NVL(SR.REVIEW_CONTENT, '') AS REVIEW_CONTENT,
-       NVL(SR.REVIEW_SCORE, '') AS REVIEW_SCORE,
-       NVL(SR.USER_NAME, '') AS USER_NAME
-  FROM T_SHOP S, T_SHOP_TIME ST, T_SHOP_MENU SM, T_SHOP_FILE SF, (SELECT NVL(R.SHOP_UID, '') AS SHOP_UID,
-  																		 NVL(U.USER_NAME, '') AS USER_NAME,
-  																		 NVL(R.REVIEW_CONTENT, '') AS REVIEW_CONTENT,
-  																		 NVL(R.REVIEW_SCORE, '') AS REVIEW_SCORE,
-  																		 NVL(R.REG_DATE, '') AS REG_DATE
-  																	FROM T_SHOP_REVIEW R, T_USER U
-  																   WHERE R.USER_UID = U.USER_UID
-  																				   ) SR, 
-  																				   (SELECT AVG(REVIEW_SCORE) REVIEW_SCORE,
-                                                                                    	   COUNT(REVIEW_SCORE) AS  REVIEW_SCORE_COUNT,
-                                                                                           SHOP_UID AS SHOP_UID
-                                                                                    FROM T_SHOP_REVIEW
-                                                                                    GROUP BY SHOP_UID
-                                                                                   )REVIEW_SCORE
- WHERE S.SHOP_UID = #{value}
-   AND S.SHOP_UID = ST.SHOP_UID
-   AND S.SHOP_UID = REVIEW_SCORE.SHOP_UID(+)
+       NVL(SF.FILE_NAME, '') AS FILE_NAME
+  FROM T_SHOP S, T_SHOP_TIME ST, T_SHOP_MENU SM, T_SHOP_FILE SF
+ WHERE S.SHOP_UID = #{SHOP_UID}
+   AND S.SHOP_UID = ST.SHOP_UID 
    AND S.SHOP_UID = SM.SHOP_UID
    AND S.SHOP_UID = SF.SHOP_UID
-   AND S.SHOP_UID = SR.SHOP_UID(+)
    AND SF.FILE_SEQ <![CDATA[>=]]>  0
    AND SF.FILE_SEQ <![CDATA[<=]]>  6
 </select>
@@ -404,6 +349,9 @@ SELECT S.SHOP_UID AS SHOP_UID,
 <select id="orderUIDcreate" resultType="long">
 	SELECT ORDER_SEQ.NEXTVAL FROM DUAL
 </select>
+
+
+
 
 <!-- 추가 -->
 	<resultMap id="orderMenuResultMap" type="com.icia.web.model.OrderMenu">
@@ -596,57 +544,6 @@ SELECT RNUM,
     )
    </foreach>
 </insert>
-
-<select id="todayListCount" resultType="long">
-   SELECT COUNT(A.ORDER_UID) AS CNT
-  FROM T_ORDER A, T_SHOP_RESERVATION_TABLE B, T_SHOP C, T_SHOP_FILE D, T_ORDER_MENU E
- WHERE A.SHOP_UID = C.SHOP_UID
-   AND A.SHOP_UID = D.SHOP_UID
-   AND A.ORDER_UID = B.ORDER_UID 
-   AND A.ORDER_UID = E.ORDER_UID
-   AND D.FILE_ORG_NAME LIKE '%'|| A.SHOP_UID ||'%'
-   AND A.ORDER_STATUS = 'C'
-   AND B.TABLE_STATUS = 'C'
-   AND B.RESERVATION_DATE = TO_CHAR(SYSDATE, 'YYYYMMDD')
-   
-</select>
-
-<select id="todayList" resultMap="todayListResultMap" parameterType="String">
-SELECT A.ORDER_UID AS ORDER_UID,
-       NVL(A.SHOP_UID , '') AS SHOP_UID,
-       NVL(A.RESERVATION_PEOPLE ,'') AS RESERVATION_PEOPLE,
-       NVL(A.ORDER_STATUS, '') AS ORDER_STATUS,
-       NVL(A.TOTAL_AMOUNT,0)AS TOTAL_AMOUNT,
-       NVL(B.TABLE_UID, '') AS TABLE_UID,
-       NVL(C.SHOP_NAME, '') AS SHOP_NAME,
-       NVL(C.SHOP_LOCATION1, '') AS SHOP_LOCATION1,
-       NVL(C.SHOP_LOCATION2, '') AS SHOP_LOCATION2,
-       NVL(C.SHOP_LOCATION3, '') AS SHOP_LOCATION3,
-       NVL(C.SHOP_ADDRESS, '') AS SHOP_ADDRESS,
-       NVL(D.FILE_NAME, '') AS FILE_NAME,
-       NVL(B.RESERVATION_TIME, '') AS RESERVATION_TIME,
-       NVL(B.TABLE_UID, '') AS TABLE_UID,
-       NVL(B.TABLE_STATUS, '') AS TABLE_STATUS,
-       NVL(B.RESERVATION_DATE, '') AS RESERVATION_DATE
-  FROM T_ORDER A, T_SHOP_RESERVATION_TABLE B, T_SHOP C, T_SHOP_FILE D, T_ORDER_MENU E
- WHERE A.SHOP_UID = C.SHOP_UID
-   AND A.SHOP_UID = D.SHOP_UID
-   AND A.ORDER_UID = B.ORDER_UID 
-   AND A.ORDER_UID = E.ORDER_UID
-   AND D.FILE_ORG_NAME LIKE '%'|| A.SHOP_UID ||'%'
-   AND A.ORDER_STATUS = 'C'
-   AND B.TABLE_STATUS = 'C'
-   AND B.RESERVATION_DATE = TO_CHAR(SYSDATE, 'YYYYMMDD')
-   <if test='shopUID != "" '>
-   AND A.SHOP_UID = #{value}
-   </if>
-</select>
-
-<select id="shopListTime" resultMap="shopTimeResultMap"> <!-- 리스트에서 띄어줄 시간 -->
-SELECT DISTINCT ORDER_TIME
-  FROM T_SHOP_TIME
- ORDER BY ORDER_TIME ASC
-</select>
 
 <!-- 한줄평 resultMap -->
 <resultMap id="shopReviewResultMap" type="com.icia.web.model.ShopReview"> <!--매장 태이블 상태-->

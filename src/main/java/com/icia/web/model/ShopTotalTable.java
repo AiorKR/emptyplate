@@ -15,6 +15,7 @@ public class ShopTotalTable implements Serializable{
 	private int shopTotalTableRmains; //남아있는 테이블
 	
 	private String shopTotalTableStatus; //테이블 예약이 다 찼는가
+	
 	private List<ShopTable> shopTable;
 	
 	public ShopTotalTable(){
@@ -25,6 +26,7 @@ public class ShopTotalTable implements Serializable{
 		
 		shopTotalTableStatus = "N"; //예약이 다 차있다면 Y, 자리가 남아있다면 N
 		shopTotalTableRmains = 0;
+		
 		shopTable = null;
 	}
 
@@ -82,6 +84,8 @@ public class ShopTotalTable implements Serializable{
 
 	public void setShopTotalTableRmains(int shopTotalTableRmains) {
 		this.shopTotalTableRmains = shopTotalTableRmains;
-	}	
+	}
+
+	
 	
 }

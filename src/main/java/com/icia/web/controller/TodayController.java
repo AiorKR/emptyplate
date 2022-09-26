@@ -1,5 +1,8 @@
 package com.icia.web.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,12 +15,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.icia.common.util.StringUtil;
-import com.icia.web.model.Order;
 import com.icia.web.model.Paging;
-import com.icia.web.model.Response;
 import com.icia.web.model.Shop;
 import com.icia.web.model.User;
 import com.icia.web.service.ShopService;
@@ -60,7 +60,7 @@ public class TodayController {
 		long totalCount = 0;
 		
 		//게시물 리스트
-		List<Order> list = null;
+		List<Shop> list = null;
 		
 		//페이징 객체
 		Paging paging = null;
@@ -81,11 +81,11 @@ public class TodayController {
 			search.setSearchValue(searchValue);
 		}
 		
-		totalCount = shopService.todayListCount();
+		totalCount = shopService.shopListCount(search); //총 매장 수를 확인
 		
 		if(totalCount > 0)
-		{	
-			paging = new Paging("/today/list", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
+		{
+			paging = new Paging("/reservation/list", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
 			
 			paging.addParam("searchType", searchType);
 			paging.addParam("searchValue", searchValue);
@@ -93,16 +93,15 @@ public class TodayController {
 			
 			search.setStartRow(paging.getStartRow());
 			search.setEndRow(paging.getEndRow());
-
-			list = shopService.todayList("");
-		}
-			model.addAttribute("list", list);
-		
-			model.addAttribute("searchType", searchType);
-			model.addAttribute("searchValue", searchValue);
-			model.addAttribute("curPage", curPage);
-			model.addAttribute("paging", paging);
 			
+			list = shopService.shopList(search);
+		}
+
+		model.addAttribute("list", list);
+		model.addAttribute("searchType", searchType);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("curPage", curPage);
+		model.addAttribute("paging", paging);
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		User user2 = new User();
 		user2 = userService.userUIDSelect(cookieUserUID);
@@ -119,34 +118,6 @@ public class TodayController {
 		}
 		
 		return "/today/list";
-	}
-	
-	@RequestMapping(value="/today/viewProc")
-	@ResponseBody
-	public Response<Object> todayViewProc(HttpServletRequest request, HttpServletResponse response) {
-		Response<Object> ajax = new Response<Object>();
-		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
-		String shopUID = HttpUtil.get(request, "shopUID");
-		
-		if(!StringUtil.isEmpty(cookieUserUID)) {
-			if(!StringUtil.isEmpty(shopUID)) {
-				List<Order> list = shopService.todayList(shopUID);
-				if(list != null) {
-					ajax.setResponse(0, "success", list);
-				}
-				else {
-					ajax.setResponse(-999, "list is null");
-				}
-			}
-			else {
-				ajax.setResponse(404, "shopUId is empty");
-			}
-		}
-		else {
-			ajax.setResponse(403, "cookie is empty");
-		}
-		
-		return ajax;
 	}
 	
 }
