@@ -32,10 +32,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	
-	$("#counterSeat").on("click", function() {
-		
-		console.log($("#counterSeat").is(":checked"));
-																																																																																													
+	$("#counterSeat").on("click", function() {																																																																																								
 		if($("#counterSeat").is(":checked")) {
 			document.bbsForm.counterSeatYN.value = "Y";
 			if(document.bbsForm.reservationDate.value != "" && document.bbsForm.reservationTime.value != "") {
@@ -46,6 +43,44 @@ $(document).ready(function(){
 			document.bbsForm.counterSeatYN.value = "N";
 		}
 		
+	});
+	
+	$("#today-btn").on("click", function() {
+		$.ajax({
+		       type:"get",
+		       url:"/today/viewProc",
+		       data:{
+		          shopUID:'<c:out value="${shopUID}" />'
+		       },
+		       datatype:"JSON",
+		       beforeSend:function(xhr){
+		          xhr.setRequestHeader("AJAX", "true");
+		       },
+		       success:function(response){
+	           	  if(response.code == 0) {
+	            	if(response.data != null) {
+	            		console.log(response.data);
+	            	}
+	            	else {
+	            		alter("list 조회 중 오류가 발생했습니다.");
+	            	}
+	              }
+	              else if(response.code == 404) {
+				  	location.href = "/reservation/list"
+		          }
+	              else if(response.code == 403) {
+					location.href = "/user/login" ;
+	              }
+		          else
+		          {
+		        	 console.log(response.code);
+		             alert("today list 조회 중 오류가 발생하였습니다.");
+		          }
+		       },
+		       error:function(xhr, status, error){
+		          icia.common.error(error);
+		       }
+		    });
 	});
 	
 	//게시물 즐겨찾기
@@ -128,8 +163,8 @@ $(document).ready(function(){
 			var curHours = (tDate.getHours() + 3); curHours = curHours >= 10 ? curHours : '0' + curHours + 3;
 			var curTime = curHours + "00";
 			
-			console.log("todat : " +today);
-			console.log(' $(".datepicker").val()' + $(".datepicker").val());
+			console.log("today : " +today);
+			console.log(' $(".datepicker").val() : ' + $(".datepicker").val());
 			
 			if($(".datepicker").val() == today) {
 				console.log("오늘임");
@@ -144,7 +179,7 @@ $(document).ready(function(){
 			}
 			$("#datepicker-ul").attr('style', "display:inline;");
 		});
-
+		
 		$(document).ready(function(){
 		    $('.datepicker').datepicker({
 				format: 'yyyy.mm.dd',
@@ -155,40 +190,40 @@ $(document).ready(function(){
 				immediateUpdates: true
 		    });
 		    
-	    $('.dptime').click(function(){
-	    	$('.dptime').removeClass('select');
-	      	$(this).addClass('select');
-	      	$("#datepicker-ul").attr('style', "display:none;");
-	      	document.bbsForm.reservationDate.value = $('.datepicker').val().replaceAll(".", "");
-	      	document.bbsForm.reservationTime.value = $(this).text();
-	      	if($(this).text() != "" && $(this).text() != null) {
-				<c:forEach items="${shop.shopTime}" var="shopTime" varStatus="status">
-					if($(this).text() ==  '${shopTime.shopOrderTime}') {
-					 	type = '${shopTime.shopTimeType}';
-					 	<c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status2">
-						if(type != '${shopMenu.shopMenuCode}'){
-							console.log("type : " + type);
-							console.log("type : " + type);
-					 		$("#shopMenu${status2.index}").attr('style', "display:none;");
-					 	}
-						if(type == '${shopMenu.shopMenuCode}'){
-							console.log("type : " + type);
-							console.log("type : " + type);
-					 		$("#shopMenu${status2.index}").attr('style', "display:inline;");
-					 	} 
-						</c:forEach>
-					 	$(".shopOrderMenu").text("");
-					 	$("#totalAmount").text(0);
-					 	shopOrderMenuTotalAmount = 0;
-					}
-				</c:forEach>
-	      	}
-	      	document.bbsForm.reservationTime.value = $(this).text().replaceAll(":", "");
-		  	$('.datepicker').val($('.datepicker').val()+ ' ' + $(this).text());
-		  	$("#tableCheck").text("");
-		  	reservationCheck();	
-	    	});
-		});
+		    $('.dptime').click(function(){
+		    	$('.dptime').removeClass('select');
+		      	$(this).addClass('select');
+		      	$("#datepicker-ul").attr('style', "display:none;");
+		      	document.bbsForm.reservationDate.value = $('.datepicker').val().replaceAll(".", "");
+		      	document.bbsForm.reservationTime.value = $(this).text();
+		      	if($(this).text() != "" && $(this).text() != null) {
+					<c:forEach items="${shop.shopTime}" var="shopTime" varStatus="status">
+						if($(this).text() ==  '${shopTime.shopOrderTime}') {
+						 	type = '${shopTime.shopTimeType}';
+						 	<c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status2">
+							if(type != '${shopMenu.shopMenuCode}'){
+								console.log("type : " + type);
+								console.log("type : " + type);
+						 		$("#shopMenu${status2.index}").attr('style', "display:none;");
+						 	}
+							if(type == '${shopMenu.shopMenuCode}'){
+								console.log("type : " + type);
+								console.log("type : " + type);
+						 		$("#shopMenu${status2.index}").attr('style', "display:inline;");
+						 	} 
+							</c:forEach>
+						 	$(".shopOrderMenu").text("");
+						 	$("#totalAmount").text(0);
+						 	shopOrderMenuTotalAmount = 0;
+						}
+					</c:forEach>
+		      	}
+		      	document.bbsForm.reservationTime.value = $(this).text().replaceAll(":", "");
+			  	$('.datepicker').val($('.datepicker').val()+ ' ' + $(this).text());
+			  	$("#tableCheck").text("");
+			  	reservationCheck();	
+		    	});
+			});
 	
 	$("#pay").on("click", function fn_pay() {
 		
@@ -504,25 +539,22 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
                       } 
                   });  
                   </script>
-                  </div>
-                        <div class="buttons d-flex flex-row mt-2 gap-3" style="margin-left: 15px;">
-                           <button class="btn btn-outline-dark"><a href="" style="color: white;">Today 확인</a></button>
-                           <!-- Button trigger modal -->
-                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="modal-btn"  style="color:#ffff;">
+                  </div>           
+                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2" id="modal-btn2"  style="color:#ffff;" >
                                	예약
                           </button>
 
                           <!-- Modal -->
-                          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title" id="m" >예약</h5>
+                                  <h5 class="modal-title" id="m">예약</h5>
                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                  	<div id="shopName">${shop.shopName}</div><br />
-                                  	<div id="selectcontent">
+                                  	<div id="shopName">${shop.shopName}</div>
+                                  	<div id="selectcontent" style="position: relative;z-index: 1500;">
                                     	<div class="personnel-select">
                                         	<div class="personnel-selected">
                                           		<div class="personnel-selected-value">인원을 선택해주세요</div>
@@ -542,7 +574,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 	                                    <input type="text" class="datepicker" placeholder="날자를 선택해주세요" name="date" readonly>
 	                                    <div class="box">
 	                                        <ul id="datepicker-ul">
-	                                            <li id="datepicker-li">
+	                                            <li id="datepicker-li" style="display: none;">
 	                                            	<c:forEach items="${shop.shopTime}" var="shopTime" varStatus="status">
 														<div class="dptime" id="shopTime${status.index}">${shopTime.shopOrderTime}</div>
 	                               					</c:forEach>  
@@ -552,7 +584,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 	                                    <c:if test="${shop.shopType eq 2}"> <!-- 오마카세일때 적용 -->
 	                                    	카운터석 : <input type="checkbox" id="counterSeat" class="counterSeat"/>
 	                                    	* 카운터석은 연속되게 앉을 수 없을 수도 있습니다. *
-                                  		</c:if><br /><br />
+                                  		</c:if>
                                   	</div>	
                               		<div id="tableCheck">
 
@@ -613,7 +645,9 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
         </container>
           <div class="review">
             <ul style="border-bottom:1px solid #C2A383">
-              <li><a href="#">Review text1</a></li>
+              <c:forEach items="${shop.reviewList}" var="reviewList" varStatus="status">
+              	<li>${reviewList.userName} : ${reviewList.shopReviewContent} ${reviewList.shopScore}  / ${reviewList.shopReviewRegDate}</li>
+              </c:forEach>
             </ul>
           </div>
         </div>

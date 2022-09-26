@@ -26,6 +26,7 @@ public class Order implements Serializable{
 	private long startRow;		
 	private long endRow;
 	
+	private Shop shop;
 	private List<OrderMenu> orderMenu;
 	private List<ShopReservationTable> shopReservationTableList;
 	private ShopReservationTable shopReservationTable;
@@ -46,7 +47,7 @@ public class Order implements Serializable{
 		orderMenu = null;
 		shopReservationTableList = null;
 		shopReservationTable = null;
-		
+		shop = null;
 		toss = null;
 		
 		rDate = "";
@@ -213,6 +214,22 @@ public class Order implements Serializable{
 
 	public void setShopName(String shopName) {
 		this.shopName = shopName;
+	}
+
+	public String getrDate() {
+		return rDate;
+	}
+
+	public void setrDate(String rDate) {
+		this.rDate = rDate;
+	}
+
+	public Shop getShop() {
+		return shop;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
 	}
 	
 }

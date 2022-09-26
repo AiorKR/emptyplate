@@ -182,16 +182,9 @@ $(document).ready(function(){
 											<div class="box">
 												<ul id="datepicker-ul">
 													<li id="datepicker-li">
-														<div class="dptime">10:00</div>
-														<div class="dptime">11:00</div>
-														<div class="dptime">12:00</div>
-														<div class="dptime">13:00</div>
-														<div class="dptime">14:00</div>
-														<div class="dptime">18:00</div>
-														<div class="dptime">19:00</div>
-														<div class="dptime">20:00</div>
-														<div class="dptime">21:00</div>
-														<div class="dptime">22:00</div>
+														<c:forEach items="${timeList}" var="timeList" varStatus="status">
+															<div class="dptime">${timeList.shopOrderTime}</div>
+	                               						</c:forEach> 
 													</li>
 												</ul>
 											</div>
@@ -241,6 +234,7 @@ $(document).ready(function(){
 											<br /> <i class="fa-solid fa-map-location-dot"
 												style="font-size: 18px;"> <c:out value="${shop.shopLocation1}" /> <c:out value="${shop.shopLocation2}" /> <c:out value="${shop.shopLocation3}" />
 											</i><br />
+											<li><i class="fa-regular fa-star"></i> ${shop.reviewScore} (${shop.reviewCount})</li> </br />
 											<br /> <i class="fa-solid fa-pen"
 												style="color: #cda45e; font-size: 19px;"> <c:out value="${shop.shopIntro}" />
 											</i>

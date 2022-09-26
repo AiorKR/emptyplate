@@ -15,6 +15,7 @@ import com.icia.web.model.Order;
 import com.icia.web.model.Board;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
+import com.icia.web.model.ShopTime;
 import com.icia.web.model.ShopTotalTable;
 
 @Service("shopService")
@@ -257,5 +258,47 @@ public class ShopService {
 			}
 			
 			return count;
+		}
+		
+		public long todayListCount() {
+			long count = 0;
+			
+			try {
+				count = shopDao.todayListCount();
+				logger.debug("투데이 총 게시물 숫자 : " + count);
+			}
+			catch(Exception e) {
+				logger.error("[Shopservice] todayListCount", e);
+			}
+			
+			return count;
+		}
+		
+		public List<Order> todayList(String shopUID) {
+			List<Order> list = null;
+			
+			try {
+				list = shopDao.todayList(shopUID);
+				logger.debug("가져온 투데이 리스트 목록 size : " + list.size());
+			}
+			catch(Exception e) {
+				logger.error("[Shopservice] todayList", e);
+			}
+			
+			return list;
+		}
+		
+		public List<ShopTime> shopListTime() {
+			List<ShopTime> list = null;
+			
+			try {
+				list = shopDao.shopListTime();
+				logger.debug("가져온 리스트 시간 목록 size : " + list.size());
+			}
+			catch(Exception e) {
+				logger.error("[Shopservice] shopListTimeList", e);
+			}
+			
+			return list;
 		}
 }

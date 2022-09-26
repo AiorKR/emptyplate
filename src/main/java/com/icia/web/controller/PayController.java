@@ -179,6 +179,7 @@ public class PayController {
 		
 		return ajax;
 	}
+	
 	@RequestMapping(value="/pay/paySuccess", method=RequestMethod.GET)
 	public String tossPaySuccess(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 		String orderId = HttpUtil.get(request, "orderId");

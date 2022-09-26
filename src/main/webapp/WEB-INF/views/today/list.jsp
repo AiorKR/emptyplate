@@ -1,4 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	// 개행문자 값을 저장한다.
+	pageContext.setAttribute("newLine", "\n");
+	// Community 번호
+	request.setAttribute("No", 2);
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,6 +27,8 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
+	remaindTime();
+	
 	$(".select").change(function() { 
     	document.bbsForm.curPage.value = "1";
         document.bbsForm.searchType.value = $(".select").val();
@@ -59,6 +68,47 @@ function fn_search(shopHashtag) {
 	document.bbsForm.action = "/today/list";
 	document.bbsForm.submit();
 }
+
+function remaindTime() {
+	var now = new Date();
+
+	<c:forEach items="${list}" var="list" varStatus="status">
+	    var yyyy = '${list.shopReservationTableList[0].shopReservationDate}'.substring (0, 4);   
+	    var mm = '${list.shopReservationTableList[0].shopReservationDate}'.substring (4, 6);    
+	    var dd = '${list.shopReservationTableList[0].shopReservationDate}'.substring (6, 8);
+	    
+	    var hh = '${list.shopReservationTableList[0].shopReservationTime}'.substring (0, 2);    
+	    var mi = '${list.shopReservationTableList[0].shopReservationTime}'.substring (2, 4);
+	    
+	    var endcheck = yyyy + '년 ' + mm + '월 ' + dd + '일 ' + hh + '시' + mi + '분';
+	    
+	    var end = new Date(yyyy, mm-1, dd, hh, mi);
+	
+	    var nt = now.getTime();
+	    var et = end.getTime();
+	  
+	   if(nt<et){
+	     $(".time").fadeIn();
+	     $(".time-title${status.index}").html("Today 마감까지");
+	     $(".time-end${status.index}").html(endcheck);
+	     sec = parseInt(et - nt) / 1000; 
+	     day  = parseInt(sec/60/60/24);
+	     sec = (sec - (day * 60 * 60 * 24));
+	     hour = parseInt(sec/60/60);
+	     sec = (sec - (hour*60*60));
+	     min = parseInt(sec/60);
+	     sec = parseInt(sec-(min*60));
+	     if(hour<10){hour="0"+hour;}
+	     if(min<10){min="0"+min;}
+	     if(sec<10){sec="0"+sec;}
+	      $(".hours${status.index}").html(hour);
+	      $(".minutes${status.index}").html(min);
+	      $(".seconds${status.index}").html(sec);
+	      
+	      setInterval(remaindTime,1000);
+	    }
+    </c:forEach>
+}
 </script>
 </head>
 
@@ -94,11 +144,9 @@ function fn_search(shopHashtag) {
 									</button>
 									<form>
 										&nbsp;&nbsp;&nbsp;
-										<div class="collapse navbar-collapse"
-											id="navbarSupportedContent">
+										<div class="collapse navbar-collapse" id="navbarSupportedContent">
 											<ul class="navbar-nav me-auto ">
-												<select class="select" aria-label="Default select example"
-													style="width: 150px; height: 35px;">
+												<select class="select" aria-label="Default select example" style="width: 150px; height: 35px;">
 													<option value="0" selected
 														style="width: 150px; height: 35px;"
 														<c:if test="${searchType eq '0'}">selected</c:if>>전체</option>
@@ -121,33 +169,39 @@ function fn_search(shopHashtag) {
 									<c:forEach var="i" begin="0" end="6" step="3">
 										<tr>
 											<c:forEach var="j" begin="0" end="2">
-											<c:if test="${!empty list[i+j]}">
+											 <c:if  test="${!empty list[i+j]}">
 											<th scope="row"> 
 												<td>
 													<div class="card" onClick="fn_view('${list[i + j].shopUID}')"
+													 data-bs-toggle="modal" data-bs-target="#exampleModal" id="modal-btn"
 														style="cursor: pointer;">
-														<img
-															src='../resources/upload/shop/${list[i + j].shopFile.shopFileName}'
-															class="img-fluid img-thumbnail"
-															style="height: 300px; width: 300px;">
+														<img src='../resources/upload/shop/${list[i + j].shop.shopFile.shopFileName}' class="img-fluid img-thumbnail" style="height: 300px; width: 300px;">
 															<div class="card-body-right">
-															<h5 class="card-title">${list[i + j].shopName}</h5>
+															<h5 class="card-title">${list[i + j].shop.shopName}</h5>
+															<p> 예약 가능 인원 : ${list[i + j].reservationPeople}</p>
+															<p> ${list[i + j].shop.shopLocation1} ${list[i + j].shop.shopLocation2} ${list[i + j].shop.shopLocation3} ${list[i + j].shop.shopAddress}</p>
 															<div class="sec7-text-box">
-																<p class="font15 time-end1">예약시간</p>
-																<p class="font15 time-title1">Today 마감까지</p>
+																<p class="font15 time-end${i+j}">예약시간</p>
+																<p class="font15 time-title${i+j}">Today 마감까지</p>
 																<div class="time font20">
-																	<span class="hours"></span> <span class="col">:</span>
-																	<span class="minutes"></span> <span class="col">:</span>
-																	<span class="seconds"></span>
+																	<span class="hours${i + j}"></span> <span class="col">:</span>
+																	<span class="minutes${i + j}"></span> <span class="col">:</span>
+																	<span class="seconds${i + j}"></span>
 																</div>
 															</div>
 														</div>
 													</div>
 												</td>
 											 </c:if>
+
 											</c:forEach>
 										</tr>
 									</c:forEach>
+								</c:if>
+								<c:if test="${empty list}">
+									<th scope="row"> 
+										today가 존재하지 않습니다
+									</th>
 								</c:if>
 							</tbody>
 						</table>
@@ -187,16 +241,11 @@ function fn_search(shopHashtag) {
 					type="hidden" name="searchValue" value="${searchValue}" /> <input
 					type="hidden" name="curPage" value="${curPage}" /> <input
 					type="hidden" name="reservationDate" value="${reservationDate}" />
-				<input type="hidden" name="reservationTime"
-					value="${reservationTime}" />
+				<input type="hidden" name="reservationTime" value="${reservationTime}" />
 			</form>
 		</div>
 	</section>
 	<!-- End today Section -->
-
-	<!--count down-->
-	<script src="./assets/countdown/countdown.js"></script>
-	<!--count down-->
 
 	<!--footer-->
 	<%@ include file="/WEB-INF/views/include/footer.jsp"%>
