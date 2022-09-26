@@ -73,12 +73,14 @@ function regReqOne(num)
    }
    if(shopUID == null)
    {
-      alert("주문정보 조회 오류");
+      alert("매장정보 조회 오류");
       return;
-   }
-   
+   } 
    else
    {
+	   //const reqOne = document.getElementById("reqOne" + num)
+		//(reqOne).attr("style", "display:none");
+	   
       $.ajax({
             type:"POST",
             url:"/myPage/regReqOne",
@@ -96,10 +98,12 @@ function regReqOne(num)
                if(response.code == 0)
                {
                   alert("한줄평이 등록되었습니다");
+                  location.reload();
                }
                else if(response.code == -1)
                {
                   alert("한줄평이 수정되었습니다.");
+                  location.reload();
                }
                else if(response.code == 404)
                {
@@ -107,7 +111,63 @@ function regReqOne(num)
                }
                else
                {
-                  alert("로그인이 안되있음");
+            	  alert("등록중 오류발생");
+               }
+            },
+            complete:function(data)
+            {
+               icia.common.log(data);
+            },
+            error:function(xhr, status, error)
+            {
+               icia.common.error(error);
+            }
+         });
+      
+   }
+   
+}
+
+function delReqOne(num)
+{
+   var orderUID = document.getElementById("orderUID" + num).value;
+   var shopUID = document.getElementById("shopUID" + num).value;
+   
+   if(orderUID == null)
+   {
+      alert("주문정보 조회 오류");
+      return;
+   }
+   if(shopUID == null)
+   {
+      alert("매장정보 조회 오류");
+      return;
+   } 
+   else
+   {   
+      $.ajax({
+            type:"POST",
+            url:"/myPage/delReqOne",
+            data:{
+               orderUID : orderUID
+            },
+            datatype:"JSON",
+            beforeSend:function(xhr){
+               xhr.setRequestHeader("AJAX", "true");
+            },
+            success:function(response){
+               if(response.code == 0)
+               {
+                  alert("한줄평이 삭제되었습니다");
+                  location.reload();
+               }
+               else if(response.code == 400)
+               {
+                  alert("사용자 조회 오류");
+               }
+               else
+               {
+            	  alert("삭제중 오류발생");
                }
             },
             complete:function(data)
@@ -161,9 +221,19 @@ function regReqOne(num)
                   <input type="hidden" id="orderUID${status1.index}" value="${Order.orderUID}"> 
                   <input type="hidden" id="shopUID${status1.index}" value="${Order.shopUID}">        
             </a>
-                <span class="cardDetailSection-status"><button id="cardDetailSection-button" class="cardDetailSection-button" onclick="reqOne(${status1.index})">한줄평 남기기</button></span>
+                <span class="cardDetailSection-status">
+                	<button id="cardDetailSection-button" class="cardDetailSection-button" onclick="reqOne(${status1.index})">
+                		<c:if test="${Order.shopReviewContent eq ''}">
+                		한줄평 남기기
+                		</c:if>
+                		<c:if test="${Order.shopReviewContent ne ''}">
+                		한줄평 수정하기
+                		</c:if>
+                	</button>
+                </span>
                 <div class="rlist-list-detail">세부사항 : ${Order.finalMenu}</div>
                 
+                <c:if test="${Order.shopReviewContent eq ''}">
                 <form name="reqOneBox${status1.index}" id="reqOneBox${status1.index}">
                 <div class="reqOne" id="reqOne${status1.index}" style="display:none;">
                    <div class="reqOneText-section"> 
@@ -211,11 +281,70 @@ function regReqOne(num)
                              <span class="startRadio__img"><span class="blind">별 5개</span></span>
                         </label>
                     </div>
-                    <div class="reqOne-btn-section" >
-                       <input  class="reqOne-btn" type="button" value="등 록" onclick="regReqOne(${status1.index})"/>
+                    <div class="reqOne-btn-section">
+                      <input class="reqOne-btn" type="button" value="등 록" onclick="regReqOne(${status1.index})"/>
                     </div>
                  </div>
                  </form>
+                 </c:if>
+                 
+                 
+                 <c:if test="${Order.shopReviewContent ne ''}">
+                <form name="reqOneBox${status1.index}" id="reqOneBox${status1.index}">
+                <div class="reqOne" id="reqOne${status1.index}" style="display:none;">
+                   <div class="reqOneText-section"> 
+                       <input class="reqOneText" type="text" id="reqOneText${status1.index}" placeholder="${Order.shopReviewContent}" maxlength="30">
+                      </div> 
+                    <div class="startRadio">
+                       <label class="startRadio__box">
+                          <input type="radio" name="star${status1.index}" id="" value="0.5">
+                          <span class="startRadio__img"><span class="blind">별 0.5개</span></span>
+                        </label>
+                        <label class="startRadio__box">
+                             <input type="radio" name="star${status1.index}" id="" value="1">
+                             <span class="startRadio__img"><span class="blind">별 1개</span></span>
+                        </label>
+                        <label class="startRadio__box">
+                             <input type="radio" name="star${status1.index}" id="" value="1.5">
+                             <span class="startRadio__img"><span class="blind">별 1.5개</span></span>
+                        </label>
+                        <label class="startRadio__box">
+                             <input type="radio" name="star${status1.index}" id="" value="2">
+                             <span class="startRadio__img"><span class="blind">별 2개</span></span>
+                        </label>
+                        <label class="startRadio__box">
+                             <input type="radio" name="star${status1.index}" id="" value="2.5">
+                             <span class="startRadio__img"><span class="blind">별 2.5개</span></span>
+                        </label>
+                        <label class="startRadio__box">
+                             <input type="radio" name="star${status1.index}" id="" value="3">
+                             <span class="startRadio__img"><span class="blind">별 3개</span></span>
+                        </label>
+                        <label class="startRadio__box">
+                             <input type="radio" name="star${status1.index}" id="" value="3.5">
+                             <span class="startRadio__img"><span class="blind">별 3.5개</span></span>
+                        </label>
+                        <label class="startRadio__box">
+                             <input type="radio" name="star${status1.index}" id="" value="4">
+                             <span class="startRadio__img"><span class="blind">별 4개</span></span>
+                        </label>
+                        <label class="startRadio__box">
+                             <input type="radio" name="star${status1.index}" id="" value="4.5">
+                             <span class="startRadio__img"><span class="blind">별 4.5개</span></span>
+                        </label>
+                        <label class="startRadio__box">
+                             <input type="radio" name="star${status1.index}" id="" value="5">
+                             <span class="startRadio__img"><span class="blind">별 5개</span></span>
+                        </label>
+                    </div>
+                    <div class="reqOne-btn-section">
+                      <input  class="reqOne-btn" type="button" value="수 정" onclick="regReqOne(${status1.index})"/>
+                      <input  class="reqOne-btn" type="button" value="삭 제" onclick="delReqOne(${status1.index})"/>
+                    </div>
+                 </div>
+                 </form>
+                 </c:if>
+                 
                  
                 <hr class="list-card-hr">
             </div>

@@ -88,8 +88,11 @@ public class rListController
             String om = "";
             String oq = "";
             String finalMenu = "";
+            Double shopScore = 0.0;
             orderUID = list.get(i).getOrderUID();
             logger.debug("orderUID : " + orderUID);
+            shopScore = list.get(i).getShopScore();
+            logger.debug("++++++++++++++++" + shopScore);
             list2 = shopService.myOrderMenu(orderUID);
             for(int j=0; j < list2.size(); j++)
             {
@@ -163,6 +166,40 @@ public class rListController
 	      {
 	    	  shopService.updateReqOne(shopReview);
 	    	  ajaxResponse.setResponse(-1, "proc success");
+	      }
+	      else
+	      {
+	    	  ajaxResponse.setResponse(404, "error");
+	      }
+      }
+      else
+      {
+    	  ajaxResponse.setResponse(400, "not Found");
+      }
+      
+
+      return ajaxResponse;
+   }
+   
+   
+   //한줄평 삭제
+   @RequestMapping(value="/myPage/delReqOne")
+   @ResponseBody
+   public Response<Object> delReqOne(HttpServletRequest request, HttpServletResponse response)
+   {
+      Response<Object> ajaxResponse = new Response<Object>();
+      String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+      String orderUID = HttpUtil.get(request, "orderUID");
+      
+      ShopReview shopReview = new ShopReview();
+      if(!StringUtil.isEmpty(cookieUserUID)) 
+      {
+	      shopReview.setUserUID(cookieUserUID);
+	      shopReview.setOrderUID(orderUID);
+	      
+	      if(shopService.delReqOne(shopReview) > 0)
+	      {
+	    	  ajaxResponse.setResponse(0, "success");
 	      }
 	      else
 	      {
