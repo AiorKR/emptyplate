@@ -46,11 +46,11 @@ public class ManagerController {
 		String address = "";
 		if(shop.getShopLocation1() != null)
 		{
-			address = shop.getShopLocation1() + " " + shop.getShopLocation2() +" "+shop.getShopLocation3();
+			address = shop.getShopLocation1() + " " + shop.getShopLocation2() +" "+shop.getShopLocation3() + " " + shop.getShopAddress();
 		}
 		else
 		{
-			address = shop.getShopLocation2() + " " + shop.getShopLocation3();
+			address = shop.getShopLocation2() + " " + shop.getShopLocation3() + " " + shop.getShopAddress();
 		}
 		model.addAttribute("shop", shop);
 		model.addAttribute("address", address);
@@ -68,7 +68,7 @@ public class ManagerController {
 					}
 					catch(NullPointerException e)
 					{
-						logger.error("[HelpController] /help/index shopStatus NullPointerException", e);
+						logger.error("[ManagerController] /manager/shopManage shopStatus NullPointerException", e);
 					}
 				}
 				else
@@ -78,7 +78,7 @@ public class ManagerController {
 			}
 			catch(NullPointerException e)
 			{
-				logger.error("[HelpController] /help/index cookieUserNick NullPointerException", e);
+				logger.error("[ManagerController] /manager/shopManage cookieUserNick NullPointerException", e);
 			}
 		}
 		
