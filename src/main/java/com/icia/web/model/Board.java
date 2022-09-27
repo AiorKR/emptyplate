@@ -1,6 +1,7 @@
 package com.icia.web.model;
 
 import java.io.Serializable;
+import java.sql.Blob;
 
 public class Board implements Serializable
 {
@@ -14,11 +15,13 @@ public class Board implements Serializable
 	private int bbsLikeCnt;		//게시물 좋아요수
 	private int bbsReadCnt;		//게시물 조회수
 	private String regDate;		//게시물 등록일
+	private String modDate;		//게시물 수정일
 	private String bbsComment;	//댓글허용
 	private long commentParent;	//부모 게시물번호
 	private long commentGroup;	//댓글 그룹번호
 	private int commentOrder;	//댓글 그룹내순서
 	private int commentIndent;	//댓글 들여쓰기
+	private String status;     	//게시물 상태(N:게시물 활성화, Y:게시물 삭제)
 	
 	private String userNick;	//사용자 닉네임
 	
@@ -45,11 +48,13 @@ public class Board implements Serializable
 		bbsLikeCnt = 0;
 		bbsReadCnt = 0;
 		regDate = "";
+		modDate = "";
 		bbsComment = "";
 		commentParent = 0;
 		commentGroup = 0;
 		commentOrder = 0;
 		commentIndent = 0;
+		status = "";
 		
 		userNick = "";
 		
@@ -136,11 +141,18 @@ public class Board implements Serializable
 		this.bbsReadCnt = bbsReadCnt;
 	}
 
+	public String getModDate() {
+		return modDate;
+	}
+	
+	
+	public void setModDate(String modDate) {
+		this.modDate = modDate;
+	}
 
 	public String getRegDate() {
 		return regDate;
 	}
-
 
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
@@ -194,6 +206,16 @@ public class Board implements Serializable
 
 	public void setCommentIndent(int commentIndent) {
 		this.commentIndent = commentIndent;
+	}
+
+
+	public String getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 
@@ -257,6 +279,16 @@ public class Board implements Serializable
 	}
 
 
+	public long getSortValue() {
+		return sortValue;
+	}
+
+
+	public void setSortValue(long sortValue) {
+		this.sortValue = sortValue;
+	}
+
+
 	public BoardFile getBoardFile() {
 		return boardFile;
 	}
@@ -265,14 +297,5 @@ public class Board implements Serializable
 	public void setBoardFile(BoardFile boardFile) {
 		this.boardFile = boardFile;
 	}
-	
-	public long getSortValue() {
-	      return sortValue;
-	}
 
-
-   public void setSortValue(long sortValue) {
-      this.sortValue = sortValue;
-   }
-	
 }

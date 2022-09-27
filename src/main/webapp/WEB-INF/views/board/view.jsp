@@ -1,4 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	// 개행문자 값을 저장한다.
+	pageContext.setAttribute("newLine", "\n");
+	// Community 번호
+	request.setAttribute("No", 4);
+
+%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <%
    //개행문자 값 저장
@@ -449,8 +456,11 @@ function fn_deleteComment(bbsSeqValue)
 				</div>
 				<div class="board-writer">
 					<ion-icon name="person"></ion-icon> ${board.userNick} &nbsp;
+					<ion-icon name="eye"></ion-icon><fmt:formatNumber type="number" maxFractionDigits="3" value="${board.bbsReadCnt}"/>&nbsp;
 					<ion-icon name="calendar"></ion-icon> ${board.regDate} &nbsp;
-					<ion-icon name="eye"></ion-icon> ${board.bbsReadCnt}
+					<c:if test="${!empty board.modDate}">
+						<ion-icon name="calendar"></ion-icon> ${board.modDate}(최종수정) &nbsp;
+					</c:if>
 				</div>
 				<div class="board-innercontent">
 					<col-lg-12>${board.bbsContent}</col-lg-12>

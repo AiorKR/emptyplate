@@ -4,7 +4,7 @@
 <html>
 
 <head>
-<%@ include file="/WEB-INF/views/include/head.jsp" %>
+<link href="/resources/css/style.css" rel="stylesheet">
 <script src="https://kit.fontawesome.com/842f2be68c.js" crossorigin="anonymous"></script>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
@@ -82,7 +82,7 @@ $("#code_btn").on("click", function(){
 </head>
 
 <body style="background-color:white; text-align: center;">
-<p style="font-family:Cafe24Dangdanghae; color:#d4af7a; margin-top:10px; font-size:20px;">전화번호 변경</p>
+<p style="font-family:Cafe24Dangdanghae; color:#d4af7a; margin-top:10px; font-size:20px;">전화번호 인증</p>
 	<form>
 		<div>
 			<input type="tel" id="tel" name="tel" class="phones" placeholder="전화번호(- 빼고 작성해주세요)" pattern="[0-9]{11}" required>

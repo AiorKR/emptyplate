@@ -21,8 +21,8 @@ public class Shop implements Serializable{
 	private String shopTelephone;	//매장전화번호
 	private String shopIntro;		//매장한줄소개
 	private String shopContent;	 	//매장내용
+	private double shopStarScore;	//매장 별점
 	private String shopRegDate;		//매장등록일
-	
 	
 	private long startRow;		//시작 rownum
 	private long endRow;		//끝 rownum
@@ -60,6 +60,7 @@ public class Shop implements Serializable{
 		shopTelephone = "";
 		shopIntro = "";
 		shopContent = "";
+		shopStarScore = 0;
 		shopRegDate = "";
 		
 		reservationDate = "";
@@ -203,6 +204,16 @@ public class Shop implements Serializable{
 	public void setShopContent(String shopContent) {
 		this.shopContent = shopContent;
 	}
+	
+	
+	public double getShopStarScore() {
+		return shopStarScore;
+	}
+	
+	
+	public void setShopStarScore(double shopStarScore) {
+		this.shopStarScore = shopStarScore;
+	}	
 
 
 	public String getShopRegDate() {
@@ -331,6 +342,9 @@ public class Shop implements Serializable{
 
 	public void setReservationTime(String reservationTime) {
 		this.reservationTime = reservationTime;
-	}	
+	}
+
+	
+	
 	
 }

@@ -19,11 +19,13 @@
   </resultMap>
  
  <resultMap id="userFileResultMap" type="com.icia.web.model.UserFile">
-	<id column="USER_UID" property="userUID" />
-	<id column="FILE_NAME" property="fileName" />
-	<id column="FILE_EXT" property="fileExt" />
-	<id column="FILE_SIZE" property="fileSize" />
-	<id column="REG_DATE" property="regDate" />
+   <id column="USER_UID" property="userUID" />
+   <id column="FILE_SEQ" property="fileSeq" />
+   <result column="FILE_ORG_NAME" property="fileOrgName" />
+   <result column="FILE_NAME" property="fileName" />
+   <result column="FILE_EXT" property="fileExt" />
+   <result column="FILE_SIZE" property="fileSize" />
+   <result column="REG_DATE" property="regDate" />
 </resultMap>
 
 <!-- 게시물좋아요 resultMap -->
@@ -135,23 +137,30 @@ WHERE
 
 <select id="userFileSelect" parameterType="long" resultMap="userFileResultMap">
 SELECT USER_UID,
-       NVL(FILE_NAME, '') FILE_NAME,
-       NVL(FILE_EXT, '') FILE_EXT,
-       NVL(FILE_SIZE, 0) FILE_SIZE,
+       FILE_SEQ,
+       NVL(FILE_ORG_NAME, '') AS FILE_ORG_NAME,
+       NVL(FILE_NAME, '') AS FILE_NAME,
+       NVL(FILE_EXT, '') AS FILE_EXT,
+       NVL(FILE_SIZE, 0) AS FILE_SIZE,
        NVL(TO_CHAR(REG_DATE, 'YYYY.MM.DD HH24:MI:SS'), '') REG_DATE
   FROM T_USER_FILE
  WHERE USER_UID = #{value}
+   AND FILE_SEQ = 1
 </select>
 
 <insert id="userFileInsert" parameterType="com.icia.web.model.UserFile">
 INSERT INTO T_USER_FILE (
-	USER_UID,
+   USER_UID,
+    FILE_SEQ,
+    FILE_ORG_NAME,
     FILE_NAME,
     FILE_EXT,
     FILE_SIZE,
     REG_DATE
 ) VALUES (
     #{userUID},
+    #{fileSeq},
+    #{fileOrgName},
     #{fileName},
     #{fileExt},
     #{fileSize},
@@ -162,6 +171,7 @@ INSERT INTO T_USER_FILE (
 <update id="userFileUpdate" parameterType="com.icia.web.model.UserFile">
  UPDATE T_USER_FILE
    SET FILE_NAME = #{fileName},
+       FILE_ORG_NAME = #{fileOrgName},
        FILE_EXT = #{fileExt},
        FILE_SIZE = #{fileSize},
        REG_DATE = SYSDATE
@@ -191,6 +201,7 @@ VALUES (#{userUID}, #{markUserUID})
 <delete id="userMarkDelete" parameterType="com.icia.web.model.User">
 DELETE FROM T_USER_MARK
  WHERE MARK_USER_UID = #{markUserUID}
+   AND USER_UID = #{userUID}
 </delete>
 
 <!-- 사용자 탈퇴시 좋아요 삭제 -->
@@ -217,5 +228,24 @@ DELETE FROM T_BOARD_MARK
 DELETE FROM T_USER_MARK
  WHERE USER_UID = #{userUID}
 </delete>
+
+
+<select id="markUserList" parameterType="String" resultMap="userResultMap">
+	SELECT RNUM,
+       MARK_USER_UID,
+       FILE_NAME,
+       USER_NICK
+FROM(SELECT ROWNUM AS RNUM,
+            MARK_USER_UID,
+            FILE_NAME,
+            USER_NICK
+       FROM(SELECT A.MARK_USER_UID AS MARK_USER_UID,
+                     B.USER_NICK,
+                     NVL(C.FILE_NAME, '') AS FILE_NAME
+                FROM T_USER_MARK A, T_USER B, T_USER_FILE C
+               WHERE A.USER_UID = #{userUID}
+                 AND A.MARK_USER_UID = B.USER_UID
+                 AND A.MARK_USER_UID = C.USER_UID(+)))
+</select>
 
 </mapper>

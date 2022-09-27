@@ -252,17 +252,19 @@ public class BoardService
 			BoardFile delBoardFile = boardDao.boardFileSelect(board.getBbsSeq());	
 			
 			//기존 첨부파일 삭제
-			if(delBoardFile != null)
+			if(delBoardFile != null && board.getBoardFile().getFileSize() > 0)
 			{
 				FileUtil.deleteFile(BOARD_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + delBoardFile.getFileName());
 				boardDao.boardFileDelete(board.getBbsSeq());
 			}
 			//새로운 첨부파일 등록
-			board.getBoardFile().setBbsSeq(board.getBbsSeq());
-			board.getBoardFile().setFileOrgName(Long.toString(board.getBbsSeq()));
+			if(board.getBoardFile().getFileSize() > 0)
+			{
+			board.getBoardFile().setBbsSeq(board.getBbsSeq());			
 			board.getBoardFile().setFileSeq((short)1);
 		
 			boardDao.boardFileInsert(board.getBoardFile());
+			}
 		}	
 		
 		return count;
@@ -515,6 +517,26 @@ public class BoardService
 	public long boardReport(BoardReport boardReport)
 	{
 		long count = boardDao.boardReport(boardReport);		
+		
+		return count;
+	}
+	
+	/***************************
+	 * help
+	 ***************************/
+	//총 게시물 수
+	public long helpListCount(Board board)
+	{
+		long count = 0;
+		
+		try
+		{
+			count = boardDao.helpListCount(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] helpListCount Exception", e);
+		}
 		
 		return count;
 	}

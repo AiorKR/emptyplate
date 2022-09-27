@@ -13,11 +13,13 @@
    <result column="BBS_LIKE_CNT" property="bbsLikeCnt" />
    <result column="BBS_READ_CNT" property="bbsReadCnt" />
    <result column="REG_DATE" property="regDate" />
+   <result column="MOD_DATE" property="modDate" />
    <result column="BBS_COMMENT" property="bbsComment" />
    <result column="COMMENT_PARENT" property="commentParent" />
    <result column="COMMENT_GROUP" property="commentGroup" />
    <result column="COMMENT_ORDER" property="commentOrder" />
    <result column="COMMENT_INDENT" property="commentIndent" />
+   <result column="STATUS" property="status" />
    <result column="RNUM" property="rNum" /> 
    <collection property="boardFile" resultMap="boardFileResultMap"/>
 </resultMap>
@@ -52,7 +54,8 @@ INSERT INTO T_BOARD (BBS_SEQ,
                      COMMENT_PARENT,
                      COMMENT_GROUP,
                      COMMENT_ORDER,
-                     COMMENT_INDENT) 
+                     COMMENT_INDENT,
+                     STATUS) 
 VALUES (#{bbsSeq},
         #{userUID},
         #{bbsNo},
@@ -65,7 +68,8 @@ VALUES (#{bbsSeq},
         #{commentParent},
         #{bbsSeq},
         #{commentOrder},
-        #{commentIndent})
+        #{commentIndent},
+        'N')
 </insert>
 
 <!-- 첨부파일 등록  --> 
@@ -97,7 +101,8 @@ SELECT RNUM,
        BBS_CONTENT,
        BBS_LIKE_CNT,
        BBS_READ_CNT,
-       REG_DATE
+       REG_DATE,
+       STATUS
   FROM(SELECT ROWNUM AS RNUM,
                         BBS_SEQ,
                         USER_UID,
@@ -107,7 +112,8 @@ SELECT RNUM,
                         BBS_CONTENT,
                         BBS_LIKE_CNT,
                         BBS_READ_CNT,	
-                        REG_DATE
+                        REG_DATE,
+                        STATUS
   FROM(SELECT BBS_SEQ,
               NVL(B.USER_UID, '') AS USER_UID,
               NVL(B.USER_NICK, '') AS USER_NICK, 
@@ -116,11 +122,13 @@ SELECT RNUM,
               NVL(BBS_CONTENT, '') AS BBS_CONTENT,
               A.BBS_LIKE_CNT AS BBS_LIKE_CNT,
               NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
-              NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD'), '') AS REG_DATE
+              NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD'), '') AS REG_DATE,
+              NVL(A.STATUS, 'N') AS STATUS
          FROM T_BOARD A, T_USER B
         WHERE A.USER_UID = B.USER_UID
           AND A.BBS_NO = #{bbsNo}
           AND A.BBS_TITLE IS NOT NULL
+          AND A.STATUS = 'N'
 <if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>   
   <choose>
     <when test='searchType == "1"'>   
@@ -159,7 +167,9 @@ SELECT RNUM,
 SELECT COUNT(A.BBS_SEQ) AS CNT
   FROM T_BOARD A, T_USER B
  WHERE A.USER_UID = B.USER_UID
+   AND A.BBS_NO = #{bbsNo}
    AND A.BBS_TITLE IS NOT NULL
+   AND A.STATUS = 'N'
 <if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>
  <choose>
   <when test='searchType == "1"'>   
@@ -187,7 +197,8 @@ SELECT RNUM,
        BBS_LIKE_CNT,
        BBS_READ_CNT,
        REG_DATE,
-       FILE_NAME
+       FILE_NAME,
+       STATUS
   FROM(SELECT ROWNUM AS RNUM,
                         BBS_SEQ,
                         USER_UID,
@@ -198,7 +209,8 @@ SELECT RNUM,
                         BBS_LIKE_CNT,
                         BBS_READ_CNT,	
                         REG_DATE,
-                        FILE_NAME
+                        FILE_NAME,
+                        STATUS
   FROM(SELECT A.BBS_SEQ,
               NVL(B.USER_UID, '') AS USER_UID,
               NVL(B.USER_NICK, '') AS USER_NICK, 
@@ -208,12 +220,14 @@ SELECT RNUM,
               A.BBS_LIKE_CNT AS BBS_LIKE_CNT,
               NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
               NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD'), '') AS REG_DATE,
-              C.FILE_NAME AS FILE_NAME
+              C.FILE_NAME AS FILE_NAME,
+              NVL(A.STATUS, 'N') AS STATUS
          FROM T_BOARD A, T_USER B, T_BOARD_FILE C
         WHERE A.USER_UID = B.USER_UID
           AND A.BBS_SEQ = C.BBS_SEQ
           AND A.BBS_NO = #{bbsNo}
           AND A.BBS_TITLE IS NOT NULL
+          AND A.STATUS = 'N'
         ORDER BY A.BBS_LIKE_CNT DESC))
  WHERE RNUM <![CDATA[>=]]> #{startRow}
    AND RNUM <![CDATA[<=]]> #{endRow}
@@ -232,7 +246,8 @@ SELECT RNUM,
        BBS_LIKE_CNT,
        BBS_READ_CNT,
        REG_DATE,
-       FILE_NAME
+       FILE_NAME,
+       STATUS
   FROM(SELECT ROWNUM AS RNUM,
                         BBS_SEQ,
                         USER_UID,
@@ -243,7 +258,8 @@ SELECT RNUM,
                         BBS_LIKE_CNT,
                         BBS_READ_CNT,	
                         REG_DATE,
-                        FILE_NAME
+                        FILE_NAME,
+                        STATUS
   		 FROM(SELECT A.BBS_SEQ,
              		 NVL(B.USER_UID, '') AS USER_UID,
             		 NVL(B.USER_NICK, '') AS USER_NICK, 
@@ -253,12 +269,14 @@ SELECT RNUM,
               		 A.BBS_LIKE_CNT AS BBS_LIKE_CNT,
               		 NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
               		 NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD'), '') AS REG_DATE,
-              		 C.FILE_NAME AS FILE_NAME
+              		 C.FILE_NAME AS FILE_NAME,
+              		 NVL(A.STATUS, 'N') AS STATUS
          		FROM T_BOARD A, T_USER B, T_BOARD_FILE C
        		   WHERE A.USER_UID = B.USER_UID
         	     AND A.BBS_SEQ = C.BBS_SEQ
           		 AND A.BBS_NO = #{bbsNo}
           		 AND A.BBS_TITLE IS NOT NULL
+          		 AND A.STATUS = 'N'
  			   ORDER BY A.BBS_READ_CNT DESC))
  WHERE RNUM <![CDATA[>=]]> #{startRow}
    AND RNUM <![CDATA[<=]]> #{endRow}
@@ -276,7 +294,8 @@ SELECT RNUM,
        BBS_CONTENT,
        BBS_LIKE_CNT,
        BBS_READ_CNT,
-       REG_DATE
+       REG_DATE,
+       STATUS
   FROM(SELECT ROWNUM AS RNUM,
                         BBS_SEQ,
                         USER_UID,
@@ -286,7 +305,8 @@ SELECT RNUM,
                         BBS_CONTENT,
                         BBS_LIKE_CNT,
                         BBS_READ_CNT,	
-                        REG_DATE
+                        REG_DATE,
+                        STATUS
   		 FROM(SELECT A.BBS_SEQ,
               		 NVL(B.USER_UID, '') AS USER_UID,
               		 NVL(B.USER_NICK, '') AS USER_NICK, 
@@ -295,11 +315,13 @@ SELECT RNUM,
                      NVL(BBS_CONTENT, '') AS BBS_CONTENT,
               		 A.BBS_LIKE_CNT AS BBS_LIKE_CNT,
               		 NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
-              		 NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD'), '') AS REG_DATE
+              		 NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD'), '') AS REG_DATE,
+              		 NVL(A.STATUS, 'N') AS STATUS
          		FROM T_BOARD A, T_USER B
         	   WHERE A.USER_UID = B.USER_UID
           		 AND A.BBS_NO = #{bbsNo}
          		 AND A.BBS_TITLE IS NOT NULL
+         		 AND A.STATUS = 'N'
           		 AND A.USER_UID= #{userUID}
 <if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>   
   <choose>
@@ -339,6 +361,7 @@ SELECT COUNT(A.BBS_SEQ) AS CNT
  WHERE A.USER_UID = B.USER_UID
    AND A.BBS_TITLE IS NOT NULL
    AND A.USER_UID= #{userUID}
+   AND A.STATUS = 'N'
 <if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>
  <choose>
   <when test='searchType == "1"'>   
@@ -365,6 +388,7 @@ SELECT A.BBS_SEQ,
        NVL(A.BBS_LIKE_CNT, 0) AS BBS_LIKE_CNT,
        NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
        NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD HH24:MI:SS'), '') AS REG_DATE,
+       NVL(TO_CHAR(A.MOD_DATE, 'YYYY-MM-DD HH24:MI:SS'), '') AS MOD_DATE,
        NVL(A.BBS_COMMENT, '') AS BBS_COMMENT,
        NVL(COMMENT_PARENT, 0) AS COMMENT_PARENT,
        NVL(COMMENT_GROUP, 0) AS COMMENT_GROUP,
@@ -400,7 +424,8 @@ SELECT BBS_SEQ,
 <update id="boardUpdate" parameterType="com.icia.web.model.Board">
 UPDATE T_BOARD
    SET BBS_TITLE = #{bbsTitle},
-       BBS_CONTENT = #{bbsContent}
+       BBS_CONTENT = #{bbsContent},
+       MOD_DATE = SYSDATE
  WHERE BBS_SEQ = #{bbsSeq}
 </update>
  
@@ -482,7 +507,8 @@ SELECT RNUM,
        BBS_CONTENT,
        BBS_LIKE_CNT,
        BBS_READ_CNT,
-       REG_DATE
+       REG_DATE,
+       STATUS
   FROM(SELECT ROWNUM AS RNUM,
                         BBS_SEQ,
                         USER_UID,
@@ -492,7 +518,8 @@ SELECT RNUM,
                         BBS_CONTENT,
                         BBS_LIKE_CNT,
                         BBS_READ_CNT,	
-                        REG_DATE
+                        REG_DATE,
+                        STATUS
   		 FROM(SELECT A.BBS_SEQ AS BBS_SEQ,
              		 NVL(A.USER_UID, '') AS USER_UID,
             		 NVL(B.USER_NICK, '') AS USER_NICK, 
@@ -501,13 +528,15 @@ SELECT RNUM,
               		 NVL(A.BBS_CONTENT, '') AS BBS_CONTENT,
               		 A.BBS_LIKE_CNT AS BBS_LIKE_CNT,
                		 NVL(A.BBS_READ_CNT, 0) AS BBS_READ_CNT,
-              		 NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD'), '') AS REG_DATE
+              		 NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD'), '') AS REG_DATE,
+              		 NVL(A.STATUS, 'N') AS STATUS
          		FROM T_BOARD A, T_USER B, T_BOARD_MARK C
                WHERE A.BBS_SEQ = C.BBS_SEQ
           		 AND A.BBS_NO = #{bbsNo}
           		 AND A.USER_UID = B.USER_UID
          		 AND A.BBS_TITLE IS NOT NULL
           		 AND C.USER_UID= #{userUID}
+          		 AND A.STATUS = 'N'
 <if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>   
   <choose>
     <when test='searchType == "1"'>   
@@ -548,7 +577,8 @@ SELECT COUNT(MARK.BBS_SEQ) AS CNT
                          B.BBS_TITLE AS BBS_TITLE,
                          B.BBS_CONTENT AS BBS_CONTENT
                     FROM T_BOARD B, T_BOARD_MARK BM
-                   WHERE B.BBS_SEQ = BM.BBS_SEQ) MARK
+                   WHERE B.BBS_SEQ = BM.BBS_SEQ
+                     AND B.STATUS = 'N') MARK
  WHERE A.USER_UID = MARK.USER_UID
    AND MARK.USER_UID = #{userUID}
 <if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>
@@ -584,7 +614,8 @@ INSERT INTO T_BOARD (BBS_SEQ,
                      COMMENT_PARENT,
                      COMMENT_GROUP,
                      COMMENT_ORDER,
-                     COMMENT_INDENT) 
+                     COMMENT_INDENT,
+					 STATUS) 
 VALUES (#{bbsSeq},
         #{userUID},
         5,
@@ -597,7 +628,8 @@ VALUES (#{bbsSeq},
         #{commentParent},
         #{commentGroup},
         #{commentOrder},
-        #{commentIndent})
+        #{commentIndent},
+        'N')
 </insert>
 
 <!-- 댓글 그룹순서 변경 -->
@@ -616,13 +648,16 @@ SELECT A.BBS_SEQ AS BBS_SEQ,
        B.USER_NICK AS USER_NICK,
        A.BBS_CONTENT AS BBS_CONTENT,
        A.REG_DATE AS REG_DATE,
+       A.MOD_DATE AS MOD_DATE,
        A.COMMENT_GROUP AS COMMENT_GROUP,
        A.COMMENT_ORDER AS COMMENT_ORDER,
-       A.COMMENT_INDENT AS COMMENT_INDENT
+       A.COMMENT_INDENT AS COMMENT_INDENT,
+       NVL(A.STATUS, 'N') AS STATUS
   FROM T_BOARD A, T_USER B
  WHERE A.USER_UID = B.USER_UID
    AND A.COMMENT_PARENT = #{bbsSeq}
    AND B.STATUS = 'Y'
+   AND A.STATUS = 'N'
  ORDER BY A.COMMENT_GROUP ASC, A.COMMENT_ORDER DESC
 </select>
 
@@ -651,4 +686,27 @@ VALUES (#{bbsSeq},
         #{etcReport}, 
         SYSDATE)
 </insert>
+
+<!-- HELP -->
+<!-- 총 게시물 수 -->
+<select id="helpListCount" parameterType="com.icia.web.model.Board" resultType="long">
+SELECT COUNT(A.BBS_SEQ) AS CNT
+  FROM T_BOARD A, T_USER B
+ WHERE A.USER_UID = B.USER_UID
+   AND A.BBS_TITLE IS NOT NULL
+   AND A.BBS_NO = #{bbsNo}
+<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>
+ <choose>
+  <when test='searchType == "1"'>   
+   AND B.USER_NICK LIKE '%' || #{searchValue} || '%'
+  </when>
+  <when test='searchType == "2"'>
+   AND A.BBS_TITLE LIKE '%' || #{searchValue} || '%'
+  </when>
+  <when test='searchType == "3"'>
+   AND DBMS_LOB.INSTR(A.BBS_CONTENT, #{searchValue}) > 0
+  </when>
+ </choose>
+</if>
+</select>
 </mapper>

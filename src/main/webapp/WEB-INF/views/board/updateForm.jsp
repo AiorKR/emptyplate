@@ -1,4 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	// 개행문자 값을 저장한다.
+	pageContext.setAttribute("newLine", "\n");
+	// Community 번호
+	request.setAttribute("No", 4);
+
+%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <!DOCTYPE html>
 <html>
@@ -122,7 +129,7 @@ $(document).ready(function() {
         <tr>
           <td class="title">제목</td>
           <td class="title-text">
-            <input type="text" id="bbsTitle" name="bbsTitle" value="${board.bbsTitle}" placeholder="제목을 입력해주세요.">
+            <input type="text" id="bbsTitle" name="bbsTitle" value="${board.bbsTitle}" maxlength="30" placeholder="제목을 입력해주세요.">
          <div class="comment">댓글허용 <input type="checkbox" id="bbsComment1" name="bbsComment1" checked="checked"/></div>
           </td>
         </tr>

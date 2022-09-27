@@ -4,7 +4,7 @@
 <html>
 
 <head>
-<%@ include file="/WEB-INF/views/include/head.jsp" %>
+<link href="/resources/css/style.css" rel="stylesheet">
 <script src="https://kit.fontawesome.com/842f2be68c.js" crossorigin="anonymous"></script>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
@@ -46,7 +46,7 @@ $("#tel_btn").on("click", function() {
 				 $("#tel").focus();
 			} 
 			else {
-				alert('오류가 발생하였습니다.')
+				alert('계정정보와 일치하지 않는 번호입니다.')
 				$("#tel").focus();
 			}
 		}

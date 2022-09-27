@@ -12,6 +12,7 @@ public class ShopReservationTable implements Serializable {
 	private String shopReservationDate;
 	private String shopReservationTime;
 	private String orderUID;
+	private int shopTotalTableCapacity; //테이블 몇인용인지  (수용인원)
 	
 	
 	public ShopReservationTable() {
@@ -20,6 +21,7 @@ public class ShopReservationTable implements Serializable {
 		shopReservationDate = "";
 		shopReservationTime = "";
 		orderUID = "";
+		shopTotalTableCapacity = 0;
 	}
 
 
@@ -71,5 +73,16 @@ public class ShopReservationTable implements Serializable {
 	public void setOrderUID(String orderUID) {
 		this.orderUID = orderUID;
 	}
+
+
+	public int getShopTotalTableCapacity() {
+		return shopTotalTableCapacity;
+	}
+
+
+	public void setShopTotalTableCapacity(int shopTotalTableCapacity) {
+		this.shopTotalTableCapacity = shopTotalTableCapacity;
+	}
+	
 	
 }

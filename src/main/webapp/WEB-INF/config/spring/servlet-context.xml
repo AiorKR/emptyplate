@@ -74,6 +74,8 @@
             			<value>/reservation/reservationCheck</value>
             			<value>/today/list</value>
             			<value>/help/index</value>
+            			<value>/help/helpView</value>
+            			<value>/help/helpList</value>
             			<value>/footer/aboutus</value>
             			<value>/footer/company</value>
             			<value>/footer/logohistory</value>
@@ -107,9 +109,9 @@
             			<value>/user/phone_popup</value>
             			<value>/user/bizNumPopup</value>
             			<value>/user/regManProc</value>
-            			<value>/rList/rList</value>
             			<value>/myPage/myFavorites</value>
             			<value>/pay/orderMenu</value>
+            			<value>/manager/shopManage</value>
             		</list>
             	</constructor-arg>
             </bean>

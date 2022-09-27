@@ -1,4 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	// 개행문자 값을 저장한다.
+	pageContext.setAttribute("newLine", "\n");
+	// Community 번호
+	request.setAttribute("No", 4);
+%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <!DOCTYPE html>
 <html>
@@ -156,7 +162,7 @@ $(document).ready(function() {
         <tr>
           <td class="title">제목</td>
           <td class="title-text">
-            <input type="text" id="bbsTitle" name="bbsTitle" placeholder="제목을 입력해주세요.">
+            <input type="text" id="bbsTitle" name="bbsTitle" maxlength="30" placeholder="제목을 입력해주세요.">
 			<div class="comment">댓글허용 <input type="checkbox" id="bbsComment1" name="bbsComment1" checked="checked"/></div>
 				<input type="hidden" id="bbsComment" name="bbsComment" value="" />
           </td>
@@ -215,7 +221,7 @@ $(document).ready(function() {
         
         <tr>
           <td class="file">이미지 첨부</td>
-          <td><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요." required/></td>
+          <td><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요."/></td>
         </tr>
       </table>
       
