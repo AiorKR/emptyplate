@@ -32,6 +32,7 @@ request.setAttribute("No", 2);
 </head>
 <body>
 <%@ include file="/WEB-INF/views/include/navigation.jsp"%>
+<!-- ======= reservations Section ======= -->
 <section id="view" class="view">
  <div class="container">
   <div class="row">
@@ -41,12 +42,13 @@ request.setAttribute("No", 2);
 		  <img src="../resources/upload/shop/${shop.shopUID}/${shop.shopFileList.get(1).shopFileName}"
 			   id="main_product_image" height="400px" width="400px">
 		</div>
+		<br />
 		<div class="thumbnail_images">
 		  <ul id="thumbnail">
 			<c:forEach items="${shop.shopFileList}" var="shopFileList" varStatus="status" begin="1" end="5">
 			  <li><img onclick="changeImage(this)"
 						src="../resources/upload/shop/${shop.shopUID}/${shopFileList.shopFileName}"
-						width="100px" height="100px">
+						width="100px" height="100px">&nbsp;
 			  </li>
 			</c:forEach>
 		  </ul>
@@ -128,14 +130,7 @@ request.setAttribute("No", 2);
              </script>
 	</div>
 	<div class="buttons d-flex flex-row mt-2 gap-3">
-	  <button class="btn btn-outline-dark">
-		<a href="">Today 확인</a>
-	  </button>
-	  <!-- Button trigger modal -->
-	  <button type="button" class="btn btn-primary"
-			  data-bs-toggle="modal" data-bs-target="#exampleModal"
-			  id="modal-btn">예 약
-	  </button>
+	  
 	</div>
 	
 	<div class="search-option">
@@ -147,6 +142,32 @@ request.setAttribute("No", 2);
 	</div>
 	
 	<hr class="hr-5">
+    <div class="review-container">
+     <h5>Review</h5>
+       <container>
+		<hr class="hr-5">
+       </container>
+       <div class="review">
+		<table>
+			<tr colspan="2">
+				<th>2인 테이블</th>
+			</tr>
+			<tr>
+				<td>2인 테이블</td>
+				<td><input type="text"></td>
+			</tr>
+			<tr>
+				<td>4인 테이블</td>
+				<td><input type="text"></td>
+			</tr>
+			<tr>
+				<td>6인 테이블</td>
+				<td><input type="text"></td>
+			</tr>
+		</table>
+       </div>
+    </div>
+  </div>
 
    <form name="bbsForm" id="bbsForm" method="post">
     <input type="hidden" name="shopUID" id="shopUID"  value="${shop.shopUID}"/> 
@@ -172,6 +193,7 @@ request.setAttribute("No", 2);
      main_prodcut_image.src = element.src; 
   }
 </script>
+
 <%@ include file="/WEB-INF/views/include/footer.jsp"%>
 </body>
 </html>

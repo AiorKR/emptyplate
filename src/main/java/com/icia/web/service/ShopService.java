@@ -115,6 +115,7 @@ public class ShopService {
 		public Shop shopUIDSelect(String userUID)
 		{
 			Shop shop = new Shop();
+			ShopFile shopFile = new ShopFile();
 			try
 			{
 				shop = shopDao.shopUIDSelect(userUID);

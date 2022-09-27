@@ -318,6 +318,33 @@ SELECT S.SHOP_UID AS SHOP_UID,
    AND SF.FILE_SEQ <![CDATA[<=]]>  6
 </select>
 
+<select id="shopUIDSelect" parameterType="String" resultMap="shopViewResultMap">
+	SELECT A.SHOP_UID,
+	       USER_UID, 
+	       SHOP_NAME,
+	       SHOP_TYPE,
+	       SHOP_HOLIDAY,
+	       SHOP_HASHTAG,
+	       SHOP_LOCATION1,
+	       SHOP_LOCATION2,
+	       SHOP_LOCATION3,
+	       SHOP_ADDRESS,
+	       SHOP_TELEPHONE, 
+	       SHOP_INTRO,
+	       SHOP_CONTENT,
+	       REVIEW_SCORE,
+	       A.REG_DATE,
+	       B.FILE_SEQ,
+	       B.FILE_ORG_NAME,
+	       B.FILE_NAME,
+	       B.FILE_EXT,
+	       B.FILE_SIZE,
+	       B.REG_DATE
+	  FROM T_SHOP A, T_SHOP_FILE B
+	 WHERE A.SHOP_UID = B.SHOP_UID
+	   AND USER_UID = #{value}
+</select>
+
 <select id="shopReservationCheck" parameterType="com.icia.web.model.Shop" resultMap="shopTotalTableResultMap"> <!--선택한 날에 대하여  예약이 가능한지 조회-->
 	SELECT AB.SHOP_UID AS SHOP_UID,
 		   AB.TOTAL_TABLE_UID AS TOTAL_TABLE_UID,
