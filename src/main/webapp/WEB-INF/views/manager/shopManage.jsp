@@ -1,35 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%
 	// 개행문자 값을 저장한다.
-pageContext.setAttribute("newLine", "\n");
-// Community 번호
-request.setAttribute("No", 2);
+	pageContext.setAttribute("newLine", "\n");
+	// Community 번호
+	request.setAttribute("No", 2);
 %>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<!--date and time picker-->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
-<link rel="stylesheet" href="/resources/datepicker/date_picker.css">
-<!--end date and time picker-->
-
-<%@ include file="/WEB-INF/views/include/head.jsp"%>
-
-<!--date and time picker-->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.js"></script>
-<!--end date and time picker-->
-</head>
+	<head>
+		<%@ include file="/WEB-INF/views/include/head.jsp"%>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$("#btnMark").on("click", function(){
+					 document.manageForm.action = "/manager/shopUpdate";
+				     document.manageForm.submit();
+				});
+			});
+		</script>
+	</head>
 <body>
 <%@ include file="/WEB-INF/views/include/navigation.jsp"%>
 <!-- ======= reservations Section ======= -->
@@ -61,6 +49,9 @@ request.setAttribute("No", 2);
 	<div class="p-3 right-side">
 	  <div class="d-flex justify-content-between align-items-center">
 		<h3>${shop.shopName}</h3>
+		<div class="bookmark">
+			  <button type="button" id="btnMark"><ion-icon name="construct-outline"></ion-icon>&nbsp;&nbsp;수정</button>
+		</div>
 	  </div>
 	  <div class="intro mt-2 pr-3 content">
 		<p>${shop.shopIntro}</p>
@@ -125,38 +116,77 @@ request.setAttribute("No", 2);
 	</div>
 	
 	<hr class="hr-5">
-    <div class="review-container">
-     <h5>Review</h5>
-       <container>
-		<hr class="hr-5">
-       </container>
-       <div class="review">
-		<table>
-			<tr colspan="2">
-				<th>최대수용테이블 설정</th>
-			</tr>
-			<tr>
-				<td>2인 테이블</td>
-				<td><input type="text"></td>
-			</tr>
-			<tr>
-				<td>4인 테이블</td>
-				<td><input type="text"></td>
-			</tr>
-			<tr>
-				<td>6인 테이블</td>
-				<td><input type="text"></td>
-			</tr>
-		</table>
-       </div>
-    </div>
-  </div>
 
-   <form name="bbsForm" id="bbsForm" method="post">
+		<div class="col-lg-12">
+			<div class="setTable">
+				<table>
+					<tr colspan="2">
+						<th>2인 테이블</th>
+					</tr>
+					<tr>
+						<td>테이블 종류</td>
+						<td>전체 수량</td>
+					</tr>
+					<tr>
+						<td>2인 테이블</td>
+						<td><input type="text" readonly></td>
+					</tr>
+					<tr>
+						<td>4인 테이블</td>
+						<td><input type="text" readonly></td>
+					</tr>
+					<tr>
+						<td>6인 테이블</td>
+						<td><input type="text" readonly></td>
+					</tr>
+				</table>
+	       </div>
+	       <div class="setTime">
+		       <table>
+					<tr colspan="2">
+						<th>매장 시간 설정</th>
+					</tr>
+					<tr>
+						<td>시간 구분</td>
+						<td>시간</td>
+					</tr>
+					<tr>
+						<td>Lunch</td>
+						<td><input type="text" readonly></td>
+					</tr>
+					<tr>
+						<td>Dinner</td>
+						<td><input type="text" readonly></td>
+					</tr>
+				</table>
+	       </div>
+	       <div class="setMenu">
+		       <table>
+					<tr colspan="2">
+						<th>메뉴 설정</th>
+					</tr>
+					<tr>
+						<td>시간 구분</td>
+						<td>메뉴명</td>
+						<td>메뉴가격</td>
+					</tr>
+					<tr>
+						<td>Lunch</td>
+						<td><input type="text" readonly></td>
+						<td><input type="text" readonly></td>
+					</tr>
+					<tr>
+						<td>Dinner</td>
+						<td><input type="text" readonly></td>
+						<td><input type="text" readonly></td>
+					</tr>
+				</table>
+	       </div>
+       </div>
+    
+  </div>
+   <form name="manageForm" id="manageForm" method="post">
     <input type="hidden" name="shopUID" id="shopUID"  value="${shop.shopUID}"/> 
-     <input type="hidden" name="searchType"  value="${searchType}"/>
-     <input type="hidden" name="searchValue" value="${searchValue}" />
-     <input type="hidden" name="curPage" value="${curPage}" />
      <input type="hidden" name="reservationDate" id="reservationDate" value="${reservationDate}" />
      <input type="hidden" name="reservationTime" id="reservationTime" value="${reservationTime}" />
      <input type="hidden" name="reservationPeople" id="reservationPeople" value="" />
