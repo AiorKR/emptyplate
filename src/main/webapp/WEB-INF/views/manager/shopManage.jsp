@@ -1,35 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%
 	// 개행문자 값을 저장한다.
-pageContext.setAttribute("newLine", "\n");
-// Community 번호
-request.setAttribute("No", 2);
+	pageContext.setAttribute("newLine", "\n");
+	// Community 번호
+	request.setAttribute("No", 2);
 %>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<!--date and time picker-->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
-<link rel="stylesheet" href="/resources/datepicker/date_picker.css">
-<!--end date and time picker-->
-
-<%@ include file="/WEB-INF/views/include/head.jsp"%>
-
-<!--date and time picker-->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.js"></script>
-<!--end date and time picker-->
-</head>
+	<head>
+		<%@ include file="/WEB-INF/views/include/head.jsp"%>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$("#btnMark").on("click", function(){
+					 document.manageForm.action = "/manager/shopUpdate";
+				     document.manageForm.submit();
+				});
+			});
+		</script>
+	</head>
 <body>
 <%@ include file="/WEB-INF/views/include/navigation.jsp"%>
 <!-- ======= reservations Section ======= -->
@@ -63,9 +51,7 @@ request.setAttribute("No", 2);
 	  <div class="d-flex justify-content-between align-items-center">
 		<h3>${shop.shopName}</h3>
 		<div class="bookmark">
-			  <button type="button" id="btnMark" class="bookmark">
-				<ion-icon name="construct-outline"></ion-icon>&nbsp;&nbsp;수정
-			  </button>
+			  <button type="button" id="btnMark"><ion-icon name="construct-outline"></ion-icon>&nbsp;&nbsp;수정</button>
 		</div>
 	  </div>
 	  <div class="intro mt-2 pr-3 content">
@@ -200,7 +186,7 @@ request.setAttribute("No", 2);
        </div>
     
   </div>
-   <form name="bbsForm" id="bbsForm" method="post">
+   <form name="manageForm" id="manageForm" method="post">
     <input type="hidden" name="shopUID" id="shopUID"  value="${shop.shopUID}"/> 
      <input type="hidden" name="reservationDate" id="reservationDate" value="${reservationDate}" />
      <input type="hidden" name="reservationTime" id="reservationTime" value="${reservationTime}" />
