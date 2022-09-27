@@ -14,7 +14,7 @@ public interface EntryDao
 	public int entryInsert(Entry entry);
 	
 	//입점문의조회
-	public Entry entrySelect(String userPhone);
+	public Entry entrySelect(long entrySeq);
 	   
 	//입점문의수정
 	public int entryUpdate(Entry entry);

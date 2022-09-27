@@ -81,6 +81,7 @@
      			        <value>/footer/resources2</value>
      			        <value>/footer/resources3</value>
      			        <value>/footer/resources4</value>
+     			        <value>/footer/regProc</value>
             			<value>/user/NickUpdate</value>
             			<value>/user/EmailUpdate</value>
             			<value>/myPage/userDelete</value>
@@ -110,6 +111,7 @@
             			<value>/rList/rList</value>
             			<value>/myPage/myFavorites</value>
             			<value>/pay/orderMenu</value>
+            			
             		</list>
             	</constructor-arg>
             </bean>

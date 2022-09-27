@@ -17,6 +17,12 @@
 
 <!--입점문의등록(문의번호,매장명,문의자이름,문의자번호,문의자이메일,약관동의여부,처리상황,승인여부,문의일자) -->
 <insert id="entryInsert" parameterType="com.icia.web.model.Entry">
+
+<!-- 선행처리기(시퀀스번호 생성) -->
+<selectKey resultType="long" keyProperty="entrySeq" order="BEFORE">
+   SELECT ENTRY_SEQ.NEXTVAL FROM DUAL
+</selectKey>
+
 INSERT INTO T_ENTRY (ENTRY_SEQ,
                      SHOP_NAME,
                      USER_NAME,
@@ -26,7 +32,6 @@ INSERT INTO T_ENTRY (ENTRY_SEQ,
                      STATUS,
                      RESULT_STATUS,
                      REG_DATE)
-                     
 VALUES (#{entrySeq},
         #{shopName},
         #{userName},
@@ -34,9 +39,8 @@ VALUES (#{entrySeq},
         #{userEmail},
         #{agreement},
         #{status},
-        #{result_status},
+        #{resultStatus},
         SYSDATE)
-
 </insert>
 
 <!--입점문의조회(문의번호,매장명,문의자이름,문의자번호,문의자이메일,약관동의여부,처리상황,승인여부,문의일자) -->
