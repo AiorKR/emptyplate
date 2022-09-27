@@ -27,13 +27,13 @@ public class EntryService
 	}
 	
 	//입점문의조회
-	public Entry entrySelect(String userPhone) 
+	public Entry entrySelect(long entrySeq) 
 	{
 		Entry entry = null;
 		
 		try
 		{
-			entry = entryDao.entrySelect(userPhone);
+			entry = entryDao.entrySelect(entrySeq);
 		}
 		catch(Exception e)
 		{

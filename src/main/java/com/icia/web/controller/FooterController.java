@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Entry;
 import com.icia.web.model.Response;
+import com.icia.web.model.User;
 import com.icia.web.service.EntryService;
 import com.icia.web.service.UserService;
+import com.icia.web.util.CookieUtil;
 import com.icia.web.util.HttpUtil;
 import com.icia.web.util.JsonUtil;
 
@@ -25,6 +28,10 @@ public class FooterController {
 
 	private static Logger logger = LoggerFactory.getLogger(FooterController.class);
 	
+	//쿠키명
+    @Value("#{env['auth.cookie.name']}")
+    private String AUTH_COOKIE_NAME;
+    
 	@Autowired
 	private EntryService entryService;
 	
@@ -77,12 +84,17 @@ public class FooterController {
 		return "/footer/logohistory";
 	}
 	
-	@RequestMapping(value="/footer/entryForm", method=RequestMethod.POST)
+	
+	
+	//입점문의폼
+	@RequestMapping(value="/footer/regProc", method=RequestMethod.POST)
 	@ResponseBody
-	public Response<Object> entryForm(HttpServletRequest request, HttpServletResponse response)
+	public Response<Object> entryReg(HttpServletRequest request, HttpServletResponse response)
 	{
 		Response<Object> ajaxResponse = new Response<Object>();
-		
+		logger.debug("###############################");
+		logger.debug("#작동중");
+		logger.debug("###############################");
 		String shopName = HttpUtil.get(request, "shopName");
 		String userName = HttpUtil.get(request, "userName");
 		String userPhone = HttpUtil.get(request, "userPhone");
@@ -93,15 +105,16 @@ public class FooterController {
 				!StringUtil.isEmpty(userPhone) && 
 				!StringUtil.isEmpty(userEmail))
 		{
-			if(entryService.entrySelect(userPhone) == null)
-			{
+			
 				Entry entry = new Entry();
 				
 				entry.setShopName(shopName);
 				entry.setUserName(userName);
 				entry.setUserPhone(userPhone);
 				entry.setUserEmail(userEmail);
-				
+				entry.setAgreement("Y");
+				entry.setStatus("I");
+				entry.setResultStatus("N");
 				
 				if(entryService.entryInsert(entry) > 0)
 				{
@@ -111,20 +124,14 @@ public class FooterController {
 				{
 					ajaxResponse.setResponse(500, "Internal Server Error");
 				}
-			}
-			else
-			{
-				ajaxResponse.setResponse(100, "duplicate id");
-			}
 		}
-		else
-		{
-			ajaxResponse.setResponse(400, "Bad Request");
-		}
+				
+		
+		
 		
 		if(logger.isDebugEnabled())
 		{
-			logger.debug("[UserController] /user/userInsert response\n" + JsonUtil.toJsonPretty(ajaxResponse));
+			logger.debug("[FooterController] /footer/resource4 response\n" + JsonUtil.toJsonPretty(ajaxResponse));
 		}
 		
 		
