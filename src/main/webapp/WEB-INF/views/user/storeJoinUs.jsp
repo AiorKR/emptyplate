@@ -190,7 +190,7 @@ function fn_idCheck()
 		     type:"POST",
 		     url:"/user/accessNumChk",
 		     data:{
-		        accessNum: $("#accessNum").val(),
+		        accessNum: $("#accessNum").val()
 		     },
 		     datatype:"JSON",
 		     beforeSend:function(xhr){
@@ -337,11 +337,6 @@ function fn_userReg()
          {
              alert("회원 가입이 되었습니다. ");
              location.href = "/user/login"; //"/bord/list";
-         }
-         else if(response.code == -1)
-         {
-        	 alert("유아이디 업데이트 안됨");
-        	 return;
          }
          else if(response.code == 100)
          {
