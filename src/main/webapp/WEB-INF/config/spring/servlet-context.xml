@@ -111,6 +111,7 @@
             			<value>/user/regManProc</value>
             			<value>/myPage/myFavorites</value>
             			<value>/pay/orderMenu</value>
+            			<value>/manager/shopManage</value>
             		</list>
             	</constructor-arg>
             </bean>
