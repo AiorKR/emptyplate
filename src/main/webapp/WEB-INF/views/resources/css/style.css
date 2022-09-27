@@ -5274,14 +5274,14 @@ hr[role="tournament1"]::before {
 }
 
 .cardDetailSection-button {
-  color:#464545a6;
-  font-family: 'cafe24Dangdanghae'; 
+  color:rgba(203, 153, 102);
+  font-family: 'cafe24Dangdanghae'; 	
   border-radius: 10%;
-  box-shadow: 3px 3px 3px 3px rgba(128, 128, 128, 0.575);
+  box-shadow: 3px 3px 3px 3px rgba(203, 153, 102, 0.575);
 }
 
 .cardDetailSection-button:hover {
-  box-shadow: 3px 3px 3px 3px rgba(128, 128, 128, 0.575) inset;
+  box-shadow: 3px 3px 3px 3px rgba(128, 128, 128, 0.7) inset;
 }
 
 

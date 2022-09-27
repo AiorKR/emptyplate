@@ -350,5 +350,61 @@ public class ShopService {
 	            }
 	            return count;
 			}
-		
+
+			public Order selectRes(String orderUID)
+			{	
+				Order order = null;
+				try
+				{
+					order = shopDao.selectRes(orderUID);
+				}
+				catch(Exception e)
+				{
+					logger.error("[ShopService]selectRes Exception", e);
+				}
+				
+				return order;
+			}
+
+			public int delRes(String orderUID) {
+				int count = 0;
+	           
+	            try
+	            {
+	               count = shopDao.delRes(orderUID);
+	            }
+	            catch(Exception e)
+	            {
+	               logger.error("[ShopService]delRes Exception", e);
+	            }
+	            return count;
+			}
+
+			public int delTable(String orderUID) {
+				int count = 0;
+		           
+	            try
+	            {
+	               count = shopDao.delTable(orderUID);
+	            }
+	            catch(Exception e)
+	            {
+	               logger.error("[ShopService]delTable Exception", e);
+	            }
+	            return count;
+			}
+
+			public int delTableN(String orderUID) {
+				int count = 0;
+		           
+	            try
+	            {
+	               count = shopDao.delTableN(orderUID);
+	            }
+	            catch(Exception e)
+	            {
+	               logger.error("[ShopService]delTableN Exception", e);
+	            }
+	            return count;
+			}
 }

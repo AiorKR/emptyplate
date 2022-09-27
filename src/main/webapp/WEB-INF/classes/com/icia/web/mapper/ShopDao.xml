@@ -368,7 +368,8 @@ SELECT S.SHOP_UID AS SHOP_UID,
 	<result column="R_DATE" property="rDate"/>
 	<result column="REG_DATE" property="regDate"/>
 	<result column="REVIEW_SCORE" property="shopScore"/>
-    <result column="REVIEW_CONTENT" property="shopReviewContent"/>	
+    <result column="REVIEW_CONTENT" property="shopReviewContent"/>
+    <result column="PAYMENT_KEY" property="paymentKey"/>	
 	<collection property="orderMenu" resultMap="orderMenuResultMap"/>
 	<collection property="shopReservationTable" resultMap="shopReservationTableResultMap"/>
 	</resultMap>
@@ -411,7 +412,7 @@ SELECT S.SHOP_UID AS SHOP_UID,
             AND A.ORDER_UID = D.ORDER_UID(+)))
        WHERE RNUM <![CDATA[>=]]>  #{startRow}
        AND RNUM <![CDATA[<=]]>  #{endRow}
-       ORDER BY RNUM DESC
+       ORDER BY RNUM ASC
 	</select>
 	
 	
@@ -592,4 +593,35 @@ SELECT RNUM,
 WHERE ORDER_UID = #{orderUID}
   AND USER_UID = #{userUID}
 </delete>
+
+<select id="selectRes" parameterType="com.icia.web.model.Order" resultMap="myOrderResultMap">
+	SELECT DISTINCT
+       NVL(A.ORDER_STATUS, '') AS ORDER_STATUS,
+       NVL(A.PAY_TYPE, '') AS PAY_TYPE,
+       NVL(A.TOTAL_AMOUNT, '') AS TOTAL_AMOUNT,
+       NVL(A.PAYMENT_KEY, '') AS PAYMENT_KEY,
+       NVL(B.RESERVATION_DATE||B.RESERVATION_TIME, '') AS R_DATE
+  FROM T_ORDER A, T_SHOP_RESERVATION_TABLE B
+ WHERE A.ORDER_UID = #{orderUID}
+   AND A.ORDER_UID = B.ORDER_UID
+</select>
+
+<update id="delRes" parameterType="com.icia.web.model.Order">
+ UPDATE T_ORDER
+    SET ORDER_STATUS = 'C'
+  WHERE ORDER_UID = #{orderUID}
+</update>
+
+<update id="delTable" parameterType="com.icia.web.model.ShopReservationTable">
+	UPDATE T_SHOP_RESERVATION_TABLE 
+       SET TABLE_STATUS = 'N'
+     WHERE ORDER_UID = #{orderUID}
+</update>
+
+<update id="delTableN" parameterType="com.icia.web.model.ShopReservationTable">
+	UPDATE T_SHOP_RESERVATION_TABLE
+  	   SET TABLE_STATUS = 'C'
+     WHERE ORDER_UID = #{orderUID} 
+</update>
+
 </mapper>

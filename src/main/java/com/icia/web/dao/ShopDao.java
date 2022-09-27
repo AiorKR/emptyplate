@@ -64,4 +64,12 @@ public interface ShopDao {
 	public int updateReqOne(ShopReview shopReview);
 
 	public int delReqOne(ShopReview shopReview);
+
+	public Order selectRes(String orderUID);
+
+	public int delRes(String orderUID);
+
+	public int delTable(String orderUID);
+
+	public int delTableN(String orderUID);
 }
