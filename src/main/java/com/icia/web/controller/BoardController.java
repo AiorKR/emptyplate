@@ -67,11 +67,34 @@ public class BoardController
 		
 		model.addAttribute("bbsNo", bbsNo);
 		model.addAttribute("user", user);
-		if(cookieUserUID != null)
+		User user2 = new User();
+		user2 = userService.userUIDSelect(cookieUserUID);
+		if(user2 != null)
 		{
-			User user2 = new User();
-			user2 = userService.userUIDSelect(cookieUserUID);
-			model.addAttribute("cookieUserNick", user2.getUserNick());			
+			try
+			{
+				model.addAttribute("cookieUserNick", user2.getUserNick());
+				model.addAttribute("adminStatus", user2.getAdminStatus());
+				if(user2.getBizNum() != null)
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[BoardController] /board/writeForm shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[BoardController] /board/writeForm cookieUserNick NullPointerException", e);
+			}
 		}
 				
 		return "/board/writeForm";
@@ -222,12 +245,29 @@ public class BoardController
 			try
 			{
 				model.addAttribute("cookieUserNick", user2.getUserNick());
+				model.addAttribute("adminStatus", user2.getAdminStatus());
+				if(user2.getBizNum() != null)
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[BoardController] /board/list shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
 			}
 			catch(NullPointerException e)
 			{
-				logger.error("[BoardController] board/list NullPointerException", e);
+				logger.error("[BoardController] /board/list cookieUserNick NullPointerException", e);
 			}
 		}
+		
 		return "/board/list";
 	}
 	
@@ -341,12 +381,29 @@ public class BoardController
 			try
 			{
 				model.addAttribute("cookieUserNick", user2.getUserNick());
+				model.addAttribute("adminStatus", user2.getAdminStatus());
+				if(user2.getBizNum() != null)
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[BoardController] /board/userList shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
 			}
 			catch(NullPointerException e)
 			{
-				logger.error("[BoardController] board/userList NullPointerException", e);
+				logger.error("[BoardController] /board/userList cookieUserNick NullPointerException", e);
 			}
 		}
+		
 		return "/board/userList";
 	}
 	
@@ -475,6 +532,7 @@ public class BoardController
        model.addAttribute("list", comment);
        model.addAttribute("bbsLikeActive", bbsLikeActive);
        model.addAttribute("bbsMarkActive", bbsMarkActive);
+
        User user2 = new User();
 		user2 = userService.userUIDSelect(cookieUserUID);
 		if(user2 != null)
@@ -482,12 +540,29 @@ public class BoardController
 			try
 			{
 				model.addAttribute("cookieUserNick", user2.getUserNick());
+				model.addAttribute("adminStatus", user2.getAdminStatus());
+				if(user2.getBizNum() != null)
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[BoardController] /board/view shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
 			}
 			catch(NullPointerException e)
 			{
-				logger.error("[BoardController] board/view NullPointerException", e);
+				logger.error("[BoardController] /board/view cookieUserNick NullPointerException", e);
 			}
 		}
+		
        return "/board/view";
     }
     
@@ -566,6 +641,7 @@ public class BoardController
   		model.addAttribute("curPage", curPage);
   		model.addAttribute("board", board);
   		model.addAttribute("user", user);
+
   		User user2 = new User();
 		user2 = userService.userUIDSelect(cookieUserUID);
 		if(user2 != null)
@@ -573,12 +649,29 @@ public class BoardController
 			try
 			{
 				model.addAttribute("cookieUserNick", user2.getUserNick());
+				model.addAttribute("adminStatus", user2.getAdminStatus());
+				if(user2.getBizNum() != null)
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[BoardController] /board/updateForm shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
 			}
 			catch(NullPointerException e)
 			{
-				logger.error("[BoardController] board/updateForm NullPointerException", e);
+				logger.error("[BoardController] /board/updateForm cookieUserNick NullPointerException", e);
 			}
 		}
+		
   		return "/board/updateForm";
   	}
   	
@@ -870,6 +963,7 @@ public class BoardController
 		model.addAttribute("sortValue", sortValue);
 		model.addAttribute("curPage", curPage);
 		model.addAttribute("paging", paging);
+
 		User user2 = new User();
 		user2 = userService.userUIDSelect(cookieUserUID);
 		if(user2 != null)
@@ -877,12 +971,29 @@ public class BoardController
 			try
 			{
 				model.addAttribute("cookieUserNick", user2.getUserNick());
+				model.addAttribute("adminStatus", user2.getAdminStatus());
+				if(user2.getBizNum() != null)
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[BoardController] /board/markList shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
 			}
 			catch(NullPointerException e)
 			{
-				logger.error("[BoardController] board/markList NullPointerException", e);
+				logger.error("[BoardController] /board/markList cookieUserNick NullPointerException", e);
 			}
 		}
+		
 		return "/board/markList";
 	}	
   

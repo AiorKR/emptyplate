@@ -1,6 +1,7 @@
 package com.icia.web.model;
 
 import java.io.Serializable;
+import java.sql.Blob;
 
 public class Board implements Serializable
 {

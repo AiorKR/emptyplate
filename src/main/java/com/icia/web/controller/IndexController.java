@@ -76,15 +76,9 @@ public class IndexController
 		List<Shop> recommand= shopService.indexShopList(shop);
 		User user2 = new User();
 		user2 = userService.userUIDSelect(cookieUserUID);
-		shopFile.setShopFileSeq(0);
-		logger.debug("####################");
-		logger.debug("#" + recommand.get(0).getShopFile().getShopFileExt());
-		logger.debug("#" + recommand.get(0).getShopFile().getShopFileName());
-		logger.debug("#" + recommand.get(0).getShopFile().getShopFileOrgName());
-		logger.debug("#" + recommand.get(0).getShopFile().getShopFileRegDate());
-		logger.debug("####################");
-		
+		shopFile.setShopFileSeq(0);		
 		model.addAttribute("recommand", recommand);
+		
 		if(user2 == null)
 		{
 			return "/index";
@@ -94,14 +88,29 @@ public class IndexController
 			try
 			{
 				model.addAttribute("cookieUserNick", user2.getUserNick());
+				model.addAttribute("adminStatus", user2.getAdminStatus());
+				if(user2.getBizNum() != null)
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[IndexController] index shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
 			}
 			catch(NullPointerException e)
 			{
-				logger.error("[IndexController] index Exception", e);
+				logger.error("[IndexController] index cookieUserNick NullPointerException", e);
 			}
 			return "/index";
 		}
-		
 		
 	}
 }
