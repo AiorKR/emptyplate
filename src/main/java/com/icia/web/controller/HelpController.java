@@ -234,7 +234,6 @@ public class HelpController {
 	       model.addAttribute("bbsSeq", bbsSeq);
 	       model.addAttribute("board", board);
 	       model.addAttribute("cookieUserUID",cookieUserUID);
-	       model.addAttribute("admin", user2.getAdminStatus());
 	       model.addAttribute("searchType", searchType);
 	       model.addAttribute("searchValue", searchValue);
 	       model.addAttribute("curPage", curPage);
@@ -244,6 +243,7 @@ public class HelpController {
 				try
 				{
 					model.addAttribute("cookieUserNick", user2.getUserNick());
+					model.addAttribute("admin", user2.getAdminStatus());
 				}
 				catch(NullPointerException e)
 				{
