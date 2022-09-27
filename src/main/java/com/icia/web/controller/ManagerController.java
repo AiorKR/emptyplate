@@ -68,7 +68,7 @@ public class ManagerController {
 					}
 					catch(NullPointerException e)
 					{
-						logger.error("[HelpController] /help/index shopStatus NullPointerException", e);
+						logger.error("[ManagerController] /manager/shopManage shopStatus NullPointerException", e);
 					}
 				}
 				else
@@ -78,12 +78,62 @@ public class ManagerController {
 			}
 			catch(NullPointerException e)
 			{
-				logger.error("[HelpController] /help/index cookieUserNick NullPointerException", e);
+				logger.error("[ManagerController] /manager/shopManage cookieUserNick NullPointerException", e);
 			}
 		}
 		
 		
 		return "/manager/shopManage";
 	}
-
+	
+	@RequestMapping(value="/manager/shopUpdate")
+	public String shopUpdate(ModelMap model, HttpServletRequest request, HttpServletResponse response){
+		
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		User user = userService.userUIDSelect(cookieUserUID);
+		Shop shop = shopService.shopUIDSelect(cookieUserUID);
+		String address = "";
+		if(shop.getShopLocation1() != null)
+		{
+			address = shop.getShopLocation1() + " " + shop.getShopLocation2() +" "+shop.getShopLocation3();
+		}
+		else
+		{
+			address = shop.getShopLocation2() + " " + shop.getShopLocation3();
+		}
+		model.addAttribute("shop", shop);
+		model.addAttribute("address", address);
+		if(user != null)
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", user.getUserNick());
+				model.addAttribute("adminStatus", user.getAdminStatus());
+				if(user.getBizNum() != null)
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[ManagerController] /manager/shopUpdate shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[ManagerController] /manager/shopUpdate cookieUserNick NullPointerException", e);
+			}
+		}
+		
+		
+		return "/manager/shopUpdate";
+	}
+	
+	
 }
