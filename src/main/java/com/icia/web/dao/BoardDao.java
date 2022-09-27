@@ -113,4 +113,7 @@ public interface BoardDao
 	//총 게시물 수
 	public long helpListCount(Board board);
 	
+	//help 게시물 리스트
+	public List<Board> helpList(Board board);		
+	
 }

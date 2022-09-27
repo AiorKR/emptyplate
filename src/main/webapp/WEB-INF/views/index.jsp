@@ -66,15 +66,16 @@
 						<div class="col-lg-6">
 							<img alt="" src="/resources/upload/shop/${shop.shopUID}/${shop.shopFile.shopFileName}" class="img-fluid" alt="">
 						</div>
-						<div class="col-lg-6 pt-4 pt-lg-0 content">
+						<div class="col-lg-6 pt-4 pt-lg-0 content" id="content">
 							<h3>${shop.shopName}</h3>
 							<p class="fst-italic">${shop.shopIntro}</p>
 							<ul>
 								<li><i class="fa-solid fa-map-location-dot"></i> ${shop.shopLocation2} ${shop.shopLocation3}</li>
 								<li><i class="fa-regular fa-star"></i> 별점 ${shop.shopStarScore} (100)</li>
+								<li><i class="fa-brands fa-instagram"></i> ${shop.shopHashtag}</li>
 							</ul>
 							<p class="int">
-								<i class="fa-brands fa-instagram"></i> ${shop.shopHashtag}
+								
 							</p>
 							<div class="btns">
 								<button type="button" id="btnReserve" class="btn-book animated fadeInUp scrollto" value="${shop.shopUID}">예약</button>

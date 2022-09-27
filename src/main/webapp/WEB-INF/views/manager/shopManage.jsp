@@ -42,13 +42,12 @@ request.setAttribute("No", 2);
 		  <img src="../resources/upload/shop/${shop.shopUID}/${shop.shopFileList.get(1).shopFileName}"
 			   id="main_product_image" height="400px" width="400px">
 		</div>
-		<br />
 		<div class="thumbnail_images">
 		  <ul id="thumbnail">
 			<c:forEach items="${shop.shopFileList}" var="shopFileList" varStatus="status" begin="1" end="5">
 			  <li><img onclick="changeImage(this)"
 						src="../resources/upload/shop/${shop.shopUID}/${shopFileList.shopFileName}"
-						width="100px" height="100px">&nbsp;
+						width="100px" height="100px" class="thumbnail">&nbsp;
 			  </li>
 			</c:forEach>
 		  </ul>

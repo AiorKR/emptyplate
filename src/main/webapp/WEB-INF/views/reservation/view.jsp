@@ -435,7 +435,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 			<c:forEach items="${shop.shopFileList}" var="shopFileList" varStatus="status" begin="1" end="5">
 			  <li><img onclick="changeImage(this)"
 						src="../resources/upload/shop/${shop.shopUID}/${shopFileList.shopFileName}"
-						width="100px" height="100px">
+						width="100px" height="100px" class="thumbnail">
 			  </li>
 			</c:forEach>
 		  </ul>

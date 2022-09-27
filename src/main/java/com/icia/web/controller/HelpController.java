@@ -73,22 +73,22 @@ public class HelpController {
 				switch(i)
 				{
 					case 1: 
-						List<Board> list1 = boardService.boardList(board);
+						List<Board> list1 = boardService.helpList(board);
 						model.addAttribute("list1", list1);
 						model.addAttribute("listSize1", list1.size());
 						break;
 					case 2:
-						List<Board> list2 = boardService.boardList(board);
+						List<Board> list2 = boardService.helpList(board);
 						model.addAttribute("list2", list2);
 						model.addAttribute("listSize2", list2.size());
 						break;
 					case 3:
-						List<Board> list3 = boardService.boardList(board);
+						List<Board> list3 = boardService.helpList(board);
 						model.addAttribute("list3", list3);
 						model.addAttribute("listSize3", list3.size());
 						break;
 					case 4:
-						List<Board> list4 = boardService.boardList(board);
+						List<Board> list4 = boardService.helpList(board);
 						model.addAttribute("list4", list4);
 						model.addAttribute("listSize4", list4.size());
 						break;
@@ -181,7 +181,7 @@ public class HelpController {
 			board.setStartRow(paging.getStartRow());
 			board.setEndRow(paging.getEndRow());
 			
-			list = boardService.boardList(board);
+			list = boardService.helpList(board);
 		}
 		
 		model.addAttribute("user", user);
@@ -244,10 +244,18 @@ public class HelpController {
 	       String searchValue = HttpUtil.get(request, "searchValue", "");
 	       //현재 페이지
 	       long curPage = HttpUtil.get(request, "curPage", (long)1);
+	       //본인글 여부
+	       String admin = "N";
 	      
 	       if(bbsSeq > 0)
 	       {
 	          board = boardService.boardView(bbsSeq);
+	          
+	          //본인 게시물 여부
+	          if(board != null && StringUtil.equals(board.getUserUID(), cookieUserUID))
+	          {
+	        	  admin = "Y";
+	          }
 	          
 		      if(!StringUtil.isEmpty(cookieUserUID) && bbsSeq > 0)
 		      {
@@ -257,6 +265,7 @@ public class HelpController {
 	       }
 	       model.addAttribute("bbsSeq", bbsSeq);
 	       model.addAttribute("board", board);
+	       model.addAttribute("admin", admin);
 	       model.addAttribute("cookieUserUID",cookieUserUID);
 	       model.addAttribute("searchType", searchType);
 	       model.addAttribute("searchValue", searchValue);

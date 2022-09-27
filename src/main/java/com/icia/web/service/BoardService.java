@@ -545,6 +545,23 @@ public class BoardService
 	/***************************
 	 * help
 	 ***************************/
+	//게시물 리스트
+	public List<Board> helpList(Board board)
+	{
+		List<Board> list = null;
+		
+		try
+		{
+			list = boardDao.helpList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] helpList Exception", e);
+		}
+		
+		return list;
+	}
+	
 	//총 게시물 수
 	public long helpListCount(Board board)
 	{

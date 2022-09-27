@@ -151,7 +151,6 @@ $(document).ready(function(){
 												</span>
 											</c:forTokens>
 										</ul>
-										
 									</span>
 								</div>
 							</div>
@@ -231,23 +230,23 @@ $(document).ready(function(){
 											style="cursor: pointer;">
 											<td class="w-25" colspan="4"><img
 												src='../resources/upload/shop/${shop.shopUID}/${shop.shopFile.shopFileName}'
-												class="img-fluid img-thumbnail"
-												style="height: 200px; width: 200px;"></td>
-											<td>
+												class="img-fluid img-thumbnail"></td>
+											<td class="content">
 												<h2>
 													<c:out value="${shop.shopName}" />
 												</h2>
-												<br /> <c:forTokens items="${shop.shopHashtag}" delims="#"
-													var="shopHashtag">
-													<span onclick="fn_search('${shopHashtag}')" style="cursor: pointer;"> <i class="fa-solid fa-hashtag" style="font-size: 18px; color: #FF7F50;"><c:out value='${shopHashtag}' /></i>
-													</span>
-												</c:forTokens><br />
-											<br /> <i class="fa-solid fa-map-location-dot"
-												style="font-size: 18px;"> <c:out value="${shop.shopLocation1}" /> <c:out value="${shop.shopLocation2}" /> <c:out value="${shop.shopLocation3}" />
-											</i><br />
-											<br /> <i class="fa-solid fa-pen"
-												style="color: #cda45e; font-size: 19px;"> <c:out value="${shop.shopIntro}" />
-											</i>
+											<ul class="clickContent">
+											<li><i class="fa-solid fa-map-location-dot"></i>
+												${shop.shopLocation1} ${shop.shopLocation2}
+												${shop.shopLocation3} ${shop.shopAddress}</li>
+											<li><i class="fa-regular fa-star"></i> 별점 4.3 (500)</li>
+											<li><ion-icon name="information-circle-outline"></ion-icon> ${shop.shopIntro}</li>
+											<c:forTokens items="${shop.shopHashtag}" delims="#"	var="shopHashtag">
+												<span onclick="fn_search('${shopHashtag}')" class="hashtag"> 
+												<i class="fa-solid fa-hashtag"><c:out value='${shopHashtag}' /></i>
+												</span>
+											</c:forTokens>
+										</ul>
 											</td>
 										</tr>
 									</c:forEach>
