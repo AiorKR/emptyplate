@@ -46,11 +46,11 @@ public class ManagerController {
 		String address = "";
 		if(shop.getShopLocation1() != null)
 		{
-			address = shop.getShopLocation1() + " " + shop.getShopLocation2() +" "+shop.getShopLocation3();
+			address = shop.getShopLocation1() + " " + shop.getShopLocation2() +" "+shop.getShopLocation3() + " " + shop.getShopAddress();
 		}
 		else
 		{
-			address = shop.getShopLocation2() + " " + shop.getShopLocation3();
+			address = shop.getShopLocation2() + " " + shop.getShopLocation3() + " " + shop.getShopAddress();
 		}
 		model.addAttribute("shop", shop);
 		model.addAttribute("address", address);

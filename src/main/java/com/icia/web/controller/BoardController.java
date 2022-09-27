@@ -518,9 +518,7 @@ public class BoardController
 	         }
 	      }
        }
-       logger.debug("#########################");
-       logger.debug("#" + board.getModDate());
-       logger.debug("#########################");
+
        model.addAttribute("bbsSeq", bbsSeq);
        model.addAttribute("board", board);
        model.addAttribute("boardMe", boardMe);
@@ -762,25 +760,39 @@ public class BoardController
   		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
   		//게시물 번호
   		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
-
+  		
   		if(bbsSeq > 0)
   		{			
   			Board board = boardService.boardSelect(bbsSeq);
-  			
   			if(board != null)
   			{	
   				if(StringUtil.equals(board.getUserUID(), cookieUserUID))
-  				{	
+  				{
   					try
   					{
-						if(boardService.boardDelete(board.getBbsSeq()) > 0)
+						if(StringUtil.equals(board.getStatus(), "N"))
 						{
-							ajaxResponse.setResponse(0, "Success");
+							if(boardService.boardReplyCount(board.getBbsSeq()) > 0)
+							{
+								ajaxResponse.setResponse(-999, "Answers exist and cannot be delete");
+							}
+							else
+							{
+								if(boardService.boardDelete(board.getBbsSeq()) > 0)
+								{
+									ajaxResponse.setResponse(0, "Success");
+								}
+								else
+								{
+									ajaxResponse.setResponse(500, "Internal server error");
+								}
+							}
 						}
 						else
 						{
-							ajaxResponse.setResponse(500, "Internal server error");
+							ajaxResponse.setResponse(405, "reportComment exist and cannot be delete");
 						}
+  						
   					}
   					catch(Exception e)
   					{

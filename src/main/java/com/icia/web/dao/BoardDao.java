@@ -56,6 +56,9 @@ public interface BoardDao
 	//게시물 삭제
 	public int boardDelete(long bbsSeq);
 	
+	//게시물 삭제시 댓글 수 조회
+	public int boardReplyCount(long bbsSeq);
+	
 	//첨부파일 삭제
 	public int boardFileDelete(long bbsSeq);
 	
@@ -100,6 +103,9 @@ public interface BoardDao
 	
 	//게시물 신고
 	public long boardReport(BoardReport boardReport);
+	
+	//게시물 신고 삭제
+	public int boardReportDelete(long bbsSeq);
 	
 	/*********************
 	 * HELP
