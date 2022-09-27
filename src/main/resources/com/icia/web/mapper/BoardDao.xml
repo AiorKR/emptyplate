@@ -381,7 +381,8 @@ SELECT A.BBS_SEQ,
        NVL(COMMENT_PARENT, 0) AS COMMENT_PARENT,
        NVL(COMMENT_GROUP, 0) AS COMMENT_GROUP,
        NVL(COMMENT_ORDER, 0) AS COMMENT_ORDER,
-       NVL(COMMENT_INDENT, 0) AS COMMENT_INDENT
+       NVL(COMMENT_INDENT, 0) AS COMMENT_INDENT,
+       NVL(A.STATUS, '') AS STATUS
   FROM T_BOARD A, T_USER B
  WHERE A.BBS_SEQ = #{value}
    AND A.USER_UID = B.USER_UID
@@ -422,6 +423,14 @@ UPDATE T_BOARD
 DELETE FROM T_BOARD
  WHERE BBS_SEQ = #{value}
 </delete>
+
+<!-- 게시물 삭제시 댓글 수 조회-->
+<select id="boardReplyCount" parameterType="long" resultType="int">
+SELECT COUNT(BBS_SEQ) AS CNT
+  FROM T_BOARD
+ WHERE COMMENT_PARENT = #{value}
+   AND STATUS = 'N'
+</select>
 
 <!-- 첨부파일 삭제-->
 <delete id="boardFileDelete" parameterType="long">
@@ -670,6 +679,12 @@ VALUES (#{bbsSeq},
         #{etcReport}, 
         SYSDATE)
 </insert>
+
+<!-- 게시물 신고 삭제 -->
+<update id="boardReportDelete" parameterType="com.icia.web.model.BoardReport">
+DELETE FROM T_BOARD_REPORT
+ WHERE BBS_SEQ = #{bbsSeq}
+</update>
 
 <!-- HELP -->
 <!-- 총 게시물 수 -->
