@@ -49,6 +49,7 @@ public interface ShopDao {
 	
 	//게시물 즐겨찾기 총 게시물 수
 	public long shopMarkListCount(Shop shop);
+	
 	public int orderInsert(Order order);
 	
 	public int orderMenuInsert(List<OrderMenu> list);
