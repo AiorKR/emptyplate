@@ -624,4 +624,20 @@ WHERE ORDER_UID = #{orderUID}
      WHERE ORDER_UID = #{orderUID} 
 </update>
 
+<select id="shopUIDSelect" parameterType="String" resultMap="shopListResultMap">
+SELECT SHOP_UID
+  FROM T_SHOP
+ WHERE SHOP_UID = #{shopUID}
+</select>
+
+<update id="updateStoreUserUID" parameterType="com.icia.web.model.Shop">
+UPDATE T_SHOP A
+   SET A.USER_UID = 
+      (
+        SELECT B.USER_UID
+          FROM T_USER B
+         WHERE USER_UID = #{userUID}
+       )
+ WHERE SHOP_UID = #{shopUID}
+</update>
 </mapper>

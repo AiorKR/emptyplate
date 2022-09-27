@@ -17,6 +17,7 @@ import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
 import com.icia.web.model.ShopReview;
 import com.icia.web.model.ShopTotalTable;
+import com.icia.web.model.User;
 
 @Service("shopService")
 public class ShopService {
@@ -408,3 +409,36 @@ public class ShopService {
 	            return count;
 			}
 }
+		
+			public Shop shopUIDSelect(String shopUID)
+			{
+				Shop shop = null;
+				
+				try
+				{
+					shop = shopDao.shopUIDSelect(shopUID);
+				}
+				catch(Exception e)
+				{
+					logger.error("[UserService] userSelect Exception", e);
+				}
+				
+				return shop;
+			}
+			
+			public int updateStoreUserUID(Shop shop)
+			{
+				int count = 0;
+				
+				try
+				{
+					count = shopDao.updateStoreUserUID(shop);
+				}
+				catch(Exception e)
+				{
+					logger.error("[ShopService] updateStoreUserUID exception", e);
+				}
+				
+				return count;
+			}
+}		
