@@ -252,16 +252,19 @@ public class BoardService
 			BoardFile delBoardFile = boardDao.boardFileSelect(board.getBbsSeq());	
 			
 			//기존 첨부파일 삭제
-			if(delBoardFile != null)
+			if(delBoardFile != null && board.getBoardFile().getFileSize() > 0)
 			{
 				FileUtil.deleteFile(BOARD_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + delBoardFile.getFileName());
 				boardDao.boardFileDelete(board.getBbsSeq());
 			}
 			//새로운 첨부파일 등록
+			if(board.getBoardFile().getFileSize() > 0)
+			{
 			board.getBoardFile().setBbsSeq(board.getBbsSeq());			
 			board.getBoardFile().setFileSeq((short)1);
 		
 			boardDao.boardFileInsert(board.getBoardFile());
+			}
 		}	
 		
 		return count;

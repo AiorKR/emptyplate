@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icia.web.dao.EntryDao">
+
+<resultMap id="entryResultMap" type="com.icia.web.model.Entry">
+	<id column="ENTRY_SEQ" property="entrySeq" />
+	<result column="SHOP_NAME" property="shopName" />
+	<result column="USER_NAME" property="userName" />
+	<result column="USER_PHONE" property="userPhone" />
+	<result column="USER_EMAIL" property="userEmail" />
+	<result column="AGREEMENT" property="agreement" />
+	<result column="STATUS" property="status" />
+	<result column="RESULT_STATUS" property="resultStatus" />
+	<result column="REG_DATE" property="regDate" />
+	
+</resultMap>
+
+<!--입점문의등록(문의번호,매장명,문의자이름,문의자번호,문의자이메일,약관동의여부,처리상황,승인여부,문의일자) -->
+<insert id="entryInsert" parameterType="com.icia.web.model.Entry">
+
+<!-- 선행처리기(시퀀스번호 생성) -->
+<selectKey resultType="long" keyProperty="entrySeq" order="BEFORE">
+   SELECT ENTRY_SEQ.NEXTVAL FROM DUAL
+</selectKey>
+
+INSERT INTO T_ENTRY (ENTRY_SEQ,
+                     SHOP_NAME,
+                     USER_NAME,
+                     USER_PHONE,
+                     USER_EMAIL,
+                     AGREEMENT,
+                     STATUS,
+                     RESULT_STATUS,
+                     REG_DATE)
+VALUES (#{entrySeq},
+        #{shopName},
+        #{userName},
+        #{userPhone},
+        #{userEmail},
+        #{agreement},
+        #{status},
+        #{resultStatus},
+        SYSDATE)
+</insert>
+
+<!--입점문의조회(문의번호,매장명,문의자이름,문의자번호,문의자이메일,약관동의여부,처리상황,승인여부,문의일자) -->
+<select id="entrySelect" parameterType="long" resultMap="entryResultMap" >
+SELECT ENTRY_SEQ,
+       NVL(SHOP_NAME, '') AS SHOP_NAME,
+       NVL(USER_NAME, '') AS USER_NAME, 
+       NVL(USER_PHONE, '') AS USER_PHONE,
+       NVL(USER_EMAIL, '') AS USER_EMAIL,
+       NVL(AGREEMENT, '') AS AGREEMENT,
+       NVL(STATUS, 0) AS STATUS,
+       NVL(RESULT_STATUS, 0) AS RESULT_STATUS,
+       NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD HH24:MI:SS'), '') AS REG_DATE       
+  FROM T_ENTRY
+ WHERE ENTRY_SEQ = #{value}
+   
+</select>
+
+<!-- 입점문의수정(매장명, 문의자이름, 문의자전화번호, 문의자이메일, 처리상황, 승인여부) -->
+<update id="entryUpdate" parameterType="com.icia.web.model.Entry">
+UPDATE T_ENTRY
+   SET SHOP_NAME = #{shopName},		
+       USER_NAME = #{userName},
+       USER_PHONE = #{userPhone},
+       USER_EMAIL = #{userEmail},
+       STATUS = #{status},
+       RESULT_STATUS = #{resultStatus}       
+ WHERE ENTRY_SEQ = #{entrySeq}
+</update>
+
+</mapper>
