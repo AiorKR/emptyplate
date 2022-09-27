@@ -429,6 +429,7 @@ DELETE FROM T_BOARD
 SELECT COUNT(BBS_SEQ) AS CNT
   FROM T_BOARD
  WHERE COMMENT_PARENT = #{value}
+   AND STATUS = 'N'
 </select>
 
 <!-- 첨부파일 삭제-->
