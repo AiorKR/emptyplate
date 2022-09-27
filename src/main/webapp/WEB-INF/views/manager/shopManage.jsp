@@ -136,100 +136,6 @@ request.setAttribute("No", 2);
 			  data-bs-toggle="modal" data-bs-target="#exampleModal"
 			  id="modal-btn">예 약
 	  </button>
-
-	  <!-- Modal -->
-	  <div class="modal fade" id="exampleModal" tabindex="-1"
-		   aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="m">예약</h5>
-					<button type="button" class="btn-close"
-						    data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<div id="shopName">${shop.shopName}</div> <br />
-					<div id="selectcontent">
-						<div class="personnel-select">
-							<div class="personnel-selected">
-								<div class="personnel-selected-value">인원을 선택해주세요</div>
-							</div>
-							<ul id="select-ul">
-								<li class="option">1명</li>
-								<li class="option">2명</li>
-								<li class="option">3명</li>
-								<li class="option">4명</li>
-								<li class="option">5명</li>
-								<li class="option">6명</li>
-								<li class="option">7명</li>
-								<li class="option">8명</li>
-								<li class="option">9명</li>
-							</ul>
-						</div>
-						<input type="text" class="datepicker"
-							   placeholder="날짜를 선택해주세요" name="date" readonly>
-						<div class="box">
-							<ul id="datepicker-ul">
-								<li id="datepicker-li">
-								  <c:forEach items="${shop.shopTime}" var="shopTime" varStatus="status">
-									<div class="dptime" id="shopTime${status.index}">${shopTime.shopOrderTime}</div>
-								  </c:forEach>
-								</li>
-							</ul>
-						</div><br /><br/>
-						<c:if test="${shop.shopType eq 2}">
-							<!-- 오마카세일때 적용 -->
-							
-						</c:if>
-						<br />
-						<br />
-					</div>
-					<div class="count">
-                       	*카운터석은 연속되게 앉을 수 없을 수도 있습니다.&nbsp;&nbsp;
-                       	<input type="checkbox" id="counterSeat" class="counterSeat" />
-                    </div>
-					<div class="menuQuantity">
-						<ul class="menuQuantity">
-							<table>
-								<c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
-									<tr id="shopMenu${status.index}">
-										<td>${shopMenu.shopMenuName}</td>
-										<td>${shopMenu.shopMenuPrice} 원 &nbsp;&nbsp;</td>
-										<td><input type="button" value="+"
-											onclick="fn_MenuAdd('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})"
-											class="btn2"/> <span id="quantity${status.index }"> </span> 
-											<input type="button" value="-"
-											onclick="fn_MenuSub('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})"
-											class="btn2"/> 
-											<input type="button" value="삭제"
-											onclick="fn_Menudel('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})"
-											class="btn3"/></td>
-									</tr>
-								</c:forEach>
-							</table>
-						</ul>
-					</div>
-					<div class="order">
-						<p>주문 메뉴</p>
-						<c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
-							<div>
-								<span id="shopOrderMenu${status.index}"
-									  class="shopOrderMenu"></span> 
-								<span id="shopOrderMenuQuantity${status.index}"
-									  class="shopOrderMenu"></span>
-							</div>
-						</c:forEach>
-						<p class="total">
-							총 금액 : <span id="totalAmount">0</span>
-						</p>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-primary" id="pay">결 제</button>
-				</div>
-			</div>
-		</div>
-	  </div>
 	</div>
 	
 	<div class="search-option">
@@ -241,18 +147,6 @@ request.setAttribute("No", 2);
 	</div>
 	
 	<hr class="hr-5">
-    <div class="review-container">
-     <h5>Review</h5>
-       <container>
-		<hr class="hr-5">
-       </container>
-       <div class="review">
-		<ul>
-		  <li><a href="#">Review text1</a></li>
-		</ul>
-       </div>
-    </div>
-  </div>
 
    <form name="bbsForm" id="bbsForm" method="post">
     <input type="hidden" name="shopUID" id="shopUID"  value="${shop.shopUID}"/> 
