@@ -11,8 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.icia.web.model.Shop;
 import com.icia.web.model.User;
 import com.icia.web.service.BoardService;
+import com.icia.web.service.ShopService;
 import com.icia.web.service.UserService;
 import com.icia.web.util.CookieUtil;
 
@@ -23,6 +25,9 @@ public class ManagerController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private ShopService shopService;
 	
 	//쿠키명 지정
 	@Value("#{env['auth.cookie.name']}")
@@ -36,16 +41,17 @@ public class ManagerController {
 	public String shopManage(ModelMap model, HttpServletRequest request, HttpServletResponse response){
 		
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
-		
-		User user2 = new User();
-		user2 = userService.userUIDSelect(cookieUserUID);
-		if(user2 != null)
+		User user = userService.userUIDSelect(cookieUserUID);
+		Shop shop = shopService.shopUIDSelect(user.getUserUID());
+				
+		model.addAttribute("shop", shop);
+		if(user != null)
 		{
 			try
 			{
-				model.addAttribute("cookieUserNick", user2.getUserNick());
-				model.addAttribute("adminStatus", user2.getAdminStatus());
-				if(user2.getBizNum() != null)
+				model.addAttribute("cookieUserNick", user.getUserNick());
+				model.addAttribute("adminStatus", user.getAdminStatus());
+				if(user.getBizNum() != null)
 				{
 					try
 					{

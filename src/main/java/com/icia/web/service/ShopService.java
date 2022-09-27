@@ -112,6 +112,20 @@ public class ShopService {
 			return shop;
 		}
 		
+		public Shop shopUIDSelect(String userUID)
+		{
+			Shop shop = new Shop();
+			try
+			{
+				shop = shopDao.shopUIDSelect(userUID);
+			}
+			catch(Exception e){
+				logger.error("[ShopService] ShopViewSelect", e);
+			}
+			
+			return shop;
+		}
+		
 		public List<ShopTotalTable> shopReservationCheck(Shop shop) {  //매장 빈자리 확인
 			List<ShopTotalTable> shopTotlaTable = null;
 			
