@@ -62,22 +62,6 @@ request.setAttribute("No", 2);
 	<div class="p-3 right-side">
 	  <div class="d-flex justify-content-between align-items-center">
 		<h3>${shop.shopName}</h3>
-		<c:choose>
-		  <c:when test="${shopMarkActive eq 'Y'}">
-			<div class="bookmark">
-			  <button type="button" id="btnMark" class="bookmark">
-				<ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기
-			  </button>
-			</div>
-		  </c:when>
-		  <c:when test="${shopMarkActive eq 'N'}">
-			<div class="bookmark">
-			  <button type="button" id="btnMark" class="bookmark">
-				<ion-icon name="star-outline"></ion-icon>&nbsp;&nbsp;즐겨찾기
-			  </button>
-			</div>
-		  </c:when>
-		</c:choose>
 	  </div>
 	  <div class="intro mt-2 pr-3 content">
 		<p>${shop.shopIntro}</p>
@@ -150,7 +134,7 @@ request.setAttribute("No", 2);
        <div class="review">
 		<table>
 			<tr colspan="2">
-				<th>2인 테이블</th>
+				<th>최대수용테이블 설정</th>
 			</tr>
 			<tr>
 				<td>2인 테이블</td>
