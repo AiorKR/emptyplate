@@ -15,6 +15,7 @@ import com.icia.web.model.Order;
 import com.icia.web.model.OrderMenu;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
+import com.icia.web.model.ShopMenu;
 import com.icia.web.model.ShopReview;
 import com.icia.web.model.ShopTime;
 import com.icia.web.model.ShopTotalTable;
@@ -423,12 +424,12 @@ public class ShopService {
 		}
 		
 		//테이블 현황
-		public List<ShopTotalTable> shopCheckTable(Shop shop) {
+		public List<ShopTotalTable> shopCheckTable(String shopUID) {
 			List<ShopTotalTable> list = null;
 			
 			try
             {
-               list = shopDao.shopCheckTable(shop);
+               list = shopDao.shopCheckTable(shopUID);
             }
             catch(Exception e)
             {
@@ -439,16 +440,32 @@ public class ShopService {
 		}
 		
 		//영업시간 현황
-		public List<ShopTime> shopCheckTime(Shop shop){
+		public List<ShopTime> shopCheckTime(String shopUID){
 			List<ShopTime> list = null;
 			
 			try
             {
-               list = shopDao.shopCheckTime(shop);
+               list = shopDao.shopCheckTime(shopUID);
             }
             catch(Exception e)
             {
                logger.error("[ShopService]ShopCheckTime Exception", e);
+            }
+			
+            return list;
+		}
+		
+		//메뉴 현황
+		public List<ShopMenu> shopCheckMenu(String shopUID){
+			List<ShopMenu> list = null;
+			
+			try
+            {
+               list = shopDao.shopCheckMenu(shopUID);
+            }
+            catch(Exception e)
+            {
+               logger.error("[ShopService]ShopCheckMenu Exception", e);
             }
 			
             return list;

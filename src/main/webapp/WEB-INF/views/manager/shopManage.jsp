@@ -151,7 +151,8 @@
 					<tr class="line">
 						<td class="right">시간 구분</td>
 						<td>시간</td>
-					</tr><c:choose>
+					</tr>
+					<c:choose>
 						<c:when test="${!empty list2}">
 							<c:forEach var="shop" items="${list2}" varStatus="status">
 								<c:choose>
@@ -188,16 +189,32 @@
 						<td>메뉴명</td>
 						<td>메뉴가격</td>
 					</tr>
-					<tr>
-						<td class="right">Lunch</td>
-						<td><input type="text" readonly></td>
-						<td><input type="text" readonly></td>
-					</tr>
-					<tr>
-						<td class="right">Dinner</td>
-						<td><input type="text" readonly></td>
-						<td><input type="text" readonly></td>
-					</tr>
+					<c:choose>
+						<c:when test="${!empty list3}">
+							<c:forEach var="shop" items="${list3}" varStatus="status">
+								<c:choose>
+									<c:when test="${shop.shopMenuCode eq 'L'}">
+										<tr>
+											<td class="right">Lunch</td>
+									</c:when>
+									<c:when test="${shop.shopMenuCode eq 'D'}">
+										<tr>
+											<td class="right">Dinner</td>
+									</c:when>
+									<c:otherwise>
+										<tr>
+											<td class="right">기타</td>
+									</c:otherwise>
+								</c:choose>								
+									<td><input type="text" value="${shop.shopMenuName}" readonly></td>
+									<td><input type="text" value="${shop.shopMenuPrice}" readonly></td>
+								</tr>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<td colspan="3"> 메뉴가 존재하지 않습니다</td>
+						</c:otherwise>
+					</c:choose>
 				</table>
 	       </div>
        </div>

@@ -8,6 +8,7 @@ import com.icia.web.model.Order;
 import com.icia.web.model.OrderMenu;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
+import com.icia.web.model.ShopMenu;
 import com.icia.web.model.ShopReservationTable;
 import com.icia.web.model.ShopReview;
 import com.icia.web.model.ShopTime;
@@ -77,7 +78,9 @@ public interface ShopDao {
 	
 	public Order noShowSelect(String orderUID); // NOSHOW
 	
-	public List<ShopTotalTable> shopCheckTable(Shop shop); //테이블 현황
+	public List<ShopTotalTable> shopCheckTable(String shopUID); //테이블 현황
 	
-	public List<ShopTime> shopCheckTime(Shop shop); //영업시간 현황
+	public List<ShopTime> shopCheckTime(String shopUID); //영업시간 현황
+	
+	public List<ShopMenu> shopCheckMenu(String shopUID); //메뉴 현황
 }
