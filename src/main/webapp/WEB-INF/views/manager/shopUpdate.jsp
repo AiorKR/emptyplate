@@ -39,17 +39,16 @@ request.setAttribute("No", 2);
 					  
 					</div>
 					<div class="imageModify">
-						<tr>
-							<td class="file">이미지 첨부</td>
-							<td><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요." required /></td>
-						</tr>
-						  
-						<c:if test="${!empty board.boardFile}">
-							  <tr>
-								 <td class="file-check">등록파일</td>
-								   <td><div class="file-check-content">[등록한 첨부파일 : ${board.boardFile.fileOrgName}]</div>
-							  </tr>
-							</c:if>
+						<table>
+							<tr>
+								<td class="file-check">등록파일</td>
+								<td><div class="file-check-content">[등록한 첨부파일 : ${shop.shopFile.fileOrgName}]<input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요."/></div></td>
+							</tr>
+							<tr>
+								<td class="file">이미지 첨부</td>
+								<td><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요." required /></td>
+							</tr>	
+						</table>
 					</div>
 					<div class="introduce">
 						<table>
@@ -61,7 +60,7 @@ request.setAttribute("No", 2);
 									가게소개
 								</td>
 								<td>
-									<input type="text" placeholder="한 줄 소개를 입력해주세요">
+									<textarea class="form-control" rows="1" name="shopIntro" id="shopIntro" style="ime-mode:inactive;" placeholder="내용을 입력해주세요" required>${shop.shopIntro}</textarea>
 								</td>
 							</tr>
 							<tr>
@@ -69,7 +68,7 @@ request.setAttribute("No", 2);
 									공지사항
 								</td>
 								<td>
-									<input type="text" placeholder="공지사항을 입력해주세요">
+									<textarea class="form-control" rows="10" name="shopContent" id="shopContent" style="ime-mode:inactive;" placeholder="내용을 입력해주세요" required>${shop.shopContent}</textarea>
 								</td>
 							</tr>
 						</table>
@@ -87,14 +86,13 @@ request.setAttribute("No", 2);
 								<tr>
 									<td>상호명 :</td>
 									<td class="title-text">
-										<input type="text" id="shopTitle" name="shopTitle" value="상호" maxlength="30" placeholder="상호명을 입력해주세요.">
+										<input type="text" id="shopTitle" name="shopTitle" value="${shop.shopName}" maxlength="30" placeholder="상호명을 입력해주세요.">
 									</td>
 								</tr>
 								<tr>
 									<td>매장주소</td>
 									<td class="title-text">
-										<input type="text" id="shopLocation1" placeholder="주소">
-										<input type="button" onclick="sample6_execDaumPostcode()" value="주소 찾기"><br>
+										<input type="text" id="shopLocation1" value="${shop.shopLocation1}" placeholder="주소">
 										<input type="text" id="sample6_postcode" placeholder="우편번호" hidden>
 										<input type="text" id="sample6_extraAddress" placeholder="참고항목" hidden>
 									</td>
@@ -102,13 +100,14 @@ request.setAttribute("No", 2);
 								<tr>
 									<td></td>
 									<td class="title-text">
-										<input type="text" id="shopAddress" placeholder="상세주소">
+										<input type="text" id="shopAddress" value="${shop.shopAddress}" placeholder="상세주소">
+										<input type="button" onclick="sample6_execDaumPostcode()" value="주소 찾기">
 									</td>
 								</tr>
 								<tr>
 									<td>매장전화번호</td>
 									<td class="title-text">
-										<input type="text" id="shopTitle" name="shopTitle" value="매장전화번호" maxlength="30" placeholder="상호명을 입력해주세요.">
+										<input type="text" id="shopTitle" name="shopTitle" value="${shop.shopTelephone}" maxlength="30" placeholder="상호명을 입력해주세요.">
 									</td>
 								</tr>
 								<tr>
