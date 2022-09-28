@@ -3646,7 +3646,50 @@ reservation 검색
   top: 22px
 }
 
+/*shopManage 하단 */
+.view .col-lg-12{
+	display:flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+}
 
+.view .col-lg-12 table input{	
+  	background: rgba(225, 225, 225, 0.8);
+  	border:1px solid #C2A383;
+}
+
+.view .col-lg-12 table th{	
+	font-size: 30px;
+	text-align: center;
+	padding-bottom: 10px;
+}
+
+.view .col-lg-12 table td{
+	font-size: 20px;
+	padding-left: 10px;
+}
+
+.view .col-lg-12 table .line{	
+	border-bottom: 2px solid #C2A383;
+}
+
+.view .col-lg-12 table .right{
+	text-align: right;
+	padding-right: 10px;
+	border-right: 2px solid #C2A383;
+}
+
+.view .setTable{
+	color: black;
+}
+
+.view .setTime{
+	color: black;
+}
+
+.view .setMenu{
+	color: black;
+}
 /*--------------------------------------------------------------
 # view end
 --------------------------------------------------------------*/

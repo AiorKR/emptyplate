@@ -105,7 +105,8 @@
 
           <div class="col-lg-4">
             <div class="box" data-aos="zoom-in" data-aos-delay="0">
-              <img src="/resources/images/1.png" class="img-fluid" alt="">
+              <img src="/resources/images/1.png" class="img-fluid" alt="" 
+              style="width: 366px; height: 176.13px; overflow: hidden; border: 5px solid black;">
               <span>스시 코우지</span>
               <h4>서울 강남구</h4>
               <h5>#스시오마카세 #콜키지 #노키즈존</h5>
@@ -116,7 +117,8 @@
 
           <div class="col-lg-4 mt-4 mt-lg-0">
             <div class="box" data-aos="zoom-in" data-aos-delay="0">
-              <img src="/resources/images/2.png" class="img-fluid" alt="">
+              <img src="/resources/images/2.png" class="img-fluid" alt=""
+              style="width: 366px; height: 176.13px; overflow: hidden; border: 5px solid black;">
               <span>CHOI.</span>
               <h4>서울 강남구</h4>
               <h5>#이탈리안 #콜키지 #노키즈존 #레터링</h5>
@@ -127,7 +129,8 @@
 
           <div class="col-lg-4 mt-4 mt-lg-0">
             <div class="box" data-aos="zoom-in" data-aos-delay="300">
-              <img src="/resources/images/3.png" class="img-fluid" alt="">
+              <img src="/resources/images/3.png" class="img-fluid" alt=""
+              style="width: 366px; height: 176.13px; overflow: hidden; border: 5px solid black;">
               <span>스시 카나에</span>
               <h4>서울 강남구</h4>
               <h5>#스시오마카세 #콜키지 #런치 #디너</h5>

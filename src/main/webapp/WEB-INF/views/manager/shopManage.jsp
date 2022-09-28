@@ -116,27 +116,26 @@
 	</div>
 	
 	<hr class="hr-5">
-
 		<div class="col-lg-12">
 			<div class="setTable">
 				<table>
 					<tr colspan="2">
-						<th>2인 테이블</th>
+						<th colspan="2">2인 테이블</th>
 					</tr>
-					<tr>
-						<td>테이블 종류</td>
+					<tr class="line">
+						<td class="right">테이블 종류</td>
 						<td>전체 수량</td>
 					</tr>
 					<tr>
-						<td>2인 테이블</td>
+						<td class="right">2인 테이블</td>
 						<td><input type="text" readonly></td>
 					</tr>
 					<tr>
-						<td>4인 테이블</td>
+						<td class="right">4인 테이블</td>
 						<td><input type="text" readonly></td>
 					</tr>
 					<tr>
-						<td>6인 테이블</td>
+						<td class="right">6인 테이블</td>
 						<td><input type="text" readonly></td>
 					</tr>
 				</table>
@@ -144,18 +143,18 @@
 	       <div class="setTime">
 		       <table>
 					<tr colspan="2">
-						<th>매장 시간 설정</th>
+						<th colspan="2">매장 시간 설정</th>
 					</tr>
-					<tr>
-						<td>시간 구분</td>
+					<tr class="line">
+						<td class="right">시간 구분</td>
 						<td>시간</td>
 					</tr>
 					<tr>
-						<td>Lunch</td>
+						<td class="right">Lunch</td>
 						<td><input type="text" readonly></td>
 					</tr>
 					<tr>
-						<td>Dinner</td>
+						<td class="right">Dinner</td>
 						<td><input type="text" readonly></td>
 					</tr>
 				</table>
@@ -163,20 +162,20 @@
 	       <div class="setMenu">
 		       <table>
 					<tr colspan="2">
-						<th>메뉴 설정</th>
+						<th colspan="3">메뉴 설정</th>
 					</tr>
-					<tr>
-						<td>시간 구분</td>
+					<tr class="line">
+						<td class="right">시간 구분</td>
 						<td>메뉴명</td>
 						<td>메뉴가격</td>
 					</tr>
 					<tr>
-						<td>Lunch</td>
+						<td class="right">Lunch</td>
 						<td><input type="text" readonly></td>
 						<td><input type="text" readonly></td>
 					</tr>
 					<tr>
-						<td>Dinner</td>
+						<td class="right">Dinner</td>
 						<td><input type="text" readonly></td>
 						<td><input type="text" readonly></td>
 					</tr>
