@@ -1,4 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	// 개행문자 값을 저장한다.
+	pageContext.setAttribute("newLine", "\n");
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +12,7 @@
 
 <body>
  <%@ include file="/WEB-INF/views/include/navigation.jsp" %>
- <section id="aboutus3" class="aboutus3">
+ <section id="logoHistory" class="logoHistory">
     <div class="container">
         <div class="row">
             <div class="nav nav-pills nav-justified" id="pills-tab" role="tablist">
@@ -30,15 +34,51 @@
             </div>
             <div class="tab-content">
                 <div class="tab-pane active" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                    <h3>Logo History</h3>
-                    <div class="current-logo">
+                    <h3 class="title">Logo History</h3>
+                    <hr>
+                    <div class="logo">
+                    	<div class="logo1">
+	                        <div class="thumb">
+	                            <img src="../resources/images/favicon.png">
+	                        </div>
+                            <div class="image-info">
+                                <span class="date">2022.07.01</span>
+                                   <span class="designer">JUNG S.H.</span>
+                            </div>    
+	                    </div>
+	                    <div class="arrow">
+	                    ->
+	                    </div>
+	                    <div class="logo2">
+	                        <div class="thumb">
+	                            <img src="../resources/images/apple-touch-icon.png"> 
+	                        </div>
+                            <div class="image-info">
+                                <span class="date">2022.07.15</span>
+                                   <span class="designer">KIM Y.C.</span>
+                            </div>  
+	                    </div>
+	                    <div class="arrow">
+	                    ->
+	                    </div>
+	                    <div class="current-logo">
+	                        <div class="thumb">
+	                            <img src="../resources/images/로고.png">
+	                        </div>
+                            <div class="image-info">
+                                <span class="date">2022.08.01</span>
+                                <span class="designer">KIM Y.S.</span>
+                            </div>  
+	                    </div>
+                    </div>
+                    <!-- <div class="current-logo">
                         <div class="thumb">
                             <img src="../resources/images/로고.png" width="200" height="200">
                         </div>
                         <div class="content-wrap">
                             <div class="image-info">
                                 <span class="date">2022.09.07</span>
-                                <span class="designer">Kim yee seul</span>
+                                <span class="designer">KIM Y.S.</span>
                             </div>    
                         </div>
                     </div>
@@ -51,7 +91,7 @@
                             <div class="content-wrap">
                                 <div class="image-info">
                                     <span class="date">2022.08.07</span>
-                                    <span class="designer">Kim yong chan</span>
+                                    <span class="designer">KIM Y.C.</span>
                                 </div>                                    
                             </div>
                         <td>
@@ -62,11 +102,11 @@
                             <div class="content-wrap">
                                 <div class="image-info">
                                     <span class="date">2022.07.07</span>
-                                    <span class="designer">Jung soo hyeon</span>
+                                    <span class="designer">JUND S.H.</span>
                                 </div>    
                             </div>
                         <td>    
-                    </ul>   
+                    </ul> -->   
                 </div>
             </div>   
         </div>

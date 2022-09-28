@@ -1226,6 +1226,7 @@ section {
 #communityWriteForm form .title-text input[type=checkbox] {
   width: 20px;
   height: 20px;
+   vertical-align:middle;
 }
 
 /*내용*/
@@ -1439,6 +1440,7 @@ section {
 #communityUpdateForm form .title-text input[type=checkbox] {
   width: 20px;
   height: 20px;
+   vertical-align:middle;
 }
 
 /*내용*/
@@ -1788,6 +1790,7 @@ section {
 
 #communityView .modal input[type=checkbox] {
   zoom: 1.3;
+   vertical-align:middle;
 }
 
 #communityView .modal .reportCancle {
@@ -3444,6 +3447,7 @@ reservation 검색
 .view .modal-body input[type=checkbox] {
   width: 20px;
   height: 20px;
+   vertical-align:middle;
 }
 
 /*메뉴 체크 버튼*/
@@ -4393,6 +4397,7 @@ today 검색
 .todayView .modal-body input[type=checkbox] {
   width: 20px;
   height: 20px;
+   vertical-align:middle;
 }
 
 /*메뉴 체크 버튼*/
@@ -6302,15 +6307,249 @@ hr[role="tournament1"]::before {
 
 
 
-/*rlist.html CSS끝*/
-
-
-/*
-footer요소들 페이지 css시작
-*/
 /*--------------------------------------------------------------
-# footer의 resources start
+# footer css
 --------------------------------------------------------------*/
+/*About Us*/
+#aboutus1 {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+  color: #0c0b09;
+}
+
+#aboutus1 .container{
+  padding-top: 110px;
+}
+
+#aboutus1 .row{
+  padding: 1% 1%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: inline-block;     
+  position: relative;                 
+}
+
+#aboutus1:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.aboutus1 .nav-item button{
+  margin-top: 10px;
+  background: #cda45e;
+  border: 0;
+  padding: 4px 20px;
+  color: #0c0b09;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 19px;
+  float: right;
+
+}
+.aboutus1 #pills-tab .active {
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
+  border-radius: 10px;
+}
+
+.aboutus1 .tab-content .title{
+	margin-top:30px;
+	margin-bottom:0px;
+}
+.aboutus1 .tab-content hr{
+	margin-top:1px;
+	margin-bottom:1px;
+	border: 1px solid;
+	border-color: #cda45e;
+	background: #cda45e;
+}
+.aboutus1 .tab-content .info{
+	word-break: keep-all;
+  	font-size: 20px;
+}
+
+
+/*Company*/
+#company {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+  color: #0c0b09;
+}
+
+#company .container{
+  padding-top: 110px;
+}
+
+#company .row{
+  padding: 1% 1%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: inline-block;     
+  position: relative;                 
+}
+
+#company:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.company .nav-item button{
+  margin-top: 10px;
+  background: #cda45e;
+  border: 0;
+  padding: 4px 20px;
+  color: #0c0b09;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 19px;
+  float: right;
+
+}
+.company #pills-tab .active {
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
+  border-radius: 10px;
+}
+
+.company .tab-content .title{
+	margin-top:30px;
+	margin-bottom:0px;
+}
+.company .tab-content hr{
+	margin-top:1px;
+	margin-bottom:1px;
+	border: 1px solid;
+	border-color: #cda45e;
+	background: #cda45e;
+}
+.company .tab-content .content .info{
+	word-break: keep-all;
+  	font-size: 20px;
+}
+.company .tab-content .content2 .year{
+  	font-size: 25px;
+}
+.company .tab-content .content2 .plan{
+  	font-size: 20px;
+}
+
+
+/*logoHistory*/
+#logoHistory {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+  color: #0c0b09;
+}
+
+#logoHistory .container{
+  padding-top: 110px;
+}
+
+#logoHistory .row{
+  padding: 1% 1%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: inline-block;     
+  position: relative;                 
+}
+
+#logoHistory:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.logoHistory .nav-item button{
+  margin-top: 10px;
+  background: #cda45e;
+  border: 0;
+  padding: 4px 20px;
+  color: #0c0b09;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 19px;
+  float: right;
+
+}
+.logoHistory #pills-tab .active {
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
+  border-radius: 10px;
+}
+
+.logoHistory .tab-content .title{
+	margin-top:30px;
+	margin-bottom:0px;
+}
+.logoHistory .tab-content hr{
+	margin-top:1px;
+	margin-bottom:20px;
+	border: 1px solid;
+	border-color: #cda45e;
+	background: #cda45e;
+}
+
+.logoHistory .logo{
+	display:flex;
+	flex-flow:row nowrap;
+	justify-content: space-between;
+	margin-left:100px;
+	margin-right:100px;
+}
+
+.logoHistory .logo img{
+  margin: auto;
+  display: block;
+  width: 150px;
+  height: 150px;
+}
+.logoHistory .logo .image-info{
+  text-align:center;
+	font-size:20px;
+	margin-top:10px;
+}
+.logoHistory .arrow{
+	margin-top:50px;
+	font-size:40px;
+}
 
 /*
 약관 css
@@ -6322,125 +6561,28 @@ footer요소들 페이지 css시작
   background-size: cover;
   position: relative;
   padding: 0;
-  color:#0c0b09;
-  
 }
-
-#term2 {
-  width: 100%;
-  height: 100%;
-  background: url("/resources/images/hero-bg.jpg") top center;
-  background-size: cover;
-  position: relative;
-  padding: 0;
-  color:#0c0b09;
-  
+#term1 .container{
+  padding-top: 110px;
 }
-
-#term3 {
-  width: 100%;
-  height: 100%;
-  background: url("/resources/images/hero-bg.jpg") top center;
-  background-size: cover;
-  position: relative;
-  padding: 0;
-  color:#0c0b09;
-  
+#term1 .row{
+  padding: 1% 1%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: inline-block;     
+  position: relative;                 
 }
-
-#term4 {
-  width: 100%;
-  height: 100%;
-  background: url("/resources/images/hero-bg.jpg") top center;
-  background-size: cover;
-  position: relative;
-  padding: 0;
-  color:#0c0b09;
-  
-}
-
-#term1 .container {  
-    margin-top: 170px;
-}
-
-#term2 .container {  
-  margin-top: 170px;
-}
-
-#term3 .container {  
-  margin-top: 170px;
-}
-
-#term4 .container {  
-  margin-top: 170px;
-}
-
 #term1:before {
   content: "";
-  background: rgba(225, 225, 225);
-  opacity : 0.95;
+  background: rgba(0, 0, 0, 0.5);
   position: absolute;
   bottom: 0;
-  top: 4.3%;
-  left: 5%;
-  right: 5%;
-  border-radius: 20px;
-}
-
-#term2:before {
-  content: "";
-  background: rgba(225, 225, 225);
-  opacity : 0.95;
-  position: absolute;
-  bottom: 0;
-  top: 1.5%;
-  left: 5%;
-  right: 5%;
-  border-radius: 20px;
-}
-
-#term3:before {
-  content: "";
-  background: rgba(225, 225, 225);
-  opacity : 0.95;
-  position: absolute;
-  bottom: 0;
-  top: 3.2%;
-  left: 5%;
-  right: 5%;
-  border-radius: 20px;
-}
-
-#term4:before {
-  content: "";
-  background: rgba(225, 225, 225);
-  opacity : 0.95;
-  position: absolute;
-  bottom: 0;
-  top: 10.5%;
-  left: 5%;
-  right: 5%;
-  border-radius: 20px;
-}
-
-#term1 .row {
-  position:relative;
-  
-}
-
-#term2 .row {
-  position:relative;
-  
-}
-
-#term3 .row {
-  position:relative;
-  
-}
-
-#term4 .row {
-  position:relative;
-  
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 @media (min-width: 1024px) {
@@ -6449,10 +6591,136 @@ footer요소들 페이지 css시작
   }
 }
 
+#term1 .nav-item button{
+  	margin-top: 10px;
+    background: #cda45e;
+    border: 0;
+    padding: 4px 20px;
+    color: #0c0b09;
+    transition: 0.4s;
+    border-radius: 10px;
+    font-family: 'Cafe24Dangdanghae';
+    font-size: 19px;
+    float: right;
+
+}
+#term1 #pills-tab .active {
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
+  border-radius: 10px;
+}
+
+#term1 .content{
+	margin-top:30px;
+	word-break: keep-all;
+	color: #0c0b09;
+}
+#term1 .content .tab-pane p{
+	margin-bottom:0px;
+}
+#term1 .content .tab-pane .info{
+	margin-bottom:30px;
+	font-size: 20px;
+}
+
+
+/*resources2*/
+#term2 {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+}
+
+#term2 .container{
+  padding-top: 110px;
+}
+
+#term2 .row{
+  padding: 1% 1%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: inline-block;     
+  position: relative;                 
+}
+
+#term2:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
 @media (min-width: 1024px) {
   #term2 {
     background-attachment: fixed;
   }
+}
+
+#term2 .nav-item button{
+  	margin-top: 10px;
+    background: #cda45e;
+    border: 0;
+    padding: 4px 20px;
+    color: #0c0b09;
+    transition: 0.4s;
+    border-radius: 10px;
+    font-family: 'Cafe24Dangdanghae';
+    font-size: 19px;
+    float: right;
+}
+#term2 #pills-tab .active {
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
+  border-radius: 10px;
+}
+#term2 .content{
+	margin-top:30px;
+	word-break: keep-all;
+	color: #0c0b09;
+}
+
+/*resources3*/
+#term3 {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+}
+
+#term3 .container{
+  padding-top: 110px;
+}
+
+#term3 .row{
+  padding: 1% 1%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: inline-block;     
+  position: relative;                 
+}
+
+#term3:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 @media (min-width: 1024px) {
@@ -6461,57 +6729,73 @@ footer요소들 페이지 css시작
   }
 }
 
+#term3 .nav-item button{
+  	margin-top: 10px;
+    background: #cda45e;
+    border: 0;
+    padding: 4px 20px;
+    color: #0c0b09;
+    transition: 0.4s;
+    border-radius: 10px;
+    font-family: 'Cafe24Dangdanghae';
+    font-size: 19px;
+    float: right;
+
+}
+#term3 #pills-tab .active {
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
+  border-radius: 10px;
+}
+#term3 .content{
+	margin-top:30px;
+	word-break: keep-all;
+	color: #0c0b09;
+}
+
+/*resources4*/
+#term4 {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+}
+
+#term4 .container{
+  padding-top: 110px;
+}
+
+#term4 .row{
+  padding: 1% 1%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: inline-block;     
+  position: relative;                 
+}
+
+#term4:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
 @media (min-width: 1024px) {
   #term4 {
     background-attachment: fixed;
   }
 }
 
-
-#term1 .nav-item button{
-  margin-top: -30px;
-    background: #cda45e;
-    border: 0;
-    padding: 4px 20px;
-    color: #0c0b09;
-    transition: 0.4s;
-    border-radius: 10px;
-    font-family: 'Cafe24Dangdanghae';
-    font-size: 19px;
-    float: right;
-
-}
-
-#term2 .nav-item button{
-  margin-top: -30px;
-    background: #cda45e;
-    border: 0;
-    padding: 4px 20px;
-    color: #0c0b09;
-    transition: 0.4s;
-    border-radius: 10px;
-    font-family: 'Cafe24Dangdanghae';
-    font-size: 19px;
-    float: right;
-
-}
-
-#term3 .nav-item button{
-  margin-top: -30px;
-    background: #cda45e;
-    border: 0;
-    padding: 4px 20px;
-    color: #0c0b09;
-    transition: 0.4s;
-    border-radius: 10px;
-    font-family: 'Cafe24Dangdanghae';
-    font-size: 19px;
-    float: right;
-
-}
-
 #term4 .nav-item button{
-  margin-top: -30px;
+  	margin-top: 10px;
     background: #cda45e;
     border: 0;
     padding: 4px 20px;
@@ -6521,233 +6805,83 @@ footer요소들 페이지 css시작
     font-family: 'Cafe24Dangdanghae';
     font-size: 19px;
     float: right;
-
 }
-
-#term1 #pills-tab .active {
-  color: #0c0b09;
-  background-color: rgba(225, 225, 225);
-  border-radius: 10px;
-
-}
-
-#term2 #pills-tab .active {
-  color: #0c0b09;
-  background-color: rgba(225, 225, 225);
-  border-radius: 10px;
-
-}
-
-#term3 #pills-tab .active {
-  color: #0c0b09;
-  background-color: rgba(225, 225, 225);
-  border-radius: 10px;
-
-}
-
 #term4 #pills-tab .active {
   color: #0c0b09;
   background-color: rgba(225, 225, 225);
   border-radius: 10px;
-
 }
-
-
-
+#term4 .content{
+	margin-top:30px;
+	word-break: keep-all;
+	color: #0c0b09;
+}
 #term4 #pills-contact2 .title-area {
   text-align: center;
 }
-
-#term4 #pills-contact2 .storequestion{
-  padding: 50px 300px;
+#term4 #pills-contact2 h3 {
+  text-align: center;
+  font-size:40px;
+  padding-bottom:20px;
+}
+#term4 #pills-contact2 p {
+  font-size:20px;
+}
+#term4 #pills-contact2 .bottom {
+  padding-bottom:30px;
 }
 
-
-#term4 .inquiry {
-  text-align:center;
+#term4 #pills-contact2 .storequestion{
+  padding: 0px 200px;
 }
 
 #term4 .doc #doc-inner {
   text-align: left;
 }
 
-#term4 .container .row #inquiryBtn{
-  margin-top: 10px;
-  background: #cda45e;
-  border: 0;
-  padding: 4px 20px;
-  color: #0c0b09;
-  transition: 0.4s;
-  border-radius: 20px;
-  font-family: 'Cafe24Dangdanghae';
-  font-size: 19px;
-  float: center;
+#term4 .fieldset-header{
+	text-align: center;
+	padding-top:30px;
 }
 
+#term4 .fieldset-header h4{
+  font-size:30px;
+  padding-bottom:10px;
+}
+
+#term4 .fieldset-header input[type=checkbox]{
+  width:20px;
+  height:20px;
+   vertical-align:middle;
+}
+#term4 .label-checkbox{
+  font-size:20px;
+}
+#term4 .inquiry{
+  padding-bottom:20px;
+}
+#term4 .inquiry button[type=button] {
+  margin-top: 20px;
+  border: 2px solid #C2A383;
+  padding: 8px 20px;
+  color: black;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size:20px;
+  position: relative;
+  text-align:center;
+  margin: auto;
+  display: block;
+}
+
+#term4 .inquiry button[type=button]:hover {
+  background: #d3af71;
+}
 /*--------------------------------------------------------------
-# footer의 aboutus css
+# footer css End
 --------------------------------------------------------------*/
 
-.aboutus1 {
-  width: 100%;
-  height: 100%;
-  background: url("/resources/images/hero-bg.jpg") top center;
-  background-size: cover;
-  position: relative;
-  padding: 0;
-  color:#0c0b09;
-}
-
-.aboutus2 {
-  width: 100%;
-  height: 100%;
-  background: url("/resources/images/hero-bg.jpg") top center;
-  background-size: cover;
-  position: relative;
-  padding: 0;
-  color:#0c0b09;
-}
-
-.aboutus3 {
-  width: 100%;
-  height: 100%;
-  background: url("/resources/images/hero-bg.jpg") top center;
-  background-size: cover;
-  position: relative;
-  padding: 0;
-  color:#0c0b09;
-}
-
-.aboutus1 .container {
-  margin-top: 100px;
-  position: relative;
-}
-
-.aboutus2 .container {
-  margin-top: 100px;
-  position: relative;
-}
-
-.aboutus3 .container {
-  margin-top: 100px;
-  position: relative;
-}
-
-.aboutus1:before {
-  content: "";
-  background: rgba(225, 225, 225);
-  opacity : 0.95;
-  position: absolute;
-  bottom: 0;
-  top: 13%;
-  left: 5%;
-  right: 5%;
-  border-radius: 20px;
-}
-
-.aboutus2:before {
-  content: "";
-  background: rgba(225, 225, 225);
-  opacity : 0.95;
-  position: absolute;
-  bottom: 0;
-  top: 13%;
-  left: 5%;
-  right: 5%;
-  border-radius: 20px;
-}
-
-.aboutus3:before {
-  content: "";
-  background: rgba(225, 225, 225);
-  opacity : 0.95;
-  position: absolute;
-  bottom: 0;
-  top: 13%;
-  left: 5%;
-  right: 5%;
-  border-radius: 20px;
-}
-
-
-.aboutus1 .nav-item button{
-  margin-top: 10px;
-    background: #cda45e;
-    border: 0;
-    padding: 4px 20px;
-    color: #0c0b09;
-    transition: 0.4s;
-    border-radius: 10px;
-    font-family: 'Cafe24Dangdanghae';
-    font-size: 19px;
-    float: right;
-
-}
-
-.aboutus2 .nav-item button{
-  margin-top: 10px;
-    background: #cda45e;
-    border: 0;
-    padding: 4px 20px;
-    color: #0c0b09;
-    transition: 0.4s;
-    border-radius: 10px;
-    font-family: 'Cafe24Dangdanghae';
-    font-size: 19px;
-    float: right;
-
-}
-
-.aboutus3 .nav-item button{
-  margin-top: 10px;
-    background: #cda45e;
-    border: 0;
-    padding: 4px 20px;
-    color: #0c0b09;
-    transition: 0.4s;
-    border-radius: 10px;
-    font-family: 'Cafe24Dangdanghae';
-    font-size: 19px;
-    float: right;
-
-}
-
-.aboutus1 #pills-tab .active {
-  color: #0c0b09;
-  background-color: rgba(225, 225, 225);
-  border-radius: 10px;
-
-}
-
-.aboutus2 #pills-tab .active {
-  color: #0c0b09;
-  background-color: rgba(225, 225, 225);
-  border-radius: 10px;
-
-}
-
-.aboutus3 #pills-tab .active {
-  color: #0c0b09;
-  background-color: rgba(225, 225, 225);
-  border-radius: 10px;
-
-}
-
-.aboutus3 .current-logo {
-  text-align:center;
-  padding: 50px 30px;
-}
-
-.aboutus3 .logo-list {  
-  text-align:center;
-  margin:auto;
-  float:left;
-  
-}
-
-/*
-footer요소 css끝
-*/
 
 /*결제*/
 .pay-back {
