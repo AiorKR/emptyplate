@@ -316,6 +316,7 @@ request.setAttribute("No", 2);
 							</table>
 						</div>
 					</div>
+					
 					<div class="time">
 						<div class="timeMenu">
 							<table>
@@ -334,11 +335,20 @@ request.setAttribute("No", 2);
 							<table id="timeValue" style="margin-bottom:15px;">
 								<tr>
 									<td class="tdtd2">매장시간1</td>
+									<td>
+										<select name="timeType" class="select" style="font-size:17px; width:110px;">
+											<option value='' selected>매장시간</option>
+											<option value='L'>1인용</option>
+											<option value='D'>2인용</option>
+											<option value='X'>3인용</option>
+										</select>
+									</td>
 									<td><input type="text" id="time1" class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px;"></td>
 								</tr>
 							</table>
 						</div>
 					</div>
+					
 					<div class="tableCap">
 						<div class="tableMenu">
 							<table>

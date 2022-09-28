@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Shop;
+import com.icia.web.model.ShopMenu;
 import com.icia.web.model.ShopTime;
 import com.icia.web.model.ShopTotalTable;
 import com.icia.web.model.User;
@@ -52,12 +53,16 @@ public class ManagerController {
 		String address = shop.getShopLocation1() + " " + shop.getShopAddress();
 		
 		//매장테이블 현황
-		List<ShopTotalTable> tableList = shopService.shopCheckTable(shop);
+		List<ShopTotalTable> tableList = shopService.shopCheckTable(shop.getShopUID());
 		model.addAttribute("list1", tableList);
 		
 		//영업시간 현황
-		List<ShopTime> timeList = shopService.shopCheckTime(shop);
+		List<ShopTime> timeList = shopService.shopCheckTime(shop.getShopUID());
 		model.addAttribute("list2", timeList);
+		
+		//메뉴 현황
+		List<ShopMenu> menuList = shopService.shopCheckMenu(shop.getShopUID());
+		model.addAttribute("list3", menuList);
 		
 		model.addAttribute("shop", shop);
 		model.addAttribute("address", address);

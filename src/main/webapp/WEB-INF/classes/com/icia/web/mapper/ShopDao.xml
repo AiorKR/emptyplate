@@ -796,24 +796,25 @@ SELECT A.ORDER_UID AS ORDER_UID,
    AND B.TABLE_STATUS = 'C'
 </select>
 
-<select id="shopCheckTable" resultMap="shopTotalTableResultMap" parameterType="com.icia.web.model.Shop">
-	SELECT A.SHOP_UID,
-	       B.TOTAL_TABLE_CAPACITY,
-	       B.TOTAL_TABLE
-	  FROM T_SHOP A, T_SHOP_TOTAL_TABLE B
-	 WHERE A.SHOP_UID = B.SHOP_UID
-	   AND A.SHOP_UID = #{shopUID}
-	 ORDER BY B.TOTAL_TABLE_CAPACITY ASC
+<select id="shopCheckTable" resultMap="shopTotalTableResultMap" parameterType="String">
+	SELECT *
+	  FROM T_SHOP_TOTAL_TABLE
+	 WHERE SHOP_UID = #{value}
+	 ORDER BY TOTAL_TABLE_CAPACITY ASC
 </select>
 
-<select id="shopCheckTime" resultMap="shopTimeResultMap" parameterType="com.icia.web.model.Shop"> 
-	SELECT A.SHOP_UID,
-	       B.ORDER_TIME,
-	       B.SHOP_TIMETYPE
-	FROM T_SHOP A, T_SHOP_TIME B
-	WHERE A.SHOP_UID = B.SHOP_UID
-	  AND A.SHOP_UID = #{shopUID}
-	ORDER BY B.ORDER_TIME ASC
+<select id="shopCheckTime" resultMap="shopTimeResultMap" parameterType="String"> 
+	SELECT *
+	  FROM T_SHOP_TIME
+	 WHERE SHOP_UID = #{value}
+	 ORDER BY ORDER_TIME ASC
+</select>
+
+<select id="shopCheckMenu" resultMap="shopMenuResultMap" parameterType="String"> 
+	SELECT *
+	  FROM T_SHOP_MENU
+	 WHERE SHOP_UID=#{value}
+	 ORDER BY MENU_CODE DESC, MENU_PRICE DESC
 </select>
 
 </mapper>
