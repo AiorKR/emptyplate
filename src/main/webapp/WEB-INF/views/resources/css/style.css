@@ -3690,6 +3690,169 @@ reservation 검색
 .view .setMenu{
 	color: black;
 }
+
+
+/*shopUpdate 수정*/
+.view .imageModify table{
+   margin-top: 20px;
+}
+.view .imageModify table .file-check-content, .file-content{
+   font-size:17px;
+}
+.view .imageModify table tr .file-check, .file{
+   font-size:20px;
+   padding-right:16px;
+}
+.view .imageModify table tr .file-check{
+   padding-top: 20px;
+}
+.view .imageModify table tr .file{
+   padding-top: 20px;
+}
+.view .imageModify table tr .file-content{
+   margin-top: 20px;
+}
+.view .introduce table{
+   margin-top: 20px;
+}
+.view .introduce table tr th{
+   font-size:30px;
+}
+.view .introduce table tr .name{
+   font-size:20px;
+   padding-right:40px;
+   padding-bottom: 10px;
+}
+.view .introduce table tr .name2{
+   font-size:20px;
+   padding-right:10px;
+}
+.view .introduce table tr .intro{
+   padding-bottom: 10px;
+}
+.view .introduce table tr #shopIntro{
+   width:450px;
+   height:40px;
+}
+.view .introduce table tr #shopContent{
+   width:450px;
+   height:150px;
+}
+.view .p-3 table{
+   margin-top:30px;
+}
+.view .p-3 table tr th{
+   font-size:30px;
+}
+.view .p-3 table tr .td{
+   font-size:20px;
+   padding-right:40px;
+}
+.view .p-3 table input[type=text]{
+   width:400px;
+   height:35px;
+}
+.view .p-3 table tr .select{
+   height:35px;
+   width:120px;
+}
+.view .p-3 table input[type=checkbox]{
+   height:20px;
+   width:20px;
+   vertical-align:middle;
+}
+.view .p-3 table td input[type=button]{
+   height:34px;
+   background: #C2A383;
+   border: 0;
+   color: #fff;
+   font-size: 17px;
+   border-radius: 5px;
+}
+.view .additional table tr th{
+   font-size:30px;
+   padding-top: 40px;
+   padding-left: 15px;
+}
+
+.view .additional table tr td{
+   font-size:20px;
+}
+.view .additional table input[type=text]{
+   width:400px;
+   height:35px;
+}
+.view .additional table td .select{
+   height:35px;
+   width:120px;
+}
+.view .additional table td button[type=button]{
+   text-align: center;
+   height:34px;
+   background: #C2A383;
+   border: 0;
+   color: #fff;
+   font-size: 18px;
+   border-radius: 10px;
+   margin-right:5px;
+   width:60px;
+}
+.view .additional table .tdtd{
+   padding-right:40px;
+   padding-left:17px;
+}
+.view .additional table .tdtd2{
+   padding-right:33px;
+   padding-left:17px;
+}
+.view .additional table .tdtd3{
+   padding-right:19px;
+   padding-left:17px;
+}
+.view .additional table .tdtd4{
+   padding-right:36px;
+   padding-left:17px;
+}
+.view .additional table .tdtd5{
+   padding-right:68px;
+   padding-left:17px;
+}
+
+/*매장관리 수정.취소 버튼*/
+.view .update button {
+  background: rgba(225, 225, 225);
+  border:3px solid #C2A383;
+  padding: 3px 15px;
+  color: #0c0b09;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 20px;
+  margin-right: 8px;
+  margin-top: 20px;
+}
+
+.view .update button:hover {
+  background: #C2A383;
+}
+
+.view .cancle button {
+  background: rgba(225, 225, 225);
+  border:3px solid #C2A383;
+  padding: 3px 15px;
+  color: #0c0b09;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 20px;
+  margin-left: 8px;
+  margin-top: 20px;
+}
+
+.view .cancle button:hover {
+  background: #C2A383;
+}
+
 /*--------------------------------------------------------------
 # view end
 --------------------------------------------------------------*/
