@@ -435,7 +435,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 			<c:forEach items="${shop.shopFileList}" var="shopFileList" varStatus="status" begin="1" end="5">
 			  <li><img onclick="changeImage(this)"
 						src="../resources/upload/shop/${shop.shopUID}/${shopFileList.shopFileName}"
-						width="100px" height="100px" class="thumbnail">
+						width="100px" height="100px" style="margin: 5px;">
 			  </li>
 			</c:forEach>
 		  </ul>
@@ -471,7 +471,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 	  </div>
 	  <ul class="intro2">
 		<li><i class="fa-solid fa-map-location-dot"></i>&nbsp;&nbsp;${address}</li>
-		<li><i class="fa-regular fa-star"></i>&nbsp;&nbsp;별점 4.5 (100)</li>
+		<li><i class="fa-regular fa-star"></i>&nbsp;&nbsp;별점 ${shop.reviewScore} (${shop.reviewCount})</li>
 		<li><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;${shop.shopTelephone}</li>
 	  </ul>
 	  <c:forTokens items="${shop.shopHashtag}" delims="#" var="shopHashtag">
@@ -637,7 +637,9 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
        </container>
        <div class="review">
 		<ul>
-		  <li><a href="#">Review text1</a></li>
+		   <c:forEach items="${shop.reviewList}" var="reviewList" varStatus="status">
+		  <li>${reviewList.shopReviewRegDate}    ${reviewList.userName} : ${reviewList.shopReviewContent} <i class="fa-regular fa-star"></i>${reviewList.shopScore}</li>
+		   </c:forEach>
 		</ul>
        </div>
     </div>

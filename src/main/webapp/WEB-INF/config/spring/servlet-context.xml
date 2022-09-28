@@ -112,6 +112,7 @@
             			<value>/myPage/myFavorites</value>
             			<value>/pay/orderMenu</value>
             			<value>/manager/shopManage</value>
+            			<value>/today/todayPopupView</value>
             		</list>
             	</constructor-arg>
             </bean>
