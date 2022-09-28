@@ -150,7 +150,95 @@ request.setAttribute("No", 2);
 						btnMenuStack--;
 					}
 				});
-					
+				
+				$("#btnUpdate").on("click", function() {
+				      
+				     $("#btnUpdate").prop("disabled", true);
+				      
+				      if($.trim($("#shopTitle").val()).length <= 0)
+				      {
+				         alert("상호명을 입력해주세요.");
+				         $("#shopTitle").val("");
+				         $("#shopTitle").focus();
+				         return;
+				      }
+
+					  if($.trim($("#shopLocation1").val()).length <= 0)
+				      {
+				         alert("주소찾기를 이용하여 주소를 입력해주세요.");
+				         $("#shopLocation1").val("");
+				         $("#shopLocation1").focus();
+				         return;
+				      }
+
+					  if($.trim($("#shopTelephone").val()).length <= 0)
+				      {
+				         alert("전화번호를 입력해주세요.");
+				         $("#shopTelephone").val("");
+				         $("#shopTelephone").focus();
+				         return;
+				      }
+
+					  if($("select[name=shopType]").val() == 0)
+				      {
+				         alert("매장타입을 선택해주세요");
+				         $("#shopTypeSelect").focus();
+				         return;
+				      }
+
+				      var form = $("#updateForm")[0];
+				      var formData = new FormData(form);
+				      
+				    $.ajax({
+				         type:"POST",
+				         enctype:'multipart/form-data',
+				         url:"/manager/updateProc",
+				         data:formData,
+				         processData:false,
+				         contentType:false,
+				         cache:false,
+				         beforeSend:function(xhr)
+				         {
+				            xhr.setRequestHeader("AJAX", "true");
+				         },
+				         success:function(response)
+				         {
+				            if(response.code == 0)
+				              {
+				               alert("게시물이 수정되었습니다.");
+				               location.href = "/board/list";               
+				              }
+				            else if(response.code == 400)
+				           {
+				               alert("파라미터 값이 올바르지 않습니다.");
+				               $("#btnUpdate").prop("disabled", false);
+				           }
+				            else if(response.code == 403)
+				              {
+				               alert("본인 게시물이 아닙니다.");
+				               $("#btnUpdate").prop("disabled", false);
+				              }
+				            else if(response.code == 404)
+				              {
+				               alert("게시물을 찾을 수 없습니다.");
+				               location.href = "/board/list";
+				              }
+				            else
+				              {
+				               alert("게시물 수정 중 오류가 발생하였습니다.");
+				               $("#btnUpdate").prop("disabled", false);
+				              }
+				         },
+				         error:function(error)
+				         {
+				            icia.common.error(error);
+				            alert("게시물 수정 중 오류가 발생하였습니다.");
+				            $("#btnUpdate").prop("disabled", false);
+				         }
+				     });
+				});
+				
+				
 				$("#btnCancle").on("click", function(){
 					document.updateForm.action="/manager/shopManage";
 					document.updateForm.submit();
@@ -164,6 +252,7 @@ request.setAttribute("No", 2);
 <section id="view" class="view">
 	<div class="container">
 		<div class="row">
+		<form name="updateForm" id="updateForm" method="post" enctype="multipart/form-data">
 			<div style="border-right: 2px solid #C2A383; float:left; width: 50%;">
 				<div class="d-flex flex-column justify-content-center">
 					<div class="main_image">
@@ -233,7 +322,7 @@ request.setAttribute("No", 2);
 								<tr>
 									<td rowspan="2"class="td" style="padding-bottom:10px;">매장주소</td>
 									<td class="title-text" style="padding-bottom:1px;">
-										<input type="text" id="shopLocation1" value="${shop.shopLocation1}" placeholder="주소">
+										<input type="text" id="shopLocation1" value="${shop.shopLocation1}" placeholder="주소"  readonly>
 										<input type="text" id="sample6_postcode" placeholder="우편번호" hidden>
 										<input type="text" id="sample6_extraAddress" placeholder="참고항목" hidden>
 									</td>
@@ -247,14 +336,14 @@ request.setAttribute("No", 2);
 								<tr>
 									<td class="td">매장<br/>전화번호</td>
 									<td class="title-text">
-										<input type="text" id="shopTitle" name="shopTitle" value="${shop.shopTelephone}" maxlength="30" placeholder="상호명을 입력해주세요.">
+										<input type="text" id="shopTelephone" name="shopTelephone" value="${shop.shopTelephone}" maxlength="30" placeholder="전화번호를 입력해주세요.">
 									</td>
 								</tr>
 								<tr>
 									<td class="td" style="padding-bottom:10px;">매장형태</td>
 									<td class="title-text" style="padding-bottom:10px;">
-										<select name="shopType" class="select">
-											<option value='' <c:if test="${shop.shopType ne '1' and shop.shopType ne '2'}">selected</c:if>>매장 형태</option>
+										<select name="shopType" id="shopTypeSelect" class="select">
+											<option value='0' <c:if test="${shop.shopType ne '1' and shop.shopType ne '2'}">selected</c:if>>매장 형태</option>
 											<option value='1' <c:if test="${shop.shopType eq '1'}">selected</c:if>>파인다이닝</option>
 											<option value='2' <c:if test="${shop.shopType eq '2'}">selected</c:if>>오마카세</option>
 										</select>
@@ -263,13 +352,13 @@ request.setAttribute("No", 2);
 								<tr>
 									<td class="td">매장휴일</td>
 									<td class="title-text">
-										<input type="checkbox" name="day" value="sun" <c:if test="${!empty day0}">checked</c:if>> 일&nbsp;&nbsp;
-										<input type="checkbox" name="day" value="mon" <c:if test="${!empty day1}">checked</c:if>> 월&nbsp;&nbsp;
-										<input type="checkbox" name="day" value="tue" <c:if test="${!empty day2}">checked</c:if>> 화&nbsp;&nbsp;
-										<input type="checkbox" name="day" value="wed" <c:if test="${!empty day3}">checked</c:if>> 수&nbsp;&nbsp;
-										<input type="checkbox" name="day" value="thr" <c:if test="${!empty day4}">checked</c:if>> 목&nbsp;&nbsp;
-										<input type="checkbox" name="day" value="fri" <c:if test="${!empty day5}">checked</c:if>> 금&nbsp;&nbsp;
-										<input type="checkbox" name="day" value="sat" <c:if test="${!empty day6}">checked</c:if>> 토
+										<input type="checkbox" class="day" id="sun" name="sun" value="0" <c:if test="${!empty day0}">checked</c:if>> 일&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="mon" name="mon" value="1" <c:if test="${!empty day1}">checked</c:if>> 월&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="tue" name="tue" value="2" <c:if test="${!empty day2}">checked</c:if>> 화&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="wed" name="wed" value="3" <c:if test="${!empty day3}">checked</c:if>> 수&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="thr" name="thr" value="4" <c:if test="${!empty day4}">checked</c:if>> 목&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="fri" name="fri" value="5" <c:if test="${!empty day5}">checked</c:if>> 금&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="sat" name="sat" value="6" <c:if test="${!empty day6}">checked</c:if>> 토
 									</td>
 								</tr>
 							</table>
@@ -500,16 +589,18 @@ request.setAttribute("No", 2);
 						</div>
 					</div>
 				</div>
+					
+						
 				<div class="d-flex flex-row justify-content-center">
 					<div class="update"><button type="button" id="btnUpdate" class="update" title="수정">수정</button></div>
 					<div class="cancle"><button type="button" id="btnCancle" class="cancle" title="취소">취소</button></div>
 				</div>
 			</div>
+			<input type="hidden" name="shopUID" value="" />
+				</form>
 		</div>
 	</div>
-	<form name="updateForm" id="updateForm" method="post">
-		<input type="hidden" name="shopUID" value="" />
-	</form>
+
 </section>
 
 <script>
