@@ -32,9 +32,9 @@ request.setAttribute("No", 2);
 							const newCell2 = newRow.insertCell(1);
 		
 							// Cell에 텍스트 추가
-							newCell1.innerText = "해시태그" + btnHashStack;
-							newCell2.innerHTML	 = "<input type='text'>";
-							
+							newCell1.innerHTML = "<td class='tdtd2'>해시태그"+btnHashStack+"</td>";
+							newCell2.innerHTML = "<td><input type='text' id='hashTag"+btnHashStack+"' class='hastTagInput' placeholder='해시태그를 입력해주세요' style='font-size:17px;'></td>";
+						
 							btnHashStack++;
 						}
 					});
