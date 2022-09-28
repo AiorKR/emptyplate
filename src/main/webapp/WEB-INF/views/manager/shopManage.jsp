@@ -120,18 +120,25 @@
 			<div class="setTable">
 				<table>
 					<tr colspan="2">
-						<th colspan="2">2인 테이블</th>
+						<th colspan="2">테이블 현황</th>
 					</tr>
 					<tr class="line">
 						<td class="right">테이블 종류</td>
 						<td>전체 수량</td>
 					</tr>
-					<c:forEach var="shop" items="${list}">
-						<tr>
-							<td class="right">2인 테이블</td>
-							<td>${shop.shopTotalTable}</td>
-						</tr>
-					</c:forEach>
+					<c:choose>
+						<c:when test="${!empty list}">
+							<c:forEach var="shop" items="${list}" varStatus="status">
+								<tr>
+									<td class="right">${shop.shopTotalTableCapacity}인 테이블</td>
+									<td><input type="text" value="${shop.shopTotalTable}" readonly></td>
+								</tr>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<td colspan="2"> 테이블이 존재하지 않습니다</td>
+						</c:otherwise>
+					</c:choose>
 					
 					
 				</table>

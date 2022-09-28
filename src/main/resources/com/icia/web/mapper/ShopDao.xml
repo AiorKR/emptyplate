@@ -57,6 +57,7 @@
 	<resultMap id="shopTimeResultMap" type="com.icia.web.model.ShopTime"> <!--매장시간-->
 	<result column="SHOP_UID" property="shopUID"/>
 	<result column="ORDER_TIME" property="shopOrderTime"/>
+	<result column="SHOP_TIMETYPE" property="shopTimeType"/>
 	</resultMap>
 
 	<resultMap id="shopMenuResultMap" type="com.icia.web.model.ShopMenu"> <!--매장메뉴-->
@@ -796,12 +797,13 @@ SELECT A.ORDER_UID AS ORDER_UID,
 </select>
 
 <select id="shopCheckTable" resultMap="shopTotalTableResultMap" parameterType="com.icia.web.model.Shop">
- SELECT A.SHOP_UID,
-        B.TOTAL_TABLE_CAPACITY,
-        B.TOTAL_TABLE
- FROM T_SHOP A, T_SHOP_TOTAL_TABLE B
-WHERE A.SHOP_UID = B.SHOP_UID
-  AND A.SHOP_UID = #{shopUID}
+	SELECT A.SHOP_UID,
+	       B.TOTAL_TABLE_CAPACITY,
+	       B.TOTAL_TABLE
+	  FROM T_SHOP A, T_SHOP_TOTAL_TABLE B
+	 WHERE A.SHOP_UID = B.SHOP_UID
+	   AND A.SHOP_UID = #{shopUID}
+	 ORDER BY B.TOTAL_TABLE_CAPACITY ASC
 </select>
 
 </mapper>
