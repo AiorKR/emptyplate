@@ -11,15 +11,12 @@
 
 <head>
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
-	<script type="text/javascript">
-		$(document).ready(function() {
-			
-			$("#btnReserve").on("click", function(){
-				document.bbsForm.shopUID.value = $("#btnReserve").val();
-				document.bbsForm.action = "/reservation/view";
-				document.bbsForm.submit();
-			   });
-		});
+	<script type="text/javascript">	
+	function fn_view(shopUID){
+		document.bbsForm.shopUID.value = shopUID;
+		document.bbsForm.action = "/reservation/view";
+		document.bbsForm.submit();
+	   }
 	</script>
 </head>
 
@@ -70,15 +67,14 @@
 							<h3>${shop.shopName}</h3>
 							<p class="fst-italic">${shop.shopIntro}</p>
 							<ul>
-								<li><i class="fa-solid fa-map-location-dot"></i> ${shop.shopLocation2} ${shop.shopLocation3}</li>
-								<li><i class="fa-regular fa-star"></i> 별점 ${shop.shopStarScore} (100)</li>
-								<li><i class="fa-brands fa-instagram"></i> ${shop.shopHashtag}</li>
+								<li><i class="fa-solid fa-map-location-dot"></i> ${shop.shopLocation1} ${shop.shopLocation2} ${shop.shopAddress}</li>
+								<li><i class="fa-regular fa-star"></i> 별점 ${shop.reviewScore} (${shop.reviewCount})</li>
 							</ul>
 							<p class="int">
 								
 							</p>
 							<div class="btns">
-								<button type="button" id="btnReserve" class="btn-book animated fadeInUp scrollto" value="${shop.shopUID}">예약</button>
+								<button type="button" id="btnReserve" class="btn-book animated fadeInUp scrollto" onclick="fn_view('${shop.shopUID}')">예약</button>
 							</div>
 						</div>
 					</div>

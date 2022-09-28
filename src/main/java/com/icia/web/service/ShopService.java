@@ -16,6 +16,7 @@ import com.icia.web.model.OrderMenu;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
 import com.icia.web.model.ShopReview;
+import com.icia.web.model.ShopTime;
 import com.icia.web.model.ShopTotalTable;
 
 @Service("shopService")
@@ -310,60 +311,114 @@ public class ShopService {
 			return count;
 		}
 		
-		   public int regReqOne(ShopReview shopReview) {
-		         int count = 0;
-		            
-		            try
-		            {
-		               count = shopDao.regReqOne(shopReview);
-		            }
-		            catch(Exception e)
-		            {
-		               logger.error("[ShopService]regOne Exception", e);
-		            }
-		            return count;
-		      }
-
-		      public int countReqOne(ShopReview shopReview) {
-		         int count = 0;
-		            
-		            try
-		            {
-		               count = shopDao.countReqOne(shopReview);
-		            }
-		            catch(Exception e)
-		            {
-		               logger.error("[ShopService]countReqOne Exception", e);
-		            }
-		            return count;
-		      }
-
-		      public int updateReqOne(ShopReview shopReview) {
-		         int count = 0;
-		            
-		            try
-		            {
-		               count = shopDao.updateReqOne(shopReview);
-		            }
-		            catch(Exception e)
-		            {
-		               logger.error("[ShopService]updateReqOne Exception", e);
-		            }
-		            return count;
-		      }
-
-			public int delReqOne(ShopReview shopReview) {
-				int count = 0;
+	   public int regReqOne(ShopReview shopReview) {
+	         int count = 0;
 	            
 	            try
 	            {
-	               count = shopDao.delReqOne(shopReview);
+	               count = shopDao.regReqOne(shopReview);
 	            }
 	            catch(Exception e)
 	            {
-	               logger.error("[ShopService]delReqOne Exception", e);
+	               logger.error("[ShopService]regOne Exception", e);
 	            }
 	            return count;
+	      }
+
+	      public int countReqOne(ShopReview shopReview) {
+	         int count = 0;
+	            
+	            try
+	            {
+	               count = shopDao.countReqOne(shopReview);
+	            }
+	            catch(Exception e)
+	            {
+	               logger.error("[ShopService]countReqOne Exception", e);
+	            }
+	            return count;
+	      }
+
+	      public int updateReqOne(ShopReview shopReview) {
+	         int count = 0;
+	            
+	            try
+	            {
+	               count = shopDao.updateReqOne(shopReview);
+	            }
+	            catch(Exception e)
+	            {
+	               logger.error("[ShopService]updateReqOne Exception", e);
+	            }
+	            return count;
+	      }
+
+		public int delReqOne(ShopReview shopReview) {
+			int count = 0;
+            
+            try
+            {
+               count = shopDao.delReqOne(shopReview);
+            }
+            catch(Exception e)
+            {
+               logger.error("[ShopService]delReqOne Exception", e);
+            }
+            return count;
+		}
+
+		public List<Order> noShowImminent() {
+			List<Order> list = null;
+			
+			try {
+				list = shopDao.noShowImminent();
+				logger.debug("noshow 임박 갯수 : " + list.size());
 			}
+			catch(Exception e) {
+				logger.error("[Shopservice] noShowImminent", e);
+			}
+			
+			return list;
+		}
 		
+		public List<ShopTime> shopListTime() {
+			List<ShopTime> list = null;
+			
+			try {
+				list = shopDao.shopListTime();
+				logger.debug("가져온 리스트 시간 목록 size : " + list.size());
+			}
+			catch(Exception e) {
+				logger.error("[Shopservice] shopListTimeList", e);
+			}
+			
+			return list;
+		}
+			
+		public List<Order> noShow(Shop shop) {
+			List<Order> list = null;
+			
+			try {
+				list = shopDao.noShow(shop);
+				logger.debug("noshow 갯수 : " + list.size());
+			}
+			catch(Exception e) {
+				logger.error("[Shopservice] noShow", e);
+			}
+			
+			return list;
+		}
+		
+		public Order noShowSelect(String orderUID) {
+			Order order = null;
+			
+			try {
+				order = shopDao.noShowSelect(orderUID);
+			}
+			catch(Exception e) {
+				logger.error("[Shopservice] noShowSelect", e);
+			}
+			
+			return order;
+		}
 }

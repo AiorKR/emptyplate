@@ -10,6 +10,7 @@ import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
 import com.icia.web.model.ShopReservationTable;
 import com.icia.web.model.ShopReview;
+import com.icia.web.model.ShopTime;
 import com.icia.web.model.ShopTotalTable;
 
 @Repository("shopdDao")
@@ -67,4 +68,12 @@ public interface ShopDao {
 	public int updateReqOne(ShopReview shopReview);
 
 	public int delReqOne(ShopReview shopReview);
+	
+	public List<ShopTime> shopListTime();
+	
+	public List<Order> noShowImminent(); //NOSHOW 마감 임박
+	
+	public List<Order> noShow(Shop shop); // NOSHOW
+	
+	public Order noShowSelect(String orderUID); // NOSHOW
 }

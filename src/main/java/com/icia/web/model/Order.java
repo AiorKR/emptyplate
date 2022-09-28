@@ -26,7 +26,7 @@ public class Order implements Serializable{
 	private long startRow;		
 	private long endRow;
 	private String finalMenu;
-	
+	private Shop shop;
 	private List<OrderMenu> orderMenu;
 	private List<ShopReservationTable> shopReservationTableList;
 	private ShopReservationTable shopReservationTable;
@@ -45,7 +45,7 @@ public class Order implements Serializable{
 		shopName = "";
 		counterSeatYN = "";
 		userName = "";
-		
+		shop = null;
 		orderMenu = null;
 		shopReservationTableList = null;
 		shopReservationTable = null;
@@ -243,6 +243,22 @@ public class Order implements Serializable{
 
 	public void setShopScore(double shopScore) {
 		this.shopScore = shopScore;
+	}
+
+	public String getrDate() {
+		return rDate;
+	}
+
+	public void setrDate(String rDate) {
+		this.rDate = rDate;
+	}
+
+	public Shop getShop() {
+		return shop;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
 	}
 	
 }
