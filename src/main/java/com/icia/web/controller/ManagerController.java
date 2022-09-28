@@ -1,5 +1,7 @@
 package com.icia.web.controller;
 
+import java.util.Arrays;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.icia.common.util.StringUtil;
 import com.icia.web.model.Shop;
 import com.icia.web.model.User;
 import com.icia.web.service.BoardService;
@@ -101,8 +104,24 @@ public class ManagerController {
 		{
 			address = shop.getShopLocation2() + " " + shop.getShopLocation3();
 		}
+		
+		//요일출력
+		String holiday = shop.getShopHoliday();
+		String[] day = holiday.split(",");
+		int i=0, j=0;
+		for(i=0; i<day.length; i++)
+		{
+			for(j=StringUtil.stringToInteger(day[i],-1); j<7;j++)
+			{
+				model.addAttribute("day"+j, 1);
+				break;
+			}
+		}
+		
+		
 		model.addAttribute("shop", shop);
 		model.addAttribute("address", address);
+		
 		if(user != null)
 		{
 			try
