@@ -14,19 +14,18 @@ public class Shop implements Serializable{
 	private String shopType;		//매장타입
 	private String shopHoliday;		//매장휴일
 	private String shopHashtag;
-	private String shopLocation1;	//매장위치1 (도 시)
-	private String shopLocation2;	//매장위치2 (시 군 구)
-	private String shopLocation3;	//매장위치3 (동 면 읍)
+	private String shopLocation1;	//매장위치1 도로명
+	private String shopLocation2;	//매장위치2 지번
 	private String shopAddress;		//매장상세 주소
 	private String shopTelephone;	//매장전화번호
 	private String shopIntro;		//매장한줄소개
 	private String shopContent;	 	//매장내용
-	private String shopRegDate;		//매장등록일
-	
-	private long startRow;		//시작 rownum
-	private long endRow;		//끝 rownum
 	private double reviewScore;
 	private int reviewCount;
+	private String shopRegDate;		//매장등록일
+	private List<ShopReview> reviewList;
+	private long startRow;		//시작 rownum
+	private long endRow;		//끝 rownum
 	
 	private String searchType;	//조회항목(0: 전체, 1: 파인다이닝. 2:오마카세)
 	private String searchValue;	//검색값
@@ -46,8 +45,6 @@ public class Shop implements Serializable{
 	
 	private List<Order> order; //매장 주문
 	
-	private List<ShopReview> reviewList;
-	
 	
 	public Shop() {
 		shopUID = "";
@@ -58,14 +55,14 @@ public class Shop implements Serializable{
 		shopHashtag = "";
 		shopLocation1 = "";
 		shopLocation2 = "";
-		shopLocation3 = "";
 		shopAddress = "";
 		shopTelephone = "";
 		shopIntro = "";
 		shopContent = "";
-		shopRegDate = "";
 		reviewScore = 0;
 		reviewCount = 0;
+		shopRegDate = "";
+		
 		reservationDate = "";
 		reservationTime = "";
 		reviewList = null;
@@ -158,17 +155,6 @@ public class Shop implements Serializable{
 		this.shopLocation2 = shopLocation2;
 	}
 
-
-	public String getShopLocation3() {
-		return shopLocation3;
-	}
-
-
-	public void setShopLocation3(String shopLocation3) {
-		this.shopLocation3 = shopLocation3;
-	}
-
-
 	public String getShopAddress() {
 		return shopAddress;
 	}
@@ -207,6 +193,7 @@ public class Shop implements Serializable{
 	public void setShopContent(String shopContent) {
 		this.shopContent = shopContent;
 	}
+	
 	
 	public String getShopRegDate() {
 		return shopRegDate;

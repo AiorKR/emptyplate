@@ -118,6 +118,15 @@ public class ManagerController {
 			}
 		}
 		
+		//해시태그
+		String hashTag = shop.getShopHashtag();
+		String[] tag = hashTag.split("#");
+		int x=0, y=0;
+		for(i=0; i<tag.length; i++)
+		{
+			model.addAttribute("tag"+(i+1), tag[i]);
+		}
+		
 		
 		model.addAttribute("shop", shop);
 		model.addAttribute("address", address);
