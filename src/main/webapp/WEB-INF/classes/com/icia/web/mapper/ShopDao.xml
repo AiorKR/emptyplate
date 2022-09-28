@@ -795,5 +795,13 @@ SELECT A.ORDER_UID AS ORDER_UID,
    AND B.TABLE_STATUS = 'C'
 </select>
 
+<select id="shopCheckTable" resultMap="shopTotalTableResultMap" parameterType="com.icia.web.model.Shop">
+ SELECT A.SHOP_UID,
+        B.TOTAL_TABLE_CAPACITY,
+        B.TOTAL_TABLE
+ FROM T_SHOP A, T_SHOP_TOTAL_TABLE B
+WHERE A.SHOP_UID = B.SHOP_UID
+  AND A.SHOP_UID = #{shopUID}
+</select>
 
 </mapper>

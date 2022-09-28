@@ -76,4 +76,6 @@ public interface ShopDao {
 	public List<Order> noShow(Shop shop); // NOSHOW
 	
 	public Order noShowSelect(String orderUID); // NOSHOW
+	
+	public List<ShopTotalTable> shopCheckTable(Shop shop);
 }

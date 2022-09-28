@@ -1,6 +1,7 @@
 package com.icia.web.controller;
 
 import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Shop;
+import com.icia.web.model.ShopTotalTable;
 import com.icia.web.model.User;
 import com.icia.web.service.BoardService;
 import com.icia.web.service.ShopService;
@@ -46,6 +48,8 @@ public class ManagerController {
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		User user = userService.userUIDSelect(cookieUserUID);
 		Shop shop = shopService.shopUIDSelect(cookieUserUID);
+		List<ShopTotalTable> list = shopService.shopCheckTable(shop);
+		model.addAttribute("list", list);
 		String address = "";
 		if(shop.getShopLocation1() != null)
 		{
