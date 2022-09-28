@@ -10,8 +10,154 @@ request.setAttribute("No", 2);
 <html lang="en">
 <head>
 <%@ include file="/WEB-INF/views/include/head.jsp"%>
-<script>
+<script type="text/javascript">
+	$(document).ready(function() {
+				var btnHashStack = 0;
+				var btnTimeStack = 0;
+				var btnTableStack = 0;
+				var btnMenuStack = 0;
+				if(btnHashStack < 6)
+				{
+					$("#btnHashAdd").on("click", function(){
+						if(btnHashStack<6)
+						{
+							// table element 찾기
+							const table = document.getElementById("hashTagValue");
+		
+							// 새 행(Row) 추가
+							const newRow = table.insertRow();
+		
+							// 새 행(Row)에 Cell 추가
+							const newCell1 = newRow.insertCell(0);
+							const newCell2 = newRow.insertCell(1);
+		
+							// Cell에 텍스트 추가
+							newCell1.innerText = "해시태그" + btnHashStack;
+							newCell2.innerHTML	 = "<input type='text'>";
+							
+							btnHashStack++;
+						}
+					});
+	
+					$("#btnHashDelete").on("click", function(){
+						// table element 찾기
+						const table = document.getElementById("hashTagValue");
+	
+						// 행(Row) 삭제
+						const newRow = table.deleteRow(-1);
+						if(btnHashStack>1){
+							btnHashStack--;
+						}
+					});
+				}
+				
+				if(btnTimeStack < 6)
+				{
+					$("#btnTimeAdd").on("click", function(){
+						if(btnTimeStack<6)
+						{
+							// table element 찾기
+							const table = document.getElementById("timeValue");
+		
+							// 새 행(Row) 추가
+							const newRow = table.insertRow();
+		
+							// 새 행(Row)에 Cell 추가
+							const newCell1 = newRow.insertCell(0);
+							const newCell2 = newRow.insertCell(1);
+		
+							// Cell에 텍스트 추가
+							newCell1.innerText = "매장시간" + btnTimeStack;
+							newCell2.innerText = 'New Fruit';
+							
+							btnTimeStack++;
+						}
+					});
+	
+					$("#btnTimeDelete").on("click", function(){
+						// table element 찾기
+						const table = document.getElementById("timeValue");
+	
+						// 행(Row) 삭제
+						const newRow = table.deleteRow(-1);
+						if(btnTimeStack>1){
+							btnTimeStack--;
+						}
+					});
+				}
 
+				if(btnTableStack < 6)
+				{
+					$("#btnTableAdd").on("click", function(){
+						if(btnTableStack<6)
+						{
+							// table element 찾기
+							const table = document.getElementById("tableValue");
+		
+							// 새 행(Row) 추가
+							const newRow = table.insertRow();
+		
+							// 새 행(Row)에 Cell 추가
+							const newCell1 = newRow.insertCell(0);
+							const newCell2 = newRow.insertCell(1);
+		
+							// Cell에 텍스트 추가
+							newCell1.innerText = "매장 테이블" + btnTableStack;
+							newCell2.innerText = 'New Fruit';
+							
+							btnTableStack++;
+						}
+					});
+	
+					$("#btnTableDelete").on("click", function(){
+						// table element 찾기
+						const table = document.getElementById("tableValue");
+	
+						// 행(Row) 삭제
+						const newRow = table.deleteRow(-1);
+						if(btnTableStack>1){
+							btnTableStack--;
+						}
+					});
+				}
+
+				if(btnMenuStack < 6)
+				{
+					$("#btnMenuAdd").on("click", function(){
+						if(btnMenuStack<6)
+						{
+							// table element 찾기
+							const table = document.getElementById("menuValue");
+		
+							// 새 행(Row) 추가
+							const newRow = table.insertRow();
+		
+							// 새 행(Row)에 Cell 추가
+							const newCell1 = newRow.insertCell(0);
+							const newCell2 = newRow.insertCell(1);
+							const newCell3 = newRow.insertCell(2);
+		
+							// Cell에 텍스트 추가
+							newCell1.innerText = "해시태그" + btnMenuStack;
+							newCell2.innerText = 'New Fruit';
+							newCell3.innerText = 'New Fruit';
+							
+							btnMenuStack++;
+						}
+					});
+	
+					$("#btnMenuDelete").on("click", function(){
+						// table element 찾기
+						const table = document.getElementById("menuValue");
+	
+						// 행(Row) 삭제
+						const newRow = table.deleteRow(-1);
+						if(btnMenuStack>1){
+							btnMenuStack--;
+						}
+					});
+				}
+			});
 </script>
 </head>
 <body style="color: #000000">
@@ -145,21 +291,19 @@ request.setAttribute("No", 2);
 								<tr>
 									<td class="tdtd">해시태그</td>
 									<td>
-										<input type="button" value="생성">
+										<button type="button" id="btnHashAdd">생성</button>
 									</td>
 									<td>
-										<input type="button" value="삭제">
+										<button type="button" id="btnHashDelete">삭제</button>
 									</td>
 								</tr>
 							</table>
 						</div>
 						<div class="hashTagValue">
-							<table style="margin-bottom:15px;">
+							<table id="hashTagValue" style="margin-bottom:15px;">
 								<tr>
 									<td class="tdtd2">해시태그1</td>
-									<td>
-										<input type="text" placeholder="해시태그를 입력해주세요" style="font-size:17px;">
-									</td>
+									<td><input type="text" id="hashTag1" class="hastTagInput" placeholder="해시태그를 입력해주세요" style="font-size:17px;"></td>
 								</tr>
 							</table>
 						</div>
@@ -170,16 +314,16 @@ request.setAttribute("No", 2);
 								<tr>
 									<td class="tdtd">매장시간</td>
 									<td>
-										<input type="button" value="생성">
+										<button type="button" id="btnTimeAdd">생성</button>
 									</td>
 									<td>
-										<input type="button" value="삭제">
+										<button type="button" id="btnTimeDelete">삭제</button>
 									</td>
 								</tr>
 							</table>
 						</div>
 						<div class="timeValue">
-							<table style="margin-bottom:15px;">
+							<table id="timeValue" style="margin-bottom:15px;">
 								<tr>
 									<td class="tdtd2">매장시간1</td>
 									<td>
@@ -195,39 +339,36 @@ request.setAttribute("No", 2);
 								<tr>
 									<td class="tdtd3">테이블 설정</td>
 									<td>
-										<input type="button" value="생성">
+										<button type="button" id="btnTableAdd">생성</button>
 									</td>
 									<td>
-										<input type="button" value="삭제">
+										<button type="button" id="btnTableDelete">삭제</button>
 									</td>
 								</tr>
 							</table>
 						</div>
-						<div class="timeValue">
-							<table style="margin-bottom:15px;">
-		                        <tr>
-		                           <td class="tdtd3">테이블 규격</td>
-		                           <td>
-		                              <select name="tableType" class="select" style="font-size:17px;">
-		                                 <option value='' selected>테이블 규격</option>
-		                                 <option value='1'>1인용</option>
-		                                 <option value='2'>2인용</option>
-		                                 <option value='3'>3인용</option>
-		                                 <option value='4'>4인용</option>
-		                                 <option value='5'>5인용</option>
-		                                 <option value='6'>6인용</option>
-		                                 <option value='7'>7인용</option>
-		                                 <option value='8'>8인용</option>
-		                              </select>
-		                           </td>
-		                        </tr>
-		                        <tr>
-		                           <td></td>
-		                           <td>
-		                              <input type="text" placeholder="수량을 입력해주세요" style="font-size:17px;">
-		                           </td>
-		                        </tr>
-		                     </table>
+						<div class="tableValue">
+							<table id="tableValue" style="margin-bottom:15px;">
+								<tr>
+									<td class="tdtd3">테이블 규격</td>
+									<td>
+										<select name="tableType" class="select" style="font-size:17px;">
+											<option value='' selected>테이블 규격</option>
+											<option value='1'>1인용</option>
+											<option value='2'>2인용</option>
+											<option value='3'>3인용</option>
+											<option value='4'>4인용</option>
+											<option value='5'>5인용</option>
+											<option value='6'>6인용</option>
+											<option value='7'>7인용</option>
+											<option value='8'>8인용</option>
+										</select>
+									</td>
+									<td>
+										<input type="text" placeholder="수량을 입력해주세요" style="font-size:17px;">
+									</td>
+								</tr>
+							</table>
 						</div>
 					</div>
 					<div class="menuSet">
@@ -236,39 +377,33 @@ request.setAttribute("No", 2);
 								<tr>
 									<td class="tdtd4">메뉴 설정</td>
 									<td>
-										<input type="button" value="생성">
+										<button type="button" id="btnMenuAdd">생성</button>
 									</td>
 									<td>
-										<input type="button" value="삭제">
+										<button type="button" id="btnMenuDelete">삭제</button>
 									</td>
 								</tr>
 							</table>
 						</div>
 						<div class="menuValue">
-							 <table style="margin-bottom:15px;">
-		                        <tr>
-		                           <td class="tdtd5">메뉴1</td>
-		                           <td>
-		                              <select name="menuTime" class="select" style="font-size:17px;">
-		                                 <option value='' selected>메뉴시간</option>
-		                                 <option value='1'>런치</option>
-		                                 <option value='2'>디너</option>
-		                              </select>
-		                           </td>
-		                        </tr>
-		                        <tr>
-		                           <td></td>
-		                           <td>
-		                           <input type="text" placeholder="메뉴명을 입력해주세요" style="font-size:17px;">
-		                           </td>
-		                        </tr>
-		                        <tr>
-		                           <td></td>
-		                           <td>
-		                           <input type="text" placeholder="메뉴가격을 입력해주세요" style="font-size:17px;">
-		                           </td>
-		                        </tr>
-		                     </table>
+							<table id="menuValue" style="margin-bottom:15px;">
+								<tr>
+									<td class="tdtd5">메뉴1</td>
+									<td>
+										<select name="menuTime" class="select" style="font-size:17px;">
+											<option value='' selected>메뉴시간</option>
+											<option value='1'>런치</option>
+											<option value='2'>디너</option>
+										</select>
+									</td>
+									<td>
+										<input type="text" placeholder="메뉴명을 입력해주세요" style="font-size:17px;">
+									</td>
+									<td>
+										<input type="text" placeholder="메뉴가격을 입력해주세요" style="font-size:17px;">
+									</td>
+								</tr>
+							</table>
 						</div>
 					</div>
 				</div>
