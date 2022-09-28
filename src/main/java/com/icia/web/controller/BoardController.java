@@ -67,15 +67,17 @@ public class BoardController
 		
 		model.addAttribute("bbsNo", bbsNo);
 		model.addAttribute("user", user);
-		User user2 = new User();
-		user2 = userService.userUIDSelect(cookieUserUID);
-		if(user2 != null)
+		
+		//상단 닉네임 불러오는 객체
+		User userNickname = new User();
+		userNickname = userService.userUIDSelect(cookieUserUID);
+		if(userNickname != null)
 		{
 			try
 			{
-				model.addAttribute("cookieUserNick", user2.getUserNick());
-				model.addAttribute("adminStatus", user2.getAdminStatus());
-				if(user2.getBizNum() != null)
+				model.addAttribute("cookieUserNick", userNickname.getUserNick());
+				model.addAttribute("adminStatus", userNickname.getAdminStatus());
+				if(userNickname.getBizNum() != null)
 				{
 					try
 					{
@@ -237,16 +239,16 @@ public class BoardController
 		model.addAttribute("curPage", curPage);
 		model.addAttribute("paging", paging);
 		
-		
-		User user2 = new User();
-		user2 = userService.userUIDSelect(cookieUserUID);
-		if(user2 != null)
+		//상단 닉네임 불러오는 객체
+		User userNickname = new User();
+		userNickname = userService.userUIDSelect(cookieUserUID);
+		if(userNickname != null)
 		{
 			try
 			{
-				model.addAttribute("cookieUserNick", user2.getUserNick());
-				model.addAttribute("adminStatus", user2.getAdminStatus());
-				if(user2.getBizNum() != null)
+				model.addAttribute("cookieUserNick", userNickname.getUserNick());
+				model.addAttribute("adminStatus", userNickname.getAdminStatus());
+				if(userNickname.getBizNum() != null)
 				{
 					try
 					{
@@ -374,15 +376,16 @@ public class BoardController
 	    model.addAttribute("boardMe", boardMe);
 		model.addAttribute("userMarkActive", userMarkActive);
 		
-		User user2 = new User();
-		user2 = userService.userUIDSelect(cookieUserUID);
-		if(user2 != null)
+		//상단 닉네임 불러오는 객체
+		User userNickname = new User();
+		userNickname = userService.userUIDSelect(cookieUserUID);
+		if(userNickname != null)
 		{
 			try
 			{
-				model.addAttribute("cookieUserNick", user2.getUserNick());
-				model.addAttribute("adminStatus", user2.getAdminStatus());
-				if(user2.getBizNum() != null)
+				model.addAttribute("cookieUserNick", userNickname.getUserNick());
+				model.addAttribute("adminStatus", userNickname.getAdminStatus());
+				if(userNickname.getBizNum() != null)
 				{
 					try
 					{
@@ -531,15 +534,16 @@ public class BoardController
        model.addAttribute("bbsLikeActive", bbsLikeActive);
        model.addAttribute("bbsMarkActive", bbsMarkActive);
 
-       User user2 = new User();
-		user2 = userService.userUIDSelect(cookieUserUID);
-		if(user2 != null)
+       //상단 닉네임 불러오는 객체
+       User userNickname = new User();
+       userNickname = userService.userUIDSelect(cookieUserUID);
+		if(userNickname != null)
 		{
 			try
 			{
-				model.addAttribute("cookieUserNick", user2.getUserNick());
-				model.addAttribute("adminStatus", user2.getAdminStatus());
-				if(user2.getBizNum() != null)
+				model.addAttribute("cookieUserNick", userNickname.getUserNick());
+				model.addAttribute("adminStatus", userNickname.getAdminStatus());
+				if(userNickname.getBizNum() != null)
 				{
 					try
 					{
@@ -640,15 +644,16 @@ public class BoardController
   		model.addAttribute("board", board);
   		model.addAttribute("user", user);
 
-  		User user2 = new User();
-		user2 = userService.userUIDSelect(cookieUserUID);
-		if(user2 != null)
+  		//상단 닉네임 불러오는 객체
+  		User userNickname = new User();
+		userNickname = userService.userUIDSelect(cookieUserUID);
+		if(userNickname != null)
 		{
 			try
 			{
-				model.addAttribute("cookieUserNick", user2.getUserNick());
-				model.addAttribute("adminStatus", user2.getAdminStatus());
-				if(user2.getBizNum() != null)
+				model.addAttribute("cookieUserNick", userNickname.getUserNick());
+				model.addAttribute("adminStatus", userNickname.getAdminStatus());
+				if(userNickname.getBizNum() != null)
 				{
 					try
 					{
@@ -976,15 +981,16 @@ public class BoardController
 		model.addAttribute("curPage", curPage);
 		model.addAttribute("paging", paging);
 
-		User user2 = new User();
-		user2 = userService.userUIDSelect(cookieUserUID);
-		if(user2 != null)
+		//상단 닉네임 불러오는 객체
+		User userNickname = new User();
+		userNickname = userService.userUIDSelect(cookieUserUID);
+		if(userNickname != null)
 		{
 			try
 			{
-				model.addAttribute("cookieUserNick", user2.getUserNick());
-				model.addAttribute("adminStatus", user2.getAdminStatus());
-				if(user2.getBizNum() != null)
+				model.addAttribute("cookieUserNick", userNickname.getUserNick());
+				model.addAttribute("adminStatus", userNickname.getAdminStatus());
+				if(userNickname.getBizNum() != null)
 				{
 					try
 					{
