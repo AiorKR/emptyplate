@@ -126,18 +126,14 @@
 						<td class="right">테이블 종류</td>
 						<td>전체 수량</td>
 					</tr>
-					<tr>
-						<td class="right">2인 테이블</td>
-						<td><input type="text" readonly></td>
-					</tr>
-					<tr>
-						<td class="right">4인 테이블</td>
-						<td><input type="text" readonly></td>
-					</tr>
-					<tr>
-						<td class="right">6인 테이블</td>
-						<td><input type="text" readonly></td>
-					</tr>
+					<c:forEach var="shop" items="${list}">
+						<tr>
+							<td class="right">2인 테이블</td>
+							<td>${shop.shopTotalTable}</td>
+						</tr>
+					</c:forEach>
+					
+					
 				</table>
 	       </div>
 	       <div class="setTime">

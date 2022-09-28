@@ -421,4 +421,19 @@ public class ShopService {
 			
 			return order;
 		}
+		
+		public List<ShopTotalTable> shopCheckTable(Shop shop) {
+			List<ShopTotalTable> list = null;
+			
+			try
+            {
+               list = shopDao.shopCheckTable(shop);
+            }
+            catch(Exception e)
+            {
+               logger.error("[ShopService]shopCheckTable Exception", e);
+            }
+			
+            return list;
+		}
 }
