@@ -102,7 +102,7 @@ public class ManagerController {
 		}
 		else
 		{
-			address = shop.getShopLocation2();
+			address = shop.getShopLocation2() + " ";
 		}
 		
 		//요일출력
