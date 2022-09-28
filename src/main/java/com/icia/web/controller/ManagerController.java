@@ -48,17 +48,12 @@ public class ManagerController {
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		User user = userService.userUIDSelect(cookieUserUID);
 		Shop shop = shopService.shopUIDSelect(cookieUserUID);
+		String address = shop.getShopLocation1() + " " + shop.getShopAddress();
+		
+		//매장테이블 조회
 		List<ShopTotalTable> list = shopService.shopCheckTable(shop);
 		model.addAttribute("list", list);
-		String address = "";
-		if(shop.getShopLocation1() != null)
-		{
-			address = shop.getShopLocation1() + " " + shop.getShopLocation2() +" "+ shop.getShopAddress();
-		}
-		else
-		{
-			address = shop.getShopLocation2() + " " + shop.getShopAddress();
-		}
+		
 		model.addAttribute("shop", shop);
 		model.addAttribute("address", address);
 		if(user != null)
