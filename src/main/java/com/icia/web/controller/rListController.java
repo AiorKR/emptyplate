@@ -1,12 +1,8 @@
 package com.icia.web.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -337,7 +333,7 @@ public class rListController
 	    	  }
 	    	  else if(compareResult == 0)//오늘날짜와 예약날짜가 같음
 	    	  {
-	    		  if(shopService.delRes(orderUID) > 0)
+	    		  if(shopService.delResX(orderUID) > 0)
 		    		 {
 		    			 if(shopService.delTableN(orderUID) > 0)
 		    			 {

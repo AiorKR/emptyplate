@@ -409,7 +409,8 @@ SELECT S.SHOP_UID AS SHOP_UID,
             WHERE A.ORDER_UID = C.ORDER_UID
             AND A.SHOP_UID = B.SHOP_UID
             AND A.USER_UID = #{userUID}
-            AND A.ORDER_UID = D.ORDER_UID(+)))
+            AND A.ORDER_UID = D.ORDER_UID(+)
+            ORDER BY ORDER_UID DESC))
        WHERE RNUM <![CDATA[>=]]>  #{startRow}
        AND RNUM <![CDATA[<=]]>  #{endRow}
        ORDER BY RNUM ASC
@@ -609,6 +610,12 @@ WHERE ORDER_UID = #{orderUID}
 <update id="delRes" parameterType="com.icia.web.model.Order">
  UPDATE T_ORDER
     SET ORDER_STATUS = 'C'
+  WHERE ORDER_UID = #{orderUID}
+</update>
+
+<update id="delResX" parameterType="com.icia.web.model.Order">
+ UPDATE T_ORDER
+    SET ORDER_STATUS = 'X'
   WHERE ORDER_UID = #{orderUID}
 </update>
 

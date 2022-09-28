@@ -11,7 +11,6 @@ import com.icia.web.model.ShopFile;
 import com.icia.web.model.ShopReservationTable;
 import com.icia.web.model.ShopReview;
 import com.icia.web.model.ShopTotalTable;
-import com.icia.web.model.User;
 
 @Repository("shopdDao")
 public interface ShopDao {
@@ -69,6 +68,8 @@ public interface ShopDao {
 	public Order selectRes(String orderUID);
 
 	public int delRes(String orderUID);
+	
+	public int delResX(String orderUID);
 
 	public int delTable(String orderUID);
 

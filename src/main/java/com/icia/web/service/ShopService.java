@@ -17,7 +17,6 @@ import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
 import com.icia.web.model.ShopReview;
 import com.icia.web.model.ShopTotalTable;
-import com.icia.web.model.User;
 
 @Service("shopService")
 public class ShopService {
@@ -380,6 +379,20 @@ public class ShopService {
 	            }
 	            return count;
 			}
+			
+			public int delResX(String orderUID) {
+				int count = 0;
+	           
+	            try
+	            {
+	               count = shopDao.delResX(orderUID);
+	            }
+	            catch(Exception e)
+	            {
+	               logger.error("[ShopService]delResX Exception", e);
+	            }
+	            return count;
+			}
 
 			public int delTable(String orderUID) {
 				int count = 0;
@@ -408,7 +421,7 @@ public class ShopService {
 	            }
 	            return count;
 			}
-}
+
 		
 			public Shop shopUIDSelect(String shopUID)
 			{
@@ -441,4 +454,5 @@ public class ShopService {
 				
 				return count;
 			}
+
 }		
