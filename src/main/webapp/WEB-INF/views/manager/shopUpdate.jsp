@@ -33,7 +33,7 @@ request.setAttribute("No", 2);
 		
 							// Cell에 텍스트 추가
 							newCell1.innerHTML = "<td class='tdtd2'>해시태그"+btnHashStack+"</td>";
-							newCell2.innerHTML = "<td><input type='text' id='hashTag"+btnHashStack+"' class='hastTagInput' placeholder='해시태그를 입력해주세요' style='font-size:17px;'></td>";
+							newCell2.innerHTML = "<td><input type='text' id='hashTag"+btnHashStack+"' class='hashTagInput' placeholder='해시태그를 입력해주세요' style='font-size:17px;'></td>";
 						
 							btnHashStack++;
 						}
@@ -67,8 +67,8 @@ request.setAttribute("No", 2);
 							const newCell2 = newRow.insertCell(1);
 		
 							// Cell에 텍스트 추가
-							newCell1.innerText = "매장시간" + btnTimeStack;
-							newCell2.innerText = 'New Fruit';
+							newCell1.innerHTML = "<td class='tdtd2'>매장시간"+btnTimeStack+"</td>";
+							newCell2.innerHTML = "<td><input type='text' id='time"+btnTimeStack+"' class='timeInput' placeholder='매장시간을 입력해주세요' style='font-size:17px;'></td>";									
 							
 							btnTimeStack++;
 						}
@@ -100,11 +100,13 @@ request.setAttribute("No", 2);
 							// 새 행(Row)에 Cell 추가
 							const newCell1 = newRow.insertCell(0);
 							const newCell2 = newRow.insertCell(1);
+							const newCell3 = newRow.insertCell(2);
 		
 							// Cell에 텍스트 추가
-							newCell1.innerText = "매장 테이블" + btnTableStack;
-							newCell2.innerText = 'New Fruit';
-							
+							newCell1.innerHTML = "<td class='tdtd3'>테이블 규격</td>"
+							newCell2.innerHTML = "<td><select name='tableType' id='tableValue"+btnTableStack+"' class='select' style='font-size:17px; width:110px;'><option value='' selected>테이블 규격</option><option value='1'>1인용</option><option value='2'>2인용</option><option value='3'>3인용</option><option value='4'>4인용</option><option value='5'>5인용</option><option value='6'>6인용</option><option value='7'>7인용</option><option value='8'>8인용</option></select></td>";
+							newCell3.innerHTML = "<td><input type='text' class='tableInput' placeholder='수량을 입력해주세요' style='font-size:17px; width:350px;'></td>";
+
 							btnTableStack++;
 						}
 					});
@@ -136,12 +138,14 @@ request.setAttribute("No", 2);
 							const newCell1 = newRow.insertCell(0);
 							const newCell2 = newRow.insertCell(1);
 							const newCell3 = newRow.insertCell(2);
+							const newCell4 = newRow.insertCell(3);
 		
 							// Cell에 텍스트 추가
-							newCell1.innerText = "해시태그" + btnMenuStack;
-							newCell2.innerText = 'New Fruit';
-							newCell3.innerText = 'New Fruit';
-							
+							newCell1.innerHTML = "<td class='tdtd5'>메뉴"+btnMenuStack+"</td>";
+							newCell2.innerHTML = "<td><select name='menuTime' class='select' style='font-size:17px; width:100px;'><option value='' selected>메뉴시간</option><option value='1'>런치</option><option value='2'>디너</option></select></td>";
+							newCell3.innerHTML = "<td><input type='text' placeholder='메뉴명을 입력해주세요' style='font-size:17px; width:180px;'></td>";
+							newCell4.innerHTML = "<td><input type='text' placeholder='메뉴가격을 입력해주세요' style='font-size:17px; width:180px;'></td>";
+									
 							btnMenuStack++;
 						}
 					});
@@ -157,6 +161,10 @@ request.setAttribute("No", 2);
 						}
 					});
 				}
+				$("#btnCancle").on("click", function(){
+					document.updateForm.action="/manager/shopManage";
+					document.updateForm.submit();
+				});
 			});
 </script>
 </head>
@@ -166,7 +174,7 @@ request.setAttribute("No", 2);
 <section id="view" class="view">
 	<div class="container">
 		<div class="row">
-			<div style="border-right: 2px solid #C2A383; float:left;width: 50%;">
+			<div style="border-right: 2px solid #C2A383; float:left; width: 50%;">
 				<div class="d-flex flex-column justify-content-center">
 					<div class="main_image">
 					  <img src="../resources/upload/shop/${shop.shopUID}/${shop.shopFileList.get(1).shopFileName}"
@@ -265,12 +273,12 @@ request.setAttribute("No", 2);
 								<tr>
 									<td class="td">매장휴일</td>
 									<td class="title-text">
-										<input type="checkbox" name="day" value="sun" <c:if test="${!empty day0}">checked</c:if>> 일
-										<input type="checkbox" name="day" value="mon" <c:if test="${!empty day1}">checked</c:if>> 월
-										<input type="checkbox" name="day" value="tue" <c:if test="${!empty day2}">checked</c:if>> 화
-										<input type="checkbox" name="day" value="wed" <c:if test="${!empty day3}">checked</c:if>> 수
-										<input type="checkbox" name="day" value="thr" <c:if test="${!empty day4}">checked</c:if>> 목
-										<input type="checkbox" name="day" value="fri" <c:if test="${!empty day5}">checked</c:if>> 금
+										<input type="checkbox" name="day" value="sun" <c:if test="${!empty day0}">checked</c:if>> 일&nbsp;&nbsp;
+										<input type="checkbox" name="day" value="mon" <c:if test="${!empty day1}">checked</c:if>> 월&nbsp;&nbsp;
+										<input type="checkbox" name="day" value="tue" <c:if test="${!empty day2}">checked</c:if>> 화&nbsp;&nbsp;
+										<input type="checkbox" name="day" value="wed" <c:if test="${!empty day3}">checked</c:if>> 수&nbsp;&nbsp;
+										<input type="checkbox" name="day" value="thr" <c:if test="${!empty day4}">checked</c:if>> 목&nbsp;&nbsp;
+										<input type="checkbox" name="day" value="fri" <c:if test="${!empty day5}">checked</c:if>> 금&nbsp;&nbsp;
 										<input type="checkbox" name="day" value="sat" <c:if test="${!empty day6}">checked</c:if>> 토
 									</td>
 								</tr>
@@ -303,7 +311,7 @@ request.setAttribute("No", 2);
 							<table id="hashTagValue" style="margin-bottom:15px;">
 								<tr>
 									<td class="tdtd2">해시태그1</td>
-									<td><input type="text" id="hashTag1" class="hastTagInput" placeholder="해시태그를 입력해주세요" style="font-size:17px;"></td>
+									<td><input type="text" id="hashTag1" class="hashTagInput" placeholder="해시태그를 입력해주세요" style="font-size:17px;"></td>
 								</tr>
 							</table>
 						</div>
@@ -326,9 +334,7 @@ request.setAttribute("No", 2);
 							<table id="timeValue" style="margin-bottom:15px;">
 								<tr>
 									<td class="tdtd2">매장시간1</td>
-									<td>
-										<input type="text" placeholder="매장시간을 입력해주세요" style="font-size:17px;">
-									</td>
+									<td><input type="text" id="time1" class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px;"></td>
 								</tr>
 							</table>
 						</div>
@@ -365,7 +371,7 @@ request.setAttribute("No", 2);
 										</select>
 									</td>
 									<td>
-										<input type="text" placeholder="수량을 입력해주세요" style="font-size:17px; width:350px;">
+										<input type="text" class="tableInput" placeholder="수량을 입력해주세요" style="font-size:17px; width:350px;">
 									</td>
 								</tr>
 							</table>
@@ -414,7 +420,9 @@ request.setAttribute("No", 2);
 			</div>
 		</div>
 	</div>
-	
+	<form name="updateForm" id="updateForm" method="post">
+		<input type="hidden" name="shopUID" value="" />
+	</form>
 </section>
 
 <script>
