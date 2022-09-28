@@ -12,155 +12,145 @@ request.setAttribute("No", 2);
 <%@ include file="/WEB-INF/views/include/head.jsp"%>
 <script type="text/javascript">
 	$(document).ready(function() {
-				var btnHashStack = 0;
-				var btnTimeStack = 0;
-				var btnTableStack = 0;
-				var btnMenuStack = 0;
-				if(btnHashStack < 6)
-				{
-					$("#btnHashAdd").on("click", function(){
-						if(btnHashStack<6)
-						{
-							// table element 찾기
-							const table = document.getElementById("hashTagValue");
-		
-							// 새 행(Row) 추가
-							const newRow = table.insertRow();
-		
-							// 새 행(Row)에 Cell 추가
-							const newCell1 = newRow.insertCell(0);
-							const newCell2 = newRow.insertCell(1);
-		
-							// Cell에 텍스트 추가
-							newCell1.innerHTML = "<td class='tdtd2'>해시태그"+btnHashStack+"</td>";
-							newCell2.innerHTML = "<td><input type='text' id='hashTag"+btnHashStack+"' class='hashTagInput' placeholder='해시태그를 입력해주세요' style='font-size:17px;'></td>";
-						
-							btnHashStack++;
-						}
-					});
-	
-					$("#btnHashDelete").on("click", function(){
+				var btnHashStack = $("#hashStack").val();
+				var btnTimeStack = $("#timeStack").val();
+				var btnTableStack = $("#tableStack").val();
+				var btnMenuStack = $("#menuStack").val();
+				
+				$("#btnHashAdd").on("click", function(){
+					if(btnHashStack<6)
+					{
 						// table element 찾기
 						const table = document.getElementById("hashTagValue");
 	
-						// 행(Row) 삭제
-						const newRow = table.deleteRow(-1);
-						if(btnHashStack>1){
-							btnHashStack--;
-						}
-					});
-				}
-				
-				if(btnTimeStack < 6)
-				{
-					$("#btnTimeAdd").on("click", function(){
-						if(btnTimeStack<6)
-						{
-							// table element 찾기
-							const table = document.getElementById("timeValue");
-		
-							// 새 행(Row) 추가
-							const newRow = table.insertRow();
-		
-							// 새 행(Row)에 Cell 추가
-							const newCell1 = newRow.insertCell(0);
-							const newCell2 = newRow.insertCell(1);
-		
-							// Cell에 텍스트 추가
-							newCell1.innerHTML = "<td class='tdtd2'>매장시간"+btnTimeStack+"</td>";
-							newCell2.innerHTML = "<td><input type='text' id='time"+btnTimeStack+"' class='timeInput' placeholder='매장시간을 입력해주세요' style='font-size:17px;'></td>";									
-							
-							btnTimeStack++;
-						}
-					});
+						// 새 행(Row) 추가
+						const newRow = table.insertRow();
 	
-					$("#btnTimeDelete").on("click", function(){
+						// 새 행(Row)에 Cell 추가
+						const newCell1 = newRow.insertCell(0);
+						const newCell2 = newRow.insertCell(1);
+	
+						// Cell에 텍스트 추가
+						newCell1.innerHTML = "<td class='tdtd2'>해시태그"+btnHashStack+"</td>";
+						newCell2.innerHTML = "<td><input type='text' id='hashTag"+btnHashStack+"' class='hashTagInput' placeholder='해시태그를 입력해주세요' style='font-size:17px;'></td>";
+					
+						btnHashStack++;
+					}
+				});
+
+				$("#btnHashDelete").on("click", function(){
+					// table element 찾기
+					const table = document.getElementById("hashTagValue");
+
+					// 행(Row) 삭제
+					const newRow = table.deleteRow(-1);
+					if(btnHashStack>1){
+						btnHashStack--;
+					}
+				});
+
+				$("#btnTimeAdd").on("click", function(){
+					if(btnTimeStack<9)
+					{
 						// table element 찾기
 						const table = document.getElementById("timeValue");
 	
-						// 행(Row) 삭제
-						const newRow = table.deleteRow(-1);
-						if(btnTimeStack>1){
-							btnTimeStack--;
-						}
-					});
-				}
-
-				if(btnTableStack < 6)
-				{
-					$("#btnTableAdd").on("click", function(){
-						if(btnTableStack<6)
-						{
-							// table element 찾기
-							const table = document.getElementById("tableValue");
-		
-							// 새 행(Row) 추가
-							const newRow = table.insertRow();
-		
-							// 새 행(Row)에 Cell 추가
-							const newCell1 = newRow.insertCell(0);
-							const newCell2 = newRow.insertCell(1);
-							const newCell3 = newRow.insertCell(2);
-		
-							// Cell에 텍스트 추가
-							newCell1.innerHTML = "<td class='tdtd3'>테이블 규격</td>"
-							newCell2.innerHTML = "<td><select name='tableType' id='tableValue"+btnTableStack+"' class='select' style='font-size:17px; width:110px;'><option value='' selected>테이블 규격</option><option value='1'>1인용</option><option value='2'>2인용</option><option value='3'>3인용</option><option value='4'>4인용</option><option value='5'>5인용</option><option value='6'>6인용</option><option value='7'>7인용</option><option value='8'>8인용</option></select></td>";
-							newCell3.innerHTML = "<td><input type='text' class='tableInput' placeholder='수량을 입력해주세요' style='font-size:17px; width:350px;'></td>";
-
-							btnTableStack++;
-						}
-					});
+						// 새 행(Row) 추가
+						const newRow = table.insertRow();
 	
-					$("#btnTableDelete").on("click", function(){
+						// 새 행(Row)에 Cell 추가
+						const newCell1 = newRow.insertCell(0);
+						const newCell2 = newRow.insertCell(1);
+	
+						// Cell에 텍스트 추가
+						newCell1.innerHTML = "<td class='tdtd2'>매장시간"+btnTimeStack+"</td>";
+						newCell2.innerHTML = "<td><input type='text' id='time"+btnTimeStack+"' class='timeInput' placeholder='매장시간을 입력해주세요' style='font-size:17px;'></td>";									
+						
+						btnTimeStack++;
+					}
+				});
+
+				$("#btnTimeDelete").on("click", function(){
+					// table element 찾기
+					const table = document.getElementById("timeValue");
+
+					// 행(Row) 삭제
+					const newRow = table.deleteRow(-1);
+					if(btnTimeStack>1){
+						btnTimeStack--;
+					}
+				});
+				
+				$("#btnTableAdd").on("click", function(){
+					if(btnTableStack<9)
+					{
 						// table element 찾기
 						const table = document.getElementById("tableValue");
 	
-						// 행(Row) 삭제
-						const newRow = table.deleteRow(-1);
-						if(btnTableStack>1){
-							btnTableStack--;
-						}
-					});
-				}
-
-				if(btnMenuStack < 6)
-				{
-					$("#btnMenuAdd").on("click", function(){
-						if(btnMenuStack<6)
-						{
-							// table element 찾기
-							const table = document.getElementById("menuValue");
-		
-							// 새 행(Row) 추가
-							const newRow = table.insertRow();
-		
-							// 새 행(Row)에 Cell 추가
-							const newCell1 = newRow.insertCell(0);
-							const newCell2 = newRow.insertCell(1);
-							const newCell3 = newRow.insertCell(2);
-							const newCell4 = newRow.insertCell(3);
-		
-							// Cell에 텍스트 추가
-							newCell1.innerHTML = "<td class='tdtd5'>메뉴"+btnMenuStack+"</td>";
-							newCell2.innerHTML = "<td><select name='menuTime' class='select' style='font-size:17px; width:100px;'><option value='' selected>메뉴시간</option><option value='1'>런치</option><option value='2'>디너</option></select></td>";
-							newCell3.innerHTML = "<td><input type='text' placeholder='메뉴명을 입력해주세요' style='font-size:17px; width:180px;'></td>";
-							newCell4.innerHTML = "<td><input type='text' placeholder='메뉴가격을 입력해주세요' style='font-size:17px; width:180px;'></td>";
-									
-							btnMenuStack++;
-						}
-					});
+						// 새 행(Row) 추가
+						const newRow = table.insertRow();
 	
-					$("#btnMenuDelete").on("click", function(){
+						// 새 행(Row)에 Cell 추가
+						const newCell1 = newRow.insertCell(0);
+						const newCell2 = newRow.insertCell(1);
+						const newCell3 = newRow.insertCell(2);
+	
+						// Cell에 텍스트 추가
+						newCell1.innerHTML = "<td class='tdtd3'>테이블 규격</td>"
+						newCell2.innerHTML = "<td><select name='tableType' id='tableValue"+btnTableStack+"' class='select' style='font-size:17px; width:110px;'><option value='' selected>테이블 규격</option><option value='1'>1인용</option><option value='2'>2인용</option><option value='3'>3인용</option><option value='4'>4인용</option><option value='5'>5인용</option><option value='6'>6인용</option><option value='7'>7인용</option><option value='8'>8인용</option></select></td>";
+						newCell3.innerHTML = "<td><input type='text' class='tableInput' placeholder='수량을 입력해주세요' style='font-size:17px; width:350px;'></td>";
+
+						btnTableStack++;
+					}
+				});
+
+				$("#btnTableDelete").on("click", function(){
+					// table element 찾기
+					const table = document.getElementById("tableValue");
+
+					// 행(Row) 삭제
+					const newRow = table.deleteRow(-1);
+					if(btnTableStack>1){
+						btnTableStack--;
+					}
+				});
+				
+				$("#btnMenuAdd").on("click", function(){
+					if(btnMenuStack<9)
+					{
 						// table element 찾기
 						const table = document.getElementById("menuValue");
 	
-						// 행(Row) 삭제
-						const newRow = table.deleteRow(-1);
-						if(btnMenuStack>1){
-							btnMenuStack--;
-						}
-					});
-				}
+						// 새 행(Row) 추가
+						const newRow = table.insertRow();
+	
+						// 새 행(Row)에 Cell 추가
+						const newCell1 = newRow.insertCell(0);
+						const newCell2 = newRow.insertCell(1);
+						const newCell3 = newRow.insertCell(2);
+						const newCell4 = newRow.insertCell(3);
+	
+						// Cell에 텍스트 추가
+						newCell1.innerHTML = "<td class='tdtd5'>메뉴"+btnMenuStack+"</td>";
+						newCell2.innerHTML = "<td><select name='menuTime' class='select' style='font-size:17px; width:100px;'><option value='' selected>메뉴시간</option><option value='1'>런치</option><option value='2'>디너</option></select></td>";
+						newCell3.innerHTML = "<td><input type='text' placeholder='메뉴명을 입력해주세요' style='font-size:17px; width:180px;'></td>";
+						newCell4.innerHTML = "<td><input type='text' placeholder='메뉴가격을 입력해주세요' style='font-size:17px; width:180px;'></td>";
+								
+						btnMenuStack++;
+					}
+				});
+
+				$("#btnMenuDelete").on("click", function(){
+					// table element 찾기
+					const table = document.getElementById("menuValue");
+
+					// 행(Row) 삭제
+					const newRow = table.deleteRow(-1);
+					if(btnMenuStack>1){
+						btnMenuStack--;
+					}
+				});
+					
 				$("#btnCancle").on("click", function(){
 					document.updateForm.action="/manager/shopManage";
 					document.updateForm.submit();
@@ -309,10 +299,23 @@ request.setAttribute("No", 2);
 						</div>
 						<div class="hashTagValue">
 							<table id="hashTagValue" style="margin-bottom:15px;">
-								<tr>
-									<td class="tdtd2">해시태그1</td>
-									<td><input type="text" id="hashTag1" class="hashTagInput" placeholder="해시태그를 입력해주세요" style="font-size:17px;"></td>
-								</tr>
+							<c:choose>
+								<c:when test="${!empty list}">
+									<c:forEach var="hashTag" items="${list}" varStatus="status">
+										<tr>
+											<td class="tdtd2">해시태그${status.count}</td>
+											<td><input type="text" id="hashTag1" class="hashTagInput" placeholder="해시태그를 입력해주세요" value="#${status.current}" style="font-size:17px;"></td>
+										</tr>
+										<c:if test="${status.last}"><input type="hidden" id="hashStack" value="${status.count + 1}"></c:if>
+										</c:forEach>
+									</c:when>
+									<c:otherwise>
+										<tr>
+											<td class="tdtd2">해시태그1</td>
+											<td><input type="text" id="hashTag1" class="hashTagInput" placeholder="해시태그를 입력해주세요" style="font-size:17px;"></td>
+										</tr>
+									</c:otherwise>
+								</c:choose>
 							</table>
 						</div>
 					</div>
@@ -333,18 +336,39 @@ request.setAttribute("No", 2);
 						</div>
 						<div class="timeValue">
 							<table id="timeValue" style="margin-bottom:15px;">
-								<tr>
-									<td class="tdtd2">매장시간1</td>
-									<td>
-										<select name="timeType" class="select" style="font-size:17px; width:110px;">
-											<option value='' selected>매장시간</option>
-											<option value='L'>1인용</option>
-											<option value='D'>2인용</option>
-											<option value='X'>3인용</option>
-										</select>
-									</td>
-									<td><input type="text" id="time1" class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px;"></td>
-								</tr>
+								<c:choose>
+									<c:when test="${!empty list2}">
+										<c:forEach var="shop" items="${list2}" varStatus="status">
+											<tr>
+												<td class="tdtd2">매장시간${status.count}</td>
+												<td>
+													<select name="timeType" class="select" style="font-size:17px; width:110px;">
+														<option value=''>매장시간</option>
+														<option value='L'<c:if test="${shop.shopTimeType eq 'L'}">selected</c:if>>Lunch</option>
+														<option value='D'<c:if test="${shop.shopTimeType eq 'D'}">selected</c:if>>Dinner</option>
+														<option value='X'<c:if test="${shop.shopTimeType eq 'X'}">selected</c:if>>무관</option>
+													</select>
+												</td>							
+												<td><input type="text" id="time1" class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px; width:350px;" value="${shop.shopOrderTime}" readonly></td>
+											</tr>
+											<c:if test="${status.last}"><input type="hidden" id="timeStack" value="${status.count + 1}"></c:if>
+										</c:forEach>
+									</c:when>
+									<c:otherwise>
+										<tr>
+											<td class="tdtd2">매장시간1</td>
+											<td>
+												<select name="timeType" class="select" style="font-size:17px; width:110px;">
+													<option value='' selected>매장시간</option>
+													<option value='L'>Lunch</option>
+													<option value='D'>Dinner</option>
+													<option value='X'>무관</option>
+												</select>
+											</td>
+											<td><input type="text" id="time1" class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px; width:350px;"></td>
+										</tr>	
+									</c:otherwise>
+								</c:choose>
 							</table>
 						</div>
 					</div>
@@ -365,25 +389,53 @@ request.setAttribute("No", 2);
 						</div>
 						<div class="tableValue">
 							<table id="tableValue" style="margin-bottom:15px;">
-								<tr>
-									<td class="tdtd3">테이블 규격</td>
-									<td>
-										<select name="tableType" class="select" style="font-size:17px; width:110px;">
-											<option value='' selected>테이블 규격</option>
-											<option value='1'>1인용</option>
-											<option value='2'>2인용</option>
-											<option value='3'>3인용</option>
-											<option value='4'>4인용</option>
-											<option value='5'>5인용</option>
-											<option value='6'>6인용</option>
-											<option value='7'>7인용</option>
-											<option value='8'>8인용</option>
-										</select>
-									</td>
-									<td>
-										<input type="text" class="tableInput" placeholder="수량을 입력해주세요" style="font-size:17px; width:350px;">
-									</td>
-								</tr>
+								<c:choose>
+									<c:when test="${!empty list1}">
+										<c:forEach var="shop" items="${list1}" varStatus="status">
+											<tr>
+												<td class="tdtd3">테이블 규격</td>
+												<td>
+													<select name="tableType" class="select" style="font-size:17px; width:110px;">
+														<option value=''>테이블 규격</option>
+														<option value='1'<c:if test="${shop.shopTotalTableCapacity eq '1'}">selected</c:if>>1인용</option>
+														<option value='2'<c:if test="${shop.shopTotalTableCapacity eq '2'}">selected</c:if>>2인용</option>
+														<option value='3'<c:if test="${shop.shopTotalTableCapacity eq '3'}">selected</c:if>>3인용</option>
+														<option value='4'<c:if test="${shop.shopTotalTableCapacity eq '4'}">selected</c:if>>4인용</option>
+														<option value='5'<c:if test="${shop.shopTotalTableCapacity eq '5'}">selected</c:if>>5인용</option>
+														<option value='6'<c:if test="${shop.shopTotalTableCapacity eq '6'}">selected</c:if>>6인용</option>
+														<option value='7'<c:if test="${shop.shopTotalTableCapacity eq '7'}">selected</c:if>>7인용</option>
+														<option value='8'<c:if test="${shop.shopTotalTableCapacity eq '8'}">selected</c:if>>8인용</option>
+													</select>
+												</td>
+												<td>
+													<input type="text" class="tableInput" value="${shop.shopTotalTable}" placeholder="수량을 입력해주세요" style="font-size:17px; width:350px;">
+												</td>
+											</tr>
+											<c:if test="${status.last}"><input type="hidden" id="tableStack" value="${status.count + 1}"></c:if>
+										</c:forEach>
+									</c:when>
+									<c:otherwise>
+										<tr>
+											<td class="tdtd3">테이블 규격</td>
+											<td>
+												<select name="tableType" class="select" style="font-size:17px; width:110px;">
+													<option value='' selected>테이블 규격</option>
+													<option value='1'>1인용</option>
+													<option value='2'>2인용</option>
+													<option value='3'>3인용</option>
+													<option value='4'>4인용</option>
+													<option value='5'>5인용</option>
+													<option value='6'>6인용</option>
+													<option value='7'>7인용</option>
+													<option value='8'>8인용</option>
+												</select>
+											</td>
+											<td>
+												<input type="text" class="tableInput" placeholder="수량을 입력해주세요" style="font-size:17px; width:350px;">
+											</td>
+										</tr>
+									</c:otherwise>
+								</c:choose>								
 							</table>
 						</div>
 					</div>
@@ -403,22 +455,47 @@ request.setAttribute("No", 2);
 						</div>
 						<div class="menuValue">
 							<table id="menuValue" style="margin-bottom:15px;">
-								<tr>
-									<td class="tdtd5">메뉴1</td>
-									<td>
-										<select name="menuTime" class="select" style="font-size:17px; width:100px;">
-											<option value='' selected>메뉴시간</option>
-											<option value='1'>런치</option>
-											<option value='2'>디너</option>
-										</select>
-									</td>
-									<td>
-										<input type="text" placeholder="메뉴명을 입력해주세요" style="font-size:17px; width:180px;">
-									</td>
-									<td>
-										<input type="text" placeholder="메뉴가격을 입력해주세요" style="font-size:17px; width:180px;">
-									</td>
-								</tr>
+							<c:choose>
+								<c:when test="${!empty list3}">
+									<c:forEach var="shop" items="${list3}" varStatus="status">
+										<tr>
+											<td class="tdtd5">메뉴${status.count}</td>
+											<td>
+												<select name="menuTime" class="select" style="font-size:17px; width:100px;">
+													<option value=''>메뉴시간</option>
+													<option value='1'<c:if test="${shop.shopMenuCode eq 'L'}">selected</c:if>>Lunch</option>
+													<option value='2'<c:if test="${shop.shopMenuCode eq 'D'}">selected</c:if>>Dinner</option>
+												</select>
+											</td>
+											<td>
+												<input type="text" placeholder="메뉴명을 입력해주세요" value="${shop.shopMenuName}" style="font-size:17px; width:180px;">
+											</td>
+											<td>
+												<input type="text" placeholder="메뉴가격을 입력해주세요" value="${shop.shopMenuPrice}" style="font-size:17px; width:180px;">
+											</td>
+										</tr>
+											<c:if test="${status.last}"><input type="hidden" id="menuStack" value="${status.count + 1}"></c:if>
+										</c:forEach>
+									</c:when>
+									<c:otherwise>
+										<tr>
+											<td class="tdtd5">메뉴1</td>
+											<td>
+												<select name="menuTime" class="select" style="font-size:17px; width:100px;">
+													<option value='' selected>메뉴시간</option>
+													<option value='1'>Lunch</option>
+													<option value='2'>Dinner</option>
+												</select>
+											</td>
+											<td>
+												<input type="text" placeholder="메뉴명을 입력해주세요" style="font-size:17px; width:180px;">
+											</td>
+											<td>
+												<input type="text" placeholder="메뉴가격을 입력해주세요" style="font-size:17px; width:180px;">
+											</td>
+										</tr>
+									</c:otherwise>
+								</c:choose>
 							</table>
 						</div>
 					</div>

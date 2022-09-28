@@ -139,8 +139,6 @@
 							<td colspan="2"> 테이블이 존재하지 않습니다</td>
 						</c:otherwise>
 					</c:choose>
-					
-					
 				</table>
 	       </div>
 	       <div class="setTime">

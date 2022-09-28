@@ -1,5 +1,6 @@
 package com.icia.web.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -104,15 +105,9 @@ public class ManagerController {
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		User user = userService.userUIDSelect(cookieUserUID);
 		Shop shop = shopService.shopUIDSelect(cookieUserUID);
-		String address = "";
-		if(shop.getShopLocation1() != null)
-		{
-			address = shop.getShopLocation1() + " " + shop.getShopLocation2();
-		}
-		else
-		{
-			address = shop.getShopLocation2() + " ";
-		}
+		
+		String address = shop.getShopLocation1() + " " + shop.getShopAddress();
+		model.addAttribute("address", address);
 		
 		//요일출력
 		String holiday = shop.getShopHoliday();
@@ -130,15 +125,26 @@ public class ManagerController {
 		//해시태그
 		String hashTag = shop.getShopHashtag();
 		String[] tag = hashTag.split("#");
-		int x=0, y=0;
-		for(i=0; i<tag.length; i++)
-		{
-			model.addAttribute("tag"+(i+1), tag[i]);
-		}
+		List<String> list = new ArrayList<String>(Arrays.asList(tag));
+		list.remove(0);
+		logger.debug("# hashTag : " + hashTag);
+		logger.debug("# tag : " + tag);
+		logger.debug("# list : " + list);
+		model.addAttribute("list", list);
 		
+		//매장테이블 현황
+		List<ShopTotalTable> tableList = shopService.shopCheckTable(shop.getShopUID());
+		model.addAttribute("list1", tableList);
+		
+		//영업시간 현황
+		List<ShopTime> timeList = shopService.shopCheckTime(shop.getShopUID());
+		model.addAttribute("list2", timeList);
+		
+		//메뉴 현황
+		List<ShopMenu> menuList = shopService.shopCheckMenu(shop.getShopUID());
+		model.addAttribute("list3", menuList);
 		
 		model.addAttribute("shop", shop);
-		model.addAttribute("address", address);
 		
 		if(user != null)
 		{
