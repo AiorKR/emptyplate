@@ -242,7 +242,7 @@ request.setAttribute("No", 2);
 								</tr>
 								<tr>
 									<td class="title-text" style="padding-bottom:9px;">
-										<input type="text" id="shopAddress" value="${shop.shopAddress}" placeholder="상세주소">
+										<input type="text" id="shopAddress" value="${shop.shopAddress}" placeholder="상세주소" style="width:380px;">
 										<input type="button" onclick="sample6_execDaumPostcode()" value="주소 찾기">
 									</td>
 								</tr>
@@ -352,7 +352,7 @@ request.setAttribute("No", 2);
 								<tr>
 									<td class="tdtd3">테이블 규격</td>
 									<td>
-										<select name="tableType" class="select" style="font-size:17px;">
+										<select name="tableType" class="select" style="font-size:17px; width:110px;">
 											<option value='' selected>테이블 규격</option>
 											<option value='1'>1인용</option>
 											<option value='2'>2인용</option>
@@ -365,7 +365,7 @@ request.setAttribute("No", 2);
 										</select>
 									</td>
 									<td>
-										<input type="text" placeholder="수량을 입력해주세요" style="font-size:17px;">
+										<input type="text" placeholder="수량을 입력해주세요" style="font-size:17px; width:350px;">
 									</td>
 								</tr>
 							</table>
@@ -390,17 +390,17 @@ request.setAttribute("No", 2);
 								<tr>
 									<td class="tdtd5">메뉴1</td>
 									<td>
-										<select name="menuTime" class="select" style="font-size:17px;">
+										<select name="menuTime" class="select" style="font-size:17px; width:100px;">
 											<option value='' selected>메뉴시간</option>
 											<option value='1'>런치</option>
 											<option value='2'>디너</option>
 										</select>
 									</td>
 									<td>
-										<input type="text" placeholder="메뉴명을 입력해주세요" style="font-size:17px;">
+										<input type="text" placeholder="메뉴명을 입력해주세요" style="font-size:17px; width:180px;">
 									</td>
 									<td>
-										<input type="text" placeholder="메뉴가격을 입력해주세요" style="font-size:17px;">
+										<input type="text" placeholder="메뉴가격을 입력해주세요" style="font-size:17px; width:180px;">
 									</td>
 								</tr>
 							</table>
