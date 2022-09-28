@@ -114,22 +114,22 @@ request.setAttribute("No", 2);
 									<td>매장형태</td>
 									<td class="title-text">
 										<select name="shopType">
-											<option value='' selected>매장 형태</option>
-											<option value='1'>파인다이닝</option>
-											<option value='2'>오마카세</option>
+											<option value='' <c:if test="${shop.shopType ne '1' and shop.shopType ne '2'}">selected</c:if>>매장 형태</option>
+											<option value='1' <c:if test="${shop.shopType eq '1'}">selected</c:if>>파인다이닝</option>
+											<option value='2' <c:if test="${shop.shopType eq '2'}">selected</c:if>>오마카세</option>
 										</select>
 									</td>
 								</tr>
 								<tr>
 									<td>매장휴일</td>
 									<td class="title-text">
-										<input type="checkbox" name="day" value="sun"> 일
-										<input type="checkbox" name="day" value="mon"> 월
-										<input type="checkbox" name="day" value="tue"> 화
-										<input type="checkbox" name="day" value="wed"> 수
-										<input type="checkbox" name="day" value="thr"> 목
-										<input type="checkbox" name="day" value="fri"> 금
-										<input type="checkbox" name="day" value="sat"> 토
+										<input type="checkbox" name="day" value="sun" <c:if test="${!empty day0}">checked</c:if>> 일
+										<input type="checkbox" name="day" value="mon" <c:if test="${!empty day1}">checked</c:if>> 월
+										<input type="checkbox" name="day" value="tue" <c:if test="${!empty day2}">checked</c:if>> 화
+										<input type="checkbox" name="day" value="wed" <c:if test="${!empty day3}">checked</c:if>> 수
+										<input type="checkbox" name="day" value="thr" <c:if test="${!empty day4}">checked</c:if>> 목
+										<input type="checkbox" name="day" value="fri" <c:if test="${!empty day5}">checked</c:if>> 금
+										<input type="checkbox" name="day" value="sat" <c:if test="${!empty day6}">checked</c:if>> 토
 									</td>
 								</tr>
 							</table>
