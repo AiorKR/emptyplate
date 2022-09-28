@@ -422,6 +422,7 @@ public class ShopService {
 			return order;
 		}
 		
+		//테이블 현황
 		public List<ShopTotalTable> shopCheckTable(Shop shop) {
 			List<ShopTotalTable> list = null;
 			
@@ -431,7 +432,23 @@ public class ShopService {
             }
             catch(Exception e)
             {
-               logger.error("[ShopService]shopCheckTable Exception", e);
+               logger.error("[ShopService]ShopCheckTable Exception", e);
+            }
+			
+            return list;
+		}
+		
+		//영업시간 현황
+		public List<ShopTime> shopCheckTime(Shop shop){
+			List<ShopTime> list = null;
+			
+			try
+            {
+               list = shopDao.shopCheckTime(shop);
+            }
+            catch(Exception e)
+            {
+               logger.error("[ShopService]ShopCheckTime Exception", e);
             }
 			
             return list;
