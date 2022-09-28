@@ -10,8 +10,154 @@ request.setAttribute("No", 2);
 <html lang="en">
 <head>
 <%@ include file="/WEB-INF/views/include/head.jsp"%>
-<script>
+<script type="text/javascript">
+	$(document).ready(function() {
+				var btnHashStack = 0;
+				var btnTimeStack = 0;
+				var btnTableStack = 0;
+				var btnMenuStack = 0;
+				if(btnHashStack < 6)
+				{
+					$("#btnHashAdd").on("click", function(){
+						if(btnHashStack<6)
+						{
+							// table element 찾기
+							const table = document.getElementById("hashTagValue");
+		
+							// 새 행(Row) 추가
+							const newRow = table.insertRow();
+		
+							// 새 행(Row)에 Cell 추가
+							const newCell1 = newRow.insertCell(0);
+							const newCell2 = newRow.insertCell(1);
+		
+							// Cell에 텍스트 추가
+							newCell1.innerText = "해시태그" + btnHashStack;
+							newCell2.innerHTML	 = "<input type='text'>";
+							
+							btnHashStack++;
+						}
+					});
+	
+					$("#btnHashDelete").on("click", function(){
+						// table element 찾기
+						const table = document.getElementById("hashTagValue");
+	
+						// 행(Row) 삭제
+						const newRow = table.deleteRow(-1);
+						if(btnHashStack>1){
+							btnHashStack--;
+						}
+					});
+				}
+				
+				if(btnTimeStack < 6)
+				{
+					$("#btnTimeAdd").on("click", function(){
+						if(btnTimeStack<6)
+						{
+							// table element 찾기
+							const table = document.getElementById("timeValue");
+		
+							// 새 행(Row) 추가
+							const newRow = table.insertRow();
+		
+							// 새 행(Row)에 Cell 추가
+							const newCell1 = newRow.insertCell(0);
+							const newCell2 = newRow.insertCell(1);
+		
+							// Cell에 텍스트 추가
+							newCell1.innerText = "매장시간" + btnTimeStack;
+							newCell2.innerText = 'New Fruit';
+							
+							btnTimeStack++;
+						}
+					});
+	
+					$("#btnTimeDelete").on("click", function(){
+						// table element 찾기
+						const table = document.getElementById("timeValue");
+	
+						// 행(Row) 삭제
+						const newRow = table.deleteRow(-1);
+						if(btnTimeStack>1){
+							btnTimeStack--;
+						}
+					});
+				}
 
+				if(btnTableStack < 6)
+				{
+					$("#btnTableAdd").on("click", function(){
+						if(btnTableStack<6)
+						{
+							// table element 찾기
+							const table = document.getElementById("tableValue");
+		
+							// 새 행(Row) 추가
+							const newRow = table.insertRow();
+		
+							// 새 행(Row)에 Cell 추가
+							const newCell1 = newRow.insertCell(0);
+							const newCell2 = newRow.insertCell(1);
+		
+							// Cell에 텍스트 추가
+							newCell1.innerText = "매장 테이블" + btnTableStack;
+							newCell2.innerText = 'New Fruit';
+							
+							btnTableStack++;
+						}
+					});
+	
+					$("#btnTableDelete").on("click", function(){
+						// table element 찾기
+						const table = document.getElementById("tableValue");
+	
+						// 행(Row) 삭제
+						const newRow = table.deleteRow(-1);
+						if(btnTableStack>1){
+							btnTableStack--;
+						}
+					});
+				}
+
+				if(btnMenuStack < 6)
+				{
+					$("#btnMenuAdd").on("click", function(){
+						if(btnMenuStack<6)
+						{
+							// table element 찾기
+							const table = document.getElementById("menuValue");
+		
+							// 새 행(Row) 추가
+							const newRow = table.insertRow();
+		
+							// 새 행(Row)에 Cell 추가
+							const newCell1 = newRow.insertCell(0);
+							const newCell2 = newRow.insertCell(1);
+							const newCell3 = newRow.insertCell(2);
+		
+							// Cell에 텍스트 추가
+							newCell1.innerText = "해시태그" + btnMenuStack;
+							newCell2.innerText = 'New Fruit';
+							newCell3.innerText = 'New Fruit';
+							
+							btnMenuStack++;
+						}
+					});
+	
+					$("#btnMenuDelete").on("click", function(){
+						// table element 찾기
+						const table = document.getElementById("menuValue");
+	
+						// 행(Row) 삭제
+						const newRow = table.deleteRow(-1);
+						if(btnMenuStack>1){
+							btnMenuStack--;
+						}
+					});
+				}
+			});
 </script>
 </head>
 <body style="color: #000000">
@@ -145,21 +291,19 @@ request.setAttribute("No", 2);
 								<tr>
 									<th>해시태그&nbsp;</th>
 									<td>
-										<input type="button" value="생성">
+										<button type="button" id="btnHashAdd">생성</button>
 									</td>
 									<td>
-										<input type="button" value="삭제">
+										<button type="button" id="btnHashDelete">삭제</button>
 									</td>
 								</tr>
 							</table>
 						</div>
 						<div class="hashTagValue">
-							<table>
+							<table id="hashTagValue">
 								<tr>
-									<th>해시태그1</th>
-									<td>
-										<input type="text" placeholder="해시태그를 입력해주세요">
-									</td>
+									<td>해시태그1</td>
+									<td><input type="text" id="hashTag1" class="hastTagInput" placeholder="해시태그를 입력해주세요"></td>
 								</tr>
 							</table>
 						</div>
@@ -170,16 +314,16 @@ request.setAttribute("No", 2);
 								<tr>
 									<th>매장시간&nbsp;</th>
 									<td>
-										<input type="button" value="생성">
+										<button type="button" id="btnTimeAdd">생성</button>
 									</td>
 									<td>
-										<input type="button" value="삭제">
+										<button type="button" id="btnTimeDelete">삭제</button>
 									</td>
 								</tr>
 							</table>
 						</div>
 						<div class="timeValue">
-							<table>
+							<table id="timeValue">
 								<tr>
 									<th>매장시간1</th>
 									<td>
@@ -195,16 +339,16 @@ request.setAttribute("No", 2);
 								<tr>
 									<th>테이블 설정&nbsp;</th>
 									<td>
-										<input type="button" value="생성">
+										<button type="button" id="btnTableAdd">생성</button>
 									</td>
 									<td>
-										<input type="button" value="삭제">
+										<button type="button" id="btnTableDelete">삭제</button>
 									</td>
 								</tr>
 							</table>
 						</div>
-						<div class="timeValue">
-							<table>
+						<div class="tableValue">
+							<table id="tableValue">
 								<tr>
 									<th>테이블 규격</th>
 									<td>
@@ -233,16 +377,16 @@ request.setAttribute("No", 2);
 								<tr>
 									<th>메뉴 설정&nbsp;</th>
 									<td>
-										<input type="button" value="생성">
+										<button type="button" id="btnMenuAdd">생성</button>
 									</td>
 									<td>
-										<input type="button" value="삭제">
+										<button type="button" id="btnMenuDelete">삭제</button>
 									</td>
 								</tr>
 							</table>
 						</div>
 						<div class="menuValue">
-							<table>
+							<table id="menuValue">
 								<tr>
 									<th>메뉴1</th>
 									<td>
