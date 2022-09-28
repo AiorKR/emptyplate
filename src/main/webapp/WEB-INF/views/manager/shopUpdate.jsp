@@ -188,7 +188,8 @@ request.setAttribute("No", 2);
 						<table>
 							<tr>
 								<td class="file-check">등록파일</td>
-								<td><div class="file-check-content">[등록한 첨부파일 : ${shop.shopFile.fileOrgName}]<input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요."/></div></td>
+								<td><div class="file-check-content"><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요."/>
+								<br/>[등록한 첨부파일 : ${shop.shopFile.fileOrgName}]</div></td>
 							</tr>
 							<tr>
 								<td class="file">이미지 첨부</td>
@@ -198,21 +199,17 @@ request.setAttribute("No", 2);
 					</div>
 					<div class="introduce">
 						<table>
+						<tr>
+	                        <th>소개정보</th>
+	                     </tr>
 							<tr>
-								<th>소개정보</th>
-							</tr>
-							<tr>
-								<td>
-									가게소개
-								</td>
-								<td>
+								<td class="name">가게소개</td>
+								<td class="intro">
 									<textarea class="form-control" rows="1" name="shopIntro" id="shopIntro" style="ime-mode:inactive;" placeholder="내용을 입력해주세요" required>${shop.shopIntro}</textarea>
 								</td>
 							</tr>
 							<tr>
-								<td>
-									공지사항
-								</td>
+								<td class="name2">공지사항</td>
 								<td>
 									<textarea class="form-control" rows="10" name="shopContent" id="shopContent" style="ime-mode:inactive;" placeholder="내용을 입력해주세요" required>${shop.shopContent}</textarea>
 								</td>
@@ -230,36 +227,35 @@ request.setAttribute("No", 2);
 									<th>기본정보</th>
 								</tr>
 								<tr>
-									<td>상호명 :</td>
-									<td class="title-text">
+									<td class="td" style="padding-bottom:10px;">상호명</td>
+									<td class="title-text" style="padding-bottom:10px;">
 										<input type="text" id="shopTitle" name="shopTitle" value="${shop.shopName}" maxlength="30" placeholder="상호명을 입력해주세요.">
 									</td>
 								</tr>
 								<tr>
-									<td>매장주소</td>
-									<td class="title-text">
+									<td rowspan="2"class="td" style="padding-bottom:10px;">매장주소</td>
+									<td class="title-text" style="padding-bottom:1px;">
 										<input type="text" id="shopLocation1" value="${shop.shopLocation1}" placeholder="주소">
 										<input type="text" id="sample6_postcode" placeholder="우편번호" hidden>
 										<input type="text" id="sample6_extraAddress" placeholder="참고항목" hidden>
 									</td>
 								</tr>
 								<tr>
-									<td></td>
-									<td class="title-text">
+									<td class="title-text" style="padding-bottom:9px;">
 										<input type="text" id="shopAddress" value="${shop.shopAddress}" placeholder="상세주소">
 										<input type="button" onclick="sample6_execDaumPostcode()" value="주소 찾기">
 									</td>
 								</tr>
 								<tr>
-									<td>매장전화번호</td>
+									<td class="td">매장<br/>전화번호</td>
 									<td class="title-text">
 										<input type="text" id="shopTitle" name="shopTitle" value="${shop.shopTelephone}" maxlength="30" placeholder="상호명을 입력해주세요.">
 									</td>
 								</tr>
 								<tr>
-									<td>매장형태</td>
-									<td class="title-text">
-										<select name="shopType">
+									<td class="td" style="padding-bottom:10px;">매장형태</td>
+									<td class="title-text" style="padding-bottom:10px;">
+										<select name="shopType" class="select">
 											<option value='' <c:if test="${shop.shopType ne '1' and shop.shopType ne '2'}">selected</c:if>>매장 형태</option>
 											<option value='1' <c:if test="${shop.shopType eq '1'}">selected</c:if>>파인다이닝</option>
 											<option value='2' <c:if test="${shop.shopType eq '2'}">selected</c:if>>오마카세</option>
@@ -267,7 +263,7 @@ request.setAttribute("No", 2);
 									</td>
 								</tr>
 								<tr>
-									<td>매장휴일</td>
+									<td class="td">매장휴일</td>
 									<td class="title-text">
 										<input type="checkbox" name="day" value="sun" <c:if test="${!empty day0}">checked</c:if>> 일
 										<input type="checkbox" name="day" value="mon" <c:if test="${!empty day1}">checked</c:if>> 월
@@ -284,12 +280,16 @@ request.setAttribute("No", 2);
 				</div>
 
 				<div class="additional">
-					<h5>추가정보</h5>
+					<table>
+		               <tr>
+		               <th>추가정보</th>
+		               </tr>
+		            </table>
 					<div class="hashTag">
 						<div class="hashTagMenu">
 							<table>
 								<tr>
-									<th>해시태그&nbsp;</th>
+									<td class="tdtd">해시태그</td>
 									<td>
 										<button type="button" id="btnHashAdd">생성</button>
 									</td>
@@ -300,10 +300,10 @@ request.setAttribute("No", 2);
 							</table>
 						</div>
 						<div class="hashTagValue">
-							<table id="hashTagValue">
+							<table id="hashTagValue" style="margin-bottom:15px;">
 								<tr>
-									<td>해시태그1</td>
-									<td><input type="text" id="hashTag1" class="hastTagInput" placeholder="해시태그를 입력해주세요"></td>
+									<td class="tdtd2">해시태그1</td>
+									<td><input type="text" id="hashTag1" class="hastTagInput" placeholder="해시태그를 입력해주세요" style="font-size:17px;"></td>
 								</tr>
 							</table>
 						</div>
@@ -312,7 +312,7 @@ request.setAttribute("No", 2);
 						<div class="timeMenu">
 							<table>
 								<tr>
-									<th>매장시간&nbsp;</th>
+									<td class="tdtd">매장시간</td>
 									<td>
 										<button type="button" id="btnTimeAdd">생성</button>
 									</td>
@@ -323,11 +323,11 @@ request.setAttribute("No", 2);
 							</table>
 						</div>
 						<div class="timeValue">
-							<table id="timeValue">
+							<table id="timeValue" style="margin-bottom:15px;">
 								<tr>
-									<th>매장시간1</th>
+									<td class="tdtd2">매장시간1</td>
 									<td>
-										<input type="text" placeholder="매장시간을 입력해주세요">
+										<input type="text" placeholder="매장시간을 입력해주세요" style="font-size:17px;">
 									</td>
 								</tr>
 							</table>
@@ -337,7 +337,7 @@ request.setAttribute("No", 2);
 						<div class="tableMenu">
 							<table>
 								<tr>
-									<th>테이블 설정&nbsp;</th>
+									<td class="tdtd3">테이블 설정</td>
 									<td>
 										<button type="button" id="btnTableAdd">생성</button>
 									</td>
@@ -348,11 +348,11 @@ request.setAttribute("No", 2);
 							</table>
 						</div>
 						<div class="tableValue">
-							<table id="tableValue">
+							<table id="tableValue" style="margin-bottom:15px;">
 								<tr>
-									<th>테이블 규격</th>
+									<td class="tdtd3">테이블 규격</td>
 									<td>
-										<select name="tableType">
+										<select name="tableType" class="select" style="font-size:17px;">
 											<option value='' selected>테이블 규격</option>
 											<option value='1'>1인용</option>
 											<option value='2'>2인용</option>
@@ -365,7 +365,7 @@ request.setAttribute("No", 2);
 										</select>
 									</td>
 									<td>
-										<input type="text" placeholder="수량을 입력해주세요">
+										<input type="text" placeholder="수량을 입력해주세요" style="font-size:17px;">
 									</td>
 								</tr>
 							</table>
@@ -375,7 +375,7 @@ request.setAttribute("No", 2);
 						<div class="menuSet">
 							<table>
 								<tr>
-									<th>메뉴 설정&nbsp;</th>
+									<td class="tdtd4">메뉴 설정</td>
 									<td>
 										<button type="button" id="btnMenuAdd">생성</button>
 									</td>
@@ -386,21 +386,21 @@ request.setAttribute("No", 2);
 							</table>
 						</div>
 						<div class="menuValue">
-							<table id="menuValue">
+							<table id="menuValue" style="margin-bottom:15px;">
 								<tr>
-									<th>메뉴1</th>
+									<td class="tdtd5">메뉴1</td>
 									<td>
-										<select name="menuTime">
+										<select name="menuTime" class="select" style="font-size:17px;">
 											<option value='' selected>메뉴시간</option>
 											<option value='1'>런치</option>
 											<option value='2'>디너</option>
 										</select>
 									</td>
 									<td>
-										<input type="text" placeholder="메뉴명을 입력해주세요">
+										<input type="text" placeholder="메뉴명을 입력해주세요" style="font-size:17px;">
 									</td>
 									<td>
-										<input type="text" placeholder="메뉴가격을 입력해주세요">
+										<input type="text" placeholder="메뉴가격을 입력해주세요" style="font-size:17px;">
 									</td>
 								</tr>
 							</table>
