@@ -77,5 +77,7 @@ public interface ShopDao {
 	
 	public Order noShowSelect(String orderUID); // NOSHOW
 	
-	public List<ShopTotalTable> shopCheckTable(Shop shop);
+	public List<ShopTotalTable> shopCheckTable(Shop shop); //테이블 현황
+	
+	public List<ShopTime> shopCheckTime(Shop shop); //영업시간 현황
 }
