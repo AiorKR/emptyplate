@@ -300,6 +300,35 @@ public class PayController {
 			CookieUtil.deleteCookie(request, response, "/", "counterSeatYN");
 			CookieUtil.deleteCookie(request, response, "/", "shopUID");
 		}
+		
+		User userNickname = userService.userUIDSelect(cookieUserUID);
+ 		if(userNickname != null)
+ 		{
+ 			try
+ 			{
+ 				model.addAttribute("cookieUserNick", userNickname.getUserNick());
+ 				model.addAttribute("adminStatus", userNickname.getAdminStatus());
+ 				if(userNickname.getBizNum() != null)
+ 				{
+ 					try
+ 					{
+ 						model.addAttribute("shopStatus","Y");
+ 					}
+ 					catch(NullPointerException e)
+ 					{
+ 						logger.error("[PayController] /pay/payResult shopStatus NullPointerException", e);
+ 					}
+ 				}
+ 				else
+ 				{
+ 					model.addAttribute("shopStatus","N");
+ 				}
+ 			}
+ 			catch(NullPointerException e)
+ 			{
+ 				logger.error("[PayController] /pay/payResult cookieUserNick NullPointerException", e);
+ 			}
+ 		}
 		return "/pay/payResult";
 	}
 	
