@@ -77,12 +77,6 @@ public class IndexController
 		User user2 = new User();
 		user2 = userService.userUIDSelect(cookieUserUID);
 		shopFile.setShopFileSeq(0);
-		logger.debug("####################");
-		logger.debug("#" + recommand.get(0).getShopFile().getShopFileExt());
-		logger.debug("#" + recommand.get(0).getShopFile().getShopFileName());
-		logger.debug("#" + recommand.get(0).getShopFile().getShopFileOrgName());
-		logger.debug("#" + recommand.get(0).getShopFile().getShopFileRegDate());
-		logger.debug("####################");
 		
 		model.addAttribute("recommand", recommand);
 		if(user2 == null)
