@@ -284,29 +284,7 @@ request.setAttribute("No", 2);
 							</tr>	
 						</table>
 					</div>
-					<div class="introduce">
-						<table>
-						<tr>
-	                        <th>소개정보</th>
-	                     </tr>
-							<tr>
-								<td class="name">가게소개</td>
-								<td class="intro">
-									<textarea class="form-control" rows="1" name="shopIntro" id="shopIntro" style="ime-mode:inactive;" placeholder="내용을 입력해주세요" required>${shop.shopIntro}</textarea>
-								</td>
-							</tr>
-							<tr>
-								<td class="name2">공지사항</td>
-								<td>
-									<textarea class="form-control" rows="10" name="shopContent" id="shopContent" style="ime-mode:inactive;" placeholder="내용을 입력해주세요" required>${shop.shopContent}</textarea>
-								</td>
-							</tr>
-						</table>
-					</div>
-				  </div>
-				</div>
-
-				<div class="p-3 right-side">
+					<div class="basic">
 					<div class="d-flex justify-content-between align-items-center">
 						<div class="basic">
 							<table>
@@ -365,6 +343,28 @@ request.setAttribute("No", 2);
 						</div>
 					</div>
 				</div>
+					<div class="introduce">
+						<table>
+						<tr>
+	                        <th>소개정보</th>
+	                     </tr>
+							<tr>
+								<td class="name">가게소개</td>
+								<td class="intro">
+									<textarea class="form-control" rows="1" name="shopIntro" id="shopIntro" style="ime-mode:inactive;" placeholder="내용을 입력해주세요" required>${shop.shopIntro}</textarea>
+								</td>
+							</tr>
+							<tr>
+								<td class="name2">공지사항</td>
+								<td>
+									<textarea class="form-control" rows="10" name="shopContent" id="shopContent" style="ime-mode:inactive;" placeholder="내용을 입력해주세요" required>${shop.shopContent}</textarea>
+								</td>
+							</tr>
+						</table>
+					</div>
+				  </div>
+				</div>
+
 
 				<div class="additional">
 					<table>
@@ -407,7 +407,7 @@ request.setAttribute("No", 2);
 								</c:choose>
 							</table>
 						</div>
-					</div>
+					</div><br />
 					
 					<div class="time">
 						<div class="timeMenu">
@@ -460,7 +460,7 @@ request.setAttribute("No", 2);
 								</c:choose>
 							</table>
 						</div>
-					</div>
+					</div><br />
 					
 					<div class="tableCap">
 						<div class="tableMenu">
@@ -527,7 +527,8 @@ request.setAttribute("No", 2);
 								</c:choose>								
 							</table>
 						</div>
-					</div>
+					</div><br />
+					
 					<div class="menuSet">
 						<div class="menuSet">
 							<table>

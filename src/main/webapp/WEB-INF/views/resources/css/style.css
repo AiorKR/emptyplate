@@ -3660,6 +3660,7 @@ reservation 검색
 .view .col-lg-12 table input{	
   	background: rgba(225, 225, 225, 0.8);
   	border:1px solid #C2A383;
+  	text-align: center;
 }
 
 .view .col-lg-12 table th{	
@@ -3671,6 +3672,7 @@ reservation 검색
 .view .col-lg-12 table td{
 	font-size: 20px;
 	padding-left: 10px;
+	text-align: center;
 }
 
 .view .col-lg-12 table .line{	
@@ -3742,30 +3744,30 @@ reservation 검색
    width:450px;
    height:150px;
 }
-.view .p-3 table{
+.view .basic table{
    margin-top:30px;
 }
-.view .p-3 table tr th{
+.view .basic table tr th{
    font-size:30px;
 }
-.view .p-3 table tr .td{
+.view .basic table tr .td{
    font-size:20px;
    padding-right:40px;
 }
-.view .p-3 table input[type=text]{
+.view .basic table input[type=text]{
    width:460px;
    height:35px;
 }
-.view .p-3 table tr .select{
+.view .basic table tr .select{
    height:35px;
    width:120px;
 }
-.view .p-3 table input[type=checkbox]{
+.view .basic table input[type=checkbox]{
    height:20px;
    width:20px;
    vertical-align:middle;
 }
-.view .p-3 table td input[type=button]{
+.view .basic table td input[type=button]{
    height:34px;
    background: #C2A383;
    border: 0;
