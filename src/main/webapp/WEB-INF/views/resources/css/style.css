@@ -4953,7 +4953,7 @@ login.html시작
 }
 
 .mypage-title {
-  margin-top: 3px;
+  margin-top: 30px;
   font-family: 'cafe24Dangdanghae';
   font-size: 48px;
   color: #cda45e;
@@ -4994,7 +4994,7 @@ hr[role="tournament1"]::before {
   margin-top: 20px;
   margin: auto;
   width:550px;
-  height: 760px;
+  height: 650px;
   border-radius :3%;
   overflow : hidden;
   background-color: white;
@@ -6000,7 +6000,7 @@ hr[role="tournament1"]::before {
 }
 
 .rlist-title {
-  margin-top: 60px;
+  margin-top: 90px;
   font-family: 'cafe24Dangdanghae';
   font-size: 48px;
   color: #cda45e;

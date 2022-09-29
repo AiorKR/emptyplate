@@ -183,7 +183,7 @@ function updateError(){
 
 </head>
 
-<body style="background:linear-gradient(grey,antiquewhite);">
+<body style="background:linear-gradient(white,antiquewhite);">
  <%@ include file="/WEB-INF/views/include/navigation.jsp" %>
   <!-- ====== MyPage ======= -->
   <main id="main">

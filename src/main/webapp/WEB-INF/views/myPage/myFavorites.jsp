@@ -152,6 +152,7 @@ function fn_shopMarkDelete(shopUID)
   font-size: 48px;
   color: #cda45e;
   text-align: center;
+  padding-top: 20px;
 }
 
 .myFavo-card {
