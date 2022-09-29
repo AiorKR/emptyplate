@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>View</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+    <!--date and time picker-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/datepicker/date_picker.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.js"></script>
+    <!--date and time picker-->
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair Display:wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i|Nanum+Brush+Script|Nanum+Gothic+Coding|Do+Hyeon&display=swap" rel="stylesheet">
+
+  <script src="https://kit.fontawesome.com/842f2be68c.js" crossorigin="anonymous"></script>
+
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Restaurantly - v3.8.0
+  * Template URL: https://bootstrapmade.com/restaurantly-restaurant-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+ <!-- ======= Top Bar ======= -->
+ <div id="topbar" class="d-flex align-items-center fixed-top">
+  <div class="container d-flex justify-content-center justify-content-md-between">
+    <div class="contact-info d-flex align-items-center">
+  </div>
+  <div class="log d-none d-md-flex align-items-center">
+    <ul>
+      <li><a href="./login.html">Login</a></li>
+      <li><a href="./joinUs.html">Join Us</a></li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top d-flex align-items-cente">
+  <div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
+
+    <a href="index.html" class="logo me-auto me-lg-0"><img src="./assets/img/로고.png" width="80" height="60" alt="" class="img-fluid"></a>
+    <!--<h1 class="logo me-auto me-lg-0"><a href="index.html">Empty Plate</a></h1>-->
+    <!-- Uncomment below if you prefer to use an image logo -->
+    <nav id="navbar" class="navbar order-last order-lg-0">
+      <ul>
+        <li><a class="nav-link scrollto" href="./index.html">Home</a></li>
+        <li><a class="nav-link scrollto active" href="./Reservation.html">Reservation</a></li>
+        <li><a class="nav-link scrollto" href="./today.html">Today</a></li> 
+        <li><a class="nav-link scrollto" href="./Community.html">Community</a></li>
+        <li><a class="nav-link scrollto" href="./help.html">Help</a></li>
+      </ul>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
+    <!--<a href="#book-a-table" class="book-a-table-btn scrollto d-none d-lg-flex">Book a table</a>-->
+    <nav id="navbar" class="navbar order-last order-lg-0">
+      <ul>
+        <li class="dropdown"><a href="#">김땡땡 님<i class="bi bi-chevron-down"></i></a>
+          <ul>
+            <li><a href="./myPage.html">내 프로필</a></li>
+            <li><a href="./reservationList.html">예약내역</a></li>
+            <li><a href="#">고객센터</a></li>
+            <li><a href="#">로그아웃</a></li>
+          </ul>
+        </li>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->  
+    </header><!-- End Header -->
+
+  
+  <!-- ======= reservations Section ======= -->
+  <section id="view" class="view">
+      <!-- Product Slider -->
+      <div class="container">
+        <div class="card">
+            <div class="row g-0">
+                <div class="col-md-6">
+                    <div class="d-flex flex-column justify-content-center">
+                        <div class="main_image"> <img src="./assets/img/specials-1.png" id="main_product_image" width="350"> </div>
+                        <div class="thumbnail_images">
+                            <ul id="thumbnail">
+                                <li><img onclick="changeImage(this)" src="./assets/img/specials-1.png" width="70"></li>
+                                <li><img onclick="changeImage(this)" src="./assets/img/specials-2.png" width="70"></li>
+                                <li><img onclick="changeImage(this)" src="./assets/img/specials-3.png" width="70"></li>
+                                <li><img onclick="changeImage(this)" src="./assets/img/specials-4.png" width="70"></li>
+                                <li><img onclick="changeImage(this)" src="./assets/img/specials-5.png" width="70"></li>
+
+                            </ul>
+                        </div>
+                        <div class="view-text">
+                          <p id="title"> 공지사항 </p>
+                          <p class="view-content">
+                            내용 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                          </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 right-side">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3>Empty 식당</h3> <button class="star"><i class='bx bx-star'>즐겨찾기</i></button>
+                        </div>
+                        <div class="mt-2 pr-3 content">
+                            <p>가게 한줄 설명</p>
+                            <p>
+                              <a href="./Reservation.html">#해시태그1</a>
+                              <a href="./Reservation.html">#해시태그2</a>
+                              <a href="./Reservation.html">#해시태그3</a>
+                              <a href="./Reservation.html">#해시태그4</a>
+                              <a href="./Reservation.html">#해시태그5 </a>
+                            </p>
+                        </div>
+                        <ul>
+                          <li><i class="fa-solid fa-map-location-dot"></i> 상세주소</li>
+                          <li><i class="fa-regular fa-star"></i> 별점 4.5 (100)</li>
+                        </ul>
+                        <div class="mt-5 viewcontainer">
+                        </div>
+                        <div class="buttons d-flex flex-row mt-5 gap-3">
+                           <button class="btn btn-outline-dark"><a href="./today.html" style="color: white;">Today 확인</a></button>
+                           <!-- Button trigger modal -->
+                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="modal-btn">
+                            예약
+                          </button>
+
+                          <!-- Modal -->
+                          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="m">예약</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="datecard">
+                                    <h3 id="view-name">
+                                      Empty 식당
+                                    </h3>
+                                    <div class="content">
+                                      <div class="personnel-select">
+                                        <div class="personnel-selected">
+                                          <div class="personnel-selected-value">인원을 선택해주세요</div>
+                                        </div>
+                                        <ul id="select-ul">
+                                          <li class="option">1명</li>
+                                          <li class="option">2명</li>
+                                          <li class="option">3명</li>
+                                          <li class="option">4명</li>
+                                          <li class="option">5명</li>
+                                          <li class="option">6명</li>
+                                          <li class="option">7명</li>
+                                          <li class="option">8명</li>
+                                          <li class="option">9명</li>
+                                        </ul>
+                                      </div>  
+                                    </div>
+                                    <input type="text" class="datepicker" placeholder="날자를 선택해주세요" name="date" readonly>
+                                    <div class="box">
+                                        <ul id="datepicker-ul">
+                                            <li id="datepicker-li">
+                                                <div class="dptime-disabled">런치 타임</div>
+                                                <div class="dptime">10:00</div>
+                                                <div class="dptime">11:00</div>
+                                                <div class="dptime">12:00</div>
+                                                <div class="dptime">13:00</div>
+                                                <div class="dptime">14:00</div>
+                                                <div class="dptime-disabled">디너 타임</div>
+                                                <div class="dptime">18:00</div>
+                                                <div class="dptime">19:00</div>
+                                                <div class="dptime">20:00</div>
+                                                <div class="dptime">21:00</div>
+                                                <div class="dptime">22:00</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="menuQuantity">
+                                      <ul class="menuQuantity">
+                                        <li style="list-style: none;">메뉴 목록</li>
+                                        <li>
+                                          <div>메뉴1<p id="menuQuantity1"></p>
+                                          </div>
+                                          <div>메뉴2<p id="menuQuantity2"></p></div>
+                                          <div>메뉴3<p id="menuQuantity3"></p></div>
+                                          <div>메뉴4<p id="menuQuantity4"></p></div>
+                                        </li>
+                                      </ul>
+                                  </div>
+                                </div> 
+                                <div class="container modal-menu">
+                                  <p id="menu-print-title">주문목록</p>
+                                    <ul>
+                                      <li id="menu-print1" class="menu-print"> <p></p> <button>삭제</button></li>
+                                      <li id="menu-print1" class="menu-print"> <p></p> <button>삭제</button></li>
+                                      <li id="menu-print1" class="menu-print"> <p></p> <button>삭제</button></li>
+                                      <li id="menu-print1" class="menu-print"> <p></p> <button>삭제</button></li>
+                                      <li id="menu-print1" class="menu-print"> <p></p> <button>삭제</button></li>
+                                      <li id="menu-print1" class="menu-print"> <p></p> <button>삭제</button></li>
+                                      <li id="menu-print1" class="menu-print"> <p></p> <button>삭제</button></li>
+                                      <li id="menu-print1" class="menu-print"> <p></p> <button>삭제</button></li>
+                                      <li id="menu-print1" class="menu-print"> <p></p> <button>삭제</button></li>
+                                    </ul>
+                                </div>
+                                <script src="./assets/datepicker/date_picker.js"></script>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-primary">예약</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        <div class="search-option"><i class='bx bx-search-alt-2 first-search'></i>
+                            <div class="inputs"> <input type="text" name=""> </div> <i class='bx bx-share-alt share'></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="review-container">
+          <p class="review" id="review-title">Review</p>
+          <div class="review">
+            <ul>
+              <li><a href="#">Review text1</a></li>
+              <li><a href="#">Review text2</a></li>
+              <li><a href="#">Review text3</a></li>
+              <li><a href="#">Review text4</a></li>
+              <li><a href="#">Review text5</a></li>
+            </ul>
+          </div>
+        </div>
+    <script>
+      function changeImage(element) {
+
+      var main_prodcut_image = document.getElementById('main_product_image');
+      main_prodcut_image.src = element.src; 
+      }
+    </script>
+      <!-- End Product slider -->
+  </section>
+  <!-- End reservation Section -->
+
+  <!--count down-->
+  <script src="./assets/countdown/countdown.js"></script>
+  <!--count down-->
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-info">
+              <h3>Empty Plate</h3>
+              <p>
+                인천광역시 미추홀구 <br>
+                매소홀로 488번길 6-32(학익동)<br><br>
+                <strong>Phone:</strong> +82 10 0429 0401<br>
+                <strong>Email:</strong> info@EmptyPlate.com<br>
+              </p>
+              <div class="social-links mt-3">
+                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Empty Plate</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">About US</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Company</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Logo History</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Our Services</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">예약</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Today</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">커뮤니티</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">고객지원</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Resources</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">개인정보 처리방침</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">서비스 이용약관</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">위치정보 이용약관</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">입점문의</a></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright 2022. <strong><span>Empty Plate</span></strong>. All Rights Reserved.
+      </div><!--
+      <div class="credits">
+          All the links in the footer should remain intact.
+        You can delete the links only if you purchased the pro version.
+        Licensing information: https://bootstrapmade.com/license/
+        Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/restaurantly-restaurant-template/
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>-->
+    </div>
+  </footer><!--End Footer-->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+  <div class="container">
+
+  <!-- ionic.io-->
+  <!-- https://ionic.io/ionicons/usage -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <!--count down-->
+  <script src="./assets/countdown/countdown.js"></script>
+  <!--count down-->
+
+</body>
+
+</html>
