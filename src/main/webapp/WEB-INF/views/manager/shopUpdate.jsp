@@ -61,11 +61,13 @@ request.setAttribute("No", 2);
 						// 새 행(Row)에 Cell 추가
 						const newCell1 = newRow.insertCell(0);
 						const newCell2 = newRow.insertCell(1);
+						const newCell3 = newRow.insertCell(2);
 	
 						// Cell에 텍스트 추가
 						newCell1.innerHTML = "<td class='tdtd2'>매장시간"+btnTimeStack+"</td>";
-						newCell2.innerHTML = "<td><input type='text' id='time"+btnTimeStack+"' class='timeInput' placeholder='매장시간을 입력해주세요' style='font-size:17px;'></td>";									
-						
+						newCell2.innerHTML = "<td><select name='timeType' class='select' style='font-size:17px; width:110px;'><option value='' selected>매장시간</option><option value='L'>Lunch</option><option value='D'>Dinner</option><option value='X'>무관</option></select></td>";
+						newCell3.innerHTML = "<td><input type='text' id='time"+btnTimeStack+"' class='timeInput' placeholder='매장시간을 입력해주세요' style='font-size:17px;width:350px;'></td>";									
+
 						btnTimeStack++;
 					}
 				});
