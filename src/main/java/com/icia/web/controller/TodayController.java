@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -59,8 +60,11 @@ public class TodayController {
 		//총 게시물 수
 		long totalCount = 0;
 		
-		//게시물 리스트
-		List<Order> list = null;
+		//no shop
+		List<Order> noShow = null;
+		
+		//마감 임박
+		List<Order> noShowImminent = null;
 		
 		//페이징 객체
 		Paging paging = null;
@@ -81,10 +85,14 @@ public class TodayController {
 			search.setSearchValue(searchValue);
 		}
 		
-		totalCount = shopService.todayListCount();
+		noShow = shopService.noShow(search);
 		
-		if(totalCount > 0)
-		{	
+		noShowImminent = shopService.noShowImminent();
+		
+		if(noShow != null) {
+			totalCount = noShow.size();
+			model.addAttribute("noShow", noShow);
+			
 			paging = new Paging("/today/list", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
 			
 			paging.addParam("searchType", searchType);
@@ -94,9 +102,11 @@ public class TodayController {
 			search.setStartRow(paging.getStartRow());
 			search.setEndRow(paging.getEndRow());
 
-			list = shopService.todayList("");
 		}
-			model.addAttribute("list", list);
+		
+		if(noShowImminent != null) {
+			model.addAttribute("noShowImminent", noShowImminent);
+		}
 		
 			model.addAttribute("searchType", searchType);
 			model.addAttribute("searchValue", searchValue);
@@ -121,32 +131,39 @@ public class TodayController {
 		return "/today/list";
 	}
 	
-	@RequestMapping(value="/today/viewProc")
-	@ResponseBody
-	public Response<Object> todayViewProc(HttpServletRequest request, HttpServletResponse response) {
-		Response<Object> ajax = new Response<Object>();
-		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
-		String shopUID = HttpUtil.get(request, "shopUID");
+	@RequestMapping(value="/today/todayPopupView")
+    public String update(Model model, HttpServletRequest request, HttpServletResponse response) {	
 		
-		if(!StringUtil.isEmpty(cookieUserUID)) {
-			if(!StringUtil.isEmpty(shopUID)) {
-				List<Order> list = shopService.todayList(shopUID);
-				if(list != null) {
-					ajax.setResponse(0, "success", list);
-				}
-				else {
-					ajax.setResponse(-999, "list is null");
-				}
-			}
-			else {
-				ajax.setResponse(404, "shopUId is empty");
-			}
-		}
-		else {
-			ajax.setResponse(403, "cookie is empty");
-		}
-		
-		return ajax;
+       String shopUID = HttpUtil.get(request, "shopUID", "");
+       String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+       String orderUID = HttpUtil.get(request, "orderUID", "");
+       
+       if(!StringUtil.isEmpty(cookieUserUID)) {
+          if(!StringUtil.isEmpty(shopUID)) {
+    		  Shop shop = shopService.shopViewSelect(shopUID);
+        	  if(!StringUtil.isEmpty(orderUID)) {
+                  Order order = shopService.noShowSelect(orderUID);
+                  if(shop != null && order != null)
+                  {
+                     model.addAttribute("shop", shop);
+                     model.addAttribute("order", order);
+                  }
+        	  }
+        	  else {
+        		  orderUID = "null";
+        		  model.addAttribute("orderUID", orderUID);
+        	  }
+          }
+          else {
+        	  shopUID = "null";
+        	  model.addAttribute("shopUID", shopUID);
+          }
+       }
+       else {
+    	   cookieUserUID = "null";
+    	   model.addAttribute("cookieUserUID", cookieUserUID); 
+       }
+
+       return  "/today/todayPopupView";
 	}
-	
 }

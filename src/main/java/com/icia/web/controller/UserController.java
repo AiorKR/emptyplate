@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Response;
+import com.icia.web.model.Shop;
 import com.icia.web.model.User;
+import com.icia.web.service.ShopService;
 import com.icia.web.service.UserService;
 import com.icia.web.util.CookieUtil;
 import com.icia.web.util.HttpUtil;
@@ -37,6 +39,9 @@ public class UserController
    
    @Autowired
    private UserService userService;
+   
+   @Autowired
+   private ShopService shopService;
    
    //로그인페이지
    @RequestMapping(value = "/user/login", method=RequestMethod.GET)
@@ -125,7 +130,7 @@ public class UserController
       return "redirect:/";
    }
    
-   //아이디
+   //아이디 중복체크
    @RequestMapping(value="/user/idCheck", method=RequestMethod.POST)
    @ResponseBody
    public Response<Object> idCheck(HttpServletRequest request, HttpServletResponse response)
@@ -176,7 +181,7 @@ public class UserController
          if(userService.userSelect(userUID) == null)
          {    
                User user = new User();
-      
+               
                user.setUserUID(userUID);   
                user.setUserId(userId);
                user.setUserPwd(userPwd);
@@ -186,7 +191,6 @@ public class UserController
 	           user.setStatus("Y");
 	           user.setAdminStatus("N");
 	           user.setUserNick(userNick);
-        	  
               
                if(userService.userInsert(user) > 0)
                {
@@ -231,13 +235,15 @@ public class UserController
       String userPhone = (String) session.getAttribute("userPhone");
       String bizNum = HttpUtil.get(request, "bizNum");
       String bizName = HttpUtil.get(request, "bizName");
+      String accessNum = HttpUtil.get(request, "accessNum"); 
+      String shopUID = accessNum;
       
       if(!StringUtil.isEmpty(userId) && !StringUtil.isEmpty(userPwd) && !StringUtil.isEmpty(userName) && !StringUtil.isEmpty(userEmail) && !StringUtil.isEmpty(userPhone))
       {
          if(userService.userSelect(userUID) == null)
          {    
                User user = new User();
-      
+ 
                user.setUserUID(userUID);   
                user.setUserId(userId);
                user.setUserPwd(userPwd);
@@ -249,11 +255,11 @@ public class UserController
 	           user.setUserNick(userNick);
 	           user.setBizNum(bizNum);
 	           user.setBizName(bizName);
-              
+	           
                if(userService.userInsert(user) > 0)
                {
             	  session.removeAttribute("userPhone");
-                  ajaxResponse.setResponse(0, "Success");
+            	  ajaxResponse.setResponse(0, "Success");
                }
                else
                {
@@ -270,12 +276,59 @@ public class UserController
         ajaxResponse.setResponse(400, "Bad Request");
      }
      
-         if(logger.isDebugEnabled())
-          {
-            logger.debug("[UserController] /user/userInsert response\n" + JsonUtil.toJsonPretty(ajaxResponse));
-          }
-         
-         return ajaxResponse;
+     if(logger.isDebugEnabled())
+      {
+        logger.debug("[UserController] /user/userInsert response\n" + JsonUtil.toJsonPretty(ajaxResponse));
+      }
+     
+     //회원가입 절차 후 Shop테이블 userUID컬럼에 값 업데이트해주기
+     Shop shop = shopService.shopUIDSelect(shopUID);
+     User user = userService.userUIDSelect(userUID);
+     
+     if(shop != null && user != null) 
+	 {
+		 shop.setUserUID(user.getUserUID());
+		 if(shopService.updateStoreUserUID(shop) > 0)
+		 {
+			 logger.debug("성공");
+		 }
+		 else
+		 {
+			 logger.debug("업뎃실패");
+		 }
+	 }
+	 else
+	 {
+		 logger.debug("객체없음");
+	 }
+ 
+      return ajaxResponse;  
+   }
+   
+   //매장관리자 인증번호 확인
+   @RequestMapping(value="/user/accessNumChk", method=RequestMethod.POST)
+   @ResponseBody
+   public Response<Object> accessNumChk(HttpServletRequest request, HttpServletResponse response)
+   {
+	  Response<Object> ajaxResponse = new Response<Object>();
+	  String accessNum = HttpUtil.get(request, "accessNum");
+	  
+	  if(!StringUtil.isEmpty(accessNum))
+	  {
+		  if(shopService.shopUIDSelect(accessNum) != null) 
+		  {  
+			  ajaxResponse.setResponse(0, "susccess");
+		  }		  
+		  else
+		  {
+			  ajaxResponse.setResponse(100, "do not match");
+		  }
+	  }
+	  else
+	  {
+		  ajaxResponse.setResponse(400, "accessNum is Null");
+	  }
+	  return ajaxResponse;
    }
    
    //사업자번호 상태조회 팝업

@@ -233,6 +233,7 @@ public class MyPageController {
  	   {
  		   Response<Object> ajaxResponse = new Response<Object>();
  		   String userUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+ 		   String userPwd = HttpUtil.get(request, "userPwd");
  	       User user = null;     
  	       user = userService.userUIDSelect(userUID);
  	       
@@ -242,29 +243,35 @@ public class MyPageController {
  	      
  		   if(user != null)
  		   { 
- 			   if(userService.userDelete(user) > 0)
- 			   {
- 				   
- 				   //사용자 탈퇴시 좋아요, 게시물 즐겨찾기, 유저 즐겨찾기 삭제
- 				   for(int i=0;i<likeList.size();i++)
- 		 	       {
- 		 	    	  long bbsSeq = likeList.get(i).getBbsSeq();
- 		 	    	  userService.boardLikeDelete(user);
- 		 	    	  board.setBbsSeq(bbsSeq);
- 		 	    	  boardService.boardLikeCntUpdate(board);
- 		 	       }
- 				   
- 				   userService.boardMarkDelete(user);
- 				   userService.userLikeDelete(user);
- 				   CookieUtil.deleteCookie(request, response, "/", AUTH_COOKIE_NAME);
- 				   ajaxResponse.setResponse(0, "Success");
- 			   }
- 			   
- 			   else
- 			   {
- 				   ajaxResponse.setResponse(500, "Internal server error");
- 			   }  
-
+ 			  if(StringUtil.equals(user.getUserPwd(), userPwd))
+ 			  {
+	 			   if(userService.userDelete(user) > 0)
+	 			   {
+	 				   
+	 				   //사용자 탈퇴시 좋아요, 게시물 즐겨찾기, 유저 즐겨찾기 삭제
+	 				   for(int i=0;i<likeList.size();i++)
+	 		 	       {
+	 		 	    	  long bbsSeq = likeList.get(i).getBbsSeq();
+	 		 	    	  userService.boardLikeDelete(user);
+	 		 	    	  board.setBbsSeq(bbsSeq);
+	 		 	    	  boardService.boardLikeCntUpdate(board);
+	 		 	       }
+	 				   
+	 				   userService.boardMarkDelete(user);
+	 				   userService.userLikeDelete(user);
+	 				   CookieUtil.deleteCookie(request, response, "/", AUTH_COOKIE_NAME);
+	 				   ajaxResponse.setResponse(0, "Success");
+	 			   }
+	 			   
+	 			   else
+	 			   {
+	 				   ajaxResponse.setResponse(500, "Internal server error");
+	 			   }  
+ 			  }
+ 			  else
+ 			  {
+ 				  ajaxResponse.setResponse(-1, "do not match password");
+ 			  }
  		   }
  		   else
  		   {	
