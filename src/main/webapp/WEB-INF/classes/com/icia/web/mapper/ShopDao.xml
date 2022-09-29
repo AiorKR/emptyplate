@@ -573,6 +573,7 @@ SELECT RNUM,
                  AND D.FILE_ORG_NAME LIKE '%'|| 'Shop_' ||'%'
           		 AND C.USER_UID = #{userUID}))
 </select>
+
 <insert id="orderInsert" parameterType="com.icia.web.model.Order">
 	INSERT INTO T_ORDER (
     ORDER_UID,
