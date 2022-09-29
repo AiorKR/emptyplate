@@ -22,10 +22,13 @@
   <link href="/resources/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
   <link href="/resources/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="/resources/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
   <script src="https://kit.fontawesome.com/842f2be68c.js" crossorigin="anonymous"></script>
   <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+  
   <script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
   <script type="text/javascript" src="/resources/js/icia.common.js"></script>
+
   <!-- Template Main CSS File -->
   <link href="/resources/css/style.css" rel="stylesheet">
   

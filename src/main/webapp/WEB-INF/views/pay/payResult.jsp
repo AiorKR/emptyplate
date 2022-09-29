@@ -31,10 +31,11 @@
 		<%@ include file="/WEB-INF/views/include/navigation.jsp"%>
 		<main id="main">
 			<section class="reservation">
-			 <div class="container">
- 			  <div class="row">
 				<c:choose>
 					<c:when test="${!empty order}">
+						<br/>
+						<br/>
+						<br/>
 						<br/>
 						<div class="d-flex justify-content-between align-items-center" id="successCard">
 						<div id="mypage" class="user-edit">
@@ -48,7 +49,7 @@
 										<span>${order.shopName}</span>
 									</div>
 									<div class="pay-card-name">
-										<span>예약번호 : ${order.orderUID}</span>
+										<span>${order.orderUID}</span>
 									</div>
 									<div class="pay-card-name">
 										<span>예약인원 : ${order.reservationPeople} 명</span>
@@ -63,7 +64,7 @@
 										<form style="margin-top: 20px;">
 											<c:forEach items="${order.orderMenu}" var="orderMenu" varStatus="status">
 												<span><c:out value="${orderMenu.orderMenuName}" /></span>&nbsp;
-												X <span><c:out value="${orderMenu.orderMenuQuantity}" /></span> <br />
+												X : <span><c:out value="${orderMenu.orderMenuQuantity}" /></span> <br />
 											</c:forEach>
 										</form>
 										<hr>
@@ -72,6 +73,7 @@
 													value="${order.totalAmount}" /></span>&nbsp;
 										</form>
 										<hr>
+										<br /> <br />
 									</div>
 								</div>
 							</div>
@@ -80,6 +82,8 @@
 					<div class="d-flex justify-content-between align-items-center" id="failCard">
 						<div id="mypage" class="user-edit">
 						<br/>
+						<br/>				
+						<br/>
 							<div class="mypage-title">예약 내역</div>
 							<div class="pay-card-name">
 							</div>
@@ -87,14 +91,12 @@
 								예약이 실패하였습니다
 							</div>
 								<div class="pay-card-intro">
-								<button class="submit" onclick="fn_location()">확인</button>
+								<button class="btn btn-primary" style="border:none;" onclick="fn_location()">확인</button>
 								</div>
 							</div>
 						</div>
 					</c:otherwise>
 				</c:choose>
-			  </div>
-			 </div>
 			</section>
 	
 		</main>

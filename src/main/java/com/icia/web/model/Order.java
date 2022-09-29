@@ -26,13 +26,13 @@ public class Order implements Serializable{
 	private long startRow;		
 	private long endRow;
 	private String finalMenu;
+	
 	private Shop shop;
 	private List<OrderMenu> orderMenu;
 	private List<ShopReservationTable> shopReservationTableList;
 	private ShopReservationTable shopReservationTable;
 	private String shopReviewContent;
 	private double shopScore;
-	private String paymentKey;
 	
 	public Order() {
 		orderUID = "";
@@ -50,7 +50,7 @@ public class Order implements Serializable{
 		orderMenu = null;
 		shopReservationTableList = null;
 		shopReservationTable = null;
-		
+		shop = null;
 		toss = null;
 		
 		rDate = "";
@@ -61,7 +61,6 @@ public class Order implements Serializable{
 		finalMenu = "";
 		shopReviewContent = "";
 		shopScore = 0;
-		paymentKey = "";
 	}
 
 	public String getOrderUID() {
@@ -176,51 +175,13 @@ public class Order implements Serializable{
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
-	public String getRDate() {
-		return rDate;
+
+	public Shop getShop() {
+		return shop;
 	}
 
-	public void setRDate(String rDate) {
-		this.rDate = rDate;
-	}
-	
-	public long getrNum() {
-		return rNum;
-	}
-
-
-	public void setrNum(long rNum) {
-		this.rNum = rNum;
-	}
-
-
-	public long getStartRow() {
-		return startRow;
-	}
-
-
-	public void setStartRow(long startRow) {
-		this.startRow = startRow;
-	}
-
-
-	public long getEndRow() {
-		return endRow;
-	}
-
-
-	public void setEndRow(long endRow) {
-		this.endRow = endRow;
-	}
-	
-	public String getShopName() {
-		return shopName;
-	}
-
-
-	public void setShopName(String shopName) {
-		this.shopName = shopName;
+	public void setShop(Shop shop) {
+		this.shop = shop;
 	}
 	
 	public String getFinalMenu() {
@@ -245,30 +206,6 @@ public class Order implements Serializable{
 
 	public void setShopScore(double shopScore) {
 		this.shopScore = shopScore;
-	}
-
-	public String getrDate() {
-		return rDate;
-	}
-
-	public void setrDate(String rDate) {
-		this.rDate = rDate;
-	}
-
-	public Shop getShop() {
-		return shop;
-	}
-
-	public void setShop(Shop shop) {
-		this.shop = shop;
-	}
-	
-	public String getPaymentKey() {
-		return paymentKey;
-	}
-
-	public void setPaymentKey(String paymentKey) {
-		this.paymentKey = paymentKey;
 	}
 	
 }
