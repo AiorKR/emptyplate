@@ -1,7 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	// 개행문자 값을 저장한다.
+	pageContext.setAttribute("newLine", "\n");
+	// Community 번호
+	request.setAttribute("No", 3);
+
+%>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <!--date and time picker-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
@@ -17,9 +23,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.js"></script>
 <!--end date and time picker-->
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="/resources/js/jquery.colorbox.js"></script>
+<link rel="stylesheet" href="/resources/css/jquery.colorbox.css">
 <script type="text/javascript">
 $(document).ready(function(){
+	remaindTime();
+	remaindTime2();
+	
+	$(".popup").colorbox({iframe:true,scrolling:false, width:"95%", height:"130%"});
+	
 	$(".select").change(function() { 
     	document.bbsForm.curPage.value = "1";
         document.bbsForm.searchType.value = $(".select").val();
@@ -39,50 +52,193 @@ $(document).ready(function(){
 	        document.bbsForm.action = "/today/list";
 	        document.bbsForm.submit();
 		}
-	});	   
+	});
 });
-//shopUID 전송
-function fn_view(shopUID) {
-	document.bbsForm.shopUID.value = shopUID;
-	document.bbsForm.action = "/reservation/view";
-	document.bbsForm.submit();
-}
+
+
 //페이징
 function fn_list(curPage) {
 	document.bbsForm.curPage.value = curPage;
 	document.bbsForm.action = "/today/list";
 	document.bbsForm.submit();   
 }
-//해시태그 클릭시 검색
-function fn_search(shopHashtag) {
-	document.bbsForm.searchValue.value = shopHashtag	;
-	document.bbsForm.action = "/today/list";
-	document.bbsForm.submit();
+
+function remaindTime() {
+	var now = new Date();
+
+	<c:forEach items="${noShow}" var="noShow" varStatus="status">
+	    var yyyy = '${noShow.shopReservationTableList[0].shopReservationDate}'.substring (0, 4);   
+	    var mm = '${noShow.shopReservationTableList[0].shopReservationDate}'.substring (4, 6);    
+	    var dd = '${noShow.shopReservationTableList[0].shopReservationDate}'.substring (6, 8);
+	    var hh = '${noShow.shopReservationTableList[0].shopReservationTime}'.substring (0, 2);    
+	    var mi = '${noShow.shopReservationTableList[0].shopReservationTime}'.substring (2, 4);
+	    
+	    var endcheck = yyyy + '년 ' + (mm-1) + '월 ' + dd + '일 ' + (hh-1) + '시' + mi + '분';
+	    
+	    var end = new Date(yyyy, mm-1, dd, hh-1, mi);
+	
+	    var nt = now.getTime();
+	    var et = end.getTime();
+	  
+	   if(nt<et){
+	     $(".time").fadeIn();
+	     $(".time-end${status.index}").html(endcheck);
+	     sec = parseInt(et - nt) / 1000; 
+	     day  = parseInt(sec/60/60/24);
+	     sec = (sec - (day * 60 * 60 * 24));
+	     hour = parseInt(sec/60/60);
+	     sec = (sec - (hour*60*60));
+	     min = parseInt(sec/60);
+	     sec = parseInt(sec-(min*60));
+	     if(hour<10){hour="0"+hour;}
+	     if(min<10){min="0"+min;}
+	     if(sec<10){sec="0"+sec;}
+	      $(".hours${status.index}").html(hour);
+	      $(".minutes${status.index}").html(min);
+	      $(".seconds${status.index}").html(sec);
+	      
+	      setInterval(remaindTime,1000);
+	    }
+    </c:forEach>
 }
+
+function remaindTime2() {
+	var now = new Date();
+
+	<c:forEach items="${noShowImminent}" var="noShowImminent" varStatus="status">
+	    var yyyy = '${noShowImminent.shopReservationTableList[0].shopReservationDate}'.substring (0, 4);   
+	    var mm = '${noShowImminent.shopReservationTableList[0].shopReservationDate}'.substring (4, 6);    
+	    var dd = '${noShowImminent.shopReservationTableList[0].shopReservationDate}'.substring (6, 8);
+	    var hh = '${noShowImminent.shopReservationTableList[0].shopReservationTime}'.substring (0, 2);    
+	    var mi = '${noShowImminent.shopReservationTableList[0].shopReservationTime}'.substring (2, 4);
+	    
+	    var endcheck = yyyy + '년 ' + (mm-1) + '월 ' + dd + '일 ' + (hh-1) + '시' + mi + '분';
+	    
+	    var end = new Date(yyyy, mm-1, dd, hh-1, mi);
+	
+	    var nt = now.getTime();
+	    var et = end.getTime();
+	  
+	   if(nt<et){
+	     $(".time").fadeIn();
+	     $(".noShowImminent-time-end${status.index}").html(endcheck);
+	     sec = parseInt(et - nt) / 1000; 
+	     day  = parseInt(sec/60/60/24);
+	     sec = (sec - (day * 60 * 60 * 24));
+	     hour = parseInt(sec/60/60);
+	     sec = (sec - (hour*60*60));
+	     min = parseInt(sec/60);
+	     sec = parseInt(sec-(min*60));
+	     if(hour<10){hour="0"+hour;}
+	     if(min<10){min="0"+min;}
+	     if(sec<10){sec="0"+sec;}
+	      $(".noShowImminent-hours${status.index}").html(hour);
+	      $(".noShowImminent-minutes${status.index}").html(min);
+	      $("noShowImminent-secondsx${status.index}").html(sec);
+	      
+	      setInterval(remaindTime2,1000);
+	    }
+    </c:forEach>
+}
+
 </script>
 </head>
-
 <body>
 	<%@ include file="/WEB-INF/views/include/navigation.jsp"%>
-
-	<!-- ======= Today Section ======= -->
+	<!-- ======= reservations Section ======= -->
 	<section id="today" class="today">
 		<div class="today-container container">
+		  <div class="row">
 			<div class="today-slider swiper">
-				<container>
+				<container style="color: #2536;">
 				<hr class="hr-5">
-				</container>
-				<h2 style="color: #000; margin-left: 30px;">
-					<strong>Today 마감</strong>
+				<h2 style="margin-left: 30px">
+					<strong> No-Show 마감임박 </strong>
 				</h2>
-				<container>
 				<hr class="hr-5">
 				</container>
+				<div class="swiper-wrapper">
+					<c:if test="${!empty noShowImminent}">
+						<c:forEach items="${noShowImminent}" var="noShowImminent" varStatus="status">
+							<div class="swiper-slide" style="height: auto; width: 100%; background-color: rgba(240, 240, 240, 0.7);">
+							<a href='/today/todayPopupView?shopUID=${noShowImminent.shopUID}&orderUID=${noShowImminent.orderUID}' class="popup">
+								<div class="reservation-item" style="height: 350px;" id="viewPopup" style="cursor:pointer;">
+									<img alt="" src="../resources/upload/shop/${noShowImminent.shop.shopFile.shopFileName}" style="height: 300px; width: 300px; position: relative; left: 150px; top: 25px;">
+									<span style="position: relative; bottom: 250px; left: 600px;">
+										<h3>${noShowImminent.shop.shopName}</h3>
+										<ul>	
+											<li>
+												<i class="fa-solid fa-percent"></i> <c:if test='${noShowImminent.orderStatus eq "X"}'>70</c:if> <c:if test='${noShowImminent.orderStatus eq "C"}'>50</c:if>
+											</li>
+											<li><i class="fa-solid fa-map-location-dot"></i>
+												<c:if test="${noShowImminent.shop.shopLocation1 ne null}">${noShowImminent.shop.shopLocation1}</c:if> ${noShowImminent.shop.shopLocation2} ${noShowImminent.shop.shopAddress}
+											</li>
+											<li><i class="fa-solid fa-people">예약 인원 : ${noShowImminent.reservationPeople}</i></li>
+											<li>
+												<i class="fa-solid fa-pen" style="color: #cda45e; font-size: 19px;">
+													<c:out value="${noShowImminent.shop.shopIntro}" />
+												</i>
+											</li>
+											<li class="font15 noShowImminent-time-end${status.index}">예약시간</li>
+										<li class="font15 time-title${status.index}">Today 마감까지</li>
+										<li>
+										<span class="noShowImminent-hours${status.index}"></span> <span class="col">:</span>
+										<span class="noShowImminent-minutes${status.index}"></span> <span class="col">:</span>
+										<span class="noShowImminent-secondsx${status.index}"></span>
+										</li>
+										</ul>
+										
+									</span>
+								</div>
+							</a>
+							</div>
+						</c:forEach>
+					</c:if>
+					<c:if test="${empty noShowImminent}">
+						<div class="swiper-slide" style="height: auto; width: 100%; background-color: rgba(240, 240, 240, 0.7);">
+								<div class="reservation-item" style="height: 350px; style="cursor:pointer;">
+									<img alt=""
+										style="height: 300px; width: 300px; position: relative; left: 150px; top: 25px;">
+									<span style="position: relative; bottom: 250px; left: 600px;">
+										<h3></h3>
+										<h1><c:out value="No-Show 마감 임박 건이 없습니다." /></h1>
+										<ul>	
+											<li><i class="fa-solid fa-map-location-dot"></i>
+												
+											</li>
+											<li> <i class="fa-solid fa-people"></i></li>
+											<li>
+												<i class="fa-solid fa-pen" style="color: #cda45e; font-size: 19px;">
+												
+												</i>
+											</li>
+											<li class="font15 time-end"></li>
+										<li class="font15 time-title"></li>
+										<li>
+										<span class="hours"></span> <span class="col">:</span>
+										<span class="minutes"></span> <span class="col">:</span>
+										<span class="seconds"></span>
+										</li>
+										</ul>
+										
+									</span>
+								</div>
+							</div>
+					</c:if>
+				</div>
+				<div class="swiper-pagination" style="margin-top: -20px"></div>
 
 				<!--메뉴-->
-				<div class="row">
+				<div class="container">
 					<div class="col-12">
 						<table class="table table-image">
+							<container>
+							<hr class="hr-5">
+							</container>
+							<h3>NO SHOW</h3>
+							<container>
+							<hr class="hr-5">
+							</container>
 							<nav class="navbar navbar-expand-lg navbar-light bg-translucent">
 								<div class="container-fluid">
 									<button class="navbar-toggler" type="button"
@@ -93,61 +249,68 @@ function fn_search(shopHashtag) {
 										<span class="navbar-toggler-icon"></span>
 									</button>
 									<form>
+										<!--datepicker-->
 										&nbsp;&nbsp;&nbsp;
-										<div class="collapse navbar-collapse"
-											id="navbarSupportedContent">
+										<div class="collapse navbar-collapse" id="navbarSupportedContent">
 											<ul class="navbar-nav me-auto ">
-												<select class="select" aria-label="Default select example"
-													style="width: 150px; height: 35px;">
+												<select class="select" aria-label="Default select example" style="width: 150px; height: 38px; cursor: pointer;">
 													<option value="0" selected
-														style="width: 150px; height: 35px;"
-														<c:if test="${searchType eq '0'}">selected</c:if>>전체</option>
-													<option value="1" style="width: 150px; height: 35px;"
-														<c:if test="${searchType eq '1'}">selected</c:if>>오마카세</option>
-													<option value="2" style="width: 150px; height: 35px;"
-														<c:if test="${searchType eq '2'}">selected</c:if>>파인다이닝</option>
+														style="width: 150px; height: 35px; cursor: pointer;"
+														selected <c:if test="${searchType eq '0'}">selected</c:if>>전체</option>
+													<option value="1"
+														style="width: 150px; height: 35px; cursor: pointer;"
+														<c:if test="${searchType eq '1'}">selected</c:if>>파인다이닝</option>
+													<option value="2"
+														style="width: 150px; height: 35px; cursor: pointer;"
+														<c:if test="${searchType eq '2'}">selected</c:if>>오마카세</option>
 												</select>
 											</ul>
 									</form>
-									<div style="border: 1px solid #C2A384; margin-bottom: 14px;">
+									<div style="border: 1px solid #C2A384">
 										<input type="text" name="text" id="search"
 											<c:if test="${searchValue ne null and searchValue ne ''}">value="${searchValue}"</c:if>>
-										<button class="btn" type="submit" id="searchBtn">검색</button>
+										<button class="btn" type="submit" id="searchBtn">검 색</button>
 									</div>
 								</div>
 							</nav>
-							<tbody class="menutable">
-								<c:if test="${!empty list}">
+								<tbody class="menutable">
+								<c:if test="${!empty noShow}">
 									<c:forEach var="i" begin="0" end="6" step="3">
 										<tr>
 											<c:forEach var="j" begin="0" end="2">
-											<c:if test="${!empty list[i+j]}">
+											 <c:if  test="${!empty noShow[i+j]}">
 											<th scope="row"> 
 												<td>
-													<div class="card" onClick="fn_view('${list[i + j].shopUID}')"
-														style="cursor: pointer;">
-														<img
-															src='../resources/upload/shop/${list[i + j].shopFile.shopFileName}'
-															class="img-fluid img-thumbnail"
-															style="height: 300px; width: 300px;">
+												<a href='/today/todayPopupView?shopUID=${noShow[i + j].shopUID}&orderUID=${noShow[i + j].orderUID}' class="popup">
+													<div class="card"
+														style="cursor: pointer; text-align: center; display: flex; height: 500px; width: 350px">
+														<img src='../resources/upload/shop/${noShow[i + j].shop.shopFile.shopFileName}' class="img-fluid img-thumbnail" style="height: 300px; width: 350px;">
 															<div class="card-body-right">
-															<h5 class="card-title">${list[i + j].shopName}</h5>
+															<h5 class="card-title">${noShow[i + j].shop.shopName}</h5>
+															<p> ${noShow[i + j].shop.shopLocation1} ${noShow[i + j].shop.shopLocation2} ${noShow[i + j].shop.shopAddress}</p>
+															<i class="fa-solid fa-percent"></i> <c:if test='${noShow[i + j].orderStatus eq "X"}'>70</c:if> <c:if test='${noShow[i + j].orderStatus eq "C"}'>50</c:if>
 															<div class="sec7-text-box">
-																<p class="font15 time-end1">예약시간</p>
-																<p class="font15 time-title1">Today 마감까지</p>
-																<div class="time font20">
-																	<span class="hours"></span> <span class="col">:</span>
-																	<span class="minutes"></span> <span class="col">:</span>
-																	<span class="seconds"></span>
-																</div>
+															<i class="fa-solid fa-pen" style="color: #cda45e; font-size: 19px;">
+																<c:out value="${noShow[i + j].shop.shopIntro}"/>
+															</i>
+															<span class="hours${i+j}"></span> <span class="col">:</span>
+															<span class="minutes${i+j}"></span> <span class="col">:</span>
+															<span class="seconds${i+j}"></span>
 															</div>
 														</div>
 													</div>
+												</a>
 												</td>
 											 </c:if>
+
 											</c:forEach>
 										</tr>
 									</c:forEach>
+								</c:if>
+								<c:if test="${empty noShow}">
+									<th scope="row"> 
+									 	noShow건이 없습니다.
+									</th>
 								</c:if>
 							</tbody>
 						</table>
@@ -182,21 +345,16 @@ function fn_search(shopHashtag) {
 				</div>
 			</div>
 			<form name="bbsForm" id="bbsForm" method="post">
-				<input type="hidden" name="shopUID" value="" /> <input
+				<input type="hidden" name="shopUID" id="shopUID" value="" /> <input
 					type="hidden" name="searchType" value="${searchType}" /> <input
 					type="hidden" name="searchValue" value="${searchValue}" /> <input
 					type="hidden" name="curPage" value="${curPage}" /> <input
 					type="hidden" name="reservationDate" value="${reservationDate}" />
-				<input type="hidden" name="reservationTime"
-					value="${reservationTime}" />
+				<input type="hidden" name="reservationTime" value="${reservationTime}" />
 			</form>
 		</div>
 	</section>
 	<!-- End today Section -->
-
-	<!--count down-->
-	<script src="./assets/countdown/countdown.js"></script>
-	<!--count down-->
 
 	<!--footer-->
 	<%@ include file="/WEB-INF/views/include/footer.jsp"%>

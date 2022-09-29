@@ -8,6 +8,7 @@ public class ShopReview implements Serializable {
 	
 	private String orderUID;
 	private String userUID;
+	private String userName;
 	private String shopUID;
 	private String shopReviewContent;
 	private double shopScore;
@@ -20,6 +21,7 @@ public class ShopReview implements Serializable {
 		shopReviewContent = "";
 		shopScore = 0;
 		shopReviewRegDate = "";
+		userName ="";
 	}
 
 	public String getOrderUID() {
@@ -68,6 +70,14 @@ public class ShopReview implements Serializable {
 
 	public void setShopReviewRegDate(String shopReviewRegDate) {
 		this.shopReviewRegDate = shopReviewRegDate;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 }

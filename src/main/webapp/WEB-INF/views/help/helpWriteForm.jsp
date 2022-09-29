@@ -136,7 +136,7 @@ $(document).ready(function() {
         <tr>
           <td class="title">제목</td>
           <td class="title-text">
-            <input type="text" id="bbsTitle" name="bbsTitle" placeholder="제목을 입력해주세요.">
+            <input type="text" id="bbsTitle" name="bbsTitle" maxlength="30" placeholder="제목을 입력해주세요.">
           </td>
         </tr>
         <input type="hidden" id="bbsComment" name="bbsComment" value="" />

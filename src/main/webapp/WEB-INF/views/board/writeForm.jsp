@@ -110,7 +110,7 @@ $(document).ready(function() {
             if(response.code == 0)
               {
                alert("게시물이 등록되었습니다.");
-               location.href = "/help/helpList";
+               location.href = "/board/list";
               }
             else if(response.code == 400)
               {

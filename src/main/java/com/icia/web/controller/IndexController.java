@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.icia.web.model.Shop;
+import com.icia.web.model.ShopFile;
 import com.icia.web.model.User;
 import com.icia.web.service.ShopService;
 import com.icia.web.service.UserService;
@@ -71,9 +72,11 @@ public class IndexController
 	{
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		Shop shop = new Shop();
-		List<Shop> recommand= shopService.indexShopList(shop); 
+		ShopFile shopFile = new ShopFile();
+		List<Shop> recommand= shopService.indexShopList(shop);
 		User user2 = new User();
 		user2 = userService.userUIDSelect(cookieUserUID);
+		shopFile.setShopFileSeq(0);		
 		model.addAttribute("recommand", recommand);
 		
 		if(user2 == null)
@@ -85,14 +88,29 @@ public class IndexController
 			try
 			{
 				model.addAttribute("cookieUserNick", user2.getUserNick());
+				model.addAttribute("adminStatus", user2.getAdminStatus());
+				if(user2.getBizNum() != null)
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[IndexController] index shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
 			}
 			catch(NullPointerException e)
 			{
-				logger.error("[IndexController] index Exception", e);
+				logger.error("[IndexController] index cookieUserNick NullPointerException", e);
 			}
 			return "/index";
 		}
-		
 		
 	}
 }

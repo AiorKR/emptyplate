@@ -1226,6 +1226,7 @@ section {
 #communityWriteForm form .title-text input[type=checkbox] {
   width: 20px;
   height: 20px;
+   vertical-align:middle;
 }
 
 /*내용*/
@@ -1439,6 +1440,7 @@ section {
 #communityUpdateForm form .title-text input[type=checkbox] {
   width: 20px;
   height: 20px;
+   vertical-align:middle;
 }
 
 /*내용*/
@@ -1788,6 +1790,7 @@ section {
 
 #communityView .modal input[type=checkbox] {
   zoom: 1.3;
+   vertical-align:middle;
 }
 
 #communityView .modal .reportCancle {
@@ -2372,9 +2375,41 @@ section {
   }
 }
 
-.recommend .btns {
-  margin-top: 30px;
+
+/*오늘의 추천 식당 사진크기 지정*/
+.recommend .row .col-lg-6 .img-fluid{
+  width: 500px;
+  height: 400px;
+  border : solid 4px #cda45e;
+  border-radius: 5px;
 }
+
+/*매장 내용*/
+.recommend .recommend-item h3 {
+  font-weight: 300;
+  font-size: 50px;
+  font-family: "Do Hyeon", sans-serif;
+  color: #cda45e;
+}
+
+.recommend .recommend-item .fst-italic {
+  font-size: 30px;
+  word-break: keep-all;
+}
+
+.recommend .recommend-item ul {
+  font-size: 25px;
+}
+
+.recommend .recommend-item .fa-brands {
+  margin-left: 3px;
+}
+
+.recommend .btns .btn-book {
+  margin-top: 10px;
+  font-family : 'Cafe24Dangdanghae';
+}
+
 
 .recommend .btn-menu,
 .recommend .btn-book {
@@ -2406,13 +2441,6 @@ section {
   color: #fff;
 }
 
-.recommend .recommend-item h3 {
-  font-weight: 300;
-  font-size: 40px;
-  font-family: "Do Hyeon", sans-serif;
-  color: #cda45e;
-}
-
 .recommend .recommend-item .price {
   font-size: 20px;
   font-family: "Open Sans", sans-serif;
@@ -2435,7 +2463,6 @@ section {
   padding-right: 4px;
   color: #cda45e;
 } 
-
 
 
 .recommend .recommend-item ul {
@@ -2839,13 +2866,8 @@ section {
   padding: 0;
 }
 
-.reservation h2{
-   color:#000
-}
-
-.reservation-container {
-  margin-top: 110px;
-  
+.reservation .container{
+  padding-top: 110px;
 }
 
 .reservation .row{
@@ -2869,6 +2891,22 @@ section {
   right: 0;
 }
 
+.reservation .pay-card-intro .submit {
+  background: #C2A383;
+  border: 0;
+  padding: 4px 20px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 19px;
+  position: relative;
+  float:right;
+}
+
+.reservation h2{
+   color:#000
+}
 .reservation .section-title h2 {
   color: #000;
 }
@@ -2905,31 +2943,8 @@ hr.hr-5 {
 
 .reservation .reservation-item h3 {
   font-weight: 300;
-  font-size: 40px;
+  font-size: 50px;
   font-family: "Do Hyeon", sans-serif;
-  color: #000;
-}
-
-.reservation .reservation-item .price {
-  font-size: 20px;
-  font-family: "Open Sans", sans-serif;
-  font-weight: 500;
-  margin-bottom: 15px;
-}
-
-.reservation .reservation-item .price span {
-  border-bottom: 2px solid #cda45e;
-}
-
-.reservation .reservation-item .int i {
-  font-size: 20px;
-  padding-right: 4px;
-  color: #cda45e;
-} 
-
-.reservation .reservation-item .int {
-  font-size: 18px;
-  font-family: "Nanum Gothic Coding", monospace;
   color: #000;
 }
 
@@ -2937,17 +2952,23 @@ hr.hr-5 {
   list-style: none;
   padding: 0;
 }
+.reservation .reservation-item li {
+  word-break: keep-all;
+}
 
 .reservation .reservation-item ul li {
   padding-bottom: 10px;
-  
+  font-size: 23px;
+}
+.reservation .reservation-item p {
+  color: #cda45e; 
+  font-size: 19px;
 }
 
 /*예약 리스트 강조 라인*/
 .reservation .table tr:hover {
   padding-bottom: 10px;
   border : solid 2px #cda45e;
-  
 }
 
 .reservation .reservation-item ul i {
@@ -2955,9 +2976,24 @@ hr.hr-5 {
   padding-right: 4px;
   color: #cda45e;
 }
-
+.reservation .reservation-item ul ion-icon {
+  font-size: 25px;
+  padding-right: 4px;
+  color: #cda45e;
+}
 .reservation .reservation-item p:last-child {
   margin-bottom: 0;
+}
+
+.reservation ul .hashtag
+{
+	cursor: pointer;
+}
+.reservation ul .hashtag i
+{
+	font-size: 20px; 
+	color: #FF7F50;
+	margin-top: 10px;
 }
 
 .reservation .swiper-pagination {
@@ -2990,7 +3026,7 @@ reservation 검색
 
 .reservation .collapse .btn {
   background: #C2A383;
-  color: rgba(225, 225, 225);
+  color: white;
   padding: 1px 20px;
   position: relative;
   border: 1px solid #C2A383;
@@ -3004,7 +3040,6 @@ reservation 검색
   border: 0;
   padding: 1px;
   width: calc(100% - 50px);
-  background: rgba(225, 225, 225);
   height: 38px;
   width: 190px;
   /*color: #0c0b09;*/
@@ -3034,36 +3069,58 @@ reservation 검색
   border-color: #C2A383;
 }
 
-.reservation .menutable {
-  color: #000;
+
+/*리스트 내용*/
+.reservation tbody .w-25{
+  height: 200px; 
+  width: 200px;
+  vertical-align:middle;
+  text-align: center;
 }
 
-.star-ratings {
-  color: #000; 
-  position: relative;
-  unicode-bidi: bidi-override;
-  width: max-content;
-  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
-  -webkit-text-stroke-width: 1.3px;
-  -webkit-text-stroke-color: #2b2a29;
+.reservation tbody img{
+  height: 250px; 
+  width: 250px;
 }
- 
-.star-ratings-fill {
-  color: #fff58c;
-  padding: 0;
-  position: absolute;
-  z-index: 1;
-  display: flex;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  -webkit-text-fill-color: gold;
+
+.reservation tbody .content{
+  padding-top: 30px;
+  padding-left: 10px;
 }
- 
-.star-ratings-base {
-  z-index: 0;
-  padding: 0;
+
+.reservation tbody .clickContent{
+  padding-left: 0px;
 }
+
+.reservation tbody .content ul i {
+  font-size: 20px;
+  padding-right: 4px;
+  color: #cda45e;
+}
+.reservation tbody .content ul ion-icon {
+  font-size: 25px;
+  padding-right: 4px;
+  color: #cda45e;
+}
+
+.reservation tbody .content ul .hashtag
+{
+	cursor: pointer;
+}
+.reservation tbody .content ul .hashtag i
+{
+	font-size: 20px; 
+	color: #FF7F50;
+	margin-top: 10px;
+}
+
+.reservation tbody .content li {
+  list-style: none;
+  padding-bottom: 10px;
+  font-size:20px;
+  word-break: keep-all;
+}
+
 
 .reservation .page-wrap .page-nation li{ 
   list-style: none;
@@ -3116,62 +3173,46 @@ reservation 검색
 /*--------------------------------------------------------------
 # view
 --------------------------------------------------------------*/
-/*.view {
-  background: url(/resources/images/hero-bg.jpg) center center no-repeat;
-  background-size: cover;
-  width: 100%;
-}*/
-/*
-.view::before {
-  content: "";
-  background :rgba(16, 16, 16);
-  opacity: 0.95;
-  position: relative;
-  top: 15%;
-  right: 5%;
-  left: 5%;
-  bottom: 0%;
-}*/
-
 .view {
   width: 100%;
   height: 100%;
   background: url("/resources/images/hero-bg.jpg") top center;
   background-size: cover;
   position: relative;
-  
   padding: 0;
 }
 
-.view .container {
-  width: 100%;
-  height: 100%;
-  margin-top: 120px;
-  background-size: cover;
-  position: relative;
-  padding: 0;
+.view .container{
+  padding-top: 110px;
+}
+
+.view .row{
+  padding: 1% 1%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: inline-block;     
+  position: relative;                 
+}
+
+.view:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .view p span{
    font-family: 'Cafe24Dangdanghae';
 }
-.view:before{
-  content: "";
-  background: rgba(225, 225, 225);
-  opacity : 0.95;
-  position: absolute;
-  bottom: 0;
-  top: 12%;
-  left: 11%;
-  right: 11%;
-  border-radius: 20px;
-}
-.view .section-title h2 {
-  color: #000;
-}
 
-.view .container {
-  position: relative;
+.view p, .view ul, .view h3, .view span{
+  color:#000;
 }
 
 @media (min-width: 1024px) {
@@ -3180,92 +3221,70 @@ reservation 검색
   }
 }
 
-.view .view-carousel {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 30px;
+/*공지사항 및 내용*/
+.view .view-text {
+  margin-left:5px; 
+  border-top: 2px solid #C2A383;
+}
+.view .view-text .title{
+  font-size: 25px; 
+  margin-left:20px;
+}
+.view .view-text .view-content{
+   font-size: 18px; 
+   margin-left:10px;
 }
 
-.view .view-item {
-  color: #000;
+/*매장 이름 및 내용*/
+.view .p-3{
+	float:right;
+	width: 50%;
+}
+.view h3{
+  font-size:40px;
+}
+.view .intro{
+  font-size:25px;
+}
+.view .intro2{
+  font-size:18px;
+  list-style:none;
+  padding-left:8px;
+}
+.view .intro2 i{
+  color: #C2A383;
+}
+.view .hashtag
+{
+	cursor: pointer;
+}
+.view .hashtag i
+{
+	font-size: 18px; 
+	color: #FF7F50;
 }
 
-.view .view-item h3 {
-  font-weight: 300;
-  font-size: 40px;
-  font-family: "Do Hyeon", sans-serif;
-  color: #cda45e;
+/*today, 예약 버튼*/
+.view .buttons {
+  margin-left:780px;
+}
+.view .buttons .btn {
+  color: #fff;
+  background-color: #C2A383;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  height: 50px;
+  width: 150px;
+  border-radius: 10px !important;
+}
+.view .buttons .btn:hover {
+  color:#fff;
+  background-color: #d3af71;
+}
+.view .buttons .btn a{
+  color: #fff;
 }
 
-.view .view-item .price {
-  font-size: 20px;
-  font-family: "Open Sans", sans-serif;
-  font-weight: 500;
-  margin-bottom: 15px;
-}
-
-.view .view-item .price span {
-  border-bottom: 2px solid #cda45e;
-}
-
-.view .view-item .int i {
-  font-size: 20px;
-  padding-right: 4px;
-  color: #cda45e;
-} 
-
-.view .view-item .int {
-  font-size: 18px;
-  font-family: "Nanum Gothic Coding", monospace;
-  color: #000;
-}
-
-.view .view-item ul {
-  list-style: none;
-  padding: 0;
-}
-
-.view .view-item ul li {
-  padding-bottom: 10px;
-}
-
-.view .view-item ul i {
-  font-size: 20px;
-  padding-right: 4px;
-  color: #cda45e;
-}
-
-.view .view-item p:last-child {
-  margin-bottom: 0;
-}
-
-.view .swiper-pagination {
-  margin-top: 30px;
-  position: relative;
-}
-
-.view .swiper-pagination .swiper-pagination-bullet {
-  width: 12px;
-  height: 12px;
-  background-color: rgba(255, 255, 255, 0.4);
-  opacity: 1;
-}
-
-.view .swiper-pagination .swiper-pagination-bullet-active {
-  background-color: #cda45e;
-}
-
-/* view product slider */
-.view .viewcontainer{
-  height: 400px;
-  width: 600px;
-  background-color: white;
-}
-.view .card {
-  border: none;
-  background-color: rgba(0, 0, 0, 0);
-  border-radius: 0%;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-}
+/*매장 이미지*/
 .view .thumbnail_images ul {
   list-style: none;
   justify-content: center;
@@ -3275,8 +3294,8 @@ reservation 검색
 }
 .view .thumbnail_images ul li {
   margin: 5 px;padding: 10 px;
-  border: 2 px solid #cda45e
-  ;cursor: pointer;
+  border: 2 px solid #cda45e;
+  cursor: pointer;
   transition: all 0.5 s
 }
 .view .main_image {
@@ -3284,17 +3303,263 @@ reservation 검색
   justify-content: center;
   align-items: center;
   height: 400 px;
-  width: 100% ;overflow: hidden
-  }
-.view .star {
-  height: 29 px;
-  width: 29 px;
-  border-radius: 0% ;
+  width: 100% ;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.view .thumbnail_images {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  margin-right: 5px;
+}
+
+.view .thumbnail {
+  margin-right: 5px;
+}
+
+/*예약 modal*/
+.view .modal {
+  margin-top: 5vh;
+  color:black;
+  font-size: 18px;
+}
+
+.view .modal-content{
+	border: solid 3px #d3af71;
+}
+
+.view #modal-btn:hover {
+  border: 2px solid white;
+}
+
+.view #modal-btn:active {
+  background-color: white;
+  color: #c78e54;
+
+}
+/*modal 예약 title*/
+.view .modal-title {
+  color: rgba(0,0,0);
+  font-size:25px;
+}
+/*modal body*/
+.view .modal-body {
+  /*height: 60vh;*/
+  z-index: 0;
+  border-top: solid 3px #d3af71;
+  border-bottom: solid 3px #d3af71;
+}
+
+.view #shopName {
+	font-size: 35px;
+	position: relative;
+	bottom:10px;
+	text-align: center;
+}
+
+.view #selectcontent {
+	height:50px;
+	position: relative;
+	margin: auto;
+	word-break:break-all;
+}
+
+/*인원 선택*/
+.view .personnel-select {
+  float: left; width: 50%;
+  display: inline-block;
+  width: 176.8px;
+  border: 1px solid #999;
+  cursor: pointer;
+  position: relative;
+  bottom: 10px;
+  height: 38px;
+  border-radius: 25px;
+  margin-left: 50px;
+  margin-right: 2px;
+}
+.view .personnel-select:hover {
+  border: 1px solid #cda45e;
+}
+.view .personnel-selected {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 5px;
+  width: 176.8px;
+  height: 100%;
+  z-index: 1;
+}
+.view  .personnel-selected-value {
+  width: 176.8px;
+  color: #cda45e;
+  text-align: center;
+  z-index: 1;
+  line-height:20px;
+}
+.view  #select-ul {
+  margin-right: 10px;
+  width: 176.8px;
+  position: absolute;
+  background: #fff;
+  border-top: none;
+  position: relative;
+  right: 1px;
+  z-index: 1;
+  text-align: center;
+  list-style: none; 
+  display: none;
+  margin-top: 5px;
+  border: 1px solid #999;
+  border-top: 1px solid #fff;
+  
+}
+.view .option {
+  position: relative;
+  right: 15px;
+  z-index: 1;
+}
+.view .option:hover {
+  border-top: 1px solid #c78e54;
+  border-bottom: 1px solid #c78e54;
+}
+
+/*날짜 선택*/
+.view .datepicker {
+  float: left; width: 50%;
+  display: inline-block;
+  width: 176.8px;
+  border: 1px solid #999;
+  cursor: pointer;
+  position: relative;
+  bottom: 10px;
+  height: 38px;
+  border-radius: 25px;
+  color: #c78e54;
+  margin-left: 2px;
+}
+
+/*카운터석 안내문*/
+.view .modal-body .count{
+	text-align:center; 
+	margin-bottom:20px; 
+	position:relative;
+}
+.view .modal-body input[type=checkbox] {
+  width: 20px;
+  height: 20px;
+   vertical-align:middle;
+}
+
+/*메뉴 체크 버튼*/
+.view .buttons .btn2 {
+  color: #000;
+  background-color: #C2A383;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  height: 30px;
+  width: 30px;
+  border-radius: 10px !important;
+  display:table-cell;
+  vertical-align:middle;
+  text-align:center;
+  font-size:15px;
+}
+.view .buttons .btn2:hover {
+  color:#fff;
+  background-color: #d3af71;
+}
+.view .buttons .btn3 {
+  color: #000;
+  background-color: #C2A383;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  height: 30px;
+  width: 60px;
+  border-radius: 10px !important;
+  display:table-cell;
+  vertical-align:middle;
+  text-align:center;
+  font-size:15px;
+}
+.view .buttons .btn3:hover {
+  color:#fff;
+  background-color: #d3af71;
+}
+
+/*예약 메뉴*/
+.view .menuQuantity {
+  width: 50px;
+  position: relative;
+  bottom: 15px;
+  display: inline;
+  text-align: center;
+  z-index: 0;
+}
+.view .menuQuantity table{
+  margin-left:20px;
+}
+.view .menuQuantity table tr{
+  font-size: 26px;
+}
+
+/*주문메뉴*/
+.view .order{
+	border: 3px solid #d3af71; 
+	border-radius: 8px; 
+	font-size: 28px;	
+	position: relative;
+}
+.view .order .total{
+	border: 1px solid blakc; 
+	margin-top:15px;
+}
+
+/*결제*/
+.view .modal-footer {
   display: flex;
   justify-content: center;
-  align-items: center;
-  border: 1px solid white;
+  text-align: center;
+}
+.view .modal-footer .btn{
+  display: table-cell;
+  justify-content: center;
+  text-align: center;
+  border:none;
+  font-size:20px;
+  vertical-align:middle;
+}
+
+/*리뷰*/
+.view  .hr-5 {
+  margin-top: 20px;
+}
+.view .review-container {
   margin-top: 10px;
+  text-align: center;
+}
+.view .review-container h5{
+  color: #000; 
+  text-align: center;
+  font-size:30px;
+}
+.view .review ul{
+  list-style: none;
+  text-align: center;
+  border-bottom: 2px solid #C2A383
+}
+.view .review li{
+  list-style: none;
+  text-align: left;
+  color:#000;
+  font-size:20px;
+}
+.view .review a{
+  list-style: none;
+  text-align: left;
+  color:#000;
+}
+
+
+/*즐겨찾기 버튼*/
+.view .bookmark button {
   background: rgba(225, 225, 225);
   border:3px solid #C2A383;
   padding: 3px 15px;
@@ -3303,45 +3568,20 @@ reservation 검색
   border-radius: 10px;
   font-family: 'Cafe24Dangdanghae';
   font-size: 17px;
-  margin-right: 5px;
-  float: center;
+  margin-left: 5px;
+  /*float: center;
+  position: relative;*/
 }
 
-.view p, .view ul, .view h3, .view span{
-  color:#000;
-
+.view .bookmark button:hover {
+  background: #C2A383;
 }
 
-.view .star:hover {
-  color:#cda45e;
-  border:1px solid #cda45e
+.view ion-icon {
+  color: #c78e54;
 }
 
-.view .content p {
-  font-size: 12 px
-}
-.view .ratings span {
-  font-size: 14 px;
-  margin-left: 12 px
-}
-.view .colors {
-  margin-top: 5 px
-}
-.view .colors ul {
-  list-style: none;
-  display: flex;
-  padding-left: 0 px;
-}
-.view .colors ul li{
-  height: 20 px;width: 20 px;display: flex;
-  border-radius: 50% ;
-  margin-right: 10 px;
-  cursor: pointer
-}
 
-.view .right-side {
-  position: relative
-}
 .view .search-option {
   position: absolute;
   background-color: #cda45e;
@@ -3409,230 +3649,182 @@ reservation 검색
   right: 20px;
   top: 22px
 }
-.view .buttons .btn {
-  color: #000;
-  background-color: #C2A383;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  height: 50px;
-  width: 150px;
-  border-radius: 10px !important
+
+/*shopManage 하단 */
+.view .col-lg-12{
+	display:flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
 }
 
-.view .buttons .btn:hover {
-  color:#fff;
-  background-color: #d3af71;
+.view .col-lg-12 table input{	
+  	background: rgba(225, 225, 225, 0.8);
+  	border:1px solid #C2A383;
 }
 
-.view .thumbnail_images {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* view product slider */
-
-.view  #view-notice {
-  color:#cda45e;
-}
-.view .review-container {
-  margin-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-}
-.view #review-title {
-  text-align: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.view .review ul{
-  list-style: none;
-  text-align: center;
-}
-
-.view #reservation {
-  margin-top: 14px;
-}
-
-/*즐겨찾기*/
-.view .modal {
-  margin-top: 5vh;
-  color:black;
-  font-size: 18px;
-}
-
-.view .modal-content{
-	border: solid 3px #d3af71;
-}
-
-.view #modal-btn:hover {
-  border: 2px solid white;
-}
-
-.view #modal-btn:active {
-  background-color: white;
-  color: #c78e54;
-
-}
-.view #select-ul {
-  text-align: center;
-  position: relative;
-  z-index: 1;
-  margin: 0%;
-  list-style: none; 
-  display: none;
-  border: 1px solid #999;
-}
-
-.view .option:hover {
-  border-top: 1px solid #c78e54;
-  border-bottom: 1px solid #c78e54;
-}
-
-.view .personnel-select {
-  float: left; width: 50%;
-  display: inline-block;
-  width: 176.8px;
-  border: 1px solid #999;
-  cursor: pointer;
-  position: relative;
-  bottom: 10px;
-  height: 38px;
-  border-radius: 25px;
-}
-
-.view .datepicker {
-  float: left; width: 50%;
-  display: inline-block;
-  width: 176.8px;
-  border: 1px solid #999;
-  cursor: pointer;
-  position: relative;
-  bottom: 10px;
-  height: 38px;
-  border-radius: 25px;
-  color: #c78e54;
-}
-
-.view .personnel-select:hover {
-  border: 1px solid #cda45e;
-}
-
-.view .personnel-selected {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 5px;
-  width: 176.8px;
-  height: 100%;
-  z-index: 1;
-}
-
-.view  .personnel-selected-value {
-  width: 176.8px;
-  color: #cda45e;
-  text-align: center;
-  z-index: 1;
-}
-
-.view .option {
-  position: relative;
-  right: 15px;
-  z-index: 1;
-}
-
-.view  #select-ul {
-  margin-right: 10px;
-  width: 176.8px;
-  border-top: 1px solid #999;
-  position: absolute;
-  background: #fff;
-  border-top: none;
-  position: relative;
-  right: 1px;
-  z-index: 1;
-}
-.view #modal-title {
-  position: relative;
-  left: 50%;
-}
-.view .modal-body {
-  height: 60vh;
-  z-index: 0;
-  border-top: solid 3px #d3af71;
-}
-.view .modal-footer {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-}
-.view .modal-body input[type=checkbox] {
-  width: 20px;
-  height: 20px;
-}
-
-.view .view-container {
-  display: inline-block;
-  position: relative;
-  left: 18px;
-  top:28px;
-  width: 120px;
-  height: 30px;
-  color:#c78e54;
-}
-
-.view .modal-menu{
-  display: inline-block;
-  width: 499px;
-  position: relative;
-  bottom: 31%;
-  right: 3.6%;
-  height: 150px;
-  border-top: 2px solid rgba(127, 137, 161, 0.2);
-}
-
-.view #view-name {
-  position: relative;
-  bottom: 10px;
-}
-.view .menuQuantity {
-  width: 50px;
-  position: relative;
-  bottom: 15px;
-  display: inline;
-  text-align: center;
-  z-index: 0;
-}
-
-.view .menu {
-  position: relative;
-  height: 30px;
-  width: 30px;
-}
-
-.view .modal-title, .view #view-name {
-  color: rgba(0,0,0);
-  font-size:25px;
-}
-
-.view .menu-print {
-  position: relative;
-  display: none;
-  z-index: 0;
-}
-
-.view #shopName {
-	font-size: 20px;
-	position: relative;
-	bottom:10px;
+.view .col-lg-12 table th{	
+	font-size: 30px;
 	text-align: center;
+	padding-bottom: 10px;
 }
 
-.view .selectcontent {
-	height:50px;
-	position: relative;
-	margin: auto;
-	word-break:break-all;
+.view .col-lg-12 table td{
+	font-size: 20px;
+	padding-left: 10px;
 }
 
-/*즐겨찾기 버튼*/
-.view .bookmark button {
-  /*margin-top: 10px;*/
+.view .col-lg-12 table .line{	
+	border-bottom: 2px solid #C2A383;
+}
+
+.view .col-lg-12 table .right{
+	text-align: right;
+	padding-right: 10px;
+	border-right: 2px solid #C2A383;
+}
+
+.view .setTable{
+	color: black;
+}
+
+.view .setTime{
+	color: black;
+}
+
+.view .setMenu{
+	color: black;
+}
+
+
+/*shopUpdate 수정*/
+.view .imageModify table{
+   margin-top: 20px;
+}
+.view .imageModify table .file-check-content, .file-content{
+   font-size:17px;
+}
+.view .imageModify table tr .file-check, .file{
+   font-size:20px;
+   padding-right:16px;
+}
+.view .imageModify table tr .file-check{
+   padding-top: 20px;
+}
+.view .imageModify table tr .file{
+   padding-top: 20px;
+}
+.view .imageModify table tr .file-content{
+   margin-top: 20px;
+}
+.view .introduce table{
+   margin-top: 20px;
+}
+.view .introduce table tr th{
+   font-size:30px;
+}
+.view .introduce table tr .name{
+   font-size:20px;
+   padding-right:40px;
+   padding-bottom: 10px;
+}
+.view .introduce table tr .name2{
+   font-size:20px;
+   padding-right:10px;
+}
+.view .introduce table tr .intro{
+   padding-bottom: 10px;
+}
+.view .introduce table tr #shopIntro{
+   width:450px;
+   height:40px;
+}
+.view .introduce table tr #shopContent{
+   width:450px;
+   height:150px;
+}
+.view .p-3 table{
+   margin-top:30px;
+}
+.view .p-3 table tr th{
+   font-size:30px;
+}
+.view .p-3 table tr .td{
+   font-size:20px;
+   padding-right:40px;
+}
+.view .p-3 table input[type=text]{
+   width:460px;
+   height:35px;
+}
+.view .p-3 table tr .select{
+   height:35px;
+   width:120px;
+}
+.view .p-3 table input[type=checkbox]{
+   height:20px;
+   width:20px;
+   vertical-align:middle;
+}
+.view .p-3 table td input[type=button]{
+   height:34px;
+   background: #C2A383;
+   border: 0;
+   color: #fff;
+   font-size: 17px;
+   border-radius: 5px;
+}
+.view .additional table tr th{
+   font-size:30px;
+   padding-top: 40px;
+   padding-left: 15px;
+}
+
+.view .additional table tr td{
+   font-size:20px;
+}
+.view .additional table input[type=text]{
+   width:460px;
+   height:35px;
+}
+.view .additional table td .select{
+   height:35px;
+   width:120px;
+}
+.view .additional table td button[type=button]{
+   text-align: center;
+   height:34px;
+   background: #C2A383;
+   border: 0;
+   color: #fff;
+   font-size: 18px;
+   border-radius: 10px;
+   margin-right:5px;
+   width:60px;
+   font-family: 'Cafe24Dangdanghae';
+}
+.view .additional table .tdtd{
+   padding-right:40px;
+   padding-left:17px;
+}
+.view .additional table .tdtd2{
+   padding-right:33px;
+   padding-left:17px;
+}
+.view .additional table .tdtd3{
+   padding-right:19px;
+   padding-left:17px;
+}
+.view .additional table .tdtd4{
+   padding-right:36px;
+   padding-left:17px;
+}
+.view .additional table .tdtd5{
+   padding-right:68px;
+   padding-left:17px;
+}
+
+/*매장관리 수정.취소 버튼*/
+.view .update button {
   background: rgba(225, 225, 225);
   border:3px solid #C2A383;
   padding: 3px 15px;
@@ -3640,17 +3832,30 @@ reservation 검색
   transition: 0.4s;
   border-radius: 10px;
   font-family: 'Cafe24Dangdanghae';
-  font-size: 17px;
-  margin-left: 5px;
-  float: center;
+  font-size: 20px;
+  margin-right: 8px;
+  margin-top: 20px;
 }
 
-.view .bookmark button:hover {
+.view .update button:hover {
   background: #C2A383;
 }
 
-.view ion-icon {
-  color: #c78e54;
+.view .cancle button {
+  background: rgba(225, 225, 225);
+  border:3px solid #C2A383;
+  padding: 3px 15px;
+  color: #0c0b09;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 20px;
+  margin-left: 8px;
+  margin-top: 20px;
+}
+
+.view .cancle button:hover {
+  background: #C2A383;
 }
 
 /*--------------------------------------------------------------
@@ -3661,25 +3866,10 @@ reservation 검색
 /*--------------------------------------------------------------
 #today Start
 --------------------------------------------------------------*/
-/*.today {
-  background: url(/resources/images/hero-bg.jpg) center center no-repeat;
-  background-size: cover;
-  width: 100%;
-}*/
+/*
 .today-container {
   margin-top: 100px;
 }
-/*
-.today::before {
-  content: "";
-  background :rgba(16, 16, 16);
-  opacity: 0.95;
-  position: relative;
-  top: 15%;
-  right: 5%;
-  left: 5%;
-  bottom: 0%;
-}*/
 
 .today {
   width: 100%;
@@ -3704,6 +3894,40 @@ reservation 검색
 
 .today .container {
   position: relative;
+}*/
+
+.today {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+}
+
+.today .container{
+  padding-top: 110px;
+}
+
+.today .row{
+  padding: 1% 1%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: inline-block;     
+  position: relative;                 
+}
+
+.today:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 @media (min-width: 1024px) {
@@ -3790,10 +4014,6 @@ reservation 검색
   width: 100%;
 }
 
-.today .table tr {
-  border: none;
-}
-
 /*
 today 검색
 */
@@ -3809,7 +4029,7 @@ today 검색
 
 .today .collapse .btn {
   background: #C2A383;
-  color: rgb(255, 255, 255);
+  color: white;
   padding: 1px 20px;
   position: relative;
   border: 1px solid #C2A383;
@@ -3823,7 +4043,6 @@ today 검색
   border: 0;
   padding: 1px;
   width: calc(100% - 50px);
-  background: rgba(225, 225, 225);
   height: 38px;
   width: 190px;
   /*color: #0c0b09;*/
@@ -3891,6 +4110,502 @@ today 검색
 /*--------------------------------------------------------------
 #today end
 --------------------------------------------------------------*/
+
+
+/*--------------------------------------------------------------
+#today view start
+--------------------------------------------------------------*/
+
+.todayView {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.todayView .container{
+	  background-color:rgba(255, 255, 255, 0);
+	  padding: 1% 1%;
+	  margin-top: 40px;
+	  margin-bottom: 40px;
+	  width : 100%;                                
+	  border-radius: 1em;                         
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;              
+}
+
+.todayView .row{
+  padding: 1% 1%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: flex;
+  justify-content: center;
+  align-items: center;              
+}
+
+.todayView {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.todayView p span{
+   font-family: 'Cafe24Dangdanghae';
+}
+
+.todayView p, .view ul, .view h3, .view span{
+  color:#000;
+}
+
+@media (min-width: 1024px) {
+  .todayView {
+    background-attachment: fixed;
+  }
+}
+
+/*공지사항 및 내용*/
+.todayView .view-text {
+  margin-left:5px; 
+  border-top: 2px solid #C2A383;
+}
+.todayView .view-text .title{
+  font-size: 25px; 
+  margin-left:20px;
+}
+.todayView .view-text .view-content{
+   font-size: 18px; 
+   margin-left:10px;
+}
+
+/*매장 이름 및 내용*/
+.todayView .p-3{
+	float:right;
+	width: 50%;
+}
+.todayView h3{
+  font-size:40px;
+}
+.todayView .intro{
+  font-size:25px;
+}
+.todayView .intro2{
+  font-size:18px;
+  list-style:none;
+  padding-left:8px;
+}
+.todayView .intro2 i{
+  color: #C2A383;
+}
+.todayView .hashtag
+{
+	cursor: pointer;
+}
+.todayView .hashtag i
+{
+	font-size: 18px; 
+	color: #FF7F50;
+}
+
+/*today, 예약 버튼*/
+.todayView .buttons {
+	  display: flex;
+	  justify-content: right;
+	  align-items: right;  
+}
+.todayView .buttons .btn {
+  color: #fff;
+  background-color: #C2A383;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  height: 50px;
+  width: 150px;
+  border-radius: 10px !important;
+}
+.todayView .buttons .btn:hover {
+  color:#fff;
+  background-color: #d3af71;
+}
+.todayView .buttons .btn a{
+  color: #fff;
+}
+
+/*매장 이미지*/
+.todayView .thumbnail_images ul {
+  list-style: none;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  margin-top: 10 px
+}
+.todayView .thumbnail_images ul li {
+  margin: 5 px;padding: 10 px;
+  border: 2 px solid #cda45e
+  ;cursor: pointer;
+  transition: all 0.5 s
+}
+.todayView .main_image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400 px;
+  width: 100% ;
+  overflow: hidden;
+  }
+
+.todayView .thumbnail_images {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/*예약 modal*/
+.todayView .modal {
+  margin-top: 2vh;
+  color:black;
+  font-size: 18px;
+  min-height: 100vh;
+  
+}
+
+.todayView .modal-content{
+	border: solid 3px #d3af71;
+}
+
+.todayView #modal-btn:hover {
+  border: 2px solid white;
+}
+
+.todayView #modal-btn:active {
+  background-color: white;
+  color: #c78e54;
+
+}
+/*modal 예약 title*/
+.todayView .modal-title {
+  color: rgba(0,0,0);
+  font-size:25px;
+}
+/*modal body*/
+.todayView .modal-body {
+  /*height: 60vh;*/
+  z-index: 0;
+  border-top: solid 3px #d3af71;
+  border-bottom: solid 3px #d3af71;
+}
+
+.todayView #shopName {
+	font-size: 35px;
+	position: relative;
+	bottom:10px;
+	text-align: center;
+}
+
+.todayView #selectcontent {
+	height:50px;
+	position: relative;
+	margin: auto;
+	word-break:break-all;
+}
+
+/*인원 선택*/
+.todayView .personnel-select {
+  float: left; width: 50%;
+  display: inline-block;
+  width: 176.8px;
+  border: 1px solid #999;
+  cursor: pointer;
+  position: relative;
+  bottom: 10px;
+  height: 38px;
+  border-radius: 25px;
+  margin-left: 50px;
+  margin-right: 2px;
+}
+.todayView .personnel-select:hover {
+  border: 1px solid #cda45e;
+}
+.todayView .personnel-selected {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 5px;
+  width: 176.8px;
+  height: 100%;
+  z-index: 1;
+}
+.todayView  .personnel-selected-value {
+  width: 176.8px;
+  color: #cda45e;
+  text-align: center;
+  z-index: 1;
+  line-height:20px;
+}
+.todayView  #select-ul {
+  margin-right: 10px;
+  width: 176.8px;
+  position: absolute;
+  background: #fff;
+  border-top: none;
+  position: relative;
+  right: 1px;
+  z-index: 1;
+  text-align: center;
+  list-style: none; 
+  display: none;
+  margin-top: 5px;
+  border: 1px solid #999;
+  border-top: 1px solid #fff;
+  
+}
+.todayView .option {
+  position: relative;
+  right: 15px;
+  z-index: 1;
+}
+.todayView .option:hover {
+  border-top: 1px solid #c78e54;
+  border-bottom: 1px solid #c78e54;
+}
+
+/*날짜 선택*/
+.todayView .datepicker {
+  float: left; width: 50%;
+  display: inline-block;
+  width: 176.8px;
+  border: 1px solid #999;
+  cursor: pointer;
+  position: relative;
+  bottom: 10px;
+  height: 38px;
+  border-radius: 25px;
+  color: #c78e54;
+  margin-left: 2px;
+}
+
+/*카운터석 안내문*/
+.todayView .modal-body .count{
+	text-align:center; 
+	margin-bottom:20px; 
+	position:relative;
+}
+.todayView .modal-body input[type=checkbox] {
+  width: 20px;
+  height: 20px;
+   vertical-align:middle;
+}
+
+/*메뉴 체크 버튼*/
+.todayView .buttons .btn2 {
+  color: #000;
+  background-color: #C2A383;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  height: 30px;
+  width: 30px;
+  border-radius: 10px !important;
+  display:table-cell;
+  vertical-align:middle;
+  text-align:center;
+  font-size:15px;
+}
+.todayView .buttons .btn2:hover {
+  color:#fff;
+  background-color: #d3af71;
+}
+.todayView .buttons .btn3 {
+  color: #000;
+  background-color: #C2A383;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  height: 30px;
+  width: 60px;
+  border-radius: 10px !important;
+  display:table-cell;
+  vertical-align:middle;
+  text-align:center;
+  font-size:15px;
+}
+.todayView .buttons .btn3:hover {
+  color:#fff;
+  background-color: #d3af71;
+}
+
+/*예약 메뉴*/
+.todayView .menuQuantity {
+  width: 50px;
+  position: relative;
+  bottom: 15px;
+  display: inline;
+  text-align: center;
+  z-index: 0;
+}
+.todayView .menuQuantity table{
+  margin-left:20px;
+}
+.todayView .menuQuantity table tr{
+  font-size: 26px;
+}
+
+/*주문메뉴*/
+.todayView .order{
+	border: 3px solid #d3af71; 
+	border-radius: 8px; 
+	font-size: 28px;	
+	position: relative;
+}
+.todayView .order .total{
+	border: 1px solid blakc; 
+	margin-top:15px;
+}
+
+/*결제*/
+.todayView .modal-footer {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+.todayView .modal-footer .btn{
+  display: table-cell;
+  justify-content: center;
+  text-align: center;
+  border:none;
+  font-size:20px;
+  vertical-align:middle;
+}
+
+/*리뷰*/
+.todayView  .hr-5 {
+  margin-top: 20px;
+}
+.todayView .review-container {
+  margin-top: 10px;
+  text-align: center;
+}
+.todayView .review-container h5{
+  color: #000; 
+  text-align: center;
+  font-size:30px;
+}
+.todayView .review ul{
+  list-style: none;
+  text-align: center;
+  border-bottom: 2px solid #C2A383
+}
+.todayView .review li{
+  list-style: none;
+  text-align: left;
+  color:#000;
+  font-size:20px;
+}
+.todayView .review a{
+  list-style: none;
+  text-align: left;
+  color:#000;
+}
+
+
+/*즐겨찾기 버튼*/
+.todayView .bookmark button {
+  background: rgba(225, 225, 225);
+  border:3px solid #C2A383;
+  padding: 3px 15px;
+  color: #0c0b09;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 17px;
+  margin-left: 5px;
+  /*float: center;
+  position: relative;*/
+}
+
+.todayView .bookmark button:hover {
+  background: #C2A383;
+}
+
+.todayView ion-icon {
+  color: #c78e54;
+}
+
+
+.todayView .search-option {
+  position: absolute;
+  background-color: #cda45e;
+  overflow: hidden;
+  align-items: center;
+  color: #cda45e;
+  width: 200 px;
+  height: 200 px;
+  border-radius: 49% 51% 50% 50% / 68% 69% 31% 32%;
+  left: 30%;
+  bottom: -250px;
+  transition: all 0.5s;
+  cursor: pointer}
+.todayView .search-option .first-search {
+  position: absolute;
+  top: 20px;
+  left: 90px;
+  font-size: 20px;
+  opacity: 1000
+}
+.todayView .search-option .inputs {
+  opacity: 0;
+  transition: all 0.5s ease;
+  transition-delay: 0.5s;
+  position: relative
+}
+.todayView .search-option .inputs input {
+  position: absolute;
+  top: 200px;
+  left: 30px;
+  padding-left: 20px;
+  background-color: transparent;
+  width: 300px;
+  border: none;
+  color: #cda45e;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.5s;
+  z-index: 10
+}
+.todayView .search-option .inputs input:focus {
+  box-shadow: none;
+  outline: none;
+  z-index: 10;
+  
+}
+.todayView .search-option:hover {
+  border-radius: 0px;
+  width: 100%;
+  left: 0px;
+  background-color: #cda45e;
+}
+.todayView .search-option:hover .inputs {
+  opacity: 1
+}
+.todayView .search-option:hover .first-search {
+  left: 27px;
+  top: 25px;
+  font-size: 15px
+}
+.todayView .search-option:hover .inputs input {
+  top: 20px
+}
+.todayView .search-option .share {
+  position: absolute;
+  right: 20px;
+  top: 22px
+}
+
+
+/*--------------------------------------------------------------
+#today view end
+--------------------------------------------------------------*/
+
+
 
 /***
 login.html시작
@@ -4382,6 +5097,7 @@ hr[role="tournament1"]::before {
 #help a{
   color: #0051ffe5;
   text-decoration: none;
+  cursor: pointer;
 }
 
 #help .row{
@@ -4408,7 +5124,7 @@ hr[role="tournament1"]::before {
 
 #help h3{
   font-family : 'Cafe24Dangdanghae';
-  font-size: 25px;
+  font-size: 30px;
   font-weight: 100;
 }
 #help h4{
@@ -4430,18 +5146,26 @@ hr[role="tournament1"]::before {
   text-align: left;
   margin-left: 30px;
 }
+#help .col-lg-12
+{
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
 /*****************
 * table
 ******************/
-#notice, #faq{
+/*#notice, #faq{
   display: inline-block;
   width: 80%;
   margin-bottom:20px;
-}
-#personal, #enterprise{
+}*/
+#notice, #faq, #personal, #enterprise{
   vertical-align: top;
   display: inline-block;
-  width: 40%;
+  width: 45%;
+}
+#personal, #enterprise{
+  margin-top:10px;
 }
 #tableFirst{
   border-top-left-radius: 1em;
@@ -4475,10 +5199,26 @@ hr[role="tournament1"]::before {
   text-decoration: none;
   border:#C2A383 4px solid;
 }
-#soloTable li span{
+#soloTitle{
   margin-left: 20px;
   color:#000;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 500px;
 }
+
+#solocontent{
+  width: 500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  color:black;
+}
+  
 #soloTitle, #solocontent{
   margin-left: 10px;
 }
@@ -4522,6 +5262,140 @@ hr[role="tournament1"]::before {
     left: 0;
     right: 0;
   }
+
+
+  #helpList .btnSort{
+    border :none;
+    background: none;
+    font-family: 'Cafe24Dangdanghae';
+  }
+  #helpList .btnSort:hover{
+    border :none;
+    background: none;
+    color: #c2a383;
+    font-family: 'Cafe24Dangdanghae';
+  }
+  #helpList .d-flex ul {
+    margin-top: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: #0c0b09;
+    position: relative;
+    font-family: 'Cafe24Dangdanghae';
+  }
+  
+  #helpList .d-flex ul li {
+    margin-top: 5px;
+  }
+  
+  #helpList .d-flex ul a {
+    color: #0c0b09;
+  }
+  
+  #helpList .d-flex ul a:hover {
+    color: #C2A383;
+    text-decoration: none;
+  }
+  
+  #helpList .d-flex ul li+li {
+    padding-left: 0px;
+  }
+  
+  #helpList .d-flex ul li+li::before {
+    display: inline-block;
+    content: "|";
+    color: #C2A383;
+  }
+  
+  
+  /*검색*/
+  #helpList .d-flex select{
+    background: rgba(225, 225, 225);
+    border: 1px solid #C2A383;
+    position: relative;
+    width: 80px;
+    height: 30px;
+    /*background-image: */
+  }
+  
+  #helpList .d-flex .search {
+    background: rgba(225, 225, 225);
+    padding: 1px 70px 1px 10px;
+    position: relative;
+    /*border-radius: 50px;*/
+    border: 1px solid #C2A383;
+    float: right;
+  }
+  
+  #helpList .d-flex .search input[type=text] {
+    border: 0;
+    padding: 1px;
+    width: 100%;
+    background: rgba(225, 225, 225);
+    /*color: #0c0b09;*/
+  }
+   
+  #helpList .d-flex .search button[type=button] {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    bottom: -1px;
+    border: 0;
+    background: none;
+    font-size: 16px;
+    padding: 0 20px 2px 20px;
+    background: #C2A383;
+    color: #fff;
+    transition: 0.3s;
+    /*border-radius: 50px;*/
+    font-family: 'Cafe24Dangdanghae';
+  }
+  
+  #helpList .d-flex .search button[type=button]:hover {
+    background: #d3af71;
+  }
+/*목록*/
+#helpList #btnIndex {
+  background: rgba(225, 225, 225);
+  border:2px solid #A6A6A6;
+  color: #595959;
+  transition: 0.4s;
+  border-radius: 20px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 15px;
+  float:left;
+  vertical-align: middle;
+  margin-right: 2px;
+  padding: 5px 15px;
+  border-radius: 20px;
+}
+
+/*글쓰기 버튼*/
+#helpList #btnWrite {
+  background: #C2A383;
+  border: 0;
+  padding: 8px 20px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 10px;
+  float:right;
+  font-family: 'Cafe24Dangdanghae';
+  position: relative;
+}
+
+#helpList #btnWrite button:hover {
+  background: #d3af71;
+}
+
+#helpList #btnWrite a{
+  color: #fff;
+}
+
+
+
 
 @media (max-width: 992px) {
   #community .container {
@@ -4683,7 +5557,7 @@ hr[role="tournament1"]::before {
 #helpList .board-content table td {
   border-top: 1px solid #C2A383;
   padding: 7px;
-  font-size: 15px;
+  font-size: 20px;
   color: #0c0b09;
 }
 
@@ -5433,15 +6307,249 @@ hr[role="tournament1"]::before {
 
 
 
-/*rlist.html CSS끝*/
-
-
-/*
-footer요소들 페이지 css시작
-*/
 /*--------------------------------------------------------------
-# footer의 resources start
+# footer css
 --------------------------------------------------------------*/
+/*About Us*/
+#aboutus1 {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+  color: #0c0b09;
+}
+
+#aboutus1 .container{
+  padding-top: 110px;
+}
+
+#aboutus1 .row{
+  padding: 1% 1%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: inline-block;     
+  position: relative;                 
+}
+
+#aboutus1:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.aboutus1 .nav-item button{
+  margin-top: 10px;
+  background: #cda45e;
+  border: 0;
+  padding: 4px 20px;
+  color: #0c0b09;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 19px;
+  float: right;
+
+}
+.aboutus1 #pills-tab .active {
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
+  border-radius: 10px;
+}
+
+.aboutus1 .tab-content .title{
+	margin-top:30px;
+	margin-bottom:0px;
+}
+.aboutus1 .tab-content hr{
+	margin-top:1px;
+	margin-bottom:1px;
+	border: 1px solid;
+	border-color: #cda45e;
+	background: #cda45e;
+}
+.aboutus1 .tab-content .info{
+	word-break: keep-all;
+  	font-size: 20px;
+}
+
+
+/*Company*/
+#company {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+  color: #0c0b09;
+}
+
+#company .container{
+  padding-top: 110px;
+}
+
+#company .row{
+  padding: 1% 1%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: inline-block;     
+  position: relative;                 
+}
+
+#company:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.company .nav-item button{
+  margin-top: 10px;
+  background: #cda45e;
+  border: 0;
+  padding: 4px 20px;
+  color: #0c0b09;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 19px;
+  float: right;
+
+}
+.company #pills-tab .active {
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
+  border-radius: 10px;
+}
+
+.company .tab-content .title{
+	margin-top:30px;
+	margin-bottom:0px;
+}
+.company .tab-content hr{
+	margin-top:1px;
+	margin-bottom:1px;
+	border: 1px solid;
+	border-color: #cda45e;
+	background: #cda45e;
+}
+.company .tab-content .content .info{
+	word-break: keep-all;
+  	font-size: 20px;
+}
+.company .tab-content .content2 .year{
+  	font-size: 25px;
+}
+.company .tab-content .content2 .plan{
+  	font-size: 20px;
+}
+
+
+/*logoHistory*/
+#logoHistory {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+  color: #0c0b09;
+}
+
+#logoHistory .container{
+  padding-top: 110px;
+}
+
+#logoHistory .row{
+  padding: 1% 1%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: inline-block;     
+  position: relative;                 
+}
+
+#logoHistory:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.logoHistory .nav-item button{
+  margin-top: 10px;
+  background: #cda45e;
+  border: 0;
+  padding: 4px 20px;
+  color: #0c0b09;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size: 19px;
+  float: right;
+
+}
+.logoHistory #pills-tab .active {
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
+  border-radius: 10px;
+}
+
+.logoHistory .tab-content .title{
+	margin-top:30px;
+	margin-bottom:0px;
+}
+.logoHistory .tab-content hr{
+	margin-top:1px;
+	margin-bottom:20px;
+	border: 1px solid;
+	border-color: #cda45e;
+	background: #cda45e;
+}
+
+.logoHistory .logo{
+	display:flex;
+	flex-flow:row nowrap;
+	justify-content: space-between;
+	margin-left:100px;
+	margin-right:100px;
+}
+
+.logoHistory .logo img{
+  margin: auto;
+  display: block;
+  width: 150px;
+  height: 150px;
+}
+.logoHistory .logo .image-info{
+  text-align:center;
+	font-size:20px;
+	margin-top:10px;
+}
+.logoHistory .arrow{
+	margin-top:50px;
+	font-size:40px;
+}
 
 /*
 약관 css
@@ -5453,125 +6561,28 @@ footer요소들 페이지 css시작
   background-size: cover;
   position: relative;
   padding: 0;
-  color:#0c0b09;
-  
 }
-
-#term2 {
-  width: 100%;
-  height: 100%;
-  background: url("/resources/images/hero-bg.jpg") top center;
-  background-size: cover;
-  position: relative;
-  padding: 0;
-  color:#0c0b09;
-  
+#term1 .container{
+  padding-top: 110px;
 }
-
-#term3 {
-  width: 100%;
-  height: 100%;
-  background: url("/resources/images/hero-bg.jpg") top center;
-  background-size: cover;
-  position: relative;
-  padding: 0;
-  color:#0c0b09;
-  
+#term1 .row{
+  padding: 1% 1%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: inline-block;     
+  position: relative;                 
 }
-
-#term4 {
-  width: 100%;
-  height: 100%;
-  background: url("/resources/images/hero-bg.jpg") top center;
-  background-size: cover;
-  position: relative;
-  padding: 0;
-  color:#0c0b09;
-  
-}
-
-#term1 .container {  
-    margin-top: 170px;
-}
-
-#term2 .container {  
-  margin-top: 170px;
-}
-
-#term3 .container {  
-  margin-top: 170px;
-}
-
-#term4 .container {  
-  margin-top: 170px;
-}
-
 #term1:before {
   content: "";
-  background: rgba(225, 225, 225);
-  opacity : 0.95;
+  background: rgba(0, 0, 0, 0.5);
   position: absolute;
   bottom: 0;
-  top: 4.3%;
-  left: 5%;
-  right: 5%;
-  border-radius: 20px;
-}
-
-#term2:before {
-  content: "";
-  background: rgba(225, 225, 225);
-  opacity : 0.95;
-  position: absolute;
-  bottom: 0;
-  top: 1.5%;
-  left: 5%;
-  right: 5%;
-  border-radius: 20px;
-}
-
-#term3:before {
-  content: "";
-  background: rgba(225, 225, 225);
-  opacity : 0.95;
-  position: absolute;
-  bottom: 0;
-  top: 3.2%;
-  left: 5%;
-  right: 5%;
-  border-radius: 20px;
-}
-
-#term4:before {
-  content: "";
-  background: rgba(225, 225, 225);
-  opacity : 0.95;
-  position: absolute;
-  bottom: 0;
-  top: 10.5%;
-  left: 5%;
-  right: 5%;
-  border-radius: 20px;
-}
-
-#term1 .row {
-  position:relative;
-  
-}
-
-#term2 .row {
-  position:relative;
-  
-}
-
-#term3 .row {
-  position:relative;
-  
-}
-
-#term4 .row {
-  position:relative;
-  
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 @media (min-width: 1024px) {
@@ -5580,10 +6591,136 @@ footer요소들 페이지 css시작
   }
 }
 
+#term1 .nav-item button{
+  	margin-top: 10px;
+    background: #cda45e;
+    border: 0;
+    padding: 4px 20px;
+    color: #0c0b09;
+    transition: 0.4s;
+    border-radius: 10px;
+    font-family: 'Cafe24Dangdanghae';
+    font-size: 19px;
+    float: right;
+
+}
+#term1 #pills-tab .active {
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
+  border-radius: 10px;
+}
+
+#term1 .content{
+	margin-top:30px;
+	word-break: keep-all;
+	color: #0c0b09;
+}
+#term1 .content .tab-pane p{
+	margin-bottom:0px;
+}
+#term1 .content .tab-pane .info{
+	margin-bottom:30px;
+	font-size: 20px;
+}
+
+
+/*resources2*/
+#term2 {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+}
+
+#term2 .container{
+  padding-top: 110px;
+}
+
+#term2 .row{
+  padding: 1% 1%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: inline-block;     
+  position: relative;                 
+}
+
+#term2:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
 @media (min-width: 1024px) {
   #term2 {
     background-attachment: fixed;
   }
+}
+
+#term2 .nav-item button{
+  	margin-top: 10px;
+    background: #cda45e;
+    border: 0;
+    padding: 4px 20px;
+    color: #0c0b09;
+    transition: 0.4s;
+    border-radius: 10px;
+    font-family: 'Cafe24Dangdanghae';
+    font-size: 19px;
+    float: right;
+}
+#term2 #pills-tab .active {
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
+  border-radius: 10px;
+}
+#term2 .content{
+	margin-top:30px;
+	word-break: keep-all;
+	color: #0c0b09;
+}
+
+/*resources3*/
+#term3 {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+}
+
+#term3 .container{
+  padding-top: 110px;
+}
+
+#term3 .row{
+  padding: 1% 1%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: inline-block;     
+  position: relative;                 
+}
+
+#term3:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 @media (min-width: 1024px) {
@@ -5592,57 +6729,73 @@ footer요소들 페이지 css시작
   }
 }
 
+#term3 .nav-item button{
+  	margin-top: 10px;
+    background: #cda45e;
+    border: 0;
+    padding: 4px 20px;
+    color: #0c0b09;
+    transition: 0.4s;
+    border-radius: 10px;
+    font-family: 'Cafe24Dangdanghae';
+    font-size: 19px;
+    float: right;
+
+}
+#term3 #pills-tab .active {
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
+  border-radius: 10px;
+}
+#term3 .content{
+	margin-top:30px;
+	word-break: keep-all;
+	color: #0c0b09;
+}
+
+/*resources4*/
+#term4 {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+}
+
+#term4 .container{
+  padding-top: 110px;
+}
+
+#term4 .row{
+  padding: 1% 1%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  width : 100%;                               
+  background-color:rgba(255, 255, 255, 0.8);   
+  border-radius: 1em;                         
+  display: inline-block;     
+  position: relative;                 
+}
+
+#term4:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
 @media (min-width: 1024px) {
   #term4 {
     background-attachment: fixed;
   }
 }
 
-
-#term1 .nav-item button{
-  margin-top: -30px;
-    background: #cda45e;
-    border: 0;
-    padding: 4px 20px;
-    color: #0c0b09;
-    transition: 0.4s;
-    border-radius: 10px;
-    font-family: 'Cafe24Dangdanghae';
-    font-size: 19px;
-    float: right;
-
-}
-
-#term2 .nav-item button{
-  margin-top: -30px;
-    background: #cda45e;
-    border: 0;
-    padding: 4px 20px;
-    color: #0c0b09;
-    transition: 0.4s;
-    border-radius: 10px;
-    font-family: 'Cafe24Dangdanghae';
-    font-size: 19px;
-    float: right;
-
-}
-
-#term3 .nav-item button{
-  margin-top: -30px;
-    background: #cda45e;
-    border: 0;
-    padding: 4px 20px;
-    color: #0c0b09;
-    transition: 0.4s;
-    border-radius: 10px;
-    font-family: 'Cafe24Dangdanghae';
-    font-size: 19px;
-    float: right;
-
-}
-
 #term4 .nav-item button{
-  margin-top: -30px;
+  	margin-top: 10px;
     background: #cda45e;
     border: 0;
     padding: 4px 20px;
@@ -5652,233 +6805,83 @@ footer요소들 페이지 css시작
     font-family: 'Cafe24Dangdanghae';
     font-size: 19px;
     float: right;
-
 }
-
-#term1 #pills-tab .active {
-  color: #0c0b09;
-  background-color: rgba(225, 225, 225);
-  border-radius: 10px;
-
-}
-
-#term2 #pills-tab .active {
-  color: #0c0b09;
-  background-color: rgba(225, 225, 225);
-  border-radius: 10px;
-
-}
-
-#term3 #pills-tab .active {
-  color: #0c0b09;
-  background-color: rgba(225, 225, 225);
-  border-radius: 10px;
-
-}
-
 #term4 #pills-tab .active {
   color: #0c0b09;
   background-color: rgba(225, 225, 225);
   border-radius: 10px;
-
 }
-
-
-
+#term4 .content{
+	margin-top:30px;
+	word-break: keep-all;
+	color: #0c0b09;
+}
 #term4 #pills-contact2 .title-area {
   text-align: center;
 }
-
-#term4 #pills-contact2 .storequestion{
-  padding: 50px 300px;
+#term4 #pills-contact2 h3 {
+  text-align: center;
+  font-size:40px;
+  padding-bottom:20px;
+}
+#term4 #pills-contact2 p {
+  font-size:20px;
+}
+#term4 #pills-contact2 .bottom {
+  padding-bottom:30px;
 }
 
-
-#term4 .inquiry {
-  text-align:center;
+#term4 #pills-contact2 .storequestion{
+  padding: 0px 200px;
 }
 
 #term4 .doc #doc-inner {
   text-align: left;
 }
 
-#term4 .container .row #inquiryBtn{
-  margin-top: 10px;
-  background: #cda45e;
-  border: 0;
-  padding: 4px 20px;
-  color: #0c0b09;
-  transition: 0.4s;
-  border-radius: 20px;
-  font-family: 'Cafe24Dangdanghae';
-  font-size: 19px;
-  float: center;
+#term4 .fieldset-header{
+	text-align: center;
+	padding-top:30px;
 }
 
+#term4 .fieldset-header h4{
+  font-size:30px;
+  padding-bottom:10px;
+}
+
+#term4 .fieldset-header input[type=checkbox]{
+  width:20px;
+  height:20px;
+   vertical-align:middle;
+}
+#term4 .label-checkbox{
+  font-size:20px;
+}
+#term4 .inquiry{
+  padding-bottom:20px;
+}
+#term4 .inquiry button[type=button] {
+  margin-top: 20px;
+  border: 2px solid #C2A383;
+  padding: 8px 20px;
+  color: black;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: 'Cafe24Dangdanghae';
+  font-size:20px;
+  position: relative;
+  text-align:center;
+  margin: auto;
+  display: block;
+}
+
+#term4 .inquiry button[type=button]:hover {
+  background: #d3af71;
+}
 /*--------------------------------------------------------------
-# footer의 aboutus css
+# footer css End
 --------------------------------------------------------------*/
 
-.aboutus1 {
-  width: 100%;
-  height: 100%;
-  background: url("/resources/images/hero-bg.jpg") top center;
-  background-size: cover;
-  position: relative;
-  padding: 0;
-  color:#0c0b09;
-}
-
-.aboutus2 {
-  width: 100%;
-  height: 100%;
-  background: url("/resources/images/hero-bg.jpg") top center;
-  background-size: cover;
-  position: relative;
-  padding: 0;
-  color:#0c0b09;
-}
-
-.aboutus3 {
-  width: 100%;
-  height: 100%;
-  background: url("/resources/images/hero-bg.jpg") top center;
-  background-size: cover;
-  position: relative;
-  padding: 0;
-  color:#0c0b09;
-}
-
-.aboutus1 .container {
-  margin-top: 100px;
-  position: relative;
-}
-
-.aboutus2 .container {
-  margin-top: 100px;
-  position: relative;
-}
-
-.aboutus3 .container {
-  margin-top: 100px;
-  position: relative;
-}
-
-.aboutus1:before {
-  content: "";
-  background: rgba(225, 225, 225);
-  opacity : 0.95;
-  position: absolute;
-  bottom: 0;
-  top: 13%;
-  left: 5%;
-  right: 5%;
-  border-radius: 20px;
-}
-
-.aboutus2:before {
-  content: "";
-  background: rgba(225, 225, 225);
-  opacity : 0.95;
-  position: absolute;
-  bottom: 0;
-  top: 13%;
-  left: 5%;
-  right: 5%;
-  border-radius: 20px;
-}
-
-.aboutus3:before {
-  content: "";
-  background: rgba(225, 225, 225);
-  opacity : 0.95;
-  position: absolute;
-  bottom: 0;
-  top: 13%;
-  left: 5%;
-  right: 5%;
-  border-radius: 20px;
-}
-
-
-.aboutus1 .nav-item button{
-  margin-top: 10px;
-    background: #cda45e;
-    border: 0;
-    padding: 4px 20px;
-    color: #0c0b09;
-    transition: 0.4s;
-    border-radius: 10px;
-    font-family: 'Cafe24Dangdanghae';
-    font-size: 19px;
-    float: right;
-
-}
-
-.aboutus2 .nav-item button{
-  margin-top: 10px;
-    background: #cda45e;
-    border: 0;
-    padding: 4px 20px;
-    color: #0c0b09;
-    transition: 0.4s;
-    border-radius: 10px;
-    font-family: 'Cafe24Dangdanghae';
-    font-size: 19px;
-    float: right;
-
-}
-
-.aboutus3 .nav-item button{
-  margin-top: 10px;
-    background: #cda45e;
-    border: 0;
-    padding: 4px 20px;
-    color: #0c0b09;
-    transition: 0.4s;
-    border-radius: 10px;
-    font-family: 'Cafe24Dangdanghae';
-    font-size: 19px;
-    float: right;
-
-}
-
-.aboutus1 #pills-tab .active {
-  color: #0c0b09;
-  background-color: rgba(225, 225, 225);
-  border-radius: 10px;
-
-}
-
-.aboutus2 #pills-tab .active {
-  color: #0c0b09;
-  background-color: rgba(225, 225, 225);
-  border-radius: 10px;
-
-}
-
-.aboutus3 #pills-tab .active {
-  color: #0c0b09;
-  background-color: rgba(225, 225, 225);
-  border-radius: 10px;
-
-}
-
-.aboutus3 .current-logo {
-  text-align:center;
-  padding: 50px 30px;
-}
-
-.aboutus3 .logo-list {  
-  text-align:center;
-  margin:auto;
-  float:left;
-  
-}
-
-/*
-footer요소 css끝
-*/
 
 /*결제*/
 .pay-back {
@@ -5948,7 +6951,7 @@ hr[role="tournament1"]::before {
 
 .pay-card-name {
   text-align: center;
-  font-size : 20px;
+  font-size : 25px;
   color : black;
   margin-top : 10px;
   margin-left : 20px;
@@ -5963,7 +6966,8 @@ hr[role="tournament1"]::before {
   padding-right:25px;
   padding-left:25px;
   color: #000;
-  font-size: 13px;
+  font-size: 30px;
+  margin-top: 30px;
   }
 
 .pay-img-div { 

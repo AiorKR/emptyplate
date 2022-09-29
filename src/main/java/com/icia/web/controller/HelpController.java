@@ -73,22 +73,22 @@ public class HelpController {
 				switch(i)
 				{
 					case 1: 
-						List<Board> list1 = boardService.boardList(board);
+						List<Board> list1 = boardService.helpList(board);
 						model.addAttribute("list1", list1);
 						model.addAttribute("listSize1", list1.size());
 						break;
 					case 2:
-						List<Board> list2 = boardService.boardList(board);
+						List<Board> list2 = boardService.helpList(board);
 						model.addAttribute("list2", list2);
 						model.addAttribute("listSize2", list2.size());
 						break;
 					case 3:
-						List<Board> list3 = boardService.boardList(board);
+						List<Board> list3 = boardService.helpList(board);
 						model.addAttribute("list3", list3);
 						model.addAttribute("listSize3", list3.size());
 						break;
 					case 4:
-						List<Board> list4 = boardService.boardList(board);
+						List<Board> list4 = boardService.helpList(board);
 						model.addAttribute("list4", list4);
 						model.addAttribute("listSize4", list4.size());
 						break;
@@ -106,12 +106,29 @@ public class HelpController {
 			try
 			{
 				model.addAttribute("cookieUserNick", user2.getUserNick());
+				model.addAttribute("adminStatus", user2.getAdminStatus());
+				if(user2.getBizNum() != null)
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[HelpController] /help/index shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
 			}
 			catch(NullPointerException e)
 			{
-				logger.error("[HelpController] help/index NullPointerException", e);
+				logger.error("[HelpController] /help/index cookieUserNick NullPointerException", e);
 			}
 		}
+		
 		model.addAttribute("bbsSeq", bbsSeq);
 		return "/help/index";
 	}
@@ -155,11 +172,6 @@ public class HelpController {
 		if(totalCount > 0)
 		{
 			paging = new Paging("/help/helpList", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
-			logger.debug("################################");
-			logger.debug("################################");
-			logger.debug("totalCount : " + totalCount);
-			logger.debug("################################");
-			logger.debug("################################");
 			paging.addParam("bbsNo", bbsNo);
 			paging.addParam("searchType", searchType);
 			paging.addParam("searchValue", searchValue);
@@ -169,7 +181,7 @@ public class HelpController {
 			board.setStartRow(paging.getStartRow());
 			board.setEndRow(paging.getEndRow());
 			
-			list = boardService.boardList(board);
+			list = boardService.helpList(board);
 		}
 		
 		model.addAttribute("user", user);
@@ -180,6 +192,7 @@ public class HelpController {
 		model.addAttribute("sortValue", sortValue);
 		model.addAttribute("curPage", curPage);
 		model.addAttribute("paging", paging);
+
 		User user2 = new User();
 		user2 = userService.userUIDSelect(cookieUserUID);
 		if(user2 != null)
@@ -187,13 +200,28 @@ public class HelpController {
 			try
 			{
 				model.addAttribute("cookieUserNick", user2.getUserNick());
+				model.addAttribute("adminStatus", user2.getAdminStatus());
+				if(user2.getBizNum() != null)
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[HelpController] /help/helpList shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
 			}
 			catch(NullPointerException e)
 			{
-				logger.error("[HelpController] help/helpList NullPointerException", e);
+				logger.error("[HelpController] /help/helpList cookieUserNick NullPointerException", e);
 			}
 		}
-		model.addAttribute("admin", user2.getAdminStatus());
 		
 		return "/help/helpList";
 	}
@@ -216,13 +244,18 @@ public class HelpController {
 	       String searchValue = HttpUtil.get(request, "searchValue", "");
 	       //현재 페이지
 	       long curPage = HttpUtil.get(request, "curPage", (long)1);
-	       logger.debug("#################################");
-	       logger.debug("#curPage" + curPage);
-	       logger.debug("#################################");
+	       //본인글 여부
+	       String admin = "N";
 	      
 	       if(bbsSeq > 0)
 	       {
 	          board = boardService.boardView(bbsSeq);
+	          
+	          //본인 게시물 여부
+	          if(board != null && StringUtil.equals(board.getUserUID(), cookieUserUID))
+	          {
+	        	  admin = "Y";
+	          }
 	          
 		      if(!StringUtil.isEmpty(cookieUserUID) && bbsSeq > 0)
 		      {
@@ -232,23 +265,40 @@ public class HelpController {
 	       }
 	       model.addAttribute("bbsSeq", bbsSeq);
 	       model.addAttribute("board", board);
+	       model.addAttribute("admin", admin);
 	       model.addAttribute("cookieUserUID",cookieUserUID);
-	       model.addAttribute("admin", user2.getAdminStatus());
 	       model.addAttribute("searchType", searchType);
 	       model.addAttribute("searchValue", searchValue);
 	       model.addAttribute("curPage", curPage);
-	      
+	       
 			if(user2 != null)
 			{
 				try
 				{
 					model.addAttribute("cookieUserNick", user2.getUserNick());
+					model.addAttribute("adminStatus", user2.getAdminStatus());
+					if(user2.getBizNum() != null)
+					{
+						try
+						{
+							model.addAttribute("shopStatus","Y");
+						}
+						catch(NullPointerException e)
+						{
+							logger.error("[HelpController] /help/helpView shopStatus NullPointerException", e);
+						}
+					}
+					else
+					{
+						model.addAttribute("shopStatus","N");
+					}
 				}
 				catch(NullPointerException e)
 				{
-					logger.error("[helController] /help/helpView NullPointerException", e);
+					logger.error("[HelpController] /help/helpView cookieUserNick NullPointerException", e);
 				}
 			}
+
 	       return "/help/helpView";
 	}
 	@RequestMapping(value="/help/helpWriteForm", method=RequestMethod.POST)
@@ -271,9 +321,6 @@ public class HelpController {
 		String searchValue = HttpUtil.get(request, "searchValue", "");
 		//현재 페이지
 		long curPage = HttpUtil.get(request, "curPage", (long)1);
-	   logger.debug("#################################");
-	   logger.debug("#curPage" + curPage);
-	   logger.debug("#################################");
 		      
 	       if(bbsSeq > 0)
 	       {
@@ -295,15 +342,31 @@ public class HelpController {
 	       model.addAttribute("curPage", curPage);
 	       model.addAttribute("bbsNo", bbsNo);
 	      
-			if(user2 != null)
+	     	if(user2 != null)
 			{
 				try
 				{
 					model.addAttribute("cookieUserNick", user2.getUserNick());
+					model.addAttribute("adminStatus", user2.getAdminStatus());
+					if(user2.getBizNum() != null)
+					{
+						try
+						{
+							model.addAttribute("shopStatus","Y");
+						}
+						catch(NullPointerException e)
+						{
+							logger.error("[HelpController] /help/helpWriteForm shopStatus NullPointerException", e);
+						}
+					}
+					else
+					{
+						model.addAttribute("shopStatus","N");
+					}
 				}
 				catch(NullPointerException e)
 				{
-					logger.error("[helpController] /help/helpWriteFrom NullPointerException", e);
+					logger.error("[HelpController] /help/helpWriteForm cookieUserNick NullPointerException", e);
 				}
 			}
 			
@@ -325,11 +388,6 @@ public class HelpController {
 		FileData fileData = HttpUtil.getFile(request, "bbsFile", BOARD_UPLOAD_SAVE_DIR);
 		//게시판 번호
 		int bbsNo = HttpUtil.get(request, "bbsNo", 0);
-		logger.debug("#################################");
-		logger.debug("#################################");
-		logger.debug("#helpWriteProc bbsNo :" + bbsNo);
-		logger.debug("#################################");
-		logger.debug("#################################");
 		//댓글
 		String bbsComment = HttpUtil.get(request, "bbsComment", "");
 
@@ -370,7 +428,7 @@ public class HelpController {
 			}
 			catch(Exception e)
 			{
-				logger.error("[helpController] /help/helpWriteProc Exception", e);
+				logger.error("[HelpController] /help/helpWriteProc Exception", e);
 				ajaxResponse.setResponse(500, "internal server error");
 			}	
 		}
@@ -423,6 +481,7 @@ public class HelpController {
   		model.addAttribute("curPage", curPage);
   		model.addAttribute("board", board);
   		model.addAttribute("user", user);
+  		
   		User user2 = new User();
 		user2 = userService.userUIDSelect(cookieUserUID);
 		if(user2 != null)
@@ -430,12 +489,29 @@ public class HelpController {
 			try
 			{
 				model.addAttribute("cookieUserNick", user2.getUserNick());
+				model.addAttribute("adminStatus", user2.getAdminStatus());
+				if(user2.getBizNum() != null)
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[HelpController] /help/helpUpdateForm shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
 			}
 			catch(NullPointerException e)
 			{
-				logger.error("[BoardController] board/updateForm NullPointerException", e);
+				logger.error("[HelpController] /help/helpUpdateForm cookieUserNick NullPointerException", e);
 			}
 		}
+		
   		return "/help/helpUpdateForm";
   	}
   	
@@ -508,6 +584,7 @@ public class HelpController {
   			else
   			{
   				ajaxResponse.setResponse(404, "Not found");
+  				ajaxResponse.setData(bbsNo);
   			}
   		}
   		else

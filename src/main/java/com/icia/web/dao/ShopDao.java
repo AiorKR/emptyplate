@@ -8,8 +8,10 @@ import com.icia.web.model.Order;
 import com.icia.web.model.OrderMenu;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
+import com.icia.web.model.ShopMenu;
 import com.icia.web.model.ShopReservationTable;
 import com.icia.web.model.ShopReview;
+import com.icia.web.model.ShopTime;
 import com.icia.web.model.ShopTotalTable;
 
 @Repository("shopdDao")
@@ -27,6 +29,8 @@ public interface ShopDao {
 	public int shopFileInsert(List<ShopFile> list); //매장 file insert
 	
 	public Shop shopViewSelect(String shopUID); //매장 view select
+	
+	public Shop shopManagerUIDSelect(String userUID); //매장관리자 페이지
 	
 	public List<ShopTotalTable> shopReservationCheck(Shop shop); //예약 자리 있는지 select
 	
@@ -49,6 +53,7 @@ public interface ShopDao {
 	
 	//게시물 즐겨찾기 총 게시물 수
 	public long shopMarkListCount(Shop shop);
+	
 	public int orderInsert(Order order);
 	
 	public int orderMenuInsert(List<OrderMenu> list);
@@ -80,4 +85,18 @@ public interface ShopDao {
 	
 	//Shop테이블 userUID컬럼에 매장가입자(userUID)추가
 	public int updateStoreUserUID(Shop shop);
+	
+	public List<ShopTime> shopListTime();
+	
+	public List<Order> noShowImminent(); //NOSHOW 마감 임박
+	
+	public List<Order> noShow(Shop shop); // NOSHOW
+	
+	public Order noShowSelect(String orderUID); // NOSHOW
+	
+	public List<ShopTotalTable> shopCheckTable(String shopUID); //테이블 현황
+	
+	public List<ShopTime> shopCheckTime(String shopUID); //영업시간 현황
+	
+	public List<ShopMenu> shopCheckMenu(String shopUID); //메뉴 현황
 }
