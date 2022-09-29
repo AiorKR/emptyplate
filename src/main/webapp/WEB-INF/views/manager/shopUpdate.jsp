@@ -12,6 +12,9 @@ request.setAttribute("No", 2);
 <%@ include file="/WEB-INF/views/include/head.jsp"%>
 <script type="text/javascript">
 	$(document).ready(function() {
+
+
+
 				var btnHashStack = $("#hashStack").val();
 				var btnTimeStack = $("#timeStack").val();
 				var btnTableStack = $("#tableStack").val();
@@ -406,7 +409,7 @@ request.setAttribute("No", 2);
 									<c:forEach var="hashTag" items="${list}" varStatus="status">
 										<tr>
 											<td class="tdtd2">해시태그${status.count}</td>
-											<td><input type="text" id="hashTag1" class="hashTagInput" placeholder="해시태그를 입력해주세요" value="#${status.current}" style="font-size:17px;"></td>
+											<td><input type="text" id="hashTag${status.count}" class="hashTagInput" placeholder="해시태그를 입력해주세요" value="#${status.current}" style="font-size:17px;"></td>
 										</tr>
 										<c:if test="${status.last}"><input type="hidden" id="hashStack" value="${status.count + 1}"></c:if>
 										</c:forEach>
@@ -415,6 +418,7 @@ request.setAttribute("No", 2);
 										<tr>
 											<td class="tdtd2">해시태그1</td>
 											<td><input type="text" id="hashTag1" class="hashTagInput" placeholder="해시태그를 입력해주세요" style="font-size:17px;"></td>
+											<input type="hidden" id="hashStack" value="1">
 										</tr>
 									</c:otherwise>
 								</c:choose>
@@ -444,14 +448,14 @@ request.setAttribute("No", 2);
 											<tr>
 												<td class="tdtd2">매장시간${status.count}</td>
 												<td>
-													<select name="timeType" class="select" style="font-size:17px; width:110px;">
+													<select name="timeType" id="timeType${status.count}" class="select" style="font-size:17px; width:110px;">
 														<option value=''>매장시간</option>
 														<option value='L'<c:if test="${shop.shopTimeType eq 'L'}">selected</c:if>>Lunch</option>
 														<option value='D'<c:if test="${shop.shopTimeType eq 'D'}">selected</c:if>>Dinner</option>
 														<option value='X'<c:if test="${shop.shopTimeType eq 'X'}">selected</c:if>>무관</option>
 													</select>
 												</td>							
-												<td><input type="text" id="time1" class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px; width:350px;" value="${shop.shopOrderTime}" readonly></td>
+												<td><input type="text" id="time${status.count}" class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px; width:350px;" value="${shop.shopOrderTime}" readonly></td>
 											</tr>
 											<c:if test="${status.last}"><input type="hidden" id="timeStack" value="${status.count + 1}"></c:if>
 										</c:forEach>
@@ -468,6 +472,7 @@ request.setAttribute("No", 2);
 												</select>
 											</td>
 											<td><input type="text" id="time1" class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px; width:350px;"></td>
+											<input type="hidden" id="timeStack" value="1">
 										</tr>	
 									</c:otherwise>
 								</c:choose>
@@ -497,7 +502,7 @@ request.setAttribute("No", 2);
 											<tr>
 												<td class="tdtd3">테이블 규격</td>
 												<td>
-													<select name="tableType" class="select" style="font-size:17px; width:110px;">
+													<select name="tableType" id="tableType${status.count}" class="select" style="font-size:17px; width:110px;">
 														<option value=''>테이블 규격</option>
 														<option value='1'<c:if test="${shop.shopTotalTableCapacity eq '1'}">selected</c:if>>1인용</option>
 														<option value='2'<c:if test="${shop.shopTotalTableCapacity eq '2'}">selected</c:if>>2인용</option>
@@ -532,9 +537,8 @@ request.setAttribute("No", 2);
 													<option value='8'>8인용</option>
 												</select>
 											</td>
-											<td>
-												<input type="text" class="tableInput" placeholder="수량을 입력해주세요" style="font-size:17px; width:350px;">
-											</td>
+											<td><input type="text" class="tableInput" placeholder="수량을 입력해주세요" style="font-size:17px; width:350px;"></td>
+											<input type="hidden" id="tableStack" value="1">
 										</tr>
 									</c:otherwise>
 								</c:choose>								
@@ -564,7 +568,7 @@ request.setAttribute("No", 2);
 										<tr>
 											<td class="tdtd5">메뉴${status.count}</td>
 											<td>
-												<select name="menuTime" class="select" style="font-size:17px; width:100px;">
+												<select name="menuTime" id="menuTime${status.count}"class="select" style="font-size:17px; width:100px;">
 													<option value=''>메뉴시간</option>
 													<option value='1'<c:if test="${shop.shopMenuCode eq 'L'}">selected</c:if>>Lunch</option>
 													<option value='2'<c:if test="${shop.shopMenuCode eq 'D'}">selected</c:if>>Dinner</option>
@@ -590,12 +594,9 @@ request.setAttribute("No", 2);
 													<option value='2'>Dinner</option>
 												</select>
 											</td>
-											<td>
-												<input type="text" placeholder="메뉴명을 입력해주세요" style="font-size:17px; width:180px;">
-											</td>
-											<td>
-												<input type="text" placeholder="메뉴가격을 입력해주세요" style="font-size:17px; width:180px;">
-											</td>
+											<td><input type="text" placeholder="메뉴명을 입력해주세요" style="font-size:17px; width:180px;"></td>
+											<td><input type="text" placeholder="메뉴가격을 입력해주세요" style="font-size:17px; width:180px;"></td>
+											<input type="hidden" id="menuStack" value="1">
 										</tr>
 									</c:otherwise>
 								</c:choose>

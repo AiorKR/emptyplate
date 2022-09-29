@@ -211,6 +211,7 @@ public class ManagerController {
 		char shopType = HttpUtil.get(request, "shopType", "").charAt(0);
 		//요일
 		String dayCheck = HttpUtil.get(request, "dayCheck", "");
+
 		/***********
 		 * 소개글
 		 ***********/
@@ -218,6 +219,7 @@ public class ManagerController {
   		String shopIntro = HttpUtil.get(request, "shopIntro", "");
   		//공지사항
   		String shopContent = HttpUtil.get(request, "shopContent", "");
+		
 		/***********
 		 * 매장추가정보
 		 ***********/
