@@ -405,6 +405,9 @@ SELECT S.SHOP_UID AS SHOP_UID,
 	SELECT ORDER_SEQ.NEXTVAL FROM DUAL
 </select>
 
+
+
+
 <!-- 추가 -->
 	<resultMap id="orderMenuResultMap" type="com.icia.web.model.OrderMenu">
 	<result column="ORDER_UID" property="orderUID"/>
@@ -647,16 +650,6 @@ SELECT DISTINCT ORDER_TIME
   FROM T_SHOP_TIME
  ORDER BY ORDER_TIME ASC
 </select>
-
-<!-- 한줄평 resultMap -->
-<resultMap id="shopReviewResultMap" type="com.icia.web.model.ShopReview"> <!--매장 태이블 상태-->
-   <result column="REVIEW_SCORE" property="shopScore"/>
-   <result column="REVIEW_CONTENT" property="shopReviewContent"/>
-   <result column="USER_UID" property="userUID"/>
-   <result column="ORDER_UID" property="orderUID"/>
-   <result column="SHOP_UID" property="shopUID"/>
-   <result column="REG_DATE" property="regDate"/>
-</resultMap>
 
 <insert id="regReqOne" parameterType="com.icia.web.model.ShopReview">
    INSERT INTO T_SHOP_REVIEW (
