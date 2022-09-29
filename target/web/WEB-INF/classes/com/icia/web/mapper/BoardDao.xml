@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icia.web.dao.BoardDao">
+
+<!-- 게시물 resultMap -->
+<resultMap id="boardResultMap" type="com.icia.web.model.Board">
+   <id column="BBS_SEQ" property="bbsSeq" />
+   <result column="USER_UID" property="userUID" />
+   <result column="USER_NICK" property="userNick" />
+   <result column="BBS_NO" property="bbsNo" />
+   <result column="BBS_TITLE" property="bbsTitle" />
+   <result column="BBS_CONTENT" property="bbsContent" />
+   <result column="BBS_LIKE_CNT" property="bbsLikeCnt" />
+   <result column="BBS_READ_CNT" property="bbsReadCnt" />
+   <result column="REG_DATE" property="regDate" />
+   <result column="BBS_COMMENT" property="bbsComment" />
+   <result column="COMMENT_PARENT" property="commentParent" />
+   <result column="COMMENT_GROUP" property="commentGroup" />
+   <result column="COMMENT_ORDER" property="commentOrder" />
+   <result column="COMMENT_INDENT" property="commentIndent" />
+   <result column="RNUM" property="rNum" />  
+</resultMap>
+
+<!-- 첨부파일 resultMap -->
+<resultMap id="boardFileResultMap" type="com.icia.web.model.BoardFile">
+   <id column="BBS_SEQ" property="bbsSeq" />
+   <id column="FILE_SEQ" property="fileSeq" />
+   <result column="FILE_ORG_NAME" property="fileOrgName" />
+   <result column="FILE_NAME" property="fileName" />
+   <result column="FILE_EXT" property="fileExt" />
+   <result column="FILE_SIZE" property="fileSize" />
+   <result column="REG_DATE" property="regDate" />
+</resultMap>
+
+<!-- 게시물 등록 -->
+<insert id="boardInsert" parameterType="com.icia.web.model.Board">
+
+<!-- 선행처리기(시퀀스 번호 생성) -->
+<selectKey resultType="int" keyProperty="bbsSeq" order="BEFORE">
+	SELECT BBS_SEQ.NEXTVAL FROM DUAL
+</selectKey>
+
+INSERT INTO T_BOARD (BBS_SEQ,
+                     USER_UID,
+                     BBS_NO,
+                     BBS_TITLE,
+                     BBS_CONTENT,
+                     BBS_LIKE_CNT,
+                     BBS_READ_CNT,
+                     REG_DATE,
+                     BBS_COMMENT,
+                     COMMENT_PARENT,
+                     COMMENT_GROUP,
+                     COMMENT_ORDER,
+                     COMMENT_INDENT) 
+VALUES (#{bbsSeq},
+        #{userUID},
+        #{bbsNo},
+        #{bbsTitle},
+        #{bbsContent},
+        0,
+        0,
+        SYSDATE,
+        #{bbsComment},
+        #{commentParent},
+        #{commentGroup},
+        #{commentOrder},
+        #{commentIndent})
+</insert>
+
+<!-- 첨부파일 등록  --> 
+<insert id="boardFileInsert" parameterType="com.icia.web.model.BoardFile">
+INSERT INTO T_BOARD_FILE (BBS_SEQ,
+	                          FILE_SEQ,
+	                          FILE_ORG_NAME,
+	                          FILE_NAME,
+	                          FILE_EXT,
+	                          FILE_SIZE,
+	                          REG_DATE)
+VALUES (#{bbsSeq},
+        #{fileSeq},
+        #{fileOrgName},
+        #{fileName},
+        #{fileExt},
+        #{fileSize},
+        SYSDATE)
+</insert>
+
+<!-- 게시물 리스트 -->
+<select id="boardList" parameterType="com.icia.web.model.Board" resultMap="boardResultMap">
+SELECT RNUM,
+       BBS_SEQ,
+       USER_UID,
+       USER_NICK, 
+       BBS_NO,
+       BBS_TITLE,
+       BBS_CONTENT,
+       BBS_LIKE_CNT,
+       BBS_READ_CNT,
+       REG_DATE
+  FROM(SELECT ROWNUM AS RNUM,
+                        BBS_SEQ,
+                        USER_UID,
+                        USER_NICK, 
+                        BBS_NO,
+                        BBS_TITLE,
+                        BBS_CONTENT,
+                        BBS_LIKE_CNT,
+                        BBS_READ_CNT,
+                        REG_DATE
+  FROM(SELECT BBS_SEQ,
+              NVL(B.USER_UID, '') AS USER_UID,
+              NVL(B.USER_NICK, '') AS USER_NICK, 
+              NVL(A.BBS_NO, 0) AS BBS_NO,
+              NVL(BBS_TITLE, '') AS BBS_TITLE,
+              NVL(BBS_CONTENT, '') AS BBS_CONTENT,
+              A.BBS_LIKE_CNT AS BBS_LIKE_CNT,
+              NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
+              NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD HH24:MI:SS'), '') AS REG_DATE
+         FROM T_BOARD A, T_USER B
+        WHERE A.USER_UID = B.USER_UID
+          AND A.BBS_NO = #{bbsNo}
+<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>   
+  <choose>
+    <when test='searchType == "1"'>   
+          AND B.USER_NICK LIKE '%' || #{searchValue} || '%'
+    </when>
+    <when test='searchType == "2"'>
+          AND A.BBS_TITLE LIKE '%' || #{searchValue} || '%'
+    </when>
+    <when test='searchType == "3"'>
+          AND DBMS_LOB.INSTR(A.BBS_CONTENT, #{searchValue}) > 0
+    </when>
+  </choose>
+</if>
+
+  <choose>
+    <when test='sortValue == "5"'>
+        ORDER BY A.BBS_LIKE_CNT DESC
+    </when>
+    <when test='sortValue == "6"'>
+        ORDER BY A.BBS_READ_CNT DESC
+    </when>
+    <otherwise>   
+        ORDER BY A.BBS_SEQ DESC
+    </otherwise>
+  </choose>
+   ))
+
+ WHERE RNUM <![CDATA[>=]]> #{startRow}
+   AND RNUM <![CDATA[<=]]> #{endRow}
+ ORDER BY RNUM ASC
+</select>
+
+
+<!-- 총 게시물 수 -->
+<select id="boardListCount" parameterType="com.icia.web.model.Board" resultType="long">
+SELECT COUNT(A.BBS_SEQ) AS CNT
+  FROM T_BOARD A, T_USER B
+ WHERE A.USER_UID = B.USER_UID
+<if test='searchType != null and searchType != "" and searchValue != null and searchValue != ""'>	<!-- searchType, searchValue가 있을 때 조회 -->      
+	<choose>
+		<when test='searchType == "1"'>   
+                   AND B.USER_NICK LIKE '%' || #{searchValue} || '%'
+		</when>
+		<when test='searchType == "2"'>
+                   AND A.BBS_TITLE LIKE '%' || #{searchValue} || '%'
+		</when>
+		<when test='searchType == "3"'>
+                   AND DBMS_LOB.INSTR(A.BBS_CONTENT, #{searchValue}) > 0
+		</when>
+	</choose>
+</if>
+</select>
+
+<!-- 게시물 조회 -->
+<select id="boardSelect" parameterType="long" resultMap="boardResultMap">
+SELECT A.BBS_SEQ,
+       NVL(B.USER_UID, '') AS USER_UID,
+       NVL(B.USER_NICK, '') AS USER_NICK, 
+       NVL(A.BBS_NO, 0) AS BBS_NO,
+       NVL(BBS_TITLE, '') AS BBS_TITLE,
+       NVL(BBS_CONTENT, '') AS BBS_CONTENT,
+       C.BBS_LIKE_CNT AS BBS_LIKE_CNT,
+       NVL(BBS_READ_CNT, 0) AS BBS_READ_CNT,
+       NVL(TO_CHAR(A.REG_DATE, 'YYYY-MM-DD HH24:MI:SS'), '') AS REG_DATE
+  FROM T_BOARD A, T_USER B, (SELECT COUNT(*) AS BBS_LIKE_CNT
+                               FROM T_BOARD_LIKE
+                              WHERE BBS_SEQ = #{value}) C
+ WHERE A.BBS_SEQ = #{value}
+   AND A.USER_UID = B.USER_UID
+</select>
+
+<!-- 게시물 조회수 증가 -->
+<update id="boardReadCntPlus" parameterType="long">
+UPDATE T_BOARD
+   SET BBS_READ_CNT = BBS_READ_CNT + 1
+ WHERE BBS_SEQ = #{value}
+</update>
+
+<!-- 첨부파일 조회 -->
+<select id="boardFileSelect" parameterType="long" resultMap="boardFileResultMap">
+SELECT BBS_SEQ,
+       FILE_SEQ,
+       NVL(FILE_ORG_NAME, '') AS FILE_ORG_NAME,
+       NVL(FILE_NAME, '') AS FILE_NAME,
+       NVL(FILE_EXT, '') AS FILE_EXT,
+       NVL(FILE_SIZE, 0) AS FILE_SIZE,
+       NVL(TO_CHAR(REG_DATE, 'YYYY.MM.DD HH24:MI:SS'), '') AS REG_DATE
+  FROM T_BOARD_FILE
+ WHERE BBS_SEQ = #{value}
+   AND FILE_SEQ = 1
+</select>
+
+<!-- 게시물 수정 -->
+<update id="boardUpdate" parameterType="com.icia.web.model.Board">
+UPDATE T_BOARD
+   SET BBS_TITLE = #{bbsTitle},
+       BBS_CONTENT = #{bbsContent}
+ WHERE BBS_SEQ = #{bbsSeq}
+</update>
+ 
+<!-- 게시물 삭제 -->
+<delete id="boardDelete" parameterType="long">
+DELETE FROM T_BOARD
+ WHERE BBS_SEQ = #{value}
+</delete>
+
+<!-- 첨부파일 삭제-->
+<delete id="boardFileDelete" parameterType="long">
+DELETE FROM T_BOARD_FILE
+ WHERE BBS_SEQ = #{value}
+</delete>
+
+<!-- 동일 게시글 좋아요 여부 확인 -->
+<select id="boardLikeCheck" parameterType="com.icia.web.model.Board" resultType="int">
+SELECT COUNT(*)
+  FROM T_BOARD_LIKE
+ WHERE BBS_SEQ = #{bbsSeq}
+   AND USER_UID = #{userUID}
+</select>
+
+<!-- 좋아요 추가-->
+<insert id="boardLikeUpdate" parameterType="com.icia.web.model.Board">
+INSERT INTO T_BOARD_LIKE (USER_UID,
+                          BBS_SEQ) 
+VALUES (#{userUID},
+        #{bbsSeq})
+</insert>
+
+<!-- 좋아요 취소 -->
+<delete id="boardLikeDelete" parameterType="com.icia.web.model.Board">
+DELETE FROM T_BOARD_LIKE
+ WHERE BBS_SEQ = #{bbsSeq}
+   AND USER_UID = #{userUID}
+</delete>
+
+<!-- 좋아요 수 업데이트 -->
+<update id="boardLikeCntUpdate" parameterType="com.icia.web.model.Board">
+UPDATE T_BOARD A
+   SET ( A.BBS_LIKE_CNT ) = ( SELECT COUNT(*)
+                             FROM T_BOARD_LIKE B
+                            WHERE B.BBS_SEQ = #{bbsSeq})
+ WHERE A.BBS_SEQ = #{bbsSeq}
+</update>
+
+
+</mapper>
