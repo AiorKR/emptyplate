@@ -11,12 +11,15 @@
 
 <head>
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
-	<script type="text/javascript">	
-	function fn_view(shopUID){
-		document.bbsForm.shopUID.value = shopUID;
-		document.bbsForm.action = "/reservation/view";
-		document.bbsForm.submit();
-	   }
+	<script type="text/javascript">
+		$(document).ready(function() {
+			
+			$("#btnReserve").on("click", function(){
+				document.bbsForm.shopUID.value = $("#btnReserve").val();
+				document.bbsForm.action = "/reservation/view";
+				document.bbsForm.submit();
+			   });
+		});
 	</script>
 </head>
 
@@ -63,18 +66,18 @@
 						<div class="col-lg-6">
 							<img alt="" src="/resources/upload/shop/${shop.shopUID}/${shop.shopFile.shopFileName}" class="img-fluid" alt="">
 						</div>
-						<div class="col-lg-6 pt-4 pt-lg-0 content" id="content">
+						<div class="col-lg-6 pt-4 pt-lg-0 content">
 							<h3>${shop.shopName}</h3>
 							<p class="fst-italic">${shop.shopIntro}</p>
 							<ul>
-								<li><i class="fa-solid fa-map-location-dot"></i> ${shop.shopLocation1} ${shop.shopLocation2} ${shop.shopAddress}</li>
-								<li><i class="fa-regular fa-star"></i> 별점 ${shop.reviewScore} (${shop.reviewCount})</li>
+								<li><i class="fa-solid fa-map-location-dot"></i> ${shop.shopLocation2} ${shop.shopLocation3}</li>
+								<li><i class="fa-regular fa-star"></i> 별점 ${shop.shopStarScore} (100)</li>
 							</ul>
 							<p class="int">
-								
+								<i class="fa-brands fa-instagram"></i> ${shop.shopHashtag}
 							</p>
 							<div class="btns">
-								<button type="button" id="btnReserve" class="btn-book animated fadeInUp scrollto" onclick="fn_view('${shop.shopUID}')">예약</button>
+								<button type="button" id="btnReserve" class="btn-book animated fadeInUp scrollto" value="${shop.shopUID}">예약</button>
 							</div>
 						</div>
 					</div>
@@ -101,8 +104,7 @@
 
           <div class="col-lg-4">
             <div class="box" data-aos="zoom-in" data-aos-delay="0">
-              <img src="/resources/images/1.png" class="img-fluid" alt="" 
-              style="width: 366px; height: 176.13px; overflow: hidden; border: 5px solid black;">
+              <img src="/resources/images/1.png" class="img-fluid" alt="">
               <span>스시 코우지</span>
               <h4>서울 강남구</h4>
               <h5>#스시오마카세 #콜키지 #노키즈존</h5>
@@ -113,8 +115,7 @@
 
           <div class="col-lg-4 mt-4 mt-lg-0">
             <div class="box" data-aos="zoom-in" data-aos-delay="0">
-              <img src="/resources/images/2.png" class="img-fluid" alt=""
-              style="width: 366px; height: 176.13px; overflow: hidden; border: 5px solid black;">
+              <img src="/resources/images/2.png" class="img-fluid" alt="">
               <span>CHOI.</span>
               <h4>서울 강남구</h4>
               <h5>#이탈리안 #콜키지 #노키즈존 #레터링</h5>
@@ -125,8 +126,7 @@
 
           <div class="col-lg-4 mt-4 mt-lg-0">
             <div class="box" data-aos="zoom-in" data-aos-delay="300">
-              <img src="/resources/images/3.png" class="img-fluid" alt=""
-              style="width: 366px; height: 176.13px; overflow: hidden; border: 5px solid black;">
+              <img src="/resources/images/3.png" class="img-fluid" alt="">
               <span>스시 카나에</span>
               <h4>서울 강남구</h4>
               <h5>#스시오마카세 #콜키지 #런치 #디너</h5>

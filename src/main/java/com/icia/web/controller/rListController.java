@@ -1,8 +1,5 @@
 package com.icia.web.controller;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +21,6 @@ import com.icia.web.model.Paging;
 import com.icia.web.model.Response;
 import com.icia.web.model.ShopReview;
 import com.icia.web.model.User;
-import com.icia.web.service.PayService;
 import com.icia.web.service.ShopService;
 import com.icia.web.service.UserService;
 import com.icia.web.util.CookieUtil;
@@ -43,9 +39,6 @@ public class rListController
    
    @Autowired
    private UserService userService;
-   
-   @Autowired
-   private PayService payService;
    
    private static final int LIST_COUNT = 5;   //게시물 수
    private static final int PAGE_COUNT = 5;   //페이징 수
@@ -221,181 +214,6 @@ public class rListController
 
       return ajaxResponse;
    }
-   
-   
-   //예약 취소
-   @RequestMapping(value="/myPage/delRes")
-   @ResponseBody
-   public Response<Object> delRes(HttpServletRequest request, HttpServletResponse response)
-   {
-      Response<Object> ajaxResponse = new Response<Object>();
-      String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
-      String orderUID = HttpUtil.get(request, "orderUID");
-      Order order = new Order();
-      if(!StringUtil.isEmpty(cookieUserUID)) 
-      {
-	      order = shopService.selectRes(orderUID);
-	      
-	      if(order != null)
-	      {	 	  
-	    	  int totalAmount = order.getTotalAmount();	    	
-	    	  String paymentKey = order.getPaymentKey();
-	    	  logger.debug("++++++++++++++++++++++++++++++++++++++++++++++++++++++" + paymentKey);
-	    	  String cancelReason = "없음";
-	    	  
-	    	  int cancleAmount = 0;
-	    	  String cancleSuccess = "-998, 결제 취소됨";
-	    	  String cancleCancle = "-997, 결제취소 실패";
-	    	  String cancleParameter = "400, 필수 파라미터  부족";
-	    	  
-	    	  String rDate = order.getRDate();
-	    	  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
-	    	  LocalDateTime dateR = LocalDateTime.parse(rDate, formatter);   
-	    	  LocalDateTime today = LocalDateTime.now();
-	    	  int compareResult = compareDay(dateR, today);
-	    	  logger.debug("++++++++++++++++++++++++++++++++++++++++++++++++++++++" + compareResult);
-	    	  //if(compareResult > 0)//오늘날짜가 예약날짜 이전임
-	    	  if(compareResult >= 2)//오늘날짜가 예약날짜 2일 이상 전임
-	    	  {
-	    		 if(shopService.delRes(orderUID) > 0)
-	    		 {
-	    			 if(shopService.delTable(orderUID) > 0)
-	    			 {
-	    				 String code = payService.payCancel(paymentKey, cancelReason, totalAmount);
-	    	    		 
-	    	    		 logger.debug("+++++++++++++++++++++++++++++++++++++++++++++++++++++"+paymentKey);
-	    	    		 logger.debug("+++++++++++++++++++++++++++++++++++++++++++++++++++++"+cancelReason);
-	    	    		 logger.debug("+++++++++++++++++++++++++++++++++++++++++++++++++++++"+totalAmount);
-	    	    		 
-	    	    		 if(StringUtil.equals(code, cancleSuccess))
-	    	    		 {
-	    	    			 ajaxResponse.setResponse(0, "환불 성공");
-	    	    		 }
-	    	    		 else if(StringUtil.equals(code, cancleCancle))
-	    	    		 {
-	    	    			 ajaxResponse.setResponse(-1, "환불 실패");
-	    	    		 }
-	    	    		 else if(StringUtil.equals(code, cancleParameter))
-	    	    		 {
-	    	    			 ajaxResponse.setResponse(200, "환불 파라미터 오류");
-	    	    		 }
-	    	    		 else
-	    	    		 {
-	    	    			 ajaxResponse.setResponse(400, "환불 시스템 오류");
-	    	    		 }
-	    			 }
-	    			 else
-	    			 {
-	    				 ajaxResponse.setResponse(-3, "예약 취소 실패(tableStatus)");
-	    			 }	 
-	    		 }
-	    		 else
-	    		 {
-	    			 ajaxResponse.setResponse(-2, "예약 취소 실패(orderStatus)");
-	    		 }	    		 
-	    	  }
-	    	  else if(compareResult == 1)//오늘날짜가 예약날짜 1일 전임
-	    	  {	    		 
-	    		  if(shopService.delRes(orderUID) > 0)
-		    		 {
-		    			 if(shopService.delTableN(orderUID) > 0)
-		    			 {
-
-		    				 cancleAmount = totalAmount/2; 
-				    		 String code = payService.payCancel(paymentKey, cancelReason, cancleAmount);
-				    		  
-				    		 if(StringUtil.equals(code, cancleSuccess))
-				    		 {
-				    			 ajaxResponse.setResponse(0, "환불 성공");
-				    		 }
-				    		 else if(StringUtil.equals(code, cancleCancle))
-				    		 {
-				    			 ajaxResponse.setResponse(-1, "환불 실패");
-				    		 }
-				    		 else if(StringUtil.equals(code, cancleParameter))
-				    		 {
-				    			 ajaxResponse.setResponse(200, "환불 파라미터 오류");
-				    		 }
-				    		 else
-				    		 {
-				    			 ajaxResponse.setResponse(400, "환불 시스템 오류");
-				    		 }
-		    			 }
-		    			 else
-		    			 {
-		    				 ajaxResponse.setResponse(-3, "예약 취소 실패(tableStatus)");
-		    			 }	 
-		    		 }
-		    		 else
-		    		 {
-		    			 ajaxResponse.setResponse(-2, "예약 취소 실패(orderStatus)");
-		    		 }	    	
-	    	  }
-	    	  else if(compareResult == 0)//오늘날짜와 예약날짜가 같음
-	    	  {
-	    		  if(shopService.delResX(orderUID) > 0)
-		    		 {
-		    			 if(shopService.delTableN(orderUID) > 0)
-		    			 {
-
-		    				 cancleAmount = totalAmount/10; 
-				    		 String code = payService.payCancel(paymentKey, cancelReason, cancleAmount);
-				    		  
-				    		 if(StringUtil.equals(code, cancleSuccess))
-				    		 {
-				    			 ajaxResponse.setResponse(0, "환불 성공");
-				    		 }
-				    		 else if(StringUtil.equals(code, cancleCancle))
-				    		 {
-				    			 ajaxResponse.setResponse(-1, "환불 실패");
-				    		 }
-				    		 else if(StringUtil.equals(code, cancleParameter))
-				    		 {
-				    			 ajaxResponse.setResponse(200, "환불 파라미터 오류");
-				    		 }
-				    		 else
-				    		 {
-				    			 ajaxResponse.setResponse(400, "환불 시스템 오류");
-				    		 }
-		    			 }
-		    			 else
-		    			 {
-		    				 ajaxResponse.setResponse(-3, "예약 취소 실패(tableStatus)");
-		    			 }	 
-		    		 }
-		    		 else
-		    		 {
-		    			 ajaxResponse.setResponse(-2, "예약 취소 실패(orderStatus)");
-		    		 }	    	
-	    	  }
-	    	  else if(compareResult < 0)//오늘날짜가 예약날짜 이후임
-	    	  {
-	    		  ajaxResponse.setResponse(100, "이미 만료된 주문");
-	    	  }	  	    	  
-	      }
-	      else
-	      {
-	    	  ajaxResponse.setResponse(404, "주문정보 조회 오류");
-	      }
-      }
-      else
-      {
-    	  ajaxResponse.setResponse(400, "유저 조회 오류");
-      }
-      
-
-      return ajaxResponse;
-   }
-   
-   public static int compareDay(LocalDateTime date1, LocalDateTime date2) {
-		  LocalDateTime dayDate1 = date1.truncatedTo(ChronoUnit.DAYS);     
-		  LocalDateTime dayDate2 = date2.truncatedTo(ChronoUnit.DAYS);      
-		  int compareResult = dayDate1.compareTo(dayDate2);       
-		  System.out.println("=== 일 단위 비교 ===");     
-		  System.out.println("date1.truncatedTo(ChronoUnit.DAYS) : " + dayDate1);
-		  System.out.println("date2.truncatedTo(ChronoUnit.DAYS) : " + dayDate2);
-		  System.out.println("결과 : " + compareResult);
-		  return compareResult;    }
    
 }
    

@@ -1226,7 +1226,6 @@ section {
 #communityWriteForm form .title-text input[type=checkbox] {
   width: 20px;
   height: 20px;
-   vertical-align:middle;
 }
 
 /*내용*/
@@ -1440,7 +1439,6 @@ section {
 #communityUpdateForm form .title-text input[type=checkbox] {
   width: 20px;
   height: 20px;
-   vertical-align:middle;
 }
 
 /*내용*/
@@ -1790,7 +1788,6 @@ section {
 
 #communityView .modal input[type=checkbox] {
   zoom: 1.3;
-   vertical-align:middle;
 }
 
 #communityView .modal .reportCancle {
@@ -2375,41 +2372,9 @@ section {
   }
 }
 
-
-/*오늘의 추천 식당 사진크기 지정*/
-.recommend .row .col-lg-6 .img-fluid{
-  width: 500px;
-  height: 400px;
-  border : solid 4px #cda45e;
-  border-radius: 5px;
+.recommend .btns {
+  margin-top: 30px;
 }
-
-/*매장 내용*/
-.recommend .recommend-item h3 {
-  font-weight: 300;
-  font-size: 50px;
-  font-family: "Do Hyeon", sans-serif;
-  color: #cda45e;
-}
-
-.recommend .recommend-item .fst-italic {
-  font-size: 30px;
-  word-break: keep-all;
-}
-
-.recommend .recommend-item ul {
-  font-size: 25px;
-}
-
-.recommend .recommend-item .fa-brands {
-  margin-left: 3px;
-}
-
-.recommend .btns .btn-book {
-  margin-top: 10px;
-  font-family : 'Cafe24Dangdanghae';
-}
-
 
 .recommend .btn-menu,
 .recommend .btn-book {
@@ -2441,6 +2406,13 @@ section {
   color: #fff;
 }
 
+.recommend .recommend-item h3 {
+  font-weight: 300;
+  font-size: 40px;
+  font-family: "Do Hyeon", sans-serif;
+  color: #cda45e;
+}
+
 .recommend .recommend-item .price {
   font-size: 20px;
   font-family: "Open Sans", sans-serif;
@@ -2463,6 +2435,7 @@ section {
   padding-right: 4px;
   color: #cda45e;
 } 
+
 
 
 .recommend .recommend-item ul {
@@ -2866,8 +2839,13 @@ section {
   padding: 0;
 }
 
-.reservation .container{
-  padding-top: 110px;
+.reservation h2{
+   color:#000
+}
+
+.reservation-container {
+  margin-top: 110px;
+  
 }
 
 .reservation .row{
@@ -2891,22 +2869,6 @@ section {
   right: 0;
 }
 
-.reservation .pay-card-intro .submit {
-  background: #C2A383;
-  border: 0;
-  padding: 4px 20px;
-  color: #fff;
-  transition: 0.4s;
-  border-radius: 10px;
-  font-family: 'Cafe24Dangdanghae';
-  font-size: 19px;
-  position: relative;
-  float:right;
-}
-
-.reservation h2{
-   color:#000
-}
 .reservation .section-title h2 {
   color: #000;
 }
@@ -2952,9 +2914,6 @@ hr.hr-5 {
   list-style: none;
   padding: 0;
 }
-.reservation .reservation-item li {
-  word-break: keep-all;
-}
 
 .reservation .reservation-item ul li {
   padding-bottom: 10px;
@@ -2993,7 +2952,6 @@ hr.hr-5 {
 {
 	font-size: 20px; 
 	color: #FF7F50;
-	margin-top: 10px;
 }
 
 .reservation .swiper-pagination {
@@ -3069,58 +3027,37 @@ reservation 검색
   border-color: #C2A383;
 }
 
-
-/*리스트 내용*/
-.reservation tbody .w-25{
-  height: 200px; 
-  width: 200px;
-  vertical-align:middle;
-  text-align: center;
+.reservation .menutable {
+  color: #000;
 }
 
-.reservation tbody img{
-  height: 250px; 
-  width: 250px;
-}
 
-.reservation tbody .content{
-  padding-top: 30px;
-  padding-left: 10px;
+.star-ratings {
+  color: #000; 
+  position: relative;
+  unicode-bidi: bidi-override;
+  width: max-content;
+  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 1.3px;
+  -webkit-text-stroke-color: #2b2a29;
 }
-
-.reservation tbody .clickContent{
-  padding-left: 0px;
+ 
+.star-ratings-fill {
+  color: #fff58c;
+  padding: 0;
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  -webkit-text-fill-color: gold;
 }
-
-.reservation tbody .content ul i {
-  font-size: 20px;
-  padding-right: 4px;
-  color: #cda45e;
+ 
+.star-ratings-base {
+  z-index: 0;
+  padding: 0;
 }
-.reservation tbody .content ul ion-icon {
-  font-size: 25px;
-  padding-right: 4px;
-  color: #cda45e;
-}
-
-.reservation tbody .content ul .hashtag
-{
-	cursor: pointer;
-}
-.reservation tbody .content ul .hashtag i
-{
-	font-size: 20px; 
-	color: #FF7F50;
-	margin-top: 10px;
-}
-
-.reservation tbody .content li {
-  list-style: none;
-  padding-bottom: 10px;
-  font-size:20px;
-  word-break: keep-all;
-}
-
 
 .reservation .page-wrap .page-nation li{ 
   list-style: none;
@@ -3294,8 +3231,8 @@ reservation 검색
 }
 .view .thumbnail_images ul li {
   margin: 5 px;padding: 10 px;
-  border: 2 px solid #cda45e;
-  cursor: pointer;
+  border: 2 px solid #cda45e
+  ;cursor: pointer;
   transition: all 0.5 s
 }
 .view .main_image {
@@ -3304,18 +3241,13 @@ reservation 검색
   align-items: center;
   height: 400 px;
   width: 100% ;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
+  overflow: hidden
+  }
 
 .view .thumbnail_images {
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  margin-right: 5px;
 }
 
-.view .thumbnail {
-  margin-right: 5px;
-}
 
 /*예약 modal*/
 .view .modal {
@@ -3447,7 +3379,6 @@ reservation 검색
 .view .modal-body input[type=checkbox] {
   width: 20px;
   height: 20px;
-   vertical-align:middle;
 }
 
 /*메뉴 체크 버튼*/
@@ -3650,215 +3581,6 @@ reservation 검색
   top: 22px
 }
 
-/*shopManage 하단 */
-.view .col-lg-12{
-	display:flex;
-	flex-flow: row nowrap;
-	justify-content: space-between;
-}
-
-.view .col-lg-12 table input{	
-  	background: rgba(225, 225, 225, 0.8);
-  	border:1px solid #C2A383;
-  	text-align: center;
-}
-
-.view .col-lg-12 table th{	
-	font-size: 30px;
-	text-align: center;
-	padding-bottom: 10px;
-}
-
-.view .col-lg-12 table td{
-	font-size: 20px;
-	padding-left: 10px;
-	text-align: center;
-}
-
-.view .col-lg-12 table .line{	
-	border-bottom: 2px solid #C2A383;
-}
-
-.view .col-lg-12 table .right{
-	text-align: right;
-	padding-right: 10px;
-	border-right: 2px solid #C2A383;
-}
-
-.view .setTable{
-	color: black;
-}
-
-.view .setTime{
-	color: black;
-}
-
-.view .setMenu{
-	color: black;
-}
-
-
-/*shopUpdate 수정*/
-.view .imageModify table{
-   margin-top: 20px;
-}
-.view .imageModify table .file-check-content, .file-content{
-   font-size:17px;
-}
-.view .imageModify table tr .file-check, .file{
-   font-size:20px;
-   padding-right:16px;
-}
-.view .imageModify table tr .file-check{
-   padding-top: 20px;
-}
-.view .imageModify table tr .file{
-   padding-top: 20px;
-}
-.view .imageModify table tr .file-content{
-   margin-top: 20px;
-}
-.view .introduce table{
-   margin-top: 20px;
-}
-.view .introduce table tr th{
-   font-size:30px;
-}
-.view .introduce table tr .name{
-   font-size:20px;
-   padding-right:40px;
-   padding-bottom: 10px;
-}
-.view .introduce table tr .name2{
-   font-size:20px;
-   padding-right:10px;
-}
-.view .introduce table tr .intro{
-   padding-bottom: 10px;
-}
-.view .introduce table tr #shopIntro{
-   width:450px;
-   height:40px;
-}
-.view .introduce table tr #shopContent{
-   width:450px;
-   height:150px;
-}
-.view .basic table{
-   margin-top:30px;
-}
-.view .basic table tr th{
-   font-size:30px;
-}
-.view .basic table tr .td{
-   font-size:20px;
-   padding-right:40px;
-}
-.view .basic table input[type=text]{
-   width:460px;
-   height:35px;
-}
-.view .basic table tr .select{
-   height:35px;
-   width:120px;
-}
-.view .basic table input[type=checkbox]{
-   height:20px;
-   width:20px;
-   vertical-align:middle;
-}
-.view .basic table td input[type=button]{
-   height:34px;
-   background: #C2A383;
-   border: 0;
-   color: #fff;
-   font-size: 17px;
-   border-radius: 5px;
-}
-.view .additional table tr th{
-   font-size:30px;
-   padding-top: 40px;
-   padding-left: 15px;
-}
-
-.view .additional table tr td{
-   font-size:20px;
-}
-.view .additional table input[type=text]{
-   width:460px;
-   height:35px;
-}
-.view .additional table td .select{
-   height:35px;
-   width:120px;
-}
-.view .additional table td button[type=button]{
-   text-align: center;
-   height:34px;
-   background: #C2A383;
-   border: 0;
-   color: #fff;
-   font-size: 18px;
-   border-radius: 10px;
-   margin-right:5px;
-   width:60px;
-   font-family: 'Cafe24Dangdanghae';
-}
-.view .additional table .tdtd{
-   padding-right:40px;
-   padding-left:17px;
-}
-.view .additional table .tdtd2{
-   padding-right:33px;
-   padding-left:17px;
-}
-.view .additional table .tdtd3{
-   padding-right:19px;
-   padding-left:17px;
-}
-.view .additional table .tdtd4{
-   padding-right:36px;
-   padding-left:17px;
-}
-.view .additional table .tdtd5{
-   padding-right:68px;
-   padding-left:17px;
-}
-
-/*매장관리 수정.취소 버튼*/
-.view .update button {
-  background: rgba(225, 225, 225);
-  border:3px solid #C2A383;
-  padding: 3px 15px;
-  color: #0c0b09;
-  transition: 0.4s;
-  border-radius: 10px;
-  font-family: 'Cafe24Dangdanghae';
-  font-size: 20px;
-  margin-right: 8px;
-  margin-top: 20px;
-}
-
-.view .update button:hover {
-  background: #C2A383;
-}
-
-.view .cancle button {
-  background: rgba(225, 225, 225);
-  border:3px solid #C2A383;
-  padding: 3px 15px;
-  color: #0c0b09;
-  transition: 0.4s;
-  border-radius: 10px;
-  font-family: 'Cafe24Dangdanghae';
-  font-size: 20px;
-  margin-left: 8px;
-  margin-top: 20px;
-}
-
-.view .cancle button:hover {
-  background: #C2A383;
-}
 
 /*--------------------------------------------------------------
 # view end
@@ -4112,502 +3834,6 @@ today 검색
 /*--------------------------------------------------------------
 #today end
 --------------------------------------------------------------*/
-
-
-/*--------------------------------------------------------------
-#today view start
---------------------------------------------------------------*/
-
-.todayView {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-}
-
-.todayView .container{
-	  background-color:rgba(255, 255, 255, 0);
-	  padding: 1% 1%;
-	  margin-top: 40px;
-	  margin-bottom: 40px;
-	  width : 100%;                                
-	  border-radius: 1em;                         
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;              
-}
-
-.todayView .row{
-  padding: 1% 1%;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  width : 100%;                               
-  background-color:rgba(255, 255, 255, 0.8);   
-  border-radius: 1em;                         
-  display: flex;
-  justify-content: center;
-  align-items: center;              
-}
-
-.todayView {
-  content: "";
-  background: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  right: 0;
-}
-
-.todayView p span{
-   font-family: 'Cafe24Dangdanghae';
-}
-
-.todayView p, .view ul, .view h3, .view span{
-  color:#000;
-}
-
-@media (min-width: 1024px) {
-  .todayView {
-    background-attachment: fixed;
-  }
-}
-
-/*공지사항 및 내용*/
-.todayView .view-text {
-  margin-left:5px; 
-  border-top: 2px solid #C2A383;
-}
-.todayView .view-text .title{
-  font-size: 25px; 
-  margin-left:20px;
-}
-.todayView .view-text .view-content{
-   font-size: 18px; 
-   margin-left:10px;
-}
-
-/*매장 이름 및 내용*/
-.todayView .p-3{
-	float:right;
-	width: 50%;
-}
-.todayView h3{
-  font-size:40px;
-}
-.todayView .intro{
-  font-size:25px;
-}
-.todayView .intro2{
-  font-size:18px;
-  list-style:none;
-  padding-left:8px;
-}
-.todayView .intro2 i{
-  color: #C2A383;
-}
-.todayView .hashtag
-{
-	cursor: pointer;
-}
-.todayView .hashtag i
-{
-	font-size: 18px; 
-	color: #FF7F50;
-}
-
-/*today, 예약 버튼*/
-.todayView .buttons {
-	  display: flex;
-	  justify-content: right;
-	  align-items: right;  
-}
-.todayView .buttons .btn {
-  color: #fff;
-  background-color: #C2A383;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  height: 50px;
-  width: 150px;
-  border-radius: 10px !important;
-}
-.todayView .buttons .btn:hover {
-  color:#fff;
-  background-color: #d3af71;
-}
-.todayView .buttons .btn a{
-  color: #fff;
-}
-
-/*매장 이미지*/
-.todayView .thumbnail_images ul {
-  list-style: none;
-  justify-content: center;
-  display: flex;
-  align-items: center;
-  margin-top: 10 px
-}
-.todayView .thumbnail_images ul li {
-  margin: 5 px;padding: 10 px;
-  border: 2 px solid #cda45e
-  ;cursor: pointer;
-  transition: all 0.5 s
-}
-.todayView .main_image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 400 px;
-  width: 100% ;
-  overflow: hidden;
-  }
-
-.todayView .thumbnail_images {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/*예약 modal*/
-.todayView .modal {
-  margin-top: 2vh;
-  color:black;
-  font-size: 18px;
-  min-height: 100vh;
-  
-}
-
-.todayView .modal-content{
-	border: solid 3px #d3af71;
-}
-
-.todayView #modal-btn:hover {
-  border: 2px solid white;
-}
-
-.todayView #modal-btn:active {
-  background-color: white;
-  color: #c78e54;
-
-}
-/*modal 예약 title*/
-.todayView .modal-title {
-  color: rgba(0,0,0);
-  font-size:25px;
-}
-/*modal body*/
-.todayView .modal-body {
-  /*height: 60vh;*/
-  z-index: 0;
-  border-top: solid 3px #d3af71;
-  border-bottom: solid 3px #d3af71;
-}
-
-.todayView #shopName {
-	font-size: 35px;
-	position: relative;
-	bottom:10px;
-	text-align: center;
-}
-
-.todayView #selectcontent {
-	height:50px;
-	position: relative;
-	margin: auto;
-	word-break:break-all;
-}
-
-/*인원 선택*/
-.todayView .personnel-select {
-  float: left; width: 50%;
-  display: inline-block;
-  width: 176.8px;
-  border: 1px solid #999;
-  cursor: pointer;
-  position: relative;
-  bottom: 10px;
-  height: 38px;
-  border-radius: 25px;
-  margin-left: 50px;
-  margin-right: 2px;
-}
-.todayView .personnel-select:hover {
-  border: 1px solid #cda45e;
-}
-.todayView .personnel-selected {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 5px;
-  width: 176.8px;
-  height: 100%;
-  z-index: 1;
-}
-.todayView  .personnel-selected-value {
-  width: 176.8px;
-  color: #cda45e;
-  text-align: center;
-  z-index: 1;
-  line-height:20px;
-}
-.todayView  #select-ul {
-  margin-right: 10px;
-  width: 176.8px;
-  position: absolute;
-  background: #fff;
-  border-top: none;
-  position: relative;
-  right: 1px;
-  z-index: 1;
-  text-align: center;
-  list-style: none; 
-  display: none;
-  margin-top: 5px;
-  border: 1px solid #999;
-  border-top: 1px solid #fff;
-  
-}
-.todayView .option {
-  position: relative;
-  right: 15px;
-  z-index: 1;
-}
-.todayView .option:hover {
-  border-top: 1px solid #c78e54;
-  border-bottom: 1px solid #c78e54;
-}
-
-/*날짜 선택*/
-.todayView .datepicker {
-  float: left; width: 50%;
-  display: inline-block;
-  width: 176.8px;
-  border: 1px solid #999;
-  cursor: pointer;
-  position: relative;
-  bottom: 10px;
-  height: 38px;
-  border-radius: 25px;
-  color: #c78e54;
-  margin-left: 2px;
-}
-
-/*카운터석 안내문*/
-.todayView .modal-body .count{
-	text-align:center; 
-	margin-bottom:20px; 
-	position:relative;
-}
-.todayView .modal-body input[type=checkbox] {
-  width: 20px;
-  height: 20px;
-   vertical-align:middle;
-}
-
-/*메뉴 체크 버튼*/
-.todayView .buttons .btn2 {
-  color: #000;
-  background-color: #C2A383;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  height: 30px;
-  width: 30px;
-  border-radius: 10px !important;
-  display:table-cell;
-  vertical-align:middle;
-  text-align:center;
-  font-size:15px;
-}
-.todayView .buttons .btn2:hover {
-  color:#fff;
-  background-color: #d3af71;
-}
-.todayView .buttons .btn3 {
-  color: #000;
-  background-color: #C2A383;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  height: 30px;
-  width: 60px;
-  border-radius: 10px !important;
-  display:table-cell;
-  vertical-align:middle;
-  text-align:center;
-  font-size:15px;
-}
-.todayView .buttons .btn3:hover {
-  color:#fff;
-  background-color: #d3af71;
-}
-
-/*예약 메뉴*/
-.todayView .menuQuantity {
-  width: 50px;
-  position: relative;
-  bottom: 15px;
-  display: inline;
-  text-align: center;
-  z-index: 0;
-}
-.todayView .menuQuantity table{
-  margin-left:20px;
-}
-.todayView .menuQuantity table tr{
-  font-size: 26px;
-}
-
-/*주문메뉴*/
-.todayView .order{
-	border: 3px solid #d3af71; 
-	border-radius: 8px; 
-	font-size: 28px;	
-	position: relative;
-}
-.todayView .order .total{
-	border: 1px solid blakc; 
-	margin-top:15px;
-}
-
-/*결제*/
-.todayView .modal-footer {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-}
-.todayView .modal-footer .btn{
-  display: table-cell;
-  justify-content: center;
-  text-align: center;
-  border:none;
-  font-size:20px;
-  vertical-align:middle;
-}
-
-/*리뷰*/
-.todayView  .hr-5 {
-  margin-top: 20px;
-}
-.todayView .review-container {
-  margin-top: 10px;
-  text-align: center;
-}
-.todayView .review-container h5{
-  color: #000; 
-  text-align: center;
-  font-size:30px;
-}
-.todayView .review ul{
-  list-style: none;
-  text-align: center;
-  border-bottom: 2px solid #C2A383
-}
-.todayView .review li{
-  list-style: none;
-  text-align: left;
-  color:#000;
-  font-size:20px;
-}
-.todayView .review a{
-  list-style: none;
-  text-align: left;
-  color:#000;
-}
-
-
-/*즐겨찾기 버튼*/
-.todayView .bookmark button {
-  background: rgba(225, 225, 225);
-  border:3px solid #C2A383;
-  padding: 3px 15px;
-  color: #0c0b09;
-  transition: 0.4s;
-  border-radius: 10px;
-  font-family: 'Cafe24Dangdanghae';
-  font-size: 17px;
-  margin-left: 5px;
-  /*float: center;
-  position: relative;*/
-}
-
-.todayView .bookmark button:hover {
-  background: #C2A383;
-}
-
-.todayView ion-icon {
-  color: #c78e54;
-}
-
-
-.todayView .search-option {
-  position: absolute;
-  background-color: #cda45e;
-  overflow: hidden;
-  align-items: center;
-  color: #cda45e;
-  width: 200 px;
-  height: 200 px;
-  border-radius: 49% 51% 50% 50% / 68% 69% 31% 32%;
-  left: 30%;
-  bottom: -250px;
-  transition: all 0.5s;
-  cursor: pointer}
-.todayView .search-option .first-search {
-  position: absolute;
-  top: 20px;
-  left: 90px;
-  font-size: 20px;
-  opacity: 1000
-}
-.todayView .search-option .inputs {
-  opacity: 0;
-  transition: all 0.5s ease;
-  transition-delay: 0.5s;
-  position: relative
-}
-.todayView .search-option .inputs input {
-  position: absolute;
-  top: 200px;
-  left: 30px;
-  padding-left: 20px;
-  background-color: transparent;
-  width: 300px;
-  border: none;
-  color: #cda45e;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.5s;
-  z-index: 10
-}
-.todayView .search-option .inputs input:focus {
-  box-shadow: none;
-  outline: none;
-  z-index: 10;
-  
-}
-.todayView .search-option:hover {
-  border-radius: 0px;
-  width: 100%;
-  left: 0px;
-  background-color: #cda45e;
-}
-.todayView .search-option:hover .inputs {
-  opacity: 1
-}
-.todayView .search-option:hover .first-search {
-  left: 27px;
-  top: 25px;
-  font-size: 15px
-}
-.todayView .search-option:hover .inputs input {
-  top: 20px
-}
-.todayView .search-option .share {
-  position: absolute;
-  right: 20px;
-  top: 22px
-}
-
-
-/*--------------------------------------------------------------
-#today view end
---------------------------------------------------------------*/
-
-
 
 /***
 login.html시작
@@ -6150,14 +5376,14 @@ hr[role="tournament1"]::before {
 }
 
 .cardDetailSection-button {
-  color:rgba(203, 153, 102);
-  font-family: 'cafe24Dangdanghae'; 	
+  color:#464545a6;
+  font-family: 'cafe24Dangdanghae'; 
   border-radius: 10%;
-  box-shadow: 3px 3px 3px 3px rgba(203, 153, 102, 0.575);
+  box-shadow: 3px 3px 3px 3px rgba(128, 128, 128, 0.575);
 }
 
 .cardDetailSection-button:hover {
-  box-shadow: 3px 3px 3px 3px rgba(128, 128, 128, 0.7) inset;
+  box-shadow: 3px 3px 3px 3px rgba(128, 128, 128, 0.575) inset;
 }
 
 
@@ -6309,249 +5535,15 @@ hr[role="tournament1"]::before {
 
 
 
+/*rlist.html CSS끝*/
+
+
+/*
+footer요소들 페이지 css시작
+*/
 /*--------------------------------------------------------------
-# footer css
+# footer의 resources start
 --------------------------------------------------------------*/
-/*About Us*/
-#aboutus1 {
-  width: 100%;
-  height: 100%;
-  background: url("/resources/images/hero-bg.jpg") top center;
-  background-size: cover;
-  position: relative;
-  padding: 0;
-  color: #0c0b09;
-}
-
-#aboutus1 .container{
-  padding-top: 110px;
-}
-
-#aboutus1 .row{
-  padding: 1% 1%;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  width : 100%;                               
-  background-color:rgba(255, 255, 255, 0.8);   
-  border-radius: 1em;                         
-  display: inline-block;     
-  position: relative;                 
-}
-
-#aboutus1:before {
-  content: "";
-  background: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  right: 0;
-}
-
-.aboutus1 .nav-item button{
-  margin-top: 10px;
-  background: #cda45e;
-  border: 0;
-  padding: 4px 20px;
-  color: #0c0b09;
-  transition: 0.4s;
-  border-radius: 10px;
-  font-family: 'Cafe24Dangdanghae';
-  font-size: 19px;
-  float: right;
-
-}
-.aboutus1 #pills-tab .active {
-  color: #0c0b09;
-  background-color: rgba(225, 225, 225);
-  border-radius: 10px;
-}
-
-.aboutus1 .tab-content .title{
-	margin-top:30px;
-	margin-bottom:0px;
-}
-.aboutus1 .tab-content hr{
-	margin-top:1px;
-	margin-bottom:1px;
-	border: 1px solid;
-	border-color: #cda45e;
-	background: #cda45e;
-}
-.aboutus1 .tab-content .info{
-	word-break: keep-all;
-  	font-size: 20px;
-}
-
-
-/*Company*/
-#company {
-  width: 100%;
-  height: 100%;
-  background: url("/resources/images/hero-bg.jpg") top center;
-  background-size: cover;
-  position: relative;
-  padding: 0;
-  color: #0c0b09;
-}
-
-#company .container{
-  padding-top: 110px;
-}
-
-#company .row{
-  padding: 1% 1%;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  width : 100%;                               
-  background-color:rgba(255, 255, 255, 0.8);   
-  border-radius: 1em;                         
-  display: inline-block;     
-  position: relative;                 
-}
-
-#company:before {
-  content: "";
-  background: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  right: 0;
-}
-
-.company .nav-item button{
-  margin-top: 10px;
-  background: #cda45e;
-  border: 0;
-  padding: 4px 20px;
-  color: #0c0b09;
-  transition: 0.4s;
-  border-radius: 10px;
-  font-family: 'Cafe24Dangdanghae';
-  font-size: 19px;
-  float: right;
-
-}
-.company #pills-tab .active {
-  color: #0c0b09;
-  background-color: rgba(225, 225, 225);
-  border-radius: 10px;
-}
-
-.company .tab-content .title{
-	margin-top:30px;
-	margin-bottom:0px;
-}
-.company .tab-content hr{
-	margin-top:1px;
-	margin-bottom:1px;
-	border: 1px solid;
-	border-color: #cda45e;
-	background: #cda45e;
-}
-.company .tab-content .content .info{
-	word-break: keep-all;
-  	font-size: 20px;
-}
-.company .tab-content .content2 .year{
-  	font-size: 25px;
-}
-.company .tab-content .content2 .plan{
-  	font-size: 20px;
-}
-
-
-/*logoHistory*/
-#logoHistory {
-  width: 100%;
-  height: 100%;
-  background: url("/resources/images/hero-bg.jpg") top center;
-  background-size: cover;
-  position: relative;
-  padding: 0;
-  color: #0c0b09;
-}
-
-#logoHistory .container{
-  padding-top: 110px;
-}
-
-#logoHistory .row{
-  padding: 1% 1%;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  width : 100%;                               
-  background-color:rgba(255, 255, 255, 0.8);   
-  border-radius: 1em;                         
-  display: inline-block;     
-  position: relative;                 
-}
-
-#logoHistory:before {
-  content: "";
-  background: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  right: 0;
-}
-
-.logoHistory .nav-item button{
-  margin-top: 10px;
-  background: #cda45e;
-  border: 0;
-  padding: 4px 20px;
-  color: #0c0b09;
-  transition: 0.4s;
-  border-radius: 10px;
-  font-family: 'Cafe24Dangdanghae';
-  font-size: 19px;
-  float: right;
-
-}
-.logoHistory #pills-tab .active {
-  color: #0c0b09;
-  background-color: rgba(225, 225, 225);
-  border-radius: 10px;
-}
-
-.logoHistory .tab-content .title{
-	margin-top:30px;
-	margin-bottom:0px;
-}
-.logoHistory .tab-content hr{
-	margin-top:1px;
-	margin-bottom:20px;
-	border: 1px solid;
-	border-color: #cda45e;
-	background: #cda45e;
-}
-
-.logoHistory .logo{
-	display:flex;
-	flex-flow:row nowrap;
-	justify-content: space-between;
-	margin-left:100px;
-	margin-right:100px;
-}
-
-.logoHistory .logo img{
-  margin: auto;
-  display: block;
-  width: 150px;
-  height: 150px;
-}
-.logoHistory .logo .image-info{
-  text-align:center;
-	font-size:20px;
-	margin-top:10px;
-}
-.logoHistory .arrow{
-	margin-top:50px;
-	font-size:40px;
-}
 
 /*
 약관 css
@@ -6563,28 +5555,125 @@ hr[role="tournament1"]::before {
   background-size: cover;
   position: relative;
   padding: 0;
+  color:#0c0b09;
+  
 }
-#term1 .container{
-  padding-top: 110px;
+
+#term2 {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+  color:#0c0b09;
+  
 }
-#term1 .row{
-  padding: 1% 1%;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  width : 100%;                               
-  background-color:rgba(255, 255, 255, 0.8);   
-  border-radius: 1em;                         
-  display: inline-block;     
-  position: relative;                 
+
+#term3 {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+  color:#0c0b09;
+  
 }
+
+#term4 {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+  color:#0c0b09;
+  
+}
+
+#term1 .container {  
+    margin-top: 170px;
+}
+
+#term2 .container {  
+  margin-top: 170px;
+}
+
+#term3 .container {  
+  margin-top: 170px;
+}
+
+#term4 .container {  
+  margin-top: 170px;
+}
+
 #term1:before {
   content: "";
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(225, 225, 225);
+  opacity : 0.95;
   position: absolute;
   bottom: 0;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 4.3%;
+  left: 5%;
+  right: 5%;
+  border-radius: 20px;
+}
+
+#term2:before {
+  content: "";
+  background: rgba(225, 225, 225);
+  opacity : 0.95;
+  position: absolute;
+  bottom: 0;
+  top: 1.5%;
+  left: 5%;
+  right: 5%;
+  border-radius: 20px;
+}
+
+#term3:before {
+  content: "";
+  background: rgba(225, 225, 225);
+  opacity : 0.95;
+  position: absolute;
+  bottom: 0;
+  top: 3.2%;
+  left: 5%;
+  right: 5%;
+  border-radius: 20px;
+}
+
+#term4:before {
+  content: "";
+  background: rgba(225, 225, 225);
+  opacity : 0.95;
+  position: absolute;
+  bottom: 0;
+  top: 10.5%;
+  left: 5%;
+  right: 5%;
+  border-radius: 20px;
+}
+
+#term1 .row {
+  position:relative;
+  
+}
+
+#term2 .row {
+  position:relative;
+  
+}
+
+#term3 .row {
+  position:relative;
+  
+}
+
+#term4 .row {
+  position:relative;
+  
 }
 
 @media (min-width: 1024px) {
@@ -6593,136 +5682,10 @@ hr[role="tournament1"]::before {
   }
 }
 
-#term1 .nav-item button{
-  	margin-top: 10px;
-    background: #cda45e;
-    border: 0;
-    padding: 4px 20px;
-    color: #0c0b09;
-    transition: 0.4s;
-    border-radius: 10px;
-    font-family: 'Cafe24Dangdanghae';
-    font-size: 19px;
-    float: right;
-
-}
-#term1 #pills-tab .active {
-  color: #0c0b09;
-  background-color: rgba(225, 225, 225);
-  border-radius: 10px;
-}
-
-#term1 .content{
-	margin-top:30px;
-	word-break: keep-all;
-	color: #0c0b09;
-}
-#term1 .content .tab-pane p{
-	margin-bottom:0px;
-}
-#term1 .content .tab-pane .info{
-	margin-bottom:30px;
-	font-size: 20px;
-}
-
-
-/*resources2*/
-#term2 {
-  width: 100%;
-  height: 100%;
-  background: url("/resources/images/hero-bg.jpg") top center;
-  background-size: cover;
-  position: relative;
-  padding: 0;
-}
-
-#term2 .container{
-  padding-top: 110px;
-}
-
-#term2 .row{
-  padding: 1% 1%;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  width : 100%;                               
-  background-color:rgba(255, 255, 255, 0.8);   
-  border-radius: 1em;                         
-  display: inline-block;     
-  position: relative;                 
-}
-
-#term2:before {
-  content: "";
-  background: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  right: 0;
-}
-
 @media (min-width: 1024px) {
   #term2 {
     background-attachment: fixed;
   }
-}
-
-#term2 .nav-item button{
-  	margin-top: 10px;
-    background: #cda45e;
-    border: 0;
-    padding: 4px 20px;
-    color: #0c0b09;
-    transition: 0.4s;
-    border-radius: 10px;
-    font-family: 'Cafe24Dangdanghae';
-    font-size: 19px;
-    float: right;
-}
-#term2 #pills-tab .active {
-  color: #0c0b09;
-  background-color: rgba(225, 225, 225);
-  border-radius: 10px;
-}
-#term2 .content{
-	margin-top:30px;
-	word-break: keep-all;
-	color: #0c0b09;
-}
-
-/*resources3*/
-#term3 {
-  width: 100%;
-  height: 100%;
-  background: url("/resources/images/hero-bg.jpg") top center;
-  background-size: cover;
-  position: relative;
-  padding: 0;
-}
-
-#term3 .container{
-  padding-top: 110px;
-}
-
-#term3 .row{
-  padding: 1% 1%;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  width : 100%;                               
-  background-color:rgba(255, 255, 255, 0.8);   
-  border-radius: 1em;                         
-  display: inline-block;     
-  position: relative;                 
-}
-
-#term3:before {
-  content: "";
-  background: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  right: 0;
 }
 
 @media (min-width: 1024px) {
@@ -6731,73 +5694,15 @@ hr[role="tournament1"]::before {
   }
 }
 
-#term3 .nav-item button{
-  	margin-top: 10px;
-    background: #cda45e;
-    border: 0;
-    padding: 4px 20px;
-    color: #0c0b09;
-    transition: 0.4s;
-    border-radius: 10px;
-    font-family: 'Cafe24Dangdanghae';
-    font-size: 19px;
-    float: right;
-
-}
-#term3 #pills-tab .active {
-  color: #0c0b09;
-  background-color: rgba(225, 225, 225);
-  border-radius: 10px;
-}
-#term3 .content{
-	margin-top:30px;
-	word-break: keep-all;
-	color: #0c0b09;
-}
-
-/*resources4*/
-#term4 {
-  width: 100%;
-  height: 100%;
-  background: url("/resources/images/hero-bg.jpg") top center;
-  background-size: cover;
-  position: relative;
-  padding: 0;
-}
-
-#term4 .container{
-  padding-top: 110px;
-}
-
-#term4 .row{
-  padding: 1% 1%;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  width : 100%;                               
-  background-color:rgba(255, 255, 255, 0.8);   
-  border-radius: 1em;                         
-  display: inline-block;     
-  position: relative;                 
-}
-
-#term4:before {
-  content: "";
-  background: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  right: 0;
-}
-
 @media (min-width: 1024px) {
   #term4 {
     background-attachment: fixed;
   }
 }
 
-#term4 .nav-item button{
-  	margin-top: 10px;
+
+#term1 .nav-item button{
+  margin-top: -30px;
     background: #cda45e;
     border: 0;
     padding: 4px 20px;
@@ -6807,83 +5712,275 @@ hr[role="tournament1"]::before {
     font-family: 'Cafe24Dangdanghae';
     font-size: 19px;
     float: right;
+
 }
+
+#term2 .nav-item button{
+  margin-top: -30px;
+    background: #cda45e;
+    border: 0;
+    padding: 4px 20px;
+    color: #0c0b09;
+    transition: 0.4s;
+    border-radius: 10px;
+    font-family: 'Cafe24Dangdanghae';
+    font-size: 19px;
+    float: right;
+
+}
+
+#term3 .nav-item button{
+  margin-top: -30px;
+    background: #cda45e;
+    border: 0;
+    padding: 4px 20px;
+    color: #0c0b09;
+    transition: 0.4s;
+    border-radius: 10px;
+    font-family: 'Cafe24Dangdanghae';
+    font-size: 19px;
+    float: right;
+
+}
+
+#term4 .nav-item button{
+  margin-top: -30px;
+    background: #cda45e;
+    border: 0;
+    padding: 4px 20px;
+    color: #0c0b09;
+    transition: 0.4s;
+    border-radius: 10px;
+    font-family: 'Cafe24Dangdanghae';
+    font-size: 19px;
+    float: right;
+
+}
+
+#term1 #pills-tab .active {
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
+  border-radius: 10px;
+
+}
+
+#term2 #pills-tab .active {
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
+  border-radius: 10px;
+
+}
+
+#term3 #pills-tab .active {
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
+  border-radius: 10px;
+
+}
+
 #term4 #pills-tab .active {
   color: #0c0b09;
   background-color: rgba(225, 225, 225);
   border-radius: 10px;
+
 }
-#term4 .content{
-	margin-top:30px;
-	word-break: keep-all;
-	color: #0c0b09;
-}
+
+
+
 #term4 #pills-contact2 .title-area {
   text-align: center;
 }
-#term4 #pills-contact2 h3 {
-  text-align: center;
-  font-size:40px;
-  padding-bottom:20px;
-}
-#term4 #pills-contact2 p {
-  font-size:20px;
-}
-#term4 #pills-contact2 .bottom {
-  padding-bottom:30px;
-}
 
 #term4 #pills-contact2 .storequestion{
-  padding: 0px 200px;
+  padding: 50px 300px;
+}
+
+
+#term4 .inquiry {
+  text-align:center;
 }
 
 #term4 .doc #doc-inner {
   text-align: left;
 }
 
-#term4 .fieldset-header{
-	text-align: center;
-	padding-top:30px;
-}
-
-#term4 .fieldset-header h4{
-  font-size:30px;
-  padding-bottom:10px;
-}
-
-#term4 .fieldset-header input[type=checkbox]{
-  width:20px;
-  height:20px;
-   vertical-align:middle;
-}
-#term4 .label-checkbox{
-  font-size:20px;
-}
-#term4 .inquiry{
-  padding-bottom:20px;
-}
-#term4 .inquiry button[type=button] {
-  margin-top: 20px;
-  border: 2px solid #C2A383;
-  padding: 8px 20px;
-  color: black;
+#term4 .container .row #inquiryBtn{
+  margin-top: 10px;
+  background: #cda45e;
+  border: 0;
+  padding: 4px 20px;
+  color: #0c0b09;
   transition: 0.4s;
-  border-radius: 10px;
+  border-radius: 20px;
   font-family: 'Cafe24Dangdanghae';
-  font-size:20px;
-  position: relative;
-  text-align:center;
-  margin: auto;
-  display: block;
+  font-size: 19px;
+  float: center;
 }
 
-#term4 .inquiry button[type=button]:hover {
-  background: #d3af71;
-}
 /*--------------------------------------------------------------
-# footer css End
+# footer의 aboutus css
 --------------------------------------------------------------*/
 
+.aboutus1 {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+  color:#0c0b09;
+}
+
+.aboutus2 {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+  color:#0c0b09;
+}
+
+.aboutus3 {
+  width: 100%;
+  height: 100%;
+  background: url("/resources/images/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+  color:#0c0b09;
+}
+
+.aboutus1 .container {
+  margin-top: 100px;
+  position: relative;
+}
+
+.aboutus2 .container {
+  margin-top: 100px;
+  position: relative;
+}
+
+.aboutus3 .container {
+  margin-top: 100px;
+  position: relative;
+}
+
+.aboutus1:before {
+  content: "";
+  background: rgba(225, 225, 225);
+  opacity : 0.95;
+  position: absolute;
+  bottom: 0;
+  top: 13%;
+  left: 5%;
+  right: 5%;
+  border-radius: 20px;
+}
+
+.aboutus2:before {
+  content: "";
+  background: rgba(225, 225, 225);
+  opacity : 0.95;
+  position: absolute;
+  bottom: 0;
+  top: 13%;
+  left: 5%;
+  right: 5%;
+  border-radius: 20px;
+}
+
+.aboutus3:before {
+  content: "";
+  background: rgba(225, 225, 225);
+  opacity : 0.95;
+  position: absolute;
+  bottom: 0;
+  top: 13%;
+  left: 5%;
+  right: 5%;
+  border-radius: 20px;
+}
+
+
+.aboutus1 .nav-item button{
+  margin-top: 10px;
+    background: #cda45e;
+    border: 0;
+    padding: 4px 20px;
+    color: #0c0b09;
+    transition: 0.4s;
+    border-radius: 10px;
+    font-family: 'Cafe24Dangdanghae';
+    font-size: 19px;
+    float: right;
+
+}
+
+.aboutus2 .nav-item button{
+  margin-top: 10px;
+    background: #cda45e;
+    border: 0;
+    padding: 4px 20px;
+    color: #0c0b09;
+    transition: 0.4s;
+    border-radius: 10px;
+    font-family: 'Cafe24Dangdanghae';
+    font-size: 19px;
+    float: right;
+
+}
+
+.aboutus3 .nav-item button{
+  margin-top: 10px;
+    background: #cda45e;
+    border: 0;
+    padding: 4px 20px;
+    color: #0c0b09;
+    transition: 0.4s;
+    border-radius: 10px;
+    font-family: 'Cafe24Dangdanghae';
+    font-size: 19px;
+    float: right;
+
+}
+
+.aboutus1 #pills-tab .active {
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
+  border-radius: 10px;
+
+}
+
+.aboutus2 #pills-tab .active {
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
+  border-radius: 10px;
+
+}
+
+.aboutus3 #pills-tab .active {
+  color: #0c0b09;
+  background-color: rgba(225, 225, 225);
+  border-radius: 10px;
+
+}
+
+.aboutus3 .current-logo {
+  text-align:center;
+  padding: 50px 30px;
+}
+
+.aboutus3 .logo-list {  
+  text-align:center;
+  margin:auto;
+  float:left;
+  
+}
+
+/*
+footer요소 css끝
+*/
 
 /*결제*/
 .pay-back {
@@ -6953,7 +6050,7 @@ hr[role="tournament1"]::before {
 
 .pay-card-name {
   text-align: center;
-  font-size : 25px;
+  font-size : 20px;
   color : black;
   margin-top : 10px;
   margin-left : 20px;
@@ -6968,8 +6065,7 @@ hr[role="tournament1"]::before {
   padding-right:25px;
   padding-left:25px;
   color: #000;
-  font-size: 30px;
-  margin-top: 30px;
+  font-size: 13px;
   }
 
 .pay-img-div { 

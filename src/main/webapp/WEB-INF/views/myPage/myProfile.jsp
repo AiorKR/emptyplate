@@ -13,14 +13,11 @@ $(document).ready(function() {
    $("#btnDelete").on("click", function(){
          if(confirm("정말 탈퇴하시겠습니까?") == true)
          {     
-             var Pwd = prompt("비밀번호를 입력하세요");
-        	 
-        	 $.ajax({
+            $.ajax({
                type:"POST",
                url:"/myPage/userDelete",
                data:{
-                  userId : $("#userId").val(),
-                  userPwd : Pwd
+                  userId : $("#userId").val()
                },
                datatype:"JSON",
                beforeSend:function(xhr){
@@ -31,10 +28,6 @@ $(document).ready(function() {
                   {
                      alert("탈퇴가 완료되었습니다.");
                      window.location = "/";
-                  }
-                  else if(response.code == -1)
-                  {
-                	  alert("비밀번호가 올바르지 않습니다.")
                   }
                   else if(response.code == 500)
                   {
@@ -237,12 +230,7 @@ function updateError(){
                   <c:if test="${user.userPwd eq 'kaP'}">
                   <form style="margin-top: 20px;"><button class="btn-password" onclick="alert('카카오 회원은 비밀번호 변경이 불가합니다.')">비밀번호변경</button></form><br/><br/>
                   </c:if>
-                  <c:if test="${user.adminStatus eq 'Y'}">
-                   <form style="margin-top: 20px;"><button style="color: gray; text-decoration:underline; float: right;" onclick="alert('매장관리자는 탈퇴가 불가합니다.')">회원탈퇴</button></form>
-                  </c:if>
-                  <c:if test="${user.adminStatus ne 'Y'}">
                    <form style="margin-top: 20px;"><button id="btnDelete" style="color: gray; text-decoration:underline; float: right;">회원탈퇴</button></form>
-                  </c:if>
                 </div>                
             </div>
         </div>     

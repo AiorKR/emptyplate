@@ -128,28 +128,30 @@ $(document).ready(function(){
 				<hr class="hr-5">
 				</container>
 				<div class="swiper-wrapper">
-					<c:if test="${!empty recommand}">
-						<c:forEach items="${recommand}" var="recommand" varStatus="status">
+					<c:if test="${!empty list}">
+						<c:forEach items="${list}" var="shop" varStatus="status">
 							<div class="swiper-slide"
 								style="height: auto; width: 100%; background-color: rgba(240, 240, 240, 0.7);">
 								<div class="reservation-item" style="height: 350px;"
-									onclick="fn_view('${recommand.shopUID}')" style="cursor:pointer;">
+									onclick="fn_view('${shop.shopUID}')" style="cursor:pointer;">
 									<img alt=""
-										src="../resources/upload/shop/${recommand.shopUID}/${recommand.shopFile.shopFileName}"
+										src="../resources/upload/shop/${shop.shopUID}/${shop.shopFile.shopFileName}"
 										style="height: 300px; width: 300px; position: relative; left: 150px; top: 25px;">
 									<span style="position: relative; bottom: 250px; left: 600px;">
-										<h3>${recommand.shopName}</h3>
+										<h3>${shop.shopName}</h3>
 										<ul>
 											<li><i class="fa-solid fa-map-location-dot"></i>
-												${recommand.shopLocation1} ${recommand.shopLocation2} ${recommand.shopAddress}</li>
+												${shop.shopLocation1} ${shop.shopLocation2}
+												${shop.shopLocation3} ${shop.shopAddress}</li>
 											<li><i class="fa-regular fa-star"></i> 별점 4.3 (500)</li>
-											<li><ion-icon name="information-circle-outline"></ion-icon> ${recommand.shopIntro}</li>
-											<c:forTokens items="${recommand.shopHashtag}" delims="#"	var="shopHashtag">
+											<li><ion-icon name="information-circle-outline"></ion-icon> ${shop.shopIntro}</li>
+											<c:forTokens items="${shop.shopHashtag}" delims="#"	var="shopHashtag">
 												<span onclick="fn_search('${shopHashtag}')" class="hashtag"> 
 												<i class="fa-solid fa-hashtag"><c:out value='${shopHashtag}' /></i>
 												</span>
 											</c:forTokens>
 										</ul>
+										
 									</span>
 								</div>
 							</div>
@@ -186,7 +188,7 @@ $(document).ready(function(){
 													<li id="datepicker-li">
 														<c:forEach items="${timeList}" var="timeList" varStatus="status">
 															<div class="dptime">${timeList.shopOrderTime}</div>
-														</c:forEach>
+	                               						</c:forEach> 
 													</li>
 												</ul>
 											</div>
@@ -222,8 +224,9 @@ $(document).ready(function(){
 											style="cursor: pointer;">
 											<td class="w-25" colspan="4"><img
 												src='../resources/upload/shop/${shop.shopUID}/${shop.shopFile.shopFileName}'
-												class="img-fluid img-thumbnail"></td>
-											<td class="content">
+												class="img-fluid img-thumbnail"
+												style="height: 200px; width: 200px;"></td>
+											<td>
 												<h2>
 													<c:out value="${shop.shopName}" />
 												</h2>
@@ -233,8 +236,9 @@ $(document).ready(function(){
 													</span>
 												</c:forTokens><br />
 											<br /> <i class="fa-solid fa-map-location-dot"
-												style="font-size: 18px;"> <c:out value="${shop.shopLocation1}" /> <c:out value="${shop.shopLocation2}" /> <c:out value="${shop.shopAddress}" />
+												style="font-size: 18px;"> <c:out value="${shop.shopLocation1}" /> <c:out value="${shop.shopLocation2}" /> <c:out value="${shop.shopLocation3}" />
 											</i><br />
+											<li><i class="fa-regular fa-star"></i> ${shop.reviewScore} (${shop.reviewCount})</li> </br />
 											<br /> <i class="fa-solid fa-pen"
 												style="color: #cda45e; font-size: 19px;"> <c:out value="${shop.shopIntro}" />
 											</i>
@@ -242,30 +246,120 @@ $(document).ready(function(){
 										</tr>
 									</c:forEach>
 								</c:if>
+								                          <!-- Modal -->
+                          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="m">예약</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  	<div id="shopName">${shop.shopName}</div>
+                                  	<div id="selectcontent" style="position: relative;z-index: 1500;">
+                                    	<div class="personnel-select">
+                                        	<div class="personnel-selected">
+                                          		<div class="personnel-selected-value">인원을 선택해주세요</div>
+                                        	</div>
+                                        	<ul id="select-ul">
+                                          		<li class="option">1명</li>
+                                          		<li class="option">2명</li>
+                                          		<li class="option">3명</li>
+                                          		<li class="option">4명</li>
+                                          		<li class="option">5명</li>
+                                          		<li class="option">6명</li>
+                                          		<li class="option">7명</li>
+                                          		<li class="option">8명</li>
+                                         		<li class="option">9명</li>
+                                       		</ul>
+                                    	</div>
+	                                    <input type="text" class="datepicker" placeholder="날자를 선택해주세요" name="date" readonly>
+	                                    <div class="box">
+	                                        <ul id="datepicker-ul">
+	                                            <li id="datepicker-li">
+	                                            	<c:forEach items="${shop.shopTime}" var="shopTime" varStatus="status">
+														<div class="dptime" id="shopTime${status.index}">${shopTime.shopOrderTime}</div>
+	                               					</c:forEach>  
+	                                            </li>
+	                                        </ul>
+	                                    </div>
+	                                    <c:if test="${shop.shopType eq 2}"> <!-- 오마카세일때 적용 -->
+	                                    	카운터석 : <input type="checkbox" id="counterSeat" class="counterSeat"/>
+	                                    	* 카운터석은 연속되게 앉을 수 없을 수도 있습니다. *
+                                  		</c:if>
+                                  	</div>	
+                              		<div id="tableCheck">
+
+									</div>
+                                    <div class="menuQuantity">
+                                   		<ul class="menuQuantity">
+                                   			<table>
+                                       			<c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
+													<tr id="shopMenu${status.index}">
+														<td>
+															${shopMenu.shopMenuName}
+														</td>
+														
+														<td>
+															 ${shopMenu.shopMenuPrice} 원
+														</td>
+														<td>
+															<input type="button" value="+" onclick="fn_MenuAdd('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})"  class="btn btn-primary" style="height:30px;width:30px;"/>
+															<input type="button" value="-" onclick="fn_MenuSub('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})"  class="btn btn-primary" style="height:30px;width:30px;" />
+															<input type="button" value="삭제" onclick="fn_Menudel('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})" class="btn btn-primary" style="height:30px;width:60px;" />
+														</td>
+													</tr>
+                        			  			</c:forEach>
+                        			  		</table>
+                                      	</ul>
+                                	</div>
+	                                	<div style="border:1px solid black;">
+	                                		<p>주문 메뉴</p>
+	                                		<c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
+	                                			<div>
+	                              	  				<span id="shopOrderMenu${status.index}" class="shopOrderMenu"></span>
+	                                				<span id="shopOrderMenuQuantity${status.index}" class="shopOrderMenu"></span>
+	                                			</div>
+	                                		</c:forEach>
+	                                		<p style="border:1px solid blakc;">총 금액 : <span id="totalAmount">0</span></p>
+	                                	</div>
+                                    </div>
+                                   <div class="modal-footer">
+ 							  			<button class="btn btn-primary" style="border:none;" id="pay">결제</button>
+                             	  </div>
+                                </div>
+                              </div>
+                             </div>
+								
+								<c:if test="${empty list}">
+									<p>매장이 없습니다</p>
+								</c:if>
 							</tbody>
 						</table>
 						<div class="page-wrap">
 							<ul class="page-nation">
+							<c:if test ="${!empty list}">
 								<c:if test="${paging.prevBlockPage gt 0}">
 									<li class="page-item"><a class="page-link"
 										href="javascript:void(0)"
 										onclick="fn_list(${paging.prevBlockPage})"> < </a></li>
 								</c:if>
-								<c:forEach var="i" begin="${paging.startPage}"
-									end="${paging.endPage}">
-									<c:choose>
-										<c:when test="${i ne curpage}">
-											<li class="page-item"><a class="page-link"
-												href="javascript:void(0)" onclick="fn_list(${i})">${i}</a></li>
-										</c:when>
-										<c:otherwise>
-											<li class="page-item"><a class="page-link"
-												href="javascript:void(0)" style="cursor: default;">${i}</a></li>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-								<c:if test="${paging.nextBlockPage gt 0}">
-									<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="fn_list(${paging.nextBlockPage})"> > </a></li>
+									<c:forEach var="i" begin="${paging.startPage}"
+										end="${paging.endPage}">
+										<c:choose>
+											<c:when test="${i ne curpage}">
+												<li class="page-item"><a class="page-link"
+													href="javascript:void(0)" onclick="fn_list(${i})">${i}</a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item"><a class="page-link"
+													href="javascript:void(0)" style="cursor: default;">${i}</a></li>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+									<c:if test="${paging.nextBlockPage gt 0}">
+										<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="fn_list(${paging.nextBlockPage})"> > </a></li>
+									</c:if>
 								</c:if>
 							</ul>
 						</div>

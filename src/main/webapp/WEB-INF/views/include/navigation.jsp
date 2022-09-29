@@ -67,12 +67,9 @@
 	  <li class="dropdown"><a href="#">${cookieUserNick} 님<i class="bi bi-chevron-down"></i></a>
 		<ul>
 		  <li><a href="/myPage/myProfile">내 프로필</a></li>
-		  <c:if test="${shopStatus eq 'Y'}">
-		  	<li><a href="/manager/shopManage">매장관리</a></li>
-		  </c:if>
 		  <li><a href="/myPage/rList">예약내역</a></li>
 		  <li><a href="/myPage/myFavorites">즐겨찾기</a></li>
-		  <li><a href="/help/index">고객센터</a></li>
+		  <li><a href="#">고객센터</a></li>
 		  <li><a href="/user/loginOut">로그아웃</a></li>
 		</ul>
 	  </li>
@@ -90,7 +87,7 @@
 		<ul>
 		  <li><a href="/user/login">로그인</a></li>
 		  <li><a href="/user/joinUs">회원가입</a></li>
-		  <li><a href="/help/index">고객센터</a></li>
+		  <li><a href="#">고객센터</a></li>
 		</ul>
 	  </li>
 	<i class="bi bi-list mobile-nav-toggle"></i>
