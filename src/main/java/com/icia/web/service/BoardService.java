@@ -290,6 +290,10 @@ public class BoardService
 			}
 			//게시물 신고 삭제
 			boardDao.boardReportDelete(bbsSeq);
+			//본인글 즐겨찾기 삭제
+			boardDao.boardMarkDelete(board);
+			//본인글 좋아요 삭제
+			boardDao.boardLikeDelete(board);
 			
 			count = boardDao.boardDelete(bbsSeq);
 		}
