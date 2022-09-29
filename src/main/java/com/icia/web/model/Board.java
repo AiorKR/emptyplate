@@ -1,6 +1,7 @@
 package com.icia.web.model;
 
 import java.io.Serializable;
+import java.sql.Blob;
 
 public class Board implements Serializable
 {
@@ -14,6 +15,7 @@ public class Board implements Serializable
 	private int bbsLikeCnt;		//게시물 좋아요수
 	private int bbsReadCnt;		//게시물 조회수
 	private String regDate;		//게시물 등록일
+	private String modDate;		//게시물 수정일
 	private String bbsComment;	//댓글허용
 	private long commentParent;	//부모 게시물번호
 	private long commentGroup;	//댓글 그룹번호
@@ -46,6 +48,7 @@ public class Board implements Serializable
 		bbsLikeCnt = 0;
 		bbsReadCnt = 0;
 		regDate = "";
+		modDate = "";
 		bbsComment = "";
 		commentParent = 0;
 		commentGroup = 0;
@@ -138,11 +141,18 @@ public class Board implements Serializable
 		this.bbsReadCnt = bbsReadCnt;
 	}
 
+	public String getModDate() {
+		return modDate;
+	}
+	
+	
+	public void setModDate(String modDate) {
+		this.modDate = modDate;
+	}
 
 	public String getRegDate() {
 		return regDate;
 	}
-
 
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;

@@ -55,43 +55,43 @@ $(document).ready(function(){
 	});
 	
 	//게시물 즐겨찾기
-   $("#btnMark").on("click", function(){
-	   $.ajax({
-	       type:"POST",
-	       url:"/shop/mark",
-	       data:{
-	          shopUID:'<c:out value="${shopUID}" />'
-	       },
-	       datatype:"JSON",
-	       beforeSend:function(xhr){
-	          xhr.setRequestHeader("AJAX", "true");
-	       },
-	       success:function(response){
-	          if(response.code == 0)
-	          {
-	             alert("즐겨찾기를 하셨습니다.");
-	             location.reload();
-	          }
-	          else if(response.code == 1)
-	          {
-	             alert("즐겨찾기를 취소하셨습니다.");
-	             location.reload();
-	          }
-	          else if(response.code == 400)
-	          {
-	             alert("로그인 후, 즐겨찾기 버튼을 사용하실 수 있습니다.");
-		         location.href = "/user/login";
-	          }
-	          else
-	          {
-	             alert("즐겨찾기 중 오류가 발생하였습니다.");
-	          }
-	       },
-	       error:function(xhr, status, error){
-	          icia.common.error(error);
-	       }
-	    });
-	});
+	   $("#btnMark").on("click", function(){
+		   $.ajax({
+		       type:"POST",
+		       url:"/shop/mark",
+		       data:{
+		          shopUID:'<c:out value="${shop.shopUID}" />'
+		       },
+		       datatype:"JSON",
+		       beforeSend:function(xhr){
+		          xhr.setRequestHeader("AJAX", "true");
+		       },
+		       success:function(response){
+		          if(response.code == 0)
+		          {
+		             alert("즐겨찾기를 하셨습니다.");
+		             location.reload();
+		          }
+		          else if(response.code == 1)
+		          {
+		             alert("즐겨찾기를 취소하셨습니다.");
+		             location.reload();
+		          }
+		          else if(response.code == 400)
+		          {
+		             alert("로그인 후, 즐겨찾기 버튼을 사용하실 수 있습니다.");
+			         location.href = "/user/login";
+		          }
+		          else
+		          {
+		             alert("즐겨찾기 중 오류가 발생하였습니다.");
+		          }
+		       },
+		       error:function(xhr, status, error){
+		          icia.common.error(error);
+		       }
+		    });
+		});
 	
 	//리뷰로 변경 필요
 	$("#btnSearch").on("click", function(){
@@ -435,18 +435,18 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 			<c:forEach items="${shop.shopFileList}" var="shopFileList" varStatus="status" begin="1" end="5">
 			  <li><img onclick="changeImage(this)"
 						src="../resources/upload/shop/${shop.shopUID}/${shopFileList.shopFileName}"
-						width="100px" height="100px">
+						width="100px" height="100px" style="margin: 5px;">
 			  </li>
 			</c:forEach>
 		  </ul>
 		</div>
-		<div class="view-text" style="margin-left: 10px; border-top: 2px solid #C2A383;">
-		  <p id="title" style="font-size: 20px">공지사항</p>
+		<div class="view-text">
+		  <p class="title">공지사항</p>
 		  <p class="view-content">${shop.shopContent}</p>
 		</div>
 	  </div>
 	</div>
-	<div class="p-3 right-side" style="float:right;width: 50%;">
+	<div class="p-3 right-side">
 	  <div class="d-flex justify-content-between align-items-center">
 		<h3>${shop.shopName}</h3>
 		<c:choose>
@@ -466,22 +466,22 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 		  </c:when>
 		</c:choose>
 	  </div>
-	  <div class="mt-2 pr-3 content">
+	  <div class="intro mt-2 pr-3 content">
 		<p>${shop.shopIntro}</p>
 	  </div>
-	  <ul>
-		<li><i class="fa-solid fa-map-location-dot"	style="color: #C2A383"></i> ${address}</li>
-		<li><i class="fa-regular fa-star" style="color: #C2A383"></i> 별점 4.5 (100)</li>
-		<li><i class="fa fa-phone" aria-hidden="true" style="color: #C2A383"></i> ${shop.shopTelephone}</li>
+	  <ul class="intro2">
+		<li><i class="fa-solid fa-map-location-dot"></i>&nbsp;&nbsp;${address}</li>
+		<li><i class="fa-regular fa-star"></i>&nbsp;&nbsp;별점 ${shop.reviewScore} (${shop.reviewCount})</li>
+		<li><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;${shop.shopTelephone}</li>
 	  </ul>
 	  <c:forTokens items="${shop.shopHashtag}" delims="#" var="shopHashtag">
-		<span onclick="fn_search('${shopHashtag}')" style="cursor: pointer;"> 
-		 <i class="fa-solid fa-hashtag" style="font-size: 18px; color: #FF7F50;">
+		<span onclick="fn_search('${shopHashtag}')" class="hashtag"> 
+		 <i class="fa-solid fa-hashtag">
 		  <c:out value='${shopHashtag}' />
 		 </i>
 		</span>
 	  </c:forTokens>
-	  <div id="map" style="width: 100%; height: 350px; margin-top: 15px;"></div>
+	  <div id="map" style="width: 100%; height: 320px; margin-top: 15px;"></div>
 		<script type="text/javascript"
 			    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c114849a120d4c8456de73d6e0e3b3a0&libraries=services"></script>
 		<script>
@@ -516,14 +516,14 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
              });  
              </script>
 	</div>
-	<div class="buttons d-flex flex-row mt-2 gap-3" style="margin-left:780px;">
+	<div class="buttons d-flex flex-row mt-2 gap-3">
 	  <button class="btn btn-outline-dark">
-		<a href="" style="color: white;">Today 확인</a>
+		<a href="">Today 확인</a>
 	  </button>
 	  <!-- Button trigger modal -->
 	  <button type="button" class="btn btn-primary"
 			  data-bs-toggle="modal" data-bs-target="#exampleModal"
-			  id="modal-btn" style="color: #ffff;">예약
+			  id="modal-btn">예 약
 	  </button>
 
 	  <!-- Modal -->
@@ -537,7 +537,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 						    data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div id="shopName" style="font-size:35px;">${shop.shopName}</div> <br />
+					<div id="shopName">${shop.shopName}</div> <br />
 					<div id="selectcontent">
 						<div class="personnel-select">
 							<div class="personnel-selected">
@@ -573,29 +573,26 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 						<br />
 						<br />
 					</div>
-					<div style="text-align:center; margin-bottom:20px;">
-                               	*카운터석은 연속되게 앉을 수 없을 수도 있습니다.&nbsp;&nbsp;
-                               	<input type="checkbox" id="counterSeat" class="counterSeat" style="" />
+					<div class="count">
+                       	*카운터석은 연속되게 앉을 수 없을 수도 있습니다.&nbsp;&nbsp;
+                       	<input type="checkbox" id="counterSeat" class="counterSeat" />
                     </div>
 					<div class="menuQuantity">
 						<ul class="menuQuantity">
-							<table style="margin-left:20px;">
+							<table>
 								<c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
-									<tr id="shopMenu${status.index}" style="font-size: 26px;">
+									<tr id="shopMenu${status.index}">
 										<td>${shopMenu.shopMenuName}</td>
 										<td>${shopMenu.shopMenuPrice} 원 &nbsp;&nbsp;</td>
 										<td><input type="button" value="+"
 											onclick="fn_MenuAdd('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})"
-											class="btn2"
-											style="height: 30px; width: 30px;" /> <span id="quantity${status.index }"> </span> 
+											class="btn2"/> <span id="quantity${status.index }"> </span> 
 											<input type="button" value="-"
 											onclick="fn_MenuSub('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})"
-											class="btn2"
-											style="height: 30px; width: 30px;" /> 
+											class="btn2"/> 
 											<input type="button" value="삭제"
 											onclick="fn_Menudel('${shopMenu.shopMenuName}', ${shopMenu.shopMenuPrice}, '${shopMenu.shopMenuCode}', ${status.index})"
-											class="btn2"
-											style="height: 30px; width: 60px;" /></td>
+											class="btn3"/></td>
 									</tr>
 								</c:forEach>
 							</table>
@@ -611,13 +608,13 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 									  class="shopOrderMenu"></span>
 							</div>
 						</c:forEach>
-						<p style="border: 1px solid blakc;">
+						<p class="total">
 							총 금액 : <span id="totalAmount">0</span>
 						</p>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" style="border: none;" id="pay">결제</button>
+					<button class="btn btn-primary" id="pay">결 제</button>
 				</div>
 			</div>
 		</div>
@@ -633,14 +630,16 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 	</div>
 	
 	<hr class="hr-5">
-    <div class="review-container1">
-     <h5 style="color: #C2A383; text-align: center;">한줄평</h5>
+    <div class="review-container">
+     <h5>Review</h5>
        <container>
 		<hr class="hr-5">
        </container>
        <div class="review">
-		<ul style="border-bottom: 1px solid #C2A383">
-		  <li><a href="#">Review text1</a></li>
+		<ul>
+		   <c:forEach items="${shop.reviewList}" var="reviewList" varStatus="status">
+		  <li>${reviewList.shopReviewRegDate}    ${reviewList.userName} : ${reviewList.shopReviewContent} <i class="fa-regular fa-star"></i>${reviewList.shopScore}</li>
+		   </c:forEach>
 		</ul>
        </div>
     </div>

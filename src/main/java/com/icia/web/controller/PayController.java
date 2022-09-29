@@ -79,7 +79,6 @@ public class PayController {
 		int reservationPeople = Integer.parseInt((HttpUtil.get(request, "reservationPeople", "0"))); //예약인원
 		ShopReservationTable shopReservationTable = new ShopReservationTable();
 		String counterSeatYN = HttpUtil.get(request, "counterSeatYN", "N");
-		logger.debug("counterSeatYN orderMenu메소드 값 : " + counterSeatYN);
 		ArrayList<String> requstOrderMenuList = new ArrayList<String>(); //jsp에서 주문목록 받아올때 사용할 arrayList
 		Toss toss = new Toss();
 		
@@ -109,8 +108,7 @@ public class PayController {
 					for(int i=0; i < shop.getShopMenu().size(); i++) {
 						String requestName = "orderMenu" + i;
 						requstOrderMenuList.add(HttpUtil.get(request, requestName));
-						logger.debug("orderMenuList[" + i + "]" + requstOrderMenuList.get(i));
-		
+
 						String[] split = requstOrderMenuList.get(i).split(","); // 구분자","로 잘라서 배열에 담음
 						
 						OrderMenu orderMenu = new OrderMenu();
@@ -302,14 +300,98 @@ public class PayController {
 			CookieUtil.deleteCookie(request, response, "/", "counterSeatYN");
 			CookieUtil.deleteCookie(request, response, "/", "shopUID");
 		}
+		
+		User userNickname = userService.userUIDSelect(cookieUserUID);
+ 		if(userNickname != null)
+ 		{
+ 			try
+ 			{
+ 				model.addAttribute("cookieUserNick", userNickname.getUserNick());
+ 				model.addAttribute("adminStatus", userNickname.getAdminStatus());
+ 				if(userNickname.getBizNum() != null)
+ 				{
+ 					try
+ 					{
+ 						model.addAttribute("shopStatus","Y");
+ 					}
+ 					catch(NullPointerException e)
+ 					{
+ 						logger.error("[PayController] /pay/payResult shopStatus NullPointerException", e);
+ 					}
+ 				}
+ 				else
+ 				{
+ 					model.addAttribute("shopStatus","N");
+ 				}
+ 			}
+ 			catch(NullPointerException e)
+ 			{
+ 				logger.error("[PayController] /pay/payResult cookieUserNick NullPointerException", e);
+ 			}
+ 		}
 		return "/pay/payResult";
 	}
 	
-	//임시 매장 정보 인서트
 	@RequestMapping(value="/pay/fail")
 	public String shopInsert(HttpServletRequest request, HttpServletResponse response) {
 		
 		return "/pay/payResult";
 	}
+	
+	@RequestMapping(value="/pay/noShopReservationProc")
+    @ResponseBody
+    public Response<Object> noShopReservationProc(HttpServletRequest request, HttpServletResponse response) {
+    	
+    	Response<Object> ajax = new Response<Object>();
+    	
+    	String orderUID = HttpUtil.get(request, "orderUID");
+    	
+    	String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+    	
+    	Toss toss = new Toss();
+		toss.setTossClientKey(TOSS_CLIENT_KEY);
+		toss.setTossSuccessUrl("http://emptyplate.co.kr:8088/pay/noshowSuccess");
+		toss.setTossCancelUrl(TOSS_CANCEL_URL);
+		toss.setTossFailUrl(TOSS_FAIL_URL);
+		
+		
+    	if(!StringUtil.isEmpty(orderUID)) {
+    		Order order = shopService.noShowSelect(orderUID);
+    		if(!StringUtil.isEmpty(cookieUserUID) && order != null) {
+    			User user = userService.userUIDSelect(cookieUserUID);
+    			SimpleDateFormat curTimeFormat = new SimpleDateFormat ( "yyyyMMddHHmmss");
+        		Date curTime = new Date();
+        		String strCurTime = curTimeFormat.format(curTime);
+        		long count = shopService.orderUIDcreate(); //count는 orderuid에 사용될 seq값을 가져옴
+        		String seq =  String.format("%03d", count);
+        		
+        		CookieUtil.addCookie(response, "/", -1, "orderUID", CookieUtil.stringToHex(orderUID));
+        		
+        		order.setOrderUID(strCurTime + seq);
+        		order.setUserName(user.getUserName());
+        		order.setToss(toss);
+        		if(StringUtil.equals(order.getOrderStatus(), "C")) {
+        			logger.debug("할인 전 금액" + order.getTotalAmount());
+        			order.setTotalAmount((int)(order.getTotalAmount() * 0.5));
+        			logger.debug("50 %할인 후 금액" + order.getTotalAmount());
+        		}
+        		else {
+        			order.setTotalAmount(order.getTotalAmount() - (int)(order.getTotalAmount() * 0.7));
+        			logger.debug("70% 할인 후 금액" + order.getTotalAmount());
+        		}
+        		if(order != null) {
+        			ajax.setResponse(0, "success", order);
+        		}
+    		}
+    		else {
+    			ajax.setResponse(403, "cookieuserUID is empty");
+    		}
+    	}
+    	else {
+    		ajax.setResponse(404, "orderUID is empty");
+    	}
+    	
+    	return ajax;
+    }
 	
 }

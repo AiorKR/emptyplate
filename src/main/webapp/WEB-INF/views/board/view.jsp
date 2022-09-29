@@ -62,9 +62,17 @@ $(document).ready(function() {
                   alert("게시물을 찾을 수 없습니다.");
                   location.href = "/board/list";                  
                }
+               else if(response.code == 405)
+               {
+                  alert("신고된 댓글이 있어 삭제할 수 없습니다.");
+               }
+               else if(response.code == -999)
+			   {
+				  alert("댓글이 존재하여 삭제할 수 없습니다.");
+			   }
                else
                {
-                  alert("댓글이 존재하여 삭제할 수 없습니다.");
+                  alert("게시물 삭제 중 오류가 발생하였습니다.");
                }
             },
             error:function(xhr, status, error){
@@ -431,7 +439,7 @@ function fn_deleteComment(bbsSeqValue)
              }
              else if(response.code == -999)
              {
-                alert("답변 댓글이 존재하여 삭제할 수 없습니다.");
+                alert("댓글이 존재하여 삭제할 수 없습니다.");
              }
              else
              {
@@ -456,8 +464,11 @@ function fn_deleteComment(bbsSeqValue)
 				</div>
 				<div class="board-writer">
 					<ion-icon name="person"></ion-icon> ${board.userNick} &nbsp;
+					<ion-icon name="eye"></ion-icon><fmt:formatNumber type="number" maxFractionDigits="3" value="${board.bbsReadCnt}"/>&nbsp;
 					<ion-icon name="calendar"></ion-icon> ${board.regDate} &nbsp;
-					<ion-icon name="eye"></ion-icon><fmt:formatNumber type="number" maxFractionDigits="3" value="${board.bbsReadCnt}"/>
+					<c:if test="${!empty board.modDate}">
+						<ion-icon name="calendar"></ion-icon> ${board.modDate}(최종수정) &nbsp;
+					</c:if>
 				</div>
 				<div class="board-innercontent">
 					<col-lg-12>${board.bbsContent}</col-lg-12>

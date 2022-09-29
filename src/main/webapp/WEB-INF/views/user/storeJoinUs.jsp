@@ -141,7 +141,15 @@ $(document).ready(function() {
 		      return;
 		   }
 		   
-
+		   if($.trim($("#accessNum").val()).length <= 0)
+		   {
+			  alert("인증번호를 입력하세요.");
+			  $("#accessNum").val();
+			  $("#accessNum").focus();
+			  return;
+		   }   
+function fn_idCheck()
+{
 		   //아이디 중복체크 ajax
 		   $.ajax({
 		     type:"POST",
@@ -176,7 +184,44 @@ $(document).ready(function() {
 		        icia.common.error(error);
 		     }
 		   });
-		});	
+}		   
+		   //매장 인증번호 확인 ajax
+		   $.ajax({	 
+		     type:"POST",
+		     url:"/user/accessNumChk",
+		     data:{
+		        accessNum: $("#accessNum").val()
+		     },
+		     datatype:"JSON",
+		     beforeSend:function(xhr){
+		        xhr.setRequestHeader("AJAX", "true");
+		     },
+		     success:function(response){
+		        if(response.code == 0)
+		        {
+		           fn_idCheck(); 
+		        }
+		        else if(response.code == 100)
+		        {
+		           alert("인증번호가 올바르지 않습니다.");
+		        }
+		        else if(response.code == 400)
+		        {
+		           alert("인증번호가 올바르지 않습니다.");
+		        }
+		        else
+		        {
+		           alert("오류가 발생하였습니다. ");
+		           $("#accessNum").focus();
+		        }
+		     }, 
+		     error:function(xhr, status, error){
+		        icia.common.error(error);
+		     }
+		   });
+	});	
+	
+			
 });
 
 function fn_loginCheck()
@@ -279,7 +324,8 @@ function fn_userReg()
           userNick: $("#userNick").val(),
           userEmail: $("#userEmail").val(),
           bizNum: $("#bizNum").val(),
-          bizName: $("#bizName").val()
+          bizName: $("#bizName").val(),
+          accessNum :$("#accessNum").val()
        },
        datatype:"JSON",
        beforeSend:function(xhr){
@@ -319,8 +365,6 @@ function fn_userReg()
       }
   });
 }
-
-
 
 Kakao.init('37cdbda3af5494984233ca8e8d7d9f7b'); //발급받은 키 중 javascript키를 사용해준다.
 console.log(Kakao.isInitialized()); // sdk초기화여부판단
@@ -707,12 +751,12 @@ function NumfOk() {
             </label>
             <label>
               <span>매장명</span>
-              <input type="text" id="bizName" name="bizName" placeholder="매장명을 입력하세요." />
+              <input type="text" id="bizName" name="bizName" placeholder="매장명을 입력하세요." maxlength="12"/>
             </label>
             <label>
               <span>매장가입 인증번호</span><br />
               <span>(고객센터에 문의하세요.)</span>        
-              <input type="text" id="bizNum" name="bizNum" value="매장가입 인증번호를 입력하세요." maxlength="10"/>
+              <input type="text" id="accessNum" name="accessNum" placeholder="매장가입 인증번호를 입력하세요." maxlength="10"/>
             </label>
             <button type="button" id="btnReg" class="submit">회원가입</button><br />
           </div>

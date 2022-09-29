@@ -252,16 +252,19 @@ public class BoardService
 			BoardFile delBoardFile = boardDao.boardFileSelect(board.getBbsSeq());	
 			
 			//기존 첨부파일 삭제
-			if(delBoardFile != null)
+			if(delBoardFile != null && board.getBoardFile().getFileSize() > 0)
 			{
 				FileUtil.deleteFile(BOARD_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + delBoardFile.getFileName());
 				boardDao.boardFileDelete(board.getBbsSeq());
 			}
 			//새로운 첨부파일 등록
+			if(board.getBoardFile().getFileSize() > 0)
+			{
 			board.getBoardFile().setBbsSeq(board.getBbsSeq());			
 			board.getBoardFile().setFileSeq((short)1);
 		
 			boardDao.boardFileInsert(board.getBoardFile());
+			}
 		}	
 		
 		return count;
@@ -276,18 +279,36 @@ public class BoardService
 		
 		if(board != null)
 		{
+			//첨부파일 삭제
 			BoardFile boardFile = board.getBoardFile();
-			
 			if(boardFile != null)
 			{	
-				//첨부파일 삭제
 				if(boardDao.boardFileDelete(bbsSeq) > 0)
 				{
 					FileUtil.deleteFile(BOARD_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + boardFile.getFileName());
 				}
 			}
+			//게시물 신고 삭제
+			boardDao.boardReportDelete(bbsSeq);
 			
 			count = boardDao.boardDelete(bbsSeq);
+		}
+		
+		return count;
+	}
+	
+	//게시물 삭제시 답변글 수 조회
+	public int boardReplyCount(long bbsSeq)
+	{
+		int count = 0;
+		
+		try
+		{ 
+			count = boardDao.boardReplyCount(bbsSeq);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] boardReplyCount Exception", e);
 		}
 		
 		return count;
@@ -499,6 +520,8 @@ public class BoardService
 	      
 		try
 		{
+			//게시물 신고 삭제
+			boardDao.boardReportDelete(bbsSeq);
 			count = boardDao.commentDelete(bbsSeq);
 		}
 		catch(Exception e)
@@ -518,9 +541,27 @@ public class BoardService
 		return count;
 	}
 	
+	
 	/***************************
 	 * help
 	 ***************************/
+	//게시물 리스트
+	public List<Board> helpList(Board board)
+	{
+		List<Board> list = null;
+		
+		try
+		{
+			list = boardDao.helpList(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] helpList Exception", e);
+		}
+		
+		return list;
+	}
+	
 	//총 게시물 수
 	public long helpListCount(Board board)
 	{
