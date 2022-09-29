@@ -66,6 +66,14 @@ $(document).ready(function() {
                {
                   alert("신고된 댓글이 있어 삭제할 수 없습니다.");
                }
+               else if(response.code == 406)
+               {
+                  alert("본인글을 즐겨찾기하여 삭제할 수 없습니다.");
+               }
+               else if(response.code == 407)
+               {
+                  alert("본인글에 좋아요 버튼을 눌러 삭제할 수 없습니다.");
+               }
                else if(response.code == -999)
 			   {
 				  alert("댓글이 존재하여 삭제할 수 없습니다.");

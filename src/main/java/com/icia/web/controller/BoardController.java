@@ -777,20 +777,34 @@ public class BoardController
   					{
 						if(StringUtil.equals(board.getStatus(), "N"))
 						{
-							if(boardService.boardReplyCount(board.getBbsSeq()) > 0)
+							if(boardService.boardMarkCheck(board) != 0)
 							{
-								ajaxResponse.setResponse(-999, "Answers exist and cannot be delete");
-							}
-							else
-							{
-								if(boardService.boardDelete(board.getBbsSeq()) > 0)
+								if(boardService.boardLikeCheck(board) != 0)
 								{
-									ajaxResponse.setResponse(0, "Success");
+									if(boardService.boardReplyCount(board.getBbsSeq()) > 0)
+									{
+										ajaxResponse.setResponse(-999, "Answers exist and cannot be delete");
+									}
+									else
+									{
+										if(boardService.boardDelete(board.getBbsSeq()) > 0)
+										{
+											ajaxResponse.setResponse(0, "Success");
+										}
+										else
+										{
+											ajaxResponse.setResponse(500, "Internal server error");
+										}
+									}
 								}
 								else
 								{
-									ajaxResponse.setResponse(500, "Internal server error");
+									ajaxResponse.setResponse(407, "bookLike exist and cannot be delete");
 								}
+							}
+							else
+							{
+								ajaxResponse.setResponse(406, "bookMark exist and cannot be delete");
 							}
 						}
 						else

@@ -568,7 +568,7 @@ SELECT RNUM,
 SELECT COUNT(MARK.BBS_SEQ) AS CNT
   FROM T_USER A, (SELECT BM.BBS_SEQ AS BBS_SEQ,
                          BM.USER_UID AS USER_UID,
-                         B.BBS_TITLE AS BBS_TITLE,
+                         B.BBS_TITLE AS BBS_TITLE
                     FROM T_BOARD B, T_BOARD_MARK BM
                    WHERE B.BBS_SEQ = BM.BBS_SEQ
                      AND B.STATUS = 'N') MARK
