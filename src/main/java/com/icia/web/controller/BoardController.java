@@ -77,7 +77,7 @@ public class BoardController
 			{
 				model.addAttribute("cookieUserNick", userNickname.getUserNick());
 				model.addAttribute("adminStatus", userNickname.getAdminStatus());
-				if(userNickname.getBizNum() != null)
+				if(!StringUtil.isEmpty(userNickname.getBizName())&& !StringUtil.isEmpty(userNickname.getBizNum()))
 				{
 					try
 					{
@@ -248,7 +248,7 @@ public class BoardController
 			{
 				model.addAttribute("cookieUserNick", userNickname.getUserNick());
 				model.addAttribute("adminStatus", userNickname.getAdminStatus());
-				if(userNickname.getBizNum() != null)
+				if(!StringUtil.isEmpty(userNickname.getBizName())&& !StringUtil.isEmpty(userNickname.getBizNum()))
 				{
 					try
 					{
@@ -385,7 +385,7 @@ public class BoardController
 			{
 				model.addAttribute("cookieUserNick", userNickname.getUserNick());
 				model.addAttribute("adminStatus", userNickname.getAdminStatus());
-				if(userNickname.getBizNum() != null)
+				if(!StringUtil.isEmpty(userNickname.getBizName())&& !StringUtil.isEmpty(userNickname.getBizNum()))
 				{
 					try
 					{
@@ -543,7 +543,7 @@ public class BoardController
 			{
 				model.addAttribute("cookieUserNick", userNickname.getUserNick());
 				model.addAttribute("adminStatus", userNickname.getAdminStatus());
-				if(userNickname.getBizNum() != null)
+				if(!StringUtil.isEmpty(userNickname.getBizName())&& !StringUtil.isEmpty(userNickname.getBizNum()))
 				{
 					try
 					{
@@ -653,7 +653,7 @@ public class BoardController
 			{
 				model.addAttribute("cookieUserNick", userNickname.getUserNick());
 				model.addAttribute("adminStatus", userNickname.getAdminStatus());
-				if(userNickname.getBizNum() != null)
+				if(!StringUtil.isEmpty(userNickname.getBizName())&& !StringUtil.isEmpty(userNickname.getBizNum()))
 				{
 					try
 					{
@@ -990,7 +990,7 @@ public class BoardController
 			{
 				model.addAttribute("cookieUserNick", userNickname.getUserNick());
 				model.addAttribute("adminStatus", userNickname.getAdminStatus());
-				if(userNickname.getBizNum() != null)
+				if(!StringUtil.isEmpty(userNickname.getBizName())&& !StringUtil.isEmpty(userNickname.getBizNum()))
 				{
 					try
 					{

@@ -164,17 +164,33 @@ public class ShopController {
 		model.addAttribute("curPage", curPage);
 		model.addAttribute("paging", paging);
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
-		User user2 = new User();
-		user2 = userService.userUIDSelect(cookieUserUID);
-		if(user2 != null)
+		User userNickname = new User();
+		userNickname = userService.userUIDSelect(cookieUserUID);
+		if(userNickname != null)
 		{
 			try
 			{
-				model.addAttribute("cookieUserNick", user2.getUserNick());
+				model.addAttribute("cookieUserNick", userNickname.getUserNick());
+				model.addAttribute("adminStatus", userNickname.getAdminStatus());
+				if(userNickname.getBizNum() != null)
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[ShopController] /reservation/list shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
 			}
-			catch(NullPointerException e2)
+			catch(NullPointerException e)
 			{
-				logger.error("[ShopController] reservation/list NullPointerException", e2);
+				logger.error("[ShopController] /reservation/list cookieUserNick NullPointerException", e);
 			}
 		}
 		return "/reservation/list";
@@ -257,20 +273,34 @@ public class ShopController {
          model.addAttribute("curPage", curPage);
          model.addAttribute("reservationDate", reservationDate);
          model.addAttribute("reservationTime", reservationTime);
-         model.addAttribute("shopMarkActive", shopMarkActive);
-         User user2 = new User();
-         user2 = userService.userUIDSelect(cookieUserUID);
-         if(user2 != null)
-         {
-            try
-            {
-               model.addAttribute("cookieUserNick", user2.getUserNick());
-            }
-            catch(NullPointerException e2)
-            {
-               logger.error("[ShopController] url NullPointerException", e2);
-            }
-         }
+ 		User userNickname = userService.userUIDSelect(cookieUserUID);
+ 		if(userNickname != null)
+ 		{
+ 			try
+ 			{
+ 				model.addAttribute("cookieUserNick", userNickname.getUserNick());
+ 				model.addAttribute("adminStatus", userNickname.getAdminStatus());
+ 				if(userNickname.getBizNum() != null)
+ 				{
+ 					try
+ 					{
+ 						model.addAttribute("shopStatus","Y");
+ 					}
+ 					catch(NullPointerException e)
+ 					{
+ 						logger.error("[ShopController] /reservation/view shopStatus NullPointerException", e);
+ 					}
+ 				}
+ 				else
+ 				{
+ 					model.addAttribute("shopStatus","N");
+ 				}
+ 			}
+ 			catch(NullPointerException e)
+ 			{
+ 				logger.error("[ShopController] /reservation/view cookieUserNick NullPointerException", e);
+ 			}
+ 		}
          return url;
       }
       

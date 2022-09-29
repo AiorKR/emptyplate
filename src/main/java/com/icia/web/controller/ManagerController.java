@@ -79,7 +79,7 @@ public class ManagerController {
 			{
 				model.addAttribute("cookieUserNick", user.getUserNick());
 				model.addAttribute("adminStatus", user.getAdminStatus());
-				if(user.getBizNum() != null)
+				if(!StringUtil.isEmpty(user.getBizName())&& !StringUtil.isEmpty(user.getBizNum()))
 				{
 					try
 					{
@@ -158,7 +158,7 @@ public class ManagerController {
 			{
 				model.addAttribute("cookieUserNick", user.getUserNick());
 				model.addAttribute("adminStatus", user.getAdminStatus());
-				if(user.getBizNum() != null)
+				if(!StringUtil.isEmpty(user.getBizName())&& !StringUtil.isEmpty(user.getBizNum()))
 				{
 					try
 					{
