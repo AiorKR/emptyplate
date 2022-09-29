@@ -273,6 +273,7 @@ public class ShopController {
          model.addAttribute("curPage", curPage);
          model.addAttribute("reservationDate", reservationDate);
          model.addAttribute("reservationTime", reservationTime);
+         model.addAttribute("shopMarkActive",shopMarkActive);
  		User userNickname = userService.userUIDSelect(cookieUserUID);
  		if(userNickname != null)
  		{
@@ -443,7 +444,6 @@ public class ShopController {
          String shopHoliday = HttpUtil.get(request, "shopHoliday");
          String shopLocation1 = HttpUtil.get(request, "shopLocation1");
          String shopLocation2 = HttpUtil.get(request, "shopLocation2");
-         String shopLocation3 = HttpUtil.get(request, "shopLocation3");
          String shopAddress = HttpUtil.get(request, "shopAddress");
          String shopHashtag = HttpUtil.get(request, "shopHashtag");
          String shopTelephon = HttpUtil.get(request, "shopTelephon");

@@ -447,24 +447,20 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 	  </div>
 	</div>
 	<div class="p-3 right-side">
-	  <div class="d-flex justify-content-between align-items-center">
-		<h3>${shop.shopName}</h3>
-		<c:choose>
-		  <c:when test="${shopMarkActive eq 'Y'}">
-			<div class="bookmark">
-			  <button type="button" id="btnMark" class="bookmark">
-				<ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기
-			  </button>
-			</div>
-		  </c:when>
-		  <c:when test="${shopMarkActive eq 'N'}">
-			<div class="bookmark">
-			  <button type="button" id="btnMark" class="bookmark">
-				<ion-icon name="star-outline"></ion-icon>&nbsp;&nbsp;즐겨찾기
-			  </button>
-			</div>
-		  </c:when>
-		</c:choose>
+		<div class="d-flex justify-content-between align-items-center">
+			<h3>${shop.shopName}</h3>
+			<c:choose>
+				<c:when test="${shopMarkActive eq 'Y'}">
+					<div class="bookmark">
+			  			<button type="button" id="btnMark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button>
+					</div>
+				</c:when>
+				<c:when test="${shopMarkActive eq 'N'}">
+					<div class="bookmark">
+						<button type="button" id="btnMark" class="bookmark"><ion-icon name="star-outline"></ion-icon>&nbsp;&nbsp;즐겨찾기</button>
+					</div>
+		  		</c:when>
+			</c:choose>
 	  </div>
 	  <div class="intro mt-2 pr-3 content">
 		<p>${shop.shopIntro}</p>
