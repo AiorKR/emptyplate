@@ -120,7 +120,7 @@ public class ShopService {
 			ShopFile shopFile = new ShopFile();
 			try
 			{
-				shop = shopDao.shopUIDSelect(userUID);
+				shop = shopDao.shopManagerUIDSelect(userUID);
 			}
 			catch(Exception e){
 				logger.error("[ShopService] ShopViewSelect", e);

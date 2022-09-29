@@ -17,6 +17,9 @@ request.setAttribute("No", 2);
 				var btnTableStack = $("#tableStack").val();
 				var btnMenuStack = $("#menuStack").val();
 				
+
+
+
 				$("#btnHashAdd").on("click", function(){
 					if(btnHashStack<6)
 					{
@@ -187,6 +190,13 @@ request.setAttribute("No", 2);
 				         $("#shopTypeSelect").focus();
 				         return;
 				      }
+					  
+					  //요일체크배열
+					  var dayCheckArr = [];
+					  $("input[name=day]:checked").each(function(){
+						dayCheckArr.push($(this.val()));
+					  });
+					  $("#dayCheck").val()=dayCheckArr;
 
 				      var form = $("#updateForm")[0];
 				      var formData = new FormData(form);
@@ -255,7 +265,7 @@ request.setAttribute("No", 2);
 	<div class="container">
 		<div class="row">
 		<form name="updateForm" id="updateForm" method="post" enctype="multipart/form-data">
-			<div style="border-right: 2px solid #C2A383; float:left; width: 50%;">
+			<div style="border-right: 2px solid #C2A383; float:left; width: 50%; height:100%">
 				<div class="d-flex flex-column justify-content-center">
 					<div class="main_image">
 					  <img src="../resources/upload/shop/${shop.shopUID}/${shop.shopFileList.get(1).shopFileName}"
@@ -332,13 +342,14 @@ request.setAttribute("No", 2);
 								<tr>
 									<td class="td">매장휴일</td>
 									<td class="title-text">
-										<input type="checkbox" class="day" id="sun" name="sun" value="0" <c:if test="${!empty day0}">checked</c:if>> 일&nbsp;&nbsp;
-										<input type="checkbox" class="day" id="mon" name="mon" value="1" <c:if test="${!empty day1}">checked</c:if>> 월&nbsp;&nbsp;
-										<input type="checkbox" class="day" id="tue" name="tue" value="2" <c:if test="${!empty day2}">checked</c:if>> 화&nbsp;&nbsp;
-										<input type="checkbox" class="day" id="wed" name="wed" value="3" <c:if test="${!empty day3}">checked</c:if>> 수&nbsp;&nbsp;
-										<input type="checkbox" class="day" id="thr" name="thr" value="4" <c:if test="${!empty day4}">checked</c:if>> 목&nbsp;&nbsp;
-										<input type="checkbox" class="day" id="fri" name="fri" value="5" <c:if test="${!empty day5}">checked</c:if>> 금&nbsp;&nbsp;
-										<input type="checkbox" class="day" id="sat" name="sat" value="6" <c:if test="${!empty day6}">checked</c:if>> 토
+										<input type="checkbox" class="day" id="day0" name="day" value="0" <c:if test="${!empty day0}">checked</c:if>> 일&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="day1" name="day" value="1" <c:if test="${!empty day1}">checked</c:if>> 월&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="day2" name="day" value="2" <c:if test="${!empty day2}">checked</c:if>> 화&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="day3" name="day" value="3" <c:if test="${!empty day3}">checked</c:if>> 수&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="day4" name="day" value="4" <c:if test="${!empty day4}">checked</c:if>> 목&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="day5" name="day" value="5" <c:if test="${!empty day5}">checked</c:if>> 금&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="day6" name="day" value="6" <c:if test="${!empty day6}">checked</c:if>> 토
+										<input type="hidden" id="dayCheck" value="">
 									</td>
 								</tr>
 							</table>

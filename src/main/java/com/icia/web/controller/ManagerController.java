@@ -21,6 +21,7 @@ import com.icia.common.model.FileData;
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Response;
 import com.icia.web.model.Shop;
+import com.icia.web.model.ShopFile;
 import com.icia.web.model.ShopMenu;
 import com.icia.web.model.ShopTime;
 import com.icia.web.model.ShopTotalTable;
@@ -55,7 +56,7 @@ public class ManagerController {
 		
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		User user = userService.userUIDSelect(cookieUserUID);
-		Shop shop = shopService.shopUIDSelect(cookieUserUID);
+		Shop shop = shopService.shopManagerUIDSelect(cookieUserUID);
 		String address = shop.getShopLocation1() + " " + shop.getShopAddress();
 		
 		//매장테이블 현황
@@ -109,7 +110,7 @@ public class ManagerController {
 		
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		User user = userService.userUIDSelect(cookieUserUID);
-		Shop shop = shopService.shopUIDSelect(cookieUserUID);
+		Shop shop = shopService.shopManagerUIDSelect(cookieUserUID);
 		
 		String address = shop.getShopLocation1() + " " + shop.getShopAddress();
 		model.addAttribute("address", address);
@@ -191,6 +192,8 @@ public class ManagerController {
 		
 		//쿠키값
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		
+		Shop shop = shopService.shopManagerUIDSelect(cookieUserUID);
 		/***********
 		 * 매장기본정보
 		 ***********/
@@ -206,17 +209,79 @@ public class ManagerController {
 		String shopTelephone = HttpUtil.get(request, "shopTelephone", "");
 		//매장 형태
 		char shopType = HttpUtil.get(request, "shopType", "").charAt(0);
+		//요일
+		String dayCheck = HttpUtil.get(request, "dayCheck", "");
 		/***********
 		 * 소개글
 		 ***********/
+		//가게소개
+  		String shopIntro = HttpUtil.get(request, "shopIntro", "");
+  		//공지사항
+  		String shopContent = HttpUtil.get(request, "shopContent", "");
 		/***********
 		 * 매장추가정보
 		 ***********/
+  		
 		/***********
 		 * 첨부파일
 		 ***********/
 		//첨부파일
 		FileData fileData = HttpUtil.getFile(request, "shopFile", SHOP_UPLOAD_SAVE_DIR);
+		
+		if(!StringUtil.isEmpty(shop.getShopUID()) && !StringUtil.isEmpty(shopTitle) && !StringUtil.isEmpty(shopLocation1) && !StringUtil.isEmpty(shopTelephone) && !StringUtil.isNull(shopType))
+  		{
+
+  			if(shop != null)
+  			{	
+  				if(StringUtil.equals(shop.getUserUID(), cookieUserUID))
+  				{	
+  					shop.setShopName(shopTitle);
+  					shop.setShopLocation1(shopLocation1);;
+  					
+  					//첨부파일 여부
+  					if(fileData != null && fileData.getFileSize() > 0)
+  					{	
+  						ShopFile shopFile = new ShopFile();
+  						shopFile.setShopFileName(fileData.getFileName());
+  						shopFile.setShopFileOrgName(fileData.getFileOrgName());
+  						shopFile.setShopFileExt(fileData.getFileExt());
+  						shopFile.setShopFileSize(fileData.getFileSize());
+  						
+  						shop.setShopFile(shopFile);
+  					}
+  					/*
+  					try
+  					{
+  						if(managerService.boardUpdate(board) > 0)
+  						{
+  							ajaxResponse.setResponse(0, "Success");
+  						}
+  						else
+  						{
+  							ajaxResponse.setResponse(500, "Internal server error");
+  						}
+  					}
+  					catch(Exception e)
+  					{
+  						logger.error("[ManagerController] /Manager/UpdateProc Exception", e);
+  						ajaxResponse.setResponse(500, "Internal server error");
+  					}
+  					*/
+  				}
+  				else
+  				{
+  					ajaxResponse.setResponse(403, "Server error");
+  				}
+  			}
+  			else
+  			{
+  				ajaxResponse.setResponse(404, "Not found");
+  			}
+  		}
+  		else
+  		{
+  			ajaxResponse.setResponse(400, "Bad request");
+  		}
 		
 		return ajaxResponse;
 	}
