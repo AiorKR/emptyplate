@@ -262,14 +262,6 @@ public class Order implements Serializable{
 	public void setShop(Shop shop) {
 		this.shop = shop;
 	}
-	
-	public String getPaymentKey() {
-		return paymentKey;
-	}
-
-	public void setPaymentKey(String paymentKey) {
-		this.paymentKey = paymentKey;
-	}
 
 	public String getNoShowOrderUID() {
 		return noShowOrderUID;

@@ -379,7 +379,7 @@ SELECT S.SHOP_UID AS SHOP_UID,
    AND SF.FILE_SEQ <![CDATA[<=]]>  6
 </select>
 
-<select id="shopUIDSelect" parameterType="String" resultMap="shopViewResultMap">
+<select id="shopManagerUIDSelect" parameterType="String" resultMap="shopViewResultMap">
 	SELECT A.SHOP_UID,
 	       USER_UID, 
 	       SHOP_NAME,

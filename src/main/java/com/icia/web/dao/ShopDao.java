@@ -8,6 +8,7 @@ import com.icia.web.model.Order;
 import com.icia.web.model.OrderMenu;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
+import com.icia.web.model.ShopMenu;
 import com.icia.web.model.ShopReservationTable;
 import com.icia.web.model.ShopReview;
 import com.icia.web.model.ShopTime;
@@ -29,7 +30,9 @@ public interface ShopDao {
 	
 	public Shop shopViewSelect(String shopUID); //매장 view select
 	
-	public Shop shopUIDSelect(String userUID); //매장관리자 페이지
+	public Shop shopManagerUIDSelect(String userUID); //매장관리자 페이지
+	
+	public Shop shopUIDSelect(String userUID);
 	
 	public List<ShopTotalTable> shopReservationCheck(Shop shop); //예약 자리 있는지 select
 	

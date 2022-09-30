@@ -15,6 +15,7 @@ import com.icia.web.model.Order;
 import com.icia.web.model.OrderMenu;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
+import com.icia.web.model.ShopMenu;
 import com.icia.web.model.ShopReview;
 import com.icia.web.model.ShopTime;
 import com.icia.web.model.ShopTotalTable;
