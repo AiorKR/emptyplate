@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -179,156 +180,150 @@ public class PayController {
 	}
 	@RequestMapping(value="/pay/paySuccess", method=RequestMethod.GET)
 	public String tossPaySuccess(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		
 		String orderId = HttpUtil.get(request, "orderId");
 		String paymentKey = HttpUtil.get(request, "paymentKey");
 		String amount = HttpUtil.get(request, "amount");
-		String result = "";
-		Order RequestOrder = new Order(); //값 세팅할 order
-		Order order = null;
-		Toss toss = new Toss();
-		int orderMenuSize = 0;
-		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		Order order = shopService.orderSelect(orderId);
 		
-		List<OrderMenu> orderMenuList = new ArrayList<OrderMenu>();
-		logger.debug("쿠키 orderMenusize : " + CookieUtil.getHexValue(request, "orderMenuSize"));
-		CookieUtil.deleteCookie(request, response, "/", "orderMenuSize");
-		String totalAmount = CookieUtil.getHexValue(request, "reservationTotalAmount");
-		if(!StringUtil.isEmpty(totalAmount) || !StringUtil.isEmpty(amount)) {
-			logger.debug("totalAmount : " + totalAmount);
-			logger.debug("amount : " + amount);
-			if(StringUtil.equals(totalAmount, amount)) { //totalAmount는 쿠키로 받은 값 (토스에 보낸 값), amount는 parameter로 받은 값 (토스에서 보내준 값)
-				if(!StringUtil.isEmpty(CookieUtil.getHexValue(request, "orderMenuSize"))) {
-					orderMenuSize = Integer.parseInt(CookieUtil.getHexValue(request, "orderMenuSize"));	
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		User user2 = new User();
+		user2 = userService.userUIDSelect(cookieUserUID);
+		if(user2 != null)
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", user2.getUserNick());
+			}
+			catch(NullPointerException e2)
+			{
+				logger.error("[ShopController] reservation/list NullPointerException", e2);
+			}
+		}
+		
+		if(order != null) {
+			
+			model.addAttribute("order", order);
+		}
+		
+		else {
+			String result = "";
+			Order RequestOrder = new Order(); //값 세팅할 order
+			Toss toss = new Toss();
+			int orderMenuSize = 0;
+			List<OrderMenu> orderMenuList = new ArrayList<OrderMenu>();
+			logger.debug("쿠키 orderMenusize : " + CookieUtil.getHexValue(request, "orderMenuSize"));
+			CookieUtil.deleteCookie(request, response, "/", "orderMenuSize");
+			String totalAmount = CookieUtil.getHexValue(request, "reservationTotalAmount");
+			if(!StringUtil.isEmpty(totalAmount) || !StringUtil.isEmpty(amount)) {
+				logger.debug("totalAmount : " + totalAmount);
+				logger.debug("amount : " + amount);
+				if(StringUtil.equals(totalAmount, amount)) { //totalAmount는 쿠키로 받은 값 (토스에 보낸 값), amount는 parameter로 받은 값 (토스에서 보내준 값)
+					if(!StringUtil.isEmpty(CookieUtil.getHexValue(request, "orderMenuSize"))) {
+						orderMenuSize = Integer.parseInt(CookieUtil.getHexValue(request, "orderMenuSize"));	
+					}
+					CookieUtil.deleteCookie(request, response, "/", "orderMenuSize");
+					
+					String shopUID = CookieUtil.getHexValue(request, "shopUID");
+					String counterSeatYN = CookieUtil.getHexValue(request, "counterSeatYN");
+					int reservtionPeple = 0;
+					if(!StringUtil.isEmpty(CookieUtil.getHexValue(request, "reservationPeople"))) {
+						reservtionPeple = Integer.parseInt(CookieUtil.getHexValue(request, "reservationPeople"));
+					}
+					String reservationDate = CookieUtil.getHexValue(request, "reservationDate");
+					String reservationTime = CookieUtil.getHexValue(request, "reservationTime");	
+					
+					CookieUtil.deleteCookie(request, response, "/", "reservationPeople");
+					CookieUtil.deleteCookie(request, response, "/", "reservationDate");
+					CookieUtil.deleteCookie(request, response, "/", "reservationTime");
+					CookieUtil.deleteCookie(request, response, "/", "counterSeatYN");
+					CookieUtil.deleteCookie(request, response, "/", "shopUID");
+					
+					if(orderMenuSize > 0) {
+						for(int i=0; i < orderMenuSize; i++) {
+							String cookieOrderMenuName = "orderMenuName" + i; //동적으로 쿠키 이름 생성
+							String cookieOrderMenuPrice = "orderMenuPrice" + i;
+							String cookieOrderMenuQuantity = "orderMenuQuantity" + i;
+							OrderMenu orderMenu = new OrderMenu();
+							
+							orderMenu.setOrderMenuName(CookieUtil.getHexValue(request, cookieOrderMenuName));
+							orderMenu.setOrderMenuPrice(Integer.parseInt(CookieUtil.getHexValue(request, cookieOrderMenuPrice)));
+							orderMenu.setOrderMenuQuantity(Integer.parseInt(CookieUtil.getHexValue(request, cookieOrderMenuQuantity)));
+							orderMenu.setOrderUID(orderId);
+							orderMenuList.add(orderMenu);		
+							
+							CookieUtil.deleteCookie(request, response, "/", cookieOrderMenuName);
+							CookieUtil.deleteCookie(request, response, "/", cookieOrderMenuPrice);
+							CookieUtil.deleteCookie(request, response, "/", cookieOrderMenuQuantity);
+						}
+					
+					
+						toss.setPaymentKey(paymentKey);
+						RequestOrder.setToss(toss);
+						RequestOrder.setOrderUID(orderId);
+						RequestOrder.setTotalAmount(Integer.parseInt(amount));
+									
+						order = payService.toss(RequestOrder);
+						order.setOrderMenu(orderMenuList);
+						order.setShopUID(shopUID);
+						order.setUserUID(cookieUserUID);
+						order.setReservationPeople(reservtionPeple);
+						
+						Shop shop = shopService.shopViewSelect(shopUID); //예약가능한 테이블 확인
+						shop.setReservationDate(reservationDate);
+						shop.setReservationTime(reservationTime);
+						shop.setShopTotalTable(shopService.shopReservationCheck(shop));
+						order.setCounterSeatYN(counterSeatYN);
+						
+						try {
+							result = payService.payResult(shop, order);
+							if( order != null && result == "0, 예약성공") {
+								String shopFile = "";
+								model.addAttribute("order", order);
+								model.addAttribute("orderUID", order.getOrderUID());
+								String fileName = shop.getShopUID() + ".jpg";
+								logger.debug("fileName : " + fileName);
+								
+								for(int i=0; i< shop.getShopFileList().size(); i++) {
+									logger.debug(" shop.getShopFileList().get(i).getShopFileOrgName() : " + shop.getShopFileList().get(i).getShopFileOrgName());
+									if(StringUtil.equals(fileName, shop.getShopFileList().get(i).getShopFileOrgName())) {
+										shopFile = shop.getShopFileList().get(i).getShopFileName();
+									}
+								}
+								
+								model.addAttribute("shop", shop);
+								model.addAttribute("shopFile", shopFile);
+							}
+							else { //예약실패 했을때 결제 취소건 처리
+								result = payService.payCancel(order.getToss().getPaymentKey(), "예약이 정상적으로 완료되지 않았습니다.", order.getTotalAmount());
+							}
+						}
+						catch(Exception e) {
+							logger.error("[payController]tossPaySuccess ", e);
+						}
+						
+						
+					}
 				}
-				CookieUtil.deleteCookie(request, response, "/", "orderMenuSize");
-				
-				String shopUID = CookieUtil.getHexValue(request, "shopUID");
-				String counterSeatYN = CookieUtil.getHexValue(request, "counterSeatYN");
-				int reservtionPeple = 0;
-				if(!StringUtil.isEmpty(CookieUtil.getHexValue(request, "reservationPeople"))) {
-					reservtionPeple = Integer.parseInt(CookieUtil.getHexValue(request, "reservationPeople"));
+			}
+			else {
+				for(int i=0; i < orderMenuSize; i++) {
+					String cookieOrderMenuName = "orderMenuName" + i; //동적으로 쿠키 이름 생성
+					String cookieOrderMenuPrice = "orderMenuPrice" + i;
+					String cookieOrderMenuQuantity = "orderMenuQuantity" + i;				
+					
+					CookieUtil.deleteCookie(request, response, "/", cookieOrderMenuName);
+					CookieUtil.deleteCookie(request, response, "/", cookieOrderMenuPrice);
+					CookieUtil.deleteCookie(request, response, "/", cookieOrderMenuQuantity);
 				}
-				String reservationDate = CookieUtil.getHexValue(request, "reservationDate");
-				String reservationTime = CookieUtil.getHexValue(request, "reservationTime");	
-				
 				CookieUtil.deleteCookie(request, response, "/", "reservationPeople");
 				CookieUtil.deleteCookie(request, response, "/", "reservationDate");
 				CookieUtil.deleteCookie(request, response, "/", "reservationTime");
 				CookieUtil.deleteCookie(request, response, "/", "counterSeatYN");
 				CookieUtil.deleteCookie(request, response, "/", "shopUID");
-				
-				if(orderMenuSize > 0) {
-					for(int i=0; i < orderMenuSize; i++) {
-						String cookieOrderMenuName = "orderMenuName" + i; //동적으로 쿠키 이름 생성
-						String cookieOrderMenuPrice = "orderMenuPrice" + i;
-						String cookieOrderMenuQuantity = "orderMenuQuantity" + i;
-						OrderMenu orderMenu = new OrderMenu();
-						
-						orderMenu.setOrderMenuName(CookieUtil.getHexValue(request, cookieOrderMenuName));
-						orderMenu.setOrderMenuPrice(Integer.parseInt(CookieUtil.getHexValue(request, cookieOrderMenuPrice)));
-						orderMenu.setOrderMenuQuantity(Integer.parseInt(CookieUtil.getHexValue(request, cookieOrderMenuQuantity)));
-						orderMenu.setOrderUID(orderId);
-						orderMenuList.add(orderMenu);		
-						
-						CookieUtil.deleteCookie(request, response, "/", cookieOrderMenuName);
-						CookieUtil.deleteCookie(request, response, "/", cookieOrderMenuPrice);
-						CookieUtil.deleteCookie(request, response, "/", cookieOrderMenuQuantity);
-					}
-				
-				
-					toss.setPaymentKey(paymentKey);
-					RequestOrder.setToss(toss);
-					RequestOrder.setOrderUID(orderId);
-					RequestOrder.setTotalAmount(Integer.parseInt(amount));
-								
-					order = payService.toss(RequestOrder);
-					order.setOrderMenu(orderMenuList);
-					order.setShopUID(shopUID);
-					order.setUserUID(cookieUserUID);
-					order.setReservationPeople(reservtionPeple);
-					
-					Shop shop = shopService.shopViewSelect(shopUID); //예약가능한 테이블 확인
-					shop.setReservationDate(reservationDate);
-					shop.setReservationTime(reservationTime);
-					shop.setShopTotalTable(shopService.shopReservationCheck(shop));
-					order.setCounterSeatYN(counterSeatYN);
-					
-					try {
-						result = payService.payResult(shop, order);
-						if( order != null && result == "0, 예약성공") {
-							String shopFile = "";
-							model.addAttribute("order", order);
-							
-							String fileName = shop.getShopUID() + ".jpg";
-							logger.debug("fileName : " + fileName);
-							
-							for(int i=0; i< shop.getShopFileList().size(); i++) {
-								logger.debug(" shop.getShopFileList().get(i).getShopFileOrgName() : " + shop.getShopFileList().get(i).getShopFileOrgName());
-								if(StringUtil.equals(fileName, shop.getShopFileList().get(i).getShopFileOrgName())) {
-									shopFile = shop.getShopFileList().get(i).getShopFileName();
-								}
-							}
-							
-							model.addAttribute("shop", shop);
-							model.addAttribute("shopFile", shopFile);
-						}
-						else { //예약실패 했을때 결제 취소건 처리
-							result = payService.payCancel(order.getToss().getPaymentKey(), "예약이 정상적으로 완료되지 않았습니다.", order.getTotalAmount());
-						}
-					}
-					catch(Exception e) {
-						logger.error("[payController]tossPaySuccess ", e);
-					}
-					
-					
-				}
 			}
-		}
-		else {
-			for(int i=0; i < orderMenuSize; i++) {
-				String cookieOrderMenuName = "orderMenuName" + i; //동적으로 쿠키 이름 생성
-				String cookieOrderMenuPrice = "orderMenuPrice" + i;
-				String cookieOrderMenuQuantity = "orderMenuQuantity" + i;				
-				
-				CookieUtil.deleteCookie(request, response, "/", cookieOrderMenuName);
-				CookieUtil.deleteCookie(request, response, "/", cookieOrderMenuPrice);
-				CookieUtil.deleteCookie(request, response, "/", cookieOrderMenuQuantity);
-			}
-			CookieUtil.deleteCookie(request, response, "/", "reservationPeople");
-			CookieUtil.deleteCookie(request, response, "/", "reservationDate");
-			CookieUtil.deleteCookie(request, response, "/", "reservationTime");
-			CookieUtil.deleteCookie(request, response, "/", "counterSeatYN");
-			CookieUtil.deleteCookie(request, response, "/", "shopUID");
 		}
 		
-		User userNickname = userService.userUIDSelect(cookieUserUID);
- 		if(userNickname != null)
- 		{
- 			try
- 			{
- 				model.addAttribute("cookieUserNick", userNickname.getUserNick());
- 				model.addAttribute("adminStatus", userNickname.getAdminStatus());
- 				if(userNickname.getBizNum() != null)
- 				{
- 					try
- 					{
- 						model.addAttribute("shopStatus","Y");
- 					}
- 					catch(NullPointerException e)
- 					{
- 						logger.error("[PayController] /pay/payResult shopStatus NullPointerException", e);
- 					}
- 				}
- 				else
- 				{
- 					model.addAttribute("shopStatus","N");
- 				}
- 			}
- 			catch(NullPointerException e)
- 			{
- 				logger.error("[PayController] /pay/payResult cookieUserNick NullPointerException", e);
- 			}
- 		}
 		return "/pay/payResult";
 	}
 	
@@ -338,6 +333,7 @@ public class PayController {
 		return "/pay/payResult";
 	}
 	
+	@CrossOrigin(origins="*")
 	@RequestMapping(value="/pay/noShopReservationProc")
     @ResponseBody
     public Response<Object> noShopReservationProc(HttpServletRequest request, HttpServletResponse response) {
@@ -345,7 +341,10 @@ public class PayController {
     	Response<Object> ajax = new Response<Object>();
     	
     	String orderUID = HttpUtil.get(request, "orderUID");
-    	
+		CookieUtil.addCookie(response, "/", -1, "orderUID", CookieUtil.stringToHex(orderUID));
+		
+		logger.debug("쿠키에 있는 값 : " + CookieUtil.getHexValue(request, "orderUID"));
+		
     	String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
     	
     	Toss toss = new Toss();
@@ -364,18 +363,18 @@ public class PayController {
         		String strCurTime = curTimeFormat.format(curTime);
         		long count = shopService.orderUIDcreate(); //count는 orderuid에 사용될 seq값을 가져옴
         		String seq =  String.format("%03d", count);
-        		
-        		CookieUtil.addCookie(response, "/", -1, "orderUID", CookieUtil.stringToHex(orderUID));
-        		
         		order.setOrderUID(strCurTime + seq);
+        		
+        		logger.debug("orderUID : " + order.getOrderUID());
         		order.setUserName(user.getUserName());
         		order.setToss(toss);
         		if(StringUtil.equals(order.getOrderStatus(), "C")) {
         			logger.debug("할인 전 금액" + order.getTotalAmount());
         			order.setTotalAmount((int)(order.getTotalAmount() * 0.5));
-        			logger.debug("50 %할인 후 금액" + order.getTotalAmount());
+        			logger.debug("50% 할인 후 금액" + order.getTotalAmount());
         		}
         		else {
+        			logger.debug("할인 전 금액" + order.getTotalAmount());
         			order.setTotalAmount(order.getTotalAmount() - (int)(order.getTotalAmount() * 0.7));
         			logger.debug("70% 할인 후 금액" + order.getTotalAmount());
         		}
@@ -393,5 +392,84 @@ public class PayController {
     	
     	return ajax;
     }
+	
+	@RequestMapping(value="/pay/noshowSuccess", method=RequestMethod.GET)
+	public String noshowPaySuccess(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		String result = "";
+		
+		String orderUID = CookieUtil.getHexValue(request, "orderUID");
+		
+		logger.debug("쿠키로 받은 값 orderUID : " + orderUID);
+		
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		
+		CookieUtil.deleteCookie(request, response, "/", "orderUID");
+		
+		String orderId = HttpUtil.get(request, "orderId");
+		String paymentKey = HttpUtil.get(request, "paymentKey");
+		String amount = HttpUtil.get(request, "amount");
+		int totalAmount = 0;
+		
+		if(!StringUtil.isEmpty(orderUID)) {
+			
+			
+			
+			Order order = shopService.orderSelect(orderUID);
+			order.setOrderUID(orderId);
+			logger.debug("shopUID : " + order.getShopUID());
+			logger.debug("order status : " + order.getOrderStatus());
+			
+			if(StringUtil.equals(order.getOrderStatus(), "C")) {
+				totalAmount = (int)(order.getTotalAmount() * 0.5);
+			}
+			else {
+				totalAmount = (order.getTotalAmount() - (int)(order.getTotalAmount() * 0.7));
+			}
+			logger.debug("토스에서 넘어온 가격  : " + amount);
+			logger.debug("계산한 가격 : " + totalAmount);
+			
+			if(Integer.parseInt(amount) == totalAmount) {
+				
+				Toss toss = new Toss();
+				logger.debug("orderId : " + orderId);
+				logger.debug("paymentKey : " + paymentKey);
+				
+				toss.setPaymentKey(paymentKey);
+				order.setToss(toss);
+				order.setTotalAmount(totalAmount);
+				
+				order = payService.toss(order);
+				
+				order.setUserUID(cookieUserUID);
+				
+				if(order != null) {
+					
+					try {
+						result = payService.noShowResult(orderUID, order);
+						
+						if(StringUtil.equals("0", result)) {
+							model.addAttribute("order", order);
+						}
+						else { //예약실패 했을때 결제 취소건 처리
+							result = payService.payCancel(order.getToss().getPaymentKey(), "예약이 정상적으로 완료되지 않았습니다.", order.getTotalAmount());
+						}
+					}
+					catch(Exception e) {
+						logger.error("[payController]noshowSuccess ", e);
+					}
+				}
+				
+			}
+			else {
+				result = "500, 금액이 맞지 않음";
+			}
+		}
+		else {
+			result = "400, orderUID값 없음";
+		}
+		
+		return "/pay/payResult";
+		
+	}
 	
 }

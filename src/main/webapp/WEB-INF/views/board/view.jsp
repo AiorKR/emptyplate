@@ -66,6 +66,14 @@ $(document).ready(function() {
                {
                   alert("신고된 댓글이 있어 삭제할 수 없습니다.");
                }
+               else if(response.code == 406)
+               {
+                  alert("본인글을 즐겨찾기하여 삭제할 수 없습니다.");
+               }
+               else if(response.code == 407)
+               {
+                  alert("본인글에 좋아요 버튼을 눌러 삭제할 수 없습니다.");
+               }
                else if(response.code == -999)
 			   {
 				  alert("댓글이 존재하여 삭제할 수 없습니다.");
@@ -566,7 +574,7 @@ function fn_deleteComment(bbsSeqValue)
 										</c:if>
 										<a>${board.regDate}</a>
 										<button type="button" data-bs-toggle="modal" data-bs-target="#reportModal2" id="btnReport${board.bbsSeq}" onclick="fn_Report(${board.bbsSeq})">신고</button>
-										<button onclick="fn_reComment(${board.bbsSeq})" id="btnReply" class="btnReply">댓글달기</button>
+										<!-- <button onclick="fn_reComment(${board.bbsSeq})" id="btnReply" class="btnReply">댓글달기</button> -->
 									</div>
 									<div class="comment-content">
 										<col-lg-12>${board.bbsContent}</col-lg-12>

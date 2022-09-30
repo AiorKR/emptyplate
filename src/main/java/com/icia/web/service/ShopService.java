@@ -527,6 +527,19 @@ public class ShopService {
 			return order;
 		}
 		
+		public Order orderSelect(String orderUID) {
+			Order order = null;
+			
+			try {
+				order = shopDao.orderSelect(orderUID);
+			}
+			catch(Exception e) {
+				logger.error("[Shopservice] orderSelect", e);
+			}
+			
+			return order;
+		}
+		
 		//테이블 현황
 		public List<ShopTotalTable> shopCheckTable(String shopUID) {
 			List<ShopTotalTable> list = null;

@@ -101,4 +101,8 @@ public interface ShopDao {
 	public List<ShopMenu> shopCheckMenu(String shopUID); //메뉴 현황
 	
 	public int shopUpdate(Shop shop);
+	
+	public Order orderSelect(String orderUID);
+	
+	public int reservationTableUpdate(Order order);
 }

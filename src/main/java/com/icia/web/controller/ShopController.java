@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.icia.common.model.FileData;
 import com.icia.common.util.StringUtil;
+import com.icia.web.model.Board;
 import com.icia.web.model.Paging;
 import com.icia.web.model.Response;
 import com.icia.web.model.Shop;
@@ -214,6 +215,9 @@ public class ShopController {
          String reservationDate = HttpUtil.get(request, "reservationDate");
          String reservationTime = HttpUtil.get(request, "reservationTime");
          
+         //즐겨찾기 여부 체크
+	     String shopMarkActive = "N";
+         
          int standardTime = 1700; //점심 저녁 나눌 기준 시간
          
          //현제페이지
@@ -244,6 +248,23 @@ public class ShopController {
          else {
            url =  "/reservation/list";
          }
+         
+         	//즐겨찾기
+		   if(!StringUtil.isEmpty(cookieUserUID) && shopUID != "")
+		    {
+				shop.setUserUID(cookieUserUID);
+				shop.setShopUID(shopUID);
+				
+				if(shopService.shopMarkCheck(shop) == 0)                 
+		         {
+		        	 shopMarkActive = "N";
+		         }
+		         else
+		         {
+		        	 shopMarkActive = "Y";
+		         }
+		        
+		     }
              
          model.addAttribute("shop", shop);
          model.addAttribute("ManagerMe", ManagerMe);
@@ -252,6 +273,7 @@ public class ShopController {
          model.addAttribute("curPage", curPage);
          model.addAttribute("reservationDate", reservationDate);
          model.addAttribute("reservationTime", reservationTime);
+         model.addAttribute("shopMarkActive",shopMarkActive);
  		User userNickname = userService.userUIDSelect(cookieUserUID);
  		if(userNickname != null)
  		{
@@ -422,7 +444,6 @@ public class ShopController {
          String shopHoliday = HttpUtil.get(request, "shopHoliday");
          String shopLocation1 = HttpUtil.get(request, "shopLocation1");
          String shopLocation2 = HttpUtil.get(request, "shopLocation2");
-         String shopLocation3 = HttpUtil.get(request, "shopLocation3");
          String shopAddress = HttpUtil.get(request, "shopAddress");
          String shopHashtag = HttpUtil.get(request, "shopHashtag");
          String shopTelephon = HttpUtil.get(request, "shopTelephon");
@@ -560,4 +581,49 @@ public class ShopController {
                
          return ajax;
       }
+      
+    //즐겨찾기 추가
+    	@RequestMapping(value="/shop/mark", method=RequestMethod.POST)
+    	@ResponseBody
+    	public Response<Object> shopBookMark(HttpServletRequest request, HttpServletResponse response)
+    	{
+    		Response<Object> ajaxResponse = new Response<Object>();
+    		//조회객체
+    		Shop shop = new Shop();
+    		//쿠키값
+    		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+    		//게시물 번호
+    		String shopUID = HttpUtil.get(request, "shopUID", "");
+    		
+    		if(!StringUtil.isEmpty(cookieUserUID) && shopUID != "")
+    		{
+     			try
+    			{
+     				shop.setShopUID(shopUID);
+     				shop.setUserUID(cookieUserUID);
+     				
+    				if(shopService.shopMarkCheck(shop) == 0)  					
+    				{
+    					shopService.shopMarkUpdate(shop);
+    					ajaxResponse.setResponse(0, "shopmark insert success");
+    				}
+    				else
+    				{
+    					shopService.shopMarkDelete(shop);
+    					ajaxResponse.setResponse(1, "shopmark delete success");
+    				}
+    			}
+    			catch(Exception e)
+    			{
+    				logger.error("[ShopController] /shop/mark Exception", e);
+    				ajaxResponse.setResponse(500, "internal server error");
+    			}	
+    		}
+    		else
+    		{
+    			ajaxResponse.setResponse(400, "Bad Request");
+    		}
+    		
+    		return ajaxResponse;
+    	}
 }

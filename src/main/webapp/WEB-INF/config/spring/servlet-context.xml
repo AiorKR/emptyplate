@@ -83,8 +83,6 @@
      			        <value>/footer/resources2</value>
      			        <value>/footer/resources3</value>
      			        <value>/footer/resources4</value>
-            			<value>/user/NickUpdate</value>
-            			<value>/user/EmailUpdate</value>
             			<value>/myPage/userDelete</value>
             			<value>/kakao/pay</value>
             			<value>/kakao/payReady</value>
@@ -99,8 +97,6 @@
             			<value>/user/sendSms3</value>
             			<value>/user/sendSms4</value>
             			<value>/user/sendSmsOk</value>
-            			<value>/user/PhoneUpdate</value>
-            			<value>/user/PwdUpdate</value>
             			<value>/user/pwdSearch_popup</value>
             			<value>/user/kakao_popup</value>
             			<value>/user/kakaoSet</value>
@@ -109,10 +105,8 @@
             			<value>/user/phone_popup</value>
             			<value>/user/bizNumPopup</value>
             			<value>/user/regManProc</value>
-            			<value>/myPage/myFavorites</value>
             			<value>/pay/orderMenu</value>
             			<value>/user/accessNumChk</value>
-            			<value>/manager/shopManage</value>
             			<value>/today/todayPopupView</value>
             		</list>
             	</constructor-arg>
