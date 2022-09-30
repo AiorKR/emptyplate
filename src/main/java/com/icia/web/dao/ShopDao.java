@@ -76,4 +76,14 @@ public interface ShopDao {
 	public List<Order> noShow(Shop shop); // NOSHOW
 	
 	public Order noShowSelect(String orderUID); // NOSHOW
+	
+	public List<ShopTotalTable> shopCheckTable(String shopUID); //테이블 현황
+	
+	public List<ShopTime> shopCheckTime(String shopUID); //영업시간 현황
+	
+	public List<ShopMenu> shopCheckMenu(String shopUID); //메뉴 현황
+	
+	public Order orderSelect(String orderUID);
+	
+	public int reservationTableUpdate(Order order);
 }

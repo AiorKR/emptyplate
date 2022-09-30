@@ -3,21 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!--date and time picker-->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
-<link rel="stylesheet" href="/resources/datepicker/date_picker.css">
-<!--end date and time picker-->
-
-<!-- Favicons -->
-  <link href="/resources/images/favicon.png" rel="icon">
-  <link href="/resources/images/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
+   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair Display:wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i|Nanum+Brush+Script|Nanum+Gothic+Coding|Do+Hyeon&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
@@ -27,7 +13,6 @@
   <link href="/resources/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="/resources/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
   <link href="/resources/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="/resources/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <script src="https://kit.fontawesome.com/842f2be68c.js" crossorigin="anonymous"></script>
   <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
@@ -35,70 +20,26 @@
   <!-- Template Main CSS File -->
   <link href="/resources/css/style.css" rel="stylesheet">
   
-
-<!--date and time picker-->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.js"></script>
-<!--end date and time picker-->
-
 <script src="https://js.tosspayments.com/v1"></script>
 
-
-<meta charset="UTF-8">
 <script type="text/javascript" src="/resources/js/colorBox.js"></script>
 <script type="text/javascript">
 
 $(document).ready(function(){
 	
-	if('${cookieUserUID}' == "null") {
+	<c:if test="${!empty cookieUserUID} || ${!empty shopUID} || ${!empty orderUID} ">
+	if('${cookieUserUID}' == "null" ||  '${shopUID}' == "null" || '${orderUID}' == "null") {
 		fn_colorbox_close();
-	}
-	else if('${shopUID}' == "null" || '${orderUID}' == "null") {
-		fn_colorbox_close();
-	}
+	}	
+	</c:if>
 	
-	//게시물 즐겨찾기
-   $("#btnMark").on("click", function(){
-	   $.ajax({
-	       type:"POST",
-	       url:"/shop/mark",
-	       data:{
-	          shopUID:'<c:out value="${shopUID}" />'
-	       },
-	       datatype:"JSON",
-	       beforeSend:function(xhr){
-	          xhr.setRequestHeader("AJAX", "true");
-	       },
-	       success:function(response){
-	          if(response.code == 0)
-	          {
-	             alert("즐겨찾기를 하셨습니다.");
-	             location.reload();
-	          }
-	          else if(response.code == 1)
-	          {
-	             alert("즐겨찾기를 취소하셨습니다.");
-	             location.reload();
-	          }
-	          else if(response.code == 400)
-	          {
-	             alert("로그인 후, 즐겨찾기 버튼을 사용하실 수 있습니다.");
-		         location.href = "/user/login";
-	          }
-	          else
-	          {
-	             alert("즐겨찾기 중 오류가 발생하였습니다.");
-	          }
-	       },
-	       error:function(xhr, status, error){
-	          icia.common.error(error);
-	       }
-	    });
-	});
+	console.log("부모 location : " + parent.location);
+	
+	console.log("조상 location : " + top.location);
+	
+	console.log("자기 location : " + self.location);
+	
+	var url = "";
 	
 	$("#pay").on("click", function fn_pay() {
 		
@@ -136,8 +77,9 @@ $(document).ready(function(){
 		     	        	  orderName: orderName,
 		     	        	  customerName: response.data.userName,
 		     	        	  successUrl: response.data.toss.tossSuccessUrl,
-		     	        	  failUrl: response.data.toss.tossFailUrl,
-		     	        }); 
+		     	        	  failUrl: response.data.toss.tossFailUrl
+		     	    
+		     	        });
 	            	 }
 	             }
 	             else if(response.code == 400) {
@@ -167,7 +109,7 @@ $(document).ready(function(){
    
 </script>
 </head>
-<body>
+<body style="margin:0; padding:0">
 <!-- ======= reservations Section ======= -->
 <section id="todayView" class="todayView">
  <div class="container">
@@ -218,7 +160,7 @@ $(document).ready(function(){
 		<p>${shop.shopIntro}</p>
 	  </div>
 	  <ul class="intro2">
-		<li><i class="fa-solid fa-map-location-dot"></i>&nbsp;&nbsp;${shop.location1} ${shop.location2} ${shop.shopAddress}</</</li>
+		<li><i class="fa-solid fa-map-location-dot"></i>&nbsp;&nbsp;${shop.shopLocation1} ${shop.shopLocation2} ${shop.shopAddress}</</</li>
 		<li><i class="fa-regular fa-star"></i>&nbsp;&nbsp;별점 ${shop.reviewScore} (${shop.reviewCount})</li>
 		<li><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;${shop.shopTelephone}</li>
 	  </ul>
@@ -242,7 +184,7 @@ $(document).ready(function(){
              // 주소-좌표 변환 객체를 생성합니다
              var geocoder = new kakao.maps.services.Geocoder();
              // 주소로 좌표를 검색합니다
-             geocoder.addressSearch('${address}', function(result, status) {
+             geocoder.addressSearch('${shop.shopLocation1} ${shop.shopLocation2} ${shop.shopAddress}', function(result, status) {
                  // 정상적으로 검색이 완료됐으면 
                   if (status === kakao.maps.services.Status.OK) {
                      var coords = new kakao.maps.LatLng(result[0].y, result[0].x);

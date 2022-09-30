@@ -421,4 +421,65 @@ public class ShopService {
 			
 			return order;
 		}
+		
+		public Order orderSelect(String orderUID) {
+			Order order = null;
+			
+			try {
+				order = shopDao.orderSelect(orderUID);
+			}
+			catch(Exception e) {
+				logger.error("[Shopservice] noShowSelect", e);
+			}
+			
+			return order;
+		}
+		
+		//테이블 현황
+		public List<ShopTotalTable> shopCheckTable(String shopUID) {
+			List<ShopTotalTable> list = null;
+			
+			try
+            {
+               list = shopDao.shopCheckTable(shopUID);
+            }
+            catch(Exception e)
+            {
+               logger.error("[ShopService]ShopCheckTable Exception", e);
+            }
+			
+            return list;
+		}
+		
+		//영업시간 현황
+		public List<ShopTime> shopCheckTime(String shopUID){
+			List<ShopTime> list = null;
+			
+			try
+            {
+               list = shopDao.shopCheckTime(shopUID);
+            }
+            catch(Exception e)
+            {
+               logger.error("[ShopService]ShopCheckTime Exception", e);
+            }
+			
+            return list;
+		}
+		
+		//메뉴 현황
+		public List<ShopMenu> shopCheckMenu(String shopUID){
+			List<ShopMenu> list = null;
+			
+			try
+            {
+               list = shopDao.shopCheckMenu(shopUID);
+            }
+            catch(Exception e)
+            {
+               logger.error("[ShopService]ShopCheckMenu Exception", e);
+            }
+			
+            return list;
+		}
 }
