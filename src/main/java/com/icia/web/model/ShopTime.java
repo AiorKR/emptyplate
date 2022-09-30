@@ -8,7 +8,6 @@ public class ShopTime implements Serializable {
 	
 	private String shopUID;
 	private String shopOrderTime;
-	
 	private String shopTimeType;
 	
 	public ShopTime() {

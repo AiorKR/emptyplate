@@ -71,9 +71,9 @@ request.setAttribute("No", 2);
 	
 						// Cell에 텍스트 추가
 						newCell1.innerHTML = "<td class='tdtd2'>매장시간"+btnTimeStack+"</td>";
-						newCell2.innerHTML = "<td><select name='timeType' class='select' style='font-size:17px; width:110px;'><option value='' selected>매장시간</option><option value='L'>Lunch</option><option value='D'>Dinner</option><option value='X'>무관</option></select></td>";
-						newCell3.innerHTML = "<td><input type='text' id='time"+btnTimeStack+"' class='timeInput' placeholder='매장시간을 입력해주세요' style='font-size:17px;width:350px;'></td>";									
-
+						newCell2.innerHTML = "<td><select id='timeselect"+btnTimeStack+"' name='timeselect"+btnTimeStack+"' class='select' style='font-size:17px; width:110px;'><option value='' selected>매장시간</option><option value='L'>Lunch</option><option value='D'>Dinner</option><option value='X'>무관</option></select></td>";
+						newCell3.innerHTML = "<td><input type='text' id='time"+btnTimeStack+"' name='time"+btnTimeStack+"' class='timeInput' placeholder='매장시간을 입력해주세요' style='font-size:17px;width:350px;'></td>";									
+						 name='timeType${status.count}'
 						btnTimeStack++;
 					}
 				});
@@ -426,9 +426,8 @@ request.setAttribute("No", 2);
 									</c:when>
 									<c:otherwise>
 										<tr>
-											<td class="tdtd2">해시태그1</td>
-											<td><input type="text" id="hashTag1" class="hashTagInput" placeholder="해시태그를 입력해주세요" style="font-size:17px;"></td>
-											<input type="hidden" id="hashStack" value="1">
+											<td>해시태그1</td>
+											<td><input type="text" id="hashTag1" name="hashTag1"class="hashTagInput" placeholder="해시태그를 입력해주세요" style="font-size:17px;"></td>
 										</tr>
 									</c:otherwise>
 								</c:choose>
@@ -436,10 +435,13 @@ request.setAttribute("No", 2);
 							</table>
 						</div>
 					</div><br />
-					<!--
+
+
+
+
 					<div class="time">
 						<div class="timeMenu">
-							<table>
+							<table id="timeMenuButton">
 								<tr>
 									<td class="tdtd">매장시간</td>
 									<td>
@@ -457,32 +459,32 @@ request.setAttribute("No", 2);
 									<c:when test="${!empty list2}">
 										<c:forEach var="shop" items="${list2}" varStatus="status">
 											<tr>
-												<td class="tdtd2">매장시간${status.count}</td>
+												<td>매장시간${status.count}</td>
 												<td>
-													<select name="timeType" id="timeType${status.count}" class="select" style="font-size:17px; width:110px;">
+													<select id="timeselect${status.count}" name="timeselect${status.count}"class="select" style="font-size:17px; width:110px;">
 														<option value=''>매장시간</option>
 														<option value='L'<c:if test="${shop.shopTimeType eq 'L'}">selected</c:if>>Lunch</option>
 														<option value='D'<c:if test="${shop.shopTimeType eq 'D'}">selected</c:if>>Dinner</option>
 														<option value='X'<c:if test="${shop.shopTimeType eq 'X'}">selected</c:if>>무관</option>
 													</select>
 												</td>							
-												<td><input type="text" id="time${status.count}" class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px; width:350px;" value="${shop.shopOrderTime}" readonly></td>
+												<td><input type="text" id="time${status.count}" name="time${status.count}"class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px; width:350px;" value="${shop.shopOrderTime}" readonly></td>
 											</tr>
 											<c:if test="${status.last}"><input type="hidden" id="timeStack" value="${status.count + 1}"></c:if>
 										</c:forEach>
 									</c:when>
 									<c:otherwise>
 										<tr>
-											<td class="tdtd2">매장시간1</td>
+											<td>매장시간1</td>
 											<td>
-												<select name="timeType" class="select" style="font-size:17px; width:110px;">
+												<select id="timeselect1" name="timeselect1" class="select" style="font-size:17px; width:110px;">
 													<option value='' selected>매장시간</option>
 													<option value='L'>Lunch</option>
 													<option value='D'>Dinner</option>
 													<option value='X'>무관</option>
 												</select>
 											</td>
-											<td><input type="text" id="time1" class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px; width:350px;"></td>
+											<td><input type="text" id="time1" name="time1"class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px; width:350px;"></td>
 											<input type="hidden" id="timeStack" value="1">
 										</tr>	
 									</c:otherwise>
@@ -490,7 +492,7 @@ request.setAttribute("No", 2);
 							</table>
 						</div>
 					</div><br />
-					
+<!--
 					<div class="tableCap">
 						<div class="tableMenu">
 							<table>

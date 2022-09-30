@@ -222,16 +222,12 @@ public class ManagerController {
 		/***********
 		 * 매장추가정보
 		 ***********/
-  		String hashTagList="";
   		//해시태그
+  		String hashTagList="";
   		for(int i=1; i<9; i++)
   		{
   			String str = "hashTag"+ Integer.toString(i);
   			String hashTag = HttpUtil.get(request, str);
-  			logger.debug("# str : " + str);
-  			logger.debug("# str : " + hashTag);
-  			logger.debug("# str : " + hashTagList);
-  			logger.debug("############################");
   			
   			if(!StringUtil.isEmpty(HttpUtil.get(request, str,"")))
   			{
@@ -243,11 +239,29 @@ public class ManagerController {
   			}
   			else
   			{
+  				break;
+  			}
+
+  		}
+  		
+  		//매장시간
+  		for(int i=1; i<9; i++)
+  		{
+  			String str = "timeselect"+ Integer.toString(i);
+  			String str2 = "time"+ Integer.toString(i);
+  			String timeselect = HttpUtil.get(request, str);
+  			String time = HttpUtil.get(request, str2);
+  			logger.debug("# str : " + str);
+  			logger.debug("# str : " + str2);
+  			logger.debug("############################");
+  			if(StringUtil.isEmpty(HttpUtil.get(request, str,"")) && StringUtil.isEmpty(HttpUtil.get(request, str2,"")))
+  			{
   				logger.debug("# break #");
   				break;
   			}
 
   		}
+  		
   		
 		/***********
 		 * 첨부파일

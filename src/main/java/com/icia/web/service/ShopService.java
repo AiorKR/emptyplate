@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.icia.common.util.FileUtil;
 import com.icia.web.dao.ShopDao;
+import com.icia.web.model.Board;
+import com.icia.web.model.BoardFile;
 import com.icia.web.model.Order;
 import com.icia.web.model.OrderMenu;
 import com.icia.web.model.Shop;
@@ -588,19 +591,17 @@ public class ShopService {
             return list;
 		}
 		
-		public int shopUpdate(Shop shop)
+		
+		@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+		public int shopUpdate(Shop shop) throws Exception
 		{
-			int count = 0;
+			int count = shopDao.shopUpdate(shop);	
 			
-			try
-            {
-               count = shopDao.shopUpdate(shop);
-            }
-            catch(Exception e)
-            {
-               logger.error("[ShopService]ShopUpdate Exception", e);
-            }
-			
-			return 0;
+			if(count > 0)
+			{
+				
+			}
+
+			return count;
 		}
 }
