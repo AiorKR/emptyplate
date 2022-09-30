@@ -466,7 +466,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 		<p>${shop.shopIntro}</p>
 	  </div>
 	  <ul class="intro2">
-		<li><i class="fa-solid fa-map-location-dot"></i>&nbsp;&nbsp;${address}</li>
+		<li><i class="fa-solid fa-map-location-dot"></i>&nbsp;&nbsp;${shop.shopLocation1} ${shop.shopLocation2} ${shop.shopAddress}</li>
 		<li><i class="fa-regular fa-star"></i>&nbsp;&nbsp;별점 ${shop.reviewScore} (${shop.reviewCount})</li>
 		<li><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;${shop.shopTelephone}</li>
 	  </ul>
@@ -634,7 +634,8 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
        <div class="review">
 		<ul>
 		   <c:forEach items="${shop.reviewList}" var="reviewList" varStatus="status">
-		  <li>${reviewList.shopReviewRegDate}    ${reviewList.userName} : ${reviewList.shopReviewContent} <i class="fa-regular fa-star"></i>${reviewList.shopScore}</li>
+		  <li>${reviewList.shopReviewRegDate} &nbsp;${reviewList.userName} : ${reviewList.shopReviewContent}&nbsp;
+		  <i class="fa-regular fa-star" style="color: #cda45e;"></i>${reviewList.shopScore}</li>
 		   </c:forEach>
 		</ul>
        </div>

@@ -229,8 +229,8 @@ $(document).ready(function(){
 						<p>예약인원 : ${order.reservationPeople} 명</p>
 						</div>
 						<p>예약날짜 : ${order.shopReservationTableList[0].shopReservationDate} / ${order.shopReservationTableList[0].shopReservationTime}</p>
-						<br />
-						<br />
+						<br /><br/>
+					
 					</div>
 					<div class="order">
 						<p>주문 메뉴</p>
