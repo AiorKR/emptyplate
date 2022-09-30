@@ -57,6 +57,7 @@
 	<resultMap id="shopTimeResultMap" type="com.icia.web.model.ShopTime"> <!--매장시간-->
 	<result column="SHOP_UID" property="shopUID"/>
 	<result column="ORDER_TIME" property="shopOrderTime"/>
+	<result column="SHOP_TIMETYPE" property="shopTimeType"/>
 	</resultMap>
 
 	<resultMap id="shopMenuResultMap" type="com.icia.web.model.ShopMenu"> <!--매장메뉴-->
@@ -457,7 +458,8 @@ SELECT S.SHOP_UID AS SHOP_UID,
 	<result column="R_DATE" property="rDate"/>
 	<result column="REG_DATE" property="regDate"/>
 	<result column="REVIEW_SCORE" property="shopScore"/>
-    <result column="REVIEW_CONTENT" property="shopReviewContent"/>	
+    <result column="REVIEW_CONTENT" property="shopReviewContent"/>
+    <result column="PAYMENT_KEY" property="paymentKey"/>	
 	<collection property="orderMenu" resultMap="orderMenuResultMap"/>
 	<collection property="shopReservationTable" resultMap="shopReservationTableResultMap"/>
 	</resultMap>
@@ -497,10 +499,11 @@ SELECT S.SHOP_UID AS SHOP_UID,
             WHERE A.ORDER_UID = C.ORDER_UID
             AND A.SHOP_UID = B.SHOP_UID
             AND A.USER_UID = #{userUID}
-            AND A.ORDER_UID = D.ORDER_UID(+)))
+            AND A.ORDER_UID = D.ORDER_UID(+)
+            ORDER BY ORDER_UID DESC))
        WHERE RNUM <![CDATA[>=]]>  #{startRow}
        AND RNUM <![CDATA[<=]]>  #{endRow}
-       ORDER BY RNUM DESC
+       ORDER BY RNUM ASC
 	</select>
 	
 	
@@ -570,6 +573,7 @@ SELECT RNUM,
                  AND D.FILE_ORG_NAME LIKE '%'|| 'Shop_' ||'%'
           		 AND C.USER_UID = #{userUID}))
 </select>
+
 <insert id="orderInsert" parameterType="com.icia.web.model.Order">
 	INSERT INTO T_ORDER (
     ORDER_UID,
@@ -816,6 +820,26 @@ SELECT A.ORDER_UID AS ORDER_UID,
    AND B.TABLE_STATUS = 'C'
 </select>
 
+<select id="shopCheckTable" resultMap="shopTotalTableResultMap" parameterType="String">
+	SELECT *
+	  FROM T_SHOP_TOTAL_TABLE
+	 WHERE SHOP_UID = #{value}
+	 ORDER BY TOTAL_TABLE_CAPACITY ASC
+</select>
+
+<select id="shopCheckTime" resultMap="shopTimeResultMap" parameterType="String"> 
+	SELECT *
+	  FROM T_SHOP_TIME
+	 WHERE SHOP_UID = #{value}
+	 ORDER BY ORDER_TIME ASC
+</select>
+
+<select id="shopCheckMenu" resultMap="shopMenuResultMap" parameterType="String"> 
+	SELECT *
+	  FROM T_SHOP_MENU
+	 WHERE SHOP_UID=#{value}
+	 ORDER BY MENU_CODE DESC, MENU_PRICE DESC
+</select>
 
 <select id="orderSelect" resultMap="todayListResultMap" parameterType="String"> <!--noshow 마감 임박-->
 SELECT A.ORDER_UID AS ORDER_UID,

@@ -32,8 +32,6 @@ public interface ShopDao {
 	
 	public Shop shopManagerUIDSelect(String userUID); //매장관리자 페이지
 	
-	public Shop shopUIDSelect(String userUID);
-	
 	public List<ShopTotalTable> shopReservationCheck(Shop shop); //예약 자리 있는지 select
 	
 	public long orderUIDcreate(); //주문번호 생성을 위한 시퀀스 조회
@@ -71,6 +69,22 @@ public interface ShopDao {
 	public int updateReqOne(ShopReview shopReview);
 
 	public int delReqOne(ShopReview shopReview);
+
+	public Order selectRes(String orderUID);
+
+	public int delRes(String orderUID);
+	
+	public int delResX(String orderUID);
+
+	public int delTable(String orderUID);
+
+	public int delTableN(String orderUID);
+	
+	//SHOP UID SELECT
+	public Shop shopUIDSelect(String shopUID);
+	
+	//Shop테이블 userUID컬럼에 매장가입자(userUID)추가
+	public int updateStoreUserUID(Shop shop);
 	
 	public List<ShopTime> shopListTime();
 	

@@ -107,7 +107,7 @@ public class HelpController {
 			{
 				model.addAttribute("cookieUserNick", user2.getUserNick());
 				model.addAttribute("adminStatus", user2.getAdminStatus());
-				if(user2.getBizNum() != null)
+				if(!StringUtil.isEmpty(user2.getBizName())&& !StringUtil.isEmpty(user2.getBizNum()))
 				{
 					try
 					{
@@ -201,7 +201,7 @@ public class HelpController {
 			{
 				model.addAttribute("cookieUserNick", user2.getUserNick());
 				model.addAttribute("adminStatus", user2.getAdminStatus());
-				if(user2.getBizNum() != null)
+				if(!StringUtil.isEmpty(user2.getBizName())&& !StringUtil.isEmpty(user2.getBizNum()))
 				{
 					try
 					{
@@ -277,7 +277,7 @@ public class HelpController {
 				{
 					model.addAttribute("cookieUserNick", user2.getUserNick());
 					model.addAttribute("adminStatus", user2.getAdminStatus());
-					if(user2.getBizNum() != null)
+					if(!StringUtil.isEmpty(user2.getBizName())&& !StringUtil.isEmpty(user2.getBizNum()))
 					{
 						try
 						{
@@ -348,7 +348,7 @@ public class HelpController {
 				{
 					model.addAttribute("cookieUserNick", user2.getUserNick());
 					model.addAttribute("adminStatus", user2.getAdminStatus());
-					if(user2.getBizNum() != null)
+					if(!StringUtil.isEmpty(user2.getBizName())&& !StringUtil.isEmpty(user2.getBizNum()))
 					{
 						try
 						{
@@ -490,7 +490,7 @@ public class HelpController {
 			{
 				model.addAttribute("cookieUserNick", user2.getUserNick());
 				model.addAttribute("adminStatus", user2.getAdminStatus());
-				if(user2.getBizNum() != null)
+				if(!StringUtil.isEmpty(user2.getBizName())&& !StringUtil.isEmpty(user2.getBizNum()))
 				{
 					try
 					{

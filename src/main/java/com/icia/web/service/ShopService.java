@@ -114,13 +114,13 @@ public class ShopService {
 			return shop;
 		}
 		
-		public Shop shopUIDSelect(String userUID)
+		public Shop shopManagerUIDSelect(String userUID)
 		{
 			Shop shop = new Shop();
 			ShopFile shopFile = new ShopFile();
 			try
 			{
-				shop = shopDao.shopUIDSelect(userUID);
+				shop = shopDao.shopManagerUIDSelect(userUID);
 			}
 			catch(Exception e){
 				logger.error("[ShopService] ShopViewSelect", e);
@@ -381,7 +381,111 @@ public class ShopService {
 			
 			return list;
 		}
+
+			public Order selectRes(String orderUID)
+			{	
+				Order order = null;
+				try
+				{
+					order = shopDao.selectRes(orderUID);
+				}
+				catch(Exception e)
+				{
+					logger.error("[ShopService]selectRes Exception", e);
+				}
+				
+				return order;
+			}
+
+			public int delRes(String orderUID) {
+				int count = 0;
+	           
+	            try
+	            {
+	               count = shopDao.delRes(orderUID);
+	            }
+	            catch(Exception e)
+	            {
+	               logger.error("[ShopService]delRes Exception", e);
+	            }
+	            return count;
+			}
+			
+			public int delResX(String orderUID) {
+				int count = 0;
+	           
+	            try
+	            {
+	               count = shopDao.delResX(orderUID);
+	            }
+	            catch(Exception e)
+	            {
+	               logger.error("[ShopService]delResX Exception", e);
+	            }
+	            return count;
+			}
+
+			public int delTable(String orderUID) {
+				int count = 0;
+		           
+	            try
+	            {
+	               count = shopDao.delTable(orderUID);
+	            }
+	            catch(Exception e)
+	            {
+	               logger.error("[ShopService]delTable Exception", e);
+	            }
+	            return count;
+			}
+
+			public int delTableN(String orderUID) {
+				int count = 0;
+		           
+	            try
+	            {
+	               count = shopDao.delTableN(orderUID);
+	            }
+	            catch(Exception e)
+	            {
+	               logger.error("[ShopService]delTableN Exception", e);
+	            }
+	            return count;
+			}
+
 		
+			public Shop shopUIDSelect(String shopUID)
+			{
+				Shop shop = null;
+				
+				try
+				{
+					shop = shopDao.shopUIDSelect(shopUID);
+				}
+				catch(Exception e)
+				{
+					logger.error("[UserService] userSelect Exception", e);
+				}
+				
+				return shop;
+			}
+			
+			public int updateStoreUserUID(Shop shop)
+			{
+				int count = 0;
+				
+				try
+				{
+					count = shopDao.updateStoreUserUID(shop);
+				}
+				catch(Exception e)
+				{
+					logger.error("[ShopService] updateStoreUserUID exception", e);
+				}
+				
+				return count;
+			}		
+
 		public List<ShopTime> shopListTime() {
 			List<ShopTime> list = null;
 			
@@ -430,7 +534,7 @@ public class ShopService {
 				order = shopDao.orderSelect(orderUID);
 			}
 			catch(Exception e) {
-				logger.error("[Shopservice] noShowSelect", e);
+				logger.error("[Shopservice] orderSelect", e);
 			}
 			
 			return order;

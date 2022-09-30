@@ -19,6 +19,53 @@
  .list-card-hr {
     margin-bottom : 20px;
  }
+ 
+.cardDetailSection-buttonR {
+  color:#464545a6;
+  font-family: 'cafe24Dangdanghae'; 
+  border-radius: 10%;
+  box-shadow: 3px 3px 3px 3px rgba(128, 128, 128, 0.575);
+}
+
+.cardDetailSection-buttonR:hover {
+  box-shadow: 3px 3px 3px 3px rgba(128, 128, 128, 0.575) inset;
+}
+
+.cardDetailSection-buttonC {
+  color:rgba(153, 051, 051, 0.575);
+  font-family: 'cafe24Dangdanghae';
+  border-radius: 10%;
+  box-shadow: 3px 3px 3px 3px rgba(153, 051, 051, 0.575);
+}
+
+#cancleDetail.modal{ 
+  position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.8); top:0; left:0; display:none;
+}
+
+#cancleDetail.modal_content{
+  color:black;
+  width:400px; height:300px;
+  background:#fff; border-radius:10px;
+  position:relative; top:50%; left:50%;
+  margin-top:-100px; margin-left:-200px;
+  text-align:center;
+  box-sizing:border-box; padding:35px 0;
+  line-height:23px; cursor:pointer;
+  border-radius: 5%;
+  border:solid #cda45e 8px;
+  font-size: 20px;
+}
+
+.cancleDetail-button-sec{
+	margin-top: 50px;
+}
+
+.nos{
+	color: rgba(153, 051, 051);
+	font-size: 18px;
+	margin-top: 20px;
+}
+
 </style>
 <script type="text/javascript">
 
@@ -184,6 +231,91 @@ function delReqOne(num)
    
 }
 
+function fn_view(shopUID) {
+	   document.bbsForm.shopUID.value = shopUID;
+	   document.bbsForm.action = "/reservation/view";
+	   document.bbsForm.submit();
+	}
+		
+function cancleDetail(num) {
+	const cancleDetail = document.getElementById("cancleDetail")
+	console.log(cancleDetail);
+	$(cancleDetail).attr("style", "display:flex");
+	orderNum.value = num;
+	console.log(orderNum);
+}  
+
+function closeCnacle() {
+	const cancleDetail = document.getElementById("cancleDetail")
+	$(cancleDetail).attr("style", "display:none");
+}
+
+function delRes() {
+	var num = document.getElementById("orderNum").value;
+	var orderUID = document.getElementById("orderUID" + num).value;
+	$.ajax({
+        type:"POST",
+        url:"/myPage/delRes",
+        data:{
+           orderUID : orderUID
+        },
+        datatype:"JSON",
+        beforeSend:function(xhr){
+           xhr.setRequestHeader("AJAX", "true");
+        },
+        success:function(response){
+            if(response.code == 0)
+            {
+               alert("예약이 취소 되었습니다");
+               location.reload();
+            }
+            else if(response.code == -1)
+            {
+               alert("환불 중 오류가 발생하였습니다");
+            }
+            else if(response.code == 200)
+            {
+               alert("환불 파라미터 오류");
+            }
+            else if(response.code == -3)
+            {
+               alert("예약 취소 중 오류가 발생하였습니다");
+            }
+            else if(response.code == -2)
+            {
+               alert("예약 취소 중 오류가 발생하였습니다");
+            }
+            else if(response.code == 100)
+            {
+               alert("이미 만료된 주문입니다");
+               location.reload();
+            }
+            else if(response.code == 404)
+            {
+               alert("주문 정보를 찾을 수 없습니다");
+               location.reload();
+            }
+            else if(response.code == 400)
+            {
+               alert("사용자 정보를 찾을 수 없습니다");
+               location.href='/index';
+            }
+            else
+            {
+               alert("예약 취소 중 오류가 발생하였습니다");
+            }
+        },
+        complete:function(data)
+        {
+           icia.common.log(data);
+        },
+        error:function(xhr, status, error)
+        {
+           icia.common.error(error);
+        }
+     });
+}
+	
 </script>
 
 </head>
@@ -222,15 +354,37 @@ function delReqOne(num)
                   <input type="hidden" id="shopUID${status1.index}" value="${Order.shopUID}">        
             </a>
                 <span class="cardDetailSection-status">
-                	<button id="cardDetailSection-button" class="cardDetailSection-button" onclick="reqOne(${status1.index})">
-                		<c:if test="${Order.shopReviewContent eq ''}">
-                		한줄평 남기기
-                		</c:if>
-                		<c:if test="${Order.shopReviewContent ne ''}">
-                		한줄평 수정하기
-                		</c:if>
-                	</button>
+                
+                	<c:if test="${Order.orderStatus eq 'R'}">
+	                	<button id="cardDetailSection-button" class="cardDetailSection-buttonR" onclick="cancleDetail(${status1.index})">
+	                		예약 취소
+	                	</button>
+                	</c:if>
+                	
+                	<c:if test="${Order.orderStatus eq 'C'}">
+	                	<button id="cardDetailSection-button" class="cardDetailSection-buttonC">
+	                		취소된 예약
+	                	</button>
+                	</c:if>
+                	
+                	<c:if test="${Order.orderStatus eq 'X'}">
+	                	<button id="cardDetailSection-button" class="cardDetailSection-buttonC">
+	                		취소된 예약
+	                	</button>
+                	</c:if>
+                	
+                	<c:if test="${Order.orderStatus eq 'E'}">
+	                	<button id="cardDetailSection-button" class="cardDetailSection-button" onclick="reqOne(${status1.index})">
+	                		<c:if test="${Order.shopReviewContent eq ''}">
+	                		한줄평 남기기
+	                		</c:if>
+	                		<c:if test="${Order.shopReviewContent ne ''}">
+	                		한줄평 수정하기
+	                		</c:if>
+	                	</button>
+                	</c:if>
                 </span>
+	                
                 <div class="rlist-list-detail">세부사항 : ${Order.finalMenu}</div>
                 
                 <c:if test="${Order.shopReviewContent eq ''}">
@@ -378,11 +532,30 @@ function delReqOne(num)
        </div>      
            
         </div>
-        
+        		<form name="bbsForm" id="bbsForm" method="post">
+				<input type="hidden" name="shopUID" value="" /> 
+				</form>
         
    </div>
 </div>
-           
+	<div id="cancleDetail" class="modal">
+	  <div id="cancleDetail" class="modal_content" 
+	       title="클릭하면 창이 닫힙니다.">
+	   <input type="hidden" id="orderNum" value="">    
+		 <div>
+			 <환불정책><br>
+			  방문 예정일 2일 이전 : 100%<br>
+			  방문 예정일 1일 이전 : 50%<br>
+			  방문 예정일 당일 : 10%
+			 <p class="nos">노쇼 시 환불이 불가하므로 유의하시기 바랍니다.</p>			 
+		</div>
+		<div class="cancleDetail-button-sec">
+			<input type="button" value="예약 취소" class="cancleDetail-button-cancle" onclick="delRes()">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="button" value="닫 기" class="cancleDetail-button-close" onclick="closeCnacle()">
+		</div>
+	  </div>
+	</div>           
 </section>
 </main>
  

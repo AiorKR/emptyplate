@@ -120,24 +120,25 @@
 			<div class="setTable">
 				<table>
 					<tr colspan="2">
-						<th colspan="2">2인 테이블</th>
+						<th colspan="2">테이블 현황</th>
 					</tr>
 					<tr class="line">
 						<td class="right">테이블 종류</td>
 						<td>전체 수량</td>
 					</tr>
-					<tr>
-						<td class="right">2인 테이블</td>
-						<td><input type="text" readonly></td>
-					</tr>
-					<tr>
-						<td class="right">4인 테이블</td>
-						<td><input type="text" readonly></td>
-					</tr>
-					<tr>
-						<td class="right">6인 테이블</td>
-						<td><input type="text" readonly></td>
-					</tr>
+					<c:choose>
+						<c:when test="${!empty list1}">
+							<c:forEach var="shop" items="${list1}" varStatus="status">
+								<tr>
+									<td class="right">${shop.shopTotalTableCapacity}인 테이블</td>
+									<td><input type="text" value="${shop.shopTotalTable}" readonly></td>
+								</tr>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<td colspan="2"> 테이블이 존재하지 않습니다</td>
+						</c:otherwise>
+					</c:choose>
 				</table>
 	       </div>
 	       <div class="setTime">
@@ -149,14 +150,31 @@
 						<td class="right">시간 구분</td>
 						<td>시간</td>
 					</tr>
-					<tr>
-						<td class="right">Lunch</td>
-						<td><input type="text" readonly></td>
-					</tr>
-					<tr>
-						<td class="right">Dinner</td>
-						<td><input type="text" readonly></td>
-					</tr>
+					<c:choose>
+						<c:when test="${!empty list2}">
+							<c:forEach var="shop" items="${list2}" varStatus="status">
+								<c:choose>
+									<c:when test="${shop.shopTimeType eq 'L'}">
+										<tr>
+											<td class="right">Lunch</td>
+									</c:when>
+									<c:when test="${shop.shopTimeType eq 'D'}">
+										<tr>
+											<td class="right">Dinner</td>
+									</c:when>
+									<c:otherwise>
+										<tr>
+											<td class="right">제한없음</td>
+									</c:otherwise>
+								</c:choose>								
+									<td><input type="text" value="${shop.shopOrderTime}" readonly></td>
+								</tr>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<td colspan="2"> 영업시간이 존재하지 않습니다</td>
+						</c:otherwise>
+					</c:choose>
 				</table>
 	       </div>
 	       <div class="setMenu">
@@ -169,16 +187,32 @@
 						<td>메뉴명</td>
 						<td>메뉴가격</td>
 					</tr>
-					<tr>
-						<td class="right">Lunch</td>
-						<td><input type="text" readonly></td>
-						<td><input type="text" readonly></td>
-					</tr>
-					<tr>
-						<td class="right">Dinner</td>
-						<td><input type="text" readonly></td>
-						<td><input type="text" readonly></td>
-					</tr>
+					<c:choose>
+						<c:when test="${!empty list3}">
+							<c:forEach var="shop" items="${list3}" varStatus="status">
+								<c:choose>
+									<c:when test="${shop.shopMenuCode eq 'L'}">
+										<tr>
+											<td class="right">Lunch</td>
+									</c:when>
+									<c:when test="${shop.shopMenuCode eq 'D'}">
+										<tr>
+											<td class="right">Dinner</td>
+									</c:when>
+									<c:otherwise>
+										<tr>
+											<td class="right">기타</td>
+									</c:otherwise>
+								</c:choose>								
+									<td><input type="text" value="${shop.shopMenuName}" readonly></td>
+									<td><input type="text" value="${shop.shopMenuPrice}" readonly></td>
+								</tr>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<td colspan="3"> 메뉴가 존재하지 않습니다</td>
+						</c:otherwise>
+					</c:choose>
 				</table>
 	       </div>
        </div>

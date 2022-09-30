@@ -33,6 +33,7 @@ public class Order implements Serializable{
 	private ShopReservationTable shopReservationTable;
 	private String shopReviewContent;
 	private double shopScore;
+	private String paymentKey;
 	
 	public Order() {
 		orderUID = "";
@@ -62,6 +63,7 @@ public class Order implements Serializable{
 		finalMenu = "";
 		shopReviewContent = "";
 		shopScore = 0;
+		paymentKey = "";
 	}
 
 	public String getOrderUID() {
@@ -269,6 +271,14 @@ public class Order implements Serializable{
 
 	public void setNoShowOrderUID(String noShowOrderUID) {
 		this.noShowOrderUID = noShowOrderUID;
+	}
+	
+	public String getPaymentKey() {
+		return paymentKey;
+	}
+
+	public void setPaymentKey(String paymentKey) {
+		this.paymentKey = paymentKey;
 	}
 	
 }
