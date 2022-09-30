@@ -222,6 +222,32 @@ public class ManagerController {
 		/***********
 		 * 매장추가정보
 		 ***********/
+  		String hashTagList="";
+  		//해시태그
+  		for(int i=1; i<9; i++)
+  		{
+  			String str = "hashTag"+ Integer.toString(i);
+  			String hashTag = HttpUtil.get(request, str);
+  			logger.debug("# str : " + str);
+  			logger.debug("# str : " + hashTag);
+  			logger.debug("# str : " + hashTagList);
+  			logger.debug("############################");
+  			
+  			if(!StringUtil.isEmpty(HttpUtil.get(request, str,"")))
+  			{
+  				if(hashTag.indexOf("#") == -1)
+  	  			{
+  	  				hashTag = "#" + hashTag;
+  	  			}
+  				hashTagList += hashTag;
+  			}
+  			else
+  			{
+  				logger.debug("# break #");
+  				break;
+  			}
+
+  		}
   		
 		/***********
 		 * 첨부파일
@@ -237,6 +263,7 @@ public class ManagerController {
 			shop.setShopIntro(shopIntro);
 			shop.setShopContent(shopContent);
 			//추가정보
+			shop.setShopHashtag(hashTagList);
   			try
   			{
   				if(shopService.shopUpdate(shop) > 0)

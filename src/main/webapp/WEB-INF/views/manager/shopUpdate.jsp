@@ -20,6 +20,7 @@ request.setAttribute("No", 2);
 				var btnTableStack = $("#tableStack").val();
 				var btnMenuStack = $("#menuStack").val();
 				
+				
 
 
 
@@ -37,9 +38,8 @@ request.setAttribute("No", 2);
 						const newCell2 = newRow.insertCell(1);
 	
 						// Cell에 텍스트 추가
-						newCell1.innerHTML = "<td class='tdtd2'>해시태그"+btnHashStack+"</td>";
-						newCell2.innerHTML = "<td><input type='text' id='hashTag"+btnHashStack+"' class='hashTagInput' placeholder='해시태그를 입력해주세요' style='font-size:17px;'></td>";
-					
+						newCell1.innerHTML = "<td>해시태그"+btnHashStack+"</td>";
+						newCell2.innerHTML = "<td><input type='text' id='hashTag"+btnHashStack+"' name='hashTag"+btnHashStack+"' class='hashTagInput' placeholder='해시태그를 입력해주세요' style='font-size:17px;'></td>";
 						btnHashStack++;
 					}
 				});
@@ -400,9 +400,9 @@ request.setAttribute("No", 2);
 		            </table>
 					<div class="hashTag">
 						<div class="hashTagMenu">
-							<table>
+							<table id="hashTagButton">
 								<tr>
-									<td class="tdtd">해시태그</td>
+									<td>해시태그</td>
 									<td>
 										<button type="button" id="btnHashAdd">생성</button>
 									</td>
@@ -418,8 +418,8 @@ request.setAttribute("No", 2);
 								<c:when test="${!empty list}">
 									<c:forEach var="hashTag" items="${list}" varStatus="status">
 										<tr>
-											<td class="tdtd2">해시태그${status.count}</td>
-											<td><input type="text" id="hashTag${status.count}" class="hashTagInput" placeholder="해시태그를 입력해주세요" value="#${status.current}" style="font-size:17px;"></td>
+											<td>해시태그${status.count}</td>
+											<td><input type="text" id="hashTag${status.count}" name="hashTag${status.count}" class="hashTagInput" placeholder="해시태그를 입력해주세요" value="#${status.current}" style="font-size:17px;"></td>
 										</tr>
 										<c:if test="${status.last}"><input type="hidden" id="hashStack" value="${status.count + 1}"></c:if>
 										</c:forEach>
@@ -432,6 +432,7 @@ request.setAttribute("No", 2);
 										</tr>
 									</c:otherwise>
 								</c:choose>
+								<input type="hidden" id="hashStackCurrent" value="0">
 							</table>
 						</div>
 					</div><br />
