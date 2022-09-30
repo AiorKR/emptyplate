@@ -194,12 +194,15 @@ request.setAttribute("No", 2);
 				         return;
 				      }
 					  
-					  //요일체크배열
+					  //요일체크배열	
+					  /*
 					  var dayCheckArr = [];
+				
 					  $("input[name=day]:checked").each(function(){
 						dayCheckArr.push($(this.val()));
 					  });
-					  $("#dayCheck").val()=dayCheckArr;
+					  
+					  $("#dayCheck").val()=dayCheckArr;	  */
 
 				      var form = $("#updateForm")[0];
 				      var formData = new FormData(form);
@@ -221,7 +224,7 @@ request.setAttribute("No", 2);
 				            if(response.code == 0)
 				              {
 				               alert("게시물이 수정되었습니다.");
-				               location.href = "/board/list";               
+				               location.href = "/manager/shopManage";               
 				              }
 				            else if(response.code == 400)
 				           {
@@ -235,19 +238,19 @@ request.setAttribute("No", 2);
 				              }
 				            else if(response.code == 404)
 				              {
-				               alert("게시물을 찾을 수 없습니다.");
-				               location.href = "/board/list";
+				               alert("페이지를 찾을 수 없습니다.");
+				               location.href = "/index";
 				              }
 				            else
 				              {
-				               alert("게시물 수정 중 오류가 발생하였습니다.");
+				               alert("게시물 수정 중 오류가 발생하였습니다.1");
 				               $("#btnUpdate").prop("disabled", false);
 				              }
 				         },
 				         error:function(error)
 				         {
 				            icia.common.error(error);
-				            alert("게시물 수정 중 오류가 발생하였습니다.");
+				            alert("게시물 수정 중 오류가 발생하였습니다.2");
 				            $("#btnUpdate").prop("disabled", false);
 				         }
 				     });
@@ -286,6 +289,7 @@ request.setAttribute("No", 2);
 					  </ul>
 					  
 					</div>
+					<!-- 
 					<div class="imageModify">
 						<table>
 							<tr>
@@ -299,6 +303,7 @@ request.setAttribute("No", 2);
 							</tr>	
 						</table>
 					</div>
+					 -->
 					<div class="basic">
 					<div class="d-flex justify-content-between align-items-center">
 						<div class="basic">
@@ -315,14 +320,14 @@ request.setAttribute("No", 2);
 								<tr>
 									<td rowspan="2"class="td" style="padding-bottom:10px;">매장주소</td>
 									<td class="title-text" style="padding-bottom:1px;">
-										<input type="text" id="shopLocation1" value="${shop.shopLocation1}" placeholder="주소"  readonly>
+										<input type="text" id="shopLocation1" name="shopLocation1" value="${shop.shopLocation1}" placeholder="주소">
 										<input type="text" id="sample6_postcode" placeholder="우편번호" hidden>
 										<input type="text" id="sample6_extraAddress" placeholder="참고항목" hidden>
 									</td>
 								</tr>
 								<tr>
 									<td class="title-text" style="padding-bottom:9px;">
-										<input type="text" id="shopAddress" value="${shop.shopAddress}" placeholder="상세주소" style="width:380px;">
+										<input type="text" id="shopAddress" name="shopAddress" value="${shop.shopAddress}" placeholder="상세주소" style="width:380px;">
 										<input type="button" onclick="sample6_execDaumPostcode()" value="주소 찾기">
 									</td>
 								</tr>
@@ -381,7 +386,7 @@ request.setAttribute("No", 2);
 				  </div>
 				</div>
 
-
+<!--
 				<div class="additional">
 					<table>
 		               <tr>
@@ -604,14 +609,13 @@ request.setAttribute("No", 2);
 						</div>
 					</div>
 				</div>
-					
+					 -->
 						
 				<div class="d-flex flex-row justify-content-center">
 					<div class="update"><button type="button" id="btnUpdate" class="update" title="수정">수정</button></div>
 					<div class="cancle"><button type="button" id="btnCancle" class="cancle" title="취소">취소</button></div>
 				</div>
 			</div>
-			<input type="hidden" name="shopUID" value="" />
 				</form>
 		</div>
 	</div>

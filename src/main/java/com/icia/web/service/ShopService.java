@@ -574,4 +574,20 @@ public class ShopService {
 			
             return list;
 		}
+		
+		public int shopUpdate(Shop shop)
+		{
+			int count = 0;
+			
+			try
+            {
+               count = shopDao.shopUpdate(shop);
+            }
+            catch(Exception e)
+            {
+               logger.error("[ShopService]ShopUpdate Exception", e);
+            }
+			
+			return 0;
+		}
 }

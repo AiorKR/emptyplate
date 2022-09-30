@@ -99,4 +99,6 @@ public interface ShopDao {
 	public List<ShopTime> shopCheckTime(String shopUID); //영업시간 현황
 	
 	public List<ShopMenu> shopCheckMenu(String shopUID); //메뉴 현황
+	
+	public int shopUpdate(Shop shop);
 }
