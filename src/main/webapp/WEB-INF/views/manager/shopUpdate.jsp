@@ -168,6 +168,7 @@ request.setAttribute("No", 2);
 				         alert("상호명을 입력해주세요.");
 				         $("#shopTitle").val("");
 				         $("#shopTitle").focus();
+				         $("#btnUpdate").prop("disabled", false);
 				         return;
 				      }
 
@@ -176,6 +177,7 @@ request.setAttribute("No", 2);
 				         alert("주소찾기를 이용하여 주소를 입력해주세요.");
 				         $("#shopLocation1").val("");
 				         $("#shopLocation1").focus();
+				         $("#btnUpdate").prop("disabled", false);
 				         return;
 				      }
 
@@ -184,6 +186,7 @@ request.setAttribute("No", 2);
 				         alert("전화번호를 입력해주세요.");
 				         $("#shopTelephone").val("");
 				         $("#shopTelephone").focus();
+				         $("#btnUpdate").prop("disabled", false);
 				         return;
 				      }
 
@@ -191,6 +194,7 @@ request.setAttribute("No", 2);
 				      {
 				         alert("매장타입을 선택해주세요");
 				         $("#shopTypeSelect").focus();
+				         $("#btnUpdate").prop("disabled", false);
 				         return;
 				      }
 					  
@@ -243,7 +247,8 @@ request.setAttribute("No", 2);
 				              }
 				            else
 				              {
-				               alert("게시물 수정 중 오류가 발생하였습니다.1");
+				               alert("게시물 수정 중 오류가 발생하였습니다.");
+				               alert(response.code);
 				               $("#btnUpdate").prop("disabled", false);
 				              }
 				         },
@@ -386,7 +391,7 @@ request.setAttribute("No", 2);
 				  </div>
 				</div>
 
-<!--
+
 				<div class="additional">
 					<table>
 		               <tr>
@@ -430,7 +435,7 @@ request.setAttribute("No", 2);
 							</table>
 						</div>
 					</div><br />
-					
+					<!--
 					<div class="time">
 						<div class="timeMenu">
 							<table>
@@ -607,9 +612,9 @@ request.setAttribute("No", 2);
 								</c:choose>
 							</table>
 						</div>
-					</div>
+					</div>					 -->
 				</div>
-					 -->
+
 						
 				<div class="d-flex flex-row justify-content-center">
 					<div class="update"><button type="button" id="btnUpdate" class="update" title="수정">수정</button></div>

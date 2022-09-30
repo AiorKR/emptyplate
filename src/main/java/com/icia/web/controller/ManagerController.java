@@ -226,24 +226,23 @@ public class ManagerController {
 		/***********
 		 * 첨부파일
 		 ***********/
-  		logger.debug("################################");
-  		logger.debug("# : "+ shop.getShopUID());
-  		logger.debug("# : " + shopTitle);
-  		logger.debug("# : " + shopLocation1);
-  		logger.debug("# : " + shopTelephone);
-  		logger.debug("################################");
   		if(!StringUtil.isEmpty(shop.getShopUID()) && !StringUtil.isEmpty(shopTitle) && !StringUtil.isEmpty(shopLocation1) && !StringUtil.isEmpty(shopTelephone) )
   		{
+  			//기본정보
   			shop.setShopName(shopTitle);
 			shop.setShopLocation1(shopLocation1);
 			shop.setShopAddress(shopAddress);
 			shop.setShopTelephone(shopTelephone);
+			//소개글
+			shop.setShopIntro(shopIntro);
+			shop.setShopContent(shopContent);
+			//추가정보
   			try
   			{
   				if(shopService.shopUpdate(shop) > 0)
   				{
-  					ajaxResponse.setResponse(0, "Success");
   					logger.debug("### success :" + shopService.shopUpdate(shop));
+  					ajaxResponse.setResponse(0, "Success");
   				}
   				else
   				{
