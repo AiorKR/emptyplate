@@ -875,6 +875,7 @@ SELECT A.ORDER_UID AS ORDER_UID,
 	UPDATE T_SHOP
 	   SET shop_name = #{shopName},
 	       shop_type = #{shopType},
+	       SHOP_HASHTAG = #{shopHashtag},
 	       shop_location1 = #{shopLocation1},
 	       shop_address = #{shopAddress},
 	       shop_telephone = #{shopTelephone},
