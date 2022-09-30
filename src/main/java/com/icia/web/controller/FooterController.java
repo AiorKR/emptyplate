@@ -35,41 +35,47 @@ public class FooterController {
 	@Autowired
 	private EntryService entryService;
 	
-	@RequestMapping(value="/footer/resources")
+	//개인정보처리방침
+	@RequestMapping(value="/footer/privacy")
 	public String resources(HttpServletRequest request, HttpServletResponse response)
 	{
 		
-		return "/footer/resources";
+		return "/footer/privacy";
 	}
 	
-	@RequestMapping(value="/footer/resources2")
+	//서비스이용약관
+	@RequestMapping(value="/footer/contract")
 	public String resources2(HttpServletRequest request, HttpServletResponse response)
 	{
 		
-		return "/footer/resources2";
+		return "/footer/contract";
 	}
 	
-	@RequestMapping(value="/footer/resources3")
+	//위치정보 이용약관
+	@RequestMapping(value="/footer/location")
 	public String resources3(HttpServletRequest request, HttpServletResponse response)
 	{
 		
-		return "/footer/resources3";
+		return "/footer/location";
 	}
 	
-	@RequestMapping(value="/footer/resources4")
+	//입점문의
+	@RequestMapping(value="/footer/launchingInquiry")
 	public String resources4(HttpServletRequest request, HttpServletResponse response)
 	{
 		
-		return "/footer/resources4";
+		return "/footer/launchingInquiry";
 	}
 	
-	@RequestMapping(value="/footer/aboutus")
+	//aboutus
+	@RequestMapping(value="/footer/aboutUs")
 	public String aboutus(HttpServletRequest request, HttpServletResponse response)
 	{
 		
-		return "/footer/aboutus";
+		return "/footer/aboutUs";
 	}
 	
+	//company
 	@RequestMapping(value="/footer/company")
 	public String company(HttpServletRequest request, HttpServletResponse response)
 	{
@@ -77,11 +83,12 @@ public class FooterController {
 		return "/footer/company";
 	}
 	
-	@RequestMapping(value="/footer/logohistory")
+	//logohistory
+	@RequestMapping(value="/footer/logoHistory")
 	public String logohistory(HttpServletRequest request, HttpServletResponse response)
 	{
 		
-		return "/footer/logohistory";
+		return "/footer/logoHistory";
 	}
 	
 	
@@ -131,7 +138,7 @@ public class FooterController {
 		
 		if(logger.isDebugEnabled())
 		{
-			logger.debug("[FooterController] /footer/resource4 response\n" + JsonUtil.toJsonPretty(ajaxResponse));
+			logger.debug("[FooterController] /footer/launchingInquiry response\n" + JsonUtil.toJsonPretty(ajaxResponse));
 		}
 		
 		

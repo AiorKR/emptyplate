@@ -9,7 +9,7 @@
 
 <body>
  <%@ include file="/WEB-INF/views/include/navigation.jsp" %>
- <!-- ======= term Section ======= -->
+ <!-- ======= 개인정보처리방침 Section ======= -->
     <section id="term1" class="term1">
         <div class="container" data-aos="fade-up"> <!--class="container"시작-->
             <div class="row" data-aos="fade-up" data-aos-delay="100"> <!--class="row"시작-->
@@ -17,22 +17,22 @@
                 <!--term 메뉴시작-->
                 <div class="nav nav-pills nav-justified" id="pills-tab" role="tablist">
                   <li class="nav-item" >
-                  	<a href="/footer/resources">
+                  	<a href="/footer/privacy">
                     	<button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button">개인정보 처리방침</button>
                     </a>
                   </li>
                   <li class="nav-item">
-                  	<a href="/footer/resources2">
+                  	<a href="/footer/contract">
                     	<button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button">서비스 이용약관</button>
                     </a>
                   </li>
                   <li class="nav-item">
-                  	<a href="/footer/resources3">
+                  	<a href="/footer/location">
                     	<button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button">위치정보 이용약관</button>
                     </a>
                   </li>
                   <li class="nav-item">
-                  	<a href="/footer/resources4">
+                  	<a href="/footer/launchingInquiry">
                     	<button class="nav-link" id="pills-contact-tab2" data-bs-toggle="pill" data-bs-target="#pills-contact2" type="button">입점문의</button>
                     </a>
                   </li>
@@ -53,7 +53,7 @@
                            Empty Plate은(는) 개인정보처리방침을 개정하는 경우 웹사이트 공지사항(또는 개별공지)을 통하여 공지할 것입니다.
                         </p>
                         <p>
-                           <strong>본 방침은 [2018년 4월 23일]부터 시행됩니다.</strong>
+                           <strong>본 방침은 [2022년 9월 30일]부터 시행됩니다.</strong>
                         </p>
                         &nbsp;
                         <p>
@@ -67,13 +67,13 @@
                             <strong>홈페이지 회원가입 및 관리</strong>
                         </p>
                         <p>
-                            : 회원 가입의사 확인, 회원자격 유지·관리, 서비스 부정이용 방지, 각종 고지·통지, 분쟁 조정을 위한 기록 보존 등을 목적으로 개인정보를 처리합니다.
+                            : 회원 가입의사 확인, 회원자격 유지/관리, 서비스 부정이용 방지, 각종 고지/통지, 분쟁 조정을 위한 기록 보존 등을 목적으로 개인정보를 처리합니다.
                         </p>
                         <p>
                             <strong>민원사무 처리</strong>
                         </p> 
                         <p>
-                            민원인의 신원 확인, 민원사항 확인, 사실조사를 위한 연락·통지, 처리결과 통보 등을 목적으로 개인정보를 처리합니다.
+                            민원인의 신원 확인, 민원사항 확인, 사실조사를 위한 연락/통지, 처리결과 통보 등을 목적으로 개인정보를 처리합니다.
                         </p>
                         <p>
                             <strong>재화 또는 서비스 제공</strong>
@@ -93,20 +93,20 @@
                             <strong>개인정보의 처리 및 보유 기간</strong>
                         </p>
                         <p>
-                            : Empty Plate은(는) 법령에 따른 개인정보 보유·이용기간 또는 정보주체로부터 
-                            개인정보를 수집 시에 동의 받은 개인정보 보유·이용기간 내에서 개인정보를 처리, 보유합니다.
+                            : Empty Plate은(는) 법령에 따른 개인정보 보유,이용기간 또는 정보주체로부터 
+                            개인정보를 수집 시에 동의 받은 개인정보 보유,이용기간 내에서 개인정보를 처리,보유합니다.
                             <br>
                             각각의 개인정보 처리 및 보유 기간은 다음과 같습니다.
                         </p>
                         <p>
                             -홈페이지 회원가입 및 관리: 홈페이지 탈퇴일로부터 1개월이 경과하는 날까지. 
-                            다만, 관계 법령 위반에 따른 수사, 조사 등이 진행중인 경우에는 해당 수사, 조사 종료 시까지.
+                            다만, 관계 법령 위반에 따른 수사,조사 등이 진행중인 경우에는 해당 수사,조사 종료 시까지.
                         </p>
                         <p>
                             -민원사무 처리: 민원사무 처리 완료 시까지.
                         </p>
                         <p>
-                            -재화 또는 서비스 제공: 재화·서비스 공급 완료 시까지.
+                            -재화 또는 서비스 제공: 재화,서비스 공급 완료 시까지.
                         </p>
                         <p>
                             -마케팅 및 광고에의 활용: 홈페이지 탈퇴 시까지.
@@ -173,7 +173,7 @@
                         </p>
                         <p>
                             : Empty Plate은(는) 원칙적으로 개인정보 처리 목적이 달성된 경우에는 지체없이 해당 개인정보를 파기합니다.
-                            파기의 절차, 기한 및 방법은 다음과 같습니다.
+                            파기의 절차,기한 및 방법은 다음과 같습니다.
                         </p>
                         <p>
                             - 이용자가 입력한 정보는 목적 달성 후 별도의 DB에 옮겨져(종이의 경우 별도의 서류) 내부 방침 및 기타 관련 법령에 따라 
@@ -187,12 +187,12 @@
                             단, 개인정보의 보유 기간에 대한 정책에 의해 예외적으로 파기가 되지 않거나 별도의 DB에 옮겨 해당 보유기간까지 보유 할 수 있습니다.
                         </p>
                         <p>
-                            - Empty Plate 은(는) 전자적 파일 형태로 기록 및 저장된 개인정보는 기록을 재생할 수 없도록
+                            - Empty Plate은(는) 전자적 파일 형태로 기록 및 저장된 개인정보는 기록을 재생할 수 없도록
                              파기하며, 종이 문서에 기록, 저장된 개인정보는 분쇄기로 분쇄하거나 소각하여 파기합니다.
                         </p>
                         <br>
                         <p>
-                            <strong>개인정보 자동 수집 장치의 설치•운영 및 거부</strong>
+                            <strong>개인정보 자동 수집 장치의 설치,운영 및 거부</strong>
                         </p>
                         <p>
                             : 이용자 개개인에게 개인화되고 맞춤화된 서비스를 제공하기 위해서 회사는 이용자의 정보를

@@ -9,7 +9,7 @@
 <body>
  <%@ include file="/WEB-INF/views/include/navigation.jsp" %>
  
- <!-- ======= term Section ======= -->
+ <!-- ======= 위치정보이용약관Section ======= -->
     <section id="term3" class="term3">
         <div class="container"> <!--class="container"시작-->
             <div class="row" data-aos="fade-up" data-aos-delay="100"> <!--class="row"시작-->
@@ -17,22 +17,22 @@
                 <!--term 메뉴시작-->
                 <div class="nav nav-pills nav-justified" id="pills-tab" role="tablist">
                   <li class="nav-item" >
-                  	<a href="/footer/resources">
+                  	<a href="/footer/privacy">
                     	<button class="nav-link" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button">개인정보 처리방침</button>
                     </a>
                   </li>
                   <li class="nav-item">
-                  	<a href="/footer/resources2">
+                  	<a href="/footer/contract">
                     	<button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button">서비스 이용약관</button>
                     </a>
                   </li>
                   <li class="nav-item">
-                  	<a href="/footer/resources3">
+                  	<a href="/footer/location">
                     	<button class="nav-link active" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button">위치정보 이용약관</button>
                     </a>
                   </li>
                   <li class="nav-item">
-                  	<a href="/footer/resources4">
+                  	<a href="/footer/launchingInquiry">
                     	<button class="nav-link" id="pills-contact-tab2" data-bs-toggle="pill" data-bs-target="#pills-contact2" type="button">입점문의</button>
                     </a>
                   </li>
@@ -263,32 +263,32 @@
                         <p>
                             1. 상호: EmptyPlate
                             <br>
-                            2. 주소: 인천광역시 미추홀구 매소홀로 488번길 6-32(학익동)
+                            2. 주소: 인천시 빈접시구 접시로 00번길 1, 인천타워 50층
                             <br>
-                            3. 대표전화: +82 10 0429 0401
+                            3. 대표전화: 1588-1111
                             <br>
-                            4. 이메일 주소: info@EmptyPlate.com
+                            4. 이메일 주소: emptyPlate@emptyplate.co.kr
                         </p>
                         <br>
                         <br>
                         <p>
                             <strong>부 칙</strong>
                             <br>
-                            제 1 조 (시행일) 본 약관은 2019년 11월 19일부터 시행합니다.
+                            제 1 조 (시행일) 본 약관은 2022년 10월 01일부터 시행합니다.
                             <br>
-                            제 2 조 개인 위치정보 책임자는 2019년 11월 19일을 기준으로 다음과 같이 지정합니다.
+                            제 2 조 개인 위치정보 책임자는 2022년 10월 01일을 기준으로 다음과 같이 지정합니다.
                             <br>
                             개인위치정보 책임자
                             <br>
-                            - 성명: 용태순
+                            - 성명: 유태우
                             <br>
-                            - 연락처: 1800-5895, info@EmptyPlate.com
+                            - 연락처: 1588-0000, help@emptyplate.co.kr
                             <br>
                             개인위치정보 관리자
                             <br>
-                            - 성명: 최현준
+                            - 성명: 김용찬
                             <br>
-                            - 연락처 : 031-706-1205, info@EmptyPlate.com
+                            - 연락처 : 032-123-1234, help2@emptyplate.co.kr
                         </p>
 
                   </div>

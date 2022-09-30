@@ -9,7 +9,7 @@
 <body>
  <%@ include file="/WEB-INF/views/include/navigation.jsp" %>
  
- <!-- ======= term Section ======= -->
+ <!-- ======= 서비스이용약관 Section ======= -->
     <section id="term2" class="term2">
         <div class="container"> <!--class="container"시작-->
             <div class="row" data-aos="fade-up" data-aos-delay="100"> <!--class="row"시작-->
@@ -17,22 +17,22 @@
                 <!--term 메뉴시작-->
                 <div class="nav nav-pills nav-justified" id="pills-tab" role="tablist">
                   <li class="nav-item" >
-                  	<a href="/footer/resources">
+                  	<a href="/footer/privacy">
                     	<button class="nav-link" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button">개인정보 처리방침</button>
                     </a>
                   </li>
                   <li class="nav-item">
-                  	<a href="/footer/resources2">
+                  	<a href="/footer/contract">
                     	<button class="nav-link active" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button">서비스 이용약관</button>
                     </a>
                   </li>
                   <li class="nav-item">
-                  	<a href="/footer/resources3">
+                  	<a href="/footer/location">
                     	<button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button">위치정보 이용약관</button>
                     </a>
                   </li>
                   <li class="nav-item">
-                  	<a href="/footer/resources4">
+                  	<a href="/footer/launchingInquiry">
                     	<button class="nav-link" id="pills-contact-tab2" data-bs-toggle="pill" data-bs-target="#pills-contact2" type="button">입점문의</button>
                     </a>
                   </li>
@@ -259,7 +259,7 @@
                             점검시간은 공지한 바에 따릅니다. 정기점검시간은 사전에 공지하는 것을 원칙으로 하나 부득이 한 사유가 있는 경우 사후에 통지할 수 있습니다.
                             <br>
                             4. "서비스" 이용에 관한 안내사항, 예약 시 유의사항, 예약 변경 및 취소 정책, 
-                            대금 결제 취소?환불정책 등은 ‘판매자’가 예약 정책 및 예약에 관한 취소?환불정책을 통해 별도로 제공하고 있습니다.
+                            대금 결제 취소?환불정책 등은 ‘판매자’가 예약 정책 및 예약에 관한 취소,환불정책을 통해 별도로 제공하고 있습니다.
                             <br>
                             5. "회원"은 "판매자"의 예약 정책 등을 충분히 숙지하고 "서비스"를 이용하여야 합니다. 
                             "Empty Plate"는 통신판매중개자로서 통신판매의 당사자가 아니고, "판매자"가 예약 정책이나 예약에 관한 
@@ -646,7 +646,7 @@
                             *부칙
                         </p>
                         <p>
-                            이 약관은 2021년 9월 01일부터 시행합니다.
+                            이 약관은 2022년 10월 01일부터 시행합니다.
                         </p>
 
                   </div>
