@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -184,7 +185,7 @@ public class ManagerController {
 		return "/manager/shopUpdate";
 	}
 	
-	@RequestMapping(value="/manager/updateProc")
+	@RequestMapping(value="/manager/updateProc", method=RequestMethod.POST)
 	@ResponseBody
 	public Response<Object> updateProc(MultipartHttpServletRequest request, HttpServletResponse response)
 	{
@@ -199,18 +200,17 @@ public class ManagerController {
 		 ***********/
 		//상호명
 		String shopTitle = HttpUtil.get(request, "shopTitle", "");
-		//매장 도로명 주소
+		//매장 주소
 		String shopLocation1 = HttpUtil.get(request, "shopLocation1", "");
-		//매장 지번 주소
-		String shopLocation2 = HttpUtil.get(request, "shopLocation2", "");
 		//매장 상세주소
 		String shopAddress = HttpUtil.get(request, "shopAddress", "");
 		//매장 상세주소
 		String shopTelephone = HttpUtil.get(request, "shopTelephone", "");
 		//매장 형태
-		char shopType = HttpUtil.get(request, "shopType", "").charAt(0);
+		String shopType = HttpUtil.get(request, "shopType", "");
 		//요일
 		String dayCheck = HttpUtil.get(request, "dayCheck", "");
+
 		/***********
 		 * 소개글
 		 ***********/
@@ -218,13 +218,77 @@ public class ManagerController {
   		String shopIntro = HttpUtil.get(request, "shopIntro", "");
   		//공지사항
   		String shopContent = HttpUtil.get(request, "shopContent", "");
+		
 		/***********
 		 * 매장추가정보
 		 ***********/
+  		String hashTagList="";
+  		//해시태그
+  		for(int i=1; i<9; i++)
+  		{
+  			String str = "hashTag"+ Integer.toString(i);
+  			String hashTag = HttpUtil.get(request, str);
+  			logger.debug("# str : " + str);
+  			logger.debug("# str : " + hashTag);
+  			logger.debug("# str : " + hashTagList);
+  			logger.debug("############################");
+  			
+  			if(!StringUtil.isEmpty(HttpUtil.get(request, str,"")))
+  			{
+  				if(hashTag.indexOf("#") == -1)
+  	  			{
+  	  				hashTag = "#" + hashTag;
+  	  			}
+  				hashTagList += hashTag;
+  			}
+  			else
+  			{
+  				logger.debug("# break #");
+  				break;
+  			}
+
+  		}
   		
 		/***********
 		 * 첨부파일
 		 ***********/
+  		if(!StringUtil.isEmpty(shop.getShopUID()) && !StringUtil.isEmpty(shopTitle) && !StringUtil.isEmpty(shopLocation1) && !StringUtil.isEmpty(shopTelephone) )
+  		{
+  			//기본정보
+  			shop.setShopName(shopTitle);
+			shop.setShopLocation1(shopLocation1);
+			shop.setShopAddress(shopAddress);
+			shop.setShopTelephone(shopTelephone);
+			//소개글
+			shop.setShopIntro(shopIntro);
+			shop.setShopContent(shopContent);
+			//추가정보
+			shop.setShopHashtag(hashTagList);
+  			try
+  			{
+  				if(shopService.shopUpdate(shop) > 0)
+  				{
+  					logger.debug("### success :" + shopService.shopUpdate(shop));
+  					ajaxResponse.setResponse(0, "Success");
+  				}
+  				else
+  				{
+  					ajaxResponse.setResponse(500, "Internal server error");
+  				}
+  			}
+  			catch(Exception e)
+  			{
+  				logger.error("[ManagerController] /Manager/UpdateProc Exception", e);
+				ajaxResponse.setResponse(500, "Internal server error");
+  			}
+  		}
+  		else
+  		{
+  			ajaxResponse.setResponse(400, "Bad request");
+  		}
+  		
+  		
+  		/*
 		//첨부파일
 		FileData fileData = HttpUtil.getFile(request, "shopFile", SHOP_UPLOAD_SAVE_DIR);
 		
@@ -249,7 +313,7 @@ public class ManagerController {
   						
   						shop.setShopFile(shopFile);
   					}
-  					/*
+
   					try
   					{
   						if(managerService.boardUpdate(board) > 0)
@@ -266,7 +330,7 @@ public class ManagerController {
   						logger.error("[ManagerController] /Manager/UpdateProc Exception", e);
   						ajaxResponse.setResponse(500, "Internal server error");
   					}
-  					*/
+
   				}
   				else
   				{
@@ -282,7 +346,7 @@ public class ManagerController {
   		{
   			ajaxResponse.setResponse(400, "Bad request");
   		}
-		
+		*/
 		return ajaxResponse;
 	}
 }

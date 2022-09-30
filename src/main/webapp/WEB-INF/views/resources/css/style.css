@@ -3822,11 +3822,11 @@ reservation 검색
    width:60px;
    font-family: 'Cafe24Dangdanghae';
 }
-.view .additional table .tdtd{
+.view .additional #hashTagButton tr td:first-child{
    padding-right:40px;
    padding-left:17px;
 }
-.view .additional table .tdtd2{
+.view .additional #hashTagValue tr td:first-child{
    padding-right:33px;
    padding-left:17px;
 }

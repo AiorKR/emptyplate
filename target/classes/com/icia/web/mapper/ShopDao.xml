@@ -841,6 +841,20 @@ SELECT A.ORDER_UID AS ORDER_UID,
 	 ORDER BY MENU_CODE DESC, MENU_PRICE DESC
 </select>
 
+<update id="shopUpdate" parameterType="com.icia.web.model.Shop">
+	UPDATE T_SHOP
+	   SET shop_name = #{shopName},
+	       shop_type = #{shopType},
+	       SHOP_HASHTAG = #{shopHashtag},
+	       shop_location1 = #{shopLocation1},
+	       shop_address = #{shopAddress},
+	       shop_telephone = #{shopTelephone},
+	       shop_intro = #{shopIntro},
+	       shop_content = #{shopContent}
+	 WHERE SHOP_UID = #{shopUID}
+</update>
+
+</mapper>
 <select id="orderSelect" resultMap="todayListResultMap" parameterType="String"> <!--noshow 마감 임박-->
 SELECT A.ORDER_UID AS ORDER_UID,
        NVL(A.SHOP_UID , '') AS SHOP_UID,

@@ -12,10 +12,14 @@ request.setAttribute("No", 2);
 <%@ include file="/WEB-INF/views/include/head.jsp"%>
 <script type="text/javascript">
 	$(document).ready(function() {
+
+
+
 				var btnHashStack = $("#hashStack").val();
 				var btnTimeStack = $("#timeStack").val();
 				var btnTableStack = $("#tableStack").val();
 				var btnMenuStack = $("#menuStack").val();
+				
 				
 
 
@@ -34,9 +38,8 @@ request.setAttribute("No", 2);
 						const newCell2 = newRow.insertCell(1);
 	
 						// Cell에 텍스트 추가
-						newCell1.innerHTML = "<td class='tdtd2'>해시태그"+btnHashStack+"</td>";
-						newCell2.innerHTML = "<td><input type='text' id='hashTag"+btnHashStack+"' class='hashTagInput' placeholder='해시태그를 입력해주세요' style='font-size:17px;'></td>";
-					
+						newCell1.innerHTML = "<td>해시태그"+btnHashStack+"</td>";
+						newCell2.innerHTML = "<td><input type='text' id='hashTag"+btnHashStack+"' name='hashTag"+btnHashStack+"' class='hashTagInput' placeholder='해시태그를 입력해주세요' style='font-size:17px;'></td>";
 						btnHashStack++;
 					}
 				});
@@ -165,6 +168,7 @@ request.setAttribute("No", 2);
 				         alert("상호명을 입력해주세요.");
 				         $("#shopTitle").val("");
 				         $("#shopTitle").focus();
+				         $("#btnUpdate").prop("disabled", false);
 				         return;
 				      }
 
@@ -173,6 +177,7 @@ request.setAttribute("No", 2);
 				         alert("주소찾기를 이용하여 주소를 입력해주세요.");
 				         $("#shopLocation1").val("");
 				         $("#shopLocation1").focus();
+				         $("#btnUpdate").prop("disabled", false);
 				         return;
 				      }
 
@@ -181,6 +186,7 @@ request.setAttribute("No", 2);
 				         alert("전화번호를 입력해주세요.");
 				         $("#shopTelephone").val("");
 				         $("#shopTelephone").focus();
+				         $("#btnUpdate").prop("disabled", false);
 				         return;
 				      }
 
@@ -188,15 +194,19 @@ request.setAttribute("No", 2);
 				      {
 				         alert("매장타입을 선택해주세요");
 				         $("#shopTypeSelect").focus();
+				         $("#btnUpdate").prop("disabled", false);
 				         return;
 				      }
 					  
-					  //요일체크배열
+					  //요일체크배열	
+					  /*
 					  var dayCheckArr = [];
+				
 					  $("input[name=day]:checked").each(function(){
 						dayCheckArr.push($(this.val()));
 					  });
-					  $("#dayCheck").val()=dayCheckArr;
+					  
+					  $("#dayCheck").val()=dayCheckArr;	  */
 
 				      var form = $("#updateForm")[0];
 				      var formData = new FormData(form);
@@ -218,7 +228,7 @@ request.setAttribute("No", 2);
 				            if(response.code == 0)
 				              {
 				               alert("게시물이 수정되었습니다.");
-				               location.href = "/board/list";               
+				               location.href = "/manager/shopManage";               
 				              }
 				            else if(response.code == 400)
 				           {
@@ -232,19 +242,20 @@ request.setAttribute("No", 2);
 				              }
 				            else if(response.code == 404)
 				              {
-				               alert("게시물을 찾을 수 없습니다.");
-				               location.href = "/board/list";
+				               alert("페이지를 찾을 수 없습니다.");
+				               location.href = "/index";
 				              }
 				            else
 				              {
 				               alert("게시물 수정 중 오류가 발생하였습니다.");
+				               alert(response.code);
 				               $("#btnUpdate").prop("disabled", false);
 				              }
 				         },
 				         error:function(error)
 				         {
 				            icia.common.error(error);
-				            alert("게시물 수정 중 오류가 발생하였습니다.");
+				            alert("게시물 수정 중 오류가 발생하였습니다.2");
 				            $("#btnUpdate").prop("disabled", false);
 				         }
 				     });
@@ -283,6 +294,7 @@ request.setAttribute("No", 2);
 					  </ul>
 					  
 					</div>
+					<!-- 
 					<div class="imageModify">
 						<table>
 							<tr>
@@ -296,6 +308,7 @@ request.setAttribute("No", 2);
 							</tr>	
 						</table>
 					</div>
+					 -->
 					<div class="basic">
 					<div class="d-flex justify-content-between align-items-center">
 						<div class="basic">
@@ -312,14 +325,14 @@ request.setAttribute("No", 2);
 								<tr>
 									<td rowspan="2"class="td" style="padding-bottom:10px;">매장주소</td>
 									<td class="title-text" style="padding-bottom:1px;">
-										<input type="text" id="shopLocation1" value="${shop.shopLocation1}" placeholder="주소"  readonly>
+										<input type="text" id="shopLocation1" name="shopLocation1" value="${shop.shopLocation1}" placeholder="주소">
 										<input type="text" id="sample6_postcode" placeholder="우편번호" hidden>
 										<input type="text" id="sample6_extraAddress" placeholder="참고항목" hidden>
 									</td>
 								</tr>
 								<tr>
 									<td class="title-text" style="padding-bottom:9px;">
-										<input type="text" id="shopAddress" value="${shop.shopAddress}" placeholder="상세주소" style="width:380px;">
+										<input type="text" id="shopAddress" name="shopAddress" value="${shop.shopAddress}" placeholder="상세주소" style="width:380px;">
 										<input type="button" onclick="sample6_execDaumPostcode()" value="주소 찾기">
 									</td>
 								</tr>
@@ -387,9 +400,9 @@ request.setAttribute("No", 2);
 		            </table>
 					<div class="hashTag">
 						<div class="hashTagMenu">
-							<table>
+							<table id="hashTagButton">
 								<tr>
-									<td class="tdtd">해시태그</td>
+									<td>해시태그</td>
 									<td>
 										<button type="button" id="btnHashAdd">생성</button>
 									</td>
@@ -405,8 +418,8 @@ request.setAttribute("No", 2);
 								<c:when test="${!empty list}">
 									<c:forEach var="hashTag" items="${list}" varStatus="status">
 										<tr>
-											<td class="tdtd2">해시태그${status.count}</td>
-											<td><input type="text" id="hashTag1" class="hashTagInput" placeholder="해시태그를 입력해주세요" value="#${status.current}" style="font-size:17px;"></td>
+											<td>해시태그${status.count}</td>
+											<td><input type="text" id="hashTag${status.count}" name="hashTag${status.count}" class="hashTagInput" placeholder="해시태그를 입력해주세요" value="#${status.current}" style="font-size:17px;"></td>
 										</tr>
 										<c:if test="${status.last}"><input type="hidden" id="hashStack" value="${status.count + 1}"></c:if>
 										</c:forEach>
@@ -415,13 +428,15 @@ request.setAttribute("No", 2);
 										<tr>
 											<td class="tdtd2">해시태그1</td>
 											<td><input type="text" id="hashTag1" class="hashTagInput" placeholder="해시태그를 입력해주세요" style="font-size:17px;"></td>
+											<input type="hidden" id="hashStack" value="1">
 										</tr>
 									</c:otherwise>
 								</c:choose>
+								<input type="hidden" id="hashStackCurrent" value="0">
 							</table>
 						</div>
 					</div><br />
-					
+					<!--
 					<div class="time">
 						<div class="timeMenu">
 							<table>
@@ -444,14 +459,14 @@ request.setAttribute("No", 2);
 											<tr>
 												<td class="tdtd2">매장시간${status.count}</td>
 												<td>
-													<select name="timeType" class="select" style="font-size:17px; width:110px;">
+													<select name="timeType" id="timeType${status.count}" class="select" style="font-size:17px; width:110px;">
 														<option value=''>매장시간</option>
 														<option value='L'<c:if test="${shop.shopTimeType eq 'L'}">selected</c:if>>Lunch</option>
 														<option value='D'<c:if test="${shop.shopTimeType eq 'D'}">selected</c:if>>Dinner</option>
 														<option value='X'<c:if test="${shop.shopTimeType eq 'X'}">selected</c:if>>무관</option>
 													</select>
 												</td>							
-												<td><input type="text" id="time1" class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px; width:350px;" value="${shop.shopOrderTime}" readonly></td>
+												<td><input type="text" id="time${status.count}" class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px; width:350px;" value="${shop.shopOrderTime}" readonly></td>
 											</tr>
 											<c:if test="${status.last}"><input type="hidden" id="timeStack" value="${status.count + 1}"></c:if>
 										</c:forEach>
@@ -468,6 +483,7 @@ request.setAttribute("No", 2);
 												</select>
 											</td>
 											<td><input type="text" id="time1" class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px; width:350px;"></td>
+											<input type="hidden" id="timeStack" value="1">
 										</tr>	
 									</c:otherwise>
 								</c:choose>
@@ -497,7 +513,7 @@ request.setAttribute("No", 2);
 											<tr>
 												<td class="tdtd3">테이블 규격</td>
 												<td>
-													<select name="tableType" class="select" style="font-size:17px; width:110px;">
+													<select name="tableType" id="tableType${status.count}" class="select" style="font-size:17px; width:110px;">
 														<option value=''>테이블 규격</option>
 														<option value='1'<c:if test="${shop.shopTotalTableCapacity eq '1'}">selected</c:if>>1인용</option>
 														<option value='2'<c:if test="${shop.shopTotalTableCapacity eq '2'}">selected</c:if>>2인용</option>
@@ -532,9 +548,8 @@ request.setAttribute("No", 2);
 													<option value='8'>8인용</option>
 												</select>
 											</td>
-											<td>
-												<input type="text" class="tableInput" placeholder="수량을 입력해주세요" style="font-size:17px; width:350px;">
-											</td>
+											<td><input type="text" class="tableInput" placeholder="수량을 입력해주세요" style="font-size:17px; width:350px;"></td>
+											<input type="hidden" id="tableStack" value="1">
 										</tr>
 									</c:otherwise>
 								</c:choose>								
@@ -564,7 +579,7 @@ request.setAttribute("No", 2);
 										<tr>
 											<td class="tdtd5">메뉴${status.count}</td>
 											<td>
-												<select name="menuTime" class="select" style="font-size:17px; width:100px;">
+												<select name="menuTime" id="menuTime${status.count}"class="select" style="font-size:17px; width:100px;">
 													<option value=''>메뉴시간</option>
 													<option value='1'<c:if test="${shop.shopMenuCode eq 'L'}">selected</c:if>>Lunch</option>
 													<option value='2'<c:if test="${shop.shopMenuCode eq 'D'}">selected</c:if>>Dinner</option>
@@ -590,27 +605,23 @@ request.setAttribute("No", 2);
 													<option value='2'>Dinner</option>
 												</select>
 											</td>
-											<td>
-												<input type="text" placeholder="메뉴명을 입력해주세요" style="font-size:17px; width:180px;">
-											</td>
-											<td>
-												<input type="text" placeholder="메뉴가격을 입력해주세요" style="font-size:17px; width:180px;">
-											</td>
+											<td><input type="text" placeholder="메뉴명을 입력해주세요" style="font-size:17px; width:180px;"></td>
+											<td><input type="text" placeholder="메뉴가격을 입력해주세요" style="font-size:17px; width:180px;"></td>
+											<input type="hidden" id="menuStack" value="1">
 										</tr>
 									</c:otherwise>
 								</c:choose>
 							</table>
 						</div>
-					</div>
+					</div>					 -->
 				</div>
-					
+
 						
 				<div class="d-flex flex-row justify-content-center">
 					<div class="update"><button type="button" id="btnUpdate" class="update" title="수정">수정</button></div>
 					<div class="cancle"><button type="button" id="btnCancle" class="cancle" title="취소">취소</button></div>
 				</div>
 			</div>
-			<input type="hidden" name="shopUID" value="" />
 				</form>
 		</div>
 	</div>
