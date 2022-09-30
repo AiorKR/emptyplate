@@ -6,8 +6,6 @@ import java.util.List;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,10 +23,12 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.icia.common.model.FileData;
 import com.icia.common.util.StringUtil;
+import com.icia.web.model.Board;
 import com.icia.web.model.Paging;
 import com.icia.web.model.Response;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
+import com.icia.web.model.ShopTime;
 import com.icia.web.model.ShopTotalTable;
 import com.icia.web.model.User;
 import com.icia.web.service.ShopService;
@@ -59,113 +59,143 @@ public class ShopController {
    private static final int PAGE_COUNT = 5;   //페이징 수
    
    
-   //게시판 리스트
-      @RequestMapping(value="/reservation/list")
-      public String list(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
-         //조회항목
-         String searchType = HttpUtil.get(request, "searchType");
-         
-         //조회값
-         String searchValue = HttpUtil.get(request, "searchValue", "");
-         
-         //현재페이지
-         long curPage = HttpUtil.get(request, "curPage", (long)1);
-         
-         //총 게시물 수
-         long totalCount = 0;
-         
-         //게시물 리스트
-         List<Shop> list = null;
-         
-         //페이징 객체
-         Paging paging = null;
-         
-         //데이터피커에서 선택한 예약일
-         String reservationDate = HttpUtil.get(request, "reservationDate");
-         
-         //데이터피커에서 선택한 예약시간
-         String reservationTime = HttpUtil.get(request, "reservationTime");
-         
-         //조회 객체
-         Shop search = new Shop();
-         
-         //데이트 피커에 보여줄 날짜 + 시간
-         String rDate = "";
-         
-         if(StringUtil.equals(searchType, "1") || StringUtil.equals(searchType, "2")) { // 1: 파인다이닝 2:오마카세
-            
-            search.setSearchType(searchType);
-         }
-         else { //searchType을 선택 안했거나 또는 값이 이상한 경우는 무족건 0: 전체 로 고정
-            search.setSearchType("0");
-         }
-         
-         if(!StringUtil.isEmpty(searchValue) && !StringUtil.equals(searchValue, "")) { //검색 값이 있냐 또는 공백이냐를 체크
-            search.setSearchValue(searchValue);
-         }
-         
-         if(!StringUtil.isEmpty(reservationDate) && !StringUtil.isEmpty(reservationTime)) {
-            search.setShopHoliday(Integer.toString((StringUtil.getDayOfweek(reservationDate))));
-            logger.debug("휴일 확인 : " + search.getShopHoliday());
-            search.setReservationTime(reservationTime);
-         }
-         
-         totalCount = shopService.shopListCount(search); //총 매장 수를 확인
-         
-         if(totalCount > 0)
-         {
-            paging = new Paging("/reservation/list", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
-            
-            paging.addParam("searchType", searchType);
-            paging.addParam("searchValue", searchValue);
-            paging.addParam("curPage", curPage);
-            paging.addParam("reservationDate", reservationDate);
-            paging.addParam("reservationTime", reservationTime);
-            
-            search.setStartRow(paging.getStartRow());
-            search.setEndRow(paging.getEndRow());
-            
-            list = shopService.shopList(search);
-         }
-            if(!StringUtil.isEmpty(reservationDate) && !StringUtil.isEmpty(reservationTime)) {
-               try {
-                  String tmp = reservationDate + reservationTime;
-                  SimpleDateFormat input = new SimpleDateFormat("yyyyMMddHHmm");  //dt와 형식을 맞추어 준다.
-                  SimpleDateFormat output = new SimpleDateFormat("yyyy.MM.dd HH:mm"); //변환할 형식
-                  Date newdt;
-                  newdt = input.parse(tmp);
-                  rDate = output.format(newdt);
-                  
-                  logger.debug(" rdate : " + rDate);
-               } 
-               catch (ParseException e1) {
-                  logger.error("[ShopController] dateformat error", e1);
-               }
-            }
+	@RequestMapping(value="/reservation/list")
+	public String list(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
+		//조회항목
+		String searchType = HttpUtil.get(request, "searchType");
+		
+		//조회값
+		String searchValue = HttpUtil.get(request, "searchValue", "");
+		
+		//현재페이지
+		long curPage = HttpUtil.get(request, "curPage", (long)1);
+		
+		//총 게시물 수
+		long totalCount = 0;
+		
+		Shop shop = new Shop();
+		
+		//게시물 리스트
+		List<Shop> list = null;
+		
+		List<Shop> recommand= null;
+		
+		List<ShopTime> timeList = null;
+		
+		//페이징 객체
+		Paging paging = null;
+		
+		//데이터피커에서 선택한 예약일
+		String reservationDate = HttpUtil.get(request, "reservationDate");
+		
+		//데이터피커에서 선택한 예약시간
+		String reservationTime = HttpUtil.get(request, "reservationTime");
+		
+		//조회 객체
+		Shop search = new Shop();
+		
+		//데이트 피커에 보여줄 날짜 + 시간
+		String rDate = "";
+		
+		if(StringUtil.equals(searchType, "1") || StringUtil.equals(searchType, "2")) { // 1: 파인다이닝 2:오마카세
+			
+			search.setSearchType(searchType);
+		}
+		else { //searchType을 선택 안했거나 또는 값이 이상한 경우는 무족건 0: 전체 로 고정
+			search.setSearchType("0");
+		}
+		
+		if(!StringUtil.isEmpty(searchValue) && !StringUtil.equals(searchValue, "")) { //검색 값이 있냐 또는 공백이냐를 체크
+			search.setSearchValue(searchValue);
+		}
+		
+		if(!StringUtil.isEmpty(reservationDate) && !StringUtil.isEmpty(reservationTime)) {
+			search.setShopHoliday(Integer.toString((StringUtil.getDayOfweek(reservationDate))));
+			logger.debug("휴일 확인 : " + search.getShopHoliday());
+			search.setReservationTime(reservationTime);
+		}
+		
+		totalCount = shopService.shopListCount(search); //총 매장 수를 확인
+		
+		timeList = shopService.shopListTime();
+		
+		recommand = shopService.indexShopList(shop);
+		
+		if(recommand != null) {
+			model.addAttribute("recommand", recommand);
+		}
+		
+		if(totalCount > 0)
+		{
+			paging = new Paging("/reservation/list", totalCount, LIST_COUNT, PAGE_COUNT, curPage, "curPage");
+			
+			paging.addParam("searchType", searchType);
+			paging.addParam("searchValue", searchValue);
+			paging.addParam("curPage", curPage);
+			paging.addParam("reservationDate", reservationDate);
+			paging.addParam("reservationTime", reservationTime);
+			
+			search.setStartRow(paging.getStartRow());
+			search.setEndRow(paging.getEndRow());
+			
+			list = shopService.shopList(search);
+		}
+			if(!StringUtil.isEmpty(reservationDate) && !StringUtil.isEmpty(reservationTime)) {
+				try {
+					String tmp = reservationDate + reservationTime;
+					SimpleDateFormat input = new SimpleDateFormat("yyyyMMddHHmm");  //dt와 형식을 맞추어 준다.
+					SimpleDateFormat output = new SimpleDateFormat("yyyy.MM.dd HH:mm"); //변환할 형식
+					Date newdt;
+					newdt = input.parse(tmp);
+					rDate = output.format(newdt);
+					
+					logger.debug(" rdate : " + rDate);
+				} 
+				catch (ParseException e1) {
+					logger.error("[ShopController] dateformat error", e1);
+				}
+			}
 
-         model.addAttribute("reservationDate", rDate);
-         model.addAttribute("list", list);
-         model.addAttribute("searchType", searchType);
-         model.addAttribute("searchValue", searchValue);
-         model.addAttribute("curPage", curPage);
-         model.addAttribute("paging", paging);
-         String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
-         User user2 = new User();
-         user2 = userService.userUIDSelect(cookieUserUID);
-         if(user2 != null)
-         {
-            try
-            {
-               model.addAttribute("cookieUserNick", user2.getUserNick());
-            }
-            catch(NullPointerException e2)
-            {
-               logger.error("[ShopController] reservation/list NullPointerException", e2);
-            }
-         }
-         return "/reservation/list";
-         
-      }
+		model.addAttribute("reservationDate", rDate);
+		model.addAttribute("list", list);
+		model.addAttribute("timeList", timeList);
+		model.addAttribute("searchType", searchType);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("curPage", curPage);
+		model.addAttribute("paging", paging);
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		User userNickname = new User();
+		userNickname = userService.userUIDSelect(cookieUserUID);
+		if(userNickname != null)
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", userNickname.getUserNick());
+				model.addAttribute("adminStatus", userNickname.getAdminStatus());
+				if(userNickname.getBizNum() != null)
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[ShopController] /reservation/list shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[ShopController] /reservation/list cookieUserNick NullPointerException", e);
+			}
+		}
+		return "/reservation/list";
+		
+	}          
             
       //매장 상세정보 페이지
       @RequestMapping(value="/reservation/view")
@@ -177,8 +207,6 @@ public class ShopController {
          //게시물 번호         
          String shopUID = HttpUtil.get(request, "shopUID");
          
-         String address = "";
-         
          //조회항목(0 모두 1 파인다이닝 2오마카세)
          String searchType = HttpUtil.get(request, "searchType", "0");
          String searchValue = HttpUtil.get(request, "searchValue", "");
@@ -186,6 +214,9 @@ public class ShopController {
          //예약일 예약시간
          String reservationDate = HttpUtil.get(request, "reservationDate");
          String reservationTime = HttpUtil.get(request, "reservationTime");
+         
+         //즐겨찾기 여부 체크
+	     String shopMarkActive = "N";
          
          int standardTime = 1700; //점심 저녁 나눌 기준 시간
          
@@ -199,7 +230,7 @@ public class ShopController {
          String url = "";
          
          
-         if(!StringUtil.isEmpty(shopUID) && !StringUtil.equals(shopUID, "")) {
+         if(!StringUtil.isEmpty(shopUID)) {
             shop = shopService.shopViewSelect(shopUID);
             
             
@@ -217,35 +248,60 @@ public class ShopController {
          else {
            url =  "/reservation/list";
          }
-         if(shop.getShopLocation1() != null && !StringUtil.equals("", shop.getShopLocation1())) { //도 가 있는 지역이라면
-            address = shop.getShopLocation1() + " " + shop.getShopLocation2() + " " +shop.getShopLocation3() +" " + shop.getShopAddress();
-         }
          
-         else { //도가 없는 지역이라면
-            address = shop.getShopLocation2() + " " + shop.getShopLocation3() + " " + shop.getShopAddress();
-         }
-         
-         model.addAttribute("address", address);         
+         	//즐겨찾기
+		   if(!StringUtil.isEmpty(cookieUserUID) && shopUID != "")
+		    {
+				shop.setUserUID(cookieUserUID);
+				shop.setShopUID(shopUID);
+				
+				if(shopService.shopMarkCheck(shop) == 0)                 
+		         {
+		        	 shopMarkActive = "N";
+		         }
+		         else
+		         {
+		        	 shopMarkActive = "Y";
+		         }
+		        
+		     }
+             
          model.addAttribute("shop", shop);
-         model.addAttribute("boardMe", ManagerMe);
+         model.addAttribute("ManagerMe", ManagerMe);
          model.addAttribute("searchType", searchType);
          model.addAttribute("searchValue", searchValue);
          model.addAttribute("curPage", curPage);
          model.addAttribute("reservationDate", reservationDate);
          model.addAttribute("reservationTime", reservationTime);
-         User user2 = new User();
-         user2 = userService.userUIDSelect(cookieUserUID);
-         if(user2 != null)
-         {
-            try
-            {
-               model.addAttribute("cookieUserNick", user2.getUserNick());
-            }
-            catch(NullPointerException e2)
-            {
-               logger.error("[ShopController] url NullPointerException", e2);
-            }
-         }
+         model.addAttribute("shopMarkActive",shopMarkActive);
+ 		User userNickname = userService.userUIDSelect(cookieUserUID);
+ 		if(userNickname != null)
+ 		{
+ 			try
+ 			{
+ 				model.addAttribute("cookieUserNick", userNickname.getUserNick());
+ 				model.addAttribute("adminStatus", userNickname.getAdminStatus());
+ 				if(userNickname.getBizNum() != null)
+ 				{
+ 					try
+ 					{
+ 						model.addAttribute("shopStatus","Y");
+ 					}
+ 					catch(NullPointerException e)
+ 					{
+ 						logger.error("[ShopController] /reservation/view shopStatus NullPointerException", e);
+ 					}
+ 				}
+ 				else
+ 				{
+ 					model.addAttribute("shopStatus","N");
+ 				}
+ 			}
+ 			catch(NullPointerException e)
+ 			{
+ 				logger.error("[ShopController] /reservation/view cookieUserNick NullPointerException", e);
+ 			}
+ 		}
          return url;
       }
       
@@ -388,7 +444,6 @@ public class ShopController {
          String shopHoliday = HttpUtil.get(request, "shopHoliday");
          String shopLocation1 = HttpUtil.get(request, "shopLocation1");
          String shopLocation2 = HttpUtil.get(request, "shopLocation2");
-         String shopLocation3 = HttpUtil.get(request, "shopLocation3");
          String shopAddress = HttpUtil.get(request, "shopAddress");
          String shopHashtag = HttpUtil.get(request, "shopHashtag");
          String shopTelephon = HttpUtil.get(request, "shopTelephon");
@@ -493,8 +548,6 @@ public class ShopController {
             shop.setShopType(shopType);
             shop.setShopHoliday(shopHoliday);
             shop.setShopLocation1(shopLocation1);
-            shop.setShopLocation2(shopLocation2);
-            shop.setShopLocation3(shopLocation3);
             shop.setShopAddress(shopAddress);
             shop.setShopHashtag(shopHashtag);
             shop.setShopTelephone(shopTelephon);
@@ -528,4 +581,49 @@ public class ShopController {
                
          return ajax;
       }
+      
+    //즐겨찾기 추가
+    	@RequestMapping(value="/shop/mark", method=RequestMethod.POST)
+    	@ResponseBody
+    	public Response<Object> shopBookMark(HttpServletRequest request, HttpServletResponse response)
+    	{
+    		Response<Object> ajaxResponse = new Response<Object>();
+    		//조회객체
+    		Shop shop = new Shop();
+    		//쿠키값
+    		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+    		//게시물 번호
+    		String shopUID = HttpUtil.get(request, "shopUID", "");
+    		
+    		if(!StringUtil.isEmpty(cookieUserUID) && shopUID != "")
+    		{
+     			try
+    			{
+     				shop.setShopUID(shopUID);
+     				shop.setUserUID(cookieUserUID);
+     				
+    				if(shopService.shopMarkCheck(shop) == 0)  					
+    				{
+    					shopService.shopMarkUpdate(shop);
+    					ajaxResponse.setResponse(0, "shopmark insert success");
+    				}
+    				else
+    				{
+    					shopService.shopMarkDelete(shop);
+    					ajaxResponse.setResponse(1, "shopmark delete success");
+    				}
+    			}
+    			catch(Exception e)
+    			{
+    				logger.error("[ShopController] /shop/mark Exception", e);
+    				ajaxResponse.setResponse(500, "internal server error");
+    			}	
+    		}
+    		else
+    		{
+    			ajaxResponse.setResponse(400, "Bad Request");
+    		}
+    		
+    		return ajaxResponse;
+    	}
 }

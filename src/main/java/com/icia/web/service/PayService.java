@@ -356,5 +356,41 @@ public class PayService {
 		
 		return result;
 	}
+	
 
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class) // 최종결제 및 DB에 정보 INSERT 
+	public String noShowResult(String noShowOrderUID, Order order) throws Exception {
+		
+		Order check  = shopDao.noShowSelect(noShowOrderUID);
+		
+		String result = "";
+		
+		order.setNoShowOrderUID(noShowOrderUID);
+		
+		if(check != null) {
+			order.setReservationPeople(check.getReservationPeople());
+			order.setOrderMenu(check.getOrderMenu());
+			order.setShopUID(check.getShopUID());
+			
+			for(int i=0; i < order.getOrderMenu().size(); i++) {
+				order.getOrderMenu().get(i).setOrderUID(order.getOrderUID());
+			}
+			if(shopDao.orderInsert(order) > 0) {
+				if(shopDao.orderMenuInsert(order.getOrderMenu()) > 0) {
+					if(shopDao.reservationTableUpdate(order) > 0 && shopDao.reservationTableUpdate(order) > 0) {
+						result = "0";
+					}
+				}
+			}
+			else {
+				result = "주문 객체 insert 실패";
+			}
+		}
+		else {
+			result = "이미 결재된 noShow";
+		}
+		
+		return result;
+	}
+	
 }

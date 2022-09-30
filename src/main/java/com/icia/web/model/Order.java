@@ -9,6 +9,7 @@ public class Order implements Serializable{
 	
 	
 	private String orderUID;
+	private String noShowOrderUID;
 	private String shopUID;
 	private String userUID;
 	private String userName;
@@ -26,15 +27,17 @@ public class Order implements Serializable{
 	private long startRow;		
 	private long endRow;
 	private String finalMenu;
-	
+	private Shop shop;
 	private List<OrderMenu> orderMenu;
 	private List<ShopReservationTable> shopReservationTableList;
 	private ShopReservationTable shopReservationTable;
 	private String shopReviewContent;
 	private double shopScore;
+	private String paymentKey;
 	
 	public Order() {
 		orderUID = "";
+		noShowOrderUID = "";
 		shopUID = "";
 		userUID = "";
 		reservationPeople = 0; 
@@ -45,7 +48,7 @@ public class Order implements Serializable{
 		shopName = "";
 		counterSeatYN = "";
 		userName = "";
-		
+		shop = null;
 		orderMenu = null;
 		shopReservationTableList = null;
 		shopReservationTable = null;
@@ -60,6 +63,7 @@ public class Order implements Serializable{
 		finalMenu = "";
 		shopReviewContent = "";
 		shopScore = 0;
+		paymentKey = "";
 	}
 
 	public String getOrderUID() {
@@ -243,6 +247,38 @@ public class Order implements Serializable{
 
 	public void setShopScore(double shopScore) {
 		this.shopScore = shopScore;
+	}
+
+	public String getrDate() {
+		return rDate;
+	}
+
+	public void setrDate(String rDate) {
+		this.rDate = rDate;
+	}
+
+	public Shop getShop() {
+		return shop;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
+	}
+
+	public String getNoShowOrderUID() {
+		return noShowOrderUID;
+	}
+
+	public void setNoShowOrderUID(String noShowOrderUID) {
+		this.noShowOrderUID = noShowOrderUID;
+	}
+	
+	public String getPaymentKey() {
+		return paymentKey;
+	}
+
+	public void setPaymentKey(String paymentKey) {
+		this.paymentKey = paymentKey;
 	}
 	
 }

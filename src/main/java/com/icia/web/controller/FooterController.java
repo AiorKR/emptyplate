@@ -99,9 +99,6 @@ public class FooterController {
 	public Response<Object> entryReg(HttpServletRequest request, HttpServletResponse response)
 	{
 		Response<Object> ajaxResponse = new Response<Object>();
-		logger.debug("###############################");
-		logger.debug("#작동중");
-		logger.debug("###############################");
 		String shopName = HttpUtil.get(request, "shopName");
 		String userName = HttpUtil.get(request, "userName");
 		String userPhone = HttpUtil.get(request, "userPhone");

@@ -128,30 +128,28 @@ $(document).ready(function(){
 				<hr class="hr-5">
 				</container>
 				<div class="swiper-wrapper">
-					<c:if test="${!empty list}">
-						<c:forEach items="${list}" var="shop" varStatus="status">
+					<c:if test="${!empty recommand}">
+						<c:forEach items="${recommand}" var="recommand" varStatus="status">
 							<div class="swiper-slide"
 								style="height: auto; width: 100%; background-color: rgba(240, 240, 240, 0.7);">
 								<div class="reservation-item" style="height: 350px;"
-									onclick="fn_view('${shop.shopUID}')" style="cursor:pointer;">
+									onclick="fn_view('${recommand.shopUID}')" style="cursor:pointer;">
 									<img alt=""
-										src="../resources/upload/shop/${shop.shopUID}/${shop.shopFile.shopFileName}"
+										src="../resources/upload/shop/${recommand.shopUID}/${recommand.shopFile.shopFileName}"
 										style="height: 300px; width: 300px; position: relative; left: 150px; top: 25px;">
 									<span style="position: relative; bottom: 250px; left: 600px;">
-										<h3>${shop.shopName}</h3>
+										<h3>${recommand.shopName}</h3>
 										<ul>
 											<li><i class="fa-solid fa-map-location-dot"></i>
-												${shop.shopLocation1} ${shop.shopLocation2}
-												${shop.shopLocation3} ${shop.shopAddress}</li>
+												${recommand.shopLocation1} ${recommand.shopLocation2} ${recommand.shopAddress}</li>
 											<li><i class="fa-regular fa-star"></i> 별점 4.3 (500)</li>
-											<li><ion-icon name="information-circle-outline"></ion-icon> ${shop.shopIntro}</li>
-											<c:forTokens items="${shop.shopHashtag}" delims="#"	var="shopHashtag">
+											<li><ion-icon name="information-circle-outline"></ion-icon> ${recommand.shopIntro}</li>
+											<c:forTokens items="${recommand.shopHashtag}" delims="#"	var="shopHashtag">
 												<span onclick="fn_search('${shopHashtag}')" class="hashtag"> 
 												<i class="fa-solid fa-hashtag"><c:out value='${shopHashtag}' /></i>
 												</span>
 											</c:forTokens>
 										</ul>
-										
 									</span>
 								</div>
 							</div>
@@ -186,16 +184,9 @@ $(document).ready(function(){
 											<div class="box">
 												<ul id="datepicker-ul">
 													<li id="datepicker-li">
-														<div class="dptime">10:00</div>
-														<div class="dptime">11:00</div>
-														<div class="dptime">12:00</div>
-														<div class="dptime">13:00</div>
-														<div class="dptime">14:00</div>
-														<div class="dptime">18:00</div>
-														<div class="dptime">19:00</div>
-														<div class="dptime">20:00</div>
-														<div class="dptime">21:00</div>
-														<div class="dptime">22:00</div>
+														<c:forEach items="${timeList}" var="timeList" varStatus="status">
+															<div class="dptime">${timeList.shopOrderTime}</div>
+														</c:forEach>
 													</li>
 												</ul>
 											</div>
@@ -231,23 +222,31 @@ $(document).ready(function(){
 											style="cursor: pointer;">
 											<td class="w-25" colspan="4"><img
 												src='../resources/upload/shop/${shop.shopUID}/${shop.shopFile.shopFileName}'
-												class="img-fluid img-thumbnail"
-												style="height: 200px; width: 200px;"></td>
-											<td>
+												class="img-fluid img-thumbnail"></td>
+											<td class="content">
 												<h2>
 													<c:out value="${shop.shopName}" />
 												</h2>
-												<br /> <c:forTokens items="${shop.shopHashtag}" delims="#"
-													var="shopHashtag">
-													<span onclick="fn_search('${shopHashtag}')" style="cursor: pointer;"> <i class="fa-solid fa-hashtag" style="font-size: 18px; color: #FF7F50;"><c:out value='${shopHashtag}' /></i>
-													</span>
-												</c:forTokens><br />
-											<br /> <i class="fa-solid fa-map-location-dot"
-												style="font-size: 18px;"> <c:out value="${shop.shopLocation1}" /> <c:out value="${shop.shopLocation2}" /> <c:out value="${shop.shopLocation3}" />
-											</i><br />
-											<br /> <i class="fa-solid fa-pen"
-												style="color: #cda45e; font-size: 19px;"> <c:out value="${shop.shopIntro}" />
-											</i>
+											
+											<div class="location">
+											<i class="fa-solid fa-map-location-dot"
+												style="color: #cda45e; font-size: 19px;"></i>&nbsp;
+												<c:out value="${shop.shopLocation1}" /> 
+												<c:out value="${shop.shopLocation2}" /> 
+												<c:out value="${shop.shopAddress}" />
+											</div>
+											<div class="shopIntro">
+											<i class="fa-solid fa-pen"
+												style="color: #cda45e; font-size: 19px;"></i>&nbsp;
+												<c:out value="${shop.shopIntro}" />
+											</div>
+											<div class="shopHashtag">
+											<c:forTokens items="${shop.shopHashtag}" delims="#" var="shopHashtag">
+												<span onclick="fn_search('${shopHashtag}')" style="cursor: pointer;"> <i class="fa-solid fa-hashtag">
+												<c:out value='${shopHashtag}' /></i>
+												</span>
+											</c:forTokens>
+											</div>
 											</td>
 										</tr>
 									</c:forEach>

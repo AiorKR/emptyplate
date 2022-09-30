@@ -55,43 +55,43 @@ $(document).ready(function(){
 	});
 	
 	//게시물 즐겨찾기
-   $("#btnMark").on("click", function(){
-	   $.ajax({
-	       type:"POST",
-	       url:"/shop/mark",
-	       data:{
-	          shopUID:'<c:out value="${shopUID}" />'
-	       },
-	       datatype:"JSON",
-	       beforeSend:function(xhr){
-	          xhr.setRequestHeader("AJAX", "true");
-	       },
-	       success:function(response){
-	          if(response.code == 0)
-	          {
-	             alert("즐겨찾기를 하셨습니다.");
-	             location.reload();
-	          }
-	          else if(response.code == 1)
-	          {
-	             alert("즐겨찾기를 취소하셨습니다.");
-	             location.reload();
-	          }
-	          else if(response.code == 400)
-	          {
-	             alert("로그인 후, 즐겨찾기 버튼을 사용하실 수 있습니다.");
-		         location.href = "/user/login";
-	          }
-	          else
-	          {
-	             alert("즐겨찾기 중 오류가 발생하였습니다.");
-	          }
-	       },
-	       error:function(xhr, status, error){
-	          icia.common.error(error);
-	       }
-	    });
-	});
+	   $("#btnMark").on("click", function(){
+		   $.ajax({
+		       type:"POST",
+		       url:"/shop/mark",
+		       data:{
+		          shopUID:'<c:out value="${shop.shopUID}" />'
+		       },
+		       datatype:"JSON",
+		       beforeSend:function(xhr){
+		          xhr.setRequestHeader("AJAX", "true");
+		       },
+		       success:function(response){
+		          if(response.code == 0)
+		          {
+		             alert("즐겨찾기를 하셨습니다.");
+		             location.reload();
+		          }
+		          else if(response.code == 1)
+		          {
+		             alert("즐겨찾기를 취소하셨습니다.");
+		             location.reload();
+		          }
+		          else if(response.code == 400)
+		          {
+		             alert("로그인 후, 즐겨찾기 버튼을 사용하실 수 있습니다.");
+			         location.href = "/user/login";
+		          }
+		          else
+		          {
+		             alert("즐겨찾기 중 오류가 발생하였습니다.");
+		          }
+		       },
+		       error:function(xhr, status, error){
+		          icia.common.error(error);
+		       }
+		    });
+		});
 	
 	//리뷰로 변경 필요
 	$("#btnSearch").on("click", function(){
@@ -435,7 +435,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 			<c:forEach items="${shop.shopFileList}" var="shopFileList" varStatus="status" begin="1" end="5">
 			  <li><img onclick="changeImage(this)"
 						src="../resources/upload/shop/${shop.shopUID}/${shopFileList.shopFileName}"
-						width="100px" height="100px">
+						width="100px" height="100px" style="margin: 5px;">
 			  </li>
 			</c:forEach>
 		  </ul>
@@ -447,31 +447,27 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
 	  </div>
 	</div>
 	<div class="p-3 right-side">
-	  <div class="d-flex justify-content-between align-items-center">
-		<h3>${shop.shopName}</h3>
-		<c:choose>
-		  <c:when test="${shopMarkActive eq 'Y'}">
-			<div class="bookmark">
-			  <button type="button" id="btnMark" class="bookmark">
-				<ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기
-			  </button>
-			</div>
-		  </c:when>
-		  <c:when test="${shopMarkActive eq 'N'}">
-			<div class="bookmark">
-			  <button type="button" id="btnMark" class="bookmark">
-				<ion-icon name="star-outline"></ion-icon>&nbsp;&nbsp;즐겨찾기
-			  </button>
-			</div>
-		  </c:when>
-		</c:choose>
+		<div class="d-flex justify-content-between align-items-center">
+			<h3>${shop.shopName}</h3>
+			<c:choose>
+				<c:when test="${shopMarkActive eq 'Y'}">
+					<div class="bookmark">
+			  			<button type="button" id="btnMark" class="bookmark"><ion-icon name="star"></ion-icon>&nbsp;&nbsp;즐겨찾기</button>
+					</div>
+				</c:when>
+				<c:when test="${shopMarkActive eq 'N'}">
+					<div class="bookmark">
+						<button type="button" id="btnMark" class="bookmark"><ion-icon name="star-outline"></ion-icon>&nbsp;&nbsp;즐겨찾기</button>
+					</div>
+		  		</c:when>
+			</c:choose>
 	  </div>
 	  <div class="intro mt-2 pr-3 content">
 		<p>${shop.shopIntro}</p>
 	  </div>
 	  <ul class="intro2">
-		<li><i class="fa-solid fa-map-location-dot"></i>&nbsp;&nbsp;${address}</li>
-		<li><i class="fa-regular fa-star"></i>&nbsp;&nbsp;별점 4.5 (100)</li>
+		<li><i class="fa-solid fa-map-location-dot"></i>&nbsp;&nbsp;${shop.shopLocation1} ${shop.shopLocation2} ${shop.shopAddress}</li>
+		<li><i class="fa-regular fa-star"></i>&nbsp;&nbsp;별점 ${shop.reviewScore} (${shop.reviewCount})</li>
 		<li><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;${shop.shopTelephone}</li>
 	  </ul>
 	  <c:forTokens items="${shop.shopHashtag}" delims="#" var="shopHashtag">
@@ -494,7 +490,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
              // 주소-좌표 변환 객체를 생성합니다
              var geocoder = new kakao.maps.services.Geocoder();
              // 주소로 좌표를 검색합니다
-             geocoder.addressSearch('${address}', function(result, status) {
+             geocoder.addressSearch('${shop.shopLocation1} ${shop.shopLocation1} ${shop.shopAddress}', function(result, status) {
                  // 정상적으로 검색이 완료됐으면 
                   if (status === kakao.maps.services.Status.OK) {
                      var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -637,7 +633,10 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
        </container>
        <div class="review">
 		<ul>
-		  <li><a href="#">Review text1</a></li>
+		   <c:forEach items="${shop.reviewList}" var="reviewList" varStatus="status">
+		  <li>${reviewList.shopReviewRegDate} &nbsp;${reviewList.userName} : ${reviewList.shopReviewContent}&nbsp;
+		  <i class="fa-regular fa-star" style="color: #cda45e;"></i>${reviewList.shopScore}</li>
+		   </c:forEach>
 		</ul>
        </div>
     </div>

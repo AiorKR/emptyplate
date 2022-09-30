@@ -15,7 +15,9 @@ import com.icia.web.model.Order;
 import com.icia.web.model.OrderMenu;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
+import com.icia.web.model.ShopMenu;
 import com.icia.web.model.ShopReview;
+import com.icia.web.model.ShopTime;
 import com.icia.web.model.ShopTotalTable;
 
 @Service("shopService")
@@ -108,6 +110,21 @@ public class ShopService {
 			}
 			
 			logger.debug("들어옴3");
+			
+			return shop;
+		}
+		
+		public Shop shopManagerUIDSelect(String userUID)
+		{
+			Shop shop = new Shop();
+			ShopFile shopFile = new ShopFile();
+			try
+			{
+				shop = shopDao.shopManagerUIDSelect(userUID);
+			}
+			catch(Exception e){
+				logger.error("[ShopService] ShopViewSelect", e);
+			}
 			
 			return shop;
 		}
@@ -295,60 +312,295 @@ public class ShopService {
 			return count;
 		}
 		
-		   public int regReqOne(ShopReview shopReview) {
-		         int count = 0;
-		            
-		            try
-		            {
-		               count = shopDao.regReqOne(shopReview);
-		            }
-		            catch(Exception e)
-		            {
-		               logger.error("[ShopService]regOne Exception", e);
-		            }
-		            return count;
-		      }
-
-		      public int countReqOne(ShopReview shopReview) {
-		         int count = 0;
-		            
-		            try
-		            {
-		               count = shopDao.countReqOne(shopReview);
-		            }
-		            catch(Exception e)
-		            {
-		               logger.error("[ShopService]countReqOne Exception", e);
-		            }
-		            return count;
-		      }
-
-		      public int updateReqOne(ShopReview shopReview) {
-		         int count = 0;
-		            
-		            try
-		            {
-		               count = shopDao.updateReqOne(shopReview);
-		            }
-		            catch(Exception e)
-		            {
-		               logger.error("[ShopService]updateReqOne Exception", e);
-		            }
-		            return count;
-		      }
-
-			public int delReqOne(ShopReview shopReview) {
-				int count = 0;
+	   public int regReqOne(ShopReview shopReview) {
+	         int count = 0;
 	            
 	            try
 	            {
-	               count = shopDao.delReqOne(shopReview);
+	               count = shopDao.regReqOne(shopReview);
 	            }
 	            catch(Exception e)
 	            {
-	               logger.error("[ShopService]delReqOne Exception", e);
+	               logger.error("[ShopService]regOne Exception", e);
+	            }
+	            return count;
+	      }
+
+	      public int countReqOne(ShopReview shopReview) {
+	         int count = 0;
+	            
+	            try
+	            {
+	               count = shopDao.countReqOne(shopReview);
+	            }
+	            catch(Exception e)
+	            {
+	               logger.error("[ShopService]countReqOne Exception", e);
+	            }
+	            return count;
+	      }
+
+	      public int updateReqOne(ShopReview shopReview) {
+	         int count = 0;
+	            
+	            try
+	            {
+	               count = shopDao.updateReqOne(shopReview);
+	            }
+	            catch(Exception e)
+	            {
+	               logger.error("[ShopService]updateReqOne Exception", e);
+	            }
+	            return count;
+	      }
+
+		public int delReqOne(ShopReview shopReview) {
+			int count = 0;
+            
+            try
+            {
+               count = shopDao.delReqOne(shopReview);
+            }
+            catch(Exception e)
+            {
+               logger.error("[ShopService]delReqOne Exception", e);
+            }
+            return count;
+		}
+
+		public List<Order> noShowImminent() {
+			List<Order> list = null;
+			
+			try {
+				list = shopDao.noShowImminent();
+				logger.debug("noshow 임박 갯수 : " + list.size());
+			}
+			catch(Exception e) {
+				logger.error("[Shopservice] noShowImminent", e);
+			}
+			
+			return list;
+		}
+
+			public Order selectRes(String orderUID)
+			{	
+				Order order = null;
+				try
+				{
+					order = shopDao.selectRes(orderUID);
+				}
+				catch(Exception e)
+				{
+					logger.error("[ShopService]selectRes Exception", e);
+				}
+				
+				return order;
+			}
+
+			public int delRes(String orderUID) {
+				int count = 0;
+	           
+	            try
+	            {
+	               count = shopDao.delRes(orderUID);
+	            }
+	            catch(Exception e)
+	            {
+	               logger.error("[ShopService]delRes Exception", e);
 	            }
 	            return count;
 			}
+			
+			public int delResX(String orderUID) {
+				int count = 0;
+	           
+	            try
+	            {
+	               count = shopDao.delResX(orderUID);
+	            }
+	            catch(Exception e)
+	            {
+	               logger.error("[ShopService]delResX Exception", e);
+	            }
+	            return count;
+			}
+
+			public int delTable(String orderUID) {
+				int count = 0;
+		           
+	            try
+	            {
+	               count = shopDao.delTable(orderUID);
+	            }
+	            catch(Exception e)
+	            {
+	               logger.error("[ShopService]delTable Exception", e);
+	            }
+	            return count;
+			}
+
+			public int delTableN(String orderUID) {
+				int count = 0;
+		           
+	            try
+	            {
+	               count = shopDao.delTableN(orderUID);
+	            }
+	            catch(Exception e)
+	            {
+	               logger.error("[ShopService]delTableN Exception", e);
+	            }
+	            return count;
+			}
+
 		
+			public Shop shopUIDSelect(String shopUID)
+			{
+				Shop shop = null;
+				
+				try
+				{
+					shop = shopDao.shopUIDSelect(shopUID);
+				}
+				catch(Exception e)
+				{
+					logger.error("[UserService] userSelect Exception", e);
+				}
+				
+				return shop;
+			}
+			
+			public int updateStoreUserUID(Shop shop)
+			{
+				int count = 0;
+				
+				try
+				{
+					count = shopDao.updateStoreUserUID(shop);
+				}
+				catch(Exception e)
+				{
+					logger.error("[ShopService] updateStoreUserUID exception", e);
+				}
+				
+				return count;
+			}		
+
+		public List<ShopTime> shopListTime() {
+			List<ShopTime> list = null;
+			
+			try {
+				list = shopDao.shopListTime();
+				logger.debug("가져온 리스트 시간 목록 size : " + list.size());
+			}
+			catch(Exception e) {
+				logger.error("[Shopservice] shopListTimeList", e);
+			}
+			
+			return list;
+		}
+			
+		public List<Order> noShow(Shop shop) {
+			List<Order> list = null;
+			
+			try {
+				list = shopDao.noShow(shop);
+				logger.debug("noshow 갯수 : " + list.size());
+			}
+			catch(Exception e) {
+				logger.error("[Shopservice] noShow", e);
+			}
+			
+			return list;
+		}
+		
+		public Order noShowSelect(String orderUID) {
+			Order order = null;
+			
+			try {
+				order = shopDao.noShowSelect(orderUID);
+			}
+			catch(Exception e) {
+				logger.error("[Shopservice] noShowSelect", e);
+			}
+			
+			return order;
+		}
+		
+		public Order orderSelect(String orderUID) {
+			Order order = null;
+			
+			try {
+				order = shopDao.orderSelect(orderUID);
+			}
+			catch(Exception e) {
+				logger.error("[Shopservice] orderSelect", e);
+			}
+			
+			return order;
+		}
+		
+		//테이블 현황
+		public List<ShopTotalTable> shopCheckTable(String shopUID) {
+			List<ShopTotalTable> list = null;
+			
+			try
+            {
+               list = shopDao.shopCheckTable(shopUID);
+            }
+            catch(Exception e)
+            {
+               logger.error("[ShopService]ShopCheckTable Exception", e);
+            }
+			
+            return list;
+		}
+		
+		//영업시간 현황
+		public List<ShopTime> shopCheckTime(String shopUID){
+			List<ShopTime> list = null;
+			
+			try
+            {
+               list = shopDao.shopCheckTime(shopUID);
+            }
+            catch(Exception e)
+            {
+               logger.error("[ShopService]ShopCheckTime Exception", e);
+            }
+			
+            return list;
+		}
+		
+		//메뉴 현황
+		public List<ShopMenu> shopCheckMenu(String shopUID){
+			List<ShopMenu> list = null;
+			
+			try
+            {
+               list = shopDao.shopCheckMenu(shopUID);
+            }
+            catch(Exception e)
+            {
+               logger.error("[ShopService]ShopCheckMenu Exception", e);
+            }
+			
+            return list;
+		}
+		
+		public int shopUpdate(Shop shop)
+		{
+			int count = 0;
+			
+			try
+            {
+               count = shopDao.shopUpdate(shop);
+            }
+            catch(Exception e)
+            {
+               logger.error("[ShopService]ShopUpdate Exception", e);
+            }
+			
+			return 0;
+		}
 }

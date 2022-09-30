@@ -78,14 +78,12 @@
             			<value>/help/helpList</value>
             			<value>/footer/aboutUs</value>
             			<value>/footer/company</value>
-            			<value>/footer/logoHistory</value>
+            			<value>/footer/logohistory</value>
      			        <value>/footer/privacy</value>
      			        <value>/footer/contract</value>
      			        <value>/footer/location</value>
      			        <value>/footer/launchingInquiry</value>
      			        <value>/footer/regProc</value>
-            			<value>/user/NickUpdate</value>
-            			<value>/user/EmailUpdate</value>
             			<value>/myPage/userDelete</value>
             			<value>/kakao/pay</value>
             			<value>/kakao/payReady</value>
@@ -100,8 +98,6 @@
             			<value>/user/sendSms3</value>
             			<value>/user/sendSms4</value>
             			<value>/user/sendSmsOk</value>
-            			<value>/user/PhoneUpdate</value>
-            			<value>/user/PwdUpdate</value>
             			<value>/user/pwdSearch_popup</value>
             			<value>/user/kakao_popup</value>
             			<value>/user/kakaoSet</value>
@@ -110,9 +106,9 @@
             			<value>/user/phone_popup</value>
             			<value>/user/bizNumPopup</value>
             			<value>/user/regManProc</value>
-            			<value>/myPage/myFavorites</value>
             			<value>/pay/orderMenu</value>
-            			<value>/manager/shopManage</value>
+            			<value>/user/accessNumChk</value>
+            			<value>/today/todayPopupView</value>
             		</list>
             	</constructor-arg>
             </bean>
