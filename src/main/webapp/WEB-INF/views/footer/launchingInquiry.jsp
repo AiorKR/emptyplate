@@ -13,98 +13,87 @@
 $(document).ready(function() {
    
    $("#btnReg").on("click", function(){
-      //공백정규표현식
-      var emptyCheck = /\s/g;
-      //가게 이름정규표현식
-      var shopNameCheck = /^[가-힣a-zA-Z0-9\s]{1,20}$/;
-      //문의자이름정규표현식
-      var regCheck = /^[가-힣a-zA-Z]{2,12}$/;
-    	 
-      //핸드폰정규표현식
-      var regExpCheck = /^\d{3}-?\d{3,4}-?\d{4}$/;
-      
-      //매장명
-      if($.trim($("#shopName").val()).length <= 0){
-         alert("매장명을 입력하세요.");
-         $("#shopName").val("");
-         $("#shopName").focus();
-         return;
-      }
-      
-      if (!shopNameCheck.test($("#shopName").val())) 
-      {
-         alert("매장명은 한글,영문,숫자 포함 1~20글자 사이만 가능합니다.");
-         $("#shopName").focus();
-         return;
-      }
-      
-      //문의자이름
-      if($.trim($("#userName").val()).length <= 0){
-         alert("문의자이름을 입력하세요.");
-         $("#userName").val("");
-         $("#userName").focus();
-         return;
-      }
-      
-      if(emptyCheck.test($("#userName").val())){
-         alert("문의자이름은 공백을 포함할 수 없습니다.");
-         $("#userName").focus();
-         return;
-      }
-      
-      if(!regCheck.test($("#userName").val())){
-         alert("문의자이름은 한글,영문 포함 2~12글자만 가능합니다.");
-         $("#userName").focus();
-         return;
-      }
-      
-      //문의자 핸드폰 번호
-      if($.trim($("#userPhone").val()).length <= 0){
-         alert("핸드폰번호를 입력하세요.");
-         $("#userPhone").val("");
-         $("#userPhone").focus();
-         return;
-      }
-      
-      if(emptyCheck.test($("#userPhone").val())){
-         alert("핸드폰 번호는 공백을 포함할 수 없습니다.");
-         $("#userPhone").focus();
-         return;
-      }
-      
-      if(!regExpCheck.test($("#userPhone").val())){
-         alert("핸드폰번호를 맞게 입력하세요.");
-         $("#userPhone").focus();
-         return;
-      }
-      
-      //문의자 이메일주소
-      if($.trim($("#userEmail").val()).length <= 0){
-          alert("이메일주소를 입력하세요.");
-          $("#userEmail").val("");
-          $("#userEmail").focus();
-          return;
-       }
-      
-      if(emptyCheck.test($("#userEmail").val())){
-          alert("이메일주소는 공백을 포함할 수 없습니다.");
-          $("#userEmail").focus();
-          return;
-       }
-      
-      if(!fn_validateEmail($("#userEmail").val()))
-         {
-            alert("사용자 이메일 형식이 올바르지 않습니다.");
-            $("#userEmail").focus();
-            return;   
-      }
-      
-      //약관동의체크      
-      if(!$('#checkAgree').prop('checked') === true)
-      {
-       alert('약관동의버튼을 체크해 주세요');
-       return;
-      }
+	 	  //공백정규표현식
+	      var emptyCheck = /\s/g;
+	      //가게 이름정규표현식
+	      var shopNameCheck = /^[가-힣a-zA-Z0-9\s]{1,20}$/;
+	      
+	    	 
+	      //핸드폰정규표현식
+	      let check = /^[0-9]+$/;
+	      
+	      //매장명
+	      if($.trim($("#shopName").val()).length <= 0){
+	         alert("매장명을 입력하세요.");
+	         $("#shopName").val("");
+	         $("#shopName").focus();
+	         return;
+	      }
+	      
+	      if (!shopNameCheck.test($("#shopName").val())) 
+	      {
+	         alert("매장명은 한글,영문,숫자 포함 1~20글자 사이만 가능합니다.");
+	         $("#shopName").focus();
+	         return;
+	      }
+	      
+	      //문의자이름
+	      if($.trim($("#userName").val()).length <= 0){
+	         alert("문의자이름을 입력하세요.");
+	         $("#userName").val("");
+	         $("#userName").focus();
+	         return;
+	      }
+	                 
+	      
+	      
+	      //문의자 핸드폰 번호
+	      if($.trim($("#userPhone").val()).length <= 0){
+	         alert("핸드폰번호를 입력하세요.");
+	         $("#userPhone").val("");
+	         $("#userPhone").focus();
+	         return;
+	      }
+	      
+	      if(emptyCheck.test($("#userPhone").val())){
+	         alert("핸드폰 번호는 공백을 포함할 수 없습니다.");
+	         $("#userPhone").focus();
+	         return;
+	      }
+	      
+	      if(!check.test($("#userPhone").val())){
+	         alert("숫자만 입력 가능합니다.");
+	         $("#userPhone").focus();
+	         return;
+	      }
+	      
+	      //문의자 이메일주소
+	      if($.trim($("#userEmail").val()).length <= 0){
+	          alert("이메일주소를 입력하세요.");
+	          $("#userEmail").val("");
+	          $("#userEmail").focus();
+	          return;
+	       }
+	      
+	      if(emptyCheck.test($("#userEmail").val())){
+	          alert("이메일주소는 공백을 포함할 수 없습니다.");
+	          $("#userEmail").focus();
+	          return;
+	       }
+	      
+	      if(!fn_validateEmail($("#userEmail").val()))
+	         {
+	            alert("사용자 이메일 형식이 올바르지 않습니다.");
+	            $("#userEmail").focus();
+	            return;   
+	      }
+	      
+	      //약관동의체크      
+	      if(!$('#checkAgree').prop('checked') === true)
+	      {
+	       alert('약관동의버튼을 체크해 주세요');
+	       return;
+	      }
       
       
       
@@ -130,8 +119,8 @@ function fn_shopReg(){
       success:function(response){
          if(response.code == 0)
          {
-            alert("신청이 완료 되었습니다.");
-            location.href = "/footer/resources4";
+            alert("입점문의신청이 완료 되었습니다.");
+            location.href = "/footer/launchingInquiry";
          }
          else if(response.code == 400)
          {
@@ -165,7 +154,7 @@ function fn_validateEmail(value)
 </head>
 <body>
 <%@ include file="/WEB-INF/views/include/navigation.jsp"%>
-   <!-- ======= term Section ======= -->
+   <!-- ======= 입점문의 Section ======= -->
    <section id="term4" class="term4">
       <div class="container">
          <!--class="container"시작-->
@@ -176,22 +165,22 @@ function fn_validateEmail(value)
             <div class="nav nav-pills nav-justified" id="pills-tab"
                role="tablist">
                <li class="nav-item">
-                  <a href="/footer/resources">
+                  <a href="/footer/privacy">
                      <button class="nav-link" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button">개인정보 처리방침</button>         
                   </a>
                </li>
                <li class="nav-item">
-                  <a href="/footer/resources2">
+                  <a href="/footer/contract">
                      <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button">서비스 이용약관</button>      
                   </a>
                </li>
                <li class="nav-item">
-                  <a href="/footer/resources3">
+                  <a href="/footer/location">
                      <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button">위치정보 이용약관</button>         
                   </a>
                </li>
                <li class="nav-item">
-                  <a href="/footer/resources4">
+                  <a href="/footer/launchingInquiry">
                      <button class="nav-link active" id="pills-contact-tab2" data-bs-toggle="pill" data-bs-target="#pills-contact2" type="button">입점문의</button>            
                   </a>
                </li>
@@ -227,20 +216,21 @@ function fn_validateEmail(value)
                            <div class="storeblank" method="post">
                               <div class="form-group">
                                  <label for="shopName">매장이름</label>
-                                 <input type="text" class="form-control" name="shopName" id="shopName" placeholder="매장명을 입력하세요" size="30">   
+                                 <input type="text" class="form-control" name="shopName" id="shopName" placeholder="매장명을 입력하세요" size="20">   
                               </div><br/>
                               <div class="form-group">
                                  <label for="userName">문의자 이름</label>
-                                 <input type="text" class="form-control" name="userName" id="userName" placeholder="문의자이름을 입력하세요" size="30">   
+                                 <input type="text" class="form-control" name="userName" id="userName" placeholder="문의자이름을 입력하세요" size="20" maxlength="12">   
                               </div><br/>
                               <div class="form-group">
                                  <label for="userPhone">문의자 전화번호</label>
-                                 <input type="text" class="form-control" name="userPhone" id="userPhone" placeholder="문의자전화번호를 입력하세요" size="30">   
+                                 <input type="text" class="form-control" name="userPhone" id="userPhone" placeholder="문의자전화번호를 입력하세요(-빼고 작성해주세요)" size="20" maxlength="11">   
                               </div><br/>
                               <div class="form-group">
                                  <label for="userEmail">문의자 이메일</label>
-                                 <input type="text" class="form-control" name="userEmail" id="userEmail" placeholder="문의자이메일을 입력하세요" size="30">   
-                              </div><br/>                        
+                                 <input type="text" class="form-control" name="userEmail" id="userEmail" placeholder="문의자이메일을 입력하세요" size="20" maxlength="40">   
+                              </div><br/>
+                           </div><br/><br/>                           
                            <div class="fieldset-header">
                               <h4>약관동의</h4>
                               <div class="utils">

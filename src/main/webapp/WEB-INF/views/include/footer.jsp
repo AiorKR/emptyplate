@@ -10,10 +10,10 @@
             <div class="footer-info">
               <h3>Empty Plate</h3>
               <p>
-                인천광역시 미추홀구 <br>
-                매소홀로 488번길 6-32(학익동)<br><br>
-                <strong>Phone:</strong> +82 10 0429 0401<br>
-                <strong>Email:</strong> info@EmptyPlate.com<br>
+                인천시 빈접시구 <br>
+                접시로 00번길 1, 인천타워 50층<br><br>
+                <strong>Phone:</strong> 1588-1111<br>
+                <strong>Email:</strong> emptyPlate@emptyplate.co.kr<br>
               </p>
               <div class="social-links mt-3">
                 <a href="https://twitter.com/" class="twitter"><i class="bx bxl-twitter"></i></a>
@@ -26,16 +26,16 @@
           <div class="col-lg-3 col-md-6 footer-links">
             <h3 class="footer-list">Empty Plate</h3>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="/footer/aboutus">About US</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="/footer/aboutUs">About US</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="/footer/company">Company</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="/footer/logohistory">Logo History</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="/footer/logoHistory">Logo History</a></li>
             </ul>
           </div>
 
           <div class="col-lg-3 col-md-6 footer-links">
             <h3 class="footer-list">Our Services</h3>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="reservation/list">예약</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="/reservation/list">예약</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="/today/list">Today</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="/board/list">커뮤니티</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="/help/index">고객지원</a></li>
@@ -45,10 +45,10 @@
           <div class="col-lg-3 col-md-6 footer-links">
             <h3 class="footer-list">Resources</h3>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="/footer/resources">개인정보 처리방침</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="/footer/resources2">서비스 이용약관</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="/footer/resources3">위치정보 이용약관</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="/footer/resources4">입점문의</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="/footer/privacy">개인정보 처리방침</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="/footer/contract">서비스 이용약관</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="/footer/location">위치정보 이용약관</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="/footer/launchingInquiry">입점문의</a></li>
             </ul>
           </div>
 
