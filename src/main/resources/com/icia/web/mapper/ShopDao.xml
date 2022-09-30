@@ -728,60 +728,6 @@ UPDATE T_SHOP A
        )
  WHERE SHOP_UID = #{shopUID}
 </update>
-<select id="todayList" resultMap="todayListResultMap" parameterType="String">
-SELECT A.ORDER_UID AS ORDER_UID,
-       NVL(A.SHOP_UID , '') AS SHOP_UID,
-       NVL(A.RESERVATION_PEOPLE ,'') AS RESERVATION_PEOPLE,
-       NVL(A.ORDER_STATUS, '') AS ORDER_STATUS,
-       NVL(A.PAY_TYPE, '') AS PAY_TYPE,
-       NVL(A.TOTAL_AMOUNT, '') AS TOTAL_AMOUNT,
-       NVL(A.PAYMENT_KEY, '') AS PAYMENT_KEY,
-       NVL(B.RESERVATION_DATE||B.RESERVATION_TIME, '') AS R_DATE
-  FROM T_ORDER A, T_SHOP_RESERVATION_TABLE B
- WHERE A.ORDER_UID = #{orderUID}
-   AND A.ORDER_UID = B.ORDER_UID
-</select>
-
-<update id="delRes" parameterType="com.icia.web.model.Order">
- UPDATE T_ORDER
-    SET ORDER_STATUS = 'C'
-  WHERE ORDER_UID = #{orderUID}
-</update>
-
-<update id="delResX" parameterType="com.icia.web.model.Order">
- UPDATE T_ORDER
-    SET ORDER_STATUS = 'X'
-  WHERE ORDER_UID = #{orderUID}
-</update>
-
-<update id="delTable" parameterType="com.icia.web.model.ShopReservationTable">
-	UPDATE T_SHOP_RESERVATION_TABLE 
-       SET TABLE_STATUS = 'N'
-     WHERE ORDER_UID = #{orderUID}
-</update>
-
-<update id="delTableN" parameterType="com.icia.web.model.ShopReservationTable">
-	UPDATE T_SHOP_RESERVATION_TABLE
-  	   SET TABLE_STATUS = 'C'
-     WHERE ORDER_UID = #{orderUID} 
-</update>
-
-<select id="shopUIDSelect" parameterType="String" resultMap="shopListResultMap">
-SELECT SHOP_UID
-  FROM T_SHOP
- WHERE SHOP_UID = #{shopUID}
-</select>
-
-<update id="updateStoreUserUID" parameterType="com.icia.web.model.Shop">
-UPDATE T_SHOP A
-   SET A.USER_UID = 
-      (
-        SELECT B.USER_UID
-          FROM T_USER B
-         WHERE USER_UID = #{userUID}
-       )
- WHERE SHOP_UID = #{shopUID}
-</update>
 
 <select id="noShowImminent" resultMap="todayListResultMap"> <!--noshow 마감 임박-->
 SELECT A.ORDER_UID AS ORDER_UID,
