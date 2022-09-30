@@ -168,7 +168,7 @@ function remaindTime2() {
 					<c:if test="${!empty noShowImminent}">
 						<c:forEach items="${noShowImminent}" var="noShowImminent" varStatus="status">
 							<div class="swiper-slide" style="height: auto; width: 100%; background-color: rgba(240, 240, 240, 0.7);">
-							<!-->a href='/today/todayPopupView?shopUID=${noShowImminent.shopUID}&orderUID=${noShowImminent.orderUID}' class="popup" id='popup'-->
+							<!--a href='/today/todayPopupView?shopUID=${noShowImminent.shopUID}&orderUID=${noShowImminent.orderUID}' class="popup" id='popup'-->
 								<div class="reservation-item" style="height: 350px;" id="viewPopup" style="cursor:pointer;" onclick="openWindowPop('${noShowImminent.shopUID}', '${noShowImminent.orderUID}');">
 									<img alt="" src="../resources/upload/shop/${noShowImminent.shop.shopFile.shopFileName}" style="height: 300px; width: 300px; position: relative; left: 150px; top: 25px;">
 									<span style="position: relative; bottom: 250px; left: 600px;">
