@@ -885,4 +885,27 @@ SET
 WHERE ORDER_UID = #{noShowOrderUID}
 </update>
 
+<insert id="shopTimeInsert" parameterType="com.icia.web.model.ShopTime">
+	INSERT INTO T_SHOP_TIME (
+	    SHOP_UID,
+	    ORDER_TIME,
+	    SHOP_TIMETYPE
+	) VALUES (
+	    #{shopUID},
+	    #{shopOrderTime},
+	    #{shopTimeType}
+	)
+</insert>
+
+<select id="shopTimeCheck" parameterType="com.icia.web.model.ShopTime" resultType="int">
+	SELECT COUNT(*)
+	  FROM T_SHOP_TIME
+     WHERE SHOP_UID = #{shopUID}
+</select>
+
+<delete id="shopTimeDelete" parameterType="com.icia.web.model.ShopTime">
+	DELETE FROM T_SHOP_TIME
+	 WHERE SHOP_UID = #{shopUID}
+</delete>
+
 </mapper>

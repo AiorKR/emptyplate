@@ -45,7 +45,9 @@ public class Shop implements Serializable{
 	
 	private List<Order> order; //매장 주문
 	
-	
+	private String[] timeTypeArray;
+	private String[] timeArray;
+	private int timeArraySize;
 	public Shop() {
 		shopUID = "";
 		userUID = "";
@@ -72,6 +74,10 @@ public class Shop implements Serializable{
 		shopTime = null;
 		shopTotalTable = null;
 		order = null;
+		
+		timeTypeArray=null;
+		timeArray=null;
+		timeArraySize=0;
 		
 	}
 
@@ -351,6 +357,36 @@ public class Shop implements Serializable{
 
 	public void setReviewList(List<ShopReview> reviewList) {
 		this.reviewList = reviewList;
+	}
+
+
+	public String[] getTimeTypeArray() {
+		return timeTypeArray;
+	}
+
+
+	public void setTimeTypeArray(String[] timeTypeArray) {
+		this.timeTypeArray = timeTypeArray;
+	}
+
+
+	public String[] getTimeArray() {
+		return timeArray;
+	}
+
+
+	public void setTimeArray(String[] timeArray) {
+		this.timeArray = timeArray;
+	}
+
+
+	public int getTimeArraySize() {
+		return timeArraySize;
+	}
+
+
+	public void setTimeArraySize(int timeArraySize) {
+		this.timeArraySize = timeArraySize;
 	}
 	
 	

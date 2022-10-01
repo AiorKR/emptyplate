@@ -596,10 +596,25 @@ public class ShopService {
 		public int shopUpdate(Shop shop) throws Exception
 		{
 			int count = shopDao.shopUpdate(shop);	
-			
+			ShopTime shopTime = new ShopTime();
+
 			if(count > 0)
 			{
-				
+				shopTime.setShopUID(shop.getShopUID());
+				shopDao.shopTimeDelete(shopTime);
+				if(shopDao.shopTimeCheck(shopTime) == 0)
+				{
+					for(int i=1;i<shop.getTimeArraySize();i++)
+					{
+						shopTime.setShopTimeType(shop.getTimeTypeArray()[i]);
+						logger.debug("##################");
+						logger.debug(shop.getTimeTypeArray()[i]);
+						shopTime.setShopOrderTime(shop.getTimeArray()[i]);
+						logger.debug("##################");
+						logger.debug(shop.getTimeArray()[i]);
+						shopDao.shopTimeInsert(shopTime);
+					}
+				}
 			}
 
 			return count;

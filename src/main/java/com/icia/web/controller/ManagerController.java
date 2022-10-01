@@ -245,21 +245,30 @@ public class ManagerController {
   		}
   		
   		//매장시간
+  		String[] timeArray =new String[9];
+  		String[] timeTypeArray = new String[9];
+  		int timeArraySize = 0;
   		for(int i=1; i<9; i++)
   		{
   			String str = "timeselect"+ Integer.toString(i);
   			String str2 = "time"+ Integer.toString(i);
-  			String timeselect = HttpUtil.get(request, str);
-  			String time = HttpUtil.get(request, str2);
-  			logger.debug("# str : " + str);
-  			logger.debug("# str : " + str2);
-  			logger.debug("############################");
-  			if(StringUtil.isEmpty(HttpUtil.get(request, str,"")) && StringUtil.isEmpty(HttpUtil.get(request, str2,"")))
+  			if(!StringUtil.isEmpty(HttpUtil.get(request, str)) || !StringUtil.isEmpty(HttpUtil.get(request, str2)))
+  			{  				
+  				timeTypeArray[i] = HttpUtil.get(request, str);
+  				timeArray[i] = HttpUtil.get(request, str2);
+  				logger.debug("# str : " + str);
+  				logger.debug("# str : " + str2);
+  				logger.debug("# timeArray["+i+"] : "+timeArray[i]);
+  				logger.debug("# timeTypeArray["+i+"] : "+timeTypeArray[i]);
+  				logger.debug("############################");
+  				timeArraySize=i;
+  			}
+  			else
   			{
-  				logger.debug("# break #");
+  				timeArraySize=i;
+  				logger.debug("####break####");
   				break;
   			}
-
   		}
   		
   		
@@ -278,6 +287,9 @@ public class ManagerController {
 			shop.setShopContent(shopContent);
 			//추가정보
 			shop.setShopHashtag(hashTagList);
+	  		shop.setTimeArray(timeArray);
+	  		shop.setTimeTypeArray(timeTypeArray);
+	  		shop.setTimeArraySize(timeArraySize);
   			try
   			{
   				if(shopService.shopUpdate(shop) > 0)

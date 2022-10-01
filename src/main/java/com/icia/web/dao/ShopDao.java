@@ -105,4 +105,10 @@ public interface ShopDao {
 	public Order orderSelect(String orderUID);
 	
 	public int reservationTableUpdate(Order order);
+	
+	public int shopTimeInsert(ShopTime shopTime);
+	
+	public int shopTimeCheck(ShopTime shopTime);
+	
+	public int shopTimeDelete(ShopTime shopTime);
 }

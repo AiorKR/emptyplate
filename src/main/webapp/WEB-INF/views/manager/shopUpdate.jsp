@@ -468,7 +468,7 @@ request.setAttribute("No", 2);
 														<option value='X'<c:if test="${shop.shopTimeType eq 'X'}">selected</c:if>>무관</option>
 													</select>
 												</td>							
-												<td><input type="text" id="time${status.count}" name="time${status.count}"class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px; width:350px;" value="${shop.shopOrderTime}" readonly></td>
+												<td><input type="text" id="time${status.count}" name="time${status.count}"class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px; width:350px;" value="${shop.shopOrderTime}"></td>
 											</tr>
 											<c:if test="${status.last}"><input type="hidden" id="timeStack" value="${status.count + 1}"></c:if>
 										</c:forEach>
