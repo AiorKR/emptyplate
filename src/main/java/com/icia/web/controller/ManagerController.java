@@ -244,6 +244,33 @@ public class ManagerController {
 
   		}
   		
+  		//테이블
+  		int[] tableArray =new int[9];
+  		int[] tableTypeArray = new int[9];
+  		int tableArraySize = 0;
+  		for(int i=1; i<9; i++)
+  		{
+  			String str = "tableselect"+ Integer.toString(i);
+  			String str2 = "table"+ Integer.toString(i);
+  			if(!StringUtil.isEmpty(HttpUtil.get(request, str)) || !StringUtil.isEmpty(HttpUtil.get(request, str2)))
+  			{  				
+  				tableTypeArray[i] =  Integer.parseInt(HttpUtil.get(request, str));
+  				tableArray[i] = Integer.parseInt(HttpUtil.get(request, str2));
+  				logger.debug("# str : " + str);
+  				logger.debug("# str : " + str2);
+  				logger.debug("# timeArray["+i+"] : "+tableArray[i]);
+  				logger.debug("# timeTypeArray["+i+"] : "+tableTypeArray[i]);
+  				logger.debug("############################");
+  				tableArraySize=i;
+  			}
+  			else
+  			{
+  				tableArraySize=i;
+  				logger.debug("####break####");
+  				break;
+  			}
+  		}
+  		
   		//매장시간
   		String[] timeArray =new String[9];
   		String[] timeTypeArray = new String[9];
@@ -287,6 +314,11 @@ public class ManagerController {
 			shop.setShopContent(shopContent);
 			//추가정보
 			shop.setShopHashtag(hashTagList);
+			
+			shop.setTableArray(tableArray);
+			shop.setTableTypeArray(tableArray);
+			shop.setTableArraySize(tableArraySize);
+			
 	  		shop.setTimeArray(timeArray);
 	  		shop.setTimeTypeArray(timeTypeArray);
 	  		shop.setTimeArraySize(timeArraySize);

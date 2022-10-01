@@ -597,9 +597,11 @@ public class ShopService {
 		{
 			int count = shopDao.shopUpdate(shop);	
 			ShopTime shopTime = new ShopTime();
+			ShopTotalTable shopTotalTable = new ShopTotalTable();
 
 			if(count > 0)
 			{
+				//매장시간
 				shopTime.setShopUID(shop.getShopUID());
 				shopDao.shopTimeDelete(shopTime);
 				if(shopDao.shopTimeCheck(shopTime) == 0)
@@ -607,14 +609,28 @@ public class ShopService {
 					for(int i=1;i<shop.getTimeArraySize();i++)
 					{
 						shopTime.setShopTimeType(shop.getTimeTypeArray()[i]);
-						logger.debug("##################");
-						logger.debug(shop.getTimeTypeArray()[i]);
 						shopTime.setShopOrderTime(shop.getTimeArray()[i]);
-						logger.debug("##################");
-						logger.debug(shop.getTimeArray()[i]);
 						shopDao.shopTimeInsert(shopTime);
+						logger.debug("################## ShopTime Insert Complete ##################");
 					}
 				}
+				
+				//매장테이블
+				shopTotalTable.setShopUID(shop.getShopUID());
+				shopDao.shopTableDelete(shopTotalTable);
+				if(shopDao.shopTableCheck(shopTotalTable) == 0)
+				{
+					for(int i=1;i<shop.getTimeArraySize();i++)
+					{
+						shopTotalTable.setShopTotalTableCapacity(shop.getTableTypeArray()[i]);
+						shopTotalTable.setShopTotalTable(shop.getTableArray()[i]);
+						shopDao.shopTableInsert(shopTotalTable);
+						logger.debug("################## ShopTable Insert Complete ##################");
+					}
+				}
+				
+				//메뉴
+				
 			}
 
 			return count;

@@ -106,9 +106,16 @@ public interface ShopDao {
 	
 	public int reservationTableUpdate(Order order);
 	
+	public int shopTableInsert(ShopTotalTable shopTotalTable);
+	
+	public int shopTableCheck(ShopTotalTable shopTotalTable);
+	
+	public int shopTableDelete(ShopTotalTable shopTotalTable);
+	
 	public int shopTimeInsert(ShopTime shopTime);
 	
 	public int shopTimeCheck(ShopTime shopTime);
 	
 	public int shopTimeDelete(ShopTime shopTime);
+	
 }

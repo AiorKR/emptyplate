@@ -908,4 +908,30 @@ WHERE ORDER_UID = #{noShowOrderUID}
 	 WHERE SHOP_UID = #{shopUID}
 </delete>
 
+<insert id="shopTableInsert" parameterType="com.icia.web.model.ShopTime">
+	INSERT INTO T_SHOP_TOTAL_TABLE (
+	    TOTAL_TABLE_UID,
+	    SHOP_UID,
+	    TOTAL_TABLE_CAPACITY,
+	    TOTAL_TABLE
+	) VALUES (
+		#{shopTotalTableUID},
+	    #{shopUID},
+	    #{shopTotalTableCapacity},
+	    #{shopTotalTable}
+	)
+</insert>
+
+<select id="shopTableCheck" parameterType="com.icia.web.model.ShopTotalTable" resultType="int">
+	SELECT COUNT(*)
+	  FROM T_SHOP_TOTAL_TABLE
+	 WHERE SHOP_UID = #{shopUID}
+</select>
+
+
+<delete id="shopTableDelete" parameterType="com.icia.web.model.ShopTotalTable">
+	DELETE FROM T_SHOP_TOTAL_TABLE	
+	 WHERE SHOP_UID = #{shopUID}
+</delete>
+
 </mapper>

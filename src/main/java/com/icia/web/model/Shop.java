@@ -45,9 +45,20 @@ public class Shop implements Serializable{
 	
 	private List<Order> order; //매장 주문
 	
+	private int[] tableTypeArray;
+	private int[] tableArray;
+	private int tableArraySize;
+
 	private String[] timeTypeArray;
 	private String[] timeArray;
 	private int timeArraySize;
+	
+	private String[] menuTypeArray;
+	private String[] menuNameArray;
+	private String[] menuCostArray;
+	private int menuArraySize;
+	
+	
 	public Shop() {
 		shopUID = "";
 		userUID = "";
@@ -74,6 +85,10 @@ public class Shop implements Serializable{
 		shopTime = null;
 		shopTotalTable = null;
 		order = null;
+		
+		tableTypeArray=null;
+		tableArray=null;
+		tableArraySize=0;
 		
 		timeTypeArray=null;
 		timeArray=null;
@@ -388,6 +403,35 @@ public class Shop implements Serializable{
 	public void setTimeArraySize(int timeArraySize) {
 		this.timeArraySize = timeArraySize;
 	}
-	
+
+
+	public int[] getTableTypeArray() {
+		return tableTypeArray;
+	}
+
+
+	public void setTableTypeArray(int[] tableTypeArray) {
+		this.tableTypeArray = tableTypeArray;
+	}
+
+
+	public int[] getTableArray() {
+		return tableArray;
+	}
+
+
+	public void setTableArray(int[] tableArray) {
+		this.tableArray = tableArray;
+	}
+
+
+	public int getTableArraySize() {
+		return tableArraySize;
+	}
+
+
+	public void setTableArraySize(int tableArraySize) {
+		this.tableArraySize = tableArraySize;
+	}
 	
 }

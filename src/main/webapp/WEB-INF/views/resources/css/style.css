@@ -3832,7 +3832,8 @@ reservation 검색
    padding-right:33px;
    padding-left:17px;
 }
-.view .additional table .tdtd3{
+.view .additional #tableMenu tr td:first-child,
+.view .additional #tableValue tr td:first-child{
    padding-right:19px;
    padding-left:17px;
 }
