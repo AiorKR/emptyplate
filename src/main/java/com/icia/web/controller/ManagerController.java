@@ -112,6 +112,9 @@ public class ManagerController {
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		User user = userService.userUIDSelect(cookieUserUID);
 		Shop shop = shopService.shopManagerUIDSelect(cookieUserUID);
+		ShopFile shopFile = new ShopFile();
+		List<ShopFile> listFile = shopService.shopFileList(shop.getShopUID());
+		model.addAttribute("listFile", listFile);
 		
 		String address = shop.getShopLocation1() + " " + shop.getShopAddress();
 		model.addAttribute("address", address);

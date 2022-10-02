@@ -328,6 +328,12 @@
 	         SYSDATE)
     </foreach>
 	</insert>
+
+<select id="shopFileList" parameterType="String" resultMap="shopFileResultMap">
+	SELECT *
+	  FROM t_shop_file
+	 WHERE SHOP_UID = #{value} 
+</select>
 		
 <select id="shopViewSelect" parameterType="String" resultMap="shopViewResultMap"> <!-- 매장 세부 페이지 SELECT -->
 SELECT S.SHOP_UID AS SHOP_UID,
@@ -829,7 +835,7 @@ SELECT A.ORDER_UID AS ORDER_UID,
 	 ORDER BY TOTAL_TABLE_CAPACITY ASC
 </select>
 
-<select id="shopCheckTime" resultMap="shopTimeResultMap" parameterType="String"> 
+<select id="shopCheckTime" resultMap="shopTimeResultMap" parameterType="String">
 	SELECT *
 	  FROM T_SHOP_TIME
 	 WHERE SHOP_UID = #{value}
