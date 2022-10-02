@@ -110,7 +110,9 @@ public interface ShopDao {
 	
 	public int shopTableCheck(ShopTotalTable shopTotalTable);
 	
-	public int shopTableDelete(ShopTotalTable shopTotalTable);
+	public int shopTableUpdate(ShopTotalTable shopTotalTable);
+	
+	public int shopTableZeroUpdate(ShopTotalTable shopTotalTable);
 	
 	public int shopTimeInsert(ShopTime shopTime);
 	

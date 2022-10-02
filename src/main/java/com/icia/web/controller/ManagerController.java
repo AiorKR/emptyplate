@@ -209,7 +209,29 @@ public class ManagerController {
 		//매장 형태
 		String shopType = HttpUtil.get(request, "shopType", "");
 		//요일
-		String dayCheck = HttpUtil.get(request, "dayCheck", "");
+		String dayList="";
+  		for(int i=0; i<7; i++)
+  		{
+  			String str = "day"+ Integer.toString(i);
+  			String day = HttpUtil.get(request, str);
+  			
+  			if(!StringUtil.isEmpty(HttpUtil.get(request, str,"")))
+  			{
+  				if(i==6)
+  				{
+  					dayList += day;  					
+  				}
+  				else
+  				{
+  					day = day + ",";
+  					dayList += day;
+  				}
+  			}
+  		}
+  		logger.debug("############################");
+  		logger.debug(dayList);
+  		logger.debug("############################");
+  		logger.debug("############################");
 
 		/***********
 		 * 소개글
@@ -283,11 +305,6 @@ public class ManagerController {
   			{  				
   				timeTypeArray[i] = HttpUtil.get(request, str);
   				timeArray[i] = HttpUtil.get(request, str2);
-  				logger.debug("# str : " + str);
-  				logger.debug("# str : " + str2);
-  				logger.debug("# timeArray["+i+"] : "+timeArray[i]);
-  				logger.debug("# timeTypeArray["+i+"] : "+timeTypeArray[i]);
-  				logger.debug("############################");
   				timeArraySize=i;
   			}
   			else
@@ -333,6 +350,7 @@ public class ManagerController {
 			shop.setShopLocation1(shopLocation1);
 			shop.setShopAddress(shopAddress);
 			shop.setShopTelephone(shopTelephone);
+			shop.setShopHoliday(dayList);
 			
 			//소개글
 			shop.setShopIntro(shopIntro);
@@ -342,7 +360,7 @@ public class ManagerController {
 			shop.setShopHashtag(hashTagList);
 			
 			shop.setTableArray(tableArray);
-			shop.setTableTypeArray(tableArray);
+			shop.setTableTypeArray(tableTypeArray);
 			shop.setTableArraySize(tableArraySize);
 			
 	  		shop.setTimeArray(timeArray);
