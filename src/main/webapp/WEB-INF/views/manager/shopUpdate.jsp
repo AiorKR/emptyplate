@@ -290,21 +290,22 @@ request.setAttribute("No", 2);
 					  </ul>
 					  
 					</div>
-					<!-- 
+
 					<div class="imageModify">
 						<table>
+						<c:forEach var="shopFile" items="${listFile}" varStatus="status">
 							<tr>
 								<td class="file-check">등록파일</td>
-								<td><div class="file-check-content"><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요."/>
-								<br/>[등록한 첨부파일 : ${shop.shopFile.fileOrgName}]</div></td>
+								<td><div class="file-check-content">[등록한 첨부파일 : ${shopFile.shopFileOrgName}]<input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요."/></div></td>
 							</tr>
-							<tr>
+						</c:forEach>
+							<!-- tr>
 								<td class="file">이미지 첨부</td>
 								<td><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요." required /></td>
-							</tr>	
+							</tr -->	
 						</table>
 					</div>
-					 -->
+
 					<div class="basic">
 					<div class="d-flex justify-content-between align-items-center">
 						<div class="basic">

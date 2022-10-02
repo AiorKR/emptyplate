@@ -28,6 +28,8 @@ public interface ShopDao {
 	
 	public int shopFileInsert(List<ShopFile> list); //매장 file insert
 	
+	public List<ShopFile> shopFileList(String shopUID);
+	
 	public Shop shopViewSelect(String shopUID); //매장 view select
 	
 	public Shop shopManagerUIDSelect(String userUID); //매장관리자 페이지

@@ -180,6 +180,20 @@ public class ShopService {
 			return count;
 		}
 		
+		public List<ShopFile> shopFileList(String shopUID)
+		{
+			List<ShopFile> list = null;
+			try
+			{
+				list = shopDao.shopFileList(shopUID);
+			}
+			catch(Exception e)
+			{
+				logger.debug("[Shopservice] shopFileList", e);
+			}
+			return list;
+		}
+		
 		//내 주문내역 리스트
 	      public List<Order> myOrderList(Order order) {
 	          
