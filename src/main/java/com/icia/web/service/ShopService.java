@@ -617,24 +617,34 @@ public class ShopService {
 							break;
 						}
 						shopDao.shopTimeInsert(shopTime);
-						logger.debug("################## ShopTime Insert Complete ##################");
+						logger.debug("################## ShopTime Insert Complete " +i+ " ##################");
 					}
 				}
-				/*
+				
 				//매장테이블
 				shopTotalTable.setShopUID(shop.getShopUID());
-				shopDao.shopTableDelete(shopTotalTable);
-				if(shopDao.shopTableCheck(shopTotalTable) == 0)
+				shopDao.shopTableZeroUpdate(shopTotalTable);
+				for(int i=1; i<=shop.getTableArraySize();i++)
 				{
-					for(int i=1;i<=shop.getTimeArraySize();i++)
+					shopTotalTable.setShopTotalTableUID(shop.getShopUID()+"_"+shop.getTableTypeArray()[i]);
+					shopTotalTable.setShopTotalTableCapacity(shop.getTableTypeArray()[i]);
+					shopTotalTable.setShopTotalTable(shop.getTableArray()[i]);
+					if(shop.getTableTypeArray()[i] == 0 || shop.getTableArray()[i] == 0)
 					{
-						shopTotalTable.setShopTotalTableCapacity(shop.getTableTypeArray()[i]);
-						shopTotalTable.setShopTotalTable(shop.getTableArray()[i]);
-						shopDao.shopTableInsert(shopTotalTable);
-						logger.debug("################## ShopTable Insert Complete ##################");
+						break;
 					}
+					if(shopDao.shopTableCheck(shopTotalTable) > 0)
+					{
+						shopDao.shopTableUpdate(shopTotalTable);
+					}
+					else
+					{
+						shopDao.shopTableInsert(shopTotalTable);
+					}
+					
+					logger.debug("################## ShopTable Update Complete " +i+ " ##################");
 				}
-				*/
+				
 				//메뉴
 				shopMenu.setShopUID(shop.getShopUID());
 				shopDao.shopMenuDelete(shopMenu);
@@ -653,8 +663,8 @@ public class ShopService {
 						logger.debug("################## ShopMenu Insert Complete " +i+ " ##################");
 					}
 				}
+			
 			}
-
 			return count;
 		}
 }

@@ -101,8 +101,8 @@ request.setAttribute("No", 2);
 	
 						// Cell에 텍스트 추가
 						newCell1.innerHTML = "<td>테이블 규격</td>"
-						newCell2.innerHTML = "<td><select name='tableType' id='tableValue"+btnTableStack+"' class='select' style='font-size:17px; width:110px;'><option value='' selected>테이블 규격</option><option value='1'>1인용</option><option value='2'>2인용</option><option value='3'>3인용</option><option value='4'>4인용</option><option value='5'>5인용</option><option value='6'>6인용</option><option value='7'>7인용</option><option value='8'>8인용</option></select></td>";
-						newCell3.innerHTML = "<td><input type='text' class='tableInput' placeholder='수량을 입력해주세요' style='font-size:17px; width:350px;'></td>";
+						newCell2.innerHTML = "<td><select name='tableselect"+btnTableStack+"' id='tableselect"+btnTableStack+"' class='select' style='font-size:17px; width:110px;'><option value='' selected>테이블 규격</option><option value='1'>1인용</option><option value='2'>2인용</option><option value='3'>3인용</option><option value='4'>4인용</option><option value='5'>5인용</option><option value='6'>6인용</option><option value='7'>7인용</option><option value='8'>8인용</option></select></td>";
+						newCell3.innerHTML = "<td><input name='table"+btnTableStack+"' id='table"+btnTableStack+"' type='text' class='tableInput' placeholder='수량을 입력해주세요' style='font-size:17px; width:350px;'></td>";
 
 						btnTableStack++;
 					}
@@ -351,14 +351,13 @@ request.setAttribute("No", 2);
 								<tr>
 									<td class="td">매장휴일</td>
 									<td class="title-text">
-										<input type="checkbox" class="day" id="day0" name="day" value="0" <c:if test="${!empty day0}">checked</c:if>> 일&nbsp;&nbsp;
-										<input type="checkbox" class="day" id="day1" name="day" value="1" <c:if test="${!empty day1}">checked</c:if>> 월&nbsp;&nbsp;
-										<input type="checkbox" class="day" id="day2" name="day" value="2" <c:if test="${!empty day2}">checked</c:if>> 화&nbsp;&nbsp;
-										<input type="checkbox" class="day" id="day3" name="day" value="3" <c:if test="${!empty day3}">checked</c:if>> 수&nbsp;&nbsp;
-										<input type="checkbox" class="day" id="day4" name="day" value="4" <c:if test="${!empty day4}">checked</c:if>> 목&nbsp;&nbsp;
-										<input type="checkbox" class="day" id="day5" name="day" value="5" <c:if test="${!empty day5}">checked</c:if>> 금&nbsp;&nbsp;
-										<input type="checkbox" class="day" id="day6" name="day" value="6" <c:if test="${!empty day6}">checked</c:if>> 토
-										<input type="hidden" id="dayCheck" value="">
+										<input type="checkbox" class="day" id="day0" name="day0" value="0" <c:if test="${!empty day0}">checked</c:if>> 일&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="day1" name="day1" value="1" <c:if test="${!empty day1}">checked</c:if>> 월&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="day2" name="day2" value="2" <c:if test="${!empty day2}">checked</c:if>> 화&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="day3" name="day3" value="3" <c:if test="${!empty day3}">checked</c:if>> 수&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="day4" name="day4" value="4" <c:if test="${!empty day4}">checked</c:if>> 목&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="day5" name="day5" value="5" <c:if test="${!empty day5}">checked</c:if>> 금&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="day6" name="day6" value="6" <c:if test="${!empty day6}">checked</c:if>> 토
 									</td>
 								</tr>
 							</table>
@@ -432,7 +431,7 @@ request.setAttribute("No", 2);
 						</div>
 					</div><br />
 
-<!--
+
 					<div class="tableCap">
 						<div class="tableMenu">
 							<table id="tableMenu">
@@ -498,9 +497,6 @@ request.setAttribute("No", 2);
 							</table>
 						</div>
 					</div><br />
--->
-
-
 
 					<div class="time">
 						<div class="timeMenu">
@@ -556,10 +552,6 @@ request.setAttribute("No", 2);
 						</div>
 					</div><br />
 
-
-
-
-					
 					<div class="menuSet">
 						<div class="menuSet">
 							<table id="menuSet">

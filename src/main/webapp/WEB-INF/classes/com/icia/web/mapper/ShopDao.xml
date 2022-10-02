@@ -824,6 +824,8 @@ SELECT A.ORDER_UID AS ORDER_UID,
 	SELECT *
 	  FROM T_SHOP_TOTAL_TABLE
 	 WHERE SHOP_UID = #{value}
+	   AND TOTAL_TABLE IS NOT NULL
+	   AND TOTAL_TABLE <![CDATA[>]]> 0
 	 ORDER BY TOTAL_TABLE_CAPACITY ASC
 </select>
 
@@ -848,6 +850,7 @@ SELECT A.ORDER_UID AS ORDER_UID,
 	       SHOP_HASHTAG = #{shopHashtag},
 	       shop_location1 = #{shopLocation1},
 	       shop_address = #{shopAddress},
+		   SHOP_HOLIDAY = #{shopHoliday},
 	       shop_telephone = #{shopTelephone},
 	       shop_intro = #{shopIntro},
 	       shop_content = #{shopContent}
@@ -925,14 +928,22 @@ WHERE ORDER_UID = #{noShowOrderUID}
 <select id="shopTableCheck" parameterType="com.icia.web.model.ShopTotalTable" resultType="int">
 	SELECT COUNT(*)
 	  FROM T_SHOP_TOTAL_TABLE
-	 WHERE SHOP_UID = #{shopUID}
+     WHERE TOTAL_TABLE_UID = #{shopTotalTableUID}
+       AND SHOP_UID = #{shopUID}
 </select>
 
+<update id="shopTableUpdate" parameterType="com.icia.web.model.ShopTotalTable">
+	UPDATE T_SHOP_TOTAL_TABLE
+       SET TOTAL_TABLE = #{shopTotalTable}
+     WHERE TOTAL_TABLE_UID = #{shopTotalTableUID}
+       AND SHOP_UID = #{shopUID}
+</update>
 
-<delete id="shopTableDelete" parameterType="com.icia.web.model.ShopTotalTable">
-	DELETE FROM T_SHOP_TOTAL_TABLE	
+<update id="shopTableZeroUpdate" parameterType="com.icia.web.model.ShopTotalTable">
+	UPDATE T_SHOP_TOTAL_TABLE
+	   SET TOTAL_TABLE = 0
 	 WHERE SHOP_UID = #{shopUID}
-</delete>
+</update>
 
 <insert id="shopMenuInsert" parameterType="com.icia.web.model.ShopMenu">
 	INSERT INTO T_SHOP_MENU (
