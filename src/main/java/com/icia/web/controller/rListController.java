@@ -131,9 +131,30 @@ public class rListController
       }
       
       //닉넴띄우기
-      User user2 = new User();
-      user2 = userService.userUIDSelect(userUID);
-      model.addAttribute("cookieUserNick", user2.getUserNick());
+      try
+		{
+			model.addAttribute("cookieUserNick", user.getUserNick());
+			model.addAttribute("adminStatus", user.getAdminStatus());
+			if(!StringUtil.isEmpty(user.getBizName())&& !StringUtil.isEmpty(user.getBizNum()))
+			{
+				try
+				{
+					model.addAttribute("shopStatus","Y");
+				}
+				catch(NullPointerException e)
+				{
+					logger.error("[rListController] /myPage/rList shopStatus NullPointerException", e);
+				}
+			}
+			else
+			{
+				model.addAttribute("shopStatus","N");
+			}
+		}
+		catch(NullPointerException e)
+		{
+			logger.error("[rListController] /myPage/rList cookieUserNick NullPointerException", e);
+		}
       
       model.addAttribute("list", list);
       model.addAttribute("curPage", curPage);
