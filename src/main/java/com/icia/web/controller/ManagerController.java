@@ -244,24 +244,84 @@ public class ManagerController {
 
   		}
   		
+  		//테이블
+  		int[] tableArray =new int[9];
+  		int[] tableTypeArray = new int[9];
+  		int tableArraySize = 0;
+  		for(int i=1; i<9; i++)
+  		{
+  			String str = "tableselect"+ Integer.toString(i);
+  			String str2 = "table"+ Integer.toString(i);
+  			if(!StringUtil.isEmpty(HttpUtil.get(request, str)) || !StringUtil.isEmpty(HttpUtil.get(request, str2)))
+  			{  				
+  				tableTypeArray[i] =  Integer.parseInt(HttpUtil.get(request, str));
+  				tableArray[i] = Integer.parseInt(HttpUtil.get(request, str2));
+  				logger.debug("# str : " + str);
+  				logger.debug("# str : " + str2);
+  				logger.debug("# timeArray["+i+"] : "+tableArray[i]);
+  				logger.debug("# timeTypeArray["+i+"] : "+tableTypeArray[i]);
+  				logger.debug("############################");
+  				tableArraySize=i;
+  			}
+  			else
+  			{
+  				tableArraySize=i;
+  				logger.debug("####break####");
+  				break;
+  			}
+  		}
+  		
   		//매장시간
+  		String[] timeArray =new String[9];
+  		String[] timeTypeArray = new String[9];
+  		int timeArraySize = 0;
   		for(int i=1; i<9; i++)
   		{
   			String str = "timeselect"+ Integer.toString(i);
   			String str2 = "time"+ Integer.toString(i);
-  			String timeselect = HttpUtil.get(request, str);
-  			String time = HttpUtil.get(request, str2);
-  			logger.debug("# str : " + str);
-  			logger.debug("# str : " + str2);
-  			logger.debug("############################");
-  			if(StringUtil.isEmpty(HttpUtil.get(request, str,"")) && StringUtil.isEmpty(HttpUtil.get(request, str2,"")))
+  			if(!StringUtil.isEmpty(HttpUtil.get(request, str)) || !StringUtil.isEmpty(HttpUtil.get(request, str2)))
+  			{  				
+  				timeTypeArray[i] = HttpUtil.get(request, str);
+  				timeArray[i] = HttpUtil.get(request, str2);
+  				logger.debug("# str : " + str);
+  				logger.debug("# str : " + str2);
+  				logger.debug("# timeArray["+i+"] : "+timeArray[i]);
+  				logger.debug("# timeTypeArray["+i+"] : "+timeTypeArray[i]);
+  				logger.debug("############################");
+  				timeArraySize=i;
+  			}
+  			else
   			{
-  				logger.debug("# break #");
+  				timeArraySize=i;
+  				logger.debug("####break####");
   				break;
   			}
-
   		}
   		
+  		//메뉴
+  		String[] menuTypeArray = new String[9];
+  		int[] menuPriceArray =new int[9];
+  		String[] menuNameArray =new String[9];
+  		int menuArraySize = 0;
+  		for(int i=1; i<9; i++)
+  		{
+  			String str = "menuselect"+ Integer.toString(i);
+  			String str2 = "menuPrice"+ Integer.toString(i);
+  			String str3 = "menuName"+ Integer.toString(i);
+  			if(!StringUtil.isEmpty(HttpUtil.get(request, str)) || !StringUtil.isEmpty(HttpUtil.get(request, str2)) || !StringUtil.isEmpty(HttpUtil.get(request, str3)))
+  			{  				
+  				menuTypeArray[i] = HttpUtil.get(request, str);
+  				menuPriceArray[i] = Integer.parseInt(HttpUtil.get(request, str2));
+  				menuNameArray[i] = HttpUtil.get(request, str3);
+  				menuArraySize=i;
+  			}
+  			else
+  			{
+  				menuArraySize=i;
+  				logger.debug("####break####");
+  				break;
+  			}
+  		}
   		
 		/***********
 		 * 첨부파일
@@ -273,11 +333,27 @@ public class ManagerController {
 			shop.setShopLocation1(shopLocation1);
 			shop.setShopAddress(shopAddress);
 			shop.setShopTelephone(shopTelephone);
+			
 			//소개글
 			shop.setShopIntro(shopIntro);
 			shop.setShopContent(shopContent);
+			
 			//추가정보
 			shop.setShopHashtag(hashTagList);
+			
+			shop.setTableArray(tableArray);
+			shop.setTableTypeArray(tableArray);
+			shop.setTableArraySize(tableArraySize);
+			
+	  		shop.setTimeArray(timeArray);
+	  		shop.setTimeTypeArray(timeTypeArray);
+	  		shop.setTimeArraySize(timeArraySize);
+	  		
+	  		shop.setMenuTypeArray(menuTypeArray);
+	  		shop.setMenuPriceArray(menuPriceArray);
+	  		shop.setMenuNameArray(menuNameArray);
+	  		shop.setMenuArraySize(menuArraySize);
+	  		
   			try
   			{
   				if(shopService.shopUpdate(shop) > 0)

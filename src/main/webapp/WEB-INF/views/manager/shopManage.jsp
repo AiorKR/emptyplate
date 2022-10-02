@@ -144,7 +144,7 @@
 	       <div class="setTime">
 		       <table>
 					<tr colspan="2">
-						<th colspan="2">매장 시간 설정</th>
+						<th colspan="2">매장 시간 현황</th>
 					</tr>
 					<tr class="line">
 						<td class="right">시간 구분</td>
@@ -180,7 +180,7 @@
 	       <div class="setMenu">
 		       <table>
 					<tr colspan="2">
-						<th colspan="3">메뉴 설정</th>
+						<th colspan="3">메뉴 현황</th>
 					</tr>
 					<tr class="line">
 						<td class="right">시간 구분</td>

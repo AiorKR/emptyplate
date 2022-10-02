@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.icia.common.util.FileUtil;
+import com.icia.common.util.StringUtil;
 import com.icia.web.dao.ShopDao;
 import com.icia.web.model.Board;
 import com.icia.web.model.BoardFile;
@@ -596,10 +597,62 @@ public class ShopService {
 		public int shopUpdate(Shop shop) throws Exception
 		{
 			int count = shopDao.shopUpdate(shop);	
-			
+			ShopTime shopTime = new ShopTime();
+			ShopTotalTable shopTotalTable = new ShopTotalTable();
+			ShopMenu shopMenu = new ShopMenu();
+
 			if(count > 0)
 			{
-				
+				//매장시간
+				shopTime.setShopUID(shop.getShopUID());
+				shopDao.shopTimeDelete(shopTime);
+				if(shopDao.shopTimeCheck(shopTime) == 0)
+				{
+					for(int i=1;i<=shop.getTimeArraySize();i++)
+					{
+						shopTime.setShopTimeType(shop.getTimeTypeArray()[i]);
+						shopTime.setShopOrderTime(shop.getTimeArray()[i]);
+						if(StringUtil.isEmpty(shop.getTimeTypeArray()[i]) || StringUtil.isEmpty(shop.getTimeArray()[i]))
+						{
+							break;
+						}
+						shopDao.shopTimeInsert(shopTime);
+						logger.debug("################## ShopTime Insert Complete ##################");
+					}
+				}
+				/*
+				//매장테이블
+				shopTotalTable.setShopUID(shop.getShopUID());
+				shopDao.shopTableDelete(shopTotalTable);
+				if(shopDao.shopTableCheck(shopTotalTable) == 0)
+				{
+					for(int i=1;i<=shop.getTimeArraySize();i++)
+					{
+						shopTotalTable.setShopTotalTableCapacity(shop.getTableTypeArray()[i]);
+						shopTotalTable.setShopTotalTable(shop.getTableArray()[i]);
+						shopDao.shopTableInsert(shopTotalTable);
+						logger.debug("################## ShopTable Insert Complete ##################");
+					}
+				}
+				*/
+				//메뉴
+				shopMenu.setShopUID(shop.getShopUID());
+				shopDao.shopMenuDelete(shopMenu);
+				if(shopDao.shopMenuCheck(shopMenu) == 0)
+				{
+					for(int i=1;i<=shop.getMenuArraySize();i++)
+					{
+						shopMenu.setShopMenuCode(shop.getMenuTypeArray()[i]);
+						shopMenu.setShopMenuName(shop.getMenuNameArray()[i]);
+						shopMenu.setShopMenuPrice(shop.getMenuPriceArray()[i]);
+						if(StringUtil.isEmpty(shop.getMenuTypeArray()[i]) || StringUtil.isEmpty(shop.getMenuNameArray()[i]) || StringUtil.isEmpty(shop.getMenuPriceArray()[i]))
+						{
+							break;
+						}
+						shopDao.shopMenuInsert(shopMenu);
+						logger.debug("################## ShopMenu Insert Complete " +i+ " ##################");
+					}
+				}
 			}
 
 			return count;
