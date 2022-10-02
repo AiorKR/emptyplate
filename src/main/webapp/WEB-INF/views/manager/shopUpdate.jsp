@@ -14,15 +14,11 @@ request.setAttribute("No", 2);
 	$(document).ready(function() {
 
 
-
 				var btnHashStack = $("#hashStack").val();
 				var btnTimeStack = $("#timeStack").val();
 				var btnTableStack = $("#tableStack").val();
 				var btnMenuStack = $("#menuStack").val();
 				
-				
-
-
 
 				$("#btnHashAdd").on("click", function(){
 					if(btnHashStack<6)
@@ -140,9 +136,9 @@ request.setAttribute("No", 2);
 	
 						// Cell에 텍스트 추가
 						newCell1.innerHTML = "<td>메뉴"+btnMenuStack+"</td>";
-						newCell2.innerHTML = "<td><select name='menuTime' class='select' style='font-size:17px; width:100px;'><option value='' selected>메뉴시간</option><option value='1'>런치</option><option value='2'>디너</option></select></td>";
-						newCell3.innerHTML = "<td><input type='text' placeholder='메뉴명을 입력해주세요' style='font-size:17px; width:180px;'></td>";
-						newCell4.innerHTML = "<td><input type='text' placeholder='메뉴가격을 입력해주세요' style='font-size:17px; width:180px;'></td>";
+						newCell2.innerHTML = "<td><select id='menuselect"+btnMenuStack+"' name='menuselect"+btnMenuStack+"'  class='select' style='font-size:17px; width:100px;'><option value='' selected>메뉴시간</option><option value='L'>Lunch</option><option value='D'>Dinner</option></select></td>";
+						newCell3.innerHTML = "<td><input id='menuName"+btnMenuStack+"' name='menuName"+btnMenuStack+"' type='text' placeholder='메뉴명을 입력해주세요' style='font-size:17px; width:180px;'></td>";
+						newCell4.innerHTML = "<td><input id='menuPrice"+btnMenuStack+"' name='menuPrice"+btnMenuStack+"' type='text' placeholder='메뉴가격을 입력해주세요' style='font-size:17px; width:180px;'></td>";
 								
 						btnMenuStack++;
 					}
@@ -436,7 +432,7 @@ request.setAttribute("No", 2);
 						</div>
 					</div><br />
 
-
+<!--
 					<div class="tableCap">
 						<div class="tableMenu">
 							<table id="tableMenu">
@@ -502,7 +498,7 @@ request.setAttribute("No", 2);
 							</table>
 						</div>
 					</div><br />
-
+-->
 
 
 
@@ -563,15 +559,12 @@ request.setAttribute("No", 2);
 
 
 
-<!--
-
-
 					
 					<div class="menuSet">
 						<div class="menuSet">
-							<table>
+							<table id="menuSet">
 								<tr>
-									<td class="tdtd4">메뉴 설정</td>
+									<td>메뉴 설정</td>
 									<td>
 										<button type="button" id="btnMenuAdd">생성</button>
 									</td>
@@ -587,19 +580,19 @@ request.setAttribute("No", 2);
 								<c:when test="${!empty list3}">
 									<c:forEach var="shop" items="${list3}" varStatus="status">
 										<tr>
-											<td class="tdtd5">메뉴${status.count}</td>
+											<td>메뉴${status.count}</td>
 											<td>
-												<select name="menuTime" id="menuTime${status.count}"class="select" style="font-size:17px; width:100px;">
+												<select name="menuselect${status.count}" id="menuselect${status.count}" class="select" style="font-size:17px; width:100px;">
 													<option value=''>메뉴시간</option>
-													<option value='1'<c:if test="${shop.shopMenuCode eq 'L'}">selected</c:if>>Lunch</option>
-													<option value='2'<c:if test="${shop.shopMenuCode eq 'D'}">selected</c:if>>Dinner</option>
+													<option value='L'<c:if test="${shop.shopMenuCode eq 'L'}">selected</c:if>>Lunch</option>
+													<option value='D'<c:if test="${shop.shopMenuCode eq 'D'}">selected</c:if>>Dinner</option>
 												</select>
 											</td>
 											<td>
-												<input type="text" placeholder="메뉴명을 입력해주세요" value="${shop.shopMenuName}" style="font-size:17px; width:180px;">
+												<input type="text" id="menuName${status.count}" name="menuName${status.count}" placeholder="메뉴명을 입력해주세요" value="${shop.shopMenuName}" style="font-size:17px; width:180px;">
 											</td>
 											<td>
-												<input type="text" placeholder="메뉴가격을 입력해주세요" value="${shop.shopMenuPrice}" style="font-size:17px; width:180px;">
+												<input type="text" id="menuPrice${status.count}" name="menuPrice${status.count}" placeholder="메뉴가격을 입력해주세요" value="${shop.shopMenuPrice}" style="font-size:17px; width:180px;">
 											</td>
 										</tr>
 											<c:if test="${status.last}"><input type="hidden" id="menuStack" value="${status.count + 1}"></c:if>
@@ -607,23 +600,23 @@ request.setAttribute("No", 2);
 									</c:when>
 									<c:otherwise>
 										<tr>
-											<td class="tdtd5">메뉴1</td>
+											<td>메뉴1</td>
 											<td>
-												<select name="menuTime" class="select" style="font-size:17px; width:100px;">
+												<select name="menuselect1" id="menuselect1"class="select" style="font-size:17px; width:100px;">
 													<option value='' selected>메뉴시간</option>
-													<option value='1'>Lunch</option>
-													<option value='2'>Dinner</option>
+													<option value='L'>Lunch</option>
+													<option value='D'>Dinner</option>
 												</select>
 											</td>
-											<td><input type="text" placeholder="메뉴명을 입력해주세요" style="font-size:17px; width:180px;"></td>
-											<td><input type="text" placeholder="메뉴가격을 입력해주세요" style="font-size:17px; width:180px;"></td>
+											<td><input type="text" id="menuName1" name="menuName1" placeholder="메뉴명을 입력해주세요" style="font-size:17px; width:180px;"></td>
+											<td><input type="text" id="menuPrice1" name="menuPrice1"placeholder="메뉴가격을 입력해주세요" style="font-size:17px; width:180px;"></td>
 											<input type="hidden" id="menuStack" value="1">
 										</tr>
 									</c:otherwise>
 								</c:choose>
 							</table>
 						</div>
-					</div>					 -->
+					</div>					 
 				</div>
 
 						

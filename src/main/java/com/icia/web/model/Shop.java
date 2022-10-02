@@ -55,7 +55,7 @@ public class Shop implements Serializable{
 	
 	private String[] menuTypeArray;
 	private String[] menuNameArray;
-	private String[] menuCostArray;
+	private int[] menuPriceArray;
 	private int menuArraySize;
 	
 	
@@ -93,6 +93,11 @@ public class Shop implements Serializable{
 		timeTypeArray=null;
 		timeArray=null;
 		timeArraySize=0;
+		
+		menuTypeArray=null;
+		menuNameArray=null;
+		menuPriceArray=null;
+		menuArraySize=0;
 		
 	}
 
@@ -433,5 +438,47 @@ public class Shop implements Serializable{
 	public void setTableArraySize(int tableArraySize) {
 		this.tableArraySize = tableArraySize;
 	}
+
+
+	public String[] getMenuTypeArray() {
+		return menuTypeArray;
+	}
+
+
+	public void setMenuTypeArray(String[] menuTypeArray) {
+		this.menuTypeArray = menuTypeArray;
+	}
+
+
+	public String[] getMenuNameArray() {
+		return menuNameArray;
+	}
+
+
+	public void setMenuNameArray(String[] menuNameArray) {
+		this.menuNameArray = menuNameArray;
+	}
+
+
+	public int[] getMenuPriceArray() {
+		return menuPriceArray;
+	}
+
+
+	public void setMenuPriceArray(int	[] menuPriceArray) {
+		this.menuPriceArray = menuPriceArray;
+	}
+
+
+	public int getMenuArraySize() {
+		return menuArraySize;
+	}
+
+
+	public void setMenuArraySize(int menuArraySize) {
+		this.menuArraySize = menuArraySize;
+	}
+	
+	
 	
 }

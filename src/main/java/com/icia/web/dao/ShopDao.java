@@ -118,4 +118,9 @@ public interface ShopDao {
 	
 	public int shopTimeDelete(ShopTime shopTime);
 	
+	public int shopMenuInsert(ShopMenu shopMenu);
+	
+	public int shopMenuCheck(ShopMenu shopMenu);
+	
+	public int shopMenuDelete(ShopMenu shopMenu);	
 }

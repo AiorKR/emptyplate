@@ -298,6 +298,30 @@ public class ManagerController {
   			}
   		}
   		
+  		//메뉴
+  		String[] menuTypeArray = new String[9];
+  		int[] menuPriceArray =new int[9];
+  		String[] menuNameArray =new String[9];
+  		int menuArraySize = 0;
+  		for(int i=1; i<9; i++)
+  		{
+  			String str = "menuselect"+ Integer.toString(i);
+  			String str2 = "menuPrice"+ Integer.toString(i);
+  			String str3 = "menuName"+ Integer.toString(i);
+  			if(!StringUtil.isEmpty(HttpUtil.get(request, str)) || !StringUtil.isEmpty(HttpUtil.get(request, str2)) || !StringUtil.isEmpty(HttpUtil.get(request, str3)))
+  			{  				
+  				menuTypeArray[i] = HttpUtil.get(request, str);
+  				menuPriceArray[i] = Integer.parseInt(HttpUtil.get(request, str2));
+  				menuNameArray[i] = HttpUtil.get(request, str3);
+  				menuArraySize=i;
+  			}
+  			else
+  			{
+  				menuArraySize=i;
+  				logger.debug("####break####");
+  				break;
+  			}
+  		}
   		
 		/***********
 		 * 첨부파일
@@ -309,9 +333,11 @@ public class ManagerController {
 			shop.setShopLocation1(shopLocation1);
 			shop.setShopAddress(shopAddress);
 			shop.setShopTelephone(shopTelephone);
+			
 			//소개글
 			shop.setShopIntro(shopIntro);
 			shop.setShopContent(shopContent);
+			
 			//추가정보
 			shop.setShopHashtag(hashTagList);
 			
@@ -322,6 +348,12 @@ public class ManagerController {
 	  		shop.setTimeArray(timeArray);
 	  		shop.setTimeTypeArray(timeTypeArray);
 	  		shop.setTimeArraySize(timeArraySize);
+	  		
+	  		shop.setMenuTypeArray(menuTypeArray);
+	  		shop.setMenuPriceArray(menuPriceArray);
+	  		shop.setMenuNameArray(menuNameArray);
+	  		shop.setMenuArraySize(menuArraySize);
+	  		
   			try
   			{
   				if(shopService.shopUpdate(shop) > 0)

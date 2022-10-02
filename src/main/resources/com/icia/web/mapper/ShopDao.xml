@@ -831,7 +831,7 @@ SELECT A.ORDER_UID AS ORDER_UID,
 	SELECT *
 	  FROM T_SHOP_TIME
 	 WHERE SHOP_UID = #{value}
-	 ORDER BY ORDER_TIME ASC
+	 ORDER BY ORDER_TIME ASC, DECODE(SHOP_TIMETYPE,'L',1,'X',2,3)
 </select>
 
 <select id="shopCheckMenu" resultMap="shopMenuResultMap" parameterType="String"> 
@@ -933,5 +933,31 @@ WHERE ORDER_UID = #{noShowOrderUID}
 	DELETE FROM T_SHOP_TOTAL_TABLE	
 	 WHERE SHOP_UID = #{shopUID}
 </delete>
+
+<insert id="shopMenuInsert" parameterType="com.icia.web.model.ShopMenu">
+	INSERT INTO T_SHOP_MENU (
+	    SHOP_UID,
+	    MENU_CODE,
+	    MENU_NAME,
+	    MENU_PRICE
+	)  VALUES (
+	    #{shopUID},
+	    #{shopMenuCode},
+	    #{shopMenuName},
+	    #{shopMenuPrice}
+	)
+</insert>
+
+<select id="shopMenuCheck" parameterType="com.icia.web.model.ShopMenu" resultType="int">
+	SELECT COUNT(*)
+      FROM T_SHOP_MENU
+	 WHERE SHOP_UID = #{shopUID}
+</select>
+
+
+<delete id="shopMenuDelete" parameterType="com.icia.web.model.ShopMenu">
+    DELETE FROM T_SHOP_MENU
+	 WHERE SHOP_UID = #{shopUID}
+</delete> 
 
 </mapper>
