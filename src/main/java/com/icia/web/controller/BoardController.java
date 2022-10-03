@@ -77,7 +77,7 @@ public class BoardController
 			{
 				model.addAttribute("cookieUserNick", userNickname.getUserNick());
 				model.addAttribute("adminStatus", userNickname.getAdminStatus());
-				if(userNickname.getBizNum() != null)
+				if(!StringUtil.isEmpty(userNickname.getBizName())&& !StringUtil.isEmpty(userNickname.getBizNum()))
 				{
 					try
 					{
@@ -248,7 +248,7 @@ public class BoardController
 			{
 				model.addAttribute("cookieUserNick", userNickname.getUserNick());
 				model.addAttribute("adminStatus", userNickname.getAdminStatus());
-				if(userNickname.getBizNum() != null)
+				if(!StringUtil.isEmpty(userNickname.getBizName())&& !StringUtil.isEmpty(userNickname.getBizNum()))
 				{
 					try
 					{
@@ -385,7 +385,7 @@ public class BoardController
 			{
 				model.addAttribute("cookieUserNick", userNickname.getUserNick());
 				model.addAttribute("adminStatus", userNickname.getAdminStatus());
-				if(userNickname.getBizNum() != null)
+				if(!StringUtil.isEmpty(userNickname.getBizName())&& !StringUtil.isEmpty(userNickname.getBizNum()))
 				{
 					try
 					{
@@ -543,7 +543,7 @@ public class BoardController
 			{
 				model.addAttribute("cookieUserNick", userNickname.getUserNick());
 				model.addAttribute("adminStatus", userNickname.getAdminStatus());
-				if(userNickname.getBizNum() != null)
+				if(!StringUtil.isEmpty(userNickname.getBizName())&& !StringUtil.isEmpty(userNickname.getBizNum()))
 				{
 					try
 					{
@@ -653,7 +653,7 @@ public class BoardController
 			{
 				model.addAttribute("cookieUserNick", userNickname.getUserNick());
 				model.addAttribute("adminStatus", userNickname.getAdminStatus());
-				if(userNickname.getBizNum() != null)
+				if(!StringUtil.isEmpty(userNickname.getBizName())&& !StringUtil.isEmpty(userNickname.getBizNum()))
 				{
 					try
 					{
@@ -777,20 +777,34 @@ public class BoardController
   					{
 						if(StringUtil.equals(board.getStatus(), "N"))
 						{
-							if(boardService.boardReplyCount(board.getBbsSeq()) > 0)
+							if(boardService.boardMarkCheck(board) != 0)
 							{
-								ajaxResponse.setResponse(-999, "Answers exist and cannot be delete");
-							}
-							else
-							{
-								if(boardService.boardDelete(board.getBbsSeq()) > 0)
+								if(boardService.boardLikeCheck(board) != 0)
 								{
-									ajaxResponse.setResponse(0, "Success");
+									if(boardService.boardReplyCount(board.getBbsSeq()) > 0)
+									{
+										ajaxResponse.setResponse(-999, "Answers exist and cannot be delete");
+									}
+									else
+									{
+										if(boardService.boardDelete(board.getBbsSeq()) > 0)
+										{
+											ajaxResponse.setResponse(0, "Success");
+										}
+										else
+										{
+											ajaxResponse.setResponse(500, "Internal server error");
+										}
+									}
 								}
 								else
 								{
-									ajaxResponse.setResponse(500, "Internal server error");
+									ajaxResponse.setResponse(407, "bookLike exist and cannot be delete");
 								}
+							}
+							else
+							{
+								ajaxResponse.setResponse(406, "bookMark exist and cannot be delete");
 							}
 						}
 						else
@@ -990,7 +1004,7 @@ public class BoardController
 			{
 				model.addAttribute("cookieUserNick", userNickname.getUserNick());
 				model.addAttribute("adminStatus", userNickname.getAdminStatus());
-				if(userNickname.getBizNum() != null)
+				if(!StringUtil.isEmpty(userNickname.getBizName())&& !StringUtil.isEmpty(userNickname.getBizNum()))
 				{
 					try
 					{
@@ -1027,18 +1041,21 @@ public class BoardController
 		//댓글 번호
   		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
 		//댓글 내용
-  		String bbsContent = HttpUtil.get(request, "bbsContent", "");  		
+  		String bbsContent = HttpUtil.get(request, "bbsContent", "");
+  		
+  		String bbsComment = HttpUtil.get(request, "bbsComment","");
 		
 		if(bbsSeq > 0 && !StringUtil.isEmpty(bbsContent))
 		{
 	  		Board parentBoard = boardService.boardSelect(bbsSeq);
-	  		
+	  		logger.debug("########## 동작1");
 			if(parentBoard != null)
 			{
 				Board board = new Board();
-				
+				logger.debug("########## 동작2");
 				board.setUserUID(cookieUserUID);
 				board.setBbsContent(bbsContent);
+				board.setBbsComment(bbsComment);
 				board.setCommentGroup(parentBoard.getCommentGroup());
 				board.setCommentOrder(parentBoard.getCommentOrder() + 1);
 				board.setCommentIndent(parentBoard.getCommentIndent() + 1);
@@ -1048,6 +1065,7 @@ public class BoardController
 				{
 					if(boardService.boardCommentInsert(board) > 0)
 					{
+						logger.debug("########## 동작3");
 						ajaxResponse.setResponse(0, "success");
 					}
 					else

@@ -227,17 +227,26 @@ $(document).ready(function(){
 												<h2>
 													<c:out value="${shop.shopName}" />
 												</h2>
-												<br /> <c:forTokens items="${shop.shopHashtag}" delims="#"
-													var="shopHashtag">
-													<span onclick="fn_search('${shopHashtag}')" style="cursor: pointer;"> <i class="fa-solid fa-hashtag" style="font-size: 18px; color: #FF7F50;"><c:out value='${shopHashtag}' /></i>
-													</span>
-												</c:forTokens><br />
-											<br /> <i class="fa-solid fa-map-location-dot"
-												style="font-size: 18px;"> <c:out value="${shop.shopLocation1}" /> <c:out value="${shop.shopLocation2}" /> <c:out value="${shop.shopAddress}" />
-											</i><br />
-											<br /> <i class="fa-solid fa-pen"
-												style="color: #cda45e; font-size: 19px;"> <c:out value="${shop.shopIntro}" />
-											</i>
+											
+											<div class="location">
+											<i class="fa-solid fa-map-location-dot"
+												style="color: #cda45e; font-size: 19px;"></i>&nbsp;
+												<c:out value="${shop.shopLocation1}" /> 
+												<c:out value="${shop.shopLocation2}" /> 
+												<c:out value="${shop.shopAddress}" />
+											</div>
+											<div class="shopIntro">
+											<i class="fa-solid fa-pen"
+												style="color: #cda45e; font-size: 19px;"></i>&nbsp;
+												<c:out value="${shop.shopIntro}" />
+											</div>
+											<div class="shopHashtag">
+											<c:forTokens items="${shop.shopHashtag}" delims="#" var="shopHashtag">
+												<span onclick="fn_search('${shopHashtag}')" style="cursor: pointer;"> <i class="fa-solid fa-hashtag">
+												<c:out value='${shopHashtag}' /></i>
+												</span>
+											</c:forTokens>
+											</div>
 											</td>
 										</tr>
 									</c:forEach>

@@ -26,12 +26,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript" src="/resources/js/jquery.colorbox.js"></script>
 <link rel="stylesheet" href="/resources/css/jquery.colorbox.css">
-<script type="text/javascript">
+<script type="text/javascript">	
+
 $(document).ready(function(){
+	
 	remaindTime();
 	remaindTime2();
 	
-	$(".popup").colorbox({iframe:true,scrolling:false, width:"95%", height:"130%"});
+	//$(".popup").colorbox({iframe:true,scrolling:false, width:"95%", height:"130%"});
 	
 	$(".select").change(function() { 
     	document.bbsForm.curPage.value = "1";
@@ -55,6 +57,11 @@ $(document).ready(function(){
 	});
 });
 
+function openWindowPop(shopUID, orderUID) {
+	var name = "todayPopup";
+    var options = 'width=1000, height=850, status=no, menubar=no, toolbar=no, resizable=no';
+    window.open('/today/todayPopupView?shopUID=' + shopUID + '&orderUID=' + orderUID, name, options);
+}
 
 //페이징
 function fn_list(curPage) {
@@ -134,7 +141,7 @@ function remaindTime2() {
 	     if(sec<10){sec="0"+sec;}
 	      $(".noShowImminent-hours${status.index}").html(hour);
 	      $(".noShowImminent-minutes${status.index}").html(min);
-	      $("noShowImminent-secondsx${status.index}").html(sec);
+	      $(".noShowImminent-seconds${status.index}").html(sec);
 	      
 	      setInterval(remaindTime2,1000);
 	    }
@@ -161,21 +168,21 @@ function remaindTime2() {
 					<c:if test="${!empty noShowImminent}">
 						<c:forEach items="${noShowImminent}" var="noShowImminent" varStatus="status">
 							<div class="swiper-slide" style="height: auto; width: 100%; background-color: rgba(240, 240, 240, 0.7);">
-							<a href='/today/todayPopupView?shopUID=${noShowImminent.shopUID}&orderUID=${noShowImminent.orderUID}' class="popup">
-								<div class="reservation-item" style="height: 350px;" id="viewPopup" style="cursor:pointer;">
+							<!--a href='/today/todayPopupView?shopUID=${noShowImminent.shopUID}&orderUID=${noShowImminent.orderUID}' class="popup" id='popup'-->
+								<div class="reservation-item" style="height: 350px;" id="viewPopup" style="cursor:pointer;" onclick="openWindowPop('${noShowImminent.shopUID}', '${noShowImminent.orderUID}');">
 									<img alt="" src="../resources/upload/shop/${noShowImminent.shop.shopFile.shopFileName}" style="height: 300px; width: 300px; position: relative; left: 150px; top: 25px;">
 									<span style="position: relative; bottom: 250px; left: 600px;">
 										<h3>${noShowImminent.shop.shopName}</h3>
 										<ul>	
 											<li>
-												<i class="fa-solid fa-percent"></i> <c:if test='${noShowImminent.orderStatus eq "X"}'>70</c:if> <c:if test='${noShowImminent.orderStatus eq "C"}'>50</c:if>
+												<i class="fa-solid fa-percent" style="color: #cda45e;"></i> <c:if test='${noShowImminent.orderStatus eq "X"}'>70</c:if> <c:if test='${noShowImminent.orderStatus eq "C"}'>50</c:if>
 											</li>
-											<li><i class="fa-solid fa-map-location-dot"></i>
+											<li><i class="fa-solid fa-map-location-dot" style="color: #cda45e;"></i>
 												<c:if test="${noShowImminent.shop.shopLocation1 ne null}">${noShowImminent.shop.shopLocation1}</c:if> ${noShowImminent.shop.shopLocation2} ${noShowImminent.shop.shopAddress}
 											</li>
-											<li><i class="fa-solid fa-people">예약 인원 : ${noShowImminent.reservationPeople}</i></li>
+											<li><i class="fa-solid fa-people" style="color: #cda45e;">예약 인원 : ${noShowImminent.reservationPeople}</i></li>
 											<li>
-												<i class="fa-solid fa-pen" style="color: #cda45e; font-size: 19px;">
+												<i class="fa-solid fa-pen" style="color: #cda45e;">
 													<c:out value="${noShowImminent.shop.shopIntro}" />
 												</i>
 											</li>
@@ -184,7 +191,7 @@ function remaindTime2() {
 										<li>
 										<span class="noShowImminent-hours${status.index}"></span> <span class="col">:</span>
 										<span class="noShowImminent-minutes${status.index}"></span> <span class="col">:</span>
-										<span class="noShowImminent-secondsx${status.index}"></span>
+										<span class="noShowImminent-seconds${status.index}"></span>
 										</li>
 										</ul>
 										
@@ -200,15 +207,15 @@ function remaindTime2() {
 									<img alt=""
 										style="height: 300px; width: 300px; position: relative; left: 150px; top: 25px;">
 									<span style="position: relative; bottom: 250px; left: 600px;">
-										<h3></h3>
+
 										<h1><c:out value="No-Show 마감 임박 건이 없습니다." /></h1>
 										<ul>	
-											<li><i class="fa-solid fa-map-location-dot"></i>
+											<li><i class="fa-solid fa-map-location-dot" style="color: #cda45e;"></i>
 												
 											</li>
-											<li> <i class="fa-solid fa-people"></i></li>
+											<li> <i class="fa-solid fa-people" style="color: #cda45e;"></i></li>
 											<li>
-												<i class="fa-solid fa-pen" style="color: #cda45e; font-size: 19px;">
+												<i class="fa-solid fa-pen" style="color: #cda45e;">
 												
 												</i>
 											</li>
@@ -229,7 +236,7 @@ function remaindTime2() {
 				<div class="swiper-pagination" style="margin-top: -20px"></div>
 
 				<!--메뉴-->
-				<div class="container">
+				<div class="container" id="noshowlist">
 					<div class="col-12">
 						<table class="table table-image">
 							<container>
@@ -281,18 +288,20 @@ function remaindTime2() {
 											 <c:if  test="${!empty noShow[i+j]}">
 											<th scope="row"> 
 												<td>
-												<a href='/today/todayPopupView?shopUID=${noShow[i + j].shopUID}&orderUID=${noShow[i + j].orderUID}' class="popup">
+												<!--a href='/today/todayPopupView?shopUID=${noShow[i + j].shopUID}&orderUID=${noShow[i + j].orderUID}' class="popup" id='popup'-->
 													<div class="card"
-														style="cursor: pointer; text-align: center; display: flex; height: 500px; width: 350px">
+														 onclick="openWindowPop('${noShow[i + j].shopUID}',' ${noShow[i + j].orderUID}');">
 														<img src='../resources/upload/shop/${noShow[i + j].shop.shopFile.shopFileName}' class="img-fluid img-thumbnail" style="height: 300px; width: 350px;">
 															<div class="card-body-right">
-															<h5 class="card-title">${noShow[i + j].shop.shopName}</h5>
-															<p> ${noShow[i + j].shop.shopLocation1} ${noShow[i + j].shop.shopLocation2} ${noShow[i + j].shop.shopAddress}</p>
-															<i class="fa-solid fa-percent"></i> <c:if test='${noShow[i + j].orderStatus eq "X"}'>70</c:if> <c:if test='${noShow[i + j].orderStatus eq "C"}'>50</c:if>
 															<div class="sec7-text-box">
-															<i class="fa-solid fa-pen" style="color: #cda45e; font-size: 19px;">
-																<c:out value="${noShow[i + j].shop.shopIntro}"/>
-															</i>
+															<h5 class="card-title">${noShow[i + j].shop.shopName}</h5>
+															<i class="fa-solid fa-map-location-dot"style="color: #cda45e; font-size: 19px;"></i>
+																${noShow[i + j].shop.shopLocation1} ${noShow[i + j].shop.shopLocation2} ${noShow[i + j].shop.shopAddress} <br/>
+															
+															<i class="fa-solid fa-percent" style="color: #cda45e; font-size: 19px;"></i> <c:if test='${noShow[i + j].orderStatus eq "X"}'>70</c:if> <c:if test='${noShow[i + j].orderStatus eq "C"}'>50</c:if><br/>
+															<i class="fa-solid fa-pen" style="color: #cda45e; font-size: 19px;"></i>
+																<c:out value="${noShow[i + j].shop.shopIntro}"/><br/>
+															
 															<span class="hours${i+j}"></span> <span class="col">:</span>
 															<span class="minutes${i+j}"></span> <span class="col">:</span>
 															<span class="seconds${i+j}"></span>

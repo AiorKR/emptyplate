@@ -89,7 +89,7 @@
     </section><!-- End Recommend Section -->
 
     <!-- ======= About Section ======= -->
-    <section id="about" class="about">
+    <!-- section id="about" class="about">
       <div class="container" data-aos="fade-up">
 
         <div class="section-title">
@@ -136,10 +136,11 @@
           </div>
 								 
       </div>
-      <form name="bbsForm" id="bbsForm" method="post">
+
+    </section --><!-- End About Section -->
+          <form name="bbsForm" id="bbsForm" method="post">
 		<input type="hidden" name="shopUID" value=""/> 
 	 </form>
-    </section><!-- End About Section -->
   </main><!-- End #main -->
 
   

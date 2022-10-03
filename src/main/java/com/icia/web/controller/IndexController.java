@@ -23,6 +23,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.icia.common.util.StringUtil;
 import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
 import com.icia.web.model.User;
@@ -89,7 +90,7 @@ public class IndexController
 			{
 				model.addAttribute("cookieUserNick", user2.getUserNick());
 				model.addAttribute("adminStatus", user2.getAdminStatus());
-				if(user2.getBizNum() != null)
+				if(!StringUtil.isEmpty(user2.getBizName())&& !StringUtil.isEmpty(user2.getBizNum()))
 				{
 					try
 					{

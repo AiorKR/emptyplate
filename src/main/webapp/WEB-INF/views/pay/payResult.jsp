@@ -27,7 +27,7 @@
 		}
 	</style>
 	</head>
-	<body>
+	<body onbeforeunload="document.bbsForm.submit();">
 		<%@ include file="/WEB-INF/views/include/navigation.jsp"%>
 		<main id="main">
 			<section class="reservation">
@@ -40,9 +40,16 @@
 						<div id="mypage" class="user-edit">
 									<div class="mypage-title">예약 내역</div>
 									<div class="profile-img-div" style="background: rgba(225, 225, 225, 0);">
-										<img alt="" src="../resources/upload/shop/${shop.shopUID}/${shopFile}"
+									<c:if test="${!empty shopFile}">
+										<img alt="" src="../resources/upload/shop/${order.shopUID}/${shopFile}"
 											class='img-fluid img-thumbnail'
-											style="height: 300px; width: 300px; margin-top: 10px; margin-bottom: 10px;">							
+											style="height: 300px; width: 300px; margin-top: 10px; margin-bottom: 10px;">
+									</c:if>
+									<c:if test="${empty shopFile }">
+										<img alt="" src="../resources/upload/shop/${order.shopUID}/${order.shop.shopFile.shopFileName}"
+											class='img-fluid img-thumbnail'
+											style="height: 300px; width: 300px; margin-top: 10px; margin-bottom: 10px;">
+									</c:if>						
 									</div>
 									<div class="pay-card-name">
 										<span>${order.shopName}</span>
@@ -96,7 +103,9 @@
 			  </div>
 			 </div>
 			</section>
-	
+			<form name="bbsForm" id="bbsForm" method="post" action="/pay/payResult">
+				<input type="hidden" name="orderUID" value="${order.orderUID}" /> 
+			</form>
 		</main>
 		<!-- End #main -->
 		<%@ include file="/WEB-INF/views/include/footer.jsp"%>

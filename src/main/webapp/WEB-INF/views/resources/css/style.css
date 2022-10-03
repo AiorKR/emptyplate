@@ -1882,7 +1882,22 @@ section {
   font-family: 'Cafe24Dangdanghae';
   border-radius: 5px;
 }
-
+#btnSearch{
+	position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  border: 0;
+  font-size: 20px;
+  padding: 0 40px 0 40px;
+  background: #C2A383;
+  color: #fff;
+  transition: 0.3s;
+  border: 1px solid #C2A383;
+  font-family: 'Cafe24Dangdanghae';
+  border-radius: 5px;
+	
+}
 #communityView .board-commentwrite .submit button[type=submit]:hover {
   background: #d3af71;
 }
@@ -1893,6 +1908,9 @@ section {
   padding-top: 10px;
   border-bottom : 2px solid #C2A383;
   padding-bottom: 10px;
+}
+#bbsContent{
+	ime-mode:active;
 }
 
 /*댓글 작성자*/
@@ -3087,6 +3105,24 @@ reservation 검색
   padding-top: 30px;
   padding-left: 10px;
 }
+.reservation tbody .content h2{
+  font-size:35px;
+}
+
+.reservation tbody .location{
+  padding-top:25px;
+  font-size:20px;
+}
+.reservation tbody .shopIntro{
+  padding-top:20px;
+  font-size:20px;
+}
+.reservation tbody .shopHashtag{
+  padding-top:20px;
+  font-size: 20px; 
+  color: #FF7F50;
+  font-family: 'Cafe24Dangdanghae';
+}
 
 .reservation tbody .clickContent{
   padding-left: 0px;
@@ -3247,7 +3283,7 @@ reservation 검색
   font-size:25px;
 }
 .view .intro2{
-  font-size:18px;
+  font-size:22px;
   list-style:none;
   padding-left:8px;
 }
@@ -3260,7 +3296,7 @@ reservation 검색
 }
 .view .hashtag i
 {
-	font-size: 18px; 
+	font-size: 22px; 
 	color: #FF7F50;
 }
 
@@ -3549,7 +3585,7 @@ reservation 검색
   list-style: none;
   text-align: left;
   color:#000;
-  font-size:20px;
+  font-size:25px;
 }
 .view .review a{
   list-style: none;
@@ -3660,6 +3696,7 @@ reservation 검색
 .view .col-lg-12 table input{	
   	background: rgba(225, 225, 225, 0.8);
   	border:1px solid #C2A383;
+  	text-align: center;
 }
 
 .view .col-lg-12 table th{	
@@ -3671,6 +3708,7 @@ reservation 검색
 .view .col-lg-12 table td{
 	font-size: 20px;
 	padding-left: 10px;
+	text-align: center;
 }
 
 .view .col-lg-12 table .line{	
@@ -3697,13 +3735,62 @@ reservation 검색
 
 
 /*shopUpdate 수정*/
+
+.btn-upload {
+  width: 90px;
+  height: 34px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #C2A383;
+  border: 0;
+  color: #fff;
+  font-size: 18px;
+  border-radius: 10px;
+  margin-right:5px;
+  font-family: 'Cafe24Dangdanghae'
+}
+.btn-upload:hover{
+  width: 90px;
+  height: 34px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #fff;
+  border: 0;
+  color: #C2A383;
+  font-size: 18px;
+  border-radius: 10px;
+  margin-right:5px;
+  font-family: 'Cafe24Dangdanghae'
+}
+
+.view .imageModify table td button[type=button]{
+  text-align: center;
+  height:34px;
+  background: #C2A383;
+  border: 0;
+  color: #fff;
+  font-size: 18px;
+  border-radius: 10px;
+  margin-right:5px;
+  width:60px;
+  font-family: 'Cafe24Dangdanghae';
+}
+
 .view .imageModify table{
    margin-top: 20px;
 }
 .view .imageModify table .file-check-content, .file-content{
    font-size:17px;
 }
-.view .imageModify table tr .file-check, .file{
+.view .imageModify table tr td:first-child, .file{
    font-size:20px;
    padding-right:16px;
 }
@@ -3742,30 +3829,30 @@ reservation 검색
    width:450px;
    height:150px;
 }
-.view .p-3 table{
+.view .basic table{
    margin-top:30px;
 }
-.view .p-3 table tr th{
+.view .basic table tr th{
    font-size:30px;
 }
-.view .p-3 table tr .td{
+.view .basic table tr .td{
    font-size:20px;
    padding-right:40px;
 }
-.view .p-3 table input[type=text]{
+.view .basic table input[type=text]{
    width:460px;
    height:35px;
 }
-.view .p-3 table tr .select{
+.view .basic table tr .select{
    height:35px;
    width:120px;
 }
-.view .p-3 table input[type=checkbox]{
+.view .basic table input[type=checkbox]{
    height:20px;
    width:20px;
    vertical-align:middle;
 }
-.view .p-3 table td input[type=button]{
+.view .basic table td input[type=button]{
    height:34px;
    background: #C2A383;
    border: 0;
@@ -3802,23 +3889,26 @@ reservation 검색
    width:60px;
    font-family: 'Cafe24Dangdanghae';
 }
-.view .additional table .tdtd{
+.view .additional #hashTagButton tr td:first-child,
+.view .additional #timeMenuButton tr td:first-child{
    padding-right:40px;
    padding-left:17px;
 }
-.view .additional table .tdtd2{
+.view .additional #hashTagValue tr td:first-child,
+.view .additional #timeValue tr td:first-child{
    padding-right:33px;
    padding-left:17px;
 }
-.view .additional table .tdtd3{
+.view .additional #tableMenu tr td:first-child,
+.view .additional #tableValue tr td:first-child{
    padding-right:19px;
    padding-left:17px;
 }
-.view .additional table .tdtd4{
+.view .additional #menuSet tr td:first-child{
    padding-right:36px;
    padding-left:17px;
 }
-.view .additional table .tdtd5{
+.view .additional #menuValue tr td:first-child{
    padding-right:68px;
    padding-left:17px;
 }
@@ -3866,36 +3956,6 @@ reservation 검색
 /*--------------------------------------------------------------
 #today Start
 --------------------------------------------------------------*/
-/*
-.today-container {
-  margin-top: 100px;
-}
-
-.today {
-  width: 100%;
-  height: 100%;
-  background: url("/resources/images/hero-bg.jpg") top center;
-  background-size: cover;
-  position: relative;
-  padding: 0;
-}
-
-.today:before {
-  content: "";
-  background: rgba(225, 225, 225);
-  opacity : 0.95;
-  position: absolute;
-  bottom: 0;
-  top: 15.5%;
-  left: 11%;
-  right: 11%;
-  border-radius: 20px;
-}
-
-.today .container {
-  position: relative;
-}*/
-
 .today {
   width: 100%;
   height: 100%;
@@ -3936,62 +3996,21 @@ reservation 검색
   }
 }
 
-.today .today-carousel {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 30px;
+/*상단*/
+.today h2 strong{
+	color: black;
 }
 
-.today .today-item {
-  color: #fff;
+.today .swiper-wrapper h3, h1{
+  color:black;
+  padding-bottom:20px;
 }
-
-.today .today-item h3 {
-  font-weight: 300;
-  font-size: 40px;
-  font-family: "Do Hyeon", sans-serif;
-  color: #cda45e;
+.today .swiper-wrapper ul{
+  color:black;
+  font-size:23px;
 }
-
-.today .today-item .price {
-  font-size: 20px;
-  font-family: "Open Sans", sans-serif;
-  font-weight: 500;
-  margin-bottom: 15px;
-}
-
-.today .today-item .price span {
-  border-bottom: 2px solid #cda45e;
-}
-
-.today .today-item .int i {
-  font-size: 20px;
-  padding-right: 4px;
-  color: #cda45e;
-} 
-
-.today .today-item .int {
-  font-size: 18px;
-  font-family: "Nanum Gothic Coding", monospace;
-  color: white;
-}
-
-.today .today-item ul {
+.today .swiper-wrapper ul li{
   list-style: none;
-  padding: 0;
-}
-
-.today .today-item ul li {
-  padding-bottom: 10px;
-}
-
-.today .today-item ul i {
-  font-size: 20px;
-  padding-right: 4px;
-  color: #cda45e;
-}
-
-.today .today-item p:last-child {
-  margin-bottom: 0;
 }
 
 .today .swiper-pagination {
@@ -4010,9 +4029,13 @@ reservation 검색
   background-color: #cda45e;
 }
 
-.today .card {
-  width: 100%;
+.today .container #noshowlist{
+	padding-top:30px;
 }
+.today .container .col-12 h3{
+	color:black;
+}
+
 
 /*
 today 검색
@@ -4066,6 +4089,27 @@ today 검색
 .today .collapse .btn:hover {
   background: #d3af71;
 }
+
+
+/*today리스트*/
+.today .card {
+  cursor: pointer; 
+  text-align: center; 
+  display: flex; 
+  height: 500px; 
+  width: 350px
+}
+.today .card h5{
+  font-size: 25px;
+  padding-top:10px;
+  word-break: keep-all;
+}
+.today .card .sec7-text-box{
+	font-size:20px;
+	padding-bottom:10px;
+	word-break: keep-all;	
+}
+
 
 /*페이징*/
 .today .page-wrap .page-nation li{ 
@@ -4163,7 +4207,10 @@ today 검색
    font-family: 'Cafe24Dangdanghae';
 }
 
-.todayView p, .view ul, .view h3, .view span{
+.todayView p, .view-text h3{
+  color:#000;
+}
+.todayView p, .p-3{
   color:#000;
 }
 
@@ -4294,10 +4341,11 @@ today 검색
 }
 /*modal body*/
 .todayView .modal-body {
-  /*height: 60vh;*/
+  height: 25vh;
   z-index: 0;
   border-top: solid 3px #d3af71;
   border-bottom: solid 3px #d3af71;
+	font-size:30px;
 }
 
 .todayView #shopName {
@@ -4468,10 +4516,8 @@ today 검색
   justify-content: center;
   text-align: center;
 }
-.todayView .modal-footer .btn{
-  display: table-cell;
-  justify-content: center;
-  text-align: center;
+.todayView #pay{
+  margin: auto;
   border:none;
   font-size:20px;
   vertical-align:middle;

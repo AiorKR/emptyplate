@@ -367,6 +367,12 @@ function delRes() {
 	                	</button>
                 	</c:if>
                 	
+                	<c:if test="${Order.orderStatus eq 'X'}">
+	                	<button id="cardDetailSection-button" class="cardDetailSection-buttonC">
+	                		취소된 예약
+	                	</button>
+                	</c:if>
+                	
                 	<c:if test="${Order.orderStatus eq 'E'}">
 	                	<button id="cardDetailSection-button" class="cardDetailSection-button" onclick="reqOne(${status1.index})">
 	                		<c:if test="${Order.shopReviewContent eq ''}">

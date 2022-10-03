@@ -66,6 +66,14 @@ $(document).ready(function() {
                {
                   alert("신고된 댓글이 있어 삭제할 수 없습니다.");
                }
+               else if(response.code == 406)
+               {
+                  alert("본인글을 즐겨찾기하여 삭제할 수 없습니다.");
+               }
+               else if(response.code == 407)
+               {
+                  alert("본인글에 좋아요 버튼을 눌러 삭제할 수 없습니다.");
+               }
                else if(response.code == -999)
 			   {
 				  alert("댓글이 존재하여 삭제할 수 없습니다.");
@@ -161,7 +169,8 @@ $(document).ready(function() {
    });
    
    //댓글 등록
-   $("#btnSearch").on("click", function() {
+   $(document).on("click","#btnSearch",function(){
+  // $("#btnSearch").on("click", function() {
 	      
 	      $("#btnSearch").prop("disabled", true);
 	      
@@ -452,6 +461,18 @@ function fn_deleteComment(bbsSeqValue)
        });
     }
 }
+
+function fn_reComment(bbsSeqValue, commentGroupValue, commentOrderValue, commentIndentValue){
+		var value = "reComment"+bbsSeqValue;
+		const div = document.getElementById('commentBlock');
+		const parent = $("#parentBbsSeq").val();
+		var commentGroup = commentGroupValue;
+		var commentOrder = commentOrderValue;
+		var commentIndent = commentIndentValue;
+		div.remove();
+		document.getElementById(value).innerHTML="<div id='commentBlock'><input type='hidden' name='bbsSeq' value='"+parent+"' /><input type='hidden' name='bbsComment' value='Y'/><input type='hidden' name='commentGroup' value='"+commentGroup+"'/><input type='hidden' name='commentOrder' value='"+commentOrder+"'/><input type='hidden' name='commentIndent' value='"+commentIndent+"'/><input type='text' id='bbsContent' name='bbsContent' class='form-control'/><button type='submit' id='btnSearch'>등 록</button></div>"
+	}
+
 </script>
 </head>
 <body>
@@ -548,14 +569,18 @@ function fn_deleteComment(bbsSeqValue)
 						<form name="commentForm" id="commentForm" method="post" enctype="form-data">
 							<div class="board-commentwrite">
 								<div><ion-icon name="chatbubbles"></ion-icon>댓글</div>
-								<div class="submit">
-									<input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
-									<input type="text" id="bbsContent" name="bbsContent" style="ime-mode:active;" class="form-control"/>
-									<button type="submit" id="btnSearch">등 록</button>
+								<div id="origin" class="submit">
+									<div id="commentBlock">
+										<input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
+										<input type="hidden" name="bbsComment" value="Y"/>
+										<input type="text" id="bbsContent" name="bbsContent" style="ime-mode:active;" class="form-control"/>
+										<button type="submit" id="btnSearch">등 록</button>
+									</div>
 								</div>
 							</div>
 						
 						<c:set var="cookieUserUID" value="${cookieUserUID}"/>
+						<input type="hidden" id="parentBbsSeq" name="parentBbsSeq" value="${board.bbsSeq}"/>
 						  <c:if test="${!empty list}">
 							<c:forEach var="board" items="${list}" varStatus="status">
 								<div class="comment">
@@ -566,11 +591,15 @@ function fn_deleteComment(bbsSeqValue)
 										</c:if>
 										<a>${board.regDate}</a>
 										<button type="button" data-bs-toggle="modal" data-bs-target="#reportModal2" id="btnReport${board.bbsSeq}" onclick="fn_Report(${board.bbsSeq})">신고</button>
-										<button onclick="fn_reComment(${board.bbsSeq})" id="btnReply" class="btnReply">댓글달기</button>
+										<!-- button type="button" onclick="fn_reComment(${board.bbsSeq},${board.commentGroup},${board.commentOrder},${board.commentIndent})" id="btnReply" class="btnReply">댓글달기</button -->
 									</div>
 									<div class="comment-content">
 										<col-lg-12>${board.bbsContent}</col-lg-12>
 									</div>
+									<div id="reComment${board.bbsSeq}" class="submit"></div>
+									<input type="hidden" id="commentGroup" value="${board.commentGroup}"/>
+									<input type="hidden" id="commentOrder" value="${board.commentOrder}"/>
+									<input type="hidden" id	="commentIndent" value="${board.commentIndent}"/>
 								</div>
 							</c:forEach>	
 							   
