@@ -30,8 +30,8 @@ public class ShopService {
 	private static Logger logger = LoggerFactory.getLogger(ShopService.class);
 	
 	//파일 저장 경로
-	@Value("#{env['shop.upload.dir']}")
-	private String SHOP_UPLOAD_DIR;
+	@Value("#{env['shop.upload.save.dir']}")
+	private String SHOP_UPLOAD_SAVE_DIR;
 	
 	@Autowired
 	private ShopDao shopDao;
@@ -677,7 +677,41 @@ public class ShopService {
 						logger.debug("################## ShopMenu Insert Complete " +i+ " ##################");
 					}
 				}
-			
+				
+				//첨부파일
+				if(shop.getShopFileList() != null)
+				{	
+					logger.debug("################## ShopFile Section ##################");
+					logger.debug("################## ShopFile Section ##################");
+					logger.debug("################## ShopFile Section ##################");
+					List<ShopFile> delShopFileList = shopDao.shopFileSelect(shop.getShopUID());
+					
+					//기존 첨부파일 삭제
+					if(delShopFileList != null)
+					{
+						for(int i=0;i<delShopFileList.size();i++)
+						{
+							if(delShopFileList.get(i).getShopFileSize() > 0)
+							{
+								FileUtil.deleteFile(SHOP_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + shop.getShopUID() +FileUtil.getFileSeparator() +delShopFileList.get(0).getShopFileName());
+							}
+						}	
+					}
+					shopDao.shopFileDelete(shop.getShopUID());
+					
+					//새로운첨부파일 등록
+					if(shop.getShopFileList() != null)
+					{
+						List<ShopFile> shopFileList = shop.getShopFileList();
+						logger.debug("ShopFileList(쿼리 날리기 마지막 전) : " + shopFileList);
+						logger.debug("ShopFile이름(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileName());
+						logger.debug("ShopFile원본이름(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileOrgName());
+						logger.debug("ShopFile사이즈(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileSize());
+						logger.debug("ShopFile확장자(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileExt());
+						shopDao.shopFileInsert(shopFileList);
+					}
+					
+				}	
 			}
 			return count;
 		}

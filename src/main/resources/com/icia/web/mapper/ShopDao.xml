@@ -977,4 +977,15 @@ WHERE ORDER_UID = #{noShowOrderUID}
 	 WHERE SHOP_UID = #{shopUID}
 </delete> 
 
+<select id="shopFileSelect" resultMap="shopFileResultMap" parameterType="String">
+	SELECT *
+	FROM T_SHOP_FILE
+	WHERE SHOP_UID = #{shopUID}
+</select>
+
+<delete id="shopFileDelete" parameterType="String">
+	DELETE FROM T_SHOP_FILE
+	WHERE SHOP_UID = #{shopUID}
+</delete> 
+
 </mapper>

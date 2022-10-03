@@ -1,5 +1,6 @@
 package com.icia.web.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.icia.common.model.FileData;
+import com.icia.common.util.FileUtil;
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Response;
 import com.icia.web.model.Shop;
@@ -102,7 +104,7 @@ public class ManagerController {
 			}
 		}
 		
-		
+		logger.debug("##############################정상");
 		return "/manager/shopManage";
 	}
 	
@@ -115,6 +117,11 @@ public class ManagerController {
 		ShopFile shopFile = new ShopFile();
 		List<ShopFile> listFile = shopService.shopFileList(shop.getShopUID());
 		model.addAttribute("listFile", listFile);
+		logger.debug("##############################");
+		logger.debug("# listSize : " + listFile.size());
+		logger.debug("##############################");
+		model.addAttribute("listSize", listFile.size());
+		
 		
 		String address = shop.getShopLocation1() + " " + shop.getShopAddress();
 		model.addAttribute("address", address);
@@ -346,6 +353,79 @@ public class ManagerController {
 		/***********
 		 * 첨부파일
 		 ***********/
+	        
+	   int fileQuantity =0;
+	   List<ShopFile> shopFileList = new ArrayList<ShopFile>();
+	  
+	   ShopFile shopFile = new ShopFile();
+	   FileData fileData = new FileData();
+	   
+	   String mainDir = "";
+	   mainDir += SHOP_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + shop.getShopUID();
+	   
+	   String[] name = new String[100];
+	   
+	   for(int i=0; ; i++)
+	   {
+	      logger.debug("i값 : " + i);
+	      String imageStr = "shopImage"+Integer.toString(i);
+         
+         fileData = (HttpUtil.getFile(request, imageStr, mainDir));
+    	  File mainFolder = new File(mainDir);
+	
+	         // 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
+	         if (!mainFolder.exists())
+	         {
+				try
+				{
+					mainFolder.mkdir(); //폴더 생성합니다.
+					logger.debug("###########");
+					logger.debug("폴더가 생성됨");
+					logger.debug("###########");
+				} 
+				 catch(Exception e)
+				{
+					logger.debug("폴더 생성 중 오류");
+					e.getStackTrace();
+				}        
+	         }
+	         else
+	         {
+	        	 logger.debug("###########");
+	        	 logger.debug("폴더가 존재함");
+	        	 logger.debug("###########");
+	         }
+	         
+	         if(fileData != null)
+	         {
+	            
+	           shopFile.setShopUID(shop.getShopUID());
+               shopFile.setShopFileSeq(i);
+               shopFile.setShopFileName(fileData.getFileName());
+               shopFile.setShopFileOrgName(fileData.getFileOrgName());
+               shopFile.setShopFileExt(fileData.getFileExt());
+               shopFile.setShopFileSize(fileData.getFileSize());
+               logger.debug("shopFileName : " + shopFile.getShopFileName());	          
+               shopFileList.add(shopFile);
+	         }
+	         else
+	         {
+	        	 break;
+	         }
+	      }
+	      	
+	   	logger.debug("shopFileList : " + shopFileList);
+	   
+	  
+
+		logger.debug("ShopFileList(서비스 날리기 마지막 전) : " + shopFileList);
+		logger.debug("ShopFile이름(서비스 날리기 마지막 전) : " + shopFileList.get(0).getShopFileName());
+		logger.debug("ShopFile원본이름(서비스 날리기 마지막 전) : " + shopFileList.get(0).getShopFileOrgName());
+		logger.debug("ShopFile사이즈(서비스 날리기 마지막 전) : " + shopFileList.get(0).getShopFileSize());
+		logger.debug("ShopFile확장자(서비스 날리기 마지막 전) : " + shopFileList.get(0).getShopFileExt());
+
+  		
+
   		if(!StringUtil.isEmpty(shop.getShopUID()) && !StringUtil.isEmpty(shopTitle) && !StringUtil.isEmpty(shopLocation1) && !StringUtil.isEmpty(shopTelephone) )
   		{
   			//기본정보
@@ -374,6 +454,8 @@ public class ManagerController {
 	  		shop.setMenuPriceArray(menuPriceArray);
 	  		shop.setMenuNameArray(menuNameArray);
 	  		shop.setMenuArraySize(menuArraySize);
+	  		
+	  	 	shop.setShopFileList(shopFileList);
 	  		
   			try
   			{

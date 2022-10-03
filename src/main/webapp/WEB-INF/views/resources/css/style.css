@@ -3753,13 +3753,26 @@ reservation 검색
   font-family: 'Cafe24Dangdanghae'
 }
 
+.view .imageModify table td button[type=button]{
+  text-align: center;
+  height:34px;
+  background: #C2A383;
+  border: 0;
+  color: #fff;
+  font-size: 18px;
+  border-radius: 10px;
+  margin-right:5px;
+  width:60px;
+  font-family: 'Cafe24Dangdanghae';
+}
+
 .view .imageModify table{
    margin-top: 20px;
 }
 .view .imageModify table .file-check-content, .file-content{
    font-size:17px;
 }
-.view .imageModify table tr .file-check, .file{
+.view .imageModify table tr td:first-child, .file{
    font-size:20px;
    padding-right:16px;
 }
