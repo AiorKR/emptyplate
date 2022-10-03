@@ -13,13 +13,41 @@ request.setAttribute("No", 2);
 <script type="text/javascript">
 	$(document).ready(function() {
 
-
+				var btnImageStack = $("#imageStack").val();
 				var btnHashStack = $("#hashStack").val();
 				var btnTimeStack = $("#timeStack").val();
 				var btnTableStack = $("#tableStack").val();
 				var btnMenuStack = $("#menuStack").val();
 				
+				$("#btnImageAdd").on("click", function(){
 
+					// table element 찾기
+					const table = document.getElementById("imageList");
+
+					// 새 행(Row) 추가
+					const newRow = table.insertRow();
+
+					// 새 행(Row)에 Cell 추가
+					const newCell1 = newRow.insertCell(0);
+					const newCell2 = newRow.insertCell(1);
+
+					// Cell에 텍스트 추가
+					newCell1.innerHTML = "<td class='file-check'>등록파일</td>";
+					newCell2.innerHTML = "<td><input type='file' id='shopImage"+btnImageStack+"' name='shopImage"+btnImageStack+"' class='file-content' placeholder='파일을 선택하세요.' required/></td>";
+					btnImageStack++;
+					
+					});
+				$("#btnImageDelete").on("click", function(){
+					// table element 찾기
+					const table = document.getElementById("imageList");
+
+					// 행(Row) 삭제
+					const newRow = table.deleteRow(-1);
+					if(btnImageStack>1){
+						btnImageStack--;
+					}
+				});
+				
 				$("#btnHashAdd").on("click", function(){
 					if(btnHashStack<6)
 					{
@@ -274,6 +302,36 @@ request.setAttribute("No", 2);
 		<form name="updateForm" id="updateForm" method="post" enctype="multipart/form-data">
 			<div style="border-right: 2px solid #C2A383; float:left; width: 50%; height:100%">
 				<div class="d-flex flex-column justify-content-center">
+					<div class="list_image">
+						<table>
+							<tr>
+								<td>매장 대표사진</td>
+							</tr>
+							<c:choose>
+								<c:when test= "${!empty shop.shopFileList.get(0).shopFileName}" >
+									<tr>
+										<td><img id="listImage" src="../resources/upload/shop/${shop.shopUID}/${shop.shopFileList.get(0).shopFileName}" height="400px" width="400px"></td>
+									</tr>
+									<tr>
+										<td class="file-check">&nbsp;변경할 첨부파일 : &nbsp;&nbsp;<input type="file" id="shopImage0" name="shopImage0" class="file-content" placeholder="파일을 선택하세요." required/></td>
+									</tr>
+									<tr>
+										<td><div class="file-check-content">[등록된 첨부파일 : ${shop.shopFileList.get(0).shopFileOrgName}]</div></td>
+									</tr>
+								</c:when>
+								<c:otherwise>
+									<tr>
+										<td class="file-check">등록파일&nbsp;&nbsp;<input type="file" id="shopImage0" name="shopImage0" class="file-content" placeholder="파일을 선택하세요." required/></td>
+									</tr>
+									<tr>
+										<td><div class="file-check-content">[등록된 첨부파일 : ${shop.shopFileList.get(0).shopFileOrgName}]</div></td>
+									</tr>
+								</c:otherwise>
+							</c:choose>
+							
+						</table>
+					</div>
+					
 					<div class="main_image">
 					  <img src="../resources/upload/shop/${shop.shopUID}/${shop.shopFileList.get(1).shopFileName}"
 						   id="main_product_image" height="400px" width="400px">
@@ -281,7 +339,7 @@ request.setAttribute("No", 2);
 					<br />
 					<div class="thumbnail_images">
 					  <ul id="thumbnail">
-						<c:forEach items="${shop.shopFileList}" var="shopFileList" varStatus="status" begin="1" end="5">
+						<c:forEach items="${shop.shopFileList}" var="shopFileList" varStatus="status" begin="1">
 						  <li><img onclick="changeImage(this)"
 									src="../resources/upload/shop/${shop.shopUID}/${shopFileList.shopFileName}"
 									width="100px" height="100px">&nbsp;
@@ -291,20 +349,43 @@ request.setAttribute("No", 2);
 					  
 					</div>
 
+
+
 					<div class="imageModify">
-						<table>
-						<c:forEach var="shopFile" items="${listFile}" varStatus="status">
-							<tr>
-								<td class="file-check">등록파일</td>
-								<td><div class="file-check-content">[등록한 첨부파일 : ${shopFile.shopFileOrgName}]<input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요."/></div></td>
-							</tr>
+						<table id = imageList>
+						<c:forEach var="shopFile" items="${listFile}" varStatus="status" begin="1">
+							<c:if test = "${status.count ge 1}">
+								<tr>
+									<td class="file-check" lowspan="2">등록파일</td>
+									<td><input type="file" id="shopImage${status.count}" name="shopImage${status.count}" class="file-content" placeholder="파일을 선택하세요." />
+									</td>
+								</tr>
+								<tr><td></td><td><div class="file-check-content">[등록된 첨부파일 : ${shopFile.shopFileOrgName}]</div></td>
+								</tr>
+							</c:if>
+							<c:if test="${status.last}"><input type="hidden" id="imageStack" value="${status.count + 1}"></c:if>
 						</c:forEach>
 							<!-- tr>
 								<td class="file">이미지 첨부</td>
 								<td><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요." required /></td>
 							</tr -->	
 						</table>
+						<table id="imageButton">
+								<tr>
+									<td>이미지 추가</td>
+									<td>
+										<button type="button" id="btnImageAdd">생성</button>
+									</td>
+									<td>
+										<button type="button" id="btnImageDelete">삭제</button>
+									</td>
+								</tr>
+							</table>
 					</div>
+
+
+
+
 
 					<div class="basic">
 					<div class="d-flex justify-content-between align-items-center">

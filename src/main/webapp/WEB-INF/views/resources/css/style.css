@@ -3717,6 +3717,42 @@ reservation 검색
 
 
 /*shopUpdate 수정*/
+
+.btn-upload {
+  width: 90px;
+  height: 34px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #C2A383;
+  border: 0;
+  color: #fff;
+  font-size: 18px;
+  border-radius: 10px;
+  margin-right:5px;
+  font-family: 'Cafe24Dangdanghae'
+}
+.btn-upload:hover{
+  width: 90px;
+  height: 34px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #fff;
+  border: 0;
+  color: #C2A383;
+  font-size: 18px;
+  border-radius: 10px;
+  margin-right:5px;
+  font-family: 'Cafe24Dangdanghae'
+}
+
 .view .imageModify table{
    margin-top: 20px;
 }
