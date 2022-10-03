@@ -635,8 +635,6 @@ public class ShopService {
 					}
 				}
 				logger.debug("################## ShopTime Insert Complete ##################");
-				logger.debug("################## ShopTime Insert Complete ##################");
-				logger.debug("################## ShopTime Insert Complete ##################");
 				//매장테이블
 				shopTotalTable.setShopUID(shop.getShopUID());
 				shopDao.shopTableZeroUpdate(shopTotalTable);
@@ -660,8 +658,6 @@ public class ShopService {
 					
 				}
 				logger.debug("################## ShopTable Update Complete ##################");
-				logger.debug("################## ShopTable Update Complete ##################");
-				logger.debug("################## ShopTable Update Complete ##################");
 				//메뉴
 				shopMenu.setShopUID(shop.getShopUID());
 				shopDao.shopMenuDelete(shopMenu);
@@ -681,13 +677,9 @@ public class ShopService {
 					}
 				}
 				logger.debug("################## ShopMenu Insert Complete ##################");
-				logger.debug("################## ShopMenu Insert Complete ##################");
-				logger.debug("################## ShopMenu Insert Complete ##################");
 				//첨부파일
 				if(shop.getShopFileList() != null)
 				{	
-					logger.debug("################## ShopFile Section ##################");
-					logger.debug("################## ShopFile Section ##################");
 					logger.debug("################## ShopFile Section ##################");
 					List<ShopFile> delShopFileList = shopDao.shopFileSelect(shop.getShopUID());
 					
@@ -708,7 +700,7 @@ public class ShopService {
 					if(shop.getShopFileList() != null)
 					{
 						List<ShopFile> shopFileList = shop.getShopFileList();
-						logger.debug("ShopFileList(쿼리 날리기 마지막 전) : " + shopFileList);
+						logger.debug("ShopFileList(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileName());
 						shopDao.shopFileInsert(shopFileList);
 					}
 				}	

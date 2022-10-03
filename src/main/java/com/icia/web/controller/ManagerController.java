@@ -289,7 +289,6 @@ public class ManagerController {
   			else
   			{
   				tableArraySize=i;
-  				logger.debug("####break####");
   				break;
   			}
   		}
@@ -311,7 +310,6 @@ public class ManagerController {
   			else
   			{
   				timeArraySize=i;
-  				logger.debug("####break####");
   				break;
   			}
   		}
@@ -336,7 +334,6 @@ public class ManagerController {
   			else
   			{
   				menuArraySize=i;
-  				logger.debug("####break####");
   				break;
   			}
   		}
@@ -358,7 +355,6 @@ public class ManagerController {
 	      logger.debug("i값 : " + i);
 	      String imageStr = "shopImage"+Integer.toString(i);
 	      logger.debug("################ imageStr :" + imageStr);
-         
          logger.debug("################ imageStr :" + !StringUtil.isEmpty(imageStr));
     	  File mainFolder = new File(mainDir);
 	
