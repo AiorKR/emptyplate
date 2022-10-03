@@ -238,11 +238,7 @@ public class ManagerController {
   				}
   			}
   		}
-  		logger.debug("############################");
-  		logger.debug(dayList);
-  		logger.debug("############################");
-  		logger.debug("############################");
-
+  		
 		/***********
 		 * 소개글
 		 ***********/
@@ -288,11 +284,6 @@ public class ManagerController {
   			{  				
   				tableTypeArray[i] =  Integer.parseInt(HttpUtil.get(request, str));
   				tableArray[i] = Integer.parseInt(HttpUtil.get(request, str2));
-  				logger.debug("# str : " + str);
-  				logger.debug("# str : " + str2);
-  				logger.debug("# timeArray["+i+"] : "+tableArray[i]);
-  				logger.debug("# timeTypeArray["+i+"] : "+tableTypeArray[i]);
-  				logger.debug("############################");
   				tableArraySize=i;
   			}
   			else
@@ -463,6 +454,9 @@ public class ManagerController {
   			{
   				if(shopService.shopUpdate(shop) > 0)
   				{
+  					logger.debug("### success :" + shopService.shopUpdate(shop));
+  					logger.debug("### success :" + shopService.shopUpdate(shop));
+  					logger.debug("### success :" + shopService.shopUpdate(shop));
   					logger.debug("### success :" + shopService.shopUpdate(shop));
   					ajaxResponse.setResponse(0, "Success");
   				}

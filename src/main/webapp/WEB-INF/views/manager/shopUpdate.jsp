@@ -337,7 +337,7 @@ request.setAttribute("No", 2);
 					<c:choose>
 						<c:when test="${listSize ge 2}">
 							<div class="main_image">
-							  <img src="../resources/upload/shop/${shop.shopUID}/${shop.shopFileList.get(1).shopFileName}"
+							  <img src="../resources/upload/shop/${shop.shopUID}/${shop.shopFileList.get(0).shopFileName}"
 								   id="main_product_image" height="400px" width="400px">
 							</div><br />
 							<div class="thumbnail_images">

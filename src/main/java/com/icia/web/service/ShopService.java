@@ -631,10 +631,12 @@ public class ShopService {
 							break;
 						}
 						shopDao.shopTimeInsert(shopTime);
-						logger.debug("################## ShopTime Insert Complete " +i+ " ##################");
+						
 					}
 				}
-				
+				logger.debug("################## ShopTime Insert Complete ##################");
+				logger.debug("################## ShopTime Insert Complete ##################");
+				logger.debug("################## ShopTime Insert Complete ##################");
 				//매장테이블
 				shopTotalTable.setShopUID(shop.getShopUID());
 				shopDao.shopTableZeroUpdate(shopTotalTable);
@@ -656,9 +658,10 @@ public class ShopService {
 						shopDao.shopTableInsert(shopTotalTable);
 					}
 					
-					logger.debug("################## ShopTable Update Complete " +i+ " ##################");
 				}
-				
+				logger.debug("################## ShopTable Update Complete ##################");
+				logger.debug("################## ShopTable Update Complete ##################");
+				logger.debug("################## ShopTable Update Complete ##################");
 				//메뉴
 				shopMenu.setShopUID(shop.getShopUID());
 				shopDao.shopMenuDelete(shopMenu);
@@ -674,10 +677,12 @@ public class ShopService {
 							break;
 						}
 						shopDao.shopMenuInsert(shopMenu);
-						logger.debug("################## ShopMenu Insert Complete " +i+ " ##################");
+						
 					}
 				}
-				
+				logger.debug("################## ShopMenu Insert Complete ##################");
+				logger.debug("################## ShopMenu Insert Complete ##################");
+				logger.debug("################## ShopMenu Insert Complete ##################");
 				//첨부파일
 				if(shop.getShopFileList() != null)
 				{	
@@ -704,13 +709,8 @@ public class ShopService {
 					{
 						List<ShopFile> shopFileList = shop.getShopFileList();
 						logger.debug("ShopFileList(쿼리 날리기 마지막 전) : " + shopFileList);
-						logger.debug("ShopFile이름(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileName());
-						logger.debug("ShopFile원본이름(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileOrgName());
-						logger.debug("ShopFile사이즈(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileSize());
-						logger.debug("ShopFile확장자(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileExt());
 						shopDao.shopFileInsert(shopFileList);
 					}
-					
 				}	
 			}
 			return count;
