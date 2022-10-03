@@ -26,20 +26,35 @@
   <div class="row">
 	<div style="border-right: 2px solid #C2A383; float:left;width: 50%;">
 	  <div class="d-flex flex-column justify-content-center">
+	  
 		<div class="main_image">
-		  <img src="../resources/upload/shop/${shop.shopUID}/${shop.shopFileList.get(1).shopFileName}"
-			   id="main_product_image" height="400px" width="400px">
+			<c:choose>
+				<c:when test="${!empty shop.shopFileList}">
+		  			<img src="../resources/upload/shop/${shop.shopUID}/${shop.shopFileList.get(0).shopFileName}" id="main_product_image" height="400px" width="400px">
+				</c:when>
+				<c:otherwise>
+					<p>사진이 존재하지 않습니다</p>
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<div class="thumbnail_images">
 		  <ul id="thumbnail">
-			<c:forEach items="${shop.shopFileList}" var="shopFileList" varStatus="status" begin="1" end="5">
-			  <li><img onclick="changeImage(this)"
-						src="../resources/upload/shop/${shop.shopUID}/${shopFileList.shopFileName}"
-						width="100px" height="100px" class="thumbnail">&nbsp;
-			  </li>
-			</c:forEach>
+		  <c:choose>
+				<c:when test="${!empty shop.shopFileList}">
+					<c:forEach items="${shop.shopFileList}" var="shopFileList" varStatus="status">
+					  <li><img onclick="changeImage(this)"
+								src="../resources/upload/shop/${shop.shopUID}/${shopFileList.shopFileName}"
+								width="100px" height="100px" class="thumbnail">&nbsp;
+					  </li>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<p>사진이 존재하지 않습니다</p>
+				</c:otherwise>
+			</c:choose>
 		  </ul>
 		</div>
+		
 		<div class="view-text">
 		  <p class="title">공지사항</p>
 		  <p class="view-content">${shop.shopContent}</p>
@@ -216,21 +231,13 @@
 				</table>
 	       </div>
        </div>
-    
+     -->
   </div>
-   <form name="manageForm" id="manageForm" method="post">
+  <form name="manageForm" id="manageForm" method="post">
     <input type="hidden" name="shopUID" id="shopUID"  value="${shop.shopUID}"/> 
-     <input type="hidden" name="reservationDate" id="reservationDate" value="${reservationDate}" />
-     <input type="hidden" name="reservationTime" id="reservationTime" value="${reservationTime}" />
-     <input type="hidden" name="reservationPeople" id="reservationPeople" value="" />
-     <c:forEach items="${shop.shopMenu}" var="shopMenu" varStatus="status">
-  		<input type="hidden" name="shopOrderMenu${status.index}" value="${shopMenu.shopMenuName}" />
-  		<input type="hidden" name="shopOrderMenuQuantity${status.index}" value="0" />
-     </c:forEach>
-     <input type="hidden" name="totalAmount2" id="totalAmount2" value="0">
-     <input type="hidden" name="counterSeatYN" id="counterSeatYN" value="N"><!-- 카운터석으로 앉을지 여부 Y는 카운터석, N은 카운터석이 아닌자리 -->
   </form>
  </div>
+
 </section>
 
 <script>

@@ -408,7 +408,7 @@ SELECT S.SHOP_UID AS SHOP_UID,
 	       B.FILE_SIZE,
 	       B.REG_DATE
 	  FROM T_SHOP A, T_SHOP_FILE B
-	 WHERE A.SHOP_UID = B.SHOP_UID
+	 WHERE A.SHOP_UID = B.SHOP_UID(+)
 	   AND USER_UID = #{value}
 </select>
 
@@ -975,6 +975,17 @@ WHERE ORDER_UID = #{noShowOrderUID}
 <delete id="shopMenuDelete" parameterType="com.icia.web.model.ShopMenu">
     DELETE FROM T_SHOP_MENU
 	 WHERE SHOP_UID = #{shopUID}
+</delete> 
+
+<select id="shopFileSelect" resultMap="shopFileResultMap" parameterType="String">
+	SELECT *
+	FROM T_SHOP_FILE
+	WHERE SHOP_UID = #{shopUID}
+</select>
+
+<delete id="shopFileDelete" parameterType="String">
+	DELETE FROM T_SHOP_FILE
+	WHERE SHOP_UID = #{shopUID}
 </delete> 
 
 </mapper>

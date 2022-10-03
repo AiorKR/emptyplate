@@ -30,8 +30,8 @@ public class ShopService {
 	private static Logger logger = LoggerFactory.getLogger(ShopService.class);
 	
 	//파일 저장 경로
-	@Value("#{env['shop.upload.dir']}")
-	private String SHOP_UPLOAD_DIR;
+	@Value("#{env['shop.upload.save.dir']}")
+	private String SHOP_UPLOAD_SAVE_DIR;
 	
 	@Autowired
 	private ShopDao shopDao;
@@ -631,10 +631,10 @@ public class ShopService {
 							break;
 						}
 						shopDao.shopTimeInsert(shopTime);
-						logger.debug("################## ShopTime Insert Complete " +i+ " ##################");
+						
 					}
 				}
-				
+				logger.debug("################## ShopTime Insert Complete ##################");
 				//매장테이블
 				shopTotalTable.setShopUID(shop.getShopUID());
 				shopDao.shopTableZeroUpdate(shopTotalTable);
@@ -656,9 +656,8 @@ public class ShopService {
 						shopDao.shopTableInsert(shopTotalTable);
 					}
 					
-					logger.debug("################## ShopTable Update Complete " +i+ " ##################");
 				}
-				
+				logger.debug("################## ShopTable Update Complete ##################");
 				//메뉴
 				shopMenu.setShopUID(shop.getShopUID());
 				shopDao.shopMenuDelete(shopMenu);
@@ -674,10 +673,41 @@ public class ShopService {
 							break;
 						}
 						shopDao.shopMenuInsert(shopMenu);
-						logger.debug("################## ShopMenu Insert Complete " +i+ " ##################");
+						
 					}
 				}
-			
+				logger.debug("################## ShopMenu Insert Complete ##################");
+				//첨부파일
+				if(shop.getShopFileList() != null)
+				{	
+					logger.debug("################## ShopFile Section ##################");
+					List<ShopFile> delShopFileList = shopDao.shopFileSelect(shop.getShopUID());
+					
+					//기존 첨부파일 삭제
+					if(delShopFileList != null)
+					{
+						for(int i=0;i<delShopFileList.size();i++)
+						{
+							if(delShopFileList.get(i).getShopFileSize() > 0)
+							{
+								FileUtil.deleteFile(SHOP_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + shop.getShopUID() +FileUtil.getFileSeparator() +delShopFileList.get(0).getShopFileName());
+							}
+						}	
+					}
+					shopDao.shopFileDelete(shop.getShopUID());
+					
+					//새로운첨부파일 등록
+					if(shop.getShopFileList() != null)
+					{
+						List<ShopFile> shopFileList = shop.getShopFileList();
+						logger.debug("#"+shopFileList.size());
+						for(int i =0;i<shopFileList.size();i++)
+						{
+							logger.debug("ShopFileList(쿼리 날리기 마지막 전) i : "+ i + " // name : " + shopFileList.get(i).getShopFileName());
+						}
+						shopDao.shopFileInsert(shopFileList);
+					}
+				}	
 			}
 			return count;
 		}
