@@ -354,8 +354,7 @@ public class ManagerController {
 		 * 첨부파일
 		 ***********/
 	        
-	   int fileQuantity =0;
-	   List<ShopFile> shopFileList = new ArrayList<ShopFile>();
+  		List<ShopFile> shopFileList = new ArrayList<ShopFile>();
 	  
 	   ShopFile shopFile = new ShopFile();
 	   FileData fileData = new FileData();
@@ -369,8 +368,10 @@ public class ManagerController {
 	   {
 	      logger.debug("i값 : " + i);
 	      String imageStr = "shopImage"+Integer.toString(i);
+	      logger.debug("################ imageStr :" + imageStr);
          
-         fileData = (HttpUtil.getFile(request, imageStr, mainDir));
+         fileData = HttpUtil.getFile(request, imageStr, mainDir);
+         logger.debug("################ imageStr :" + !StringUtil.isEmpty(imageStr));
     	  File mainFolder = new File(mainDir);
 	
 	         // 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
