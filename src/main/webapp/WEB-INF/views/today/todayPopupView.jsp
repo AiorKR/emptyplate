@@ -3,16 +3,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!--date and time picker-->
-<link rel="stylesheet"
-   href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
-<link rel="stylesheet"
-   href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css">
-<link rel="stylesheet"
-   href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
-<link rel="stylesheet" href="/resources/datepicker/date_picker.css">
-<!--end date and time picker-->
-
 <!-- Favicons -->
   <link href="/resources/images/favicon.png" rel="icon">
   <link href="/resources/images/apple-touch-icon.png" rel="apple-touch-icon">
@@ -34,16 +24,6 @@
   <script type="text/javascript" src="/resources/js/icia.common.js"></script>
   <!-- Template Main CSS File -->
   <link href="/resources/css/style.css" rel="stylesheet">
-  
-
-<!--date and time picker-->
-<script
-   src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
-<script
-   src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
-<script
-   src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.js"></script>
-<!--end date and time picker-->
 
 <script src="https://js.tosspayments.com/v1"></script>
 
@@ -191,8 +171,8 @@ $(document).ready(function(){
       <p>${shop.shopIntro}</p>
      </div>
      <ul class="intro2">
-      <li><i class="fa-solid fa-map-location-dot"></i>&nbsp;&nbsp;${shop.location1} ${shop.location2} ${shop.shopAddress}</</</li>
-      <li><i class="fa-regular fa-star"></i>&nbsp;&nbsp;별점 ${shop.reviewScore} (${shop.reviewCount})</li>
+      <li><i class="fa-solid fa-map-location-dot"></i>&nbsp;&nbsp;${shop.shopLocation1} ${shop.shopLocation2} ${shop.shopAddress}</</</li>
+      <li><i class="fa-regular fa-star"></i>&nbsp;&nbsp;별점 <fmt:formatNumber value="${shop.reviewScore}" pattern=".00"/> (${shop.reviewCount})</li>
       <li><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;${shop.shopTelephone}</li>
      </ul>
      <c:forTokens items="${shop.shopHashtag}" delims="#" var="shopHashtag">
@@ -215,7 +195,7 @@ $(document).ready(function(){
              // 주소-좌표 변환 객체를 생성합니다
              var geocoder = new kakao.maps.services.Geocoder();
              // 주소로 좌표를 검색합니다
-             geocoder.addressSearch('${address}', function(result, status) {
+             geocoder.addressSearch('${shop.shopLocation1} ${shop.shopLocation2} ${shop.shopAddress}', function(result, status) {
                  // 정상적으로 검색이 완료됐으면 
                   if (status === kakao.maps.services.Status.OK) {
                      var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -268,15 +248,15 @@ $(document).ready(function(){
                   <c:forEach items="${order.orderMenu}" var="orderMenu" varStatus="status">
                      <div>
                         <span id="shopOrderMenu${status.index}"
-                             class="shopOrderMenu">${orderMenu.orderMenuName}</span> 
+                             class="shopOrderMenu">${orderMenu.orderMenuName}</span> X  
                         <span id="shopOrderMenuQuantity${status.index}"
                              class="shopOrderMenu">${orderMenu.orderMenuQuantity}</span>
                      </div>
                   </c:forEach>
                   <p class="total">
-                         할인 전 : <span id="totalAmount">${order.totalAmount}
-                     할인 후 : <c:if test='${order.orderStatus eq "X"}'><c:set value="${order.totalAmount * 0.3}" var="totalAmount" />${totalAmount}</c:if> &nbsp;
-                           <c:if test='${order.orderStatus eq "C"}'><c:set value="${order.totalAmount * 0.5}" var="totalAmount" />${totalAmount}</c:if> </span>
+                         할인 전 : <span id="totalAmount"><strike><fmt:formatNumber value="${order.totalAmount}" pattern=""/> 원 </strike> &nbsp;
+                     <span style="color:red;">할인 후 : </span><c:if test='${order.orderStatus eq "X"}'><c:set value="${order.totalAmount * 0.3}" var="totalAmount" /><span style="color:red;'"><fmt:formatNumber value="${totalAmount}" pattern=""/></span></c:if> 
+                           <c:if test='${order.orderStatus eq "C"}'><c:set value="${order.totalAmount * 0.5}" var="totalAmount" /><span style="color:red;"><fmt:formatNumber value="${totalAmount}" pattern=""/></span></c:if> </span>
                   </p>
                </div>
                <button class="btn btn-primary" id="pay">결 제</button>

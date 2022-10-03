@@ -190,12 +190,9 @@ public class PayController {
       String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
       
       List<OrderMenu> orderMenuList = new ArrayList<OrderMenu>();
-      logger.debug("쿠키 orderMenusize : " + CookieUtil.getHexValue(request, "orderMenuSize"));
       CookieUtil.deleteCookie(request, response, "/", "orderMenuSize");
       String totalAmount = CookieUtil.getHexValue(request, "reservationTotalAmount");
       if(!StringUtil.isEmpty(totalAmount) || !StringUtil.isEmpty(amount)) {
-         logger.debug("totalAmount : " + totalAmount);
-         logger.debug("amount : " + amount);
          if(StringUtil.equals(totalAmount, amount)) { //totalAmount는 쿠키로 받은 값 (토스에 보낸 값), amount는 parameter로 받은 값 (토스에서 보내준 값)
             if(!StringUtil.isEmpty(CookieUtil.getHexValue(request, "orderMenuSize"))) {
                orderMenuSize = Integer.parseInt(CookieUtil.getHexValue(request, "orderMenuSize"));   
@@ -260,10 +257,8 @@ public class PayController {
                      model.addAttribute("order", order);
                      
                      String fileName = shop.getShopUID() + ".jpg";
-                     logger.debug("fileName : " + fileName);
                      
                      for(int i=0; i< shop.getShopFileList().size(); i++) {
-                        logger.debug(" shop.getShopFileList().get(i).getShopFileOrgName() : " + shop.getShopFileList().get(i).getShopFileOrgName());
                         if(StringUtil.equals(fileName, shop.getShopFileList().get(i).getShopFileOrgName())) {
                            shopFile = shop.getShopFileList().get(i).getShopFileName();
                         }
@@ -365,7 +360,7 @@ public class PayController {
               String strCurTime = curTimeFormat.format(curTime);
               long count = shopService.orderUIDcreate(); //count는 orderuid에 사용될 seq값을 가져옴
               String seq =  String.format("%03d", count);
-              
+              order.setOrderUID(strCurTime + seq);
               order.setUserName(user.getUserName());
               order.setToss(toss);
               if(StringUtil.equals(order.getOrderStatus(), "C")) {
@@ -408,8 +403,8 @@ public class PayController {
          
          
          
-         Order order = shopService.orderSelect(orderUID);
-         order.setOrderUID(orderId);
+         Order order = shopService.orderSelect(orderUID); //noshow 났던 orderUID (결제 전)
+         order.setOrderUID(orderId); //noshow 결제 된 orderUID (결제 후)
          
          if(StringUtil.equals(order.getOrderStatus(), "C")) {
             totalAmount = (int)(order.getTotalAmount() * 0.5);
@@ -440,6 +435,7 @@ public class PayController {
                       order = shopService.orderSelect(order.getOrderUID());
                      
                      model.addAttribute("order", order);
+                     model.addAttribute("popup", "Y");
                   }
                   else { //예약실패 했을때 결제 취소건 처리
                      result = payService.payCancel(order.getToss().getPaymentKey(), "예약이 정상적으로 완료되지 않았습니다.", order.getTotalAmount());

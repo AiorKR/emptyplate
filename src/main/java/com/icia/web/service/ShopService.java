@@ -60,8 +60,6 @@ public class ShopService {
 			catch(Exception e) {
 				logger.error("[ShopService] shopListCount Exception", e);
 			}
-			logger.debug("searchType : " +  shop.getSearchType());
-			logger.debug("count : " +  count);
 			
 			return count;
 		}
@@ -70,9 +68,7 @@ public class ShopService {
 		public List<Shop> shopList(Shop shop) { //shop 조회 
 			
 			List<Shop> list = null;
-			
-			
-			logger.debug("searchType : " +  shop.getSearchType());
+
 			
 			try
 			{	
@@ -90,18 +86,10 @@ public class ShopService {
 		//매장 상세페이지
 		public Shop shopViewSelect(String shopUID) {
 			Shop shop = null;
-			
-			logger.debug("들어옴1");
-			logger.debug("shopUID : " + shopUID);
+
 			try {
 				
 			   shop = shopDao.shopViewSelect(shopUID);
-			
-			   logger.debug("파일 사이즈 : " + shop.getShopFileList().size());	
-			   
-			   logger.debug("메뉴 사이즈 : " + shop.getShopMenu().size());
-		   
-			   logger.debug("시간 사이즈 : " + shop.getShopTime().size());
 				   
 			}
 			
@@ -109,7 +97,6 @@ public class ShopService {
 				logger.error("[ShopService] ShopViewSelect", e);
 			}
 			
-			logger.debug("들어옴3");
 			
 			return shop;
 		}
@@ -148,7 +135,7 @@ public class ShopService {
 				count = shopDao.orderUIDcreate();
 			}
 			catch(Exception e) {
-				logger.debug("[Shopservice] orderUIDcreate", e);
+				logger.error("[Shopservice] orderUIDcreate", e);
 			}
 			
 			return count;
@@ -160,17 +147,10 @@ public class ShopService {
 			//없으면 새로운 트랜젝션을 실행(기본설정)
 		
 			int count = shopDao.shopInsert(shop);
-			logger.debug("shop.getShopFileList() : " + shop.getShopFileList());
 			//게시물 등록 후 첨부파일이 잇으면 첨부파일 등록
 			if(count > 0 && shop.getShopFileList() != null) {
 				List<ShopFile> shopFileList = shop.getShopFileList();	
-				
-				logger.debug("ShopFileList(쿼리 날리기 마지막 전) : " + shopFileList);
-				logger.debug("ShopFile이름(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileName());
-				logger.debug("ShopFile원본이름(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileOrgName());
-				logger.debug("ShopFile사이즈(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileSize());
-				logger.debug("ShopFile확장자(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileExt());
-				
+
 				shopDao.shopFileInsert(shopFileList);
 			}
 			return count;
@@ -373,7 +353,6 @@ public class ShopService {
 			
 			try {
 				list = shopDao.noShowImminent();
-				logger.debug("noshow 임박 갯수 : " + list.size());
 			}
 			catch(Exception e) {
 				logger.error("[Shopservice] noShowImminent", e);
@@ -491,7 +470,6 @@ public class ShopService {
 			
 			try {
 				list = shopDao.shopListTime();
-				logger.debug("가져온 리스트 시간 목록 size : " + list.size());
 			}
 			catch(Exception e) {
 				logger.error("[Shopservice] shopListTimeList", e);
@@ -505,7 +483,6 @@ public class ShopService {
 			
 			try {
 				list = shopDao.noShow(shop);
-				logger.debug("noshow 갯수 : " + list.size());
 			}
 			catch(Exception e) {
 				logger.error("[Shopservice] noShow", e);

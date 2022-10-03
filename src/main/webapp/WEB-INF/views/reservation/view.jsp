@@ -36,6 +36,33 @@ request.setAttribute("No", 2);
 <meta charset="UTF-8">
 
 <script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function() {
+
+    var mySwiper = new Swiper('.swiper-container', {
+        slidesPerView: 4,
+        slidesPerGroup: 1,
+        observer: true,
+        observeParents: true,
+        spaceBetween: 10,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+            1280: {
+                slidesPerView: 4,
+                slidesPerGroup: 4,
+            },
+            720: {
+                slidesPerView: 4,
+                slidesPerGroup: 1,
+            }
+        },
+        loopFillGroupWithBlank : true,
+        loop: false
+    });
+    
+});
 $(document).ready(function(){
    
    $("#counterSeat").on("click", function() {
@@ -435,12 +462,20 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
       </div>
       <div class="thumbnail_images">
         <ul id="thumbnail">
-         <c:forEach items="${shop.shopFileList}" var="shopFileList" varStatus="status" begin="1" end="5">
-           <li><img onclick="changeImage(this)"
-                  src="../resources/upload/shop/${shop.shopUID}/${shopFileList.shopFileName}"
-                  width="100px" height="100px" style="margin: 5px;">
-           </li>
-         </c:forEach>
+	       	<li class="swiper-button-prev" style="margin-top: -10px"></li>
+	         <c:forEach items="${shop.shopFileList}" var="shopFileList" varStatus="status" begin="1" end="5">
+	         	<c:if test='${shopFileList.shopFileName eq " "}'>
+		           <li>
+		           		<img onclick="changeImage(this)" src="../resources/upload/shop/${shop.shopUID}/${shopFileList.shopFileName}" width="100px" height="100px" style="margin: 5px;">
+		           </li>
+            	</c:if>
+	         	<c:if test='${shopFileList.shopFileName ne " "}'>
+		           <li>
+		           		<img onclick="changeImage(this)" src="../resources/upload/shop/${shop.shopUID}/${shopFileList.shopFileName}" width="100px" height="100px" style="margin: 5px;">
+		           </li>
+            	</c:if>
+            </c:forEach>
+            <li class="swiper-button-next" style="position:inherit; align-items:right; margin-top: -10px; margin-left: 7px;"></li>
         </ul>
       </div>
       <div class="view-text">
@@ -497,7 +532,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
              // 주소-좌표 변환 객체를 생성합니다
              var geocoder = new kakao.maps.services.Geocoder();
              // 주소로 좌표를 검색합니다
-             geocoder.addressSearch('${address}', function(result, status) {
+             geocoder.addressSearch('${shop.shopLocation1} ${shop.shopLocation2} ${shop.shopAddress}', function(result, status) {
                  // 정상적으로 검색이 완료됐으면 
                   if (status === kakao.maps.services.Status.OK) {
                      var coords = new kakao.maps.LatLng(result[0].y, result[0].x);

@@ -62,8 +62,7 @@ public class PayService {
 
          // double amount = order.getTotalAmount();
 
-         String base64data = Base64.getEncoder().encodeToString(targetBytes);
-         logger.debug("base64data : " + base64data);
+         String base64data = Base64.getEncoder().encodeToString(targetBytes);;
 
          headers.add("Authorization", "Basic " + base64data); // 시크릿키를 base64로 암호화 한 후에 넘김
          headers.add("Content-type", "application/json");
@@ -154,9 +153,7 @@ public class PayService {
                      List<ShopReservationTable> shopReservationTableList = new ArrayList<ShopReservationTable>();   
                      if (order.getReservationPeople() % 2 == 0) { // 예약인원이 짝수 일때 
                         tmp2 = order.getReservationPeople() / shop.getShopTotalTable().get(i).getShopTotalTableCapacity(); //소수점으로 나올거에 대비하여 tmp2라는 double 변수에 담음
-                        logger.debug("tmp2 : " + tmp2);
                         quantity = (int)Math.ceil(tmp2); //올림처리함
-                        logger.debug("짝수 수량 : " + quantity);
                         if (StringUtil.equals(shop.getShopTotalTable().get(i).getShopTotalTableStatus(), "N")) { // 자리가 있는 테이블 종류 확인
                            if (shop.getShopTotalTable().get(i).getShopTotalTableRmains() >= quantity) {
                               for (int j = 0; j < shop.getShopTotalTable().get(i).getShopTable().size(); j++) {
@@ -183,9 +180,7 @@ public class PayService {
                      else { // 예약인원이 홀수 일때
                         tmp = order.getReservationPeople() + 1;  // 1명 추가해서 짝수로 만들어 계산
                         tmp2 = (double)tmp / (double)shop.getShopTotalTable().get(i).getShopTotalTableCapacity(); //소수가 될 것을 대비하여 double변수에 담음
-                        logger.debug("tmp2 : " + tmp2);
                         quantity = (int)Math.ceil(tmp2); //올림해서 변수에 담음
-                        logger.debug("홀수 수량 : " + quantity);
                            if (StringUtil.equals(shop.getShopTotalTable().get(i).getShopTotalTableStatus(),"N")) { // 자리가 있는 테이블 종류 확인
                               if (shop.getShopTotalTable().get(i).getShopTotalTableRmains() >= quantity) {
                                  for (int j = 0; j < shop.getShopTotalTable().get(i).getShopTable().size(); j++) {
@@ -351,8 +346,6 @@ public class PayService {
       else {
          result = "400, 필수 파라미터  부족";
       }
-      
-      logger.debug("result : " + result);
       
       return result;
    }
