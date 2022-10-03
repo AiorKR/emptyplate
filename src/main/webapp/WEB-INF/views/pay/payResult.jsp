@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/include/taglib.jsp" %>  
 <!DOCTYPE html>
 <html>
 	<head>
 	<%@ include file="/WEB-INF/views/include/head.jsp"%>
 		<script type="text/javascript">
+
 		function fn_location() {
 			location.href = "/reservation/list";
 		}
@@ -28,7 +30,7 @@
 	</style>
 	</head>
 	<body onbeforeunload="document.bbsForm.submit();">
-		<%@ include file="/WEB-INF/views/include/navigation.jsp"%>
+			<%@ include file="/WEB-INF/views/include/navigation.jsp"%>
 		<main id="main">
 			<section class="reservation">
 			 <div class="container">
