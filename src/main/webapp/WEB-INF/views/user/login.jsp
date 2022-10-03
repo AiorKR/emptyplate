@@ -704,7 +704,7 @@ userPhone.value = "인증되었습니다"
 		            </label>
 		            <label>
 		              <span>Name</span>
-		              <input type="text" id="userName" name="userName" placeholder="이름을 입력하세요." maxlength="12" />
+		              <input type="text" id="userName" name="userName" placeholder="이름을 입력하세요."/>
 		            </label>
 		             <label>
 		              <span>닉네임</span>

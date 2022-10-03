@@ -10,7 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.icia.common.util.FileUtil;
+import com.icia.common.util.StringUtil;
 import com.icia.web.dao.ShopDao;
+import com.icia.web.model.Board;
+import com.icia.web.model.BoardFile;
 import com.icia.web.model.Order;
 import com.icia.web.model.OrderMenu;
 import com.icia.web.model.Shop;
@@ -26,8 +30,8 @@ public class ShopService {
 	private static Logger logger = LoggerFactory.getLogger(ShopService.class);
 	
 	//파일 저장 경로
-	@Value("#{env['shop.upload.dir']}")
-	private String SHOP_UPLOAD_DIR;
+	@Value("#{env['shop.upload.save.dir']}")
+	private String SHOP_UPLOAD_SAVE_DIR;
 	
 	@Autowired
 	private ShopDao shopDao;
@@ -154,6 +158,20 @@ public class ShopService {
 				shopDao.shopFileInsert(shopFileList);
 			}
 			return count;
+		}
+		
+		public List<ShopFile> shopFileList(String shopUID)
+		{
+			List<ShopFile> list = null;
+			try
+			{
+				list = shopDao.shopFileList(shopUID);
+			}
+			catch(Exception e)
+			{
+				logger.debug("[Shopservice] shopFileList", e);
+			}
+			return list;
 		}
 		
 		//내 주문내역 리스트
@@ -563,5 +581,111 @@ public class ShopService {
             }
 			
             return list;
+		}
+		
+		
+		@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+		public int shopUpdate(Shop shop) throws Exception
+		{
+			int count = shopDao.shopUpdate(shop);	
+			ShopTime shopTime = new ShopTime();
+			ShopTotalTable shopTotalTable = new ShopTotalTable();
+			ShopMenu shopMenu = new ShopMenu();
+
+			if(count > 0)
+			{
+				//매장시간
+				shopTime.setShopUID(shop.getShopUID());
+				shopDao.shopTimeDelete(shopTime);
+				if(shopDao.shopTimeCheck(shopTime) == 0)
+				{
+					for(int i=1;i<=shop.getTimeArraySize();i++)
+					{
+						shopTime.setShopTimeType(shop.getTimeTypeArray()[i]);
+						shopTime.setShopOrderTime(shop.getTimeArray()[i]);
+						if(StringUtil.isEmpty(shop.getTimeTypeArray()[i]) || StringUtil.isEmpty(shop.getTimeArray()[i]))
+						{
+							break;
+						}
+						shopDao.shopTimeInsert(shopTime);
+						
+					}
+				}
+				logger.debug("################## ShopTime Insert Complete ##################");
+				//매장테이블
+				shopTotalTable.setShopUID(shop.getShopUID());
+				shopDao.shopTableZeroUpdate(shopTotalTable);
+				for(int i=1; i<=shop.getTableArraySize();i++)
+				{
+					shopTotalTable.setShopTotalTableUID(shop.getShopUID()+"_"+shop.getTableTypeArray()[i]);
+					shopTotalTable.setShopTotalTableCapacity(shop.getTableTypeArray()[i]);
+					shopTotalTable.setShopTotalTable(shop.getTableArray()[i]);
+					if(shop.getTableTypeArray()[i] == 0 || shop.getTableArray()[i] == 0)
+					{
+						break;
+					}
+					if(shopDao.shopTableCheck(shopTotalTable) > 0)
+					{
+						shopDao.shopTableUpdate(shopTotalTable);
+					}
+					else
+					{
+						shopDao.shopTableInsert(shopTotalTable);
+					}
+					
+				}
+				logger.debug("################## ShopTable Update Complete ##################");
+				//메뉴
+				shopMenu.setShopUID(shop.getShopUID());
+				shopDao.shopMenuDelete(shopMenu);
+				if(shopDao.shopMenuCheck(shopMenu) == 0)
+				{
+					for(int i=1;i<=shop.getMenuArraySize();i++)
+					{
+						shopMenu.setShopMenuCode(shop.getMenuTypeArray()[i]);
+						shopMenu.setShopMenuName(shop.getMenuNameArray()[i]);
+						shopMenu.setShopMenuPrice(shop.getMenuPriceArray()[i]);
+						if(StringUtil.isEmpty(shop.getMenuTypeArray()[i]) || StringUtil.isEmpty(shop.getMenuNameArray()[i]) || StringUtil.isEmpty(shop.getMenuPriceArray()[i]))
+						{
+							break;
+						}
+						shopDao.shopMenuInsert(shopMenu);
+						
+					}
+				}
+				logger.debug("################## ShopMenu Insert Complete ##################");
+				//첨부파일
+				if(shop.getShopFileList() != null)
+				{	
+					logger.debug("################## ShopFile Section ##################");
+					List<ShopFile> delShopFileList = shopDao.shopFileSelect(shop.getShopUID());
+					
+					//기존 첨부파일 삭제
+					if(delShopFileList != null)
+					{
+						for(int i=0;i<delShopFileList.size();i++)
+						{
+							if(delShopFileList.get(i).getShopFileSize() > 0)
+							{
+								FileUtil.deleteFile(SHOP_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + shop.getShopUID() +FileUtil.getFileSeparator() +delShopFileList.get(0).getShopFileName());
+							}
+						}	
+					}
+					shopDao.shopFileDelete(shop.getShopUID());
+					
+					//새로운첨부파일 등록
+					if(shop.getShopFileList() != null)
+					{
+						List<ShopFile> shopFileList = shop.getShopFileList();
+						logger.debug("#"+shopFileList.size());
+						for(int i =0;i<shopFileList.size();i++)
+						{
+							logger.debug("ShopFileList(쿼리 날리기 마지막 전) i : "+ i + " // name : " + shopFileList.get(i).getShopFileName());
+						}
+						shopDao.shopFileInsert(shopFileList);
+					}
+				}	
+			}
+			return count;
 		}
 }

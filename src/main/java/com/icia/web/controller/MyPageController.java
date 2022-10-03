@@ -64,9 +64,30 @@ public class MyPageController {
       user = userService.userUIDSelect(userUID);
               
       model.addAttribute("user", user);
-      User user2 = new User();
-      user2 = userService.userUIDSelect(userUID);
-      model.addAttribute("cookieUserNick", user2.getUserNick());
+      try
+		{
+			model.addAttribute("cookieUserNick", user.getUserNick());
+			model.addAttribute("adminStatus", user.getAdminStatus());
+			if(!StringUtil.isEmpty(user.getBizName())&& !StringUtil.isEmpty(user.getBizNum()))
+			{
+				try
+				{
+					model.addAttribute("shopStatus","Y");
+				}
+				catch(NullPointerException e)
+				{
+					logger.error("[myPageController] /myPage/myProfile shopStatus NullPointerException", e);
+				}
+			}
+			else
+			{
+				model.addAttribute("shopStatus","N");
+			}
+		}
+		catch(NullPointerException e)
+		{
+			logger.error("[myPageController] /myPage/myProfile cookieUserNick NullPointerException", e);
+		}
       
       return "/myPage/myProfile";
    }
@@ -82,9 +103,30 @@ public class MyPageController {
       user = userService.userUIDSelect(userUID);
               
       model.addAttribute("user", user);
-      User user2 = new User();
-      user2 = userService.userUIDSelect(userUID);
-      model.addAttribute("cookieUserNick", user2.getUserNick());
+      try
+		{
+			model.addAttribute("cookieUserNick", user.getUserNick());
+			model.addAttribute("adminStatus", user.getAdminStatus());
+			if(!StringUtil.isEmpty(user.getBizName())&& !StringUtil.isEmpty(user.getBizNum()))
+			{
+				try
+				{
+					model.addAttribute("shopStatus","Y");
+				}
+				catch(NullPointerException e)
+				{
+					logger.error("[myPageController] /myPage/nick_popup shopStatus NullPointerException", e);
+				}
+			}
+			else
+			{
+				model.addAttribute("shopStatus","N");
+			}
+		}
+		catch(NullPointerException e)
+		{
+			logger.error("[myPageController] /myPage/nick_popup cookieUserNick NullPointerException", e);
+		}
       
       return "/myPage/nick_popup";
    }
@@ -639,9 +681,30 @@ public class MyPageController {
 		model.addAttribute("list2", list2);
 		
 		//닉넴띄우기
-		User user2 = new User();
-		user2 = userService.userUIDSelect(userUID);
-		model.addAttribute("cookieUserNick", user2.getUserNick());
+		 try
+			{
+				model.addAttribute("cookieUserNick", user.getUserNick());
+				model.addAttribute("adminStatus", user.getAdminStatus());
+				if(!StringUtil.isEmpty(user.getBizName())&& !StringUtil.isEmpty(user.getBizNum()))
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[myPageController] /myPage/myFavorites shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[myPageController] /myPage/myFavorites cookieUserNick NullPointerException", e);
+			}
  	   
  	   return "/myPage/myFavorites";
     }

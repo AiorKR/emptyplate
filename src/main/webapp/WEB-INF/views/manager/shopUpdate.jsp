@@ -12,14 +12,42 @@ request.setAttribute("No", 2);
 <%@ include file="/WEB-INF/views/include/head.jsp"%>
 <script type="text/javascript">
 	$(document).ready(function() {
+
+				var btnImageStack = $("#imageStack").val();
 				var btnHashStack = $("#hashStack").val();
 				var btnTimeStack = $("#timeStack").val();
 				var btnTableStack = $("#tableStack").val();
 				var btnMenuStack = $("#menuStack").val();
 				
+				$("#btnImageAdd").on("click", function(){
 
+					// table element 찾기
+					const table = document.getElementById("imageList");
 
+					// 새 행(Row) 추가
+					const newRow = table.insertRow();
 
+					// 새 행(Row)에 Cell 추가
+					const newCell1 = newRow.insertCell(0);
+					const newCell2 = newRow.insertCell(1);
+
+					// Cell에 텍스트 추가
+					newCell1.innerHTML = "<td class='file-check'>등록파일</td>";
+					newCell2.innerHTML = "<td><input type='file' id='shopImage"+btnImageStack+"' name='shopImage"+btnImageStack+"' class='file-content' placeholder='파일을 선택하세요.' required/></td>";
+					btnImageStack++;
+					
+					});
+				$("#btnImageDelete").on("click", function(){
+					// table element 찾기
+					const table = document.getElementById("imageList");
+
+					// 행(Row) 삭제
+					const newRow = table.deleteRow(-1);
+					if(btnImageStack>1){
+						btnImageStack--;
+					}
+				});
+				
 				$("#btnHashAdd").on("click", function(){
 					if(btnHashStack<6)
 					{
@@ -34,9 +62,8 @@ request.setAttribute("No", 2);
 						const newCell2 = newRow.insertCell(1);
 	
 						// Cell에 텍스트 추가
-						newCell1.innerHTML = "<td class='tdtd2'>해시태그"+btnHashStack+"</td>";
-						newCell2.innerHTML = "<td><input type='text' id='hashTag"+btnHashStack+"' class='hashTagInput' placeholder='해시태그를 입력해주세요' style='font-size:17px;'></td>";
-					
+						newCell1.innerHTML = "<td>해시태그"+btnHashStack+"</td>";
+						newCell2.innerHTML = "<td><input type='text' id='hashTag"+btnHashStack+"' name='hashTag"+btnHashStack+"' class='hashTagInput' placeholder='해시태그를 입력해주세요' style='font-size:17px;'></td>";
 						btnHashStack++;
 					}
 				});
@@ -68,9 +95,9 @@ request.setAttribute("No", 2);
 	
 						// Cell에 텍스트 추가
 						newCell1.innerHTML = "<td class='tdtd2'>매장시간"+btnTimeStack+"</td>";
-						newCell2.innerHTML = "<td><select name='timeType' class='select' style='font-size:17px; width:110px;'><option value='' selected>매장시간</option><option value='L'>Lunch</option><option value='D'>Dinner</option><option value='X'>무관</option></select></td>";
-						newCell3.innerHTML = "<td><input type='text' id='time"+btnTimeStack+"' class='timeInput' placeholder='매장시간을 입력해주세요' style='font-size:17px;width:350px;'></td>";									
-
+						newCell2.innerHTML = "<td><select id='timeselect"+btnTimeStack+"' name='timeselect"+btnTimeStack+"' class='select' style='font-size:17px; width:110px;'><option value='' selected>매장시간</option><option value='L'>Lunch</option><option value='D'>Dinner</option><option value='X'>무관</option></select></td>";
+						newCell3.innerHTML = "<td><input type='text' id='time"+btnTimeStack+"' name='time"+btnTimeStack+"' class='timeInput' placeholder='매장시간을 입력해주세요' style='font-size:17px;width:350px;'></td>";									
+						 name='timeType${status.count}'
 						btnTimeStack++;
 					}
 				});
@@ -101,9 +128,9 @@ request.setAttribute("No", 2);
 						const newCell3 = newRow.insertCell(2);
 	
 						// Cell에 텍스트 추가
-						newCell1.innerHTML = "<td class='tdtd3'>테이블 규격</td>"
-						newCell2.innerHTML = "<td><select name='tableType' id='tableValue"+btnTableStack+"' class='select' style='font-size:17px; width:110px;'><option value='' selected>테이블 규격</option><option value='1'>1인용</option><option value='2'>2인용</option><option value='3'>3인용</option><option value='4'>4인용</option><option value='5'>5인용</option><option value='6'>6인용</option><option value='7'>7인용</option><option value='8'>8인용</option></select></td>";
-						newCell3.innerHTML = "<td><input type='text' class='tableInput' placeholder='수량을 입력해주세요' style='font-size:17px; width:350px;'></td>";
+						newCell1.innerHTML = "<td>테이블 규격</td>"
+						newCell2.innerHTML = "<td><select name='tableselect"+btnTableStack+"' id='tableselect"+btnTableStack+"' class='select' style='font-size:17px; width:110px;'><option value='' selected>테이블 규격</option><option value='1'>1인용</option><option value='2'>2인용</option><option value='3'>3인용</option><option value='4'>4인용</option><option value='5'>5인용</option><option value='6'>6인용</option><option value='7'>7인용</option><option value='8'>8인용</option></select></td>";
+						newCell3.innerHTML = "<td><input name='table"+btnTableStack+"' id='table"+btnTableStack+"' type='text' class='tableInput' placeholder='수량을 입력해주세요' style='font-size:17px; width:350px;'></td>";
 
 						btnTableStack++;
 					}
@@ -136,10 +163,10 @@ request.setAttribute("No", 2);
 						const newCell4 = newRow.insertCell(3);
 	
 						// Cell에 텍스트 추가
-						newCell1.innerHTML = "<td class='tdtd5'>메뉴"+btnMenuStack+"</td>";
-						newCell2.innerHTML = "<td><select name='menuTime' class='select' style='font-size:17px; width:100px;'><option value='' selected>메뉴시간</option><option value='1'>런치</option><option value='2'>디너</option></select></td>";
-						newCell3.innerHTML = "<td><input type='text' placeholder='메뉴명을 입력해주세요' style='font-size:17px; width:180px;'></td>";
-						newCell4.innerHTML = "<td><input type='text' placeholder='메뉴가격을 입력해주세요' style='font-size:17px; width:180px;'></td>";
+						newCell1.innerHTML = "<td>메뉴"+btnMenuStack+"</td>";
+						newCell2.innerHTML = "<td><select id='menuselect"+btnMenuStack+"' name='menuselect"+btnMenuStack+"'  class='select' style='font-size:17px; width:100px;'><option value='' selected>메뉴시간</option><option value='L'>Lunch</option><option value='D'>Dinner</option></select></td>";
+						newCell3.innerHTML = "<td><input id='menuName"+btnMenuStack+"' name='menuName"+btnMenuStack+"' type='text' placeholder='메뉴명을 입력해주세요' style='font-size:17px; width:180px;'></td>";
+						newCell4.innerHTML = "<td><input id='menuPrice"+btnMenuStack+"' name='menuPrice"+btnMenuStack+"' type='text' placeholder='메뉴가격을 입력해주세요' style='font-size:17px; width:180px;'></td>";
 								
 						btnMenuStack++;
 					}
@@ -165,6 +192,7 @@ request.setAttribute("No", 2);
 				         alert("상호명을 입력해주세요.");
 				         $("#shopTitle").val("");
 				         $("#shopTitle").focus();
+				         $("#btnUpdate").prop("disabled", false);
 				         return;
 				      }
 
@@ -173,6 +201,7 @@ request.setAttribute("No", 2);
 				         alert("주소찾기를 이용하여 주소를 입력해주세요.");
 				         $("#shopLocation1").val("");
 				         $("#shopLocation1").focus();
+				         $("#btnUpdate").prop("disabled", false);
 				         return;
 				      }
 
@@ -181,6 +210,7 @@ request.setAttribute("No", 2);
 				         alert("전화번호를 입력해주세요.");
 				         $("#shopTelephone").val("");
 				         $("#shopTelephone").focus();
+				         $("#btnUpdate").prop("disabled", false);
 				         return;
 				      }
 
@@ -188,15 +218,19 @@ request.setAttribute("No", 2);
 				      {
 				         alert("매장타입을 선택해주세요");
 				         $("#shopTypeSelect").focus();
+				         $("#btnUpdate").prop("disabled", false);
 				         return;
 				      }
 					  
-					  //요일체크배열
+					  //요일체크배열	
+					  /*
 					  var dayCheckArr = [];
+				
 					  $("input[name=day]:checked").each(function(){
 						dayCheckArr.push($(this.val()));
 					  });
-					  $("#dayCheck").val()=dayCheckArr;
+					  
+					  $("#dayCheck").val()=dayCheckArr;	  */
 
 				      var form = $("#updateForm")[0];
 				      var formData = new FormData(form);
@@ -218,7 +252,7 @@ request.setAttribute("No", 2);
 				            if(response.code == 0)
 				              {
 				               alert("게시물이 수정되었습니다.");
-				               location.href = "/board/list";               
+				               location.href = "/manager/shopManage";               
 				              }
 				            else if(response.code == 400)
 				           {
@@ -232,19 +266,20 @@ request.setAttribute("No", 2);
 				              }
 				            else if(response.code == 404)
 				              {
-				               alert("게시물을 찾을 수 없습니다.");
-				               location.href = "/board/list";
+				               alert("페이지를 찾을 수 없습니다.");
+				               location.href = "/index";
 				              }
 				            else
 				              {
 				               alert("게시물 수정 중 오류가 발생하였습니다.");
+				               alert(response.code);
 				               $("#btnUpdate").prop("disabled", false);
 				              }
 				         },
 				         error:function(error)
 				         {
 				            icia.common.error(error);
-				            alert("게시물 수정 중 오류가 발생하였습니다.");
+				            alert("게시물 수정 중 오류가 발생하였습니다.2");
 				            $("#btnUpdate").prop("disabled", false);
 				         }
 				     });
@@ -267,35 +302,108 @@ request.setAttribute("No", 2);
 		<form name="updateForm" id="updateForm" method="post" enctype="multipart/form-data">
 			<div style="border-right: 2px solid #C2A383; float:left; width: 50%; height:100%">
 				<div class="d-flex flex-column justify-content-center">
-					<div class="main_image">
-					  <img src="../resources/upload/shop/${shop.shopUID}/${shop.shopFileList.get(1).shopFileName}"
-						   id="main_product_image" height="400px" width="400px">
-					</div>
-					<br />
-					<div class="thumbnail_images">
-					  <ul id="thumbnail">
-						<c:forEach items="${shop.shopFileList}" var="shopFileList" varStatus="status" begin="1" end="5">
-						  <li><img onclick="changeImage(this)"
-									src="../resources/upload/shop/${shop.shopUID}/${shopFileList.shopFileName}"
-									width="100px" height="100px">&nbsp;
-						  </li>
-						</c:forEach>
-					  </ul>
-					  
-					</div>
-					<div class="imageModify">
+					<div class="list_image">
 						<table>
 							<tr>
-								<td class="file-check">등록파일</td>
-								<td><div class="file-check-content"><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요."/>
-								<br/>[등록한 첨부파일 : ${shop.shopFile.fileOrgName}]</div></td>
+								<td>매장 대표사진</td>
 							</tr>
-							<tr>
-								<td class="file">이미지 첨부</td>
-								<td><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요." required /></td>
-							</tr>	
+							<c:choose>
+								<c:when test= "${!empty shop.shopFileList}" >
+									<tr>
+										<td><img id="listImage" src="../resources/upload/shop/${shop.shopUID}/${shop.shopFileList.get(0).shopFileName}" height="400px" width="400px"></td>
+									</tr>
+									<tr>
+										<td class="file-check">&nbsp;변경할 첨부파일 : &nbsp;&nbsp;<input type="file" id="shopImage0" name="shopImage0" class="file-content" placeholder="파일을 선택하세요." required/></td>
+									</tr>
+									<tr>
+										<td><div class="file-check-content">[등록된 첨부파일 : ${shop.shopFileList.get(0).shopFileOrgName}]</div></td>
+									</tr>
+								</c:when>
+								<c:otherwise>
+									<tr>
+										<td>사진이 존재하지 않습니다.</td>
+									</tr>
+									<tr>
+										<td class="file-check">등록파일&nbsp;&nbsp;<input type="file" id="shopImage0" name="shopImage0" class="file-content" placeholder="파일을 선택하세요." required/></td>
+									</tr>
+									<tr>
+										<td><div class="file-check-content">[등록된 첨부파일 : ${shop.shopFileList.get(0).shopFileOrgName}]</div></td>
+									</tr>
+								</c:otherwise>
+							</c:choose>
 						</table>
 					</div>
+					<h2>매장 상세사진</h2>
+					<c:choose>
+						<c:when test="${listSize ge 2}">
+							<div class="main_image">
+							  <img src="../resources/upload/shop/${shop.shopUID}/${shop.shopFileList.get(1).shopFileName}"
+								   id="main_product_image" height="400px" width="400px">
+							</div><br />
+							<div class="thumbnail_images">
+							  <ul id="thumbnail">
+								<c:forEach items="${shop.shopFileList}" var="shopFileList" varStatus="status" begin="1">
+								  <li><img onclick="changeImage(this)"
+											src="../resources/upload/shop/${shop.shopUID}/${shopFileList.shopFileName}"
+											width="100px" height="100px">&nbsp;
+								  </li>
+								</c:forEach>
+							  </ul>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<p>사진이 존재하지 않습니다</p>
+							<input type="hidden" id="imageStack" value="1">
+						</c:otherwise>
+					</c:choose>
+
+					<div class="imageModify">
+						<table id = imageList>
+							<c:choose>
+								<c:when test="${!empty listFile}">
+									<c:forEach var="shopFile" items="${listFile}" varStatus="status" begin="1">
+										<c:if test = "${status.count ge 1}">
+											<tr>
+												<td class="file-check" lowspan="2">등록파일</td>
+												<td><input type="file" id="shopImage${status.current}" name="shopImage${status.current}" class="file-content" placeholder="파일을 선택하세요." /></br>
+													<div class="file-check-content">[등록된 첨부파일 : ${shopFile.shopFileOrgName}]</div>
+												</td>
+											</tr>
+										</c:if>
+											<c:if test="${status.last}">
+												<input type="hidden" id="imageStack" value="${status.count + 1}">
+											</c:if>
+											<c:if test="${empty status.last}">
+												<input type="hidden" id="imageStack" value="1">
+											</c:if>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<tr>
+										<td class="file">이미지 첨부</td>
+										<td><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요." required /></td>
+									</tr>
+												<input type="hidden" id="imageStack" value="1">
+								</c:otherwise>
+							</c:choose>	
+						</table>
+						<table id="imageButton">
+								<tr>
+									<td>이미지 추가</td>
+									<td>
+										<button type="button" id="btnImageAdd">생성</button>
+									</td>
+									<td>
+										<button type="button" id="btnImageDelete">삭제</button>
+									</td>
+								</tr>
+							</table>
+					</div>
+
+
+
+
+
 					<div class="basic">
 					<div class="d-flex justify-content-between align-items-center">
 						<div class="basic">
@@ -312,14 +420,14 @@ request.setAttribute("No", 2);
 								<tr>
 									<td rowspan="2"class="td" style="padding-bottom:10px;">매장주소</td>
 									<td class="title-text" style="padding-bottom:1px;">
-										<input type="text" id="shopLocation1" value="${shop.shopLocation1}" placeholder="주소"  readonly>
+										<input type="text" id="shopLocation1" name="shopLocation1" value="${shop.shopLocation1}" placeholder="주소">
 										<input type="text" id="sample6_postcode" placeholder="우편번호" hidden>
 										<input type="text" id="sample6_extraAddress" placeholder="참고항목" hidden>
 									</td>
 								</tr>
 								<tr>
 									<td class="title-text" style="padding-bottom:9px;">
-										<input type="text" id="shopAddress" value="${shop.shopAddress}" placeholder="상세주소" style="width:380px;">
+										<input type="text" id="shopAddress" name="shopAddress" value="${shop.shopAddress}" placeholder="상세주소" style="width:380px;">
 										<input type="button" onclick="sample6_execDaumPostcode()" value="주소 찾기">
 									</td>
 								</tr>
@@ -342,14 +450,13 @@ request.setAttribute("No", 2);
 								<tr>
 									<td class="td">매장휴일</td>
 									<td class="title-text">
-										<input type="checkbox" class="day" id="day0" name="day" value="0" <c:if test="${!empty day0}">checked</c:if>> 일&nbsp;&nbsp;
-										<input type="checkbox" class="day" id="day1" name="day" value="1" <c:if test="${!empty day1}">checked</c:if>> 월&nbsp;&nbsp;
-										<input type="checkbox" class="day" id="day2" name="day" value="2" <c:if test="${!empty day2}">checked</c:if>> 화&nbsp;&nbsp;
-										<input type="checkbox" class="day" id="day3" name="day" value="3" <c:if test="${!empty day3}">checked</c:if>> 수&nbsp;&nbsp;
-										<input type="checkbox" class="day" id="day4" name="day" value="4" <c:if test="${!empty day4}">checked</c:if>> 목&nbsp;&nbsp;
-										<input type="checkbox" class="day" id="day5" name="day" value="5" <c:if test="${!empty day5}">checked</c:if>> 금&nbsp;&nbsp;
-										<input type="checkbox" class="day" id="day6" name="day" value="6" <c:if test="${!empty day6}">checked</c:if>> 토
-										<input type="hidden" id="dayCheck" value="">
+										<input type="checkbox" class="day" id="day0" name="day0" value="0" <c:if test="${!empty day0}">checked</c:if>> 일&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="day1" name="day1" value="1" <c:if test="${!empty day1}">checked</c:if>> 월&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="day2" name="day2" value="2" <c:if test="${!empty day2}">checked</c:if>> 화&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="day3" name="day3" value="3" <c:if test="${!empty day3}">checked</c:if>> 수&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="day4" name="day4" value="4" <c:if test="${!empty day4}">checked</c:if>> 목&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="day5" name="day5" value="5" <c:if test="${!empty day5}">checked</c:if>> 금&nbsp;&nbsp;
+										<input type="checkbox" class="day" id="day6" name="day6" value="6" <c:if test="${!empty day6}">checked</c:if>> 토
 									</td>
 								</tr>
 							</table>
@@ -387,9 +494,9 @@ request.setAttribute("No", 2);
 		            </table>
 					<div class="hashTag">
 						<div class="hashTagMenu">
-							<table>
+							<table id="hashTagButton">
 								<tr>
-									<td class="tdtd">해시태그</td>
+									<td>해시태그</td>
 									<td>
 										<button type="button" id="btnHashAdd">생성</button>
 									</td>
@@ -405,81 +512,30 @@ request.setAttribute("No", 2);
 								<c:when test="${!empty list}">
 									<c:forEach var="hashTag" items="${list}" varStatus="status">
 										<tr>
-											<td class="tdtd2">해시태그${status.count}</td>
-											<td><input type="text" id="hashTag1" class="hashTagInput" placeholder="해시태그를 입력해주세요" value="#${status.current}" style="font-size:17px;"></td>
+											<td>해시태그${status.count}</td>
+											<td><input type="text" id="hashTag${status.count}" name="hashTag${status.count}" class="hashTagInput" placeholder="해시태그를 입력해주세요" value="#${status.current}" style="font-size:17px;"></td>
 										</tr>
 										<c:if test="${status.last}"><input type="hidden" id="hashStack" value="${status.count + 1}"></c:if>
 										</c:forEach>
 									</c:when>
 									<c:otherwise>
 										<tr>
-											<td class="tdtd2">해시태그1</td>
-											<td><input type="text" id="hashTag1" class="hashTagInput" placeholder="해시태그를 입력해주세요" style="font-size:17px;"></td>
+											<td>해시태그1</td>
+											<td><input type="text" id="hashTag1" name="hashTag1"class="hashTagInput" placeholder="해시태그를 입력해주세요" style="font-size:17px;"></td>
 										</tr>
 									</c:otherwise>
 								</c:choose>
+								<input type="hidden" id="hashStackCurrent" value="0">
 							</table>
 						</div>
 					</div><br />
-					
-					<div class="time">
-						<div class="timeMenu">
-							<table>
-								<tr>
-									<td class="tdtd">매장시간</td>
-									<td>
-										<button type="button" id="btnTimeAdd">생성</button>
-									</td>
-									<td>
-										<button type="button" id="btnTimeDelete">삭제</button>
-									</td>
-								</tr>
-							</table>
-						</div>
-						<div class="timeValue">
-							<table id="timeValue" style="margin-bottom:15px;">
-								<c:choose>
-									<c:when test="${!empty list2}">
-										<c:forEach var="shop" items="${list2}" varStatus="status">
-											<tr>
-												<td class="tdtd2">매장시간${status.count}</td>
-												<td>
-													<select name="timeType" class="select" style="font-size:17px; width:110px;">
-														<option value=''>매장시간</option>
-														<option value='L'<c:if test="${shop.shopTimeType eq 'L'}">selected</c:if>>Lunch</option>
-														<option value='D'<c:if test="${shop.shopTimeType eq 'D'}">selected</c:if>>Dinner</option>
-														<option value='X'<c:if test="${shop.shopTimeType eq 'X'}">selected</c:if>>무관</option>
-													</select>
-												</td>							
-												<td><input type="text" id="time1" class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px; width:350px;" value="${shop.shopOrderTime}" readonly></td>
-											</tr>
-											<c:if test="${status.last}"><input type="hidden" id="timeStack" value="${status.count + 1}"></c:if>
-										</c:forEach>
-									</c:when>
-									<c:otherwise>
-										<tr>
-											<td class="tdtd2">매장시간1</td>
-											<td>
-												<select name="timeType" class="select" style="font-size:17px; width:110px;">
-													<option value='' selected>매장시간</option>
-													<option value='L'>Lunch</option>
-													<option value='D'>Dinner</option>
-													<option value='X'>무관</option>
-												</select>
-											</td>
-											<td><input type="text" id="time1" class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px; width:350px;"></td>
-										</tr>	
-									</c:otherwise>
-								</c:choose>
-							</table>
-						</div>
-					</div><br />
-					
+
+
 					<div class="tableCap">
 						<div class="tableMenu">
-							<table>
+							<table id="tableMenu">
 								<tr>
-									<td class="tdtd3">테이블 설정</td>
+									<td>테이블 설정</td>
 									<td>
 										<button type="button" id="btnTableAdd">생성</button>
 									</td>
@@ -495,9 +551,9 @@ request.setAttribute("No", 2);
 									<c:when test="${!empty list1}">
 										<c:forEach var="shop" items="${list1}" varStatus="status">
 											<tr>
-												<td class="tdtd3">테이블 규격</td>
+												<td>테이블 규격</td>
 												<td>
-													<select name="tableType" class="select" style="font-size:17px; width:110px;">
+													<select id="tableselect${status.count}" name="tableselect${status.count}" class="select" style="font-size:17px; width:110px;">
 														<option value=''>테이블 규격</option>
 														<option value='1'<c:if test="${shop.shopTotalTableCapacity eq '1'}">selected</c:if>>1인용</option>
 														<option value='2'<c:if test="${shop.shopTotalTableCapacity eq '2'}">selected</c:if>>2인용</option>
@@ -510,7 +566,7 @@ request.setAttribute("No", 2);
 													</select>
 												</td>
 												<td>
-													<input type="text" class="tableInput" value="${shop.shopTotalTable}" placeholder="수량을 입력해주세요" style="font-size:17px; width:350px;">
+													<input type="text" id="table${status.count}" name="table${status.count}" class="tableInput" value="${shop.shopTotalTable}" placeholder="수량을 입력해주세요" style="font-size:17px; width:350px;">
 												</td>
 											</tr>
 											<c:if test="${status.last}"><input type="hidden" id="tableStack" value="${status.count + 1}"></c:if>
@@ -520,7 +576,7 @@ request.setAttribute("No", 2);
 										<tr>
 											<td class="tdtd3">테이블 규격</td>
 											<td>
-												<select name="tableType" class="select" style="font-size:17px; width:110px;">
+												<select id="tableselect1" name="tableselect1" class="select" style="font-size:17px; width:110px;">
 													<option value='' selected>테이블 규격</option>
 													<option value='1'>1인용</option>
 													<option value='2'>2인용</option>
@@ -532,21 +588,74 @@ request.setAttribute("No", 2);
 													<option value='8'>8인용</option>
 												</select>
 											</td>
-											<td>
-												<input type="text" class="tableInput" placeholder="수량을 입력해주세요" style="font-size:17px; width:350px;">
-											</td>
+											<td><input type="text" id="table1" name="table1" class="tableInput" placeholder="수량을 입력해주세요" style="font-size:17px; width:350px;"></td>
+											<input type="hidden" id="tableStack" value="1">
 										</tr>
 									</c:otherwise>
 								</c:choose>								
 							</table>
 						</div>
 					</div><br />
-					
+
+					<div class="time">
+						<div class="timeMenu">
+							<table id="timeMenuButton">
+								<tr>
+									<td>매장시간</td>
+									<td>
+										<button type="button" id="btnTimeAdd">생성</button>
+									</td>
+									<td>
+										<button type="button" id="btnTimeDelete">삭제</button>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div class="timeValue">
+							<table id="timeValue" style="margin-bottom:15px;">
+								<c:choose>
+									<c:when test="${!empty list2}">
+										<c:forEach var="shop" items="${list2}" varStatus="status">
+											<tr>
+												<td>매장시간${status.count}</td>
+												<td>
+													<select id="timeselect${status.count}" name="timeselect${status.count}" class="select" style="font-size:17px; width:110px;">
+														<option value=''>매장시간</option>
+														<option value='L'<c:if test="${shop.shopTimeType eq 'L'}">selected</c:if>>Lunch</option>
+														<option value='D'<c:if test="${shop.shopTimeType eq 'D'}">selected</c:if>>Dinner</option>
+														<option value='X'<c:if test="${shop.shopTimeType eq 'X'}">selected</c:if>>무관</option>
+													</select>
+												</td>							
+												<td><input type="text" id="time${status.count}" name="time${status.count}"class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px; width:350px;" value="${shop.shopOrderTime}"></td>
+											</tr>
+											<c:if test="${status.last}"><input type="hidden" id="timeStack" value="${status.count + 1}"></c:if>
+										</c:forEach>
+									</c:when>
+									<c:otherwise>
+										<tr>
+											<td>매장시간1</td>
+											<td>
+												<select id="timeselect1" name="timeselect1" class="select" style="font-size:17px; width:110px;">
+													<option value='' selected>매장시간</option>
+													<option value='L'>Lunch</option>
+													<option value='D'>Dinner</option>
+													<option value='X'>무관</option>
+												</select>
+											</td>
+											<td><input type="text" id="time1" name="time1" class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px; width:350px;"></td>
+											<input type="hidden" id="timeStack" value="1">
+										</tr>	
+									</c:otherwise>
+								</c:choose>
+							</table>
+						</div>
+					</div><br />
+
 					<div class="menuSet">
 						<div class="menuSet">
-							<table>
+							<table id="menuSet">
 								<tr>
-									<td class="tdtd4">메뉴 설정</td>
+									<td>메뉴 설정</td>
 									<td>
 										<button type="button" id="btnMenuAdd">생성</button>
 									</td>
@@ -562,19 +671,19 @@ request.setAttribute("No", 2);
 								<c:when test="${!empty list3}">
 									<c:forEach var="shop" items="${list3}" varStatus="status">
 										<tr>
-											<td class="tdtd5">메뉴${status.count}</td>
+											<td>메뉴${status.count}</td>
 											<td>
-												<select name="menuTime" class="select" style="font-size:17px; width:100px;">
+												<select name="menuselect${status.count}" id="menuselect${status.count}" class="select" style="font-size:17px; width:100px;">
 													<option value=''>메뉴시간</option>
-													<option value='1'<c:if test="${shop.shopMenuCode eq 'L'}">selected</c:if>>Lunch</option>
-													<option value='2'<c:if test="${shop.shopMenuCode eq 'D'}">selected</c:if>>Dinner</option>
+													<option value='L'<c:if test="${shop.shopMenuCode eq 'L'}">selected</c:if>>Lunch</option>
+													<option value='D'<c:if test="${shop.shopMenuCode eq 'D'}">selected</c:if>>Dinner</option>
 												</select>
 											</td>
 											<td>
-												<input type="text" placeholder="메뉴명을 입력해주세요" value="${shop.shopMenuName}" style="font-size:17px; width:180px;">
+												<input type="text" id="menuName${status.count}" name="menuName${status.count}" placeholder="메뉴명을 입력해주세요" value="${shop.shopMenuName}" style="font-size:17px; width:180px;">
 											</td>
 											<td>
-												<input type="text" placeholder="메뉴가격을 입력해주세요" value="${shop.shopMenuPrice}" style="font-size:17px; width:180px;">
+												<input type="text" id="menuPrice${status.count}" name="menuPrice${status.count}" placeholder="메뉴가격을 입력해주세요" value="${shop.shopMenuPrice}" style="font-size:17px; width:180px;">
 											</td>
 										</tr>
 											<c:if test="${status.last}"><input type="hidden" id="menuStack" value="${status.count + 1}"></c:if>
@@ -582,35 +691,31 @@ request.setAttribute("No", 2);
 									</c:when>
 									<c:otherwise>
 										<tr>
-											<td class="tdtd5">메뉴1</td>
+											<td>메뉴1</td>
 											<td>
-												<select name="menuTime" class="select" style="font-size:17px; width:100px;">
+												<select name="menuselect1" id="menuselect1"class="select" style="font-size:17px; width:100px;">
 													<option value='' selected>메뉴시간</option>
-													<option value='1'>Lunch</option>
-													<option value='2'>Dinner</option>
+													<option value='L'>Lunch</option>
+													<option value='D'>Dinner</option>
 												</select>
 											</td>
-											<td>
-												<input type="text" placeholder="메뉴명을 입력해주세요" style="font-size:17px; width:180px;">
-											</td>
-											<td>
-												<input type="text" placeholder="메뉴가격을 입력해주세요" style="font-size:17px; width:180px;">
-											</td>
+											<td><input type="text" id="menuName1" name="menuName1" placeholder="메뉴명을 입력해주세요" style="font-size:17px; width:180px;"></td>
+											<td><input type="text" id="menuPrice1" name="menuPrice1"placeholder="메뉴가격을 입력해주세요" style="font-size:17px; width:180px;"></td>
+											<input type="hidden" id="menuStack" value="1">
 										</tr>
 									</c:otherwise>
 								</c:choose>
 							</table>
 						</div>
-					</div>
+					</div>					 
 				</div>
-					
+
 						
 				<div class="d-flex flex-row justify-content-center">
 					<div class="update"><button type="button" id="btnUpdate" class="update" title="수정">수정</button></div>
 					<div class="cancle"><button type="button" id="btnCancle" class="cancle" title="취소">취소</button></div>
 				</div>
 			</div>
-			<input type="hidden" name="shopUID" value="" />
 				</form>
 		</div>
 	</div>

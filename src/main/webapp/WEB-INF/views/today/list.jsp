@@ -168,7 +168,7 @@ function remaindTime2() {
 					<c:if test="${!empty noShowImminent}">
 						<c:forEach items="${noShowImminent}" var="noShowImminent" varStatus="status">
 							<div class="swiper-slide" style="height: auto; width: 100%; background-color: rgba(240, 240, 240, 0.7);">
-							<!-->a href='/today/todayPopupView?shopUID=${noShowImminent.shopUID}&orderUID=${noShowImminent.orderUID}' class="popup" id='popup'-->
+							<!--a href='/today/todayPopupView?shopUID=${noShowImminent.shopUID}&orderUID=${noShowImminent.orderUID}' class="popup" id='popup'-->
 								<div class="reservation-item" style="height: 350px;" id="viewPopup" style="cursor:pointer;" onclick="openWindowPop('${noShowImminent.shopUID}', '${noShowImminent.orderUID}');">
 									<img alt="" src="../resources/upload/shop/${noShowImminent.shop.shopFile.shopFileName}" style="height: 300px; width: 300px; position: relative; left: 150px; top: 25px;">
 									<span style="position: relative; bottom: 250px; left: 600px;">
@@ -181,12 +181,12 @@ function remaindTime2() {
                 								할인 후 : <c:if test='${noShowImminent.orderStatus eq "X"}'><c:set value="${noShowImminent.totalAmount * 0.3}" var="totalAmount" />${totalAmount}</c:if> &nbsp;
                                                 <c:if test='${noShowImminent.orderStatus eq "C"}'><c:set value="${noShowImminent.totalAmount * 0.5}" var="totalAmount" />${totalAmount}</c:if> </span>
 											</li>
-											<li><i class="fa-solid fa-map-location-dot"></i>
+											<li><i class="fa-solid fa-map-location-dot" style="color: #cda45e;"></i>
 												<c:if test="${noShowImminent.shop.shopLocation1 ne null}">${noShowImminent.shop.shopLocation1}</c:if> ${noShowImminent.shop.shopLocation2} ${noShowImminent.shop.shopAddress}
 											</li>
-											<li><i class="fa-solid fa-people">예약 인원 : ${noShowImminent.reservationPeople}</i></li>
+											<li><i class="fa-solid fa-people" style="color: #cda45e;">예약 인원 : ${noShowImminent.reservationPeople}</i></li>
 											<li>
-												<i class="fa-solid fa-pen" style="color: #cda45e; font-size: 19px;">
+												<i class="fa-solid fa-pen" style="color: #cda45e;">
 													<c:out value="${noShowImminent.shop.shopIntro}" />
 												</i>
 											</li>
@@ -211,15 +211,15 @@ function remaindTime2() {
 									<img alt=""
 										style="height: 300px; width: 300px; position: relative; left: 150px; top: 25px;">
 									<span style="position: relative; bottom: 250px; left: 600px;">
-										<h3></h3>
+
 										<h1><c:out value="No-Show 마감 임박 건이 없습니다." /></h1>
 										<ul>	
-											<li><i class="fa-solid fa-map-location-dot"></i>
+											<li><i class="fa-solid fa-map-location-dot" style="color: #cda45e;"></i>
 												
 											</li>
-											<li> <i class="fa-solid fa-people"></i></li>
+											<li> <i class="fa-solid fa-people" style="color: #cda45e;"></i></li>
 											<li>
-												<i class="fa-solid fa-pen" style="color: #cda45e; font-size: 19px;">
+												<i class="fa-solid fa-pen" style="color: #cda45e;">
 												
 												</i>
 											</li>
@@ -240,7 +240,7 @@ function remaindTime2() {
 				<div class="swiper-pagination" style="margin-top: -20px"></div>
 
 				<!--메뉴-->
-				<div class="container">
+				<div class="container" id="noshowlist">
 					<div class="col-12">
 						<table class="table table-image">
 							<container>
@@ -294,7 +294,7 @@ function remaindTime2() {
 												<td>
 												<!--a href='/today/todayPopupView?shopUID=${noShow[i + j].shopUID}&orderUID=${noShow[i + j].orderUID}' class="popup" id='popup'-->
 													<div class="card"
-														style="cursor: pointer; text-align: center; display: flex; height: 500px; width: 350px" onclick="openWindowPop('${noShow[i + j].shopUID}',' ${noShow[i + j].orderUID}');">
+														 onclick="openWindowPop('${noShow[i + j].shopUID}',' ${noShow[i + j].orderUID}');">
 														<img src='../resources/upload/shop/${noShow[i + j].shop.shopFile.shopFileName}' class="img-fluid img-thumbnail" style="height: 300px; width: 350px;">
 															<div class="card-body-right">
 															<h5 class="card-title">${noShow[i + j].shop.shopName}</h5>

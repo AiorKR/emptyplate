@@ -76,13 +76,14 @@
             			<value>/help/index</value>
             			<value>/help/helpView</value>
             			<value>/help/helpList</value>
-            			<value>/footer/aboutus</value>
+            			<value>/footer/aboutUs</value>
             			<value>/footer/company</value>
             			<value>/footer/logohistory</value>
-     			        <value>/footer/resources</value>
-     			        <value>/footer/resources2</value>
-     			        <value>/footer/resources3</value>
-     			        <value>/footer/resources4</value>
+     			        <value>/footer/privacy</value>
+     			        <value>/footer/contract</value>
+     			        <value>/footer/location</value>
+     			        <value>/footer/launchingInquiry</value>
+     			        <value>/footer/regProc</value>
             			<value>/myPage/userDelete</value>
             			<value>/kakao/pay</value>
             			<value>/kakao/payReady</value>

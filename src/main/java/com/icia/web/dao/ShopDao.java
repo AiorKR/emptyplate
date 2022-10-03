@@ -26,7 +26,7 @@ public interface ShopDao {
 	
 	public int shopInsert(Shop shop); //매장 insert
 	
-	public int shopFileInsert(List<ShopFile> list); //매장 file insert
+	public List<ShopFile> shopFileList(String shopUID);
 	
 	public Shop shopViewSelect(String shopUID); //매장 view select
 	
@@ -100,7 +100,35 @@ public interface ShopDao {
 	
 	public List<ShopMenu> shopCheckMenu(String shopUID); //메뉴 현황
 	
+	public int shopUpdate(Shop shop);
+	
 	public Order orderSelect(String orderUID);
 	
 	public int reservationTableUpdate(Order order);
+	
+	public int shopTableInsert(ShopTotalTable shopTotalTable);
+	
+	public int shopTableCheck(ShopTotalTable shopTotalTable);
+	
+	public int shopTableUpdate(ShopTotalTable shopTotalTable);
+	
+	public int shopTableZeroUpdate(ShopTotalTable shopTotalTable); //매장 테이블 비활성화
+	
+	public int shopTimeInsert(ShopTime shopTime);
+	
+	public int shopTimeCheck(ShopTime shopTime);
+	
+	public int shopTimeDelete(ShopTime shopTime);
+	
+	public int shopMenuInsert(ShopMenu shopMenu);
+	
+	public int shopMenuCheck(ShopMenu shopMenu);
+	
+	public int shopMenuDelete(ShopMenu shopMenu);	
+	
+	public int shopFileInsert(List<ShopFile> list); //매장 file insert
+	
+	public List<ShopFile> shopFileSelect(String shopUID);
+	
+	public int shopFileDelete(String shopUID);
 }

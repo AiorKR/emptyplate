@@ -335,8 +335,14 @@
             #{list.shopFileSize},
             SYSDATE)
     </foreach>
-   </insert>
-      
+	</insert>
+
+<select id="shopFileList" parameterType="String" resultMap="shopFileResultMap">
+	SELECT *
+	  FROM t_shop_file
+	 WHERE SHOP_UID = #{value} 
+</select>
+		
 <select id="shopViewSelect" parameterType="String" resultMap="shopViewResultMap"> <!-- 매장 세부 페이지 SELECT -->
 SELECT S.SHOP_UID AS SHOP_UID,
        NVL(S.USER_UID, '') AS USER_UID,
@@ -389,29 +395,29 @@ SELECT S.SHOP_UID AS SHOP_UID,
 </select>
 
 <select id="shopManagerUIDSelect" parameterType="String" resultMap="shopViewResultMap">
-   SELECT A.SHOP_UID,
-          USER_UID, 
-          SHOP_NAME,
-          SHOP_TYPE,
-          SHOP_HOLIDAY,
-          SHOP_HASHTAG,
-          SHOP_LOCATION1,
-          SHOP_LOCATION2,
-          SHOP_ADDRESS,
-          SHOP_TELEPHONE, 
-          SHOP_INTRO,
-          SHOP_CONTENT,
-          REVIEW_SCORE,
-          A.REG_DATE,
-          B.FILE_SEQ,
-          B.FILE_ORG_NAME,
-          B.FILE_NAME,
-          B.FILE_EXT,
-          B.FILE_SIZE,
-          B.REG_DATE
-     FROM T_SHOP A, T_SHOP_FILE B
-    WHERE A.SHOP_UID = B.SHOP_UID
-      AND USER_UID = #{value}
+	SELECT A.SHOP_UID,
+	       USER_UID, 
+	       SHOP_NAME,
+	       SHOP_TYPE,
+	       SHOP_HOLIDAY,
+	       SHOP_HASHTAG,
+	       SHOP_LOCATION1,
+	       SHOP_LOCATION2,
+	       SHOP_ADDRESS,
+	       SHOP_TELEPHONE, 
+	       SHOP_INTRO,
+	       SHOP_CONTENT,
+	       REVIEW_SCORE,
+	       A.REG_DATE,
+	       B.FILE_SEQ,
+	       B.FILE_ORG_NAME,
+	       B.FILE_NAME,
+	       B.FILE_EXT,
+	       B.FILE_SIZE,
+	       B.REG_DATE
+	  FROM T_SHOP A, T_SHOP_FILE B
+	 WHERE A.SHOP_UID = B.SHOP_UID(+)
+	   AND USER_UID = #{value}
 </select>
 
 <select id="shopReservationCheck" parameterType="com.icia.web.model.Shop" resultMap="shopTotalTableResultMap"> <!--선택한 날에 대하여  예약이 가능한지 조회-->
@@ -1024,6 +1030,17 @@ WHERE ORDER_UID = #{noShowOrderUID}
 <delete id="shopMenuDelete" parameterType="com.icia.web.model.ShopMenu">
     DELETE FROM T_SHOP_MENU
 	 WHERE SHOP_UID = #{shopUID}
+</delete> 
+
+<select id="shopFileSelect" resultMap="shopFileResultMap" parameterType="String">
+	SELECT *
+	FROM T_SHOP_FILE
+	WHERE SHOP_UID = #{shopUID}
+</select>
+
+<delete id="shopFileDelete" parameterType="String">
+	DELETE FROM T_SHOP_FILE
+	WHERE SHOP_UID = #{shopUID}
 </delete> 
 
 </mapper>
