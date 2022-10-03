@@ -353,6 +353,7 @@ request.setAttribute("No", 2);
 						</c:when>
 						<c:otherwise>
 							<p>사진이 존재하지 않습니다</p>
+							<input type="hidden" id="imageStack" value="1">
 						</c:otherwise>
 					</c:choose>
 
@@ -364,19 +365,25 @@ request.setAttribute("No", 2);
 										<c:if test = "${status.count ge 1}">
 											<tr>
 												<td class="file-check" lowspan="2">등록파일</td>
-												<td><input type="file" id="shopImage${status.count}" name="shopImage${status.count}" class="file-content" placeholder="파일을 선택하세요." /></br>
+												<td><input type="file" id="shopImage${status.current}" name="shopImage${status.current}" class="file-content" placeholder="파일을 선택하세요." /></br>
 													<div class="file-check-content">[등록된 첨부파일 : ${shopFile.shopFileOrgName}]</div>
 												</td>
 											</tr>
 										</c:if>
-										<c:if test="${status.last}"><input type="hidden" id="imageStack" value="${status.count + 1}"></c:if>
+											<c:if test="${status.last}">
+												<input type="hidden" id="imageStack" value="${status.count + 1}">
+											</c:if>
+											<c:if test="${empty status.last}">
+												<input type="hidden" id="imageStack" value="1">
+											</c:if>
 									</c:forEach>
 								</c:when>
 								<c:otherwise>
 									<tr>
 										<td class="file">이미지 첨부</td>
 										<td><input type="file" id="bbsFile" name="bbsFile" class="file-content" placeholder="파일을 선택하세요." required /></td>
-									</tr>	
+									</tr>
+												<input type="hidden" id="imageStack" value="1">
 								</c:otherwise>
 							</c:choose>	
 						</table>

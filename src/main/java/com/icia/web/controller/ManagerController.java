@@ -360,9 +360,7 @@ public class ManagerController {
 	   FileData fileData = new FileData();
 	   
 	   String mainDir = "";
-	   mainDir += SHOP_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + shop.getShopUID();
-	   
-	   String[] name = new String[100];
+	   mainDir += SHOP_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + shop.getShopUID()+ FileUtil.getFileSeparator();
 	   
 	   for(int i=0; ; i++)
 	   {
@@ -370,7 +368,6 @@ public class ManagerController {
 	      String imageStr = "shopImage"+Integer.toString(i);
 	      logger.debug("################ imageStr :" + imageStr);
          
-         fileData = HttpUtil.getFile(request, imageStr, mainDir);
          logger.debug("################ imageStr :" + !StringUtil.isEmpty(imageStr));
     	  File mainFolder = new File(mainDir);
 	
@@ -397,6 +394,8 @@ public class ManagerController {
 	        	 logger.debug("###########");
 	         }
 	         
+	         fileData = HttpUtil.getFile(request, imageStr, mainDir);
+	
 	         if(fileData != null)
 	         {
 	            
@@ -406,6 +405,7 @@ public class ManagerController {
                shopFile.setShopFileOrgName(fileData.getFileOrgName());
                shopFile.setShopFileExt(fileData.getFileExt());
                shopFile.setShopFileSize(fileData.getFileSize());
+               logger.debug("####################### i : " + Integer.toString(i));
                logger.debug("shopFileName : " + shopFile.getShopFileName());	          
                shopFileList.add(shopFile);
 	         }
@@ -417,13 +417,14 @@ public class ManagerController {
 	      	
 	   	logger.debug("shopFileList : " + shopFileList);
 	   
-	  
-
-		logger.debug("ShopFileList(서비스 날리기 마지막 전) : " + shopFileList);
-		logger.debug("ShopFile이름(서비스 날리기 마지막 전) : " + shopFileList.get(0).getShopFileName());
-		logger.debug("ShopFile원본이름(서비스 날리기 마지막 전) : " + shopFileList.get(0).getShopFileOrgName());
-		logger.debug("ShopFile사이즈(서비스 날리기 마지막 전) : " + shopFileList.get(0).getShopFileSize());
-		logger.debug("ShopFile확장자(서비스 날리기 마지막 전) : " + shopFileList.get(0).getShopFileExt());
+	   	for(int i=0; i<shopFileList.size();i++)
+	   	{	   		
+	   		logger.debug("ShopFileList(서비스 날리기 마지막 전) : " + shopFileList);
+	   		logger.debug("ShopFile이름(서비스 날리기 마지막 전) : " + shopFileList.get(i).getShopFileName());
+	   		logger.debug("ShopFile원본이름(서비스 날리기 마지막 전) : " + shopFileList.get(i).getShopFileOrgName());
+	   		logger.debug("ShopFile사이즈(서비스 날리기 마지막 전) : " + shopFileList.get(i).getShopFileSize());
+	   		logger.debug("ShopFile확장자(서비스 날리기 마지막 전) : " + shopFileList.get(i).getShopFileExt());
+	   	}
 
   		
 
