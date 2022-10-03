@@ -450,10 +450,6 @@ public class ManagerController {
   			{
   				if(shopService.shopUpdate(shop) > 0)
   				{
-  					logger.debug("### success :" + shopService.shopUpdate(shop));
-  					logger.debug("### success :" + shopService.shopUpdate(shop));
-  					logger.debug("### success :" + shopService.shopUpdate(shop));
-  					logger.debug("### success :" + shopService.shopUpdate(shop));
   					ajaxResponse.setResponse(0, "Success");
   				}
   				else

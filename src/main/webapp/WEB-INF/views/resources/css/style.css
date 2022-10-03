@@ -1882,7 +1882,22 @@ section {
   font-family: 'Cafe24Dangdanghae';
   border-radius: 5px;
 }
-
+#btnSearch{
+	position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  border: 0;
+  font-size: 20px;
+  padding: 0 40px 0 40px;
+  background: #C2A383;
+  color: #fff;
+  transition: 0.3s;
+  border: 1px solid #C2A383;
+  font-family: 'Cafe24Dangdanghae';
+  border-radius: 5px;
+	
+}
 #communityView .board-commentwrite .submit button[type=submit]:hover {
   background: #d3af71;
 }
@@ -1893,6 +1908,9 @@ section {
   padding-top: 10px;
   border-bottom : 2px solid #C2A383;
   padding-bottom: 10px;
+}
+#bbsContent{
+	ime-mode:active;
 }
 
 /*댓글 작성자*/
