@@ -344,42 +344,43 @@ public class ManagerController {
 	        
   		List<ShopFile> shopFileList = new ArrayList<ShopFile>();
 	  
-	   ShopFile shopFile = new ShopFile();
-	   FileData fileData = new FileData();
 	   
 	   String mainDir = "";
 	   mainDir += SHOP_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + shop.getShopUID()+ FileUtil.getFileSeparator();
-	   
-	   for(int i=0; ; i++)
+	   int i = 0;
+	   String imageStr = "";
+	   File mainFolder = new File(mainDir);
+	   // 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
+	   if (!mainFolder.exists())
 	   {
-	      logger.debug("i값 : " + i);
-	      String imageStr = "shopImage"+Integer.toString(i);
+		   try
+		   {
+			   mainFolder.mkdir(); //폴더 생성합니다.
+			   logger.debug("###########");
+			   logger.debug("폴더가 생성됨");
+			   logger.debug("###########");
+		   } 
+		   catch(Exception e)
+		   {
+			   logger.debug("폴더 생성 중 오류");
+			   e.getStackTrace();
+		   }        
+	   }
+	   else
+	   {
+		   logger.debug("###########");
+		   logger.debug("폴더가 존재함");
+		   logger.debug("###########");
+	   }
+	   
+	   for(i=0; ; i++)
+	   {
+	      logger.debug("@@@@@@@@@@@@@@@@@@@@@@i값 : " + i);
+	      imageStr="shopImage"+Integer.toString(i);
 	      logger.debug("################ imageStr :" + imageStr);
-         logger.debug("################ imageStr :" + !StringUtil.isEmpty(imageStr));
-    	  File mainFolder = new File(mainDir);
+	      ShopFile shopFile = new ShopFile();
+	      FileData fileData = new FileData();
 	
-	         // 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
-	         if (!mainFolder.exists())
-	         {
-				try
-				{
-					mainFolder.mkdir(); //폴더 생성합니다.
-					logger.debug("###########");
-					logger.debug("폴더가 생성됨");
-					logger.debug("###########");
-				} 
-				 catch(Exception e)
-				{
-					logger.debug("폴더 생성 중 오류");
-					e.getStackTrace();
-				}        
-	         }
-	         else
-	         {
-	        	 logger.debug("###########");
-	        	 logger.debug("폴더가 존재함");
-	        	 logger.debug("###########");
-	         }
 	         
 	         fileData = HttpUtil.getFile(request, imageStr, mainDir);
 	
@@ -395,23 +396,23 @@ public class ManagerController {
                logger.debug("####################### i : " + Integer.toString(i));
                logger.debug("shopFileName : " + shopFile.getShopFileName());	          
                shopFileList.add(shopFile);
+               logger.debug("#### size : " + shopFileList.size());
+               logger.debug("#############");
+               for(int j =0;j<shopFileList.size();j++)
+               {
+            	   logger.debug("# i : " + j + shopFileList.get(j).getShopFileName());
+               }
+               logger.debug("#############");
 	         }
 	         else
 	         {
 	        	 break;
 	         }
+	         logger.debug("########################################################");
+	         logger.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 	      }
 	      	
 	   	logger.debug("shopFileList : " + shopFileList);
-	   
-	   	for(int i=0; i<shopFileList.size();i++)
-	   	{	   		
-	   		logger.debug("ShopFileList(서비스 날리기 마지막 전) : " + shopFileList);
-	   		logger.debug("ShopFile이름(서비스 날리기 마지막 전) : " + shopFileList.get(i).getShopFileName());
-	   		logger.debug("ShopFile원본이름(서비스 날리기 마지막 전) : " + shopFileList.get(i).getShopFileOrgName());
-	   		logger.debug("ShopFile사이즈(서비스 날리기 마지막 전) : " + shopFileList.get(i).getShopFileSize());
-	   		logger.debug("ShopFile확장자(서비스 날리기 마지막 전) : " + shopFileList.get(i).getShopFileExt());
-	   	}
 
   		
 

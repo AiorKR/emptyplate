@@ -700,7 +700,11 @@ public class ShopService {
 					if(shop.getShopFileList() != null)
 					{
 						List<ShopFile> shopFileList = shop.getShopFileList();
-						logger.debug("ShopFileList(쿼리 날리기 마지막 전) : " + shopFileList.get(0).getShopFileName());
+						logger.debug("#"+shopFileList.size());
+						for(int i =0;i<shopFileList.size();i++)
+						{
+							logger.debug("ShopFileList(쿼리 날리기 마지막 전) i : "+ i + " // name : " + shopFileList.get(i).getShopFileName());
+						}
 						shopDao.shopFileInsert(shopFileList);
 					}
 				}	
