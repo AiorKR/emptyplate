@@ -173,9 +173,13 @@ function remaindTime2() {
 									<img alt="" src="../resources/upload/shop/${noShowImminent.shop.shopFile.shopFileName}" style="height: 300px; width: 300px; position: relative; left: 150px; top: 25px;">
 									<span style="position: relative; bottom: 250px; left: 600px;">
 										<h3>${noShowImminent.shop.shopName}</h3>
-										<ul>	
+										<ul>
+											<li><i class="fa-regular fa-star"></i>별점  <fmt:formatNumber value="${noShowImminent.shop.reviewScore}" pattern=".00"/> (${noShowImminent.shop.reviewCount})</li>	
 											<li>
-												<i class="fa-solid fa-percent" style="color: #cda45e;"></i> <c:if test='${noShowImminent.orderStatus eq "X"}'>70</c:if> <c:if test='${noShowImminent.orderStatus eq "C"}'>50</c:if>
+												<i class="fa-solid fa-percent"></i> <c:if test='${noShowImminent.orderStatus eq "X"}'>70 할인</c:if> <c:if test='${noShowImminent.orderStatus eq "C"}'>50 할인</c:if>
+								                            할인 전 : <span id="totalAmount">${noShowImminent.totalAmount}
+                								할인 후 : <c:if test='${noShowImminent.orderStatus eq "X"}'><c:set value="${noShowImminent.totalAmount * 0.3}" var="totalAmount" />${totalAmount}</c:if> &nbsp;
+                                                <c:if test='${noShowImminent.orderStatus eq "C"}'><c:set value="${noShowImminent.totalAmount * 0.5}" var="totalAmount" />${totalAmount}</c:if> </span>
 											</li>
 											<li><i class="fa-solid fa-map-location-dot" style="color: #cda45e;"></i>
 												<c:if test="${noShowImminent.shop.shopLocation1 ne null}">${noShowImminent.shop.shopLocation1}</c:if> ${noShowImminent.shop.shopLocation2} ${noShowImminent.shop.shopAddress}
@@ -293,15 +297,18 @@ function remaindTime2() {
 														 onclick="openWindowPop('${noShow[i + j].shopUID}',' ${noShow[i + j].orderUID}');">
 														<img src='../resources/upload/shop/${noShow[i + j].shop.shopFile.shopFileName}' class="img-fluid img-thumbnail" style="height: 300px; width: 350px;">
 															<div class="card-body-right">
-															<div class="sec7-text-box">
 															<h5 class="card-title">${noShow[i + j].shop.shopName}</h5>
-															<i class="fa-solid fa-map-location-dot"style="color: #cda45e; font-size: 19px;"></i>
-																${noShow[i + j].shop.shopLocation1} ${noShow[i + j].shop.shopLocation2} ${noShow[i + j].shop.shopAddress} <br/>
-															
-															<i class="fa-solid fa-percent" style="color: #cda45e; font-size: 19px;"></i> <c:if test='${noShow[i + j].orderStatus eq "X"}'>70</c:if> <c:if test='${noShow[i + j].orderStatus eq "C"}'>50</c:if><br/>
-															<i class="fa-solid fa-pen" style="color: #cda45e; font-size: 19px;"></i>
-																<c:out value="${noShow[i + j].shop.shopIntro}"/><br/>
-															
+															<p> ${noShow[i + j].shop.shopLocation1} ${noShow[i + j].shop.shopLocation2} ${noShow[i + j].shop.shopAddress}</p>
+															<i class="fa-regular fa-star"></i>별점  <fmt:formatNumber value="${noShow[i + j].shop.reviewScore}" pattern=".00"/> (${noShow[i + j].shop.reviewCount}) <br />
+															<i class="fa-solid fa-person"></i> 예약 가능 인원 : ${noShow[i + j].reservationPeople} 명<br />
+															<i class="fa-solid fa-percent"></i> <c:if test='${noShow[i + j].orderStatus eq "X"}'>70 할인</c:if> <c:if test='${noShow[i + j].orderStatus eq "C"}'>50 할인</c:if> <br />
+															 	할인 전 : <span id="totalAmount"><strike><fmt:formatNumber value="${noShow[i + j].totalAmount}" pattern=""/> 원 </strike>&nbsp;
+                    											<span style="color: red;">할인 후 : <c:if test='${noShow[i + j].orderStatus eq "X"}'><c:set value="${noShow[i + j].totalAmount * 0.3}" var="totalAmount" /><span style="color: red;"><fmt:formatNumber value="${totalAmount}" pattern=""/> 원</span></c:if> </span>
+                                                            	<c:if test='${noShow[i + j].orderStatus eq "C"}'><c:set value="${noShow[i + j].totalAmount * 0.5}" var="totalAmount" /><span style="color: red;"><fmt:formatNumber value="${totalAmount}" pattern=""/> 원</span></c:if> </span>
+															<div class="sec7-text-box">
+															<i class="fa-solid fa-pen" style="color: #cda45e; font-size: 15px;">
+																<c:out value="${noShow[i + j].shop.shopIntro}"/>
+															</i>
 															<span class="hours${i+j}"></span> <span class="col">:</span>
 															<span class="minutes${i+j}"></span> <span class="col">:</span>
 															<span class="seconds${i+j}"></span>

@@ -111,7 +111,6 @@ public class ShopController {
 		
 		if(!StringUtil.isEmpty(reservationDate) && !StringUtil.isEmpty(reservationTime)) {
 			search.setShopHoliday(Integer.toString((StringUtil.getDayOfweek(reservationDate))));
-			logger.debug("휴일 확인 : " + search.getShopHoliday());
 			search.setReservationTime(reservationTime);
 		}
 		
@@ -148,8 +147,6 @@ public class ShopController {
 					Date newdt;
 					newdt = input.parse(tmp);
 					rDate = output.format(newdt);
-					
-					logger.debug(" rdate : " + rDate);
 				} 
 				catch (ParseException e1) {
 					logger.error("[ShopController] dateformat error", e1);
@@ -232,17 +229,7 @@ public class ShopController {
          
          if(!StringUtil.isEmpty(shopUID)) {
             shop = shopService.shopViewSelect(shopUID);
-            
-            
-            for(int i=0; i < shop.getShopTime().size(); i++ ) {      
-               if(Integer.parseInt(shop.getShopTime().get(i).getShopOrderTime().replaceAll(":", "")) >= standardTime) { //시간에서 :제거후 int형으로 변환해서 기준시간과 비교
-                  shop.getShopTime().get(i).setShopTimeType("D");
-               }
-               else {
-                  shop.getShopTime().get(i).setShopTimeType("L"); //기준 시간  보다 작다면 점심시간
-               }
-            }
-                  
+                              
             url = "/reservation/view";
          }
          else {
@@ -344,8 +331,6 @@ public class ShopController {
                      } 
                      else {
                         shopTotalTable.get(i).setShopTotalTableRmains(shopTotalTable.get(i).getShopTotalTable() - count); // 남아있는 자리 세팅
-                        logger.debug("shopTotalTable.get(i).getShopTotalTableUID() : " + shopTotalTable.get(i).getShopTotalTableUID());
-                        logger.debug("shopTotalTable.get(i).getShopTotalTableRmains() : " + shopTotalTable.get(i).getShopTotalTableRmains());
                      }
                      count = 0; // 카운트 초기화 (j가 다 돌고 나면 첨부터 다시 카운트를 세야하므로 초기화)
                   }
@@ -464,9 +449,6 @@ public class ShopController {
          
          
          for(int i=0; i < fileQuantity; i++) {
-            
-            logger.debug("i값 : " + i);
-            
             name[i] = "shopFile";
             name[i] += Integer.toString(i);;
 
@@ -478,14 +460,11 @@ public class ShopController {
                if (!mainFolder.exists()) {
                   try{
                      mainFolder.mkdir(); //폴더 생성합니다.
-                         logger.debug("폴더가 생성됨");
                        } 
                        catch(Exception e){
-                          logger.debug("폴더 생성 중 오류");
                           e.getStackTrace();
                   }        
                      }else {
-                        logger.debug("폴더가 존재함");
                }
                   
                FileData fileData = new FileData();
@@ -499,14 +478,10 @@ public class ShopController {
                   if (!subFolder.exists()) {
                      try{
                         subFolder.mkdir(); //폴더 생성합니다.
-                            logger.debug("폴더가 생성됨");
                           } 
                           catch(Exception e){
-                             logger.debug("폴더 생성 중 오류");
                              e.getStackTrace();
                      }        
-                        }else {
-                           logger.debug("폴더가 존재함");
                   }
                   
                   shopFile.setShopUID(shopUID);
@@ -531,13 +506,9 @@ public class ShopController {
                      shopFile.setShopFileSize(fileData.getFileSize());
                }
             }
-            
-
-               logger.debug("shopFileName : " + shopFile.getShopFileName());
-                
+              
                 shopFileList.add(shopFile);
          }
-         logger.debug("shopFileList : " + shopFileList);
          
             Shop shop = new Shop();
             shop.setShopFileList(shopFileList);
@@ -553,12 +524,6 @@ public class ShopController {
             shop.setShopTelephone(shopTelephon);
             shop.setShopIntro(shopIntro);
             shop.setShopContent(shopContent);
-            
-            logger.debug("ShopFileList(서비스 날리기 마지막 전) : " + shopFileList);
-            logger.debug("ShopFile이름(서비스 날리기 마지막 전) : " + shopFileList.get(0).getShopFileName());
-            logger.debug("ShopFile원본이름(서비스 날리기 마지막 전) : " + shopFileList.get(0).getShopFileOrgName());
-            logger.debug("ShopFile사이즈(서비스 날리기 마지막 전) : " + shopFileList.get(0).getShopFileSize());
-            logger.debug("ShopFile확장자(서비스 날리기 마지막 전) : " + shopFileList.get(0).getShopFileExt());
             
             
                //service호출

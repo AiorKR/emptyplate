@@ -4314,7 +4314,7 @@ today 검색
 
 /*예약 modal*/
 .todayView .modal {
-  margin-top: 2vh;
+  margint-top: 200px;
   color:black;
   font-size: 18px;
   min-height: 100vh;
