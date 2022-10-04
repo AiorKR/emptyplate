@@ -170,28 +170,28 @@ function remaindTime2() {
 							<div class="swiper-slide" style="height: auto; width: 100%; background-color: rgba(240, 240, 240, 0.7);">
 								<div class="reservation-item" style="height: 350px;" id="viewPopup" style="cursor:pointer;" onclick="openWindowPop('${noShowImminent.shopUID}', '${noShowImminent.orderUID}');">
 									<img alt="" src="../resources/upload/shop/${noShowImminent.shop.shopFile.shopFileName}" style="height: 300px; width: 300px; position: relative; left: 150px; top: 25px;">
-									<span style="position: relative; bottom: 250px; left: 600px;">
-										<h3>${noShowImminent.shop.shopName}</h3>
+									<span style="position: relative; bottom: 270px; left: 600px;">
+										<h3 style="margin-left:1rem;">${noShowImminent.shop.shopName}</h3>
 										<ul>
-											<li><i class="fa-regular fa-star"></i>별점  <fmt:formatNumber value="${noShowImminent.shop.reviewScore}" pattern=".00"/> (${noShowImminent.shop.reviewCount})</li>	
+											<li><i class="fa-regular fa-star" style="color: #cda45e;"></i> 별점  <fmt:formatNumber value="${noShowImminent.shop.reviewScore}" pattern=".00"/> (${noShowImminent.shop.reviewCount})</li>	
 											<li>
-												<i class="fa-solid fa-percent"></i> <c:if test='${noShowImminent.orderStatus eq "X"}'>70 할인</c:if> <c:if test='${noShowImminent.orderStatus eq "C"}'>50 할인</c:if>
-								                            할인 전 : <span id="totalAmount">${noShowImminent.totalAmount}
+												<i class="fa-solid fa-percent" style="color: #cda45e;"></i> <c:if test='${noShowImminent.orderStatus eq "X"}'> 70 할인</c:if> <c:if test='${noShowImminent.orderStatus eq "C"}'> 50 할인</c:if>
+								                            할인 전 : <span id="totalAmount">${noShowImminent.totalAmount} /
                 								할인 후 : <c:if test='${noShowImminent.orderStatus eq "X"}'><c:set value="${noShowImminent.totalAmount * 0.3}" var="totalAmount" />${totalAmount}</c:if> &nbsp;
                                                 <c:if test='${noShowImminent.orderStatus eq "C"}'><c:set value="${noShowImminent.totalAmount * 0.5}" var="totalAmount" />${totalAmount}</c:if> </span>
 											</li>
 											<li><i class="fa-solid fa-map-location-dot" style="color: #cda45e;"></i>
 												<c:if test="${noShowImminent.shop.shopLocation1 ne null}">${noShowImminent.shop.shopLocation1}</c:if> ${noShowImminent.shop.shopLocation2} ${noShowImminent.shop.shopAddress}
 											</li>
-											<li><i class="fa-solid fa-people" style="color: #cda45e;">예약 인원 : ${noShowImminent.reservationPeople}</i></li>
 											<li>
-												<i class="fa-solid fa-pen" style="color: #cda45e;">
+												<i class="fa-solid fa-pen" style="color: #cda45e;"></i>
 													<c:out value="${noShowImminent.shop.shopIntro}" />
-												</i>
+												
 											</li>
+											<li><i class="fa-solid fa-person" style="color: #cda45e;"></i> 예약 인원 : ${noShowImminent.reservationPeople}</li>
+											
 											<li class="font15 noShowImminent-time-end${status.index}">예약시간</li>
-										<li class="font15 time-title${status.index}">Today 마감까지</li>
-										<li>
+										<li class="font15 time-title${status.index}">Today 마감까지 
 										<span class="noShowImminent-hours${status.index}"></span> <span class="col">:</span>
 										<span class="noShowImminent-minutes${status.index}"></span> <span class="col">:</span>
 										<span class="noShowImminent-seconds${status.index}"></span>
@@ -297,16 +297,16 @@ function remaindTime2() {
 															<div class="card-body-right">
 															<p class="card-title">${noShow[i + j].shop.shopName}</p>
 															<p> ${noShow[i + j].shop.shopLocation1} ${noShow[i + j].shop.shopLocation2} ${noShow[i + j].shop.shopAddress}</p>
-															<i class="fa-regular fa-star"></i>별점  <fmt:formatNumber value="${noShow[i + j].shop.reviewScore}" pattern=".00"/> (${noShow[i + j].shop.reviewCount}) <br />
-															<i class="fa-solid fa-person"></i> 예약 가능 인원 : ${noShow[i + j].reservationPeople} 명<br />
-															<i class="fa-solid fa-percent"></i> <c:if test='${noShow[i + j].orderStatus eq "X"}'>70 할인</c:if> <c:if test='${noShow[i + j].orderStatus eq "C"}'>50 할인</c:if> <br />
+															<i class="fa-regular fa-star" style="color: #cda45e;"></i> 별점  <fmt:formatNumber value="${noShow[i + j].shop.reviewScore}" pattern=".00"/> (${noShow[i + j].shop.reviewCount}) <br />
+															<i class="fa-solid fa-person" style="color: #cda45e;"></i> 예약 가능 인원 : ${noShow[i + j].reservationPeople} 명<br />
+															<i class="fa-solid fa-percent" style="color: #cda45e;"></i> <c:if test='${noShow[i + j].orderStatus eq "X"}'>70 할인</c:if> <c:if test='${noShow[i + j].orderStatus eq "C"}'>50 할인</c:if> <br />
 															 	할인 전 : <span id="totalAmount"><strike><fmt:formatNumber value="${noShow[i + j].totalAmount}" pattern=""/> 원 </strike>&nbsp;
                     											<span style="color: red;">할인 후 : <c:if test='${noShow[i + j].orderStatus eq "X"}'><c:set value="${noShow[i + j].totalAmount * 0.3}" var="totalAmount" /><span style="color: red;"><fmt:formatNumber value="${totalAmount}" pattern=""/> 원</span></c:if> </span>
                                                             	<c:if test='${noShow[i + j].orderStatus eq "C"}'><c:set value="${noShow[i + j].totalAmount * 0.5}" var="totalAmount" /><span style="color: red;"><fmt:formatNumber value="${totalAmount}" pattern=""/> 원</span></c:if> </span>
 															<div class="sec7-text-box">
-															<i class="fa-solid fa-pen" style="color: #cda45e; font-size: 15px;">
+															<i class="fa-solid fa-pen" style="color: #cda45e; font-size: 15px;"></i>
 																<c:out value="${noShow[i + j].shop.shopIntro}"/>
-															</i>
+															
 															<br />
 															<span class="hours${i+j}"></span> <span class="col">:</span>
 															<span class="minutes${i+j}"></span> <span class="col">:</span>
