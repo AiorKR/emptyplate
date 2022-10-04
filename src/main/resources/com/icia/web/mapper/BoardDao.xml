@@ -65,8 +65,8 @@ VALUES (#{bbsSeq},
         0,
         SYSDATE,
         #{bbsComment},
-        #{commentParent},
         #{bbsSeq},
+        #{commentGroup},
         #{commentOrder},
         #{commentIndent},
         'N')
@@ -651,7 +651,7 @@ SELECT A.BBS_SEQ AS BBS_SEQ,
    AND A.COMMENT_PARENT = #{bbsSeq}
    AND B.STATUS = 'Y'
    AND A.STATUS = 'N'
- ORDER BY A.COMMENT_GROUP ASC, A.COMMENT_ORDER DESC
+ ORDER BY A.COMMENT_GROUP ASC, A.COMMENT_ORDER ASC, A.COMMENT_INDENT ASC
 </select>
 
 <!-- 댓글 삭제 -->
@@ -775,5 +775,16 @@ SELECT COUNT(A.BBS_SEQ) AS CNT
   </when>
  </choose>
 </if>
+</select>
+<select id="maxOrderCheck" parameterType="com.icia.web.model.Board" resultType="int">
+SELECT MAX(COMMENT_ORDER)
+  FROM T_BOARD
+ WHERE COMMENT_PARENT = #{commentParent}
+   AND COMMENT_GROUP=#{commentGroup}
+</select>
+<select id="maxGroupCheck" parameterType="long" resultType="int">
+SELECT MAX(COMMENT_GROUP)
+FROM T_BOARD
+WHERE COMMENT_PARENT = #{value}
 </select>
 </mapper>
