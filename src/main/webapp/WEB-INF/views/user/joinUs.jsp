@@ -100,6 +100,14 @@ $(document).ready(function() {
 		      return;
 		   }
 		   
+		   if($.trim($("#userEmail").val()).length <= 0)
+		   {
+		      alert("사용자 이메일을 입력하세요.");
+		      $("#userEmail").val("");
+		      $("#userEmail").focus();
+		      return;
+		   }
+		   
 		   if($("#userPhone").val().length != 7)
 		   {
 		      alert("사용자 전화번호를 입력하세요.");
