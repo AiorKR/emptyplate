@@ -1044,28 +1044,30 @@ public class BoardController
   		String bbsContent = HttpUtil.get(request, "bbsContent", "");
   		
   		String bbsComment = HttpUtil.get(request, "bbsComment","");
-		
+  		
+  		int commentGroup = Integer.parseInt(HttpUtil.get(request, "commentGroup", Integer.toString(boardService.maxGroupCheck(bbsSeq)+1)));
+  		int commentOrder = Integer.parseInt(HttpUtil.get(request, "commentOrder", "0"));
+  		int commentIndent = Integer.parseInt(HttpUtil.get(request, "commentIndent", "0"));
+  		
+  		
 		if(bbsSeq > 0 && !StringUtil.isEmpty(bbsContent))
 		{
 	  		Board parentBoard = boardService.boardSelect(bbsSeq);
-	  		logger.debug("########## 동작1");
 			if(parentBoard != null)
 			{
 				Board board = new Board();
-				logger.debug("########## 동작2");
 				board.setUserUID(cookieUserUID);
 				board.setBbsContent(bbsContent);
 				board.setBbsComment(bbsComment);
-				board.setCommentGroup(parentBoard.getCommentGroup());
-				board.setCommentOrder(parentBoard.getCommentOrder() + 1);
-				board.setCommentIndent(parentBoard.getCommentIndent() + 1);
+				board.setCommentGroup(commentGroup);
+				board.setCommentOrder(commentOrder);
+				board.setCommentIndent(commentIndent);
 				board.setCommentParent(bbsSeq);
 				
 				try
 				{
 					if(boardService.boardCommentInsert(board) > 0)
 					{
-						logger.debug("########## 동작3");
 						ajaxResponse.setResponse(0, "success");
 					}
 					else

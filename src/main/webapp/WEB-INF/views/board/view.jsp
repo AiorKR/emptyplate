@@ -467,8 +467,8 @@ function fn_reComment(bbsSeqValue, commentGroupValue, commentOrderValue, comment
 		const div = document.getElementById('commentBlock');
 		const parent = $("#parentBbsSeq").val();
 		var commentGroup = commentGroupValue;
-		var commentOrder = commentOrderValue;
-		var commentIndent = commentIndentValue;
+		var commentOrder = commentOrderValue +1;
+		var commentIndent = commentIndentValue + 1;
 		div.remove();
 		document.getElementById(value).innerHTML="<div id='commentBlock'><input type='hidden' name='bbsSeq' value='"+parent+"' /><input type='hidden' name='bbsComment' value='Y'/><input type='hidden' name='commentGroup' value='"+commentGroup+"'/><input type='hidden' name='commentOrder' value='"+commentOrder+"'/><input type='hidden' name='commentIndent' value='"+commentIndent+"'/><div><input type='text' id='bbsContent' style=' width: calc(100% - 10%); height: 80px;' name='bbsContent' class='form-control'/><button type='submit' style='height: 80px; top:-1.5%;' id='btnSearch'>등 록</button></div></div>"
 	}
