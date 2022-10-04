@@ -655,13 +655,13 @@ public class ShopService {
 				}
 				logger.debug("################## ShopMenu Insert Complete ##################");
 				//첨부파일
-				if(shop.getShopFileList() != null)
+				if(shop.getShopFileList().size() > 0)
 				{	
 					logger.debug("################## ShopFile Section ##################");
 					List<ShopFile> delShopFileList = shopDao.shopFileSelect(shop.getShopUID());
 					
 					//기존 첨부파일 삭제
-					if(delShopFileList != null)
+					if(delShopFileList.size() > 0)
 					{
 						for(int i=0;i<delShopFileList.size();i++)
 						{
@@ -674,7 +674,7 @@ public class ShopService {
 					shopDao.shopFileDelete(shop.getShopUID());
 					
 					//새로운첨부파일 등록
-					if(shop.getShopFileList() != null)
+					if(shop.getShopFileList().size() > 0)
 					{
 						List<ShopFile> shopFileList = shop.getShopFileList();
 						logger.debug("#"+shopFileList.size());
