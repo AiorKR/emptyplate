@@ -470,7 +470,7 @@ function fn_reComment(bbsSeqValue, commentGroupValue, commentOrderValue, comment
 		var commentOrder = commentOrderValue;
 		var commentIndent = commentIndentValue;
 		div.remove();
-		document.getElementById(value).innerHTML="<div id='commentBlock'><input type='hidden' name='bbsSeq' value='"+parent+"' /><input type='hidden' name='bbsComment' value='Y'/><input type='hidden' name='commentGroup' value='"+commentGroup+"'/><input type='hidden' name='commentOrder' value='"+commentOrder+"'/><input type='hidden' name='commentIndent' value='"+commentIndent+"'/><input type='text' id='bbsContent' name='bbsContent' class='form-control'/><button type='submit' id='btnSearch'>등 록</button></div>"
+		document.getElementById(value).innerHTML="<div id='commentBlock'><input type='hidden' name='bbsSeq' value='"+parent+"' /><input type='hidden' name='bbsComment' value='Y'/><input type='hidden' name='commentGroup' value='"+commentGroup+"'/><input type='hidden' name='commentOrder' value='"+commentOrder+"'/><input type='hidden' name='commentIndent' value='"+commentIndent+"'/><div><input type='text' id='bbsContent' style=' width: calc(100% - 10%); height: 80px;' name='bbsContent' class='form-control'/><button type='submit' style='height: 80px; top:-1.5%;' id='btnSearch'>등 록</button></div></div>"
 	}
 
 </script>
@@ -591,7 +591,7 @@ function fn_reComment(bbsSeqValue, commentGroupValue, commentOrderValue, comment
 										</c:if>
 										<a>${board.regDate}</a>
 										<button type="button" data-bs-toggle="modal" data-bs-target="#reportModal2" id="btnReport${board.bbsSeq}" onclick="fn_Report(${board.bbsSeq})">신고</button>
-										<!-- button type="button" onclick="fn_reComment(${board.bbsSeq},${board.commentGroup},${board.commentOrder},${board.commentIndent})" id="btnReply" class="btnReply">댓글달기</button -->
+										<button type="button" onclick="fn_reComment(${board.bbsSeq},${board.commentGroup},${board.commentOrder},${board.commentIndent})" id="btnReply" class="btnReply">댓글달기</button>
 									</div>
 									<div class="comment-content">
 										<col-lg-12>${board.bbsContent}</col-lg-12>
