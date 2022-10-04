@@ -493,7 +493,7 @@ public class BoardService
 	public int boardCommentInsert(Board board) throws Exception
 	{
 		int count = 0;
- 
+		boardDao.commentGroupOrderUpdate(board);
 		count = boardDao.boardCommentInsert(board);
 		
 		return count;
