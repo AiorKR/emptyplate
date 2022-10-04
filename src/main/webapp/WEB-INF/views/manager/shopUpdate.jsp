@@ -316,7 +316,7 @@ request.setAttribute("No", 2);
 										<td class="file-check">&nbsp;변경할 첨부파일 : &nbsp;&nbsp;<input type="file" id="shopImage0" name="shopImage0" class="file-content" placeholder="파일을 선택하세요." required/></td>
 									</tr>
 									<tr>
-										<td><div class="file-check-content">[등록된 첨부파일 : <span id="shopMainFile">${shop.shopFileList.get(0).shopFileOrgName}]</span></div></td>
+										<td><div class="file-check-content">[등록된 첨부파일 : <span id="shopSubFile">${shop.shopFileList.get(0).shopFileOrgName}</span>]</div></td>
 									</tr>
 								</c:when>
 								<c:otherwise>
@@ -366,7 +366,7 @@ request.setAttribute("No", 2);
 											<tr>
 												<td class="file-check" lowspan="2">등록파일</td>
 												<td><input type="file" id="shopImage${status.current}" name="shopImage${status.current}" class="file-content" placeholder="파일을 선택하세요." /></br>
-													<div class="file-check-content">[등록된 첨부파일 : ${shopFile.shopFileOrgName}]</div>
+													<div class="file-check-content">[등록된 첨부파일 : <span>${shopFile.shopFileOrgName}</span>]</div>
 												</td>
 											</tr>
 										</c:if>
