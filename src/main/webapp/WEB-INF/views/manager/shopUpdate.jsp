@@ -305,7 +305,7 @@ request.setAttribute("No", 2);
 					<div class="list_image">
 						<table>
 							<tr>
-								<td>매장 대표사진</td>
+								<td><h2>매장 대표사진</h2></td>
 							</tr>
 							<c:choose>
 								<c:when test= "${!empty shop.shopFileList}" >
@@ -332,7 +332,7 @@ request.setAttribute("No", 2);
 								</c:otherwise>
 							</c:choose>
 						</table>
-					</div>
+					</div><br />
 					<h2>매장 상세사진</h2>
 					<c:choose>
 						<c:when test="${listSize ge 2}">
