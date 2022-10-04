@@ -493,7 +493,14 @@ public class BoardService
 	public int boardCommentInsert(Board board) throws Exception
 	{
 		int count = 0;
-		boardDao.commentGroupOrderUpdate(board);
+		if(boardDao.maxOrderCheck(board) > board.getCommentOrder())
+		{
+			boardDao.commentGroupOrderUpdate(board);			
+		}
+		else
+		{
+			board.setCommentOrder(boardDao.maxOrderCheck(board)+1);
+		}
 		count = boardDao.boardCommentInsert(board);
 		
 		return count;

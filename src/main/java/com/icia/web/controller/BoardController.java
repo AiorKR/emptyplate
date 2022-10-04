@@ -1044,10 +1044,10 @@ public class BoardController
   		String bbsContent = HttpUtil.get(request, "bbsContent", "");
   		
   		String bbsComment = HttpUtil.get(request, "bbsComment","");
-  		
-  		int commentGroup = Integer.parseInt(HttpUtil.get(request, "commentGroup", Integer.toString(boardService.maxGroupCheck(bbsSeq)+1)));
-  		int commentOrder = Integer.parseInt(HttpUtil.get(request, "commentOrder", "0"));
-  		int commentIndent = Integer.parseInt(HttpUtil.get(request, "commentIndent", "0"));
+  		//댓글 그룹(존재하지 않다면, 최상위 댓글)
+		int commentGroup = Integer.parseInt(HttpUtil.get(request, "commentGroup", Integer.toString(boardService.maxGroupCheck(bbsSeq)+1)));
+        int commentOrder = Integer.parseInt(HttpUtil.get(request, "commentOrder", "0"));
+        int commentIndent = Integer.parseInt(HttpUtil.get(request, "commentIndent", "0"));
   		
   		
 		if(bbsSeq > 0 && !StringUtil.isEmpty(bbsContent))
@@ -1060,7 +1060,7 @@ public class BoardController
 				board.setBbsContent(bbsContent);
 				board.setBbsComment(bbsComment);
 				board.setCommentGroup(commentGroup);
-				board.setCommentOrder(commentOrder);
+				board.setCommentOrder(parentBoard.getCommentOrder());
 				board.setCommentIndent(commentIndent);
 				board.setCommentParent(bbsSeq);
 				

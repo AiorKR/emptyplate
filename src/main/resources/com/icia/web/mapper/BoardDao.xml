@@ -630,7 +630,7 @@ VALUES (#{bbsSeq},
 UPDATE T_BOARD
    SET COMMENT_ORDER = COMMENT_ORDER + 1
  WHERE COMMENT_GROUP = #{commentGroup}
-   AND COMMENT_ORDER <![CDATA[>=]]> #{commentOrder}
+   AND COMMENT_ORDER <![CDATA[>]]> #{commentOrder}
 </update>
 
 <!-- 댓글 리스트 -->
