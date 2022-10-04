@@ -4,6 +4,7 @@
 <html>
 
 <head>
+<link href="/resources/css/style.css" rel="stylesheet">
 <script src="https://kit.fontawesome.com/842f2be68c.js" crossorigin="anonymous"></script>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
@@ -11,7 +12,7 @@
 <style>
 	.userNick{
 		width: 250px;
-		height: 25px;
+		height: 30px;
 }
 </style>
 <script type="text/javascript">
@@ -72,10 +73,11 @@ $(document).ready(function() {
 </script>
 </head>
 
-<body>
+<body style="background-color:white; text-align: center;">
+<p style="font-family:Cafe24Dangdanghae; color:#d4af7a; margin-top:10px; font-size:20px;">닉네임 변경</p>
 <form>
 	<input type="text" id="userNick" name="userNick" class="userNick" placeholder="변경하실 닉네임을 입력해주세요" maxlength="12">
-	<button type="button" id="btnUpdate">확인</button> 
+	<input type="button" id="btnUpdate" value="확인" style="font-family:Cafe24Dangdanghae;" /><br /><br />
 	<input type="button" value="닫 기" onclick="self.close();" /> 
 </form>
 

@@ -8,6 +8,7 @@
 <html>
 
 <head>
+<link href="/resources/css/style.css" rel="stylesheet">
 <script src="https://kit.fontawesome.com/842f2be68c.js" crossorigin="anonymous"></script>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
@@ -179,11 +180,12 @@ $(document).ready(function() {
 </script>
 </head>
 
-<body>
+<body style="background-color:white; text-align: center;">
+<p style="font-family:Cafe24Dangdanghae; color:#d4af7a; margin-top:10px; font-size:20px;">프로필 사진변경</p>
 <c:if test="${user.fileName eq ''}">
 	<form name="insertForm" id="insertForm" method="post" enctype="multipart/form-data">
     	<input type="file" id="userFile" name="userFile" class="form-control mb-2"required />
-		<button type="button" id="btnInsert">등록</button> 
+		<input type="button" id="btnInsert" value="등 록" style="font-family:Cafe24Dangdanghae;" />
 		<input type="button" value="닫 기" onclick="self.close();" />
 		<h5>등록할 파일을 선택해주세요.</h5>    
 	</form>
@@ -192,11 +194,11 @@ $(document).ready(function() {
 <c:if test="${user.fileName ne ''}">
 	<form name="updateForm" id="updateForm" method="post" enctype="multipart/form-data">
     	<input type="file" id="userFile" name="userFile" class="form-control mb-2" required />
-		<button type="button" id="btnUpdate">확인</button> 
+		<input type="button" id="btnUpdate" value="확 인" style="font-family:Cafe24Dangdanghae;" /> 
 		<input type="button" value="닫 기" onclick="self.close();" />		       
 	</form>
-	</br>
-	<a>변경할 파일을 선택해주세요.</a><button id="delPic" name="delPic">기본 사진으로 할래요</button>
+	<br />
+	<a>변경할 파일을 선택해주세요.</a><input type="button" id="delPic" name="delPic" value="기본 사진으로 할래요" style="font-family:Cafe24Dangdanghae;" />
 </c:if>
       	
  

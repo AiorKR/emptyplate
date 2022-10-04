@@ -22,15 +22,58 @@
   <link href="/resources/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
   <link href="/resources/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="/resources/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
   <script src="https://kit.fontawesome.com/842f2be68c.js" crossorigin="anonymous"></script>
   <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
-  
   <script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
   <script type="text/javascript" src="/resources/js/icia.common.js"></script>
-
   <!-- Template Main CSS File -->
   <link href="/resources/css/style.css" rel="stylesheet">
+  
+  <!-- Channel Plugin Scripts -->
+<script>
+  (function() {
+    var w = window;
+    if (w.ChannelIO) {
+      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
+    }
+    var ch = function() {
+      ch.c(arguments);
+    };
+    ch.q = [];
+    ch.c = function(args) {
+      ch.q.push(args);
+    };
+    w.ChannelIO = ch;
+    function l() {
+      if (w.ChannelIOInitialized) {
+        return;
+      }
+      w.ChannelIOInitialized = true;
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.async = true;
+      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+      s.charset = 'UTF-8';
+      var x = document.getElementsByTagName('script')[0];
+      x.parentNode.insertBefore(s, x);
+    }
+    if (document.readyState === 'complete') {
+      l();
+    } else if (window.attachEvent) {
+      window.attachEvent('onload', l);
+    } else {
+      window.addEventListener('DOMContentLoaded', l, false);
+      window.addEventListener('load', l, false);
+    }
+  })();
+  ChannelIO('boot', {
+    "pluginKey": "be88c113-a91a-4481-94d8-7b1a7deac108"
+  });
+</script>
+
+<div id="preloader"></div>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<!-- End Channel Plugin -->
 
   <!-- =======================================================
   * Template Name: Restaurantly - v3.8.0

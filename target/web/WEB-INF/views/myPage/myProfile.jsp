@@ -8,19 +8,19 @@
 
 <head>
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
-<script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
-<script type="text/javascript" src="/resources/js/icia.common.js"></script>
-
 <script type="text/javascript">
 $(document).ready(function() {
    $("#btnDelete").on("click", function(){
          if(confirm("정말 탈퇴하시겠습니까?") == true)
          {     
-            $.ajax({
+             var Pwd = prompt("비밀번호를 입력하세요");
+        	 
+        	 $.ajax({
                type:"POST",
                url:"/myPage/userDelete",
                data:{
-                  userId : $("#userId").val()
+                  userId : $("#userId").val(),
+                  userPwd : Pwd
                },
                datatype:"JSON",
                beforeSend:function(xhr){
@@ -30,22 +30,26 @@ $(document).ready(function() {
                   if(response.code == 0)
                   {
                      alert("탈퇴가 완료되었습니다.");
-                     location.href = "/index";
+                     window.location = "/";
+                  }
+                  else if(response.code == -1)
+                  {
+                	  alert("비밀번호가 올바르지 않습니다.")
                   }
                   else if(response.code == 500)
                   {
                      alert("회원 정보를 찾을 수 없습니다. 메인 페이지로 돌아갑니다.");
-                     location.href = "/index";
+                     window.location = "/";
                   }
                   else if(response.code == 404)
                   {
                      alert("사용자가 아닙니다.");
-                     location.href = "/index";
+                     window.location = "/";
                   }
                   else
                   {
                      alert("회원 탈퇴 중 오류가 발생했습니다.");
-                     location.href = "/index";
+                     window.location = "/";
                   }
                },
                complete:function(data)
@@ -65,7 +69,7 @@ $(document).ready(function() {
 
 //닉네임 변경 시작
 function showPopupNick() { 
-   var popHeight = 130;                                      // 띄울 팝업창 높이   
+   var popHeight = 165;                                      // 띄울 팝업창 높이   
    var popWidth = 460;                                       // 띄울 팝업창 너비
    var winHeight = document.body.clientHeight;                 // 현재창의 높이
    var winWidth = document.body.clientWidth;                 // 현재창의 너비
@@ -81,7 +85,7 @@ function showPopupNick() {
 
 //이메일 변경 시작
 function showPopupEmail() { 
-   var popHeight = 130;                                      // 띄울 팝업창 높이   
+   var popHeight = 170;                                      // 띄울 팝업창 높이   
    var popWidth = 460;                                       // 띄울 팝업창 너비
    var winHeight = document.body.clientHeight;                 // 현재창의 높이
    var winWidth = document.body.clientWidth;                 // 현재창의 너비
@@ -96,7 +100,7 @@ function showPopupEmail() {
 
 //사진 변경 시작
 function showPopupFile() { 
-   var popHeight = 130;                                      // 띄울 팝업창 높이   
+   var popHeight = 200;                                      // 띄울 팝업창 높이   
    var popWidth = 460;                                       // 띄울 팝업창 너비
    var winHeight = document.body.clientHeight;                 // 현재창의 높이
    var winWidth = document.body.clientWidth;                 // 현재창의 너비
@@ -112,7 +116,7 @@ function showPopupFile() {
 
 //전화번호 변경 시작
 function showPopupPhone() { 
-   var popHeight = 130;                                      // 띄울 팝업창 높이   
+   var popHeight = 220;                                      // 띄울 팝업창 높이   
    var popWidth = 460;                                       // 띄울 팝업창 너비
    var winHeight = document.body.clientHeight;                 // 현재창의 높이
    var winWidth = document.body.clientWidth;                 // 현재창의 너비
@@ -124,6 +128,24 @@ function showPopupPhone() {
    window.open("./phone_popup", "pop", "top="+popY+", left="+popX+",width="+popWidth+",height="+popHeight+"resizable=yes"); 
 };
 //전화번호 변경 끝
+
+
+//비밀번호 변경 시작
+function showPopupPwd() {
+	
+   var popHeight = 350;                                      // 띄울 팝업창 높이   
+   var popWidth = 460;                                       // 띄울 팝업창 너비
+   var winHeight = document.body.clientHeight;                 // 현재창의 높이
+   var winWidth = document.body.clientWidth;                 // 현재창의 너비
+   var winX = window.screenLeft;                             // 현재창의 x좌표
+   var winY = window.screenTop;                             // 현재창의 y좌표
+   var popX = winX + (winWidth - popWidth)/2;
+   var popY = winY + (winHeight - popHeight)/2;
+   
+   window.open("./pwd_popup", "pop", "top="+popY+", left="+popX+",width="+popWidth+",height="+popHeight+"resizable=yes"); 
+  
+};
+//비밀번호 변경 끝
 
 
 function updateSuccess() {
@@ -167,12 +189,12 @@ function updateError(){
   <main id="main">
    <section class="mypage">
         <!--마이페이지-->
-    </br></br>
+    <br /><br />
     <container class="mypage-cont">
      <div class="mypage-title">내 프로필</div>         
        <hr role="tournament1">
     </container>
-    </br>
+    <br />
 
         <div class="d-flex justify-content-between align-items-center">
           <div id="mypage" class="user-edit">
@@ -196,7 +218,12 @@ function updateError(){
                     </div>
                 <div class = "profile-card-name"><span>${user.userNick}</span><button class = "mypage-profile-btn"  onclick="showPopupNick()"><i class="fa-solid fa-pen-to-square"></i></button></div>
                 <div class = "profile-card-intro">
+                  <c:if test="${user.userPwd eq 'kaP'}">
+                    <form style="margin-top: 20px;">아이디 : <span><c:out value="카카오 회원" /></span></form>
+                  </c:if>
+                  <c:if test="${user.userPwd ne 'kaP'}">
                   <form style="margin-top: 20px;">아이디 : <span><c:out value="${user.userId}" /></span></form>
+                  </c:if>
                   <hr>
                   <form style="margin-top: 20px;">이메일 : <span><c:out value="${user.userEmail}" /></span>&nbsp;<button class = "mypage-profile-btn" onclick="showPopupEmail()"><i class="fa-solid fa-pen-to-square"></i></button></form>
                   <hr>
@@ -204,8 +231,18 @@ function updateError(){
                   <hr>
                   <form style="margin-top: 20px;">전화번호 : <span><c:out value="${user.userPhone}" /></span>&nbsp;<button><i class="fa-solid fa-pen-to-square" onclick="showPopupPhone()"></i></button></form>
                   <hr>
-                  <form style="margin-top: 20px;"><button class="btn-password">비밀번호변경</button></form><br/><br/>
+                  <c:if test="${user.userPwd ne 'kaP'}">
+                  <form style="margin-top: 20px;"><button class="btn-password" onclick="showPopupPwd()">비밀번호변경</button></form><br/><br/>
+                  </c:if>
+                  <c:if test="${user.userPwd eq 'kaP'}">
+                  <form style="margin-top: 20px;"><button class="btn-password" onclick="alert('카카오 회원은 비밀번호 변경이 불가합니다.')">비밀번호변경</button></form><br/><br/>
+                  </c:if>
+                  <c:if test="${user.adminStatus eq 'Y'}">
+                   <form style="margin-top: 20px;"><button style="color: gray; text-decoration:underline; float: right;" onclick="alert('매장관리자는 탈퇴가 불가합니다.')">회원탈퇴</button></form>
+                  </c:if>
+                  <c:if test="${user.adminStatus ne 'Y'}">
                    <form style="margin-top: 20px;"><button id="btnDelete" style="color: gray; text-decoration:underline; float: right;">회원탈퇴</button></form>
+                  </c:if>
                 </div>                
             </div>
         </div>     

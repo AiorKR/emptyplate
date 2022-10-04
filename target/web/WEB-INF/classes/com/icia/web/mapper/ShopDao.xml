@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.icia.web.dao.ShopDao">
 
-	<resultMap id="shopResultMap" type="com.icia.web.model.Shop"> <!--매장-->
+	<resultMap id="shopListResultMap" type="com.icia.web.model.Shop"> <!--매장 list resultMap-->
 	<id column="SHOP_UID" property="shopUID"/>
 	<result column="USER_UID" property="userUID"/>
 	<result column="SHOP_NAME" property="shopName"/>
@@ -11,17 +11,41 @@
 	<result column="SHOP_HASHTAG" property="shopHashtag"/>
 	<result column="SHOP_LOCATION1" property="shopLocation1"/>
 	<result column="SHOP_LOCATION2" property="shopLocation2"/>
-	<result column="SHOP_LOCATION3" property="shopLocation3"/>
+	<result column="SHOP_ADDRESS" property="shopAddress"/>
+	<result column="SHOP_TELEPHONE" property="shopTelephone"/>
+	<result column="SHOP_INTRO" property="shopIntro"/>
+	<result column="SHOP_CONTENT" property="shopContent"/>
+	<result column="REVIEW_SCORE" property="reviewScore"/>
+	<result column="REVIEW_SCORE_COUNT" property="reviewCount"/>
+	<result column="REG_DATE" property="shopRegDate"/>
+	<collection property="shopFile" resultMap="shopFileResultMap"/>
+	<collection property="shopTime" resultMap="shopTimeResultMap"/>
+	</resultMap>
+	
+	<resultMap id="shopViewResultMap" type="com.icia.web.model.Shop"> <!--매장 view resultMap-->
+	<id column="SHOP_UID" property="shopUID"/>
+	<result column="USER_UID" property="userUID"/>
+	<result column="SHOP_NAME" property="shopName"/>
+	<result column="SHOP_TYPE" property="shopType"/>
+	<result column="SHOP_HOLIDAY" property="shopHoliday"/>
+	<result column="SHOP_HASHTAG" property="shopHashtag"/>
+	<result column="SHOP_LOCATION1" property="shopLocation1"/>
+	<result column="SHOP_LOCATION2" property="shopLocation2"/>
 	<result column="SHOP_ADDRESS" property="shopAddress"/>
 	<result column="SHOP_TELEPHONE" property="shopTelephone"/>
 	<result column="SHOP_INTRO" property="shopIntro"/>
 	<result column="SHOP_CONTENT" property="shopContent"/>
 	<result column="REG_DATE" property="shopRegDate"/>
-	<collection property="shopFile" resultMap="shopFileResultMap"/>
+	<result column="REVIEW_SCORE" property="reviewScore"/>
+	<result column="REVIEW_SCORE_COUNT" property="reviewCount"/>
+	<collection property="shopFileList" resultMap="shopFileResultMap"/>
+	<collection property="shopMenu" resultMap="shopMenuResultMap"/>
+	<collection property="shopTime" resultMap="shopTimeResultMap"/>
+	<collection property="reviewList" resultMap="shopReviewResultMap"/>	
 	</resultMap>
 	
 	<resultMap id="shopFileResultMap" type="com.icia.web.model.ShopFile"> <!--매장파일-->
-	<id column="SHOP_UID" property="shopUID"/>
+	<result column="SHOP_UID" property="shopUID"/>
 	<result column="FILE_SEQ" property="shopFileSeq"/>
 	<result column="FILE_ORG_NAME" property="shopFileOrgName"/>
 	<result column="FILE_NAME" property="shopFileName"/>
@@ -31,83 +55,203 @@
 	</resultMap>
 	
 	<resultMap id="shopTimeResultMap" type="com.icia.web.model.ShopTime"> <!--매장시간-->
-	<id column="SHOP_UID" property="shopUID"/>
+	<result column="SHOP_UID" property="shopUID"/>
 	<result column="ORDER_TIME" property="shopOrderTime"/>
+	<result column="SHOP_TIMETYPE" property="shopTimeType"/>
 	</resultMap>
 
 	<resultMap id="shopMenuResultMap" type="com.icia.web.model.ShopMenu"> <!--매장메뉴-->
-	<id column="SHOP_UID" property="shopUID"/>
-	<result column="SHOP_MENU_CODE" property="shopMenuCode"/>
-	<result column="SHOP_MENU_NAME" property="shopMenuName"/>
+	<result column="SHOP_UID" property="shopUID"/>
+	<result column="MENU_CODE" property="shopMenuCode"/>
+	<result column="MENU_NAME" property="shopMenuName"/>
+	<result column="MENU_PRICE" property="shopMenuPrice"/>
 	</resultMap>
 	
 	<resultMap id="shopTotalTableResultMap" type="com.icia.web.model.ShopTotalTable"> <!--매장 총합 테이블-->
-	<id column="SHOP_UID" property="shopUID"/>
-	<result column="SHOP_MENU_CODE" property="shopMenuCode"/>
-	<result column="SHOP_MENU_NAME" property="shopMenuName"/>
+	<id column="TOTAL_TABLE_UID" property="shopTotalTableUID"/>
+	<result column="SHOP_UID" property="shopUID"/>
+	<result column="TOTAL_TABLE_CAPACITY" property="shopTotalTableCapacity"/>
+	<result column="TOTAL_TABLE" property="shopTotalTable"/>
 	<collection property="shopTable" resultMap="shopTableResultMap"/>
 	</resultMap>
 	
 	<resultMap id="shopTableResultMap" type="com.icia.web.model.ShopTable"> <!--매장 테이블-->
-	<id column="SHOP_UID" property="shopUID"/>
-	<result column="SHOP_MENU_CODE" property="shopMenuCode"/>
-	<result column="SHOP_MENU_NAME" property="shopMenuName"/>
+	<id column="TABLE_UID" property="shopTableUID"/>
+	<result column="TOTAL_TABLE_UID" property="shopTotalTableUID"/>
 	<collection property="shopReservationTable" resultMap="shopReservationTableResultMap"/>
 	</resultMap>
 	
 	<resultMap id="shopReservationTableResultMap" type="com.icia.web.model.ShopReservationTable"> <!--매장 태이블 상태-->
-	<id column="SHOP_UID" property="shopUID"/>
-	<result column="SHOP_MENU_CODE" property="shopTableUID"/>
-	<result column="SHOP_MENU_NAME" property="shopTableStatus"/>
-	<result column="SHOP_MENU_NAME" property="shopReservationDate"/>
-	<result column="SHOP_MENU_NAME" property="shopReservationTime"/>
-	<result column="SHOP_MENU_NAME" property="orderUID"/>
+	<result column="TABLE_UID" property="shopTableUID"/>
+	<result column="TABLE_STATUS" property="shopTableStatus"/>
+	<result column="RESERVATION_DATE" property="shopReservationDate"/>
+	<result column="RESERVATION_TIME" property="shopReservationTime"/>
+	<result column="ORDER_UID" property="orderUID"/>
+	</resultMap>
+
+   <resultMap id="todayListResultMap" type="com.icia.web.model.Order">
+   <id column="ORDER_UID" property="orderUID"/>
+   <result column="SHOP_UID" property="shopUID"/>
+   <result column="RESERVATION_PEOPLE" property="reservationPeople"/>
+   <result column="ORDER_STATUS" property="orderStatus"/>
+   <result column="TOTAL_AMOUNT" property="totalAmount"/>
+   <collection property="orderMenu" resultMap="orderMenuResultMap"/>
+   <collection property="shopReservationTableList" resultMap="shopReservationTableResultMap"/>
+   <collection property="shop" resultMap="shopListResultMap"/>
+   </resultMap>
+   
+   <resultMap id="todayViewResultMap" type="com.icia.web.model.Order">
+   <id column="ORDER_UID" property="orderUID"/>
+   <result column="SHOP_UID" property="shopUID"/>
+   <result column="RESERVATION_PEOPLE" property="reservationPeople"/>
+   <result column="ORDER_STATUS" property="orderStatus"/>
+   <result column="TOTAL_AMOUNT" property="totalAmount"/>
+   <collection property="orderMenu" resultMap="orderMenuResultMap"/>
+   <collection property="shopReservationTableList" resultMap="shopReservationTableResultMap"/>
+   <collection property="shop" resultMap="shopViewResultMap"/>
+   </resultMap>
+	
+	<resultMap id="shopReviewResultMap" type="com.icia.web.model.ShopReview"> <!--매장 태이블 상태-->
+	<result column="ORDER_UID" property="orderUID"/>
+	<result column="USER_UID" property="userUID"/>
+	<result column="SHOP_UID" property="shopUID"/>
+	<result column="USER_NAME" property="userName"/>
+	<result column="REVIEW_CONTENT" property="shopReviewContent"/>
+	<result column="REVIEW_SCORE" property="shopScore"/>
+	<result column="REG_DATE" property="shopReviewRegDate"/>
 	</resultMap>
 	
-	<select id="shopListTotlaCount" resultType="long" parameterType="com.icia.web.model.Shop">
-		SELECT COUNT(SHOP_UID) AS CNT
-	  FROM T_SHOP
-	  WHERE 1 = 1
-<if test='searchType != null and searchType != "0" '>
-	<choose>
-		<when test='searchType == "1"'>   
-                   AND SHOP_TYPE = #{searchType}
-		</when>
-		<when test='searchType == "2"'>
-                   AND SHOP_TYPE = #{searchType}
-		</when>
-	</choose>
-</if>  
+		
+	<!-- 인덱스 매장 리스트 -->
+	<select id="indexShopList" parameterType="com.icia.web.model.Shop" resultMap="shopListResultMap">
+	SELECT *
+      FROM (SELECT ROWNUM AS RNUM2,
+                   RNUM,
+                   SHOP_UID,
+                   USER_UID,
+                   SHOP_NAME,
+                   SHOP_TYPE,
+                   SHOP_HOLIDAY,
+                   SHOP_HASHTAG,
+                   SHOP_LOCATION1,
+                   SHOP_LOCATION2,
+                   SHOP_ADDRESS,
+                   SHOP_TELEPHONE,
+                   SHOP_INTRO,
+                   SHOP_CONTENT,
+                   review_score,
+                   REG_DATE,
+                   FILE_NAME
+              FROM (SELECT ROWNUM AS RNUM,
+                           A.SHOP_UID AS SHOP_UID,
+                           A.USER_UID AS USER_UID,
+                	       A.SHOP_NAME AS SHOP_NAME,
+                           A.SHOP_TYPE AS SHOP_TYPE,
+                           A.SHOP_HOLIDAY AS SHOP_HOLIDAY,
+                           A.SHOP_HASHTAG AS SHOP_HASHTAG,
+	                       A.SHOP_LOCATION1 AS SHOP_LOCATION1,
+	                       A.SHOP_LOCATION2 AS SHOP_LOCATION2,
+	                       A.SHOP_ADDRESS AS SHOP_ADDRESS,
+	                       A.SHOP_TELEPHONE AS SHOP_TELEPHONE,
+	                       A.SHOP_INTRO AS SHOP_INTRO,
+	                       A.SHOP_CONTENT AS SHOP_CONTENT,
+	                       A.review_score AS review_score,
+	                       A.REG_DATE AS REG_DATE,
+                           B.FILE_NAME AS FILE_NAME
+                      FROM (SELECT *
+                              FROM T_SHOP
+                             ORDER BY review_score DESC)A, T_SHOP_FILE B
+                      WHERE A.SHOP_UID = B.SHOP_UID
+                        AND B.FILE_SEQ=0
+                     ORDER BY DBMS_RANDOM.RANDOM)
+             WHERE RNUM <![CDATA[<=]]> 10)
+	WHERE RNUM2 <![CDATA[<=]]> 3
+	ORDER BY review_score DESC
 	</select>
 	
-	<select id="shopList"  parameterType="com.icia.web.model.Shop" resultMap="shopResultMap">
-		SELECT *
+	
+	<select id="shopListTotlaCount" resultType="long" parameterType="com.icia.web.model.Shop">
+		SELECT COUNT(A.SHOP_UID) AS CNT
+	  FROM T_SHOP A
+	  <if test='reservationTime != null and reservationTime != "" '>
+	                 ,(SELECT   B.SHOP_UID,
+                               C.ORDER_TIME
+                          FROM T_SHOP B, T_SHOP_TIME C
+                         WHERE B.SHOP_UID = C.SHOP_UID
+                           AND ORDER_TIME = '2200') D
+      </if>
+	  WHERE 1 = 1
+		<if test='searchType != null and searchType != "0" '>
+			<choose>
+				<when test='searchType == "1"'>   
+		AND A.SHOP_TYPE = #{searchType}
+				</when>
+				<when test='searchType == "2"'>
+		AND A.SHOP_TYPE = #{searchType}
+				</when>
+			</choose>
+		</if> 
+		<if test='searchValue != null and searchValue != "" '>
+		AND (SHOP_NAME LIKE '%' || #{searchValue} || '%' 
+               OR SHOP_LOCATION1 LIKE '%' || #{searchValue} || '%'
+               OR SHOP_LOCATION2 LIKE '%' || #{searchValue} || '%'
+               OR SHOP_ADDRESS LIKE '%' || #{searchValue} || '%'
+               OR SHOP_INTRO LIKE '%' || #{searchValue} || '%'
+               OR SHOP_HASHTAG LIKE '%' || #{searchValue} || '%' )
+		</if> 
+		<if test='shopHoliday != null and shopHoliday != "" '>
+		AND A.SHOP_HOLIDAY != #{shopHoliday}
+		</if>
+		<if test='reservationTime != null and reservationTime != "" '>
+        AND A.SHOP_UID = D.SHOP_UID
+		</if>
+	</select>
+	
+	<select id="shopList"  parameterType="com.icia.web.model.Shop" resultMap="shopListResultMap"> <!--매장 LIST SELECT -->
+	SELECT *
 	  FROM (SELECT  ROWNUM AS RNUM,
 	                A.SHOP_UID AS SHOP_UID,
+	                NVL(A.USER_UID, '') AS USER_UID,
 	                NVL(A.SHOP_NAME, '') AS SHOP_NAME,
 	                NVL(A.SHOP_TYPE, '') AS SHOP_TYPE,
 	                NVL(A.SHOP_HASHTAG, '') AS SHOP_HASHTAG,
 	                NVL(A.SHOP_HOLIDAY, '') AS SHOP_HOLIDAY,
 	                NVL(A.SHOP_LOCATION1, '') AS SHOP_LOCATION1,
 	                NVL(A.SHOP_LOCATION2, '') AS SHOP_LOCATION2,
-	                NVL(A.SHOP_LOCATION3, '') AS SHOP_LOCATION3,
 	                NVL(A.SHOP_ADDRESS, '') AS SHOP_ADDRESS,
 	                NVL(A.SHOP_INTRO, '') AS SHOP_INTRO,
 	                NVL(B.FILE_SEQ, 0) AS FILE_SEQ,
 	                NVL(B.FILE_ORG_NAME, '') AS FILE_ORG_NAME,
 	                NVL(B.FILE_NAME, '') AS FILE_NAME,
 	                NVL(B.FILE_EXT, '') AS FILE_EXT,
-	                NVL(B.FILE_SIZE, 0) AS FILE_SIZE
-	           FROM T_SHOP A, T_SHOP_FILE B
+	                NVL(B.FILE_SIZE, 0) AS FILE_SIZE,
+                    NVL(REVIEW_SCORE.REVIEW_SCORE, 0) AS REVIEW_SCORE,
+                    NVL(REVIEW_SCORE.REVIEW_SCORE_COUNT, 0) AS REVIEW_SCORE_COUNT
+	           FROM T_SHOP A, T_SHOP_FILE B, (
+                                               SELECT AVG(REVIEW_SCORE) REVIEW_SCORE,
+                                                      COUNT(REVIEW_SCORE) AS  REVIEW_SCORE_COUNT,
+                                                      SHOP_UID AS SHOP_UID
+                                               FROM T_SHOP_REVIEW
+                                               GROUP BY SHOP_UID
+                                              )REVIEW_SCORE
+											          	  <if test='reservationTime != null and reservationTime != "" '>
+											                 ,(SELECT  C.SHOP_UID,
+										                               C.ORDER_TIME
+										                          FROM T_SHOP_TIME C
+										                         WHERE ORDER_TIME = #{reservationTime}) D
+										      			  
+										      			  </if>
 	          WHERE A.SHOP_UID = B.SHOP_UID
+	            AND A.SHOP_UID = REVIEW_SCORE.SHOP_UID(+)
+	            AND B.FILE_ORG_NAME LIKE '%'|| A.SHOP_UID ||'%'
 	            AND B.FILE_ORG_NAME LIKE '%'|| 'Shop_' ||'%'
         <if test='searchType != null and searchType != "0" '>
 			<choose>
 				<when test='searchType == "1"'>   
-			                  AND SHOP_TYPE = '1'
+			    AND SHOP_TYPE = '1'
 				</when>
 				<when test='searchType == "2"'>
-			                  AND SHOP_TYPE = '2'
+			    AND SHOP_TYPE = '2'
 				</when>
 			</choose>
 		</if> 
@@ -115,15 +259,21 @@
 			AND (SHOP_NAME LIKE '%' || #{searchValue} || '%' 
                 OR SHOP_LOCATION1 LIKE '%' || #{searchValue} || '%'
                 OR SHOP_LOCATION2 LIKE '%' || #{searchValue} || '%'
-                OR SHOP_LOCATION3 LIKE '%' || #{searchValue} || '%'
                 OR SHOP_ADDRESS LIKE '%' || #{searchValue} || '%'
                 OR SHOP_INTRO LIKE '%' || #{searchValue} || '%'
                 OR SHOP_HASHTAG LIKE '%' || #{searchValue} || '%' )
 		</if> 
+		<if test='shopHoliday != null and shopHoliday != "" '>
+			AND SHOP_HOLIDAY != #{shopHoliday}
+		</if>
+		<if test='reservationTime != null and reservationTime != "" '>
+       		AND A.SHOP_UID = D.SHOP_UID
+		</if>
             )
  WHERE RNUM <![CDATA[>=]]>  #{startRow}
    AND RNUM <![CDATA[<=]]>  #{endRow}
 	</select>
+
 	
 	<insert id="shopInsert" parameterType="com.icia.web.model.Shop">
 		INSERT INTO T_SHOP (
@@ -135,7 +285,6 @@
     SHOP_HASHTAG,
     SHOP_LOCATION1,
     SHOP_LOCATION2,
-    SHOP_LOCATION3,
     SHOP_ADDRESS,
     SHOP_TELEPHONE,
     SHOP_INTRO,
@@ -150,7 +299,6 @@
     #{shopHashtag},
     #{shopLocation1},
     #{shopLocation2},
-    #{shopLocation3},
     #{shopAddress},
     #{shopTelephone},
     #{shopIntro},
@@ -180,65 +328,664 @@
 	         SYSDATE)
     </foreach>
 	</insert>
-	
-	<!--자리가 남아 있는지 확인
-	<select id="shopReservationTableSelect" parameterType="shopReservationTableResultMap" resultType="long">
-				SELECT count(Table_UID)1
-		  FROM T_SHOP_RESERVATION_TABLE
-		 WHERE 1 = 1
-		 <if test="reservationTable != 0 and reservationTable != null">
-		   AND RESERVATION_TABLE = #{}
-		 </if>
-		 <if test='reservationDate != "" and reservationDate != null'>
-		   AND RESERVATION_DATE = #{}  해당 날자에
-		 </if>
-		 <if test='reservationTime != "" and reservationTime != null'>
-		   AND TABLE_STATUS = 'N'  예약이 안된 테이블
-		 </if>
-	</select> -->
-	
-	
-<select id="shopSelect" parameterType="com.icia.web.model.Shop" resultMap="shopResultMap">
-	SELECT SHOP_UID AS SHOP_UID,
-       NVL(SHOP_NAME, '') AS SHOP_NAME,
-       NVL(SHOP_TYPE, '') AS SHOP_TYPE,
-       NVL(SHOP_LOCATION1, '') AS SHOP_LOCATION1,
-       NVL(SHOP_LOCATION2, '') AS SHOP_LOCATION2,
-       NVL(SHOP_LOCATION3, '') AS SHOP_LOCATION3,
-       NVL(SHOP_ADDRESS, '') AS SHOP_ADDRESS,
-       NVL(SHOP_TELEPHONE, '')AS SHOP_TELEPHONE,
-       NVL(SHOP_INTRO, '') AS SHOP_INTRO,
-       NVL(SHOP_HASHTAG, '') AS SHOP_HASHTAG,
-       NVL(SHOP_CONTENT, '') AS SHOP_CONTENT
-  FROM T_SHOP 
- WHERE SHOP_UID = #{value}
+
+<select id="shopFileList" parameterType="String" resultMap="shopFileResultMap">
+	SELECT *
+	  FROM t_shop_file
+	 WHERE SHOP_UID = #{value} 
+</select>
+		
+<select id="shopViewSelect" parameterType="String" resultMap="shopViewResultMap"> <!-- 매장 세부 페이지 SELECT -->
+SELECT S.SHOP_UID AS SHOP_UID,
+       NVL(S.USER_UID, '') AS USER_UID,
+       NVL(S.SHOP_NAME, '') AS SHOP_NAME,
+       NVL(S.SHOP_TYPE, '') AS SHOP_TYPE,
+       NVL(S.SHOP_LOCATION1, '') AS SHOP_LOCATION1,
+       NVL(S.SHOP_LOCATION2, '') AS SHOP_LOCATION2,
+       NVL(S.SHOP_ADDRESS, '') AS SHOP_ADDRESS,
+       NVL(S.SHOP_HOLIDAY, '') AS SHOP_HOLIDAY,
+       NVL(REVIEW_SCORE.REVIEW_SCORE, 0) AS REVIEW_SCORE,
+       NVL(TO_CHAR(TO_DATE(ST.ORDER_TIME, 'HH24MI'), 'HH24:MI'), '') AS ORDER_TIME,
+       NVL(SM.MENU_CODE, '') AS MENU_CODE,
+       NVL(SM.MENU_NAME, '') AS MENU_NAME,
+       NVL(SM.MENU_PRICE, 0) AS MENU_PRICE,
+       NVL(S.SHOP_TELEPHONE, '')AS SHOP_TELEPHONE,
+       NVL(S.SHOP_INTRO, '') AS SHOP_INTRO,
+       NVL(S.SHOP_HASHTAG, '') AS SHOP_HASHTAG,
+       NVL(S.SHOP_CONTENT, '') AS SHOP_CONTENT,
+       NVL(SF.FILE_SEQ, 0) AS FILE_SEQ,
+       NVL(SF.FILE_ORG_NAME, '') AS FILE_ORG_NAME,
+       NVL(SF.FILE_NAME, '') AS FILE_NAME,
+       NVL(REVIEW_SCORE.REVIEW_SCORE, 0) AS REVIEW_SCORE,
+       NVL(REVIEW_SCORE.REVIEW_SCORE_COUNT, 0) AS REVIEW_SCORE_COUNT,
+       NVL(SR.REG_DATE, '') AS REG_DATE,
+       NVL(SR.REVIEW_CONTENT, '') AS REVIEW_CONTENT,
+       NVL(SR.REVIEW_SCORE, '') AS REVIEW_SCORE,
+       NVL(SR.USER_NAME, '') AS USER_NAME
+  FROM T_SHOP S, T_SHOP_TIME ST, T_SHOP_MENU SM, T_SHOP_FILE SF, (SELECT NVL(R.SHOP_UID, '') AS SHOP_UID,
+  																		 NVL(U.USER_NAME, '') AS USER_NAME,
+  																		 NVL(R.REVIEW_CONTENT, '') AS REVIEW_CONTENT,
+  																		 NVL(R.REVIEW_SCORE, '') AS REVIEW_SCORE,
+  																		 NVL(R.REG_DATE, '') AS REG_DATE
+  																	FROM T_SHOP_REVIEW R, T_USER U
+  																   WHERE R.USER_UID = U.USER_UID
+  																				   ) SR, 
+  																				   (SELECT AVG(REVIEW_SCORE) REVIEW_SCORE,
+                                                                                    	   COUNT(REVIEW_SCORE) AS  REVIEW_SCORE_COUNT,
+                                                                                           SHOP_UID AS SHOP_UID
+                                                                                    FROM T_SHOP_REVIEW
+                                                                                    GROUP BY SHOP_UID
+                                                                                   )REVIEW_SCORE
+ WHERE S.SHOP_UID = #{value}
+   AND S.SHOP_UID = ST.SHOP_UID
+   AND S.SHOP_UID = REVIEW_SCORE.SHOP_UID(+)
+   AND S.SHOP_UID = SM.SHOP_UID
+   AND S.SHOP_UID = SF.SHOP_UID
+   AND S.SHOP_UID = SR.SHOP_UID(+)
+   AND SF.FILE_SEQ <![CDATA[>=]]>  0
+   AND SF.FILE_SEQ <![CDATA[<=]]>  6
 </select>
 
-<select id="shopMenuSelect" parameterType="com.icia.web.model.ShopMenu" resultMap="shopMenuResultMap">
-	SELECT  NVL(SHOP_UID, '') AS SHOP_UID,
-       NVL(MENU_CODE, '') AS MENU_CODE,
-       NVL(MENU_NAME, '') AS MENU_NAME,
-       NVL(MENU_PRICE, 0) AS MENU_PRICE
-  FROM T_SHOP_MENU
- WHERE SHOP_UID = #{value}
+<select id="shopManagerUIDSelect" parameterType="String" resultMap="shopViewResultMap">
+	SELECT A.SHOP_UID,
+	       USER_UID, 
+	       SHOP_NAME,
+	       SHOP_TYPE,
+	       SHOP_HOLIDAY,
+	       SHOP_HASHTAG,
+	       SHOP_LOCATION1,
+	       SHOP_LOCATION2,
+	       SHOP_ADDRESS,
+	       SHOP_TELEPHONE, 
+	       SHOP_INTRO,
+	       SHOP_CONTENT,
+	       REVIEW_SCORE,
+	       A.REG_DATE,
+	       B.FILE_SEQ,
+	       B.FILE_ORG_NAME,
+	       B.FILE_NAME,
+	       B.FILE_EXT,
+	       B.FILE_SIZE,
+	       B.REG_DATE
+	  FROM T_SHOP A, T_SHOP_FILE B
+	 WHERE A.SHOP_UID = B.SHOP_UID(+)
+	   AND USER_UID = #{value}
 </select>
 
-<select id="shopTimeSelect" parameterType="com.icia.web.model.ShopTime" resultMap="shopTimeResultMap">
-	SELECT SHOP_UID AS SHOP_UID,
-       NVL(ORDER_TIME, '') AS ORDER_TIME
+<select id="shopReservationCheck" parameterType="com.icia.web.model.Shop" resultMap="shopTotalTableResultMap"> <!--선택한 날에 대하여  예약이 가능한지 조회-->
+	SELECT AB.SHOP_UID AS SHOP_UID,
+		   AB.TOTAL_TABLE_UID AS TOTAL_TABLE_UID,
+           AB.TABLE_UID AS TABLE_UID,
+           AB.TOTAL_TABLE_CAPACITY AS TOTAL_TABLE_CAPACITY,
+           NVL(C.TABLE_STATUS, 'N') AS TABLE_STATUS,
+           NVL(C.RESERVATION_DATE, #{reservationDate}) AS RESERVATION_DATE, <!-- NULL 처리된 값에 reservationDate 값 대입 -->
+           NVL(TO_CHAR(TO_DATE(C.RESERVATION_TIME, 'HH24MI'), 'HH24:MI'), #{reservationTime}) AS RESERVATION_TIME,
+           AB.TOTAL_TABLE AS TOTAL_TABLE,
+           C.ORDER_UID
+        FROM (SELECT A.SHOP_UID,
+                     A.TOTAL_TABLE_UID,
+                     A.TOTAL_TABLE_CAPACITY,
+                     A.TOTAL_TABLE,
+                     B.TABLE_UID
+                FROM T_SHOP_TOTAL_TABLE A, T_SHOP_TABLE B
+               WHERE A.TOTAL_TABLE_UID = B.TOTAL_TABLE_UID) AB
+  LEFT JOIN T_SHOP_RESERVATION_TABLE C <!--아우터 조인으로 왼족 테이블이 기준이다. 조건이 성립이 안된다면 오른쪽 테이블에 정보는 NULL처리하여 가져온다. -->
+    ON AB.TABLE_UID = C.TABLE_UID
+   AND C.TABLE_STATUS = 'Y'
+   AND C.RESERVATION_DATE = #{reservationDate}
+   AND C.RESERVATION_TIME = #{reservationTime}
+ WHERE AB.SHOP_UID = #{shopUID}
+ ORDER BY TOTAL_TABLE_CAPACITY ASC
+</select>
+
+<select id="orderUIDcreate" resultType="long">
+	SELECT ORDER_SEQ.NEXTVAL FROM DUAL
+</select>
+
+
+
+
+<!-- 추가 -->
+	<resultMap id="orderMenuResultMap" type="com.icia.web.model.OrderMenu">
+	<result column="ORDER_UID" property="orderUID"/>
+	<result column="ORDER_MENU_NAME" property="orderMenuName"/>
+	<result column="ORDER_MENU_PRICE" property="orderMenuPrice"/>
+	<result column="ORDER_MENU_QUANTITY" property="orderMenuQuantity"/>
+	</resultMap>
+	
+	<resultMap id="myOrderResultMap" type="com.icia.web.model.Order">
+	<id column="ORDER_UID" property="orderUID"/>
+	<result column="USER_UID" property="userUID"/>
+	<result column="SHOP_UID" property="shopUID"/>
+	<result column="SHOP_NAME" property="shopName"/>
+	<result column="RESERVATION_PEOPLE" property="reservationPeople"/>
+	<result column="ORDER_STATUS" property="orderStatus"/>
+	<result column="TOTAL_AMOUNT" property="totalAmount"/>
+	<result column="R_DATE" property="rDate"/>
+	<result column="REG_DATE" property="regDate"/>
+	<result column="REVIEW_SCORE" property="shopScore"/>
+    <result column="REVIEW_CONTENT" property="shopReviewContent"/>
+    <result column="PAYMENT_KEY" property="paymentKey"/>	
+	<collection property="orderMenu" resultMap="orderMenuResultMap"/>
+	<collection property="shopReservationTable" resultMap="shopReservationTableResultMap"/>
+	</resultMap>
+
+	<select id="myOrderList" parameterType="com.icia.web.model.Order" resultMap="myOrderResultMap">
+		SELECT RNUM,
+       		   SHOP_NAME,
+       		   ORDER_UID,
+       		   RESERVATION_PEOPLE,
+       		   ORDER_STATUS,
+       		   TOTAL_AMOUNT,
+       		   SHOP_UID,
+       		   R_DATE,
+               REVIEW_CONTENT,
+               REVIEW_SCORE
+		  FROM(SELECT ROWNUM AS RNUM,
+             		  SHOP_NAME,
+             		  ORDER_UID,
+            		  RESERVATION_PEOPLE,
+            		  ORDER_STATUS,	  
+            		  TOTAL_AMOUNT,
+            		  SHOP_UID,
+            		  R_DATE,
+                      REVIEW_CONTENT,
+                      REVIEW_SCORE
+      FROM(SELECT DISTINCT NVL(B.SHOP_NAME, '') AS SHOP_NAME,
+      			 NVL(A.ORDER_UID, '') AS ORDER_UID,
+                 NVL(A.RESERVATION_PEOPLE, '') AS RESERVATION_PEOPLE,
+                 NVL(A.ORDER_STATUS, '') AS ORDER_STATUS,
+                 NVL(A.TOTAL_AMOUNT, '') AS TOTAL_AMOUNT,
+                 NVL(A.SHOP_UID, '') AS SHOP_UID,           
+                 NVL(SUBSTR(C.RESERVATION_DATE,3,2)||'/'||SUBSTR(C.RESERVATION_DATE,5,2)||
+                '/'||SUBSTR(C.RESERVATION_DATE,7,2)||' '||SUBSTR(C.RESERVATION_TIME,1,2)||':'||SUBSTR(C.RESERVATION_TIME,3,2), '') AS R_DATE,
+                 NVL(D.REVIEW_CONTENT, '') AS REVIEW_CONTENT,
+                 NVL(D.REVIEW_SCORE, '') AS REVIEW_SCORE
+            FROM T_ORDER A, T_SHOP B, T_SHOP_RESERVATION_TABLE C, T_SHOP_REVIEW D
+            WHERE A.ORDER_UID = C.ORDER_UID
+            AND A.SHOP_UID = B.SHOP_UID
+            AND A.USER_UID = #{userUID}
+            AND A.ORDER_UID = D.ORDER_UID(+)
+            ORDER BY ORDER_UID DESC))
+       WHERE RNUM <![CDATA[>=]]>  #{startRow}
+       AND RNUM <![CDATA[<=]]>  #{endRow}
+       ORDER BY RNUM ASC
+	</select>
+	
+	
+	<select id="myOrderMenu" parameterType="com.icia.web.model.OrderMenu" resultMap="orderMenuResultMap">
+		SELECT DISTINCT
+       		   ORDER_MENU_NAME,
+               ORDER_MENU_QUANTITY
+          FROM T_ORDER_MENU
+         WHERE ORDER_UID =  #{orderUID}
+	</select>
+	
+	
+	<select id="myOrderListCount" parameterType="com.icia.web.model.Order" resultType="long">
+		SELECT COUNT(ORDER_UID) AS CNT
+  		  FROM T_ORDER
+ 		 WHERE USER_UID = #{userUID}
+	</select>
+
+
+<!-- 즐겨찾기 -->
+<!-- 동일 즐겨찾기 여부 확인 -->
+<select id="shopMarkCheck" parameterType="com.icia.web.model.Shop" resultType="int">
+SELECT COUNT(*)
+  FROM T_SHOP_BOOKMARK
+ WHERE SHOP_UID = #{shopUID}
+   AND USER_UID = #{userUID}
+</select>
+
+<!-- 즐겨찾기 추가-->
+<insert id="shopMarkUpdate" parameterType="com.icia.web.model.Shop">
+INSERT INTO T_SHOP_BOOKMARK (USER_UID,
+                          	SHOP_UID) 
+VALUES (#{userUID},
+        #{shopUID})
+</insert>
+
+<!-- 즐겨찾기 취소 -->
+<delete id="shopMarkDelete" parameterType="com.icia.web.model.Shop">
+DELETE FROM T_SHOP_BOOKMARK
+ WHERE SHOP_UID = #{shopUID}
+   AND USER_UID = #{userUID}
+</delete>
+
+<!-- 즐겨찾기 리스트 -->
+<select id="shopMarkList" parameterType="com.icia.web.model.Shop" resultMap="shopListResultMap">
+SELECT RNUM,
+       SHOP_UID,
+       USER_UID,
+	   SHOP_NAME,
+       FILE_NAME,
+       FILE_ORG_NAME
+  FROM(SELECT ROWNUM AS RNUM,
+                        SHOP_UID,
+                        USER_UID,
+                        SHOP_NAME,
+                        FILE_NAME,
+                        FILE_ORG_NAME
+  		 FROM(SELECT C.SHOP_UID AS SHOP_UID,
+             		 NVL(C.USER_UID, '') AS USER_UID,
+            		 NVL(A.SHOP_NAME, '') AS SHOP_NAME,
+                     NVL(D.FILE_NAME, '') AS FILE_NAME,
+                     NVL(D.FILE_ORG_NAME, '') AS FILE_ORG_NAME
+         		FROM T_SHOP A, T_USER B, T_SHOP_BOOKMARK C, T_SHOP_FILE D
+               WHERE A.SHOP_UID = C.SHOP_UID
+          		 AND B.USER_UID = C.USER_UID
+                 AND C.SHOP_UID = D.SHOP_UID
+                 AND D.FILE_ORG_NAME LIKE '%'|| 'Shop_' ||'%'
+          		 AND C.USER_UID = #{userUID}))
+</select>
+
+<insert id="orderInsert" parameterType="com.icia.web.model.Order">
+	INSERT INTO T_ORDER (
+    ORDER_UID,
+    SHOP_UID,
+    USER_UID,
+    RESERVATION_PEOPLE,
+    ORDER_STATUS,
+    PAY_TYPE,
+    REG_DATE,
+    TOTAL_AMOUNT,
+    PAYMENT_KEY
+) VALUES (
+    #{orderUID},
+    #{shopUID},
+    #{userUID},
+    #{reservationPeople},
+    #{orderStatus},
+    #{orderPayType},
+    SYSDATE,
+    #{totalAmount},
+    #{toss.paymentKey}
+)
+</insert>
+
+<insert id="orderMenuInsert" parameterType="com.icia.web.model.OrderMenu">
+   <foreach  collection="list" item="list" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+	INTO T_ORDER_MENU (
+    	ORDER_UID,
+    	ORDER_MENU_NAME,
+    	ORDER_MENU_PRICE,
+    	ORDER_MENU_QUANTITY
+    )
+	VALUES (
+	     #{list.orderUID},
+         #{list.orderMenuName},
+         #{list.orderMenuPrice},
+         #{list.orderMenuQuantity}
+    )
+   </foreach>
+</insert>
+
+<insert id="reservationTableInser" parameterType="com.icia.web.model.ShopReservationTable">
+   <foreach  collection="list" item="list" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+	INTO T_SHOP_RESERVATION_TABLE (
+	    TABLE_UID,
+	    TABLE_STATUS,
+	    RESERVATION_DATE,
+	    RESERVATION_TIME,
+	    ORDER_UID
+	)
+	VALUES (
+		 #{list.shopTableUID},
+         #{list.shopTableStatus},
+         #{list.shopReservationDate},
+         #{list.shopReservationTime},
+         #{list.orderUID}
+    )
+   </foreach>
+</insert>
+
+<insert id="regReqOne" parameterType="com.icia.web.model.ShopReview">
+   INSERT INTO T_SHOP_REVIEW (
+           ORDER_UID,
+           USER_UID,
+           SHOP_UID,
+           REVIEW_CONTENT,
+           REVIEW_SCORE,
+           REG_DATE
+) VALUES ( 
+    #{orderUID},
+    #{userUID},
+    #{shopUID},
+    #{shopReviewContent},
+    #{shopScore},
+    SYSDATE
+)
+</insert>
+
+<update id="updateReqOne" parameterType="com.icia.web.model.ShopReview">
+   UPDATE T_SHOP_REVIEW
+   SET REVIEW_CONTENT = #{shopReviewContent},
+       REVIEW_SCORE = #{shopScore},
+       REG_DATE = SYSDATE
+ WHERE USER_UID = #{userUID}
+   AND SHOP_UID = #{shopUID}
+   AND ORDER_UID = #{orderUID}
+</update>
+
+<select id="countReqOne" parameterType="com.icia.web.model.ShopReview" resultType="int">   
+    SELECT COUNT(*)
+      FROM T_SHOP_REVIEW
+     WHERE USER_UID = #{userUID}
+       AND SHOP_UID = #{shopUID}
+       AND ORDER_UID = #{orderUID}
+</select>
+
+<delete id="delReqOne" parameterType="com.icia.web.model.ShopReview">
+	DELETE FROM T_SHOP_REVIEW
+WHERE ORDER_UID = #{orderUID}
+  AND USER_UID = #{userUID}
+</delete>
+
+<select id="selectRes" parameterType="com.icia.web.model.Order" resultMap="myOrderResultMap">
+	SELECT DISTINCT
+       NVL(A.ORDER_STATUS, '') AS ORDER_STATUS,
+       NVL(A.PAY_TYPE, '') AS PAY_TYPE,
+       NVL(A.TOTAL_AMOUNT, '') AS TOTAL_AMOUNT,
+       NVL(A.PAYMENT_KEY, '') AS PAYMENT_KEY,
+       NVL(B.RESERVATION_DATE||B.RESERVATION_TIME, '') AS R_DATE
+  FROM T_ORDER A, T_SHOP_RESERVATION_TABLE B
+ WHERE A.ORDER_UID = #{orderUID}
+   AND A.ORDER_UID = B.ORDER_UID
+</select>
+
+<update id="delRes" parameterType="com.icia.web.model.Order">
+ UPDATE T_ORDER
+    SET ORDER_STATUS = 'C'
+  WHERE ORDER_UID = #{orderUID}
+</update>
+
+<update id="delResX" parameterType="com.icia.web.model.Order">
+ UPDATE T_ORDER
+    SET ORDER_STATUS = 'X'
+  WHERE ORDER_UID = #{orderUID}
+</update>
+
+<update id="delTable" parameterType="com.icia.web.model.ShopReservationTable">
+	UPDATE T_SHOP_RESERVATION_TABLE 
+       SET TABLE_STATUS = 'N'
+     WHERE ORDER_UID = #{orderUID}
+</update>
+
+<update id="delTableN" parameterType="com.icia.web.model.ShopReservationTable">
+	UPDATE T_SHOP_RESERVATION_TABLE
+  	   SET TABLE_STATUS = 'C'
+     WHERE ORDER_UID = #{orderUID} 
+</update>
+
+<select id="shopUIDSelect" parameterType="String" resultMap="shopListResultMap">
+SELECT SHOP_UID
+  FROM T_SHOP
+ WHERE SHOP_UID = #{shopUID}
+</select>
+
+<update id="updateStoreUserUID" parameterType="com.icia.web.model.Shop">
+UPDATE T_SHOP A
+   SET A.USER_UID = 
+      (
+        SELECT B.USER_UID
+          FROM T_USER B
+         WHERE USER_UID = #{userUID}
+       )
+ WHERE SHOP_UID = #{shopUID}
+</update>
+
+<select id="noShowImminent" resultMap="todayListResultMap"> <!--noshow 마감 임박-->
+SELECT A.ORDER_UID AS ORDER_UID,
+       NVL(A.SHOP_UID , '') AS SHOP_UID,
+       NVL(A.RESERVATION_PEOPLE ,'') AS RESERVATION_PEOPLE,
+       NVL(A.ORDER_STATUS, '') AS ORDER_STATUS,
+       NVL(A.TOTAL_AMOUNT,0)AS TOTAL_AMOUNT,
+       NVL(B.TABLE_UID, '') AS TABLE_UID,
+       NVL(C.SHOP_NAME, '') AS SHOP_NAME,
+       NVL(C.SHOP_LOCATION1, '') AS SHOP_LOCATION1,
+       NVL(C.SHOP_LOCATION2, '') AS SHOP_LOCATION2,
+       NVL(C.SHOP_ADDRESS, '') AS SHOP_ADDRESS,
+       NVL(C.SHOP_INTRO, '') AS SHOP_INTRO,
+       NVL(D.FILE_NAME, '') AS FILE_NAME,
+       NVL(B.RESERVATION_TIME, '') AS RESERVATION_TIME,
+       NVL(B.TABLE_UID, '') AS TABLE_UID,
+       NVL(B.TABLE_STATUS, '') AS TABLE_STATUS,
+       NVL(B.RESERVATION_DATE, '') AS RESERVATION_DATE
+  FROM T_ORDER A, T_SHOP_RESERVATION_TABLE B, T_SHOP C, T_SHOP_FILE D
+ WHERE A.SHOP_UID = C.SHOP_UID
+   AND A.SHOP_UID = D.SHOP_UID
+   AND A.ORDER_UID = B.ORDER_UID 
+   AND D.FILE_ORG_NAME LIKE '%'|| A.SHOP_UID ||'%'
+   AND (A.ORDER_STATUS = 'C'
+        OR A.ORDER_STATUS = 'X')
+   AND B.TABLE_STATUS = 'C'
+   AND B.RESERVATION_DATE = TO_CHAR(SYSDATE, 'YYYYMMDD')
+   AND B.RESERVATION_TIME <![CDATA[>]]> TO_CHAR(SYSDATE+1/24, 'HH24MI')
+   AND B.RESERVATION_TIME <![CDATA[<=]]> TO_CHAR(SYSDATE+3/24, 'HH24MI')
+</select>
+
+<select id="noShow" resultMap="todayListResultMap" parameterType="com.icia.web.model.Shop"> <!--noshow 마감 임박 외 나머지-->
+SELECT A.ORDER_UID AS ORDER_UID,
+       NVL(A.SHOP_UID , '') AS SHOP_UID,
+       NVL(A.RESERVATION_PEOPLE ,'') AS RESERVATION_PEOPLE,
+       NVL(A.ORDER_STATUS, '') AS ORDER_STATUS,
+       NVL(A.TOTAL_AMOUNT,0)AS TOTAL_AMOUNT,
+       NVL(B.TABLE_UID, '') AS TABLE_UID,
+       NVL(C.SHOP_NAME, '') AS SHOP_NAME,
+       NVL(C.SHOP_LOCATION1, '') AS SHOP_LOCATION1,
+       NVL(C.SHOP_LOCATION2, '') AS SHOP_LOCATION2,
+       NVL(C.SHOP_ADDRESS, '') AS SHOP_ADDRESS,
+       NVL(C.SHOP_INTRO, '') AS SHOP_INTRO,
+       NVL(D.FILE_NAME, '') AS FILE_NAME,
+       NVL(B.RESERVATION_TIME, '') AS RESERVATION_TIME,
+       NVL(B.TABLE_UID, '') AS TABLE_UID,
+       NVL(B.TABLE_STATUS, '') AS TABLE_STATUS,
+       NVL(B.RESERVATION_DATE, '') AS RESERVATION_DATE
+  FROM T_ORDER A, T_SHOP_RESERVATION_TABLE B, T_SHOP C, T_SHOP_FILE D
+ WHERE A.SHOP_UID = C.SHOP_UID
+   AND A.SHOP_UID = D.SHOP_UID
+   AND A.ORDER_UID = B.ORDER_UID 
+   AND D.FILE_ORG_NAME LIKE '%'|| A.SHOP_UID ||'%'
+   AND (A.ORDER_STATUS = 'C'
+        OR A.ORDER_STATUS = 'X')
+   AND B.TABLE_STATUS = 'C'
+   AND (B.RESERVATION_DATE = TO_CHAR(SYSDATE, 'YYYYMMDD')
+       OR B.RESERVATION_DATE = TO_CHAR(SYSDATE+1, 'YYYYMMDD'))
+   AND B.RESERVATION_TIME <![CDATA[>=]]> TO_CHAR(SYSDATE+3/24, 'HH24MI')
+</select>
+
+<select id="shopListTime" resultMap="shopTimeResultMap"> <!-- 리스트에서 띄어줄 시간 -->
+SELECT DISTINCT ORDER_TIME
   FROM T_SHOP_TIME
- WHERE SHOP_UID = #{value}
+ ORDER BY ORDER_TIME ASC
 </select>
 
-<select id="shopFileSelect" parameterType="com.icia.web.model.ShopFile" resultMap="shopFileResultMap">
-	SELECT SHOP_UID AS SHOP_UID,
-           NVL(FILE_SEQ, 0) AS FILE_SEQ,
-           NVL(FILE_ORG_NAME, '') AS FILE_ORG_NAME,
-           NVL(FILE_NAME, '') AS FILE_NAME,
-           NVL(FILE_EXT, '') AS FILE_EXT,
-           NVL(FILE_SIZE, 0) AS FILE_SIZE
-  FROM T_SHOP_FILE
- WHERE SHOP_UID = #{value}
+
+<select id="noShowSelect" resultMap="todayListResultMap" parameterType="String"> <!--noshow 마감 임박-->
+SELECT A.ORDER_UID AS ORDER_UID,
+       NVL(A.SHOP_UID , '') AS SHOP_UID,
+       NVL(A.RESERVATION_PEOPLE ,'') AS RESERVATION_PEOPLE,
+       NVL(A.ORDER_STATUS, '') AS ORDER_STATUS,
+       NVL(A.TOTAL_AMOUNT,0)AS TOTAL_AMOUNT,
+       NVL(B.TABLE_UID, '') AS TABLE_UID,
+       NVL(D.ORDER_MENU_QUANTITY, '') AS ORDER_MENU_QUANTITY,
+       NVL(D.ORDER_MENU_NAME, '') AS ORDER_MENU_NAME,
+       NVL(D.ORDER_MENU_PRICE, '') AS ORDER_MENU_PRICE,
+       NVL(B.RESERVATION_TIME, '') AS RESERVATION_TIME,
+       NVL(B.TABLE_UID, '') AS TABLE_UID,
+       NVL(B.TABLE_STATUS, '') AS TABLE_STATUS,
+       NVL(B.RESERVATION_DATE, '') AS RESERVATION_DATE
+  FROM T_ORDER A, T_SHOP_RESERVATION_TABLE B, T_SHOP C, T_ORDER_MENU D
+ WHERE A.ORDER_UID = #{value}
+   AND A.SHOP_UID = C.SHOP_UID
+   AND A.ORDER_UID = B.ORDER_UID 
+   AND A.ORDER_UID = D.ORDER_UID
+   AND (A.ORDER_STATUS = 'C'
+        OR A.ORDER_STATUS = 'X')
+   AND B.TABLE_STATUS = 'C'
 </select>
-	
+
+<select id="shopCheckTable" resultMap="shopTotalTableResultMap" parameterType="String">
+	SELECT *
+	  FROM T_SHOP_TOTAL_TABLE
+	 WHERE SHOP_UID = #{value}
+	   AND TOTAL_TABLE IS NOT NULL
+	   AND TOTAL_TABLE <![CDATA[>]]> 0
+	 ORDER BY TOTAL_TABLE_CAPACITY ASC
+</select>
+
+<select id="shopCheckTime" resultMap="shopTimeResultMap" parameterType="String">
+	SELECT *
+	  FROM T_SHOP_TIME
+	 WHERE SHOP_UID = #{value}
+	 ORDER BY ORDER_TIME ASC, DECODE(SHOP_TIMETYPE,'L',1,'X',2,3)
+</select>
+
+<select id="shopCheckMenu" resultMap="shopMenuResultMap" parameterType="String"> 
+	SELECT *
+	  FROM T_SHOP_MENU
+	 WHERE SHOP_UID=#{value}
+	 ORDER BY MENU_CODE DESC, MENU_PRICE DESC
+</select>
+
+<update id="shopUpdate" parameterType="com.icia.web.model.Shop">
+	UPDATE T_SHOP
+	   SET shop_name = #{shopName},
+	       shop_type = #{shopType},
+	       SHOP_HASHTAG = #{shopHashtag},
+	       shop_location1 = #{shopLocation1},
+	       shop_address = #{shopAddress},
+		   SHOP_HOLIDAY = #{shopHoliday},
+	       shop_telephone = #{shopTelephone},
+	       shop_intro = #{shopIntro},
+	       shop_content = #{shopContent}
+	 WHERE SHOP_UID = #{shopUID}
+</update>
+
+<select id="orderSelect" resultMap="todayListResultMap" parameterType="String"> <!--noshow 마감 임박-->
+SELECT A.ORDER_UID AS ORDER_UID,
+       NVL(A.SHOP_UID , '') AS SHOP_UID,
+       NVL(A.RESERVATION_PEOPLE ,'') AS RESERVATION_PEOPLE,
+       NVL(A.ORDER_STATUS, '') AS ORDER_STATUS,
+       NVL(A.TOTAL_AMOUNT,0)AS TOTAL_AMOUNT,
+       NVL(B.TABLE_UID, '') AS TABLE_UID,
+       NVL(D.ORDER_MENU_QUANTITY, '') AS ORDER_MENU_QUANTITY,
+       NVL(D.ORDER_MENU_NAME, '') AS ORDER_MENU_NAME,
+       NVL(D.ORDER_MENU_PRICE, '') AS ORDER_MENU_PRICE,
+       NVL(B.RESERVATION_TIME, '') AS RESERVATION_TIME,
+       NVL(B.TABLE_UID, '') AS TABLE_UID,
+       NVL(B.TABLE_STATUS, '') AS TABLE_STATUS,
+       NVL(B.RESERVATION_DATE, '') AS RESERVATION_DATE,
+       NVL(E.FILE_NAME, '') AS FILE_NAME
+  FROM T_ORDER A, T_SHOP_RESERVATION_TABLE B, T_SHOP C, T_ORDER_MENU D, T_SHOP_FILE E
+ WHERE A.ORDER_UID = #{value}
+   AND A.SHOP_UID = C.SHOP_UID
+   AND A.SHOP_UID = E.SHOP_UID
+   AND A.ORDER_UID = B.ORDER_UID 
+   AND A.ORDER_UID = D.ORDER_UID
+   AND E.FILE_ORG_NAME LIKE '%'|| A.SHOP_UID ||'%'
+</select>
+
+<update id="reservationTableUpdate"  parameterType="com.icia.web.model.Order">
+UPDATE T_SHOP_RESERVATION_TABLE
+SET
+    TABLE_STATUS = 'Y', ORDER_UID = #{orderUID}
+WHERE ORDER_UID = #{noShowOrderUID}
+</update>
+
+<insert id="shopTimeInsert" parameterType="com.icia.web.model.ShopTime">
+	INSERT INTO T_SHOP_TIME (
+	    SHOP_UID,
+	    ORDER_TIME,
+	    SHOP_TIMETYPE
+	) VALUES (
+	    #{shopUID},
+	    #{shopOrderTime},
+	    #{shopTimeType}
+	)
+</insert>
+
+<select id="shopTimeCheck" parameterType="com.icia.web.model.ShopTime" resultType="int">
+	SELECT COUNT(*)
+	  FROM T_SHOP_TIME
+     WHERE SHOP_UID = #{shopUID}
+</select>
+
+<delete id="shopTimeDelete" parameterType="com.icia.web.model.ShopTime">
+	DELETE FROM T_SHOP_TIME
+	 WHERE SHOP_UID = #{shopUID}
+</delete>
+
+<insert id="shopTableInsert" parameterType="com.icia.web.model.ShopTime">
+	INSERT INTO T_SHOP_TOTAL_TABLE (
+	    TOTAL_TABLE_UID,
+	    SHOP_UID,
+	    TOTAL_TABLE_CAPACITY,
+	    TOTAL_TABLE
+	) VALUES (
+		#{shopTotalTableUID},
+	    #{shopUID},
+	    #{shopTotalTableCapacity},
+	    #{shopTotalTable}
+	)
+</insert>
+
+<select id="shopTableCheck" parameterType="com.icia.web.model.ShopTotalTable" resultType="int">
+	SELECT COUNT(*)
+	  FROM T_SHOP_TOTAL_TABLE
+     WHERE TOTAL_TABLE_UID = #{shopTotalTableUID}
+       AND SHOP_UID = #{shopUID}
+</select>
+
+<update id="shopTableUpdate" parameterType="com.icia.web.model.ShopTotalTable">
+	UPDATE T_SHOP_TOTAL_TABLE
+       SET TOTAL_TABLE = #{shopTotalTable}
+     WHERE TOTAL_TABLE_UID = #{shopTotalTableUID}
+       AND SHOP_UID = #{shopUID}
+</update>
+
+<update id="shopTableZeroUpdate" parameterType="com.icia.web.model.ShopTotalTable">
+	UPDATE T_SHOP_TOTAL_TABLE
+	   SET TOTAL_TABLE = 0
+	 WHERE SHOP_UID = #{shopUID}
+</update>
+
+<insert id="shopMenuInsert" parameterType="com.icia.web.model.ShopMenu">
+	INSERT INTO T_SHOP_MENU (
+	    SHOP_UID,
+	    MENU_CODE,
+	    MENU_NAME,
+	    MENU_PRICE
+	)  VALUES (
+	    #{shopUID},
+	    #{shopMenuCode},
+	    #{shopMenuName},
+	    #{shopMenuPrice}
+	)
+</insert>
+
+<select id="shopMenuCheck" parameterType="com.icia.web.model.ShopMenu" resultType="int">
+	SELECT COUNT(*)
+      FROM T_SHOP_MENU
+	 WHERE SHOP_UID = #{shopUID}
+</select>
+
+
+<delete id="shopMenuDelete" parameterType="com.icia.web.model.ShopMenu">
+    DELETE FROM T_SHOP_MENU
+	 WHERE SHOP_UID = #{shopUID}
+</delete> 
+
+<select id="shopFileSelect" resultMap="shopFileResultMap" parameterType="String">
+	SELECT *
+	FROM T_SHOP_FILE
+	WHERE SHOP_UID = #{shopUID}
+</select>
+
+<delete id="shopFileDelete" parameterType="String">
+	DELETE FROM T_SHOP_FILE
+	WHERE SHOP_UID = #{shopUID}
+</delete> 
+
 </mapper>
