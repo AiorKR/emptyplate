@@ -162,17 +162,10 @@ $(document).ready(function(){
          var curHours = (tDate.getHours() + 3); curHours = curHours >= 10 ? curHours : '0' + curHours + 3;
          var curTime = curHours + "00";
          
-         console.log(tDate.getDate().length);
-         
-         console.log("today : " + today);
-         console.log(' $(".datepicker").val()' + $(".datepicker").val());
-         
          if($(".datepicker").val() == today) {
-            console.log("오늘임");
-            console.log("curTime : " + curTime);
+
             <c:forEach items="${shop.shopTime}" var="shopTime" varStatus="status">
             var orderTime = ('${shopTime.shopOrderTime}').replace(":", "");
-            console.log("orderTime : " + orderTime);
             if(orderTime <= curTime) {
                $("#shopTime${status.index}").attr('style', "display:none;");
             }
