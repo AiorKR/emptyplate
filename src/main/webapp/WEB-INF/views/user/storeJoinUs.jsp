@@ -589,7 +589,7 @@ function showPopupPwdSearch() {
 
 //카카오 전화번호 시작
 function showPopupKakao() { 
-   var popHeight = 130;                                      // 띄울 팝업창 높이   
+   var popHeight = 360;                                      // 띄울 팝업창 높이   
    var popWidth = 500;                                       // 띄울 팝업창 너비
    var winHeight = document.body.clientHeight;                 // 현재창의 높이
    var winWidth = document.body.clientWidth;                 // 현재창의 너비
