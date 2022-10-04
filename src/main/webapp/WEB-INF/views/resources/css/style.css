@@ -4096,8 +4096,8 @@ today 검색
   cursor: pointer; 
   text-align: center; 
   display: flex; 
-  height: 500px; 
-  width: 350px
+  height: 550px; 
+  width: 355px
 }
 .today .card h5{
   font-size: 25px;

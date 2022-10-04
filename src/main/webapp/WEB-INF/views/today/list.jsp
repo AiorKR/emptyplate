@@ -168,7 +168,6 @@ function remaindTime2() {
 					<c:if test="${!empty noShowImminent}">
 						<c:forEach items="${noShowImminent}" var="noShowImminent" varStatus="status">
 							<div class="swiper-slide" style="height: auto; width: 100%; background-color: rgba(240, 240, 240, 0.7);">
-							<!--a href='/today/todayPopupView?shopUID=${noShowImminent.shopUID}&orderUID=${noShowImminent.orderUID}' class="popup" id='popup'-->
 								<div class="reservation-item" style="height: 350px;" id="viewPopup" style="cursor:pointer;" onclick="openWindowPop('${noShowImminent.shopUID}', '${noShowImminent.orderUID}');">
 									<img alt="" src="../resources/upload/shop/${noShowImminent.shop.shopFile.shopFileName}" style="height: 300px; width: 300px; position: relative; left: 150px; top: 25px;">
 									<span style="position: relative; bottom: 250px; left: 600px;">
@@ -292,12 +291,11 @@ function remaindTime2() {
 											 <c:if  test="${!empty noShow[i+j]}">
 											<th scope="row"> 
 												<td>
-												<!--a href='/today/todayPopupView?shopUID=${noShow[i + j].shopUID}&orderUID=${noShow[i + j].orderUID}' class="popup" id='popup'-->
 													<div class="card"
 														 onclick="openWindowPop('${noShow[i + j].shopUID}',' ${noShow[i + j].orderUID}');">
-														<img src='../resources/upload/shop/${noShow[i + j].shop.shopFile.shopFileName}' class="img-fluid img-thumbnail" style="height: 300px; width: 350px;">
+														<img src='../resources/upload/shop/${noShow[i + j].shop.shopFile.shopFileName}' class="img-fluid img-thumbnail" style="height: 300px; width: 400px;">
 															<div class="card-body-right">
-															<h5 class="card-title">${noShow[i + j].shop.shopName}</h5>
+															<p class="card-title">${noShow[i + j].shop.shopName}</p>
 															<p> ${noShow[i + j].shop.shopLocation1} ${noShow[i + j].shop.shopLocation2} ${noShow[i + j].shop.shopAddress}</p>
 															<i class="fa-regular fa-star"></i>별점  <fmt:formatNumber value="${noShow[i + j].shop.reviewScore}" pattern=".00"/> (${noShow[i + j].shop.reviewCount}) <br />
 															<i class="fa-solid fa-person"></i> 예약 가능 인원 : ${noShow[i + j].reservationPeople} 명<br />
@@ -309,6 +307,7 @@ function remaindTime2() {
 															<i class="fa-solid fa-pen" style="color: #cda45e; font-size: 15px;">
 																<c:out value="${noShow[i + j].shop.shopIntro}"/>
 															</i>
+															<br />
 															<span class="hours${i+j}"></span> <span class="col">:</span>
 															<span class="minutes${i+j}"></span> <span class="col">:</span>
 															<span class="seconds${i+j}"></span>
