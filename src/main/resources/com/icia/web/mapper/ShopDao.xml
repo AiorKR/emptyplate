@@ -181,7 +181,7 @@
    
    <select id="shopListTotlaCount" resultType="long" parameterType="com.icia.web.model.Shop">
       SELECT COUNT(A.SHOP_UID) AS CNT
-     FROM T_SHOP A
+        FROM T_SHOP A
      <if test='reservationTime != null and reservationTime != "" '>
                     ,(SELECT   B.SHOP_UID,
                                C.ORDER_TIME
@@ -214,6 +214,8 @@
       <if test='reservationTime != null and reservationTime != "" '>
         AND A.SHOP_UID = D.SHOP_UID
       </if>
+      AND A.SHOP_NAME IS NOT NULL
+      AND A.SHOP_ADDRESS IS NOT NULL
    </select>
    
    <select id="shopList"  parameterType="com.icia.web.model.Shop" resultMap="shopListResultMap"> <!--매장 LIST SELECT -->
@@ -253,6 +255,8 @@
              WHERE A.SHOP_UID = B.SHOP_UID
                AND A.SHOP_UID = REVIEW_SCORE.SHOP_UID(+)
                AND B.FILE_SEQ = 0
+               AND A.SHOP_NAME IS NOT NULL
+               AND A.SHOP_ADDRESS IS NOT NULL
         <if test='searchType != null and searchType != "0" '>
          <choose>
             <when test='searchType == "1"'>   
