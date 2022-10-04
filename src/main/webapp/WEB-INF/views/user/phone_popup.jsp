@@ -15,6 +15,11 @@
 	height: 30px;
 }
 
+.btn_phone{
+	width:100px;
+	height:36px;
+}
+
 </style>
 <script type="text/javascript">
 
@@ -87,14 +92,14 @@ $("#code_btn").on("click", function(){
 	<form>
 		<div>
 			<input type="tel" id="tel" name="tel" class="phones" placeholder="전화번호(- 빼고 작성해주세요)" pattern="[0-9]{11}" required>
-			<input type="button" id="tel_btn" style="font-size:20px;" value="인증번호 전송"/>
+			<input type="button" id="tel_btn" class="btn_phone" value="인증번호 전송"/>
 		</div>
 		<br />
-		<div style="margin-right:27px">
+		<div>
 			<input type="text" name="code" id="code" class="phones" placeholder="전송받은 번호" pattern="[0-9]{6}" required>
-			<input type="button" id="code_btn" value="번호 확인" disabled />		
+			<input type="button" id="code_btn" class="btn_phone" value="번호 확인" disabled />		
 		</div><br/>
-		<input type="button" value="닫 기" onclick="self.close();" /> 
+		<input type="button" value="닫 기" class="btn_phone" onclick="self.close();" /> 
 	</form>
 </body>
 
