@@ -14,6 +14,11 @@
 		width: 250px;
 		height: 30px;
 }
+	
+	.btn_pwd{
+		width:95px;
+		height:36px;
+	}
 </style>
 <script type="text/javascript">
 
@@ -164,21 +169,21 @@ $("#btnUpdate").on("click", function() {
 		</div><br />
 		<div>
 			<input type="tel" id="tel" name="tel" class="pwds" placeholder="전화번호(- 빼고 작성해주세요)" pattern="[0-9]{11}" required>
-			<input type="button" id="tel_btn" value="인증번호 전송" />
+			<input type="button" id="tel_btn" class="btn_pwd" value="인증번호 전송" />
 		</div><br />
 		<div>
 			<input type="text" name="code" id="code" class="pwds" placeholder="전송받은 번호" pattern="[0-9]{6}" required>
-			<input type="button" id="code_btn" value="번호 확인" disabled />			
+			<input type="button" id="code_btn" class="btn_pwd" value="번호 확인" disabled />			
 		</div><br />
 		<div>
 		<input type="password" id="userPwd" name="userPwd" class="pwds" style="font-family:'굴림';" placeholder="변경하실 비밀번호를 입력해주세요." maxlength="12">
 		</div><br />
 		<div>
 		<input type="password" id="userPwd2" name="userPwd2" class="pwds" style="font-family:'굴림';" placeholder="다시 한번 입력해주세요." maxlength="12">
-		<input type="button" id="btnUpdate" value="확 인" disabled />
+		<input type="button" id="btnUpdate" class="btn_pwd" value="확 인" disabled />
 		</div><br />
 		<div style="text-align:center;">
-		<input type="button" value="닫 기"onclick="self.close();" />
+		<input type="button" value="닫 기" class="btn_pwd" onclick="self.close();" />
 		</div> 
 	</form>
 </body>

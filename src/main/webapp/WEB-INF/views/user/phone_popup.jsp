@@ -10,10 +10,16 @@
 <script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/icia.common.js"></script>
 <style>
-	.phones{
-		width: 250px;
-		height: 30px;
+.phones{
+	width: 250px;
+	height: 30px;
 }
+
+.btn_phone{
+	width:100px;
+	height:36px;
+}
+
 </style>
 <script type="text/javascript">
 
@@ -82,18 +88,18 @@ $("#code_btn").on("click", function(){
 </head>
 
 <body style="background-color:white; text-align: center;">
-<p style="font-family:Cafe24Dangdanghae; color:#d4af7a; margin-top:10px; font-size:20px;">전화번호 인증</p>
+<p style="font-family:Cafe24Dangdanghae; color:#d4af7a; margin-top:10px; font-size:25px;">전화번호 인증</p>
 	<form>
 		<div>
 			<input type="tel" id="tel" name="tel" class="phones" placeholder="전화번호(- 빼고 작성해주세요)" pattern="[0-9]{11}" required>
-			<input type="button" id="tel_btn" value="인증번호 전송" style="font-family:Cafe24Dangdanghae;" />
+			<input type="button" id="tel_btn" class="btn_phone" value="인증번호 전송"/>
 		</div>
 		<br />
-		<div style="margin-right:27px">
+		<div>
 			<input type="text" name="code" id="code" class="phones" placeholder="전송받은 번호" pattern="[0-9]{6}" required>
-			<input type="button" id="code_btn" value="번호 확인" style="font-family:Cafe24Dangdanghae;" disabled />		
+			<input type="button" id="code_btn" class="btn_phone" value="번호 확인" disabled />		
 		</div><br/>
-		<input type="button" value="닫 기" onclick="self.close();" /> 
+		<input type="button" value="닫 기" class="btn_phone" onclick="self.close();" /> 
 	</form>
 </body>
 

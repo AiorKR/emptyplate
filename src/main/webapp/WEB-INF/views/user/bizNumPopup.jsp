@@ -10,9 +10,26 @@
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/icia.common.js"></script>
+<style>
+	.btn_biz{
+		top: 0px;
+		right: 0px;
+		bottom: 0px;
+		border: 0;
+		font-size: 20px;
+		padding: 0 40px 0 40px;
+		background: #C2A383;
+		color: #fff;
+		transition: 0.3s;
+		border: 1px solid #C2A383;
+		font-family: 'Cafe24Dangdanghae';
+		border-radius: 5px;
+	}
+</style>
+
 <script type="text/javascript">
 $(document).ready(function() {
-	$("#btnSearch").on("click", function() {
+	$("#btnSearch1").on("click", function() {
 		let check = /^[0-9]+$/; 
 		if($.trim($("#search").val()).length != 10)
 		{
@@ -77,7 +94,7 @@ $(document).ready(function() {
     <p style="font-family:Cafe24Dangdanghae; color:#d4af7a; margin-top:20px; font-size:20px;">사업자번호 상태조회</p>
     <hr style="color:black;">
       <input type="text" id="search" name="search" placeholder="-빼고 입력해주세요." maxlength="10" style="font-size:14px">
-     <button type="button" id="btnSearch" style="background-color:#d4af7a; font-family:Cafe24Dangdanghae;" >사업자번호조회</button>  
+     <button type="button" id="btnSearch1" class="btn_biz" style="background-color:#d4af7a; font-family:Cafe24Dangdanghae;" >사업자번호조회</button>  
     </div>
   </div>
   </div>
