@@ -87,7 +87,7 @@ $("#code_btn").on("click", function(){
 	<form>
 		<div>
 			<input type="tel" id="tel" name="tel" class="phones" placeholder="전화번호(- 빼고 작성해주세요)" pattern="[0-9]{11}" required>
-			<input type="button" id="tel_btn" value="인증번호 전송"/>
+			<input type="button" id="tel_btn" style="font-size:20px;" value="인증번호 전송"/>
 		</div>
 		<br />
 		<div style="margin-right:27px">

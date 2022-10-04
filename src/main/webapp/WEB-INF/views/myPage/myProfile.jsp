@@ -166,7 +166,7 @@ function updateError(){
 
 </script>
 <style>
-.btn-upload {
+.btn-uploads {
   width: 150px;
   height: 30px;
   border-radius: 10px;
@@ -183,7 +183,7 @@ function updateError(){
 
 </head>
 
-<body style="background:linear-gradient(white,antiquewhite);">
+<body style="background:linear-gradient(gray,antiquewhite);">
  <%@ include file="/WEB-INF/views/include/navigation.jsp" %>
   <!-- ====== MyPage ======= -->
   <main id="main">
@@ -210,7 +210,7 @@ function updateError(){
                    
 
                        <label for="file">
-                       <div class="btn-upload"><p type="button" class = "mypage-profile-btn" onclick="showPopupFile()">프로필사진변경<i class="fa-solid fa-pen-to-square"></i></p></div>
+                       <div class="btn-uploads"><p type="button" class = "mypage-profile-btn" onclick="showPopupFile()">프로필사진변경<i class="fa-solid fa-pen-to-square"></i></p></div>
                   </label>
                      <input type="button" onclick="showPopupFile()" name="file" id="file">
                        </div>

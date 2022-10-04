@@ -249,7 +249,7 @@ function fn_shopMarkDelete(shopUID)
 
 </style>
 </head>
-<body style="background:linear-gradient(white,antiquewhite);">
+<body style="background:linear-gradient(gray,antiquewhite);">
 <%@ include file="/WEB-INF/views/include/navigation.jsp" %>
 
 <main id="main">

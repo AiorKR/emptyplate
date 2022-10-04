@@ -187,7 +187,7 @@ $(document).ready(function() {
 </head>
 
 <body style="background-color:white; text-align: center;">
-<p style="font-family:Cafe24Dangdanghae; color:#d4af7a; margin-top:10px; font-size:25	px;">프로필 사진변경</p>
+<p style="font-family:Cafe24Dangdanghae; color:#d4af7a; margin-top:10px; font-size:25px;">프로필 사진변경</p>
 <c:if test="${user.fileName eq ''}">
 	<form name="insertForm" id="insertForm" method="post" enctype="multipart/form-data">
     	<input type="file" id="userFile" name="userFile" class="userFile_sec"required />

@@ -4,7 +4,6 @@
 <html>
 
 <head>
-<%@ include file="/WEB-INF/views/include/head.jsp" %>
 <script src="https://kit.fontawesome.com/842f2be68c.js" crossorigin="anonymous"></script>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
