@@ -37,7 +37,7 @@ public class FooterController {
 	
 	//개인정보처리방침
 	@RequestMapping(value="/footer/privacy")
-	public String resources(HttpServletRequest request, HttpServletResponse response)
+	public String privacy(HttpServletRequest request, HttpServletResponse response)
 	{
 		
 		return "/footer/privacy";
@@ -45,7 +45,7 @@ public class FooterController {
 	
 	//서비스이용약관
 	@RequestMapping(value="/footer/contract")
-	public String resources2(HttpServletRequest request, HttpServletResponse response)
+	public String contract(HttpServletRequest request, HttpServletResponse response)
 	{
 		
 		return "/footer/contract";
@@ -53,7 +53,7 @@ public class FooterController {
 	
 	//위치정보 이용약관
 	@RequestMapping(value="/footer/location")
-	public String resources3(HttpServletRequest request, HttpServletResponse response)
+	public String location(HttpServletRequest request, HttpServletResponse response)
 	{
 		
 		return "/footer/location";
@@ -61,18 +61,18 @@ public class FooterController {
 	
 	//입점문의
 	@RequestMapping(value="/footer/launchingInquiry")
-	public String resources4(HttpServletRequest request, HttpServletResponse response)
+	public String launchingInquiry(HttpServletRequest request, HttpServletResponse response)
 	{
 		
 		return "/footer/launchingInquiry";
 	}
 	
 	//aboutus
-	@RequestMapping(value="/footer/aboutUs")
+	@RequestMapping(value="/footer/aboutus")
 	public String aboutus(HttpServletRequest request, HttpServletResponse response)
 	{
 		
-		return "/footer/aboutUs";
+		return "/footer/aboutus";
 	}
 	
 	//company
@@ -84,11 +84,11 @@ public class FooterController {
 	}
 	
 	//logohistory
-	@RequestMapping(value="/footer/logoHistory")
+	@RequestMapping(value="/footer/logohistory")
 	public String logohistory(HttpServletRequest request, HttpServletResponse response)
 	{
 		
-		return "/footer/logoHistory";
+		return "/footer/logohistory";
 	}
 	
 	

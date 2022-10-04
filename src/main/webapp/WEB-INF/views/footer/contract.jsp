@@ -21,22 +21,22 @@
                 <!--term 메뉴시작-->
                 <div class="nav nav-pills nav-justified" id="pills-tab" role="tablist">
                   <li class="nav-item" >
-                  	<a href="/footer/resources">
+                  	<a href="/footer/privacy">
                     	<button class="nav-link" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button">개인정보 처리방침</button>
                     </a>
                   </li>
                   <li class="nav-item">
-                  	<a href="/footer/resources2">
+                  	<a href="/footer/contract">
                     	<button class="nav-link active" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button">서비스 이용약관</button>
                     </a>
                   </li>
                   <li class="nav-item">
-                  	<a href="/footer/resources3">
+                  	<a href="/footer/location">
                     	<button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button">위치정보 이용약관</button>
                     </a>
                   </li>
                   <li class="nav-item">
-                  	<a href="/footer/resources4">
+                  	<a href="/footer/launchingInquiry">
                     	<button class="nav-link" id="pills-contact-tab2" data-bs-toggle="pill" data-bs-target="#pills-contact2" type="button">입점문의</button>
                     </a>
                   </li>

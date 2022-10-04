@@ -854,7 +854,6 @@ SELECT A.ORDER_UID AS ORDER_UID,
 	 WHERE SHOP_UID = #{shopUID}
 </update>
 
-</mapper>
 <select id="orderSelect" resultMap="todayListResultMap" parameterType="String"> <!--noshow 마감 임박-->
 SELECT A.ORDER_UID AS ORDER_UID,
        NVL(A.SHOP_UID , '') AS SHOP_UID,
