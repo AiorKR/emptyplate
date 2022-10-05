@@ -1060,7 +1060,7 @@ public class BoardController
 				board.setBbsContent(bbsContent);
 				board.setBbsComment(bbsComment);
 				board.setCommentGroup(commentGroup);
-				board.setCommentOrder(parentBoard.getCommentOrder());
+				board.setCommentOrder(commentOrder);
 				board.setCommentIndent(commentIndent);
 				board.setCommentParent(bbsSeq);
 				
