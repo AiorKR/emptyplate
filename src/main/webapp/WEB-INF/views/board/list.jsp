@@ -207,7 +207,8 @@ function fn_userList(userUID, userNick)
 						</c:if>
 					</table>
 				</div>
-
+				
+				<c:if test="${!empty cookieUserUID}">
 				<div class="d-flex flex-row justify-content-between">
 					<div class="text-center2">
 						<button id="btnMark">내가 즐겨찾기한 글보기</button>
@@ -216,7 +217,8 @@ function fn_userList(userUID, userNick)
 						<button id="btnWrite">글쓰기</button>
 					</div>
 				</div>
-
+				</c:if>
+				
 				<div class="page-wrap">
 					<ul class="page-nation">
 						<c:if test="${paging.prevBlockPage gt 0}">
@@ -247,13 +249,13 @@ function fn_userList(userUID, userNick)
 			</div>
 
 			<form name="bbsForm" id="bbsForm" method="post">
-				<input type="hidden" name="bbsSeq" value="" /> <input type="hidden"
-					name="searchType" value="${searchType}" /> <input type="hidden"
-					name="searchValue" value="${searchValue}" /> <input type="hidden"
-					name="sortValue" value="${sortValue}" /> <input type="hidden"
-					name="curPage" value="${curPage}" /> <input type="hidden"
-					name="bbsNo" value="${bbsNo}" /> <input type="hidden"
-					name="userUID" value="${userUID}" />
+				<input type="hidden" name="bbsSeq" value="" /> 
+				<input type="hidden" name="searchType" value="${searchType}" /> 
+					<input type="hidden" name="searchValue" value="${searchValue}" /> 
+					<input type="hidden" name="sortValue" value="${sortValue}" /> 
+					<input type="hidden" name="curPage" value="${curPage}" /> 
+					<input type="hidden" name="bbsNo" value="${bbsNo}" /> 
+					<input type="hidden" name="userUID" value="${userUID}" />
 			</form>
 
 		</div>
