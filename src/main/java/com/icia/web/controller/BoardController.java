@@ -238,6 +238,7 @@ public class BoardController
 		model.addAttribute("sortValue", sortValue);
 		model.addAttribute("curPage", curPage);
 		model.addAttribute("paging", paging);
+		model.addAttribute("cookieUserUID", cookieUserUID);
 		
 		//상단 닉네임 불러오는 객체
 		User userNickname = new User();
@@ -777,9 +778,9 @@ public class BoardController
   					{
 						if(StringUtil.equals(board.getStatus(), "N"))
 						{
-							if(boardService.boardMarkCheck(board) != 0)
+							if(boardService.boardMarkCheck(board) == 0)
 							{
-								if(boardService.boardLikeCheck(board) != 0)
+								if(boardService.boardLikeCheck(board) == 0)
 								{
 									if(boardService.boardReplyCount(board.getBbsSeq()) > 0)
 									{
@@ -1179,34 +1180,50 @@ public class BoardController
   		String report4 = HttpUtil.get(request, "report4", "");
   		String etcReport = HttpUtil.get(request, "etcReport", "");
   		
-  		if(!StringUtil.isEmpty(cookieUserUID) && bbsSeq > 0)
+  		if(!StringUtil.isEmpty(cookieUserUID))
   		{
-  	        BoardReport boardReport = new BoardReport();
+  	        if(bbsSeq > 0)
+  	        {
+  	        	BoardReport boardReport = new BoardReport();
 
-	  	    boardReport.setUserUID(cookieUserUID);
-	  	    boardReport.setBbsSeq(bbsSeq);
-	  	    boardReport.setReport1(report1);
-	  	    boardReport.setReport2(report2);
-	  	    boardReport.setReport3(report3);
-	  	    boardReport.setReport4(report4);
-	  	    boardReport.setEtcReport(etcReport);
-	  	   
-		  	try
-	  		{
-	  			if(boardService.boardReport(boardReport) > 0)
-	  			{
-	  				ajaxResponse.setResponse(0, "success");
-	  			}
-				else
-				{
-					ajaxResponse.setResponse(500, "internal server error");
-				}
-			}
-			catch(Exception e)
-			{
-				logger.error("[BoardController] /board/reportProc Exception", e);
-				ajaxResponse.setResponse(500, "internal server error");
-			}	
+  		  	    boardReport.setUserUID(cookieUserUID);
+  		  	    boardReport.setBbsSeq(bbsSeq);
+  		  	    boardReport.setReport1(report1);
+  		  	    boardReport.setReport2(report2);
+  		  	    boardReport.setReport3(report3);
+  		  	    boardReport.setReport4(report4);
+  		  	    boardReport.setEtcReport(etcReport);
+  		  	   
+  		  	    if(!StringUtil.equals(report1, "N") || !StringUtil.equals(report2, "N") || 
+  		  	    		!StringUtil.equals(report3, "N") || !StringUtil.equals(report4, "N") ||
+  		  	    			!StringUtil.equals(etcReport, "N"))
+  		  	    {
+	  		  	    try
+	  		  		{
+	  		  			if(boardService.boardReport(boardReport) > 0)
+	  		  			{
+	  		  				ajaxResponse.setResponse(0, "success");
+	  		  			}
+	  					else
+	  					{
+	  						ajaxResponse.setResponse(500, "internal server error");
+	  					}
+	  				}
+	  				catch(Exception e)
+	  				{
+	  					logger.error("[BoardController] /board/reportProc Exception", e);
+	  					ajaxResponse.setResponse(500, "internal server error");
+	  				}	
+  		  	    }
+  		  	    else
+  		  	    {
+  		  	    	ajaxResponse.setResponse(405, "Bad Request");
+  		  	    }
+  	        }
+  	        else
+  	        {
+  	        	ajaxResponse.setResponse(404, "Bad Request");
+  	        }
 		}
 		else
 		{

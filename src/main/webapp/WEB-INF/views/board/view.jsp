@@ -297,12 +297,17 @@ $(document).ready(function() {
 	           }
 	           else if(response.code == 400)
 	           {
-	               alert("파라미터 값이 올바르지 않습니다.");
+	               alert("로그인 후 신고하실 수 있습니다.");
 	               $("#reportBtn").prop("disabled", false);
 	           }
 	           else if(response.code == 404)
 	           {
 	               alert("신고 게시물을 찾을 수 없습니다.");
+	               $("#reportBtn").prop("disabled", false);
+	           }
+	           else if(response.code == 405)
+	           {
+	               alert("한가지 문항 이상 체크 해야 접수가 가능합니다.");
 	               $("#reportBtn").prop("disabled", false);
 	           }
 	           else
@@ -383,12 +388,17 @@ $(document).ready(function() {
 	           }
 	           else if(response.code == 400)
 	           {
-	               alert("파라미터 값이 올바르지 않습니다.");
+	               alert("로그인 후 신고하실 수 있습니다.");
 	               $("#reportBtn2").prop("disabled", false);
 	           }
 	           else if(response.code == 404)
 	           {
 	               alert("신고 게시물을 찾을 수 없습니다.");
+	               $("#reportBtn2").prop("disabled", false);
+	           }
+	           else if(response.code == 405)
+	           {
+	               alert("한가지 문항 이상 체크 해야 접수가 가능합니다.");
 	               $("#reportBtn2").prop("disabled", false);
 	           }
 	           else
