@@ -17,7 +17,7 @@
         <div class="row">
             <div class="nav nav-pills nav-justified" id="pills-tab" role="tablist">
                 <li class="nav-item" >
-                  <a href="/footer/aboutUs">
+                  <a href="/footer/aboutus">
                   	<button class="nav-link" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button">AboutUS</button>
                   </a>	
                 </li>
@@ -27,7 +27,7 @@
                   </a> 
                 </li>
                 <li class="nav-item">
-                  <a href="/footer/logoHistory">
+                  <a href="/footer/logohistory">
                   	<button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button">Logo History</button>
                   </a>	
                 </li>                
