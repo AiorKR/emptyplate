@@ -256,10 +256,8 @@ public class PayController {
                      String shopFile = "";
                      model.addAttribute("order", order);
                      
-                     String fileName = shop.getShopUID() + ".jpg";
-                     
                      for(int i=0; i< shop.getShopFileList().size(); i++) {
-                        if(StringUtil.equals(fileName, shop.getShopFileList().get(i).getShopFileOrgName())) {
+                        if(shop.getShopFileList().get(i).getShopFileSeq() == 0) {
                            shopFile = shop.getShopFileList().get(i).getShopFileName();
                         }
                      }

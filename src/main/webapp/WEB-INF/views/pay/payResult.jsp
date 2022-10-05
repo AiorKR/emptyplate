@@ -77,7 +77,7 @@
 											style="height: 300px; width: 300px; margin-top: 10px; margin-bottom: 10px;">
 									</c:if>
 									<c:if test="${empty shopFile }">
-										<img alt="" src="../resources/upload/shop/${order.shopUID}/${order.shop.shopFile.shopFileName}"
+										<img alt="" src="../resources/upload/shop/${order.shopUID}/${order.shop.shopFile.get(0).shopFileName}"
 											class='img-fluid img-thumbnail'
 											style="height: 300px; width: 300px; margin-top: 10px; margin-bottom: 10px;">
 									</c:if>						
