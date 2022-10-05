@@ -11,6 +11,7 @@ import com.icia.web.model.ShopFile;
 import com.icia.web.model.ShopMenu;
 import com.icia.web.model.ShopReservationTable;
 import com.icia.web.model.ShopReview;
+import com.icia.web.model.ShopTable;
 import com.icia.web.model.ShopTime;
 import com.icia.web.model.ShopTotalTable;
 
@@ -131,4 +132,10 @@ public interface ShopDao {
 	public List<ShopFile> shopFileSelect(String shopUID);
 	
 	public int shopFileDelete(String shopUID);
+	
+	public int shopTableCheck2(String totalTableUID);
+	
+	public int shopTableUpdate2(List<ShopTable> list);
+	
+	public int shopTableInsert2(List<ShopTable> list);
 }
