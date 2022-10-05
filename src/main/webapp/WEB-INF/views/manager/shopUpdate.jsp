@@ -308,15 +308,27 @@ request.setAttribute("No", 2);
 							</tr>
 							<c:choose>
 								<c:when test= "${!empty shop.shopFileList}" >
-									<tr>
-										<td><img id="listImage" src="../resources/upload/shop/${shop.shopUID}/${shop.shopFileList.get(0).shopFileName}" height="400px" width="400px"></td>
-									</tr>
-									<tr>
-										<td class="file-check">&nbsp;변경할 첨부파일 : &nbsp;&nbsp;<input type="file" id="shopImage0" name="shopImage0" class="file-content" placeholder="파일을 선택하세요." required/></td>
-									</tr>
-									<tr>
-										<td><div class="file-check-content">[등록된 첨부파일 : <span id="shopSubFile">${shop.shopFileList.get(0).shopFileOrgName}</span>]</div></td>
-									</tr>
+									<c:choose>
+										<c:when test= "${!empty shop.shopFileList.get(0).shopFileName}" >
+											<tr>
+												<td><img id="listImage" src="../resources/upload/shop/${shop.shopUID}/${shop.shopFileList.get(0).shopFileName}" height="300px" width="300px"></td>
+											</tr>
+											<tr>
+												<td class="file-check">&nbsp;변경할 첨부파일 : &nbsp;&nbsp;<input type="file" id="shopImage0" name="shopImage0" class="file-content" placeholder="파일을 선택하세요." required/></td>
+											</tr>
+											<tr>
+												<td><div class="file-check-content">[등록된 첨부파일 : <span id="shopSubFile">${shop.shopFileList.get(0).shopFileOrgName}</span>]</div></td>
+											</tr>
+										</c:when>
+										<c:otherwise>
+											<tr>
+												<td>사진이 존재하지 않습니다.</td>
+											</tr>
+											<tr>
+												<td class="file-check">등록파일&nbsp;&nbsp;<input type="file" id="shopImage0" name="shopImage0" class="file-content" placeholder="파일을 선택하세요." required/></td>
+											</tr>
+										</c:otherwise>
+									</c:choose>
 								</c:when>
 								<c:otherwise>
 									<tr>
@@ -324,9 +336,6 @@ request.setAttribute("No", 2);
 									</tr>
 									<tr>
 										<td class="file-check">등록파일&nbsp;&nbsp;<input type="file" id="shopImage0" name="shopImage0" class="file-content" placeholder="파일을 선택하세요." required/></td>
-									</tr>
-									<tr>
-										<td><div class="file-check-content">[등록된 첨부파일 : ${shop.shopFileList.get(0).shopFileOrgName}]</div></td>
 									</tr>
 								</c:otherwise>
 							</c:choose>
@@ -337,7 +346,7 @@ request.setAttribute("No", 2);
 						<c:when test="${listSize ge 2}">
 							<div class="main_image">
 							  <img src="../resources/upload/shop/${shop.shopUID}/${shop.shopFileList.get(1).shopFileName}"
-								   id="main_product_image" height="400px" width="400px">
+								   id="main_product_image" height="300px" width="300px">
 							</div><br />
 							<div class="thumbnail_images">
 							  <ul id="thumbnail">
