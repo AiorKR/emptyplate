@@ -390,7 +390,7 @@ SELECT S.SHOP_UID AS SHOP_UID,
                                                                                     GROUP BY SHOP_UID
                                                                                    )REVIEW_SCORE
  WHERE S.SHOP_UID = #{value}
-   AND S.SHOP_UID = ST.SHOP_UID
+   AND S.SHOP_UID = ST.SHOP_UID(+)
    AND S.SHOP_UID = REVIEW_SCORE.SHOP_UID(+)
    AND S.SHOP_UID = SM.SHOP_UID
    AND S.SHOP_UID = SF.SHOP_UID
@@ -977,7 +977,7 @@ WHERE ORDER_UID = #{noShowOrderUID}
 	 WHERE SHOP_UID = #{shopUID}
 </delete>
 
-<insert id="shopTableInsert" parameterType="com.icia.web.model.ShopTime">
+<insert id="shopTableInsert" parameterType="com.icia.web.model.ShopTotalTable">
 	INSERT INTO T_SHOP_TOTAL_TABLE (
 	    TOTAL_TABLE_UID,
 	    SHOP_UID,
@@ -989,6 +989,18 @@ WHERE ORDER_UID = #{noShowOrderUID}
 	    #{shopTotalTableCapacity},
 	    #{shopTotalTable}
 	)
+</insert>
+
+<insert id="shopTableInsert2" parameterType="com.icia.web.model.ShopTable">
+	<foreach  collection="list" item="list" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+		INTO T_SHOP_TABLE (
+		    TOTAL_TABLE_UID,
+		    TABLE_UID
+		) VALUES (
+			#{list.shopTotalTableUID},
+		    #{list.shopTableUID}
+		)
+	</foreach>
 </insert>
 
 <select id="shopTableCheck" parameterType="com.icia.web.model.ShopTotalTable" resultType="int">
@@ -1003,6 +1015,22 @@ WHERE ORDER_UID = #{noShowOrderUID}
        SET TOTAL_TABLE = #{shopTotalTable}
      WHERE TOTAL_TABLE_UID = #{shopTotalTableUID}
        AND SHOP_UID = #{shopUID}
+</update>
+
+<select id="shopTableCheck2" parameterType="String" resultType="int">
+	SELECT COUNT(*)
+	  FROM T_SHOP_TABLE
+     WHERE TOTAL_TABLE_UID = #{shopTotalTableUID}
+       AND TABLE_UID = #{shopTableUID}
+</select>
+
+<update id="shopTableUpdate2" parameterType="com.icia.web.model.ShopTable">
+	<foreach  collection="list" item="list" index="index" separator=";" open="" close="">
+		UPDATE T_SHOP_TABLE
+	       SET TABLE_UID = #{shopTableUID}
+	     WHERE TOTAL_TABLE_UID = #{shopTotalTableUID}
+	       AND TABLE_UID = #{shopTableUID}
+	</foreach>
 </update>
 
 <update id="shopTableZeroUpdate" parameterType="com.icia.web.model.ShopTotalTable">
