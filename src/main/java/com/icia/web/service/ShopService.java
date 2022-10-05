@@ -629,38 +629,17 @@ public class ShopService {
 					}
 					if(shopDao.shopTableCheck(shopTotalTable) > 0)
 					{	
-						logger.debug("테이블이 존재함");
-						shopDao.shopTableUpdate(shopTotalTable);
-						
-						for(int j=0; j <shopTotalTable.getShopTotalTable(); j++) {
-							ShopTable shopTable = new ShopTable();
-							
-							shopTable.setShopTableUID(shopTotalTable.getShopTotalTableUID() + "_" + (j + 1));
-							shopTable.setShopTotalTableUID(shopTotalTable.getShopTotalTableUID());
-							shopTableList.add(shopTable);
-							logger.debug("size : " + shopTableList.size());
-						}
-						if(shopTableList.size() > 0) {
-							shopDao.shopTableUpdate2(shopTableList);
-						}
-						
-						
+						shopDao.shopTableUpdate(shopTotalTable);						
 					}
 					else
 					{
 						shopDao.shopTableInsert(shopTotalTable);
-						logger.debug("갯수 : " +shopTotalTable.getShopTotalTable());
 						for(int j=0; j <shopTotalTable.getShopTotalTable(); j++) {
 							ShopTable shopTable = new ShopTable();
 							
 							shopTable.setShopTableUID(shopTotalTable.getShopTotalTableUID() + "_" +(j + 1));
 							shopTable.setShopTotalTableUID(shopTotalTable.getShopTotalTableUID());
 							shopTableList.add(shopTable);
-							
-							logger.debug("tableuid : " + shopTableList.get(j).getShopTableUID());
-							logger.debug("totaltableuid : " + shopTableList.get(j).getShopTotalTableUID());
-							
-							logger.debug("size : " + shopTableList.size());
 						}
 						if(shopTableList.size() > 0) {
 							shopDao.shopTableInsert2(shopTableList);
