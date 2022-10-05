@@ -84,10 +84,9 @@ function reqOne(num) {
 //목록
 function fn_list(curPage)
 {
-   document.bbsForm.orderUID.value = "";
-   document.bbsForm.curPage.value = curPage;
-   document.bbsForm.action = "/myPage/rList";
-   document.bbsForm.submit();   
+   document.bbsForm2.curPage.value = curPage;
+   document.bbsForm2.action = "/myPage/rList";
+   document.bbsForm2.submit();   
 }
 
 function regReqOne(num)
@@ -533,7 +532,10 @@ function delRes() {
            
         </div>
         		<form name="bbsForm" id="bbsForm" method="post">
-				<input type="hidden" name="shopUID" value="" /> 
+				<input type="hidden" name="shopUID" value="" />
+				</form>
+				<form name="bbsForm2" id="bbsForm2" method="post">
+				<input type="hidden" name="curPage" value="" />
 				</form>
         
    </div>
