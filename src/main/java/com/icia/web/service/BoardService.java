@@ -493,8 +493,20 @@ public class BoardService
 	public int boardCommentInsert(Board board) throws Exception
 	{
 		int count = 0;
-		
-		boardDao.commentGroupOrderUpdate(board);
+		if(board.getCommentOrder()>0)
+		{			
+			if(boardDao.maxOrderCheck(board) > board.getCommentOrder())
+			{
+				boardDao.commentGroupOrderUpdate(board);
+				int a =board.getCommentOrder()+1;
+				board.setCommentOrder(a);
+			}
+			else
+			{
+				int a = boardDao.maxOrderCheck(board) + 1;
+				board.setCommentOrder(a);
+			}
+		}
 		count = boardDao.boardCommentInsert(board);
 		
 		return count;
@@ -531,6 +543,57 @@ public class BoardService
 		catch(Exception e)
 		{
 			logger.error("[BoardService] commentDelete Exception", e);
+		}
+		
+		return count;
+	}
+	
+	//댓글 그룹 최대값 체크
+	public int maxGroupCheck(long commentParent)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = boardDao.maxGroupCheck(commentParent);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] maxGroupCheck Exception", e);
+		}
+		
+		return count;
+	}
+	
+	//댓글 순번 최대값 체크
+	public int maxOrderCheck(Board board)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = boardDao.maxOrderCheck(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] maxOrderCheck Exception", e);
+		}
+		
+		return count;
+	}
+	
+	//댓글 그룹 최대값 체크
+	public int maxIndentCheck(Board board)
+	{
+		int count = 0;
+		
+		try
+		{
+			count = boardDao.maxIndentCheck(board);
+		}
+		catch(Exception e)
+		{
+			logger.error("[BoardService] maxIndentCheck Exception", e);
 		}
 		
 		return count;

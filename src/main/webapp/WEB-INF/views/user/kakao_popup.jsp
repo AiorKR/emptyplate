@@ -4,7 +4,7 @@
 <html>
 
 <head>
-<%@ include file="/WEB-INF/views/include/head.jsp" %>
+<link href="/resources/css/style.css" rel="stylesheet">
 <script src="https://kit.fontawesome.com/842f2be68c.js" crossorigin="anonymous"></script>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/jquery-3.5.1.min.js"></script>
@@ -12,8 +12,12 @@
 <style>
 	.pwds{
 		width: 250px;
-		height: 30px;
+		height: 35px;
 }
+	.btn_Phone{
+		width:100px;
+		height:36px;
+	}
 </style>
 <script type="text/javascript">
 
@@ -123,7 +127,7 @@ $("#code_btn").on("click", function(){
 </head>
 
 <body style="background-color:white; margin-left:20px;">
-<p style="font-family:Cafe24Dangdanghae; color:#d4af7a; margin-top:10px; font-size:20px;">전화번호 인증</p>
+<p style="font-family:Cafe24Dangdanghae; color:#d4af7a; margin-top:10px; font-size:30px;">전화번호 인증</p>
 	<form>
 		<p style="color:black;">(필수)카카오 회원은 최초 1회에 한해 정보를 수집하고 있습니다.</p>
 		<div>
@@ -131,14 +135,14 @@ $("#code_btn").on("click", function(){
 		</div><br />
 		<div>
 			<input type="tel" id="tel" name="tel" class="pwds" placeholder="전화번호(- 빼고 작성해주세요)" pattern="[0-9]{11}" required>
-			<input type="button" value="인증번호 전송" id="tel_btn" />
+			<input type="button" value="인증번호 전송" class="btn_Phone" id="tel_btn" />
 		</div><br />
 		<div>
 			<input type="text" name="code" id="code" class="pwds" placeholder="전송받은 번호" pattern="[0-9]{6}" required>
-			<input type="button" value="번호 확인" id="code_btn" disabled />				 		
+			<input type="button" value="번호 확인" id="code_btn" class="btn_Phone" disabled />				 		
 		</div><br />
 		<div style="text-align: center;">
-			<input type="button" value="닫 기" onclick="self.close();" />	
+			<input type="button" value="닫 기" class="btn_Phone" onclick="self.close();" />	
 		</div>
 	</form>
 </body>

@@ -1882,7 +1882,36 @@ section {
   font-family: 'Cafe24Dangdanghae';
   border-radius: 5px;
 }
+#commentBlock #btnSearch{
+  position: absolute;
 
+  right: 0px;
+  
+  border: 0;
+  font-size: 20px;
+  padding: 0 40px 0 40px;
+  background: #C2A383;
+  color: #fff;
+  transition: 0.3s;
+  border: 1px solid #C2A383;
+  font-family: 'Cafe24Dangdanghae';
+  border-radius: 5px;
+}
+#commentBlock{
+  position: relative;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  border: 0;
+  font-size: 20px;
+  background: #C2A383;
+  color: #fff;
+  transition: 0.3s;
+  border: 1px solid #C2A383;
+  font-family: 'Cafe24Dangdanghae';
+  border-radius: 5px;
+  height: 80px;
+}
 #communityView .board-commentwrite .submit button[type=submit]:hover {
   background: #d3af71;
 }
@@ -1893,6 +1922,9 @@ section {
   padding-top: 10px;
   border-bottom : 2px solid #C2A383;
   padding-bottom: 10px;
+}
+#bbsContent{
+	ime-mode:active;
 }
 
 /*댓글 작성자*/
@@ -3717,13 +3749,62 @@ reservation 검색
 
 
 /*shopUpdate 수정*/
+
+.btn-upload {
+  width: 90px;
+  height: 34px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #C2A383;
+  border: 0;
+  color: #fff;
+  font-size: 18px;
+  border-radius: 10px;
+  margin-right:5px;
+  font-family: 'Cafe24Dangdanghae'
+}
+.btn-upload:hover{
+  width: 90px;
+  height: 34px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #fff;
+  border: 0;
+  color: #C2A383;
+  font-size: 18px;
+  border-radius: 10px;
+  margin-right:5px;
+  font-family: 'Cafe24Dangdanghae'
+}
+
+.view .imageModify table td button[type=button]{
+  text-align: center;
+  height:34px;
+  background: #C2A383;
+  border: 0;
+  color: #fff;
+  font-size: 18px;
+  border-radius: 10px;
+  margin-right:5px;
+  width:60px;
+  font-family: 'Cafe24Dangdanghae';
+}
+
 .view .imageModify table{
    margin-top: 20px;
 }
 .view .imageModify table .file-check-content, .file-content{
    font-size:17px;
 }
-.view .imageModify table tr .file-check, .file{
+.view .imageModify table tr td:first-child, .file{
    font-size:20px;
    padding-right:16px;
 }
@@ -3822,23 +3903,26 @@ reservation 검색
    width:60px;
    font-family: 'Cafe24Dangdanghae';
 }
-.view .additional #hashTagButton tr td:first-child{
+.view .additional #hashTagButton tr td:first-child,
+.view .additional #timeMenuButton tr td:first-child{
    padding-right:40px;
    padding-left:17px;
 }
-.view .additional #hashTagValue tr td:first-child{
+.view .additional #hashTagValue tr td:first-child,
+.view .additional #timeValue tr td:first-child{
    padding-right:33px;
    padding-left:17px;
 }
-.view .additional table .tdtd3{
+.view .additional #tableMenu tr td:first-child,
+.view .additional #tableValue tr td:first-child{
    padding-right:19px;
    padding-left:17px;
 }
-.view .additional table .tdtd4{
+.view .additional #menuSet tr td:first-child{
    padding-right:36px;
    padding-left:17px;
 }
-.view .additional table .tdtd5{
+.view .additional #menuValue tr td:first-child{
    padding-right:68px;
    padding-left:17px;
 }
@@ -3930,10 +4014,8 @@ reservation 검색
 .today h2 strong{
 	color: black;
 }
-
 .today .swiper-wrapper h3, h1{
   color:black;
-  padding-bottom:20px;
 }
 .today .swiper-wrapper ul{
   color:black;
@@ -4026,8 +4108,8 @@ today 검색
   cursor: pointer; 
   text-align: center; 
   display: flex; 
-  height: 500px; 
-  width: 350px
+  height: 550px; 
+  width: 355px
 }
 .today .card h5{
   font-size: 25px;
@@ -4244,7 +4326,7 @@ today 검색
 
 /*예약 modal*/
 .todayView .modal {
-  margin-top: 2vh;
+  margint-top: 200px;
   color:black;
   font-size: 18px;
   min-height: 100vh;
@@ -4929,7 +5011,7 @@ login.html시작
 }
 
 .mypage-title {
-  margin-top: 3px;
+  margin-top: 30px;
   font-family: 'cafe24Dangdanghae';
   font-size: 48px;
   color: #cda45e;
@@ -4970,7 +5052,7 @@ hr[role="tournament1"]::before {
   margin-top: 20px;
   margin: auto;
   width:550px;
-  height: 760px;
+  height: 675px;
   border-radius :3%;
   overflow : hidden;
   background-color: white;
@@ -5976,7 +6058,7 @@ hr[role="tournament1"]::before {
 }
 
 .rlist-title {
-  margin-top: 60px;
+  margin-top: 90px;
   font-family: 'cafe24Dangdanghae';
   font-size: 48px;
   color: #cda45e;

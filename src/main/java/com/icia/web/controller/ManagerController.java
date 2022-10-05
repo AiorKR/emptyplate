@@ -1,5 +1,6 @@
 package com.icia.web.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.icia.common.model.FileData;
+import com.icia.common.util.FileUtil;
 import com.icia.common.util.StringUtil;
 import com.icia.web.model.Response;
 import com.icia.web.model.Shop;
@@ -57,9 +59,8 @@ public class ManagerController {
 		
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		User user = userService.userUIDSelect(cookieUserUID);
-		Shop shop = shopService.shopManagerUIDSelect(cookieUserUID);
+		Shop shop = shopService.shopManagerUIDSelect(cookieUserUID); 
 		String address = shop.getShopLocation1() + " " + shop.getShopAddress();
-		
 		//매장테이블 현황
 		List<ShopTotalTable> tableList = shopService.shopCheckTable(shop.getShopUID());
 		model.addAttribute("list1", tableList);
@@ -102,7 +103,7 @@ public class ManagerController {
 			}
 		}
 		
-		
+		logger.debug("##############################정상");
 		return "/manager/shopManage";
 	}
 	
@@ -112,6 +113,14 @@ public class ManagerController {
 		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
 		User user = userService.userUIDSelect(cookieUserUID);
 		Shop shop = shopService.shopManagerUIDSelect(cookieUserUID);
+		ShopFile shopFile = new ShopFile();
+		List<ShopFile> listFile = shopService.shopFileList(shop.getShopUID());
+		model.addAttribute("listFile", listFile);
+		logger.debug("##############################");
+		logger.debug("# listSize : " + listFile.size());
+		logger.debug("##############################");
+		model.addAttribute("listSize", listFile.size());
+		
 		
 		String address = shop.getShopLocation1() + " " + shop.getShopAddress();
 		model.addAttribute("address", address);
@@ -209,8 +218,26 @@ public class ManagerController {
 		//매장 형태
 		String shopType = HttpUtil.get(request, "shopType", "");
 		//요일
-		String dayCheck = HttpUtil.get(request, "dayCheck", "");
-
+		String dayList="";
+  		for(int i=0; i<7; i++)
+  		{
+  			String str = "day"+ Integer.toString(i);
+  			String day = HttpUtil.get(request, str);
+  			
+  			if(!StringUtil.isEmpty(HttpUtil.get(request, str,"")))
+  			{
+  				if(i==6)
+  				{
+  					dayList += day;  					
+  				}
+  				else
+  				{
+  					day = day + ",";
+  					dayList += day;
+  				}
+  			}
+  		}
+  		
 		/***********
 		 * 소개글
 		 ***********/
@@ -222,16 +249,12 @@ public class ManagerController {
 		/***********
 		 * 매장추가정보
 		 ***********/
-  		String hashTagList="";
   		//해시태그
+  		String hashTagList="";
   		for(int i=1; i<9; i++)
   		{
   			String str = "hashTag"+ Integer.toString(i);
   			String hashTag = HttpUtil.get(request, str);
-  			logger.debug("# str : " + str);
-  			logger.debug("# str : " + hashTag);
-  			logger.debug("# str : " + hashTagList);
-  			logger.debug("############################");
   			
   			if(!StringUtil.isEmpty(HttpUtil.get(request, str,"")))
   			{
@@ -243,15 +266,151 @@ public class ManagerController {
   			}
   			else
   			{
-  				logger.debug("# break #");
   				break;
   			}
 
   		}
   		
-		/***********
-		 * 첨부파일
-		 ***********/
+  		//테이블
+  		int[] tableArray =new int[9];
+  		int[] tableTypeArray = new int[9];
+  		int tableArraySize = 0;
+  		for(int i=1; i<9; i++)
+  		{
+  			String str = "tableselect"+ Integer.toString(i);
+  			String str2 = "table"+ Integer.toString(i);
+  			if(!StringUtil.isEmpty(HttpUtil.get(request, str)) || !StringUtil.isEmpty(HttpUtil.get(request, str2)))
+  			{  				
+  				tableTypeArray[i] =  Integer.parseInt(HttpUtil.get(request, str));
+  				tableArray[i] = Integer.parseInt(HttpUtil.get(request, str2));
+  				tableArraySize=i;
+  			}
+  			else
+  			{
+  				tableArraySize=i;
+  				break;
+  			}
+  		}
+  		
+  		//매장시간
+  		String[] timeArray =new String[9];
+  		String[] timeTypeArray = new String[9];
+  		int timeArraySize = 0;
+  		for(int i=1; i<9; i++)
+  		{
+  			String str = "timeselect"+ Integer.toString(i);
+  			String str2 = "time"+ Integer.toString(i);
+  			if(!StringUtil.isEmpty(HttpUtil.get(request, str)) || !StringUtil.isEmpty(HttpUtil.get(request, str2)))
+  			{  				
+  				timeTypeArray[i] = HttpUtil.get(request, str);
+  				timeArray[i] = HttpUtil.get(request, str2);
+  				timeArraySize=i;
+  			}
+  			else
+  			{
+  				timeArraySize=i;
+  				break;
+  			}
+  		}
+  		
+  		//메뉴
+  		String[] menuTypeArray = new String[9];
+  		int[] menuPriceArray =new int[9];
+  		String[] menuNameArray =new String[9];
+  		int menuArraySize = 0;
+  		for(int i=1; i<9; i++)
+  		{
+  			String str = "menuselect"+ Integer.toString(i);
+  			String str2 = "menuPrice"+ Integer.toString(i);
+  			String str3 = "menuName"+ Integer.toString(i);
+  			if(!StringUtil.isEmpty(HttpUtil.get(request, str)) || !StringUtil.isEmpty(HttpUtil.get(request, str2)) || !StringUtil.isEmpty(HttpUtil.get(request, str3)))
+  			{  				
+  				menuTypeArray[i] = HttpUtil.get(request, str);
+  				menuPriceArray[i] = Integer.parseInt(HttpUtil.get(request, str2));
+  				menuNameArray[i] = HttpUtil.get(request, str3);
+  				menuArraySize=i;
+  			}
+  			else
+  			{
+  				menuArraySize=i;
+  				break;
+  			}
+  		}
+  		
+  		List<ShopFile> shopFileList = new ArrayList<ShopFile>();
+  	  
+ 	   
+ 	   String mainDir = "";
+ 	   mainDir += SHOP_UPLOAD_SAVE_DIR + FileUtil.getFileSeparator() + shop.getShopUID()+ FileUtil.getFileSeparator();
+ 	   int i = 0;
+ 	   String imageStr = "";
+ 	   File mainFolder = new File(mainDir);
+ 	   // 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
+ 	   if (!mainFolder.exists())
+ 	   {
+ 		   try
+ 		   {
+ 			   mainFolder.mkdir(); //폴더 생성합니다.
+ 			   logger.debug("###########");
+ 			   logger.debug("폴더가 생성됨");
+ 			   logger.debug("###########");
+ 		   } 
+ 		   catch(Exception e)
+ 		   {
+ 			   logger.debug("폴더 생성 중 오류");
+ 			   e.getStackTrace();
+ 		   }        
+ 	   }
+ 	   else
+ 	   {
+ 		   logger.debug("###########");
+ 		   logger.debug("폴더가 존재함");
+ 		   logger.debug("###########");
+ 	   }
+ 	   
+ 	   for(i=0; ; i++)
+ 	   {
+ 	      logger.debug("@@@@@@@@@@@@@@@@@@@@@@i값 : " + i);
+ 	      imageStr="shopImage"+Integer.toString(i);
+ 	      logger.debug("################ imageStr :" + imageStr);
+ 	      ShopFile shopFile = new ShopFile();
+ 	      FileData fileData = new FileData();
+ 	
+ 	         
+ 	         fileData = HttpUtil.getFile(request, imageStr, mainDir);
+ 	
+ 	         if(fileData != null)
+ 	         {
+ 	            
+ 	           shopFile.setShopUID(shop.getShopUID());
+                shopFile.setShopFileSeq(i);
+                shopFile.setShopFileName(fileData.getFileName());
+                shopFile.setShopFileOrgName(fileData.getFileOrgName());
+                shopFile.setShopFileExt(fileData.getFileExt());
+                shopFile.setShopFileSize(fileData.getFileSize());
+                logger.debug("####################### i : " + Integer.toString(i));
+                logger.debug("shopFileName : " + shopFile.getShopFileName());	          
+                shopFileList.add(shopFile);
+                logger.debug("#### size : " + shopFileList.size());
+                logger.debug("#############");
+                for(int j =0;j<shopFileList.size();j++)
+                {
+             	   logger.debug("# i : " + j + shopFileList.get(j).getShopFileName());
+                }
+                logger.debug("#############");
+ 	         }
+ 	         else
+ 	         {
+ 	        	 break;
+ 	         }
+ 	         logger.debug("########################################################");
+ 	         logger.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+ 	      }
+ 	      	
+ 	   	logger.debug("shopFileList : " + shopFileList);
+
+  		
+
   		if(!StringUtil.isEmpty(shop.getShopUID()) && !StringUtil.isEmpty(shopTitle) && !StringUtil.isEmpty(shopLocation1) && !StringUtil.isEmpty(shopTelephone) )
   		{
   			//기본정보
@@ -259,16 +418,34 @@ public class ManagerController {
 			shop.setShopLocation1(shopLocation1);
 			shop.setShopAddress(shopAddress);
 			shop.setShopTelephone(shopTelephone);
+			shop.setShopHoliday(dayList);
+			
 			//소개글
 			shop.setShopIntro(shopIntro);
 			shop.setShopContent(shopContent);
+			
 			//추가정보
 			shop.setShopHashtag(hashTagList);
+			
+			shop.setTableArray(tableArray);
+			shop.setTableTypeArray(tableTypeArray);
+			shop.setTableArraySize(tableArraySize);
+			
+	  		shop.setTimeArray(timeArray);
+	  		shop.setTimeTypeArray(timeTypeArray);
+	  		shop.setTimeArraySize(timeArraySize);
+	  		
+	  		shop.setMenuTypeArray(menuTypeArray);
+	  		shop.setMenuPriceArray(menuPriceArray);
+	  		shop.setMenuNameArray(menuNameArray);
+	  		shop.setMenuArraySize(menuArraySize);
+	  		
+	  	 	shop.setShopFileList(shopFileList);
+	  		
   			try
   			{
   				if(shopService.shopUpdate(shop) > 0)
   				{
-  					logger.debug("### success :" + shopService.shopUpdate(shop));
   					ajaxResponse.setResponse(0, "Success");
   				}
   				else

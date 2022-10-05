@@ -111,7 +111,6 @@ public class ShopController {
 		
 		if(!StringUtil.isEmpty(reservationDate) && !StringUtil.isEmpty(reservationTime)) {
 			search.setShopHoliday(Integer.toString((StringUtil.getDayOfweek(reservationDate))));
-			logger.debug("휴일 확인 : " + search.getShopHoliday());
 			search.setReservationTime(reservationTime);
 		}
 		
@@ -148,8 +147,6 @@ public class ShopController {
 					Date newdt;
 					newdt = input.parse(tmp);
 					rDate = output.format(newdt);
-					
-					logger.debug(" rdate : " + rDate);
 				} 
 				catch (ParseException e1) {
 					logger.error("[ShopController] dateformat error", e1);
@@ -232,17 +229,7 @@ public class ShopController {
          
          if(!StringUtil.isEmpty(shopUID)) {
             shop = shopService.shopViewSelect(shopUID);
-            
-            
-            for(int i=0; i < shop.getShopTime().size(); i++ ) {      
-               if(Integer.parseInt(shop.getShopTime().get(i).getShopOrderTime().replaceAll(":", "")) >= standardTime) { //시간에서 :제거후 int형으로 변환해서 기준시간과 비교
-                  shop.getShopTime().get(i).setShopTimeType("D");
-               }
-               else {
-                  shop.getShopTime().get(i).setShopTimeType("L"); //기준 시간  보다 작다면 점심시간
-               }
-            }
-                  
+                              
             url = "/reservation/view";
          }
          else {
@@ -344,8 +331,6 @@ public class ShopController {
                      } 
                      else {
                         shopTotalTable.get(i).setShopTotalTableRmains(shopTotalTable.get(i).getShopTotalTable() - count); // 남아있는 자리 세팅
-                        logger.debug("shopTotalTable.get(i).getShopTotalTableUID() : " + shopTotalTable.get(i).getShopTotalTableUID());
-                        logger.debug("shopTotalTable.get(i).getShopTotalTableRmains() : " + shopTotalTable.get(i).getShopTotalTableRmains());
                      }
                      count = 0; // 카운트 초기화 (j가 다 돌고 나면 첨부터 다시 카운트를 세야하므로 초기화)
                   }
@@ -415,171 +400,6 @@ public class ShopController {
             ajax.setResponse(404, "매장 고유번호가 없음");
          }
       return ajax;
-      }
-      
-      //임시 매장 정보 인서트
-      @RequestMapping(value="/reservation/shopInsert")
-      public String shopInsert(HttpServletRequest request, HttpServletResponse response) {
-         return "/reservation/shopInsert";
-      }
-      
-      
-      @RequestMapping(value="/reservation/shopInsertProc") //아직 루트나, 수정을 덜 했으므로 많이 바꾸어야함.
-      @ResponseBody
-      public Response<Object> shopInsertProc(MultipartHttpServletRequest request, HttpServletResponse response) {
-         Response<Object> ajax = new Response<Object>();
-               
-         int fileQuantity = HttpUtil.get(request, "fileQuantity", 0);
-         
-         List<ShopFile> shopFileList = new ArrayList<ShopFile>();
-         
-         ShopFile shopFile = new ShopFile();
-         
-         String shopUID = "Shop_";
-         String userUID = "1";
-         String subDir = "";
-         String mainDir = "";
-         String shopName = HttpUtil.get(request, "shopName");
-         String shopType = HttpUtil.get(request, "shopType");
-         String shopHoliday = HttpUtil.get(request, "shopHoliday");
-         String shopLocation1 = HttpUtil.get(request, "shopLocation1");
-         String shopLocation2 = HttpUtil.get(request, "shopLocation2");
-         String shopAddress = HttpUtil.get(request, "shopAddress");
-         String shopHashtag = HttpUtil.get(request, "shopHashtag");
-         String shopTelephon = HttpUtil.get(request, "shopTelephon");
-         String shopIntro = HttpUtil.get(request, "shopIntro");
-         String shopContent = HttpUtil.get(request, "shopContent");
-         
-         shopUID += userUID;
-         
-         subDir += SHOP_UPLOAD_DIR;
-         subDir += "\\sub\\";
-         subDir += shopUID;
-
-         mainDir += SHOP_UPLOAD_DIR;   
-         mainDir += "\\main\\";
-         
-         String[] name = new String[100];
-         
-         
-         
-         for(int i=0; i < fileQuantity; i++) {
-            
-            logger.debug("i값 : " + i);
-            
-            name[i] = "shopFile";
-            name[i] += Integer.toString(i);;
-
-            if(i == 0) {
-               
-               File mainFolder = new File(mainDir);
-
-               // 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
-               if (!mainFolder.exists()) {
-                  try{
-                     mainFolder.mkdir(); //폴더 생성합니다.
-                         logger.debug("폴더가 생성됨");
-                       } 
-                       catch(Exception e){
-                          logger.debug("폴더 생성 중 오류");
-                          e.getStackTrace();
-                  }        
-                     }else {
-                        logger.debug("폴더가 존재함");
-               }
-                  
-               FileData fileData = new FileData();
-               fileData = (HttpUtil.getFile(request, name[i], mainDir));
-               
-               if(fileData != null) {
-                  
-                  File subFolder = new File(subDir);
-
-                  // 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
-                  if (!subFolder.exists()) {
-                     try{
-                        subFolder.mkdir(); //폴더 생성합니다.
-                            logger.debug("폴더가 생성됨");
-                          } 
-                          catch(Exception e){
-                             logger.debug("폴더 생성 중 오류");
-                             e.getStackTrace();
-                     }        
-                        }else {
-                           logger.debug("폴더가 존재함");
-                  }
-                  
-                  shopFile.setShopUID(shopUID);
-                     shopFile.setShopFileSeq(i);
-                     shopFile.setShopFileName(fileData.getFileName());
-                     shopFile.setShopFileOrgName(fileData.getFileOrgName());
-                     shopFile.setShopFileExt(fileData.getFileExt());
-                     shopFile.setShopFileSize(fileData.getFileSize());
-               }
-            }
-            
-            else {
-               FileData fileData = new FileData();
-               fileData = (HttpUtil.getFile(request, name[i], subDir));
-               
-               if(fileData != null) {
-                  shopFile.setShopUID(shopUID);
-                     shopFile.setShopFileSeq(i);
-                     shopFile.setShopFileName(fileData.getFileName());
-                     shopFile.setShopFileOrgName(fileData.getFileOrgName());
-                     shopFile.setShopFileExt(fileData.getFileExt());
-                     shopFile.setShopFileSize(fileData.getFileSize());
-               }
-            }
-            
-
-               logger.debug("shopFileName : " + shopFile.getShopFileName());
-                
-                shopFileList.add(shopFile);
-         }
-         logger.debug("shopFileList : " + shopFileList);
-         
-            Shop shop = new Shop();
-            shop.setShopFileList(shopFileList);
-    
-            shop.setShopUID(shopUID);
-            shop.setUserUID(userUID);
-            shop.setShopName(shopName);
-            shop.setShopType(shopType);
-            shop.setShopHoliday(shopHoliday);
-            shop.setShopLocation1(shopLocation1);
-            shop.setShopAddress(shopAddress);
-            shop.setShopHashtag(shopHashtag);
-            shop.setShopTelephone(shopTelephon);
-            shop.setShopIntro(shopIntro);
-            shop.setShopContent(shopContent);
-            
-            logger.debug("ShopFileList(서비스 날리기 마지막 전) : " + shopFileList);
-            logger.debug("ShopFile이름(서비스 날리기 마지막 전) : " + shopFileList.get(0).getShopFileName());
-            logger.debug("ShopFile원본이름(서비스 날리기 마지막 전) : " + shopFileList.get(0).getShopFileOrgName());
-            logger.debug("ShopFile사이즈(서비스 날리기 마지막 전) : " + shopFileList.get(0).getShopFileSize());
-            logger.debug("ShopFile확장자(서비스 날리기 마지막 전) : " + shopFileList.get(0).getShopFileExt());
-            
-            
-               //service호출
-               try
-               {
-                  if(shopService.shopInsert(shop) > 0)
-                  {
-                     ajax.setResponse(0, "success");
-                  }
-                  else
-                  {
-                     ajax.setResponse(500, "internal server error");
-                  }
-               }
-               catch(Exception e)
-               {
-                  logger.error("ShopController]/Shop writeProc Exception", e);
-                  ajax.setResponse(500, "internal server error");
-               }
-               
-         return ajax;
       }
       
     //즐겨찾기 추가

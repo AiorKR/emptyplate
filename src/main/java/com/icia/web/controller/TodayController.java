@@ -121,10 +121,26 @@ public class TodayController {
 			try
 			{
 				model.addAttribute("cookieUserNick", user2.getUserNick());
+				model.addAttribute("adminStatus", user2.getAdminStatus());
+				if(!StringUtil.isEmpty(user2.getBizName())&& !StringUtil.isEmpty(user2.getBizNum()))
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[todayController] /today/list shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
 			}
-			catch(NullPointerException e2)
+			catch(NullPointerException e)
 			{
-				logger.error("[ShopController] reservation/list NullPointerException", e2);
+				logger.error("[todayController] /today/list cookieUserNick NullPointerException", e);
 			}
 		}
 		

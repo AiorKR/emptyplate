@@ -169,7 +169,8 @@ $(document).ready(function() {
    });
    
    //댓글 등록
-   $("#btnSearch").on("click", function() {
+   $(document).on("click","#btnSearch",function(){
+  // $("#btnSearch").on("click", function() {
 	      
 	      $("#btnSearch").prop("disabled", true);
 	      
@@ -460,6 +461,18 @@ function fn_deleteComment(bbsSeqValue)
        });
     }
 }
+
+function fn_reComment(bbsSeqValue, commentGroupValue, commentOrderValue, commentIndentValue){
+		var value = "reComment"+bbsSeqValue;
+		const div = document.getElementById('commentBlock');
+		const parent = $("#parentBbsSeq").val();
+		var commentGroup = commentGroupValue;
+		var commentOrder = commentOrderValue;
+		var commentIndent = commentIndentValue+1;
+		div.remove();
+		document.getElementById(value).innerHTML="<div id='commentBlock'><input type='hidden' name='bbsSeq' value='"+parent+"' /><input type='hidden' name='bbsComment' value='Y'/><input type='hidden' name='commentGroup' value='"+commentGroup+"'/><input type='hidden' name='commentOrder' value='"+commentOrder+"'/><input type='hidden' name='commentIndent' value='"+commentIndent+"'/><div><input type='text' id='bbsContent' style=' width: calc(100% - 10%); height: 80px;' name='bbsContent' class='form-control'/><button type='submit' style='height: 80px; top:-1.5%;' id='btnSearch'>등 록</button></div></div>"
+	}
+
 </script>
 </head>
 <body>
@@ -556,29 +569,37 @@ function fn_deleteComment(bbsSeqValue)
 						<form name="commentForm" id="commentForm" method="post" enctype="form-data">
 							<div class="board-commentwrite">
 								<div><ion-icon name="chatbubbles"></ion-icon>댓글</div>
-								<div class="submit">
-									<input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
-									<input type="text" id="bbsContent" name="bbsContent" style="ime-mode:active;" class="form-control"/>
-									<button type="submit" id="btnSearch">등 록</button>
+								<div id="origin" class="submit">
+									<div id="commentBlock">
+										<input type="hidden" name="bbsSeq" value="${board.bbsSeq}" />
+										<input type="hidden" name="bbsComment" value="Y"/>
+										<input type="text" id="bbsContent" name="bbsContent" style="ime-mode:active;" class="form-control"/>
+										<button type="submit" id="btnSearch">등 록</button>
+									</div>
 								</div>
 							</div>
 						
 						<c:set var="cookieUserUID" value="${cookieUserUID}"/>
+						<input type="hidden" id="parentBbsSeq" name="parentBbsSeq" value="${board.bbsSeq}"/>
 						  <c:if test="${!empty list}">
 							<c:forEach var="board" items="${list}" varStatus="status">
 								<div class="comment">
-									<div class="comment-write">
-										<col-lg-12><ion-icon name="person"></ion-icon> ${board.userNick}</col-lg-12>
+									<div class="comment-write" style="padding-left:${board.commentIndent}em;">
+										<col-lg-12><c:if test="${board.commentIndent gt 0}"><ion-icon name="return-down-forward-outline"></ion-icon></c:if><ion-icon name="person"></ion-icon>${board.userNick}</col-lg-12>
 										<c:if test="${board.userUID eq cookieUserUID}">
 											<button onclick="fn_deleteComment(${board.bbsSeq})" id="btnCommentDelete" class="commentDelete">삭제</button>
 										</c:if>
 										<a>${board.regDate}</a>
 										<button type="button" data-bs-toggle="modal" data-bs-target="#reportModal2" id="btnReport${board.bbsSeq}" onclick="fn_Report(${board.bbsSeq})">신고</button>
-										<!-- <button onclick="fn_reComment(${board.bbsSeq})" id="btnReply" class="btnReply">댓글달기</button> -->
+										<button type="button" onclick="fn_reComment(${board.bbsSeq},${board.commentGroup},${board.commentOrder},${board.commentIndent})" id="btnReply" class="btnReply">댓글달기</button>
 									</div>
 									<div class="comment-content">
-										<col-lg-12>${board.bbsContent}</col-lg-12>
+										<col-lg-12 style="padding-left:${board.commentIndent}em;">${board.bbsContent}</col-lg-12>
 									</div>
+									<div id="reComment${board.bbsSeq}" class="submit"></div>
+									<input type="hidden" id="commentGroup" value="${board.commentGroup}"/>
+									<input type="hidden" id="commentOrder" value="${board.commentOrder}"/>
+									<input type="hidden" id	="commentIndent" value="${board.commentIndent}"/>
 								</div>
 							</c:forEach>	
 							   

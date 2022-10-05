@@ -1041,21 +1041,27 @@ public class BoardController
 		//댓글 번호
   		long bbsSeq = HttpUtil.get(request, "bbsSeq", (long)0);
 		//댓글 내용
-  		String bbsContent = HttpUtil.get(request, "bbsContent", "");  		
-		
+  		String bbsContent = HttpUtil.get(request, "bbsContent", "");
+  		
+  		String bbsComment = HttpUtil.get(request, "bbsComment","");
+  		//댓글 그룹(존재하지 않다면, 최상위 댓글)
+		int commentGroup = Integer.parseInt(HttpUtil.get(request, "commentGroup", Integer.toString(boardService.maxGroupCheck(bbsSeq)+1)));
+        int commentOrder = Integer.parseInt(HttpUtil.get(request, "commentOrder", "0"));
+        int commentIndent = Integer.parseInt(HttpUtil.get(request, "commentIndent", "0"));
+  		
+  		
 		if(bbsSeq > 0 && !StringUtil.isEmpty(bbsContent))
 		{
 	  		Board parentBoard = boardService.boardSelect(bbsSeq);
-	  		
 			if(parentBoard != null)
 			{
 				Board board = new Board();
-				
 				board.setUserUID(cookieUserUID);
 				board.setBbsContent(bbsContent);
-				board.setCommentGroup(parentBoard.getCommentGroup());
-				board.setCommentOrder(parentBoard.getCommentOrder() + 1);
-				board.setCommentIndent(parentBoard.getCommentIndent() + 1);
+				board.setBbsComment(bbsComment);
+				board.setCommentGroup(commentGroup);
+				board.setCommentOrder(commentOrder);
+				board.setCommentIndent(commentIndent);
 				board.setCommentParent(bbsSeq);
 				
 				try

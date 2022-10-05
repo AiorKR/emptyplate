@@ -68,7 +68,7 @@
 							<p class="fst-italic">${shop.shopIntro}</p>
 							<ul>
 								<li><i class="fa-solid fa-map-location-dot"></i> ${shop.shopLocation1} ${shop.shopLocation2} ${shop.shopAddress}</li>
-								<li><i class="fa-regular fa-star"></i> 별점 ${shop.reviewScore} (${shop.reviewCount})</li>
+								<li><i class="fa-regular fa-star"></i>별점  <fmt:formatNumber value="${shop.reviewScore}" pattern=".00"/> (${shop.reviewCount})</li>
 							</ul>
 							<p class="int">
 								
@@ -136,10 +136,11 @@
           </div>
 								 
       </div>
-      <form name="bbsForm" id="bbsForm" method="post">
+
+    </section --><!-- End About Section -->
+          <form name="bbsForm" id="bbsForm" method="post">
 		<input type="hidden" name="shopUID" value=""/> 
 	 </form>
-    </section --><!-- End About Section -->
   </main><!-- End #main -->
 
   

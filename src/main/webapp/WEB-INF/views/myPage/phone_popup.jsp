@@ -13,7 +13,22 @@
 	.phones{
 		width: 250px;
 		height: 30px;
-}
+		text-align:left;
+	}
+
+	#tel_btn{
+		width:87px;
+		height:36px;
+	}
+	#code_btn{
+		width:87px;
+		height:36px;
+	}
+	#close_btn{
+		width:87px;
+		height:36px;
+	}
+	
 </style>
 <script type="text/javascript">
 
@@ -132,11 +147,11 @@ function PhoneUpdate(){
 			<input type="button" id="tel_btn" value="인증번호 전송" style="font-family:Cafe24Dangdanghae;" />
 		</div>
 		<br />
-		<div style="margin-right:27px">
+		<div>
 			<input type="text" name="code" id="code" class="phones" placeholder="전송받은 번호" pattern="[0-9]{6}" required>
 			<input type="button" id="code_btn" value="번호 확인" style="font-family:Cafe24Dangdanghae;" disabled />			
 		</div><br/>
-		<input type="button" value="닫 기" onclick="self.close();" /> 
+		<input type="button" value="닫 기" id="close_btn" onclick="self.close();" /> 
 	</form>
 </body>
 

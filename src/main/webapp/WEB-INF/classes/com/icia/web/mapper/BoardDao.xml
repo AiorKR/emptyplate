@@ -66,7 +66,7 @@ VALUES (#{bbsSeq},
         SYSDATE,
         #{bbsComment},
         #{commentParent},
-        #{bbsSeq},
+        #{commentGroup},
         #{commentOrder},
         #{commentIndent},
         'N')
@@ -630,7 +630,7 @@ VALUES (#{bbsSeq},
 UPDATE T_BOARD
    SET COMMENT_ORDER = COMMENT_ORDER + 1
  WHERE COMMENT_GROUP = #{commentGroup}
-   AND COMMENT_ORDER <![CDATA[>=]]> #{commentOrder}
+   AND COMMENT_ORDER <![CDATA[>]]> #{commentOrder}
 </update>
 
 <!-- 댓글 리스트 -->
@@ -651,7 +651,7 @@ SELECT A.BBS_SEQ AS BBS_SEQ,
    AND A.COMMENT_PARENT = #{bbsSeq}
    AND B.STATUS = 'Y'
    AND A.STATUS = 'N'
- ORDER BY A.COMMENT_GROUP ASC, A.COMMENT_ORDER DESC
+ ORDER BY A.COMMENT_GROUP ASC, A.COMMENT_ORDER ASC, A.COMMENT_INDENT ASC
 </select>
 
 <!-- 댓글 삭제 -->
@@ -775,5 +775,23 @@ SELECT COUNT(A.BBS_SEQ) AS CNT
   </when>
  </choose>
 </if>
+</select>
+<select id="maxOrderCheck" parameterType="com.icia.web.model.Board" resultType="int">
+SELECT NVL(MAX(COMMENT_ORDER), 0)
+  FROM T_BOARD
+ WHERE COMMENT_PARENT = #{commentParent}
+   AND COMMENT_GROUP=#{commentGroup}
+</select>
+<select id="maxGroupCheck" parameterType="long" resultType="int">
+SELECT NVL(MAX(COMMENT_GROUP), 0)
+FROM T_BOARD
+WHERE COMMENT_PARENT = #{value}
+</select>
+<select id="maxIndentCheck" parameterType="com.icia.web.model.Board" resultType="int">
+SELECT NVL(MAX(COMMENT_ORDER), 0)
+  FROM T_BOARD
+ WHERE COMMENT_PARENT = #{commentParent}
+   AND COMMENT_GROUP=#{commentGroup}
+   AND COMMENT_Order=#{commentOrder}
 </select>
 </mapper>
