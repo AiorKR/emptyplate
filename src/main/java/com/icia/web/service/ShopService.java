@@ -1,5 +1,6 @@
 package com.icia.web.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ import com.icia.web.model.Shop;
 import com.icia.web.model.ShopFile;
 import com.icia.web.model.ShopMenu;
 import com.icia.web.model.ShopReview;
+import com.icia.web.model.ShopTable;
 import com.icia.web.model.ShopTime;
 import com.icia.web.model.ShopTotalTable;
 
@@ -591,6 +593,7 @@ public class ShopService {
 			ShopTime shopTime = new ShopTime();
 			ShopTotalTable shopTotalTable = new ShopTotalTable();
 			ShopMenu shopMenu = new ShopMenu();
+			List<ShopTable> shopTableList = new ArrayList<ShopTable>();
 
 			if(count > 0)
 			{
@@ -625,12 +628,43 @@ public class ShopService {
 						break;
 					}
 					if(shopDao.shopTableCheck(shopTotalTable) > 0)
-					{
+					{	
+						logger.debug("테이블이 존재함");
 						shopDao.shopTableUpdate(shopTotalTable);
+						
+						for(int j=0; j <shopTotalTable.getShopTotalTable(); j++) {
+							ShopTable shopTable = new ShopTable();
+							
+							shopTable.setShopTableUID(shopTotalTable.getShopTotalTableUID() + "_" + (j + 1));
+							shopTable.setShopTotalTableUID(shopTotalTable.getShopTotalTableUID());
+							shopTableList.add(shopTable);
+							logger.debug("size : " + shopTableList.size());
+						}
+						if(shopTableList.size() > 0) {
+							shopDao.shopTableUpdate2(shopTableList);
+						}
+						
+						
 					}
 					else
 					{
 						shopDao.shopTableInsert(shopTotalTable);
+						logger.debug("갯수 : " +shopTotalTable.getShopTotalTable());
+						for(int j=0; j <shopTotalTable.getShopTotalTable(); j++) {
+							ShopTable shopTable = new ShopTable();
+							
+							shopTable.setShopTableUID(shopTotalTable.getShopTotalTableUID() + "_" +(j + 1));
+							shopTable.setShopTotalTableUID(shopTotalTable.getShopTotalTableUID());
+							shopTableList.add(shopTable);
+							
+							logger.debug("tableuid : " + shopTableList.get(j).getShopTableUID());
+							logger.debug("totaltableuid : " + shopTableList.get(j).getShopTotalTableUID());
+							
+							logger.debug("size : " + shopTableList.size());
+						}
+						if(shopTableList.size() > 0) {
+							shopDao.shopTableInsert2(shopTableList);
+						}
 					}
 					
 				}
