@@ -97,7 +97,6 @@ request.setAttribute("No", 2);
 						newCell1.innerHTML = "<td class='tdtd2'>매장시간"+btnTimeStack+"</td>";
 						newCell2.innerHTML = "<td><select id='timeselect"+btnTimeStack+"' name='timeselect"+btnTimeStack+"' class='select' style='font-size:17px; width:110px;'><option value='' selected>매장시간</option><option value='L'>Lunch</option><option value='D'>Dinner</option><option value='X'>무관</option></select></td>";
 						newCell3.innerHTML = "<td><input type='text' id='time"+btnTimeStack+"' name='time"+btnTimeStack+"' class='timeInput' placeholder='매장시간을 입력해주세요' style='font-size:17px;width:350px;'></td>";									
-						 name='timeType${status.count}'
 						btnTimeStack++;
 					}
 				});
@@ -522,10 +521,10 @@ request.setAttribute("No", 2);
 										<tr>
 											<td>해시태그1</td>
 											<td><input type="text" id="hashTag1" name="hashTag1"class="hashTagInput" placeholder="해시태그를 입력해주세요" style="font-size:17px;"></td>
+											<input type="hidden" id="hashStack" value="2">
 										</tr>
 									</c:otherwise>
 								</c:choose>
-								<input type="hidden" id="hashStackCurrent" value="0">
 							</table>
 						</div>
 					</div><br />
@@ -643,7 +642,7 @@ request.setAttribute("No", 2);
 												</select>
 											</td>
 											<td><input type="text" id="time1" name="time1" class="timeInput" placeholder="매장시간을 입력해주세요" style="font-size:17px; width:350px;"></td>
-											<input type="hidden" id="timeStack" value="1">
+											<input type="hidden" id="timeStack" value="2">
 										</tr>	
 									</c:otherwise>
 								</c:choose>
@@ -701,7 +700,7 @@ request.setAttribute("No", 2);
 											</td>
 											<td><input type="text" id="menuName1" name="menuName1" placeholder="메뉴명을 입력해주세요" style="font-size:17px; width:180px;"></td>
 											<td><input type="text" id="menuPrice1" name="menuPrice1"placeholder="메뉴가격을 입력해주세요" style="font-size:17px; width:180px;"></td>
-											<input type="hidden" id="menuStack" value="1">
+											<input type="hidden" id="menuStack" value="2">
 										</tr>
 									</c:otherwise>
 								</c:choose>

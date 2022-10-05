@@ -107,6 +107,8 @@ public interface BoardDao
 	//댓글 순번 최대값 체크
 	public int maxOrderCheck(Board board);
 	
+	public int maxIndentCheck(Board board);
+	
 	//게시물 신고
 	public long boardReport(BoardReport boardReport);
 	
