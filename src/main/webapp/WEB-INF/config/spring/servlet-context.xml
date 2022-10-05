@@ -109,6 +109,7 @@
             			<value>/pay/orderMenu</value>
             			<value>/user/accessNumChk</value>
             			<value>/today/todayPopupView</value>
+            			<value>/board/download</value>
             		</list>
             	</constructor-arg>
             </bean>

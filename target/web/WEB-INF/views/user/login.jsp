@@ -100,11 +100,9 @@ $(document).ready(function() {
 		      return;
 		   }
 		   
-		   if($.trim($("#userPhone").val()).length <= 0)
+		   if($("#userPhone").val().length != 7)
 		   {
 		      alert("사용자 전화번호를 입력하세요.");
-		      $("#userPhone").val("");
-		      $("#userPhone").focus();
 		      return;
 		   }
 		      
@@ -125,6 +123,15 @@ $(document).ready(function() {
 		   
 		   $("#userPwd2").val($("#userPwd3").val());
 		   
+		   if($("#agree").is(":checked") == true) {
+				console.log("체크된상태");
+		   }
+		   else
+		   {
+				console.log("체크안된상태");
+				alert("약관에 동의해주세요.");
+				return;
+		   }	
 
 		   //아이디, 닉네임중복체크 ajax
 		   $.ajax({
@@ -132,7 +139,6 @@ $(document).ready(function() {
 		     url:"/user/idCheck",
 		     data:{
 		        userId: $("#userId2").val(),
-		        userNick: $("#userNick").val()
 		     },
 		     datatype:"JSON",
 		     beforeSend:function(xhr){
@@ -146,10 +152,6 @@ $(document).ready(function() {
 		        else if(response.code == 100)
 		        {
 		           alert("중복된 아이디 입니다.");
-		        }
-		        else if(response.code == 110)
-		        {
-		           alert("중복된 닉네임 입니다.");
 		        }
 		        else if(response.code == 400)
 		        {
@@ -266,7 +268,6 @@ function fn_userReg()
           userPwd: $("#userPwd2").val(),
           userName: $("#userName").val(),
           userNick: $("#userNick").val(),
-          userPhone: $("#userPhone").val(),
           userEmail: $("#userEmail").val()
        },
        datatype:"JSON",
@@ -285,11 +286,6 @@ function fn_userReg()
             alert("회원 아이디가 중복 되었습니다.");
             $("#userId2").focus();
          }
-         else if(response.code == 110)
-       	 {
-        	 alert("회원 닉네임이 중복 되었습니다.");
-        	 $("userNick").focus();
-       	 }
          else if(response.code == 400)
          {
             alert("파라미터 값이 올바르지 않습니다.");
@@ -312,7 +308,6 @@ function fn_userReg()
       }
   });
 }
-
 
 Kakao.init('37cdbda3af5494984233ca8e8d7d9f7b'); //발급받은 키 중 javascript키를 사용해준다.
 console.log(Kakao.isInitialized()); // sdk초기화여부판단
@@ -344,8 +339,6 @@ function getInfo() {
             var nickname = res.kakao_account.profile.nickname;
             var profile_image = res.kakao_account.profile.thumbnail_image_url;
             var pw = "kaP";
-            var phone = "01012341234";
-            var name = "정슈미"
             console.log(id, email, nickname, profile_image);
               
             $.ajax({
@@ -361,102 +354,41 @@ function getInfo() {
                success:function(response){
                   if(response.code == 0)
                   {//카카오 최초 로그인
-                    $.ajax({
-                        type:"POST",
-                        url:"/user/regProc",
-                        data:{
-                           userId: id,
-                           userEmail: email,
-                           userName: name,
-                           userNick : nickname,
-                           userPwd : pw,
-                           userPhone : phone
-                        },
-                        datatype:"JSON",
-                        beforeSend:function(xhr){
-                           xhr.setRequestHeader("AJAX", "true");
-                        },
-                        success:function(response)
-                        {
-                          if(response.code == 0)
-                          { //자동회원가입 후 자동 로그인
+                	  $.ajax({
+                          type : "POST",
+                          url : "/user/kakaoSet",
+                          data : {
+                             userId: id,
+                             userPwd: pw,
+                             userEmail: email,
+                             userNick: nickname
+                          },
+                          datatype : "JSON",
+                          beforeSend : function(xhr){
+                                xhr.setRequestHeader("AJAX", "true");
+                            },
+                          success : function(response) {
                              
-                             $.ajax({
-                           type : "POST",
-                           url : "/user/loginOk",
-                           data : {
-                              userId: id,
-                              userPwd: pw 
-                           },
-                           datatype : "JSON",
-                           beforeSend : function(xhr){
-                                 xhr.setRequestHeader("AJAX", "true");
-                             },
-                           success : function(response) {
-                              
-                              if(!icia.common.isEmpty(response))
-                              {
-                                 icia.common.log(response);
-                                 
-                                 // var data = JSON.parse(obj);
-                                 var code = icia.common.objectValue(response, "code", -500);
-                                 
-                                 if(code == 0)
-                                 {
-                                    kakaoLogout();
-                                    location.href = "/index";
-                                 }
-                                 else
-                                 {
-                                    kakaoLogout();
-                                    if(code == -1)
-                                    {
-                                       alert("비밀번호가 올바르지 않습니다.");
-                                    }
-                                    else if(code == 404)
-                                          {
-                                             alert("아이디와 일치하는 사용자 정보가 없습니다.");                 
-                                          }
-                                          else if(code == 403)
-                                          {
-                                             alert("사용이 중지된 사용자 입니다.");
-                                        }                  
-                                    else if(code == 400)
-                                    {
-                                       alert("파라미터 값이 올바르지 않습니다.");
-                                    }
-                                    else
-                                    {
-                                       alert("오류가 발생하였습니다.");
-                                    }   
-                                 }   
-                              }
-                              else
-                              {
-                                 kakaoLogout();
-                                 alert("오류가 발생하였습니다.");
-                              }
-                           },
-                           complete : function(data) 
-                           { 
-                              // 응답이 종료되면 실행, 잘 사용하지않는다
-                              icia.common.log(data);
-                           },
-                           error : function(xhr, status, error) 
-                           {
-                              icia.common.error(error);
-                           }
-                           });                      
-                             //자동로그인 종료
-                 
+                                if(response.code == 0)
+                                {
+                                   kakaoLogout();
+                                   showPopupKakao();
+                                }
+                                else
+                                {    
+                                   kakaoLogout();	
+                                   if(response.code == 400)
+                                   {
+                                      alert("파라미터 값이 올바르지 않습니다.");
+                                   }
+                                   else
+                                   {
+                                      alert("오류가 발생하였습니다.");
+                                   }   
+                                } 
                           }
-                          
-                        },
-                       error:function(xhr, status, error)
-                       {
-                           icia.common.error(error);
-                       }
-                      });
+                      });                      	
+                	  
                   }
                   else if(response.code == 100)
                   {//카카오 자동로그인
@@ -587,7 +519,130 @@ function signUpPopUp() {
 	
 	var signUpPopUp = window.open("./signUpPopUp", "pop", "top="+popY+", left="+popX+",width="+popWidth+",height="+popHeight+"resizable=yes"); 
 };
+
+
 //약관동의 끝
+
+
+
+//비밀번호 찾기 시작
+function showPopupPwdSearch() {
+	
+   var popHeight = 400;                                      // 띄울 팝업창 높이   
+   var popWidth = 460;                                       // 띄울 팝업창 너비
+   var winHeight = document.body.clientHeight;                 // 현재창의 높이
+   var winWidth = document.body.clientWidth;                 // 현재창의 너비
+   var winX = window.screenLeft;                             // 현재창의 x좌표
+   var winY = window.screenTop;                             // 현재창의 y좌표
+   var popX = winX + (winWidth - popWidth)/2;
+   var popY = winY + (winHeight - popHeight)/2;
+   
+   window.open("./pwdSearch_popup", "pop", "top="+popY+", left="+popX+",width="+popWidth+",height="+popHeight+"resizable=yes"); 
+  
+};
+//비밀번호 찾기 끝
+
+//카카오 전화번호 시작
+function showPopupKakao() { 
+   var popHeight = 320;                                      // 띄울 팝업창 높이   
+   var popWidth = 500;                                       // 띄울 팝업창 너비
+   var winHeight = document.body.clientHeight;                 // 현재창의 높이
+   var winWidth = document.body.clientWidth;                 // 현재창의 너비
+   var winX = window.screenLeft;                             // 현재창의 x좌표
+   var winY = window.screenTop;                             // 현재창의 y좌표
+   var popX = winX + (winWidth - popWidth)/2;
+   var popY = winY + (winHeight - popHeight)/2;
+   
+   window.open("./kakao_popup", "pop", "top="+popY+", left="+popX+",width="+popWidth+",height="+popHeight+"resizable=yes"); 
+};
+
+function updateSuccess() {
+	var pw = "kaP";
+	$.ajax({
+	    type : "POST",
+	    url : "/user/kloginOk",
+	    data : {
+	       userPwd: pw 
+	    },
+	    datatype : "JSON",
+	    beforeSend : function(xhr){
+	          xhr.setRequestHeader("AJAX", "true");
+	      },
+	    success : function(response) {
+	       
+	       if(!icia.common.isEmpty(response))
+	       {
+	          icia.common.log(response);
+	          
+	          // var data = JSON.parse(obj);
+	          var code = icia.common.objectValue(response, "code", -500);
+	          
+	          if(code == 0)
+	          {
+	             location.href = "/index";
+	          }
+	          else
+	          {
+	             if(code == -1)
+	             {
+	                alert("비밀번호가 올바르지 않습니다.");
+	             }
+	             else if(code == 404)
+	                   {
+	                      alert("아이디와 일치하는 사용자 정보가 없습니다.");                 
+	                   }
+	                   else if(code == 403)
+	                   {
+	                      alert("사용이 중지된 사용자 입니다.");
+	                 }                  
+	             else if(code == 400)
+	             {
+	                alert("파라미터 값이 올바르지 않습니다.");
+	             }
+	             else
+	             {
+	                alert("오류가 발생하였습니다.");
+	             }   
+	          }   
+	       }
+	       else
+	       {
+	          alert("오류가 발생하였습니다.");
+	       }
+	    },
+	    complete : function(data) 
+	    { 
+	       // 응답이 종료되면 실행, 잘 사용하지않는다
+	       icia.common.log(data);
+	    },
+	    error : function(xhr, status, error) 
+	    {
+	       icia.common.error(error);
+	    }
+	    }); 
+	}
+                          
+//카카오 전화번호  끝
+
+//전화번호 인증 시작
+function showPopupPhone() { 
+   var popHeight = 230;                                      // 띄울 팝업창 높이   
+   var popWidth = 460;                                       // 띄울 팝업창 너비
+   var winHeight = document.body.clientHeight;                 // 현재창의 높이
+   var winWidth = document.body.clientWidth;                 // 현재창의 너비
+   var winX = window.screenLeft;                             // 현재창의 x좌표
+   var winY = window.screenTop;                             // 현재창의 y좌표
+   var popX = winX + (winWidth - popWidth)/2;
+   var popY = winY + (winHeight - popHeight)/2;
+   
+   window.open("./phone_popup", "pop", "top="+popY+", left="+popX+",width="+popWidth+",height="+popHeight+"resizable=yes"); 
+};
+function phonefOk() { 
+const userPhone = document.getElementById("userPhone")
+userPhone.value = "인증되었습니다"
+};
+
+//전화번호 인증 끝
 
 </script>
  
@@ -599,7 +654,7 @@ function signUpPopUp() {
   <!-- ======= Login Section ======= -->
   <section id="log" class="d-flex align-items-center">
     <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100" style="margin-top: 150px;">
-      <div class="row">
+      <div class="row" style="margin-bottom:40px; margin-top:40px;">
         <!--로그인-->
         <div class="cont" style="margin:auto;">
           <div class="form sign-in">
@@ -612,7 +667,7 @@ function signUpPopUp() {
               <span>비밀번호</span>
               <input type="password" id="userPwd" name="userPwd" placeholder="비밀번호"/>
             </label>
-            <button type="button"><p class="forgot-pass" style="font-family:'cafe24Dangdanghae';">비밀번호 찾기</p></button>
+            <button type="button" onclick="showPopupPwdSearch()"><p class="forgot-pass" style="font-family:'cafe24Dangdanghae';">비밀번호 찾기</p></button>
             <button type="button" id="btnLogin" class="submit">로그인</button>
             <button type="button" onclick="kakaoLogin()"><img src="/resources/images/kakao_login_medium_wide.png" style="margin:auto;" /></button><br />
             <p class="forgot-pass"><a href="/user/storeJoinUs" style="color: #270d0d; text-decoration:underline;">매장가입</a></p>
@@ -649,7 +704,7 @@ function signUpPopUp() {
 		            </label>
 		            <label>
 		              <span>Name</span>
-		              <input type="text" id="userName" name="userName" placeholder="이름을 입력하세요." maxlength="12" />
+		              <input type="text" id="userName" name="userName" placeholder="이름을 입력하세요."/>
 		            </label>
 		             <label>
 		              <span>닉네임</span>
@@ -661,11 +716,11 @@ function signUpPopUp() {
 		            </label>
 		            <label>
 		              <span>전화번호</span>
-		              <input type="text" id="userPhone" name="userPhone" placeholder="전화번호를 입력하세요." maxlength="11" />
+		              <input type="button" id="userPhone" name="userPhone" value="전화번호를 입력하세요." onclick="showPopupPhone()"/>
 		            </label>
               <label class="Membership-Terms">
               	<p>회원약관에 동의하시겠습니까?</p>
-                <input class="Membership-Terms" type="checkbox" onclick="signUpPopUp()" style="color: #C2A383;" />
+                <input class="Membership-Terms" type="checkbox" onclick="signUpPopUp()" id="agree" style="color: #C2A383;" />
                 <button type="button" id="btnReg" class="submit">회원가입</button>
                 <button type="button" onclick="kakaoLogin()"><img src="/resources/images/kakao_login_medium_wide.png" style="margin:auto;" /></button></label>
             </div>

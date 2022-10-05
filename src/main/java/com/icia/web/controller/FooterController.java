@@ -35,59 +35,286 @@ public class FooterController {
 	@Autowired
 	private EntryService entryService;
 	
+	@Autowired
+	private UserService userService;
+	
 	//개인정보처리방침
 	@RequestMapping(value="/footer/privacy")
-	public String privacy(HttpServletRequest request, HttpServletResponse response)
+	public String privacy(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	{
-		
+		//쿠키값
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		//상단 닉네임 불러오는 객체
+		User userNickname = new User();
+		userNickname = userService.userUIDSelect(cookieUserUID);
+		if(userNickname != null)
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", userNickname.getUserNick());
+				model.addAttribute("adminStatus", userNickname.getAdminStatus());
+				if(!StringUtil.isEmpty(userNickname.getBizName())&& !StringUtil.isEmpty(userNickname.getBizNum()))
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[BoardController] /board/list shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[BoardController] /board/list cookieUserNick NullPointerException", e);
+			}
+		}
+				
 		return "/footer/privacy";
 	}
 	
 	//서비스이용약관
 	@RequestMapping(value="/footer/contract")
-	public String contract(HttpServletRequest request, HttpServletResponse response)
+	public String contract(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	{
+		//쿠키값
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		//상단 닉네임 불러오는 객체
+		User userNickname = new User();
+		userNickname = userService.userUIDSelect(cookieUserUID);
+		if(userNickname != null)
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", userNickname.getUserNick());
+				model.addAttribute("adminStatus", userNickname.getAdminStatus());
+				if(!StringUtil.isEmpty(userNickname.getBizName())&& !StringUtil.isEmpty(userNickname.getBizNum()))
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[BoardController] /board/list shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[BoardController] /board/list cookieUserNick NullPointerException", e);
+			}
+		}
 		
 		return "/footer/contract";
 	}
 	
 	//위치정보 이용약관
 	@RequestMapping(value="/footer/location")
-	public String location(HttpServletRequest request, HttpServletResponse response)
+	public String location(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	{
-		
+		//쿠키값
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		//상단 닉네임 불러오는 객체
+		User userNickname = new User();
+		userNickname = userService.userUIDSelect(cookieUserUID);
+		if(userNickname != null)
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", userNickname.getUserNick());
+				model.addAttribute("adminStatus", userNickname.getAdminStatus());
+				if(!StringUtil.isEmpty(userNickname.getBizName())&& !StringUtil.isEmpty(userNickname.getBizNum()))
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[BoardController] /board/list shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[BoardController] /board/list cookieUserNick NullPointerException", e);
+			}
+		}
+				
 		return "/footer/location";
 	}
 	
 	//입점문의
 	@RequestMapping(value="/footer/launchingInquiry")
-	public String launchingInquiry(HttpServletRequest request, HttpServletResponse response)
+	public String launchingInquiry(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	{
-		
+		//쿠키값
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		//상단 닉네임 불러오는 객체
+		User userNickname = new User();
+		userNickname = userService.userUIDSelect(cookieUserUID);
+		if(userNickname != null)
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", userNickname.getUserNick());
+				model.addAttribute("adminStatus", userNickname.getAdminStatus());
+				if(!StringUtil.isEmpty(userNickname.getBizName())&& !StringUtil.isEmpty(userNickname.getBizNum()))
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[BoardController] /board/list shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[BoardController] /board/list cookieUserNick NullPointerException", e);
+			}
+		}
+				
 		return "/footer/launchingInquiry";
 	}
 	
 	//aboutus
 	@RequestMapping(value="/footer/aboutus")
-	public String aboutus(HttpServletRequest request, HttpServletResponse response)
+	public String aboutus(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	{
-		
+		//쿠키값
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		//상단 닉네임 불러오는 객체
+		User userNickname = new User();
+		userNickname = userService.userUIDSelect(cookieUserUID);
+		if(userNickname != null)
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", userNickname.getUserNick());
+				model.addAttribute("adminStatus", userNickname.getAdminStatus());
+				if(!StringUtil.isEmpty(userNickname.getBizName())&& !StringUtil.isEmpty(userNickname.getBizNum()))
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[BoardController] /board/list shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[BoardController] /board/list cookieUserNick NullPointerException", e);
+			}
+		}
+				
 		return "/footer/aboutus";
 	}
 	
 	//company
 	@RequestMapping(value="/footer/company")
-	public String company(HttpServletRequest request, HttpServletResponse response)
+	public String company(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	{
-		
+		//쿠키값
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		//상단 닉네임 불러오는 객체
+		User userNickname = new User();
+		userNickname = userService.userUIDSelect(cookieUserUID);
+		if(userNickname != null)
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", userNickname.getUserNick());
+				model.addAttribute("adminStatus", userNickname.getAdminStatus());
+				if(!StringUtil.isEmpty(userNickname.getBizName())&& !StringUtil.isEmpty(userNickname.getBizNum()))
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[BoardController] /board/list shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[BoardController] /board/list cookieUserNick NullPointerException", e);
+			}
+		}
+				
 		return "/footer/company";
 	}
 	
 	//logohistory
 	@RequestMapping(value="/footer/logohistory")
-	public String logohistory(HttpServletRequest request, HttpServletResponse response)
+	public String logohistory(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	{
-		
+		//쿠키값
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		//상단 닉네임 불러오는 객체
+		User userNickname = new User();
+		userNickname = userService.userUIDSelect(cookieUserUID);
+		if(userNickname != null)
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", userNickname.getUserNick());
+				model.addAttribute("adminStatus", userNickname.getAdminStatus());
+				if(!StringUtil.isEmpty(userNickname.getBizName())&& !StringUtil.isEmpty(userNickname.getBizNum()))
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[BoardController] /board/list shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[BoardController] /board/list cookieUserNick NullPointerException", e);
+			}
+		}
+				
 		return "/footer/logohistory";
 	}
 	
@@ -96,7 +323,7 @@ public class FooterController {
 	//입점문의폼
 	@RequestMapping(value="/footer/regProc", method=RequestMethod.POST)
 	@ResponseBody
-	public Response<Object> entryReg(HttpServletRequest request, HttpServletResponse response)
+	public Response<Object> entryReg(ModelMap model, HttpServletRequest request, HttpServletResponse response)
 	{
 		Response<Object> ajaxResponse = new Response<Object>();
 		String shopName = HttpUtil.get(request, "shopName");
@@ -129,17 +356,44 @@ public class FooterController {
 					ajaxResponse.setResponse(500, "Internal Server Error");
 				}
 		}
-				
-		
-		
 		
 		if(logger.isDebugEnabled())
 		{
 			logger.debug("[FooterController] /footer/launchingInquiry response\n" + JsonUtil.toJsonPretty(ajaxResponse));
 		}
 		
-		
-		
+		//쿠키값
+		String cookieUserUID = CookieUtil.getHexValue(request, AUTH_COOKIE_NAME);
+		//상단 닉네임 불러오는 객체
+		User userNickname = new User();
+		userNickname = userService.userUIDSelect(cookieUserUID);
+		if(userNickname != null)
+		{
+			try
+			{
+				model.addAttribute("cookieUserNick", userNickname.getUserNick());
+				model.addAttribute("adminStatus", userNickname.getAdminStatus());
+				if(!StringUtil.isEmpty(userNickname.getBizName())&& !StringUtil.isEmpty(userNickname.getBizNum()))
+				{
+					try
+					{
+						model.addAttribute("shopStatus","Y");
+					}
+					catch(NullPointerException e)
+					{
+						logger.error("[BoardController] /board/list shopStatus NullPointerException", e);
+					}
+				}
+				else
+				{
+					model.addAttribute("shopStatus","N");
+				}
+			}
+			catch(NullPointerException e)
+			{
+				logger.error("[BoardController] /board/list cookieUserNick NullPointerException", e);
+			}
+		}
 				
 		return ajaxResponse;
 	}

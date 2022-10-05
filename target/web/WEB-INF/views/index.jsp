@@ -1,9 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	// 개행문자 값을 저장한다.
+	pageContext.setAttribute("newLine", "\n");
+	// Community 번호
+	request.setAttribute("No", 1);
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
+	<script type="text/javascript">	
+	function fn_view(shopUID){
+		document.bbsForm.shopUID.value = shopUID;
+		document.bbsForm.action = "/reservation/view";
+		document.bbsForm.submit();
+	   }
+	</script>
 </head>
 
 <body>
@@ -43,87 +57,29 @@
 
         <div class="recommend-slider swiper" data-aos="fade-up" data-aos-delay="100">
           <div class="swiper-wrapper">
-
-            <div class="swiper-slide">
-              <div class="row recommend-item">
-                <div class="col-lg-6">
-                  <img src="/resources/images/파인다이닝.jpg" class="img-fluid" alt="">
-                </div>
-                <div class="col-lg-6 pt-4 pt-lg-0 content">
-                  <h3>empty plate식당</h3>
-                  <div class="price">
-                    <p><span>₩100.0</span></p>
-                  </div>
-                  <p class="fst-italic">
-                    귀한 재료와 정성의 손길로 빚어내는 아름다움 empty plate의 고유함을 지니며, 현재를 반영한 '우리 한식상'을 선보입니다. 전통과 현대를 유연히 그리고 다채롭게 표현하는 한식의 모습들을 경험하세요.
-                  </p>
-                  <ul>
-                    <li><i class="fa-solid fa-map-location-dot"></i> 인천 구월동</li>
-                    <li><i class="fa-regular fa-star"></i> 별점 4.5 (100)</li>
-                  </ul>
-                  <p class="int">
-                    <i class="fa-brands fa-instagram"></i> #파인다이닝 #한식 #인기많은 #인천 #구월동
-                  </p>
-                  <div class="btns">
-                    <a href="#reservation" class="btn-book animated fadeInUp scrollto">예약</a>
-                  </div>
-                </div>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="row recommend-item">
-                <div class="col-lg-6">
-                  <img src="/resources/images/오마카세.jpg" class="img-fluid" alt="">
-                </div>
-                <div class="col-lg-6 pt-4 pt-lg-0 content">
-                  <h3>오마카세 식당</h3>
-                  <div class="price">
-                    <p><span>₩60.0</span></p>
-                  </div>
-                  <p class="fst-italic">
-                    오마카세 식당은 오마카세 입문으로 좋은, 최고의 가성비 오마카세를 추구합니다. 10년 이상의 경력을 지닌 일식 셰프가 조용하고 아담한 다찌 구조의 오마카세에서 손님을 정성껏 대접합니다.
-                  </p>
-                  <ul>
-                    <li><i class="fa-solid fa-map-location-dot"></i> 인천 청라</li>
-                    <li><i class="fa-regular fa-star"></i> 별점 4.3 (500)</li>
-                  </ul>
-                  <p class="int">
-                    <i class="fa-brands fa-instagram"></i> #오마카세 #스시 #리뷰많은 #인천 #청라
-                  </p>
-                  <div class="btns">
-                    <a href="#reservation" class="btn-book animated fadeInUp scrollto">예약</a>
-                  </div>
-                </div>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="row recommend-item">
-                <div class="col-lg-6">
-                  <img src="/resources/images/카페.jpg" class="img-fluid" alt="">
-                </div>
-                <div class="col-lg-6 pt-4 pt-lg-0 content">
-                  <h3>커피바</h3>
-                  <div class="price">
-                    <p><span>₩30.0</span></p>
-                  </div>
-                  <p class="fst-italic">
-                    단순 커피를 넘어 고객이 원하는 맛과 향을 선택할 수 있는 커피 페어링 코스를 통해 다양한 커피를 느껴보세요. 이제 커피바에서 커피 페어링 코스를 경험해보시기 바랍니다.
-                  </p>
-                  <ul>
-                    <li><i class="fa-solid fa-map-location-dot"></i> 인천 학익동</li>
-                    <li><i class="fa-regular fa-star"></i> 별점 5.0 (80)</li>
-                  </ul>
-                  <p class="int">
-                    <i class="fa-brands fa-instagram"></i> #커피 #디저트 #별점높은 #인천 #학익동
-                  </p>
-                  <div class="btns">
-                    <a href="#reservation" class="btn-book animated fadeInUp scrollto">예약</a>
-                  </div>
-                </div>
-              </div>
-            </div><!-- End testimonial item -->
+				<c:forEach var="shop" items="${recommand}" varStatus="status">
+			<div class="swiper-slide">
+					<div class="row recommend-item">
+						<div class="col-lg-6">
+							<img alt="" src="/resources/upload/shop/${shop.shopUID}/${shop.shopFile.shopFileName}" class="img-fluid" alt="">
+						</div>
+						<div class="col-lg-6 pt-4 pt-lg-0 content" id="content">
+							<h3>${shop.shopName}</h3>
+							<p class="fst-italic">${shop.shopIntro}</p>
+							<ul>
+								<li><i class="fa-solid fa-map-location-dot"></i> ${shop.shopLocation1} ${shop.shopLocation2} ${shop.shopAddress}</li>
+								<li><i class="fa-regular fa-star"></i> 별점 ${shop.reviewScore} (${shop.reviewCount})</li>
+							</ul>
+							<p class="int">
+								
+							</p>
+							<div class="btns">
+								<button type="button" id="btnReserve" class="btn-book animated fadeInUp scrollto" onclick="fn_view('${shop.shopUID}')">예약</button>
+							</div>
+						</div>
+					</div>
+			</div><!-- End testimonial item -->
+				</c:forEach>
 
           </div>
           <div class="swiper-pagination"></div>
@@ -133,7 +89,7 @@
     </section><!-- End Recommend Section -->
 
     <!-- ======= About Section ======= -->
-    <section id="about" class="about">
+    <!-- section id="about" class="about">
       <div class="container" data-aos="fade-up">
 
         <div class="section-title">
@@ -145,7 +101,8 @@
 
           <div class="col-lg-4">
             <div class="box" data-aos="zoom-in" data-aos-delay="0">
-              <img src="/resources/images/1.png" class="img-fluid" alt="">
+              <img src="/resources/images/1.png" class="img-fluid" alt="" 
+              style="width: 366px; height: 176.13px; overflow: hidden; border: 5px solid black;">
               <span>스시 코우지</span>
               <h4>서울 강남구</h4>
               <h5>#스시오마카세 #콜키지 #노키즈존</h5>
@@ -156,7 +113,8 @@
 
           <div class="col-lg-4 mt-4 mt-lg-0">
             <div class="box" data-aos="zoom-in" data-aos-delay="0">
-              <img src="/resources/images/2.png" class="img-fluid" alt="">
+              <img src="/resources/images/2.png" class="img-fluid" alt=""
+              style="width: 366px; height: 176.13px; overflow: hidden; border: 5px solid black;">
               <span>CHOI.</span>
               <h4>서울 강남구</h4>
               <h5>#이탈리안 #콜키지 #노키즈존 #레터링</h5>
@@ -167,7 +125,8 @@
 
           <div class="col-lg-4 mt-4 mt-lg-0">
             <div class="box" data-aos="zoom-in" data-aos-delay="300">
-              <img src="/resources/images/3.png" class="img-fluid" alt="">
+              <img src="/resources/images/3.png" class="img-fluid" alt=""
+              style="width: 366px; height: 176.13px; overflow: hidden; border: 5px solid black;">
               <span>스시 카나에</span>
               <h4>서울 강남구</h4>
               <h5>#스시오마카세 #콜키지 #런치 #디너</h5>
@@ -175,9 +134,13 @@
               <h6>★ 4.6</h6>
             </div>
           </div>
-
+								 
       </div>
-    </section><!-- End About Section -->
+
+    </section --><!-- End About Section -->
+          <form name="bbsForm" id="bbsForm" method="post">
+		<input type="hidden" name="shopUID" value=""/> 
+	 </form>
   </main><!-- End #main -->
 
   
