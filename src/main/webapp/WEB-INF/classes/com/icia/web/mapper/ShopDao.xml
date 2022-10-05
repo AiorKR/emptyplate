@@ -1017,22 +1017,6 @@ WHERE ORDER_UID = #{noShowOrderUID}
        AND SHOP_UID = #{shopUID}
 </update>
 
-<select id="shopTableCheck2" parameterType="String" resultType="int">
-	SELECT COUNT(*)
-	  FROM T_SHOP_TABLE
-     WHERE TOTAL_TABLE_UID = #{shopTotalTableUID}
-       AND TABLE_UID = #{shopTableUID}
-</select>
-
-<update id="shopTableUpdate2" parameterType="com.icia.web.model.ShopTable">
-	<foreach  collection="list" item="list" index="index" separator=";" open="" close="">
-		UPDATE T_SHOP_TABLE
-	       SET TABLE_UID = #{shopTableUID}
-	     WHERE TOTAL_TABLE_UID = #{shopTotalTableUID}
-	       AND TABLE_UID = #{shopTableUID}
-	</foreach>
-</update>
-
 <update id="shopTableZeroUpdate" parameterType="com.icia.web.model.ShopTotalTable">
 	UPDATE T_SHOP_TOTAL_TABLE
 	   SET TOTAL_TABLE = 0
