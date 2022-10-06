@@ -632,7 +632,7 @@ function fn_Menudel(shopOrderMenu, shopOrderMenuPrice, shopMenuCode, shopMenuid)
       <ul>
          <c:forEach items="${shop.reviewList}" var="reviewList" varStatus="status">
         <li>${reviewList.shopReviewRegDate} &nbsp;${reviewList.userName} : ${reviewList.shopReviewContent}&nbsp;
-        <i class="fa-regular fa-star" style="color: #cda45e;"></i><fmt:formatNumber value="${reviewList.shopScore}" pattern=".00"/> 
+        <ion-icon name="star"></ion-icon><fmt:formatNumber value="${reviewList.shopScore}" pattern=".00"/> 
         </li>
          </c:forEach>
       </ul>

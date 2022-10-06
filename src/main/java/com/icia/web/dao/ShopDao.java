@@ -133,9 +133,5 @@ public interface ShopDao {
 	
 	public int shopFileDelete(String shopUID);
 	
-	public int shopTableCheck2(String totalTableUID);
-	
-	public int shopTableUpdate2(List<ShopTable> list);
-	
 	public int shopTableInsert2(List<ShopTable> list);
 }
