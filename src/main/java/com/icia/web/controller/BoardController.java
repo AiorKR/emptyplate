@@ -1050,47 +1050,54 @@ public class BoardController
         int commentOrder = Integer.parseInt(HttpUtil.get(request, "commentOrder", "0"));
         int commentIndent = Integer.parseInt(HttpUtil.get(request, "commentIndent", "0"));
   		
-  		
-		if(bbsSeq > 0 && !StringUtil.isEmpty(bbsContent))
-		{
-	  		Board parentBoard = boardService.boardSelect(bbsSeq);
-			if(parentBoard != null)
-			{
-				Board board = new Board();
-				board.setUserUID(cookieUserUID);
-				board.setBbsContent(bbsContent);
-				board.setBbsComment(bbsComment);
-				board.setCommentGroup(commentGroup);
-				board.setCommentOrder(commentOrder);
-				board.setCommentIndent(commentIndent);
-				board.setCommentParent(bbsSeq);
-				
-				try
-				{
-					if(boardService.boardCommentInsert(board) > 0)
-					{
-						ajaxResponse.setResponse(0, "success");
-					}
-					else
-					{
-						ajaxResponse.setResponse(500, "internal server error");
-					}	
-				}
-				catch(Exception e)
-				{
-					logger.error("[BoardController] /board/commentProc Exception", e);
-					ajaxResponse.setResponse(500, "internal server error2");
-				}
-			}
-			else
-			{
-				ajaxResponse.setResponse(404, "not found");
-			}
-		}
-		else
-		{
-			ajaxResponse.setResponse(400, "bad request");
-		}
+  		if(!StringUtil.isEmpty(cookieUserUID))
+  		{
+  			if(bbsSeq > 0 && !StringUtil.isEmpty(bbsContent))
+  			{
+  		  		Board parentBoard = boardService.boardSelect(bbsSeq);
+  				if(parentBoard != null)
+  				{
+  					Board board = new Board();
+  					board.setUserUID(cookieUserUID);
+  					board.setBbsContent(bbsContent);
+  					board.setBbsComment(bbsComment);
+  					board.setCommentGroup(commentGroup);
+  					board.setCommentOrder(commentOrder);
+  					board.setCommentIndent(commentIndent);
+  					board.setCommentParent(bbsSeq);
+  					
+  					try
+  					{
+  						if(boardService.boardCommentInsert(board) > 0)
+  						{
+  							ajaxResponse.setResponse(0, "success");
+  						}
+  						else
+  						{
+  							ajaxResponse.setResponse(500, "internal server error");
+  						}	
+  					}
+  					catch(Exception e)
+  					{
+  						logger.error("[BoardController] /board/commentProc Exception", e);
+  						ajaxResponse.setResponse(500, "internal server error2");
+  					}
+  				}
+  				else
+  				{
+  					ajaxResponse.setResponse(404, "not found");
+  				}
+  			}
+  			else
+  			{
+  				ajaxResponse.setResponse(400, "bad request");
+  			}
+  		}
+  		else
+  		{
+  			ajaxResponse.setResponse(400, "bad request");
+  		}
+		
 		
 		return ajaxResponse;
   	}
